@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Application Form - Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .form-page {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 800px; /* Adjust as needed */
+            border-radius: 8px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #e9e9e9; /* Readonly appearance */
+        }
+        .radio-group label {
+            display: inline-block;
+            margin-right: 20px;
+            font-weight: normal;
+        }
+        .radio-group input[type="radio"] {
+            margin-right: 5px;
+            accent-color: #007bff;
+        }
+        .no-data {
+            text-align: center;
+            color: #777;
+            font-size: 1.2em;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-page">
+        <div class="header">
+            <h1>Loan Application Details</h1>
+        </div>
+
+        <div id="applicationFormDetails">
+            <!-- Form fields will be populated here -->
+            <div class="form-group">
+                <label for="policyNo">Policy Number:</label>
+                <input type="text" id="policyNo" name="policyNo" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="loanDate">Date of Application:</label>
+                <input type="date" id="loanDate" name="loanDate" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="loanAmount">Loan Amount (Rs.):</label>
+                <input type="text" id="loanAmount" name="loanAmount" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="loanAmountWords">Loan Amount (In Words):</label>
+                <input type="text" id="loanAmountWords" name="loanAmountWords" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Loan Type:</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="loanType" value="freshLoan" disabled> Fresh Loan
+                    </label>
+                    <label>
+                        <input type="radio" name="loanType" value="furtherLoan" disabled> Further Loan
+                    </label>
+                    <!-- Add more types if needed -->
+                </div>
+            </div>
+            <!-- Add more fields from your original form as needed -->
+        </div>
+        <div id="noDataMessage" class="no-data" style="display: none;">
+            <p>No loan application data found or an error occurred.</p>
+            <p><a href="page11.html">Go back to enter Policy Number</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedData = sessionStorage.getItem('loanApplicationData');
+            const formDetailsDiv = document.getElementById('applicationFormDetails');
+            const noDataMessageDiv = document.getElementById('noDataMessage');
+
+            if (storedData) {
+                try {
+                    const data = JSON.parse(storedData);
+
+                    document.getElementById('policyNo').value = data.policy_number || '';
+                    document.getElementById('loanDate').value = data.today_date || ''; // Assuming today_date is in YYYY-MM-DD
+                    document.getElementById('loanAmount').value = data.loan_amount || '';
+                    document.getElementById('loanAmountWords').value = data.loan_amount_words || '';
+
+                    if (data.loan_type) {
+                        const loanTypeRadio = document.querySelector(`input[name="loanType"][value="${data.loan_type}"]`);
+                        if (loanTypeRadio) {
+                            loanTypeRadio.checked = true;
+                        }
+                    }
+                    // Clear the data from session storage after use if you don't need it anymore on refresh
+                    // sessionStorage.removeItem('loanApplicationData');
+
+                } catch (e) {
+                    console.error("Error parsing stored data:", e);
+                    formDetailsDiv.style.display = 'none';
+                    noDataMessageDiv.style.display = 'block';
+                }
+            } else {
+                console.log("No loan application data found in session storage.");
+                formDetailsDiv.style.display = 'none';
+                noDataMessageDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

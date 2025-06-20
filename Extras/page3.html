@@ -1,0 +1,565 @@
+Here's the HTML for Page 3 of the "LIC-Loan-Form 5196.pdf", including English, Hindi, and Marathi content as found in the document. I've added readonly input fields for data that would be populated from your Supabase database.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Loan Form 5196 - Page 3</title>
+    <style>
+        body {
+            font-family: 'Arial', 'Nirmala UI', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .form-page {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 8.5in;
+            min-height: 11in;
+            box-sizing: border-box;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .flex-item {
+            flex: 1;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group input[readonly],
+        .form-group textarea[readonly] {
+            background-color: #e9e9e9;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
+        .sup-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .sup-button:hover {
+            background-color: #0056b3;
+        }
+        .language-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .language-toggle button {
+            padding: 8px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        .language-toggle button.active {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        .page-number {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        .signature-line {
+            border-bottom: 1px solid #000;
+            margin-top: 50px;
+            padding-bottom: 5px;
+            text-align: center;
+        }
+        .instruction {
+            font-style: italic;
+            color: #555;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        .small-text {
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-page">
+        <div class="language-toggle">
+            <button id="englishBtn" class="active" onclick="showLanguage('english')">English</button>
+            <button id="hindiBtn" onclick="showLanguage('hindi')">हिंदी</button>
+            <button id="marathiBtn" onclick="showLanguage('marathi')">मराठी</button>
+        </div>
+
+        <div id="englishForm">
+            <div class="header">
+                <h2>LIC Loan Form 5196 - Page 3 (English)</h2>
+            </div>
+
+            [span_0](start_span)<div class="section-title">NOTE OF AUTHORITY[span_0](end_span)</div>
+            [span_1](start_span)<p>If the within receipt is signed by more than one person and payment is desired to be made to one of the signatories or to third party the following Note of Authority should be completed and signed by all of them.[span_1](end_span)</p>
+
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    [span_2](start_span)<label for="authorityPlace_en">Place: <br> ठिकाण / स्थान[span_2](end_span)</label>
+                    <input type="text" id="authorityPlace_en" name="authorityPlace_en" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    [span_3](start_span)<label for="authorityDate_en">Date: <br> दिनांक[span_3](end_span)</label>
+                    <input type="date" id="authorityDate_en" name="authorityDate_en" readonly>
+                </div>
+            </div>
+
+            <p>I/We hereby authorise the Life Insurance Corporation of India to pay within mentioned loan amount of Rs. [span_4](start_span)<span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_4](end_span) out of within mentioned loan, a sum of Rs. [span_5](start_span)<span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_5](end_span) to <span style="border-bottom: 1px dotted #000; display: inline-block; width: 150px;"></span>.</p>
+
+            <div class="flex-container">
+                <div class="flex-item signature-line" style="margin-right: 15px;">
+                    [span_6](start_span)<p>Signature <br> स्वाक्षरी/हस्ताक्षर[span_6](end_span)</p>
+                </div>
+                <div class="flex-item signature-line">
+                    [span_7](start_span)<p>Signature <br> स्वाक्षरी/हस्ताक्षर[span_7](end_span)</p>
+                </div>
+            </div>
+
+            [span_8](start_span)<p class="small-text">I hereby certify that the contents of this Note of Authority were explained by me to (1) <span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_8](end_span) [span_9](start_span)and (2) <span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_9](end_span) [span_10](start_span)and he/she/they has/have agreed to payment to this party or party or parties authorised.[span_10](end_span)</p>
+
+            <div class="signature-line" style="margin-top: 20px;">
+                [span_11](start_span)<p>Signature of the Declarant <br> घोषणाकर्त्याची सही/घोषणाकर्त्या का हस्ताक्षर[span_11](end_span)</p>
+            </div>
+
+            [span_12](start_span)<div class="section-title">INSTRUCTION[span_12](end_span)</div>
+            [span_13](start_span)<p class="instruction">If either or both persons completing the Note of Authority be non-English knowing the declaration at foot of the Note of Authority should be completed by an English knowing person who should also give the English rendering of the signature/s.[span_13](end_span) When, however either or both of them be iliterate, the declarant should be a Magistrate or a Special Executive magistrate or a Block Development officer or a gazetted Officer or a Principal/Headmaster of Local High School or Higher Secondary School run by the Government or an Agent of Nationalised Bank or a Class I Officer of the Corporation or a Development Officer of the Corporation with at least 5 year's service provided he/she is full satisfied about the identity of the person(s) executing the note of Authority and the declarant should, in addition to completing the Declaration, certify that the thumb mark/s is/are of the person/s executing the Note of Authority and that the same was/were obtained in his/her presence, where the loan is over Rs. [span_14](start_span)500/-[span_14](end_span). When the loan is Rs. [span_15](start_span)500/- or less the declarant may be even a talathi, Revenue Officer, the President of Union Board of Gram Panchayat.[span_15](end_span)</p>
+            [span_16](start_span)<p class="instruction">Please Send Cancelled Cheque leaf & Photocopy of Bank Pass-Book for NEFT Payment[span_16](end_span)</p>
+
+            <div class="form-group">
+                [span_17](start_span)<label for="bankNameNEFT_en">Name of Bank:[span_17](end_span)</label>
+                <input type="text" id="bankNameNEFT_en" name="bankNameNEFT_en" readonly>
+            </div>
+            <div class="form-group">
+                [span_18](start_span)<label for="bankAddressNEFT_en">Address of Bank:[span_18](end_span)</label>
+                <textarea id="bankAddressNEFT_en" name="bankAddressNEFT_en" rows="2" readonly></textarea>
+            </div>
+            <div class="form-group">
+                [span_19](start_span)<label for="accountTypeNEFT_en">Account Type: Saving/Current[span_19](end_span)</label>
+                <input type="text" id="accountTypeNEFT_en" name="accountTypeNEFT_en" readonly>
+            </div>
+            <div class="form-group">
+                [span_20](start_span)<label for="accountNoNEFT_en">Account No:[span_20](end_span)</label>
+                <input type="text" id="accountNoNEFT_en" name="accountNoNEFT_en" readonly>
+            </div>
+            <div class="form-group">
+                [span_21](start_span)<label for="ifscCodeNEFT_en">IFS Code:[span_21](end_span)</label>
+                <input type="text" id="ifscCodeNEFT_en" name="ifscCodeNEFT_en" readonly>
+            </div>
+
+            [span_22](start_span)<p>Note: Payment will be made to your above mentioned account through NEFT only[span_22](end_span)</p>
+
+            <div class="signature-line" style="margin-top: 30px;">
+                [span_23](start_span)<p>Signature(s) of the Claimant(s) in full <br> दावेदार / दावेदारांची संपूर्ण हस्ताक्षरी / दावेदार / दावेदारों के पूर्ण हस्ताक्षर[span_23](end_span)</p>
+                <p class="small-text">(as per Specimen in the Record)</p>
+            </div>
+            <div class="form-group">
+                [span_24](start_span)<label for="claimantSignatureAddress_en">Present address: <br> सध्याचा पत्ता/वर्तमान पत्ता[span_24](end_span)</label>
+                <textarea id="claimantSignatureAddress_en" name="claimantSignatureAddress_en" rows="2" readonly></textarea>
+            </div>
+            <div class="form-group">
+                [span_25](start_span)<label for="claimantContactNo_en">Contact No.:[span_25](end_span)</label>
+                <input type="text" id="claimantContactNo_en" name="claimantContactNo_en" readonly>
+            </div>
+
+            <div class="page-number">3</div>
+        </div>
+
+        <div id="hindiForm" class="hidden">
+            <div class="header">
+                <h2>एलआईसी ऋण फॉर्म 5196 - पृष्ठ 3 (हिंदी)</h2>
+            </div>
+
+            [span_26](start_span)<div class="section-title">प्राधिकार पत्र[span_26](end_span)</div>
+            [span_27](start_span)<p>यदी यह रसीद एक से अधिक व्यक्तियों द्वारा हस्ताक्षरित की जाती है और भुगतान उनमें से किसी एक हस्ताक्षर कर्ता अथवा किसी तीसरे पक्ष को करने की इच्छा की जाती है तो निम्न प्राधिकार पत्र पूर्ण एवं सभी के द्वारा हस्ताक्षरित होना चाहिए।[span_27](end_span)</p>
+
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    [span_28](start_span)<label for="authorityPlace_hi">स्थान: <br> ठिकाण / Place[span_28](end_span)</label>
+                    <input type="text" id="authorityPlace_hi" name="authorityPlace_hi" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    [span_29](start_span)<label for="authorityDate_hi">दिनांक: <br> Date[span_29](end_span)</label>
+                    <input type="date" id="authorityDate_hi" name="authorityDate_hi" readonly>
+                </div>
+            </div>
+
+            <p>मै/हम भारतीय जीवन बीमा निगम को इसमें अंकित रु. [span_30](start_span)<span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_30](end_span) की राशि रु. [span_31](start_span)<span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_31](end_span) को भुगतान करने को प्राधिकृत करता हूँ।</p>
+
+            <div class="flex-container">
+                <div class="flex-item signature-line" style="margin-right: 15px;">
+                    <p>हस्ताक्षर <br> स्वाक्षरी/Signature</p>
+                </div>
+                <div class="flex-item signature-line">
+                    <p>हस्ताक्षर <br> स्वाक्षरी/Signature</p>
+                </div>
+            </div>
+
+            [span_32](start_span)<p class="small-text">मै एतद्वारा प्रमाणित करता हूँ प्रधिकार पत्र के तथ्यों को मेरे द्वारा (1) <span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_32](end_span) [span_33](start_span)एवं (2) <span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_33](end_span) [span_34](start_span)को समझा दिया गया था और वह/वे प्राधिकृत पक्ष अथवा पक्षों को भुगतान करने को सहमत है।[span_34](end_span)</p>
+
+            <div class="signature-line" style="margin-top: 20px;">
+                [span_35](start_span)<p>घोषणाकर्ता का हस्ताक्षर <br> घोषणाकर्त्याची सही/Signature of the Declarant[span_35](end_span)</p>
+            </div>
+
+            [span_36](start_span)<div class="section-title">निर्देश[span_36](end_span)</div>
+            [span_37](start_span)<p class="instruction">यदि दोनों या दों में से किसी एक ऋण प्राप्तकर्ता को हिंदी नहीं आती है अथवा अशिक्षित है, तो किसी हिंदी जानने वाले व्यक्ति से उपरोक्त घोषणा पूर्ण करने और हिंदी में हस्ताक्षर करने का अनुरोध किया जाना चाहिए।[span_37](end_span) [span_38](start_span)जहाँ दोंनो ऋण प्राप्तकर्ता अशिक्षित है, तो घोषणाकर्ता को प्रमाणित करना चाहिए कि अंगूठे का निशान घोषणा में उल्लेखित व्यक्तिका ही हैं और उसकी उपस्थिती में किया गया था।[span_38](end_span) [span_39](start_span)यदि प्रधिकार पत्र पूर्ण करने वाले दोनों व्यक्त्तियों अथवा एक को हिंदी नही आती है तो प्राधिकार पत्र किसी हिन्दी जानने वाले व्यक्ति द्वारा पूर्ण किया जाना चाहिए।[span_39](end_span) और उस पर हिन्दी में हस्ताक्षर भी करना चाहिए। [span_40](start_span)यदि उनमें से एक या दोनों अशिक्षित है तो घोषणा कर्ता कोई दंडाधिकारी या प्रखंड विकास अधिकारी अथवा राजपत्रित अधिकारी या सरकार द्वारा संचालित स्थानिय उच्च पाठशाला या उच्चतर माध्यमिक पाठशाला के प्रधानाचार्य/मुख्याध्यापक अथवा राष्ट्रीयकृत बैंक के अभिकर्ता या निगम के प्रथम श्रेणी के अधिकारी अथवा कम से कम पांच वर्षों की सेवा किया हुआ विकास अधिकारी होना चाहिए बशर्ते वह प्राधिकार पत्र निष्पादित करनेवाले व्यक्तियों का ही है तथा वह उसकी उपस्थिति में किया गया था, जहाँ ऋण रु.५००/- से अधिक है जहाँ ऋण रु.[span_40](end_span) [span_41](start_span)५००/- है अथवा कम हो तो घोषणा कर्ता तलाठी, राजस्व अधिकारी, संघ परिषद अथवा ग्राम पंचायत के अध्यक्ष भी हो सकते है।[span_41](end_span)</p>
+            [span_42](start_span)<p class="instruction">कृपया यहां से फाड कर पॉलिसी पर चिपकाए[span_42](end_span) [span_43](start_span)Cancelled Cheque leaf & Photocopy of Bank Pass-Book for NEFT Payment[span_43](end_span)</p>
+
+            <div class="form-group">
+                [span_44](start_span)<label for="bankNameNEFT_hi">बैंक का नाम:[span_44](end_span)</label>
+                <input type="text" id="bankNameNEFT_hi" name="bankNameNEFT_hi" readonly>
+            </div>
+            <div class="form-group">
+                [span_45](start_span)<label for="bankAddressNEFT_hi">बैंक का पता:[span_45](end_span)</label>
+                <textarea id="bankAddressNEFT_hi" name="bankAddressNEFT_hi" rows="2" readonly></textarea>
+            </div>
+            <div class="form-group">
+                [span_46](start_span)<label for="accountTypeNEFT_hi">खाता प्रकार: बचत/चालू[span_46](end_span)</label>
+                <input type="text" id="accountTypeNEFT_hi" name="accountTypeNEFT_hi" readonly>
+            </div>
+            <div class="form-group">
+                [span_47](start_span)<label for="accountNoNEFT_hi">खाता संख्या:[span_47](end_span)</label>
+                <input type="text" id="accountNoNEFT_hi" name="accountNoNEFT_hi" readonly>
+            </div>
+            <div class="form-group">
+                [span_48](start_span)<label for="ifscCodeNEFT_hi">आईएफएससी कोड:[span_48](end_span)</label>
+                <input type="text" id="ifscCodeNEFT_hi" name="ifscCodeNEFT_hi" readonly>
+            </div>
+
+            <p>टिप: भुगतान आपके उपनिर्देशित खाते में केवल एन.ई.एफ.टी. [span_49](start_span)के द्वाराही किया जायेगा.[span_49](end_span)</p>
+
+            <div class="signature-line" style="margin-top: 30px;">
+                [span_50](start_span)<p>दावेदार / दावेदारों के पूर्ण हस्ताक्षर <br> स्वाक्षरी / Signature(s)[span_50](end_span)</p>
+                <p class="small-text">(रिकॉर्ड के अनुसार नमूना)</p>
+            </div>
+            <div class="form-group">
+                [span_51](start_span)<label for="claimantSignatureAddress_hi">वर्तमान पता: <br> सध्याचा पत्ता/Present address[span_51](end_span)</label>
+                <textarea id="claimantSignatureAddress_hi" name="claimantSignatureAddress_hi" rows="2" readonly></textarea>
+            </div>
+            <div class="form-group">
+                [span_52](start_span)<label for="claimantContactNo_hi">संपर्क संख्या:[span_52](end_span)</label>
+                <input type="text" id="claimantContactNo_hi" name="claimantContactNo_hi" readonly>
+            </div>
+
+            <div class="page-number">3</div>
+        </div>
+
+        <div id="marathiForm" class="hidden">
+            <div class="header">
+                <h2>एलआयसी कर्ज फॉर्म 5196 - पृष्ठ 3 (मराठी)</h2>
+            </div>
+
+            [span_53](start_span)<div class="section-title">प्राधिकार पत्र[span_53](end_span)</div>
+            [span_54](start_span)<p>जर निम्न निर्देशित पावतीवर एकाहून अधिक व्यक्तिनी स्वाक्षरी केली असेल आणि रक्कमेचे वाटप एका स्वाक्षरीकरांस किंवा त्रयस्थ व्यक्तिस करावयाचे असेल तर पुढील प्राधिकार पत्र पूर्ण करून त्यावर सर्वांनी स्वाक्षऱ्या केल्या पाहिजेत.[span_54](end_span)</p>
+
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    [span_55](start_span)<label for="authorityPlace_mr">ठिकाण: <br> स्थान / Place[span_55](end_span)</label>
+                    <input type="text" id="authorityPlace_mr" name="authorityPlace_mr" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    [span_56](start_span)<label for="authorityDate_mr">दिनांक: <br> Date[span_56](end_span)</label>
+                    <input type="date" id="authorityDate_mr" name="authorityDate_mr" readonly>
+                </div>
+            </div>
+
+            <p>मी/आम्ही भारतीय आयुर्विमा मंडळास ह्या अन्वये अधिकार देतो की निम्ननिर्दिष्ट कर्जाची रक्कम रु. [span_57](start_span)<span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_57](end_span) कर्जाच्या रक्कमेतील रु. [span_58](start_span)<span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_58](end_span) ह्यांना द्यावेत.</p>
+
+            <div class="flex-container">
+                <div class="flex-item signature-line" style="margin-right: 15px;">
+                    <p>स्वाक्षरी <br> हस्ताक्षर/Signature</p>
+                </div>
+                <div class="flex-item signature-line">
+                    <p>स्वाक्षरी <br> हस्ताक्षर/Signature</p>
+                </div>
+            </div>
+
+            [span_59](start_span)<p class="small-text">मी एतद्वारा प्रमाणित करतो की प्राधिकार पत्र के तथ्यों को मेरे द्वारा (1) <span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_59](end_span) आणि त्यांनी अधिकृत व्यक्तिस रक्कम वाटप करण्याचे मान्य केले आहे. [span_60](start_span)(2) <span style="border-bottom: 1px dotted #000; display: inline-block; width: 80px;"></span>[span_60](end_span)</p>
+
+            <div class="signature-line" style="margin-top: 20px;">
+                [span_61](start_span)<p>घोषणाकर्त्याची सही <br> घोषणाकर्त्या का हस्ताक्षर/Signature of the Declarant[span_61](end_span)</p>
+            </div>
+
+            [span_62](start_span)<div class="section-title">सूचना[span_62](end_span)</div>
+            [span_63](start_span)<p class="instruction">जर प्राधिकार पत्र पूर्ण करणाऱ्या एक किंवा दोन्ही व्यक्ति इंग्लिश/मराठी जाणणाऱ्या नसतील तर प्राधिकार पत्राच्या तळाशी असलेले घोषणापत्र इंग्लिश जाणणाऱ्या व्यक्तिने पूर्ण केले पाहिजे.[span_63](end_span) त्याने स्वाक्षऱ्यांचे इंग्लिश / मराठी रुपांतरही दिले पाहिजे. [span_64](start_span)जर त्यापैकी एक किंवा दोघेही निरक्षर असतील तेव्हा घोषणाकर्ता पुढील व्यक्तिपैकी एक असला पाहिजे.[span_64](end_span) [span_65](start_span)न्यायाधीश किंवा विशेष कार्यकारी दंडाधिकारी किंवा गट विकास अधिकारी किंवा राजपत्र अधिकारी किंवा शासनाने चालवलेल्या स्थानिक माध्यमिक विद्यालयाचा किंवा उच्च माध्यमिक विद्यालयाचा मुख्याध्यापक किंवा प्राचार्य किंवा राष्ट्रीयकृत बँकेचा एजंट किंवा महामंडळाचा प्रथम श्रेणीचा अधिकारी किंवा किमान पाच वर्षे सेवा झालेला महामंडळाचा विकास अधिकारी.[span_65](end_span) [span_66](start_span)मात्र प्राधिकार पत्र निष्पादित करणाऱ्या व्यक्तिची त्यास ओळख पटली पाहिजे.[span_66](end_span) [span_67](start_span)घोषणाकर्त्यांने घोषणा पत्र पूर्ण करण्याखेरीज असेही प्रमाणित केले पाहिजे की प्राधिकार पत्र निष्पादीत करणाऱ्या व्यक्तिने अंगठ्याचे ठसे प्रमाणित केले आहेत आणि ते त्याच्या उपस्थितीत उमटविले गेले आहेत.[span_67](end_span) कर्जाची रक्कम रु. ५००/- च्यावर असेल तर हे आवश्यक आहे. [span_68](start_span)जर कर्जाची रक्कम रु.[span_68](end_span) [span_69](start_span)५००/- किंवा त्याहून कमी असेल तर घोषणा कर्ता हा तलाठी, महसूल अधिकारी, ग्रामपंचायत अध्यक्ष चालू शकेल.[span_69](end_span)</p>
+            [span_70](start_span)<p class="instruction">Please Send Cancelled Cheque leaf & Photocopy of Bank Pass-Book for NEFT Payment[span_70](end_span)</p>
+
+            <div class="form-group">
+                [span_71](start_span)<label for="bankNameNEFT_mr">बँकेचे नांव:[span_71](end_span)</label>
+                <input type="text" id="bankNameNEFT_mr" name="bankNameNEFT_mr" readonly>
+            </div>
+            <div class="form-group">
+                [span_72](start_span)<label for="bankAddressNEFT_mr">बँकेचा पत्ता:[span_72](end_span)</label>
+                <textarea id="bankAddressNEFT_mr" name="bankAddressNEFT_mr" rows="2" readonly></textarea>
+            </div>
+            <div class="form-group">
+                [span_73](start_span)<label for="accountTypeNEFT_mr">खात्याचा प्रकार: बचत/चालू[span_73](end_span)</label>
+                <input type="text" id="accountTypeNEFT_mr" name="accountTypeNEFT_mr" readonly>
+            </div>
+            <div class="form-group">
+                [span_74](start_span)<label for="accountNoNEFT_mr">खाते क्र.:[span_74](end_span)</label>
+                <input type="text" id="accountNoNEFT_mr" name="accountNoNEFT_mr" readonly>
+            </div>
+            <div class="form-group">
+                <label for="ifscCodeNEFT_mr">आय. एफ. एस. सी. [span_75](start_span)कोड:[span_75](end_span)</label>
+                <input type="text" id="ifscCodeNEFT_mr" name="ifscCodeNEFT_mr" readonly>
+            </div>
+
+            [span_76](start_span)<p>टीप: रक्कम आपल्या वरिल निर्देशित खात्यामध्ये केवळ एन.ई.एफ.टी तर्फेच केले जाईल.[span_76](end_span)</p>
+
+            <div class="signature-line" style="margin-top: 30px;">
+                [span_77](start_span)<p>दावेदार / दावेदारांची संपूर्ण हस्ताक्षरी <br> हस्ताक्षर / Signature(s)[span_77](end_span)</p>
+                <p class="small-text">(रेकॉर्डमधील नमुन्यानुसार)</p>
+            </div>
+            <div class="form-group">
+                [span_78](start_span)<label for="claimantSignatureAddress_mr">सध्याचा पत्ता: <br> वर्तमान पत्ता/Present address[span_78](end_span)</label>
+                <textarea id="claimantSignatureAddress_mr" name="claimantSignatureAddress_mr" rows="2" readonly></textarea>
+            </div>
+            <div class="form-group">
+                [span_79](start_span)<label for="claimantContactNo_mr">संपर्क क्रमांक:[span_79](end_span)</label>
+                <input type="text" id="claimantContactNo_mr" name="claimantContactNo_mr" readonly>
+            </div>
+
+            <div class="page-number">3</div>
+        </div>
+
+        <div class="form-group" style="margin-top: 30px;">
+            <label for="inputPolicyNumber">Enter Policy Number to Load Details:</label>
+            <input type="text" id="inputPolicyNumber" placeholder="Enter Policy Number">
+            <button class="sup-button" onclick="fetchPolicyDetailsFromSupabase()">Load Details</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Replace with your actual Supabase URL and Anon Key
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+        const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function showLanguage(lang) {
+            document.getElementById('englishForm').classList.add('hidden');
+            document.getElementById('hindiForm').classList.add('hidden');
+            document.getElementById('marathiForm').classList.add('hidden');
+
+            document.getElementById('englishBtn').classList.remove('active');
+            document.getElementById('hindiBtn').classList.remove('active');
+            document.getElementById('marathiBtn').classList.remove('active');
+
+            document.getElementById(lang + 'Form').classList.remove('hidden');
+            document.getElementById(lang + 'Btn').classList.add('active');
+        }
+
+        async function fetchPolicyDetailsFromSupabase() {
+            const policyNumber = document.getElementById('inputPolicyNumber').value;
+            if (!policyNumber) {
+                alert('Please enter a policy number to load details.');
+                return;
+            }
+
+            try {
+                // Fetch all necessary fields from your Supabase table for Page 1, 2 & 3
+                // Ensure your Supabase table has these columns:
+                // policy_number, loan_date, loan_amount, loan_amount_words, loan_type,
+                // address, dob, plan_number, mobile, email, bank_name, bank_branch,
+                // account_number, ifsc_code, nominee_name, nominee_relation, loan_amount_requested,
+                // authority_place, authority_date, authority_loan_amount, authority_payee_name,
+                // bank_name_neft, bank_address_neft, account_type_neft, account_no_neft,
+                // ifsc_code_neft, claimant_signature_address, claimant_contact_no
+                const { data, error } = await supabase
+                    .from('loan5196') // Your Supabase table name
+                    .select(`
+                        policy_number,
+                        loan_date,
+                        loan_amount,
+                        loan_amount_words,
+                        loan_type,
+                        address,
+                        dob,
+                        plan_number,
+                        mobile,
+                        email,
+                        bank_name,
+                        bank_branch,
+                        account_number,
+                        ifsc_code,
+                        nominee_name,
+                        nominee_relation,
+                        loan_amount_requested,
+                        authority_place,
+                        authority_date,
+                        authority_loan_amount,
+                        authority_payee_name,
+                        bank_name_neft,
+                        bank_address_neft,
+                        account_type_neft,
+                        account_no_neft,
+                        ifsc_code_neft,
+                        claimant_signature_address,
+                        claimant_contact_no
+                    `)
+                    .eq('policy_number', policyNumber)
+                    .single();
+
+                if (error) {
+                    console.error('Error fetching data:', error.message);
+                    alert('Error fetching policy details. Please check the policy number and try again.');
+                    return;
+                }
+
+                if (data) {
+                    // Populate English fields (Page 1 & 2 fields - for context in combined HTML)
+                    // document.getElementById('policyNo_en').value = data.policy_number || '';
+                    // document.getElementById('date_en').value = data.loan_date || '';
+                    // document.getElementById('loanAmount_en').value = data.loan_amount || '';
+                    // document.getElementById('loanAmountWords_en').value = data.loan_amount_words || '';
+                    // if (data.loan_type) {
+                    //     const loanTypeRadio_en = document.querySelector(`input[name="loanType_en"][value="${data.loan_type}"]`);
+                    //     if (loanTypeRadio_en) loanTypeRadio_en.checked = true;
+                    // }
+                    // document.getElementById('address_en').value = data.address || '';
+                    // document.getElementById('dob_en').value = data.dob || '';
+                    // document.getElementById('planNo_en').value = data.plan_number || '';
+                    // document.getElementById('mobile_en').value = data.mobile || '';
+                    // document.getElementById('email_en').value = data.email || '';
+                    // document.getElementById('bankName_en').value = data.bank_name || '';
+                    // document.getElementById('bankBranch_en').value = data.bank_branch || '';
+                    // document.getElementById('accountNo_en').value = data.account_number || '';
+                    // document.getElementById('ifscCode_en').value = data.ifsc_code || '';
+                    // document.getElementById('nomineeName_en').value = data.nominee_name || '';
+                    // document.getElementById('nomineeRelation_en').value = data.nominee_relation || '';
+                    // document.getElementById('loanAmountRequested_en').value = data.loan_amount_requested || '';
+
+                    // Populate English fields (Page 3 specific)
+                    document.getElementById('authorityPlace_en').value = data.authority_place || '';
+                    document.getElementById('authorityDate_en').value = data.authority_date || '';
+                    // For authorityLoanAmount_en and authorityPayeeName_en, you'll need to decide how to map them if they are dynamic.
+                    // For now, they are dotted lines in the HTML.
+                    document.getElementById('bankNameNEFT_en').value = data.bank_name_neft || '';
+                    document.getElementById('bankAddressNEFT_en').value = data.bank_address_neft || '';
+                    document.getElementById('accountTypeNEFT_en').value = data.account_type_neft || '';
+                    document.getElementById('accountNoNEFT_en').value = data.account_no_neft || '';
+                    document.getElementById('ifscCodeNEFT_en').value = data.ifsc_code_neft || '';
+                    document.getElementById('claimantSignatureAddress_en').value = data.claimant_signature_address || '';
+                    document.getElementById('claimantContactNo_en').value = data.claimant_contact_no || '';
+
+                    // Populate Hindi fields (Page 3 specific)
+                    document.getElementById('authorityPlace_hi').value = data.authority_place || '';
+                    document.getElementById('authorityDate_hi').value = data.authority_date || '';
+                    document.getElementById('bankNameNEFT_hi').value = data.bank_name_neft || '';
+                    document.getElementById('bankAddressNEFT_hi').value = data.bank_address_neft || '';
+                    document.getElementById('accountTypeNEFT_hi').value = data.account_type_neft || '';
+                    document.getElementById('accountNoNEFT_hi').value = data.account_no_neft || '';
+                    document.getElementById('ifscCodeNEFT_hi').value = data.ifsc_code_neft || '';
+                    document.getElementById('claimantSignatureAddress_hi').value = data.claimant_signature_address || '';
+                    document.getElementById('claimantContactNo_hi').value = data.claimant_contact_no || '';
+
+                    // Populate Marathi fields (Page 3 specific)
+                    document.getElementById('authorityPlace_mr').value = data.authority_place || '';
+                    document.getElementById('authorityDate_mr').value = data.authority_date || '';
+                    document.getElementById('bankNameNEFT_mr').value = data.bank_name_neft || '';
+                    document.getElementById('bankAddressNEFT_mr').value = data.bank_address_neft || '';
+                    document.getElementById('accountTypeNEFT_mr').value = data.account_type_neft || '';
+                    document.getElementById('accountNoNEFT_mr').value = data.account_no_neft || '';
+                    document.getElementById('ifscCodeNEFT_mr').value = data.ifsc_code_neft || '';
+                    document.getElementById('claimantSignatureAddress_mr').value = data.claimant_signature_address || '';
+                    document.getElementById('claimantContactNo_mr').value = data.claimant_contact_no || '';
+
+                } else {
+                    alert('No details found for this policy number. Please ensure it is correct.');
+                    // Clear all fields on page 3 if no data found
+                    document.getElementById('authorityPlace_en').value = '';
+                    document.getElementById('authorityDate_en').value = '';
+                    document.getElementById('bankNameNEFT_en').value = '';
+                    document.getElementById('bankAddressNEFT_en').value = '';
+                    document.getElementById('accountTypeNEFT_en').value = '';
+                    document.getElementById('accountNoNEFT_en').value = '';
+                    document.getElementById('ifscCodeNEFT_en').value = '';
+                    document.getElementById('claimantSignatureAddress_en').value = '';
+                    document.getElementById('claimantContactNo_en').value = '';
+
+                    document.getElementById('authorityPlace_hi').value = '';
+                    document.getElementById('authorityDate_hi').value = '';
+                    document.getElementById('bankNameNEFT_hi').value = '';
+                    document.getElementById('bankAddressNEFT_hi').value = '';
+                    document.getElementById('accountTypeNEFT_hi').value = '';
+                    document.getElementById('accountNoNEFT_hi').value = '';
+                    document.getElementById('ifscCodeNEFT_hi').value = '';
+                    document.getElementById('claimantSignatureAddress_hi').value = '';
+                    document.getElementById('claimantContactNo_hi').value = '';
+
+                    document.getElementById('authorityPlace_mr').value = '';
+                    document.getElementById('authorityDate_mr').value = '';
+                    document.getElementById('bankNameNEFT_mr').value = '';
+                    document.getElementById('bankAddressNEFT_mr').value = '';
+                    document.getElementById('accountTypeNEFT_mr').value = '';
+                    document.getElementById('accountNoNEFT_mr').value = '';
+                    document.getElementById('ifscCodeNEFT_mr').value = '';
+                    document.getElementById('claimantSignatureAddress_mr').value = '';
+                    document.getElementById('claimantContactNo_mr').value = '';
+                }
+            } catch (error) {
+                console.error('An unexpected error occurred:', error.message);
+                alert('An unexpected error occurred while loading details.');
+            }
+        }
+
+        // Initialize with English form visible
+        document.addEventListener('DOMContentLoaded', () => {
+            showLanguage('english');
+        });
+    </script>
+</body>
+</html>
+

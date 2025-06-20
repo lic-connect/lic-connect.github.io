@@ -1,0 +1,560 @@
+Here's the HTML for Page 4 of the "LIC-Loan-Form 5196.pdf", including English, Hindi, and Marathi content as found in the document. I've added readonly input fields for data that would be populated from your Supabase database.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Loan Form 5196 - Page 4</title>
+    <style>
+        body {
+            font-family: 'Arial', 'Nirmala UI', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .form-page {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 8.5in;
+            min-height: 11in;
+            box-sizing: border-box;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .flex-item {
+            flex: 1;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group input[readonly],
+        .form-group textarea[readonly] {
+            background-color: #e9e9e9;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+        .sub-section-title {
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
+        .sup-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .sup-button:hover {
+            background-color: #0056b3;
+        }
+        .language-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .language-toggle button {
+            padding: 8px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        .language-toggle button.active {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        .page-number {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        .dotted-line {
+            border-bottom: 1px dotted #000;
+            display: inline-block;
+            min-width: 50px;
+        }
+        .small-text {
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-page">
+        <div class="language-toggle">
+            <button id="englishBtn" class="active" onclick="showLanguage('english')">English</button>
+            <button id="hindiBtn" onclick="showLanguage('hindi')">हिंदी</button>
+            <button id="marathiBtn" onclick="showLanguage('marathi')">मराठी</button>
+        </div>
+
+        <div id="englishForm">
+            <div class="header">
+                <h2>LIC Loan Form 5196 - Page 4 (English)</h2>
+            </div>
+
+            <div class="section-title">Form No. 3599B - Form of Letter of Agreement (Loan under Money Back & Money Back type of Policy)</div>
+            <p>Sr. Branch Manager, Branch No. <span class="dotted-line" style="width: 150px;"></span>, Life Insurance Corporation of India.</p>
+            <p>Dear Sir,</p>
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="applicationDate_3599B_en">Date:</label>
+                    <input type="date" id="applicationDate_3599B_en" name="applicationDate_3599B_en" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="loanPolicyNo_3599B_en">Loan under Policy No.:</label>
+                    <input type="text" id="loanPolicyNo_3599B_en" name="loanPolicyNo_3599B_en" readonly>
+                </div>
+            </div>
+            <p>With reference to my application dated <span class="dotted-line" style="width: 100px;"></span> for a loan under the above policy which has been issued under <span class="dotted-line" style="width: 100px;"></span> plan.</p>
+            [span_0](start_span)<p>I hereby agree that in the event of a claim arising under the above mentioned policy which may either be periodical survival benefits, maturity claim or a death claim, the Corporation may adjust the instalment of Sum Assured then payable towards repayment of the accrued interest and loan outstanding, if any.[span_0](end_span)</p>
+            [span_1](start_span)<p>However if any balance of the aforesaid instalment of sum assured is left over after the entire accrued interest and loan outstanding is liquidated by such adjustment, such balance should be payable to me or to my nominee Sri.[span_1](end_span) / Smt. [span_2](start_span)<span class="dotted-line" style="width: 100px;"></span> after my death, as the case may be.[span_2](end_span)</p>
+
+            <div class="form-group">
+                <label for="payeeName_3599B_en">Name:</label>
+                <input type="text" id="payeeName_3599B_en" name="payeeName_3599B_en" readonly>
+            </div>
+            <p>Yours faithfully,</p>
+            <div style="border-bottom: 1px solid #000; padding-top: 20px; text-align: center;">(Signature)</div>
+
+            <div class="sub-section-title" style="margin-top: 30px;">ENDORSEMENT Annexure</div>
+            <p>"Notwithstanding anything mentioned to the contrary, it is hereby declared and agreed that a loan is being granted under this policy subject to the following terms and conditions ans subject to production of satisfactory title:</p>
+            <ol>
+                [span_3](start_span)<li>The Policy shall be assigned absolutely to and held by the Corporation as security for repayment of advance(s) and of the interest thereon.[span_3](end_span)</li>
+                <li>Interest on the advance(s) shall be paid compounding half-yearly of the Corporation at the rate to be specified by the Corporation when the relative advance is made. The first payment of interest to be made on the next policy anniversary or on the date six months before the next policy anniversary whichever immediately follows the date on which the relative advance is made and every half year thereafter. [span_4](start_span)Interest will be charged for a minimum period of six months.[span_4](end_span)</li>
+                <li>The Corporation shall be entitled to call for repayment of the advance(s) with all due interest by giving three months notice. [span_5](start_span)In the event of failure to repay the advance(s) when required or to pay the interest on the due dates as herein above mentioned or within 30 days after each due date respectively, the policy shall be held, without the necessity of any notice being given, to be forfeited to the Corporation and the Corporation shall be entitled to apply the surrender value allowable in respect of the policy in payment of the advance(s) and interest.[span_5](end_span)</li>
+                [span_6](start_span)<li>In case the policy shall mature or become a claim by death or is surrendered, the Corporation shall become entitled to deduct the amount of the advances or any portion thereof which is outstanding together with all interest from the policy moneys.[span_6](end_span)</li>
+                [span_7](start_span)<li>Whenever survival benefit falls due under the policy where loan has been allowed, the survival benefit amount will be used first towards repayment of accrued interest and loan outstanding, in that order.[span_7](end_span)</li>
+            </ol>
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="endorsementDate_en">Date:</label>
+                    <input type="date" id="endorsementDate_en" name="endorsementDate_en" readonly>
+                </div>
+                <div class="flex-item signature-line" style="text-align: center; margin-top: 30px;">
+                    <p>Signature of Assured</p>
+                </div>
+            </div>
+
+            <hr style="border-top: 2px dashed #ccc;">
+
+            <div class="section-title">Form No. 5214 - Form of Letter of Agreement (Settlement Option Policy)</div>
+            <p>Branch Manager, Life Insurance Corporation of India,</p>
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="settlementOptionPlace_en">Place:</label>
+                    <input type="text" id="settlementOptionPlace_en" name="settlementOptionPlace_en" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="settlementOptionDate_en">Date:</label>
+                    <input type="date" id="settlementOptionDate_en" name="settlementOptionDate_en" readonly>
+                </div>
+            </div>
+            <p>Dear Sir,</p>
+            <div class="form-group">
+                <label for="loanPolicyNo_5214_en">Policy No.:</label>
+                <input type="text" id="loanPolicyNo_5214_en" name="loanPolicyNo_5214_en" readonly>
+            </div>
+            <p>With reference to my application for the loan of Rs. <span class="dotted-line" style="width: 100px;"></span> under the above Policy which provides for payment of Policy moneys by annuity instalments on expiry of the term of years selected, I hereby agree that on expiry of the term of years selected, the Corporation may immediately call for the repayment of the loan with interest thereon giving the person entitled to the Policy money, however, the option to have the loan and interest due repaid in cash or to have the benefits reduced to such an extent as would be necessary for liquidation of the loan, provided a reduced annuity of not less than Rs. [span_8](start_span)20/-[span_8](end_span) Rs. 50/- a year is thereby secured and provided further that the amount to be so repaid by instalments under the aforesaid policy together is not less than Rs. [span_9](start_span)25/-.[span_9](end_span)</p>
+            <p>Yours faithfully,</p>
+            <div style="border-bottom: 1px solid #000; padding-top: 20px; text-align: center;">Signature of Assured</div>
+            <div class="form-group">
+                <label for="assuredDesignation_5214_en">Designation:</label>
+                <input type="text" id="assuredDesignation_5214_en" name="assuredDesignation_5214_en" readonly>
+            </div>
+            <div class="form-group">
+                <label for="assuredAddress_5214_en">Address:</label>
+                <textarea id="assuredAddress_5214_en" name="assuredAddress_5214_en" rows="2" readonly></textarea>
+            </div>
+            <p class="small-text">Note: For policies issued on or after 1-1-1976 the minimum Annuity should be Rs. 50/- per year. Hence for loan under such policy dated Rs. 20 and the words "and provided further.. less than Rs. 25".</p>
+
+            <div class="page-number">4</div>
+        </div>
+
+        <div id="hindiForm" class="hidden">
+            <div class="header">
+                <h2>एलआईसी ऋण फॉर्म 5196 - पृष्ठ 4 (हिंदी)</h2>
+            </div>
+
+            <div class="section-title">फॉर्म सं. 3599B - समझौता पत्र का प्रपत्र (मनी बैक एवं मनी बैक प्रकार की पॉलिसी के अंतर्गत ऋण)</div>
+            <p>वरिष्ठ शाखा प्रबंधक, शाखा सं. <span class="dotted-line" style="width: 150px;"></span>, भारतीय जीवन बीमा निगम।</p>
+            <p>प्रिय महोदय,</p>
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="applicationDate_3599B_hi">दिनांक:</label>
+                    <input type="date" id="applicationDate_3599B_hi" name="applicationDate_3599B_hi" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="loanPolicyNo_3599B_hi">पॉलिसी सं. के अंतर्गत ऋण:</label>
+                    <input type="text" id="loanPolicyNo_3599B_hi" name="loanPolicyNo_3599B_hi" readonly>
+                </div>
+            </div>
+            <p>उपरोक्त पॉलिसी जो कि <span class="dotted-line" style="width: 100px;"></span> योजना के अंतर्गत जारी की गई है, के अंतर्गत ऋण के लिए दिनांक <span class="dotted-line" style="width: 100px;"></span> के मेरे आवेदन पत्र के संदर्भ से मैं सहमत हूँ।</p>
+            <p>मैं एतद्वारा सहमत हूँ कि उपरोक्त पॉलिसी के अंतर्गत उत्पन्न होने वाले किसी भी दावे की दशा में, जो कि आवधिक उत्तरजीविता लाभ, परिपक्वता दावा या मृत्यु दावा हो सकता है, निगम देय बीमा राशि की किस्त को जमा हुए ब्याज और बकाया ऋण के पुनर्भुगतान के लिए समायोजित कर सकता है, यदि कोई हो।</p>
+            <p>हालांकि यदि उपर्युक्त बीमा राशि की किस्त का कोई भी शेष भाग पूरे जमा हुए ब्याज और बकाया ऋण को ऐसे समायोजन द्वारा समाप्त करने के बाद बचता है, तो ऐसा शेष भाग मेरे या मेरे नामिती श्रीमान/श्रीमती <span class="dotted-line" style="width: 100px;"></span> को मेरी मृत्यु के बाद, जैसा भी मामला हो, देय होगा।</p>
+
+            <div class="form-group">
+                <label for="payeeName_3599B_hi">नाम:</label>
+                <input type="text" id="payeeName_3599B_hi" name="payeeName_3599B_hi" readonly>
+            </div>
+            <p>भवदीय,</p>
+            <div style="border-bottom: 1px solid #000; padding-top: 20px; text-align: center;">(हस्ताक्षर)</div>
+
+            <div class="sub-section-title" style="margin-top: 30px;">पृष्ठांकन अनुबंध</div>
+            <p>"इसके विपरीत किसी भी उल्लेख के बावजूद, यह एतद्वारा घोषित और सहमत है कि इस पॉलिसी के अंतर्गत एक ऋण निम्नलिखित नियमों और शर्तों के अधीन और संतोषजनक शीर्षक के उत्पादन के अधीन दिया जा रहा है:</p>
+            <ol>
+                <li>पॉलिसी निगम को अग्रिम (अग्रिमों) और उस पर ब्याज के पुनर्भुगतान के लिए सुरक्षा के रूप में पूर्णतः हस्तांतरित और धारित की जाएगी।</li>
+                <li>अग्रिम (अग्रिमों) पर ब्याज निगम द्वारा उस दर पर अर्धवार्षिक रूप से संयोजित किया जाएगा जो संबंधित अग्रिम किए जाने पर निगम द्वारा निर्दिष्ट की जाएगी। ब्याज का पहला भुगतान अगली पॉलिसी वर्षगांठ पर या अगली पॉलिसी वर्षगांठ से छह महीने पहले की तारीख पर, जो भी संबंधित अग्रिम किए जाने की तारीख के तुरंत बाद आता है, और उसके बाद हर आधे साल पर किया जाएगा। ब्याज न्यूनतम छह महीने की अवधि के लिए लिया जाएगा।</li>
+                <li>निगम तीन महीने का नोटिस देकर अग्रिम (अग्रिमों) और सभी देय ब्याज के पुनर्भुगतान की मांग करने का हकदार होगा। यदि अपेक्षित होने पर अग्रिम (अग्रिमों) का पुनर्भुगतान करने में या ऊपर उल्लिखित देय तिथियों पर या प्रत्येक देय तिथि के 30 दिनों के भीतर ब्याज का भुगतान करने में विफलता होती है, तो पॉलिसी बिना किसी नोटिस की आवश्यकता के, निगम को जब्त कर ली जाएगी और निगम पॉलिसी के संबंध में देय समर्पण मूल्य को अग्रिम (अग्रिमों) और ब्याज के भुगतान में लागू करने का हकदार होगा।</li>
+                <li>यदि पॉलिसी परिपक्व होती है या मृत्यु से दावा बन जाती है या आत्मसमर्पण कर दी जाती है, तो निगम पॉलिसी धन से बकाया अग्रिमों की राशि या उसके किसी भी हिस्से को सभी ब्याज सहित कटौती करने का हकदार होगा।</li>
+                <li>जब भी पॉलिसी के अंतर्गत उत्तरजीविता लाभ देय होता है जहां ऋण की अनुमति दी गई है, तो उत्तरजीविता लाभ राशि का उपयोग पहले जमा हुए ब्याज और बकाया ऋण के पुनर्भुगतान के लिए किया जाएगा, उसी क्रम में।</li>
+            </ol>
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="endorsementDate_hi">दिनांक:</label>
+                    <input type="date" id="endorsementDate_hi" name="endorsementDate_hi" readonly>
+                </div>
+                <div class="flex-item signature-line" style="text-align: center; margin-top: 30px;">
+                    <p>बीमेदार का हस्ताक्षर</p>
+                </div>
+            </div>
+
+            <hr style="border-top: 2px dashed #ccc;">
+
+            <div class="section-title">फॉर्म सं. 5214 - समझौता पत्र का प्रपत्र (निपटान विकल्प पॉलिसी)</div>
+            <p>शाखा प्रबंधक, भारतीय जीवन बीमा निगम,</p>
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="settlementOptionPlace_hi">स्थान:</label>
+                    <input type="text" id="settlementOptionPlace_hi" name="settlementOptionPlace_hi" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="settlementOptionDate_hi">दिनांक:</label>
+                    <input type="date" id="settlementOptionDate_hi" name="settlementOptionDate_hi" readonly>
+                </div>
+            </div>
+            <p>प्रिय महोदय,</p>
+            <div class="form-group">
+                <label for="loanPolicyNo_5214_hi">पॉलिसी सं.:</label>
+                <input type="text" id="loanPolicyNo_5214_hi" name="loanPolicyNo_5214_hi" readonly>
+            </div>
+            <p>उपरोक्त पॉलिसी, जो चयनित वर्षों की अवधि की समाप्ति पर वार्षिक किस्तों द्वारा पॉलिसी धन के भुगतान का प्रावधान करती है, के अंतर्गत रु. <span class="dotted-line" style="width: 100px;"></span> के ऋण के लिए मेरे आवेदन के संदर्भ से मैं एतद्वारा सहमत हूँ कि चयनित वर्षों की अवधि की समाप्ति पर, निगम तुरंत ऋण के पुनर्भुगतान और उस पर ब्याज की मांग कर सकता है, बशर्ते पॉलिसी धन के हकदार व्यक्ति को विकल्प दिया जाए कि ऋण और देय ब्याज का नकद में पुनर्भुगतान किया जाए या लाभों को उस हद तक कम किया जाए जितना ऋण के परिसमापन के लिए आवश्यक होगा, बशर्ते प्रति वर्ष रु. 20/- रु. 50/- से कम की कम वार्षिक वार्षिकी इस प्रकार सुरक्षित हो और यह भी बशर्ते कि उपरोक्त पॉलिसी के अंतर्गत किस्तों में पुनर्भुगतान की जाने वाली राशि कुल मिलाकर रु. 25/- से कम न हो।</p>
+            <p>भवदीय,</p>
+            <div style="border-bottom: 1px solid #000; padding-top: 20px; text-align: center;">बीमेदार का हस्ताक्षर</div>
+            <div class="form-group">
+                <label for="assuredDesignation_5214_hi">पद:</label>
+                <input type="text" id="assuredDesignation_5214_hi" name="assuredDesignation_5214_hi" readonly>
+            </div>
+            <div class="form-group">
+                <label for="assuredAddress_5214_hi">पत्ता:</label>
+                <textarea id="assuredAddress_5214_hi" name="assuredAddress_5214_hi" rows="2" readonly></textarea>
+            </div>
+            <p class="small-text">टिप्पणी: 1-1-1976 को या उसके बाद जारी की गई पॉलिसियों के लिए न्यूनतम वार्षिकी प्रति वर्ष रु. 50/- होनी चाहिए। इसलिए ऐसी पॉलिसी दिनांक रु. 20 के अंतर्गत ऋण और "और बशर्ते आगे... रु. 25 से कम" शब्द।</p>
+
+            <div class="page-number">4</div>
+        </div>
+
+        <div id="marathiForm" class="hidden">
+            <div class="header">
+                <h2>एलआयसी कर्ज फॉर्म 5196 - पृष्ठ 4 (मराठी)</h2>
+            </div>
+
+            <div class="section-title">फॉर्म क्र. 3599B - करार पत्राचा नमुना (मनी बॅक आणि मनी बॅक प्रकारच्या पॉलिसी अंतर्गत कर्ज)</div>
+            <p>ज्येष्ठ शाखा व्यवस्थापक, शाखा क्र. <span class="dotted-line" style="width: 150px;"></span>, भारतीय आयुर्विमा महामंडळ।</p>
+            <p>प्रिय महोदय,</p>
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="applicationDate_3599B_mr">दिनांक:</label>
+                    <input type="date" id="applicationDate_3599B_mr" name="applicationDate_3599B_mr" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="loanPolicyNo_3599B_mr">पॉलिसी क्र. अंतर्गत कर्ज:</label>
+                    <input type="text" id="loanPolicyNo_3599B_mr" name="loanPolicyNo_3599B_mr" readonly>
+                </div>
+            </div>
+            <p>वरील पॉलिसी अंतर्गत कर्जासाठी माझ्या दिनांक <span class="dotted-line" style="width: 100px;"></span> च्या अर्जाच्या संदर्भात, जी <span class="dotted-line" style="width: 100px;"></span> योजने अंतर्गत जारी केली गेली आहे, मी याद्वारे सहमत आहे की वरील नमूद पॉलिसी अंतर्गत कोणताही दावा निर्माण झाल्यास, जो आवर्ती उत्तरजीविता लाभ, परिपक्वता दावा किंवा मृत्यू दावा असू शकतो, महामंडळ तत्कालीन देय असलेल्या विमा रकमेच्या हप्त्याची समायोजित रक्कम जमा झालेल्या व्याज आणि थकबाकीदार कर्जाच्या परतफेडीसाठी वापरू शकते, जर काही असेल तर।</p>
+            <p>तथापि, जर उपर्युक्त विमा रकमेच्या हप्त्याची कोणतीही शिल्लक रक्कम संपूर्ण जमा झालेले व्याज आणि थकबाकीदार कर्ज अशा समायोजनाद्वारे liquidate केल्यानंतर शिल्लक राहिल्यास, अशी शिल्लक रक्कम मला किंवा माझ्या नामनिर्देशित श्री./श्रीमती <span class="dotted-line" style="width: 100px;"></span> ला माझ्या मृत्यूनंतर, परिस्थितीनुसार, देय असेल।</p>
+
+            <div class="form-group">
+                <label for="payeeName_3599B_mr">नाव:</label>
+                <input type="text" id="payeeName_3599B_mr" name="payeeName_3599B_mr" readonly>
+            </div>
+            <p>आपला विश्वासू,</p>
+            <div style="border-bottom: 1px solid #000; padding-top: 20px; text-align: center;">(सही)</div>
+
+            <div class="sub-section-title" style="margin-top: 30px;">पृष्ठांकन अनुबंध</div>
+            <p>"याउलट काहीही नमूद असले तरी, याद्वारे घोषित आणि सहमत आहे की या पॉलिसी अंतर्गत कर्ज खालील अटी व शर्तींच्या अधीन आणि समाधानकारक शीर्षक सादर करण्याच्या अधीन मंजूर केले जात आहे:</p>
+            <ol>
+                [span_10](start_span)<li>धोरण पूर्णपणे महामंडळाला नियुक्त केले जाईल आणि आगाऊ (आगाऊ) आणि त्यावरील व्याजाच्या परतफेडीसाठी सुरक्षा म्हणून महामंडळाकडे ठेवले जाईल।[span_10](end_span)</li>
+                <li>आगाऊ (आगाऊ) वरील व्याज महामंडळाने संबंधित आगाऊ रक्कम देताना निर्दिष्ट केलेल्या दराने अर्ध-वार्षिक compounding केले जाईल। व्याजाची पहिली देय रक्कम पुढील पॉलिसीच्या वर्धापनदिनावर किंवा पुढील पॉलिसीच्या वर्धापनदिनापूर्वी सहा महिन्यांच्या तारखेला, यापैकी जी संबंधित आगाऊ रक्कम दिली गेली आहे त्याच्या लगेच नंतर येते, आणि त्यानंतर दर सहा महिन्यांनी। [span_11](start_span)कमीत कमी सहा महिन्यांसाठी व्याज आकारले जाईल।[span_11](end_span)</li>
+                [span_12](start_span)<li>महामंडळाला तीन महिन्यांची नोटीस देऊन आगाऊ (आगाऊ) आणि सर्व देय व्याजाची परतफेड करण्याची मागणी करण्याचा अधिकार असेल।[span_12](end_span) [span_13](start_span)मागणी केल्यावर आगाऊ (आगाऊ) ची परतफेड करण्यात किंवा वर नमूद केलेल्या देय तारखांवर किंवा प्रत्येक देय तारखेच्या 30 दिवसांच्या आत व्याज भरण्यात अयशस्वी झाल्यास, कोणतीही नोटीस देण्याची आवश्यकता नसताना, पॉलिसी महामंडळाला जप्त केली जाईल आणि महामंडळाला पॉलिसीच्या संदर्भात देय असलेली समर्पण मूल्य आगाऊ (आगाऊ) आणि व्याजाच्या पेमेंटमध्ये लागू करण्याचा अधिकार असेल।[span_13](end_span)</li>
+                [span_14](start_span)<li>पॉलिसी परिपक्व झाल्यास किंवा मृत्यूमुळे दावा झाल्यास किंवा surrender केल्यास, महामंडळाला थकीत असलेल्या आगाऊ रकमेची किंवा तिच्या कोणत्याही भागाची रक्कम सर्व व्याजासह पॉलिसीच्या पैशातून वजा करण्याचा अधिकार असेल।[span_14](end_span)</li>
+                [span_15](start_span)<li>जेव्हा पॉलिसी अंतर्गत उत्तरजीविता लाभ देय होतो, जिथे कर्ज मंजूर केले गेले आहे, तेव्हा उत्तरजीविता लाभ रक्कम प्रथम जमा झालेले व्याज आणि त्यानंतर थकीत कर्जाच्या परतफेडीसाठी वापरली जाईल, त्याच क्रमाने।[span_15](end_span)</li>
+            </ol>
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="endorsementDate_mr">दिनांक:</label>
+                    <input type="date" id="endorsementDate_mr" name="endorsementDate_mr" readonly>
+                </div>
+                <div class="flex-item signature-line" style="text-align: center; margin-top: 30px;">
+                    <p>विमित व्यक्तिची स्वाक्षरी</p>
+                </div>
+            </div>
+
+            <hr style="border-top: 2px dashed #ccc;">
+
+            <div class="section-title">फॉर्म क्र. 5214 - करार पत्राचा नमुना (सेटलमेंट पर्याय पॉलिसी)</div>
+            <p>शाखा व्यवस्थापक, भारतीय आयुर्विमा महामंडळ,</p>
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="settlementOptionPlace_mr">स्थळ:</label>
+                    <input type="text" id="settlementOptionPlace_mr" name="settlementOptionPlace_mr" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="settlementOptionDate_mr">दिनांक:</label>
+                    <input type="date" id="settlementOptionDate_mr" name="settlementOptionDate_mr" readonly>
+                </div>
+            </div>
+            <p>प्रिय महोदय,</p>
+            <div class="form-group">
+                <label for="loanPolicyNo_5214_mr">पॉलिसी क्र.:</label>
+                <input type="text" id="loanPolicyNo_5214_mr" name="loanPolicyNo_5214_mr" readonly>
+            </div>
+            <p>माझ्या रु. <span class="dotted-line" style="width: 100px;"></span> च्या कर्जासाठी वरील पॉलिसी अंतर्गत अर्ज केलेल्या संदर्भात, जी निवडलेल्या वर्षांच्या मुदतीच्या समाप्तीवर वार्षिक हप्त्यांद्वारे पॉलिसीचे पैसे देण्याची तरतूद करते, मी याद्वारे सहमत आहे की निवडलेल्या वर्षांच्या मुदतीच्या समाप्तीवर, महामंडळ ताबडतोब कर्जाची आणि त्यावरील व्याजाची परतफेड मागू शकते, तथापि पॉलिसीच्या पैशांसाठी हक्कदार व्यक्तीला कर्ज आणि देय व्याज रोखीत परतफेड करण्याचा किंवा कर्जाच्या liquidization साठी आवश्यक असलेल्या प्रमाणात लाभ कमी करण्याचा पर्याय दिला जाईल, बशर्ते कमी केलेली वार्षिक रु. [span_16](start_span)20/-[span_16](end_span) रु. 50/- प्रति वर्ष सुरक्षित असेल आणि पुढे असेही की, उपरोक्त पॉलिसी अंतर्गत हप्त्यांमध्ये परतफेड करावयाची रक्कम एकूण रु. [span_17](start_span)25/- पेक्षा कमी नसावी।[span_17](end_span)</p>
+            <p>आपला विश्वासू,</p>
+            <div style="border-bottom: 1px solid #000; padding-top: 20px; text-align: center;">विमित व्यक्तिची स्वाक्षरी</div>
+            <div class="form-group">
+                <label for="assuredDesignation_5214_mr">पद:</label>
+                <input type="text" id="assuredDesignation_5214_mr" name="assuredDesignation_5214_mr" readonly>
+            </div>
+            <div class="form-group">
+                <label for="assuredAddress_5214_mr">पत्ता:</label>
+                <textarea id="assuredAddress_5214_mr" name="assuredAddress_5214_mr" rows="2" readonly></textarea>
+            </div>
+            <p class="small-text">टीप: 1-1-1976 रोजी किंवा त्यानंतर जारी केलेल्या पॉलिसींसाठी किमान वार्षिक रु. 50/- प्रति वर्ष असावी। त्यामुळे अशा पॉलिसी दि. रु. 20 आणि "आणि पुढे असेही की... रु. 25 पेक्षा कमी" हे शब्द.</p>
+
+            <div class="page-number">4</div>
+        </div>
+
+        <div class="form-group" style="margin-top: 30px;">
+            <label for="inputPolicyNumber">Enter Policy Number to Load Details:</label>
+            <input type="text" id="inputPolicyNumber" placeholder="Enter Policy Number">
+            <button class="sup-button" onclick="fetchPolicyDetailsFromSupabase()">Load Details</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Replace with your actual Supabase URL and Anon Key
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+        const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function showLanguage(lang) {
+            document.getElementById('englishForm').classList.add('hidden');
+            document.getElementById('hindiForm').classList.add('hidden');
+            document.getElementById('marathiForm').classList.add('hidden');
+
+            document.getElementById('englishBtn').classList.remove('active');
+            document.getElementById('hindiBtn').classList.remove('active');
+            document.getElementById('marathiBtn').classList.remove('active');
+
+            document.getElementById(lang + 'Form').classList.remove('hidden');
+            document.getElementById(lang + 'Btn').classList.add('active');
+        }
+
+        async function fetchPolicyDetailsFromSupabase() {
+            const policyNumber = document.getElementById('inputPolicyNumber').value;
+            if (!policyNumber) {
+                alert('Please enter a policy number to load details.');
+                return;
+            }
+
+            try {
+                // Fetch all necessary fields from your Supabase table for Page 1, 2, 3 & 4
+                // Ensure your Supabase table has these columns for page 4:
+                // application_date_3599B, loan_policy_no_3599B, plan_type_3599B, payee_name_3599B,
+                // endorsement_date, settlement_option_place, settlement_option_date, loan_policy_no_5214,
+                // assured_designation_5214, assured_address_5214
+                const { data, error } = await supabase
+                    .from('loan5196') // Your Supabase table name
+                    .select(`
+                        policy_number,
+                        loan_date,
+                        loan_amount,
+                        loan_amount_words,
+                        loan_type,
+                        address,
+                        dob,
+                        plan_number,
+                        mobile,
+                        email,
+                        bank_name,
+                        bank_branch,
+                        account_number,
+                        ifsc_code,
+                        nominee_name,
+                        nominee_relation,
+                        loan_amount_requested,
+                        authority_place,
+                        authority_date,
+                        authority_loan_amount,
+                        authority_payee_name,
+                        bank_name_neft,
+                        bank_address_neft,
+                        account_type_neft,
+                        account_no_neft,
+                        ifsc_code_neft,
+                        claimant_signature_address,
+                        claimant_contact_no,
+                        application_date_3599B,
+                        loan_policy_no_3599B,
+                        plan_type_3599B,
+                        payee_name_3599B,
+                        endorsement_date,
+                        settlement_option_place,
+                        settlement_option_date,
+                        loan_policy_no_5214,
+                        loan_amount_5214,
+                        assured_designation_5214,
+                        assured_address_5214
+                    `)
+                    .eq('policy_number', policyNumber)
+                    .single();
+
+                if (error) {
+                    console.error('Error fetching data:', error.message);
+                    alert('Error fetching policy details. Please check the policy number and try again.');
+                    return;
+                }
+
+                if (data) {
+                    // Populate English fields (Page 4 specific)
+                    document.getElementById('applicationDate_3599B_en').value = data.application_date_3599B || '';
+                    document.getElementById('loanPolicyNo_3599B_en').value = data.loan_policy_no_3599B || '';
+                    // For planType_3599B_en, if dynamic, it would be populated here.
+                    document.getElementById('payeeName_3599B_en').value = data.payee_name_3599B || '';
+                    document.getElementById('endorsementDate_en').value = data.endorsement_date || '';
+                    document.getElementById('settlementOptionPlace_en').value = data.settlement_option_place || '';
+                    document.getElementById('settlementOptionDate_en').value = data.settlement_option_date || '';
+                    document.getElementById('loanPolicyNo_5214_en').value = data.loan_policy_no_5214 || '';
+                    // For loan_amount_5214, if dynamic, it would be populated here.
+                    document.getElementById('assuredDesignation_5214_en').value = data.assured_designation_5214 || '';
+                    document.getElementById('assuredAddress_5214_en').value = data.assured_address_5214 || '';
+
+                    // Populate Hindi fields (Page 4 specific)
+                    document.getElementById('applicationDate_3599B_hi').value = data.application_date_3599B || '';
+                    document.getElementById('loanPolicyNo_3599B_hi').value = data.loan_policy_no_3599B || '';
+                    document.getElementById('payeeName_3599B_hi').value = data.payee_name_3599B || '';
+                    document.getElementById('endorsementDate_hi').value = data.endorsement_date || '';
+                    document.getElementById('settlementOptionPlace_hi').value = data.settlement_option_place || '';
+                    document.getElementById('settlementOptionDate_hi').value = data.settlement_option_date || '';
+                    document.getElementById('loanPolicyNo_5214_hi').value = data.loan_policy_no_5214 || '';
+                    document.getElementById('assuredDesignation_5214_hi').value = data.assured_designation_5214 || '';
+                    document.getElementById('assuredAddress_5214_hi').value = data.assured_address_5214 || '';
+
+                    // Populate Marathi fields (Page 4 specific)
+                    document.getElementById('applicationDate_3599B_mr').value = data.application_date_3599B || '';
+                    document.getElementById('loanPolicyNo_3599B_mr').value = data.loan_policy_no_3599B || '';
+                    document.getElementById('payeeName_3599B_mr').value = data.payee_name_3599B || '';
+                    document.getElementById('endorsementDate_mr').value = data.endorsement_date || '';
+                    document.getElementById('settlementOptionPlace_mr').value = data.settlement_option_place || '';
+                    document.getElementById('settlementOptionDate_mr').value = data.settlement_option_date || '';
+                    document.getElementById('loanPolicyNo_5214_mr').value = data.loan_policy_no_5214 || '';
+                    document.getElementById('assuredDesignation_5214_mr').value = data.assured_designation_5214 || '';
+                    document.getElementById('assuredAddress_5214_mr').value = data.assured_address_5214 || '';
+
+                } else {
+                    alert('No details found for this policy number. Please ensure it is correct.');
+                    // Clear all fields on page 4 if no data found
+                    document.getElementById('applicationDate_3599B_en').value = '';
+                    document.getElementById('loanPolicyNo_3599B_en').value = '';
+                    document.getElementById('payeeName_3599B_en').value = '';
+                    document.getElementById('endorsementDate_en').value = '';
+                    document.getElementById('settlementOptionPlace_en').value = '';
+                    document.getElementById('settlementOptionDate_en').value = '';
+                    document.getElementById('loanPolicyNo_5214_en').value = '';
+                    document.getElementById('assuredDesignation_5214_en').value = '';
+                    document.getElementById('assuredAddress_5214_en').value = '';
+
+                    document.getElementById('applicationDate_3599B_hi').value = '';
+                    document.getElementById('loanPolicyNo_3599B_hi').value = '';
+                    document.getElementById('payeeName_3599B_hi').value = '';
+                    document.getElementById('endorsementDate_hi').value = '';
+                    document.getElementById('settlementOptionPlace_hi').value = '';
+                    document.getElementById('settlementOptionDate_hi').value = '';
+                    document.getElementById('loanPolicyNo_5214_hi').value = '';
+                    document.getElementById('assuredDesignation_5214_hi').value = '';
+                    document.getElementById('assuredAddress_5214_hi').value = '';
+
+                    document.getElementById('applicationDate_3599B_mr').value = '';
+                    document.getElementById('loanPolicyNo_3599B_mr').value = '';
+                    document.getElementById('payeeName_3599B_mr').value = '';
+                    document.getElementById('endorsementDate_mr').value = '';
+                    document.getElementById('settlementOptionPlace_mr').value = '';
+                    document.getElementById('settlementOptionDate_mr').value = '';
+                    document.getElementById('loanPolicyNo_5214_mr').value = '';
+                    document.getElementById('assuredDesignation_5214_mr').value = '';
+                    document.getElementById('assuredAddress_5214_mr').value = '';
+                }
+            } catch (error) {
+                console.error('An unexpected error occurred:', error.message);
+                alert('An unexpected error occurred while loading details.');
+            }
+        }
+
+        // Initialize with English form visible
+        document.addEventListener('DOMContentLoaded', () => {
+            showLanguage('english');
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,532 @@
+Here's the HTML for Page 2 of the "LIC-Loan-Form 5196.pdf", including English, Hindi, and Marathi content as found in the document. I've added readonly input fields for data that would be populated from your Supabase database.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Loan Form 5196 - Page 2</title>
+    <style>
+        body {
+            font-family: 'Arial', 'Nirmala UI', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .form-page {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 8.5in;
+            min-height: 11in;
+            box-sizing: border-box;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .flex-item {
+            flex: 1;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group input[readonly],
+        .form-group textarea[readonly] {
+            background-color: #e9e9e9;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #eee;
+            margin: 20px 0;
+        }
+        .sup-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .sup-button:hover {
+            background-color: #0056b3;
+        }
+        .language-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .language-toggle button {
+            padding: 8px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        .language-toggle button.active {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        .page-number {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        .dot-line {
+            border-bottom: 1px dotted #000;
+            margin-top: 20px;
+            padding-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-page">
+        <div class="language-toggle">
+            <button id="englishBtn" class="active" onclick="showLanguage('english')">English</button>
+            <button id="hindiBtn" onclick="showLanguage('hindi')">हिंदी</button>
+            <button id="marathiBtn" onclick="showLanguage('marathi')">मराठी</button>
+        </div>
+
+        <div id="englishForm">
+            <div class="header">
+                <h2>LIC Loan Form 5196 - Page 2 (English)</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="address_en">Address: <br> पत्ता / पता</label>
+                <textarea id="address_en" name="address_en" rows="3" readonly></textarea>
+            </div>
+
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="dob_en">Date of Birth: <br> जन्म तारीख / जन्मतिथि</label>
+                    <input type="date" id="dob_en" name="dob_en" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="planNo_en">Plan Number: <br> योजना क्र. / योजना संख्या</label>
+                    <input type="text" id="planNo_en" name="planNo_en" readonly>
+                </div>
+            </div>
+
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="mobile_en">Mobile: <br> मोबाईल / मोबाईल</label>
+                    <input type="tel" id="mobile_en" name="mobile_en" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="email_en">Email: <br> ईमेल / ईमेल</label>
+                    <input type="email" id="email_en" name="email_en" readonly>
+                </div>
+            </div>
+
+            <div class="section-title">Bank Details</div>
+            <div class="form-group">
+                <label for="bankName_en">Bank Name: <br> बँकेचे नांव / बैंक का नाम</label>
+                <input type="text" id="bankName_en" name="bankName_en" readonly>
+            </div>
+            <div class="form-group">
+                <label for="bankBranch_en">Branch: <br> शाखा / शाखा</label>
+                <input type="text" id="bankBranch_en" name="bankBranch_en" readonly>
+            </div>
+            <div class="form-group">
+                <label for="accountNo_en">Account Number: <br> खाते क्र. / खाता संख्या</label>
+                <input type="text" id="accountNo_en" name="accountNo_en" readonly>
+            </div>
+            <div class="form-group">
+                <label for="ifscCode_en">IFSC Code: <br> आय. एफ. एस. सी. कोड / आईएफएससी कोड</label>
+                <input type="text" id="ifscCode_en" name="ifscCode_en" readonly>
+            </div>
+
+            <div class="section-title">Nominee Details</div>
+            <div class="form-group">
+                <label for="nomineeName_en">Nominee Name: <br> नामनिर्देशित व्यक्तिचे नाव / नामनिर्देशित व्यक्तिका नाम</label>
+                <input type="text" id="nomineeName_en" name="nomineeName_en" readonly>
+            </div>
+            <div class="form-group">
+                <label for="nomineeRelation_en">Nominee Relation: <br> नामनिर्देशित व्यक्तिबरोबरचे नाते / नामनिर्देशित व्यक्तिका संबंध</label>
+                <input type="text" id="nomineeRelation_en" name="nomineeRelation_en" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="loanAmountRequested_en">Loan Amount Requested: <br> कर्जाची अपेक्षित रक्कम / अपेक्षित ऋण राशी</label>
+                <input type="text" id="loanAmountRequested_en" name="loanAmountRequested_en" readonly>
+            </div>
+
+            <div class="section-title">Declaration</div>
+            [span_0](start_span)<p>I hereby declare that I am the absolute owner of[span_0](end_span)[span_1](start_span)... the policy duly assigned in your favour is also enclosed[span_1](end_span).</p>
+            [span_2](start_span)<p>मी ह्या अन्वये घोषित करतो की मी[span_2](end_span)[span_3](start_span)... मी/आम्ही भारतीय आयुर्विमा मंडळास ह्या अन्वये अधिकार देतो की निम्ननिर्दिष्ट कर्जाची रक्कम रु.[span_3](end_span)</p>
+            [span_4](start_span)<p>मैं एतद्वारा घोषित करता हूँ की[span_4](end_span)[span_5](start_span)... निगम के पक्ष में विधिवत अभ्यर्पित पॉलिसी संलग्न की जाती है[span_5](end_span).</p>
+
+            <div class="page-number">2</div>
+        </div>
+
+        <div id="hindiForm" class="hidden">
+            <div class="header">
+                <h2>एलआईसी ऋण फॉर्म 5196 - पृष्ठ 2 (हिंदी)</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="address_hi">पता: <br> पत्ता / Address</label>
+                <textarea id="address_hi" name="address_hi" rows="3" readonly></textarea>
+            </div>
+
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="dob_hi">जन्म तिथि: <br> जन्म तारीख / Date of Birth</label>
+                    <input type="date" id="dob_hi" name="dob_hi" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="planNo_hi">योजना संख्या: <br> योजना क्र. / Plan Number</label>
+                    <input type="text" id="planNo_hi" name="planNo_hi" readonly>
+                </div>
+            </div>
+
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="mobile_hi">मोबाइल: <br> मोबाईल / Mobile</label>
+                    <input type="tel" id="mobile_hi" name="mobile_hi" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="email_hi">ईमेल: <br> ईमेल / Email</label>
+                    <input type="email" id="email_hi" name="email_hi" readonly>
+                </div>
+            </div>
+
+            <div class="section-title">बैंक विवरण</div>
+            <div class="form-group">
+                <label for="bankName_hi">बैंक का नाम: <br> बँकेचे नांव / Bank Name</label>
+                <input type="text" id="bankName_hi" name="bankName_hi" readonly>
+            </div>
+            <div class="form-group">
+                <label for="bankBranch_hi">शाखा: <br> शाखा / Branch</label>
+                <input type="text" id="bankBranch_hi" name="bankBranch_hi" readonly>
+            </div>
+            <div class="form-group">
+                <label for="accountNo_hi">खाता संख्या: <br> खाते क्र. / Account Number</label>
+                <input type="text" id="accountNo_hi" name="accountNo_hi" readonly>
+            </div>
+            <div class="form-group">
+                <label for="ifscCode_hi">आईएफएससी कोड: <br> आय. एफ. एस. सी. कोड / IFSC Code</label>
+                <input type="text" id="ifscCode_hi" name="ifscCode_hi" readonly>
+            </div>
+
+            <div class="section-title">नामनिर्देशित व्यक्ति का विवरण</div>
+            <div class="form-group">
+                <label for="nomineeName_hi">नामनिर्देशित व्यक्ति का नाम: <br> नामनिर्देशित व्यक्तिचे नाव / Nominee Name</label>
+                <input type="text" id="nomineeName_hi" name="nomineeName_hi" readonly>
+            </div>
+            <div class="form-group">
+                <label for="nomineeRelation_hi">नामनिर्देशित व्यक्ति का संबंध: <br> नामनिर्देशित व्यक्तिबरोबरचे नाते / Nominee Relation</label>
+                <input type="text" id="nomineeRelation_hi" name="nomineeRelation_hi" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="loanAmountRequested_hi">अपेक्षित ऋण राशी: <br> कर्जाची अपेक्षित रक्कम / Loan Amount Requested</label>
+                <input type="text" id="loanAmountRequested_hi" name="loanAmountRequested_hi" readonly>
+            </div>
+
+            <div class="section-title">घोषणा</div>
+            [span_6](start_span)<p>मैं एतद्वारा घोषित करता हूँ की[span_6](end_span)[span_7](start_span)... निगम के पक्ष में विधिवत अभ्यर्पित पॉलिसी संलग्न की जाती है[span_7](end_span).</p>
+            [span_8](start_span)<p>I hereby declare that I am the absolute owner of[span_8](end_span)[span_9](start_span)... the policy duly assigned in your favour is also enclosed[span_9](end_span).</p>
+            [span_10](start_span)<p>मी ह्या अन्वये घोषित करतो की मी[span_10](end_span)[span_11](start_span)... मी/आम्ही भारतीय आयुर्विमा मंडळास ह्या अन्वये अधिकार देतो की निम्ननिर्दिष्ट कर्जाची रक्कम रु.[span_11](end_span)</p>
+
+            <div class="page-number">2</div>
+        </div>
+
+        <div id="marathiForm" class="hidden">
+            <div class="header">
+                <h2>एलआयसी कर्ज फॉर्म 5196 - पृष्ठ 2 (मराठी)</h2>
+            </div>
+
+            <div class="form-group">
+                <label for="address_mr">पत्ता: <br> पता / Address</label>
+                <textarea id="address_mr" name="address_mr" rows="3" readonly></textarea>
+            </div>
+
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="dob_mr">जन्म तारीख: <br> जन्मतिथि / Date of Birth</label>
+                    <input type="date" id="dob_mr" name="dob_mr" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="planNo_mr">योजना क्र.: <br> योजना संख्या / Plan Number</label>
+                    <input type="text" id="planNo_mr" name="planNo_mr" readonly>
+                </div>
+            </div>
+
+            <div class="flex-container">
+                <div class="flex-item form-group" style="margin-right: 15px;">
+                    <label for="mobile_mr">मोबाईल: <br> मोबाईल / Mobile</label>
+                    <input type="tel" id="mobile_mr" name="mobile_mr" readonly>
+                </div>
+                <div class="flex-item form-group">
+                    <label for="email_mr">ईमेल: <br> ईमेल / Email</label>
+                    <input type="email" id="email_mr" name="email_mr" readonly>
+                </div>
+            </div>
+
+            <div class="section-title">बँक तपशील</div>
+            <div class="form-group">
+                <label for="bankName_mr">बँकेचे नांव: <br> बैंक का नाम / Bank Name</label>
+                <input type="text" id="bankName_mr" name="bankName_mr" readonly>
+            </div>
+            <div class="form-group">
+                <label for="bankBranch_mr">शाखा: <br> शाखा / Branch</label>
+                <input type="text" id="bankBranch_mr" name="bankBranch_mr" readonly>
+            </div>
+            <div class="form-group">
+                <label for="accountNo_mr">खाते क्र.: <br> खाता संख्या / Account Number</label>
+                <input type="text" id="accountNo_mr" name="accountNo_mr" readonly>
+            </div>
+            <div class="form-group">
+                <label for="ifscCode_mr">आय. एफ. एस. सी. कोड: <br> आईएफएससी कोड / IFSC Code</label>
+                <input type="text" id="ifscCode_mr" name="ifscCode_mr" readonly>
+            </div>
+
+            <div class="section-title">नामनिर्देशित व्यक्तिचे तपशील</div>
+            <div class="form-group">
+                <label for="nomineeName_mr">नामनिर्देशित व्यक्तिचे नाव: <br> नामनिर्देशित व्यक्तिका नाम / Nominee Name</label>
+                <input type="text" id="nomineeName_mr" name="nomineeName_mr" readonly>
+            </div>
+            <div class="form-group">
+                <label for="nomineeRelation_mr">नामनिर्देशित व्यक्तिबरोबरचे नाते: <br> नामनिर्देशित व्यक्तिका संबंध / Nominee Relation</label>
+                <input type="text" id="nomineeRelation_mr" name="nomineeRelation_mr" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="loanAmountRequested_mr">कर्जाची अपेक्षित रक्कम: <br> अपेक्षित ऋण राशी / Loan Amount Requested</label>
+                <input type="text" id="loanAmountRequested_mr" name="loanAmountRequested_mr" readonly>
+            </div>
+
+            <div class="section-title">घोषणा</div>
+            [span_12](start_span)<p>मी ह्या अन्वये घोषित करतो की मी[span_12](end_span)[span_13](start_span)... मी/आम्ही भारतीय आयुर्विमा मंडळास ह्या अन्वये अधिकार देतो की निम्ननिर्दिष्ट कर्जाची रक्कम रु.[span_13](end_span)</p>
+            [span_14](start_span)<p>मैं एतद्वारा घोषित करता हूँ की[span_14](end_span)[span_15](start_span)... निगम के पक्ष में विधिवत अभ्यर्पित पॉलिसी संलग्न की जाती है[span_15](end_span).</p>
+            [span_16](start_span)<p>I hereby declare that I am the absolute owner of[span_16](end_span)[span_17](start_span)... the policy duly assigned in your favour is also enclosed[span_17](end_span).</p>
+
+            <div class="page-number">2</div>
+        </div>
+
+        <div class="form-group" style="margin-top: 30px;">
+            <label for="inputPolicyNumber">Enter Policy Number to Load Details:</label>
+            <input type="text" id="inputPolicyNumber" placeholder="Enter Policy Number">
+            <button class="sup-button" onclick="fetchPolicyDetailsFromSupabase()">Load Details</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Replace with your actual Supabase URL and Anon Key
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+        const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function showLanguage(lang) {
+            document.getElementById('englishForm').classList.add('hidden');
+            document.getElementById('hindiForm').classList.add('hidden');
+            document.getElementById('marathiForm').classList.add('hidden');
+
+            document.getElementById('englishBtn').classList.remove('active');
+            document.getElementById('hindiBtn').classList.remove('active');
+            document.getElementById('marathiBtn').classList.remove('active');
+
+            document.getElementById(lang + 'Form').classList.remove('hidden');
+            document.getElementById(lang + 'Btn').classList.add('active');
+        }
+
+        async function fetchPolicyDetailsFromSupabase() {
+            const policyNumber = document.getElementById('inputPolicyNumber').value;
+            if (!policyNumber) {
+                alert('Please enter a policy number to load details.');
+                return;
+            }
+
+            try {
+                // Fetch all necessary fields from your Supabase table for Page 1 & 2
+                // Ensure your Supabase table has these columns:
+                // policy_number, loan_date, loan_amount, loan_amount_words, loan_type,
+                // address, dob, plan_number, mobile, email, bank_name, bank_branch,
+                // account_number, ifsc_code, nominee_name, nominee_relation, loan_amount_requested
+                const { data, error } = await supabase
+                    .from('loan5196') // Your Supabase table name
+                    .select(`
+                        policy_number,
+                        loan_date,
+                        loan_amount,
+                        loan_amount_words,
+                        loan_type,
+                        address,
+                        dob,
+                        plan_number,
+                        mobile,
+                        email,
+                        bank_name,
+                        bank_branch,
+                        account_number,
+                        ifsc_code,
+                        nominee_name,
+                        nominee_relation,
+                        loan_amount_requested
+                    `)
+                    .eq('policy_number', policyNumber)
+                    .single();
+
+                if (error) {
+                    console.error('Error fetching data:', error.message);
+                    alert('Error fetching policy details. Please check the policy number and try again.');
+                    return;
+                }
+
+                if (data) {
+                    // Populate English fields (Page 1 fields from previous response)
+                    // You would typically have these in the combined HTML, but showing here for context
+                    // document.getElementById('policyNo_en').value = data.policy_number || '';
+                    // document.getElementById('date_en').value = data.loan_date || '';
+                    // document.getElementById('loanAmount_en').value = data.loan_amount || '';
+                    // document.getElementById('loanAmountWords_en').value = data.loan_amount_words || '';
+                    // if (data.loan_type) {
+                    //     const loanTypeRadio_en = document.querySelector(`input[name="loanType_en"][value="${data.loan_type}"]`);
+                    //     if (loanTypeRadio_en) loanTypeRadio_en.checked = true;
+                    // }
+
+                    // Populate English fields (Page 2 specific)
+                    document.getElementById('address_en').value = data.address || '';
+                    document.getElementById('dob_en').value = data.dob || ''; // Assuming YYYY-MM-DD format
+                    document.getElementById('planNo_en').value = data.plan_number || '';
+                    document.getElementById('mobile_en').value = data.mobile || '';
+                    document.getElementById('email_en').value = data.email || '';
+                    document.getElementById('bankName_en').value = data.bank_name || '';
+                    document.getElementById('bankBranch_en').value = data.bank_branch || '';
+                    document.getElementById('accountNo_en').value = data.account_number || '';
+                    document.getElementById('ifscCode_en').value = data.ifsc_code || '';
+                    document.getElementById('nomineeName_en').value = data.nominee_name || '';
+                    document.getElementById('nomineeRelation_en').value = data.nominee_relation || '';
+                    document.getElementById('loanAmountRequested_en').value = data.loan_amount_requested || '';
+
+                    // Populate Hindi fields (Page 2 specific)
+                    document.getElementById('address_hi').value = data.address || '';
+                    document.getElementById('dob_hi').value = data.dob || '';
+                    document.getElementById('planNo_hi').value = data.plan_number || '';
+                    document.getElementById('mobile_hi').value = data.mobile || '';
+                    document.getElementById('email_hi').value = data.email || '';
+                    document.getElementById('bankName_hi').value = data.bank_name || '';
+                    document.getElementById('bankBranch_hi').value = data.bank_branch || '';
+                    document.getElementById('accountNo_hi').value = data.account_number || '';
+                    document.getElementById('ifscCode_hi').value = data.ifsc_code || '';
+                    document.getElementById('nomineeName_hi').value = data.nominee_name || '';
+                    document.getElementById('nomineeRelation_hi').value = data.nominee_relation || '';
+                    document.getElementById('loanAmountRequested_hi').value = data.loan_amount_requested || '';
+
+                    // Populate Marathi fields (Page 2 specific)
+                    document.getElementById('address_mr').value = data.address || '';
+                    document.getElementById('dob_mr').value = data.dob || '';
+                    document.getElementById('planNo_mr').value = data.plan_number || '';
+                    document.getElementById('mobile_mr').value = data.mobile || '';
+                    document.getElementById('email_mr').value = data.email || '';
+                    document.getElementById('bankName_mr').value = data.bank_name || '';
+                    document.getElementById('bankBranch_mr').value = data.bank_branch || '';
+                    document.getElementById('accountNo_mr').value = data.account_number || '';
+                    document.getElementById('ifscCode_mr').value = data.ifsc_code || '';
+                    document.getElementById('nomineeName_mr').value = data.nominee_name || '';
+                    document.getElementById('nomineeRelation_mr').value = data.nominee_relation || '';
+                    document.getElementById('loanAmountRequested_mr').value = data.loan_amount_requested || '';
+
+
+                } else {
+                    alert('No details found for this policy number. Please ensure it is correct.');
+                    // Clear all fields if no data found
+                    document.getElementById('address_en').value = '';
+                    document.getElementById('dob_en').value = '';
+                    document.getElementById('planNo_en').value = '';
+                    document.getElementById('mobile_en').value = '';
+                    document.getElementById('email_en').value = '';
+                    document.getElementById('bankName_en').value = '';
+                    document.getElementById('bankBranch_en').value = '';
+                    document.getElementById('accountNo_en').value = '';
+                    document.getElementById('ifscCode_en').value = '';
+                    document.getElementById('nomineeName_en').value = '';
+                    document.getElementById('nomineeRelation_en').value = '';
+                    document.getElementById('loanAmountRequested_en').value = '';
+
+                    document.getElementById('address_hi').value = '';
+                    document.getElementById('dob_hi').value = '';
+                    document.getElementById('planNo_hi').value = '';
+                    document.getElementById('mobile_hi').value = '';
+                    document.getElementById('email_hi').value = '';
+                    document.getElementById('bankName_hi').value = '';
+                    document.getElementById('bankBranch_hi').value = '';
+                    document.getElementById('accountNo_hi').value = '';
+                    document.getElementById('ifscCode_hi').value = '';
+                    document.getElementById('nomineeName_hi').value = '';
+                    document.getElementById('nomineeRelation_hi').value = '';
+                    document.getElementById('loanAmountRequested_hi').value = '';
+
+                    document.getElementById('address_mr').value = '';
+                    document.getElementById('dob_mr').value = '';
+                    document.getElementById('planNo_mr').value = '';
+                    document.getElementById('mobile_mr').value = '';
+                    document.getElementById('email_mr').value = '';
+                    document.getElementById('bankName_mr').value = '';
+                    document.getElementById('bankBranch_mr').value = '';
+                    document.getElementById('accountNo_mr').value = '';
+                    document.getElementById('ifscCode_mr').value = '';
+                    document.getElementById('nomineeName_mr').value = '';
+                    document.getElementById('nomineeRelation_mr').value = '';
+                    document.getElementById('loanAmountRequested_mr').value = '';
+                }
+
+            } catch (error) {
+                console.error('An unexpected error occurred:', error.message);
+                alert('An unexpected error occurred while loading details.');
+            }
+        }
+
+        // Initialize with English form visible
+        document.addEventListener('DOMContentLoaded', () => {
+            showLanguage('english');
+        });
+    </script>
+</body>
+</html>
+

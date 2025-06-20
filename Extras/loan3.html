@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Loan Form 5196 - Combined</title>
+    <style>
+        body {
+            font-family: 'Arial', 'Nirmala UI', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .document-container { /* Main container for all pages */
+            /* Styles if needed for the overall document */
+        }
+        .form-page {
+            background-color: #fff;
+            margin: 0 auto 40px auto; /* Centered, with margin below each page */
+            padding: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 8.5in;
+            min-height: 11in;
+            box-sizing: border-box;
+            page-break-after: always; /* Attempt to break pages for printing */
+        }
+        .form-page:last-child {
+            page-break-after: avoid;
+            margin-bottom: 20px; /* Reduce margin for last page */
+        }
+
+        /* Styles from page301.html (will apply globally or be overridden by more specific page styles) */
+        .header img { max-width: 150px; margin-bottom: 10px; }
+        .flex-container { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 20px; }
+        .flex-item { flex: 1; }
+        .flex-item.right { text-align: right; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group select,
+        .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .form-group input[readonly], .form-group textarea[readonly] { background-color: #e9e9e9; }
+        .radio-group label { display: inline-block; margin-right: 20px; font-weight: normal; }
+        .radio-group input[type="radio"] { margin-right: 5px; }
+        .signature-line { border-bottom: 1px solid #000; margin-top: 50px; padding-bottom: 5px; text-align: center; }
+        .section-title { font-weight: bold; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px; font-size: 1.1em; }
+        .instruction { font-style: italic; color: #555; margin-top: 10px; }
+        hr { border: none; border-top: 1px solid #eee; margin: 20px 0; }
+        .language-toggle { text-align: center; margin-bottom: 20px; }
+        .language-toggle button { padding: 8px 15px; margin: 0 5px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 4px; }
+        .language-toggle button.active { background-color: #0056b3; }
+        .hidden { display: none; }
+        .margin-top { margin-top: 20px; }
+        .dot-line { border-bottom: 1px dotted #000; margin-top: 20px; padding-bottom: 5px; } /* Often used inline */
+        ul { list-style-type: none; padding-left: 0; }
+        ul li:before { content: '*'; margin-right: 5px; font-weight: bold; }
+
+        /* Styles from page302.html */
+        .photo-placeholder { width: 100px; height: 120px; border: 1px dashed #ccc; display: flex; flex-direction:column; align-items: center; justify-content: center; margin: 0 auto 10px auto; text-align: center; color: #aaa; font-size:12px; padding:5px;}
+        .small-print { font-size: 0.8em; text-align: center; margin-top: 5px; }
+        .signature-block { margin-top: 20px; border-top: 1px solid black; width: 250px; padding-top: 5px; text-align: center; }
+        .input-inline { width: auto; border: none; border-bottom: 1px dotted #000; display: inline; padding: 2px; background-color: #e9e9e9; text-align: center; }
+
+        /* Styles from page303.html */
+        .declaration p, .witness-section p { margin-bottom: 10px; text-align: justify;}
+        .signature-area { margin-top: 30px; border-top: 1px solid #000; padding-top: 5px; width: 250px; text-align: center; }
+        
+        /* Styles from page304.html (Terms) & page306.html (Instructions) */
+        .terms-section p, .terms-section li,
+        .instructions-section p, .instructions-section li { font-size: 10pt; margin-bottom: 8px; text-align: justify; line-height: 1.4; }
+        .terms-section ol, .instructions-section ul { padding-left: 25px; margin-top: 0; margin-bottom: 0; }
+        .terms-section ol li, .instructions-section ul li { margin-bottom: 5px; }
+        .highlight { font-weight: bold; color: #D32F2F; }
+        .instructions-section .note, .terms-section .note { font-style: italic; color: #555; margin-top: 15px; border-top: 1px dashed #eee; padding-top: 15px; }
+        .signature-area-page4 { margin-top: 40px; padding-top: 5px; text-align: right; }
+        .signature-line-page4 { border-top: 1px solid #000; display: inline-block; padding-top: 5px; width: 250px; text-align: center; }
+
+        /* Styles from page305.html */
+        .signature-section-page5 { margin-top: 30px; }
+        .signature-line-page5 { border-top: 1px solid #000; display: inline-block; padding-top: 5px; width: 250px; text-align: center; margin-top: 20px; }
+        .flex-container-page5 { display: flex; justify-content: space-between; margin-top: 20px; }
+        .flex-item-page5 { flex-basis: 45%; text-align: center; }
+        .centered-text { text-align: center; }
+
+        /* Master Policy Input Area */
+        .master-policy-input-area {
+            text-align: center;
+            padding: 20px;
+            background-color: #e9e9f9; /* Light lavender background */
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .master-policy-input-area label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .master-policy-input-area input[type="text"] {
+            padding: 10px;
+            width: 250px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+        }
+        .master-policy-input-area button {
+            padding: 10px 20px;
+            background-color: #0056b3; /* Darker blue */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-left: 10px;
+        }
+        .master-policy-input-area button:hover {
+            background-color: #003d82;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: #fff;
+            }
+            .form-page {
+                margin: 0 0 10px 0; /* Minimal margin for printing */
+                padding: 20mm 15mm; /* Adjust print padding */
+                border: none;
+                box-shadow: none;
+                page-break-inside: avoid; /* Try to keep content on one page */
+            }
+            .master-policy-input-area, .language-toggle {
+                display: none !important; /* Hide non-printable elements */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="document-container">
+
+    <div class="master-policy-input-area">
+        <label for="masterPolicyInput">Enter Policy Number to Load All Details:</label>
+        <input type="text" id="masterPolicyInput" placeholder="Enter Policy Number">
+        <button id="masterLoadButton">Load All Details</button>
+    </div>
+
+    <!-- Page 1 Content (from page301.html) -->
+    <div class="form-page" id="visualPage1">
+        <div class="language-toggle">
+            <button id="englishBtn" class="active" onclick="showLanguage('english')">English</button>
+            <button id="hindiBtn" onclick="showLanguage('hindi')">हिंदी</button>
+            <button id="marathiBtn" onclick="showLanguage('marathi')">मराठी</button>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <img src="lic-black.png" alt="LIC Logo" style="max-width: 150px; height: auto;">
+        </div>
+
+        <div id="englishForm">
+            <div class="flex-container">
+                <div class="flex-item">
+                    <p>प्रति/सेवामे, <br> TO,</p>
+                    <p>LIC <br> LIFE INSURANCE CORPORATION OF INDIA</p>
+                    <p>The Sr. Divisional Manager, <br> Life Insurance Corporation of India <br> Mumbai</p>
+                </div>
+                <div class="flex-item right">
+                    <p>प्रपत्र क्र./ फार्म सं. F.No.5196 (संशो.) (Rev)</p>
+                    <p>A. Py.</p>
+                    <p>1,00,000/10-2018</p>
+                    <p>प्रपत्र क्र./ फार्म सं. Form No. 5205 (संशो.) (Rev)</p>
+                </div>
+            </div>
+            <p>APPLICATION FOR LOAN AS UNDER WHERE THE POLICY ALREADY BEARS <br> THE ENDORSEMENT OF TERMS AND CONDITIONS OF LOAN OR WHERE <br> THE POLICY HAS BEEN BEEN ISSUED ON OR AFTER 1-06-1969</p>
+            <p>ज्या पॉलिसीवर कर्जाच्या अटीसंबंधी पृष्ठांकन अगोदर केलेले आहे किंवा जी पॉलिसी <br> 1-06-1969 रोजी किंवा त्यानंतर देण्यात आली आहे, त्यासाठी आवेदन पत्र.</p>
+            <p>1-06-1969 को या उसके बाद जारी की गई पॉलिसी पर सभी ऋण शर्ते पृष्ठांकित है, उसके अंतर्गत ऋण के लिए आवेदन पत्र</p>
+            <div class="form-group radio-group margin-top">
+                <p>(1) Fresh loan where no previous loan is subsisting.</p>
+                <label>
+                    <input type="radio" name="loanType_en" value="freshLoan" disabled> नया ऋण, जहाँ पहला कोई ऋण नहीं है।
+                </label>
+            </div>
+            <div class="form-group radio-group">
+                <p>(2) Further loan where previous loan granted at 6% or 72% 9% is subsisting</p>
+                <label>
+                    <input type="radio" name="loanType_en" value="furtherLoan" disabled> पूर्वीचे 6%, 7% % किंवा 9% टक्के दराने दिलेले कर्ज फिटलेले नाही.
+                </label>
+                <label>
+                    <input type="radio" name="loanType_en" value="furtherLoan" disabled> अलग ऋण जहाँ पहला ऋण 6%, 7% % या 9% ब्याज की दर पर स्वीकृत है।
+                </label>
+            </div>
+            <p>The Sr. Divisional Manager,<br> Life Insurance Corporation of India, <br> Mumbai.</p>
+            <p>Dear Sir,<br> प्रिय महाशय / प्रिय महोदय,</p>
+            <div class="form-group">
+                <label for="policyNo_en">Re.: Policy No. <br> विषय : पॉलिसी क्रम. / पॉलिसी सं.</label>
+                <input type="text" id="policyNo_en" name="policyNo_en" readonly>
+            </div>
+            <div class="form-group">
+                <label for="date_en">Date. <br> दिनांक</label>
+                <input type="date" id="date_en" name="date_en" readonly>
+            </div>
+            <div class="form-group">
+                <p>(1) Please grant me/us an advance of Rs. <input type="text" id="p1_loanAmountNum_en_inline" class="input-inline" style="width:100px;" readonly>
+                   (Rupees <input type="text" id="p1_loanAmountWords_en_inline" class="input-inline" style="width:300px;" readonly> in words) or maximum available by way of loan against above policy on which I/We agree to pay interest at rate of 10% per annum payable every half year.</p>
+                <p>वरील पॉलिसीवर मला/आम्हाला रु. <input type="text" id="p1_loanAmountNum_mr_inline" class="input-inline" style="width:100px;" readonly>
+                   ची अग्रिम रक्कम (अक्षरी रु. <input type="text" id="p1_loanAmountWords_mr_inline" class="input-inline" style="width:300px;" readonly> ) किंवा कर्ज म्हणून उपलब्ध असलेली कमाल रक्कम मंजूर करावी.</p>
+                <p>उपरोक्त पॉलिसी पर मुझे/हमें रु. <input type="text" id="p1_loanAmountNum_hi_inline" class="input-inline" style="width:100px;" readonly>
+                   (रुपये शब्दो में <input type="text" id="p1_loanAmountWords_hi_inline" class="input-inline" style="width:300px;" readonly>) या ऋण स्वरुप प्राय अधिततम का अग्रिम स्वीकृत करें जिस पर मैं / हम प्रतिवर्ष प्रत्येक अर्धवार्षिक पर देय 10% की दर से ब्याज अदा करने को सहमत हूँ हौ।</p>
+                <p>मी/आम्ही दरसाल दरशेकडा 10% दराने प्रति सहामाहीस व्याज भरावयाचे मान्य करतो.</p>
+                <label for="loanAmount_en">Advance Amount (Rs.):</label>
+                <input type="text" id="loanAmount_en" name="loanAmount_en" readonly>
+                <label for="loanAmountWords_en">Advance Amount (In words):</label>
+                <input type="text" id="loanAmountWords_en" name="loanAmountWords_en" readonly>
+            </div>
+            <div class="form-group">
+                <p>(2) I am / We are aware of the terms and conditions on which the loan will be advanced...</p>
+                <p>कर्ज ज्या अटींवर दिले जाईल त्या अटींची मला/आम्हांस जाणीव आहे.</p>
+                <p>मुझे/हमें वे सभी शर्ते ज्ञात हैं जिन पर ऋण दिया जायेगा।</p>
+            </div>
+            <div class="form-group">
+                <p>I am / We are also aware that said terms and conditions:-</p>
+                <p>मला/आम्हाला ह्याचीही जाणीव आहे की वरील अटीः</p>
+                <p>मुझे हमें पता हैं कि वे शर्तेः</p>
+                <ul>
+                    <li>have already been endorsed on the policy.</li>
+                    <li>पॉलिसीवर अगोदरच पृष्ठांकित झाल्या आहेत.</li>
+                    <li>पॉलिसी पर पृष्ठांकित कर दी गई है।</li>
+                    <li>Will be those as contained in the clause headed "Loans" appearing in the Conditions and Privileges printed in the Policy</li>
+                    <li>पॉलिसीवरील कर्ज ह्या शीर्षकखाली दिलेल्या सवलती आणि अटी ह्याप्रमाणे असतील.</li>
+                    <li>पॉलिसी पर मुद्रित विशेष शर्ते शीर्षित धारा ऋण के अंतर्गत है।</li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <p>(3) The receipt for the loan amount with the assignment declaration slip is returned herewith duly completed.</p>
+                <p>समुदेशनाच्या घोषणापत्रासह कर्जाच्या रक्कमेची पावती पूर्ण भरुन सोबत पाठवित आहोत.</p>
+                <p>संपूरित ऋण रसीद अभ्यर्पण घोषणा पत्रसहित वापस भेजी जाती है।</p>
+            </div>
+            <div class="form-group">
+                <p>*** The Policy duly assigned in your favour is also enclosed.</p>
+                <p>आपल्या नांवे समनुदेशित केलेली पॉलिसी सोबत जोडीत आहोत.</p>
+                <p>निगम के पक्ष में विधिवत अभ्यर्पित पॉलिसी संलग्न की जाती है।</p>
+            </div>
+            <p>X Encl.</p>
+            <p>Yours faithfully,<br> आपले विश्वासू / भवदीय,</p>
+            <div class="instruction">
+                <p>(1) Strike out in respect of the Policies issued on or after 1-6-1969.</p>
+                <p>1-6-1969 रोजी किंवा त्यानंतर दिलेली पॉलिसी संबंधात काट मारा.</p>
+                <p>1-6-1969 की या उसके बाद की गई पॉलिसीयों के संबन्ध में काट दे।</p>
+                <p>(2) Strike out in respect of the Policies issued prior to 1-6-1969.</p>
+                <p>1-6-1969 पूर्वी दिलेल्या पॉलिसी संबधात काट मारा.</p>
+                <p>1-6-1969 का के पूर्व जारी की गई पॉलिसीयों के संबन्ध में काट दें।</p>
+                <p>*** Delete where previous loan is subsisting</p>
+                <p>पुर्वीचे कर्ज फिटलेले नसेल तर काट मारा.</p>
+                <p>यदि ऋण पहले से ही हो तो काट दीजिए।</p>
+            </div>
+            <div class="signature-line">
+                <p>Signature(s) <br> स्वाक्षरी / हस्ताक्षर</p>
+            </div>
+        </div>
+
+        <div id="hindiForm" class="hidden">
+            <!-- Content of hindiForm from page301.html -->
+            <div class="flex-container">
+                <div class="flex-item">
+                    <p>प्रति/सेवामे, <br> TO,</p>
+                    <p>LIC <br> भारतीय जीवन बीमा निगम</p>
+                    <p>वरिष्ठ मंडल प्रबंधक, <br> भारतीय जीवन बीमा निगम <br> मुंबई.</p>
+                </div>
+                <div class="flex-item right">
+                    <p>प्रपत्र क्र./ फार्म सं. F.No.5196 (संशो.) (Rev)</p>
+                    <p>A. Py.</p>
+                    <p>1,00,000/10-2018</p>
+                    <p>प्रपत्र क्र./ फार्म सं. Form No. 5205 (संशो.) (Rev)</p>
+                </div>
+            </div>
+            <p>1-06-1969 को या उसके बाद जारी की गई पॉलिसी पर सभी ऋण शर्ते पृष्ठांकित है, उसके अंतर्गत ऋण के लिए आवेदन पत्र</p>
+            <p>APPLICATION FOR LOAN AS UNDER WHERE THE POLICY ALREADY BEARS <br> THE ENDORSEMENT OF TERMS AND CONDITIONS OF LOAN OR WHERE <br> THE POLICY HAS BEEN ISSUED ON OR AFTER 1-06-1969</p>
+            <p>ज्या पॉलिसीवर कर्जाच्या अटीसंबंधी पृष्ठांकन अगोदर केलेले आहे किंवा जी पॉलिसी <br> 1-06-1969 रोजी किंवा त्यानंतर देण्यात आली आहे, त्यासाठी आवेदन पत्र.</p>
+            <div class="form-group radio-group margin-top">
+                <p>(1) नया ऋण, जहाँ पहला कोई ऋण नहीं है।</p>
+                <label>
+                    <input type="radio" name="loanType_hi" value="freshLoan" disabled> Fresh loan where no previous loan is subsisting.
+                </label>
+            </div>
+            <div class="form-group radio-group">
+                <p>(2) अलग ऋण जहाँ पहला ऋण 6%, 7% % या 9% ब्याज की दर पर स्वीकृत है।</p>
+                <label>
+                    <input type="radio" name="loanType_hi" value="furtherLoan" disabled> पूर्वीचे 6%, 7% % किंवा 9% टक्के दराने दिलेले कर्ज फिटलेले नाही.
+                </label>
+                <label>
+                    <input type="radio" name="loanType_hi" value="furtherLoan" disabled> Further loan where previous loan granted at 6% or 72% 9% is subsisting
+                </label>
+            </div>
+            <p>वरिष्ठ मंडल प्रबंधक,<br> भारतीय जीवन बीमा निगम, <br> मुंबई.</p>
+            <p>प्रिय महोदय,<br> Dear Sir,</p>
+            <div class="form-group">
+                <label for="policyNo_hi">विषय : पॉलिसी सं. <br> Re.: Policy No.</label>
+                <input type="text" id="policyNo_hi" name="policyNo_hi" readonly>
+            </div>
+            <div class="form-group">
+                <label for="date_hi">दिनांक <br> Date.</label>
+                <input type="date" id="date_hi" name="date_hi" readonly>
+            </div>
+            <div class="form-group">
+                 <p>(1) उपरोक्त पॉलिसी पर मुझे/हमें रु. <input type="text" id="p1_loanAmountNum_hi_form_inline" class="input-inline" style="width:100px;" readonly>
+                   (रुपये शब्दो में <input type="text" id="p1_loanAmountWords_hi_form_inline" class="input-inline" style="width:300px;" readonly>) या ऋण स्वरुप प्राय अधिततम का अग्रिम स्वीकृत करें जिस पर मैं / हम प्रतिवर्ष प्रत्येक अर्धवार्षिक पर देय 10% की दर से ब्याज अदा करने को सहमत हूँ हौ।</p>
+                <p>वरील पॉलिसीवर मला/आम्हाला रु. <input type="text" id="p1_loanAmountNum_mr_form_inline_h" class="input-inline" style="width:100px;" readonly> ची अग्रिम रक्कम (अक्षरी रु. <input type="text" id="p1_loanAmountWords_mr_form_inline_h" class="input-inline" style="width:300px;" readonly> ) किंवा कर्ज म्हणून उपलब्ध असलेली कमाल रक्कम मंजूर करावी.</p>
+                <p>Please grant me/us an advance of Rs. <input type="text" id="p1_loanAmountNum_en_form_inline_h" class="input-inline" style="width:100px;" readonly> (Rupees <input type="text" id="p1_loanAmountWords_en_form_inline_h" class="input-inline" style="width:300px;" readonly> in words) or maximum available by way of loan against above policy on which I We agree to pay interest at rate of 10% per annum payable every half year.</p>
+                <p>मैं/हम प्रतिवर्ष प्रत्येक अर्धवार्षिक पर देय 10% की दर से ब्याज अदा करने को सहमत हूँ हौ।</p>
+                <label for="loanAmount_hi">अग्रिम राशि (रु.):</label>
+                <input type="text" id="loanAmount_hi" name="loanAmount_hi" readonly>
+                <label for="loanAmountWords_hi">अग्रिम राशि (शब्दों में):</label>
+                <input type="text" id="loanAmountWords_hi" name="loanAmountWords_hi" readonly>
+            </div>
+            <div class="form-group">
+                <p>(2) मुझे/हमें वे सभी शर्ते ज्ञात हैं जिन पर ऋण दिया जायेगा।</p>
+                <p>कर्ज ज्या अटींवर दिले जाईल त्या अटींची मला/आम्हांस जाणीव आहे.</p>
+                <p>I am / We are aware of the terms and conditions on which the loan will be advanced...</p>
+            </div>
+            <div class="form-group">
+                <p>मुझे हमें पता हैं कि वे शर्तेः</p>
+                <p>मला/आम्हाला ह्याचीही जाणीव आहे की वरील अटीः</p>
+                <p>I am / We are also aware that said terms and conditions:-</p>
+                <ul>
+                    <li>पॉलिसी पर पृष्ठांकित कर दी गई है।</li>
+                    <li>पॉलिसीवर अगोदरच पृष्ठांकित झाल्या आहेत.</li>
+                    <li>have already been endorsed on the policy.</li>
+                    <li>पॉलिसी पर मुद्रित विशेष शर्ते शीर्षित धारा ऋण के अंतर्गत है।</li>
+                    <li>पॉलिसीवरील कर्ज ह्या शीर्षकखाली दिलेल्या सवलती आणि अटी ह्याप्रमाणे असतील.</li>
+                    <li>Will be those as contained in the clause headed "Loans" appearing in the Conditions and Privileges printed in the Policy</li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <p>(3) संपूरित ऋण रसीद अभ्यर्पण घोषणा पत्रसहित वापस भेजी जाती है।</p>
+                <p>समुदेशनाच्या घोषणापत्रासह कर्जाच्या रक्कमेची पावती पूर्ण भरुन सोबत पाठवित आहोत.</p>
+                <p>The receipt for the loan amount with the assignment declaration slip is returned herewith duly completed.</p>
+            </div>
+            <div class="form-group">
+                <p>*** निगम के पक्ष में विधिवत अभ्यर्पित पॉलिसी संलग्न की जाती है।</p>
+                <p>आपल्या नांवे समनुदेशित केलेली पॉलिसी सोबत जोडीत आहोत.</p>
+                <p>*** The Policy duly assigned in your favour is also enclosed.</p>
+            </div>
+            <p>X Encl.</p>
+            <p>भवदीय,<br> Dear Sir,</p>
+            <div class="instruction">
+                <p>(1) 1-6-1969 की या उसके बाद की गई पॉलिसीयों के संबन्ध में काट दे।</p>
+                <p>1-6-1969 रोजी किंवा त्यानंतर दिलेली पॉलिसी संबंधात काट मारा.</p>
+                <p>Strike out in respect of the Policies issued on or after 1-6-1969.</p>
+                <p>(2) 1-6-1969 का के पूर्व जारी की गई पॉलिसीयों के संबन्ध में काट दें।</p>
+                <p>1-6-1969 पूर्वी दिलेल्या पॉलिसी संबधात काट मारा.</p>
+                <p>Strike out in respect of the Policies issued prior to 1-6-1969.</p>
+                <p>*** यदि ऋण पहले से ही हो तो काट दीजिए।</p>
+                <p>पुर्वीचे कर्ज फिटलेले नसेल तर काट मारा.</p>
+                <p>Delete where previous loan is subsisting</p>
+            </div>
+            <div class="signature-line">
+                <p>हस्ताक्षर <br> Signature(s)</p>
+            </div>
+        </div>
+
+        <div id="marathiForm" class="hidden">
+            <!-- Content of marathiForm from page301.html -->
+            <div class="flex-container">
+                <div class="flex-item">
+                    <p>प्रति/सेवामे, <br> TO,</p>
+                    <p>LIC <br> भारतीय आयुर्विमा महामंडळ</p>
+                    <p>वरिष्ठ विभागीय प्रबंधक, <br> भारतीय आयुर्विमा महामंडळ <br> मुंबई.</p>
+                </div>
+                <div class="flex-item right">
+                    <p>प्रपत्र क्र./ फार्म सं. F.No.5196 (संशो.) (Rev)</p>
+                    <p>A. Py.</p>
+                    <p>1,00,000/10-2018</p>
+                    <p>प्रपत्र क्र./ फार्म सं. Form No. 5205 (संशो.) (Rev)</p>
+                </div>
+            </div>
+            <p>ज्या पॉलिसीवर कर्जाच्या अटीसंबंधी पृष्ठांकन अगोदर केलेले आहे किंवा जी पॉलिसी <br> 1-06-1969 रोजी किंवा त्यानंतर देण्यात आली आहे, त्यासाठी आवेदन पत्र.</p>
+            <p>APPLICATION FOR LOAN AS UNDER WHERE THE POLICY ALREADY BEARS <br> THE ENDORSEMENT OF TERMS AND CONDITIONS OF LOAN OR WHERE <br> THE POLICY HAS BEEN ISSUED ON OR AFTER 1-06-1969</p>
+            <p>1-06-1969 को या उसके बाद जारी की गई पॉलिसी पर सभी ऋण शर्ते पृष्ठांकित है, उसके अंतर्गत ऋण के लिए आवेदन पत्र</p>
+            <div class="form-group radio-group margin-top">
+                <p>(1) पूर्वीचे कर्ज चालू नसताना नवीन कर्ज</p>
+                <label>
+                    <input type="radio" name="loanType_mr" value="freshLoan" disabled> Fresh loan where no previous loan is subsisting.
+                </label>
+                <label>
+                    <input type="radio" name="loanType_mr" value="freshLoan" disabled> नया ऋण, जहाँ पहला कोई ऋण नहीं है।
+                </label>
+            </div>
+            <div class="form-group radio-group">
+                <p>(2) पूर्वीचे 6%, 7% % किंवा 9% टक्के दराने दिलेले कर्ज फिटलेले नाही.</p>
+                <label>
+                    <input type="radio" name="loanType_mr" value="furtherLoan" disabled> Further loan where previous loan granted at 6% or 72% 9% is subsisting
+                </label>
+                <label>
+                    <input type="radio" name="loanType_mr" value="furtherLoan" disabled> अलग ऋण जहाँ पहला ऋण 6%, 7% % या 9% ब्याज की दर पर स्वीकृत है।
+                </label>
+            </div>
+            <p>वरिष्ठ विभागीय प्रबंधक,<br> भारतीय आयुर्विमा महामंडळ, <br> मुंबई.</p>
+            <p>प्रिय महाशय,<br> Dear Sir,</p>
+            <div class="form-group">
+                <label for="policyNo_mr">विषय : पॉलिसी क्रम. <br> Re.: Policy No.</label>
+                <input type="text" id="policyNo_mr" name="policyNo_mr" readonly>
+            </div>
+            <div class="form-group">
+                <label for="date_mr">दिनांक <br> Date.</label>
+                <input type="date" id="date_mr" name="date_mr" readonly>
+            </div>
+            <div class="form-group">
+                <p>(1) वरील पॉलिसीवर मला/आम्हाला रु. <input type="text" id="p1_loanAmountNum_mr_form_inline_m" class="input-inline" style="width:100px;" readonly> ची अग्रिम रक्कम (अक्षरी रु. <input type="text" id="p1_loanAmountWords_mr_form_inline_m" class="input-inline" style="width:300px;" readonly>) किंवा कर्ज म्हणून उपलब्ध असलेली कमाल रक्कम मंजूर करावी.</p>
+                <p>मी/आम्ही दरसाल दरशेकडा 10% दराने प्रति सहामाहीस व्याज भरावयाचे मान्य करतो.</p>
+                <p>उपरोक्त पॉलिसी पर मुझे/हमें रु. <input type="text" id="p1_loanAmountNum_hi_form_inline_m" class="input-inline" style="width:100px;" readonly> (रुपये शब्दो में <input type="text" id="p1_loanAmountWords_hi_form_inline_m" class="input-inline" style="width:300px;" readonly>) या ऋण स्वरुप प्राय अधिततम का अग्रिम स्वीकृत करें जिस पर मैं / हम प्रतिवर्ष प्रत्येक अर्धवार्षिक पर देय 10% की दर से ब्याज अदा करने को सहमत हूँ हौ।</p>
+                <p>Please grant me/us an advance of Rs. <input type="text" id="p1_loanAmountNum_en_form_inline_m" class="input-inline" style="width:100px;" readonly> (Rupees <input type="text" id="p1_loanAmountWords_en_form_inline_m" class="input-inline" style="width:300px;" readonly> in words) or maximum available by way of loan against above policy on which I We agree to pay interest at rate of 10% per annum payable every half year.</p>
+                <label for="loanAmount_mr">अग्रिम रक्कम (रु.):</label>
+                <input type="text" id="loanAmount_mr" name="loanAmount_mr" readonly>
+                <label for="loanAmountWords_mr">अग्रिम रक्कम (अक्षरी):</label>
+                <input type="text" id="loanAmountWords_mr" name="loanAmountWords_mr" readonly>
+            </div>
+            <div class="form-group">
+                <p>(2) कर्ज ज्या अटींवर दिले जाईल त्या अटींची मला/आम्हांस जाणीव आहे.</p>
+                <p>मुझे/हमें वे सभी शर्ते ज्ञात हैं जिन पर ऋण दिया जायेगा।</p>
+                <p>I am / We are aware of the terms and conditions on which the loan will be advanced...</p>
+            </div>
+            <div class="form-group">
+                <p>मला/आम्हाला ह्याचीही जाणीव आहे की वरील अटीः</p>
+                <p>मुझे हमें पता हैं कि वे शर्तेः</p>
+                <p>I am / We are also aware that said terms and conditions:-</p>
+                <ul>
+                    <li>पॉलिसीवर अगोदरच पृष्ठांकित झाल्या आहेत.</li>
+                    <li>पॉलिसी पर पृष्ठांकित कर दी गई है।</li>
+                    <li>have already been endorsed on the policy.</li>
+                    <li>पॉलिसीवरील कर्ज ह्या शीर्षकखाली दिलेल्या सवलती आणि अटी ह्याप्रमाणे असतील.</li>
+                    <li>पॉलिसी पर मुद्रित विशेष शर्ते शीर्षित धारा ऋण के अंतर्गत है।</li>
+                    <li>Will be those as contained in the clause headed "Loans" appearing in the Conditions and Privileges printed in the Policy</li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <p>(3) समुदेशनाच्या घोषणापत्रासह कर्जाच्या रक्कमेची पावती पूर्ण भरुन सोबत पाठवित आहोत.</p>
+                <p>संपूरित ऋण रसीद अभ्यर्पण घोषणा पत्रसहित वापस भेजी जाती है।</p>
+                <p>The receipt for the loan amount with the assignment declaration slip is returned herewith duly completed.</p>
+            </div>
+            <div class="form-group">
+                <p>आपल्या नांवे समनुदेशित केलेली पॉलिसी सोबत जोडीत आहोत.</p>
+                <p>निगम के पक्ष में विधिवत अभ्यर्पित पॉलिसी संलग्न की जाती है।</p>
+                <p>*** The Policy duly assigned in your favour is also enclosed.</p>
+            </div>
+            <p>X संलग्न</p>
+            <p>आपले विश्वासू,<br> Dear Sir,</p>
+            <div class="instruction">
+                <p>(1) 1-6-1969 रोजी किंवा त्यानंतर दिलेली पॉलिसी संबंधात काट मारा.</p>
+                <p>1-6-1969 की या उसके बाद की गई पॉलिसीयों के संबन्ध में काट दे।</p>
+                <p>Strike out in respect of the Policies issued on or after 1-6-1969.</p>
+                <p>(2) 1-6-1969 पूर्वी दिलेल्या पॉलिसी संबधात काट मारा.</p>
+                <p>1-6-1969 का के पूर्व जारी की गई पॉलिसीयों के संबन्ध में काट दें।</p>
+                <p>Strike out in respect of the Policies issued prior to 1-6-1969.</p>
+                <p>*** पुर्वीचे कर्ज फिटलेले नसेल तर काट मारा.</p>
+                <p>यदि ऋण पहले से ही हो तो काट दीजिए।</p>
+                <p>Delete where previous loan is subsisting</p>
+            </div>
+            <div class="signature-line">
+                <p>स्वाक्षरी <br> Signature(s)</p>
+            </div>
+        </div>
+    </div> <!-- End of visualPage1 -->
+
+    <!-- Page 2 Content (from page302.html) -->
+    <div class="form-page" id="visualPage2">
+        <p class="section-title">RECEIPT FOR LOAN <br> कर्जासाठी पावती <br> ऋण के लिए रसीद</p>
+        <p>
+            Received from the Life Insurance Corporation of India a sum of Rs. <input type="text" id="loanAmountReceived" name="loanAmountReceived" class="input-inline" style="width:150px;" readonly>
+            (Rupees <input type="text" id="loanAmountReceivedWords" name="loanAmountReceivedWords" class="input-inline" style="width:calc(100% - 230px); min-width:200px;" readonly>)
+            by way of loan on Policy No. <input type="text" id="policyNumberLoanReceipt" name="policyNumberLoanReceipt" class="input-inline" style="width:150px;" readonly>
+            on my life/ on the life of <input type="text" id="lifeOf" name="lifeOf" class="input-inline" style="width:calc(100% - 230px); min-width:150px;" readonly>.
+        </p>
+        <p>
+            भारतीय आयुर्विमा महामंडळाकडून माझ्या पॉलिसी क्र. <input type="text" id="policyNumberLoanReceipt_mr" name="policyNumberLoanReceipt_mr" class="input-inline" style="width:150px;" readonly>
+            वर कर्जापोटी रु. <input type="text" id="loanAmountReceived_mr" name="loanAmountReceived_mr" class="input-inline" style="width:150px;" readonly>
+            (अक्षरी रुपये <input type="text" id="loanAmountReceivedWords_mr" name="loanAmountReceivedWords_mr" class="input-inline" style="width:calc(100% - 230px); min-width:200px;" readonly>) मिळाले.
+            माझ्या नावावर / <input type="text" id="lifeOf_mr" name="lifeOf_mr" class="input-inline" style="width:calc(100% - 230px); min-width:150px;" readonly> यांचे नावावर.
+        </p>
+        <p>
+            भारतीय जीवन बीमा निगम से पॉलिसी क्र. <input type="text" id="policyNumberLoanReceipt_hi" name="policyNumberLoanReceipt_hi" class="input-inline" style="width:150px;" readonly>
+            पर ऋण स्वरूप रु. <input type="text" id="loanAmountReceived_hi" name="loanAmountReceived_hi" class="input-inline" style="width:150px;" readonly>
+            (रुपये शब्दों में <input type="text" id="loanAmountReceivedWords_hi" name="loanAmountReceivedWords_hi" class="input-inline" style="width:calc(100% - 230px); min-width:200px;" readonly>) प्राप्त किये।
+            मेरे जीवन पर / <input type="text" id="lifeOf_hi" name="lifeOf_hi" class="input-inline" style="width:calc(100% - 230px); min-width:150px;" readonly> के जीवन पर।
+        </p>
+        <div class="flex-container" style="margin-top:30px; align-items: flex-end;">
+            <div class="flex-item">
+                <div class="form-group">
+                    <label for="dateReceipt">Date / तारीख / दिनांक:</label>
+                    <input type="text" id="dateReceipt" name="dateReceipt" readonly>
+                </div>
+                <div style="margin-top: 40px;">
+                    <div class="photo-placeholder">
+                        Affix <br> Revenue <br> Stamp <br> Here
+                    </div>
+                    <p class="small-print">(Signature across the stamp) <br> (तिकिटावर सही करावी) <br> (टिकट पर हस्ताक्षर करें)</p>
+                </div>
+            </div>
+            <div class="flex-item" style="text-align:right;">
+                <div class="signature-block" style="margin-left:auto; margin-right:0;">
+                    Signature of Policyholder/Assignee <br>
+                    पॉलिसीधारकाची / समनुदेशकाची सही <br>
+                    पॉलिसीधारक / अभिहस्तांकिती के हस्ताक्षर
+                </div>
+            </div>
+        </div>
+        <hr style="margin-top:30px; margin-bottom:30px;">
+        <p class="section-title">ASSIGNMENT DECLARATION SLIP <br> समनुदेशन घोषणापत्र <br> अभिहस्तांकन घोषणा पर्ची</p>
+        <p>(To be completed if the Policy is assigned) <br> (पॉलिसी समनुदेशित असल्यास भरावे) <br> (यदि पॉलिसी अभिहस्तांकित है तो इसे पूरा करें)</p>
+        <p>
+            I/We, <input type="text" id="assignorName" name="assignorName" class="input-inline" style="width:calc(100% - 350px); min-width:150px;" readonly>
+            the Assignor(s) of Policy No. <input type="text" id="policyNumberAssignment" name="policyNumberAssignment" class="input-inline" style="width:150px;" readonly>
+            on the life of <input type="text" id="lifeOfAssignment" name="lifeOfAssignment" class="input-inline" style="width:calc(100% - 350px); min-width:150px;" readonly>
+            hereby declare that the above assignment is still in force.
+        </p>
+        <p>
+            मी / आम्ही, <input type="text" id="assignorName_mr" name="assignorName_mr" class="input-inline" style="width:calc(100% - 350px); min-width:150px;" readonly>
+            पॉलिसी क्र. <input type="text" id="policyNumberAssignment_mr" name="policyNumberAssignment_mr" class="input-inline" style="width:150px;" readonly>
+            चे समनुदेशक, याद्वारे घोषित करतो/करतो की वरील समनुदेशन अजूनही अंमलात आहे.
+            आयुर्विम्यावर <input type="text" id="lifeOfAssignment_mr" name="lifeOfAssignment_mr" class="input-inline" style="width:calc(100% - 350px); min-width:150px;" readonly>
+        </p>
+        <p>
+            मैं / हम, <input type="text" id="assignorName_hi" name="assignorName_hi" class="input-inline" style="width:calc(100% - 350px); min-width:150px;" readonly>
+            पॉलिसी क्र. <input type="text" id="policyNumberAssignment_hi" name="policyNumberAssignment_hi" class="input-inline" style="width:150px;" readonly>
+            के अभिहस्तांकिती, एतद्द्वारा घोषित करता हूँ / करते हैं कि उपरोक्त अभिहस्तांकन अभी भी लागू है।
+            के जीवन पर <input type="text" id="lifeOfAssignment_hi" name="lifeOfAssignment_hi" class="input-inline" style="width:calc(100% - 350px); min-width:150px;" readonly>
+        </p>
+        <div class="flex-container" style="margin-top:30px; align-items: flex-end;">
+            <div class="flex-item">
+                <div class="form-group">
+                    <label for="dateAssignment">Date / तारीख / दिनांक:</label>
+                    <input type="text" id="dateAssignment" name="dateAssignment" readonly>
+                </div>
+            </div>
+            <div class="flex-item" style="text-align:right;">
+                 <div class="signature-block" style="margin-left:auto; margin-right:0;">
+                    Signature of Assignor(s) <br>
+                    समनुदेशकाची सही <br>
+                    अभिहस्तांकिती के हस्ताक्षर
+                </div>
+            </div>
+        </div>
+    </div> <!-- End of visualPage2 -->
+
+    <!-- Page 3 Content (from page303.html) -->
+    <div class="form-page" id="visualPage3">
+        <p class="section-title">LETTER OF CONSENT TO DEDUCT LOAN & INTEREST FROM SALARY <br> पगारातून कर्ज आणि व्याज कपात करण्यासाठी संमती पत्र <br> वेतन से ऋण और ब्याज की कटौती के लिए सहमति पत्र</p>
+        <p>(To be completed only if loan repayment is desired through salary deductions - applicable to LIC employees only)<br>(केवळ एलआयसी कर्मचाऱ्यांसाठी लागू - जर पगारातून कर्ज परतफेड करायची असेल तरच पूर्ण करावे)<br>(केवल एलआईसी कर्मचारियों के लिए लागू - यदि वेतन कटौती के माध्यम से ऋण चुकौती वांछित है तो ही पूरा किया जाए)</p>
+        <div class="form-group">
+            <label for="employeeOfficeLocation">To, <br> प्रति,</label>
+            The Zonal/Divisional Manager, <br>
+            Life Insurance Corporation of India, <br>
+            <input type="text" id="employeeOfficeLocation" name="employeeOfficeLocation" placeholder="Office Location" readonly>
+        </div>
+        <p>Dear Sir,</p>
+        <p>Re: Salary Saving Scheme Policy No.(s) <input type="text" id="sssPolicyNumbers" name="sssPolicyNumbers" class="input-inline" style="width: 200px;" readonly> Staff No. <input type="text" id="staffNumber" name="staffNumber" class="input-inline" style="width: 100px;" readonly></p>
+        <p>
+            I hereby request you to grant me a loan of Rs. <input type="text" id="requestedLoanAmount" name="requestedLoanAmount" class="input-inline" style="width: 120px;" readonly>
+            (Rupees <input type="text" id="requestedLoanAmountWords" name="requestedLoanAmountWords" class="input-inline" style="width: 300px;" readonly>)
+            against the security of my above policy/policies.
+        </p>
+        <p>
+            I hereby authorize you to deduct from my salary each month, commencing from the salary for the month of 
+            <input type="text" id="deductionStartMonth" name="deductionStartMonth" class="input-inline" style="width: 100px;" readonly> / 
+            <input type="text" id="deductionStartYear" name="deductionStartYear" class="input-inline" style="width: 60px;" readonly>
+            an amount of Rs. <input type="text" id="monthlyDeductionAmount" name="monthlyDeductionAmount" class="input-inline" style="width: 100px;" readonly>
+            (Rupees <input type="text" id="monthlyDeductionAmountWords" name="monthlyDeductionAmountWords" class="input-inline" style="width: 250px;" readonly>)
+            towards repayment of the loan and interest, until the entire loan with interest thereon is fully repaid.
+        </p>
+        <p>
+            मी याद्वारे तुम्हाला माझ्या उपरोक्त पॉलिसी/पॉलिसींच्या सुरक्षेवर रु. <input type="text" id="requestedLoanAmount_mr" name="requestedLoanAmount_mr" class="input-inline" style="width: 120px;" readonly>
+            (अक्षरी रुपये <input type="text" id="requestedLoanAmountWords_mr" name="requestedLoanAmountWords_mr" class="input-inline" style="width: 300px;" readonly>) कर्ज मंजूर करण्याची विनंती करतो.
+        </p>
+        <p>
+            मी याद्वारे तुम्हाला माझ्या पगारातून दरमहा, <input type="text" id="deductionStartMonth_mr" name="deductionStartMonth_mr" class="input-inline" style="width: 100px;" readonly> / 
+            <input type="text" id="deductionStartYear_mr" name="deductionStartYear_mr" class="input-inline" style="width: 60px;" readonly> महिन्याच्या पगारापासून,
+            रु. <input type="text" id="monthlyDeductionAmount_mr" name="monthlyDeductionAmount_mr" class="input-inline" style="width: 100px;" readonly>
+            (अक्षरी रुपये <input type="text" id="monthlyDeductionAmountWords_mr" name="monthlyDeductionAmountWords_mr" class="input-inline" style="width: 250px;" readonly>)
+            कर्ज आणि व्याजाच्या परतफेडीसाठी, संपूर्ण कर्ज आणि त्यावरील व्याज पूर्णपणे परतफेड होईपर्यंत कपात करण्यास अधिकृत करतो.
+        </p>
+        <p>
+            मैं एतद्द्वारा आपसे अनुरोध करता हूँ कि मुझे मेरी उपरोक्त पॉलिसी/पॉलिसीयों की सुरक्षा पर रु. <input type="text" id="requestedLoanAmount_hi" name="requestedLoanAmount_hi" class="input-inline" style="width: 120px;" readonly>
+            (रुपये शब्दों में <input type="text" id="requestedLoanAmountWords_hi" name="requestedLoanAmountWords_hi" class="input-inline" style="width: 300px;" readonly>) का ऋण प्रदान करें।
+        </p>
+        <p>
+            मैं एतद्द्वारा आपको मेरे वेतन से प्रत्येक माह, माह <input type="text" id="deductionStartMonth_hi" name="deductionStartMonth_hi" class="input-inline" style="width: 100px;" readonly> / 
+            <input type="text" id="deductionStartYear_hi" name="deductionStartYear_hi" class="input-inline" style="width: 60px;" readonly> के वेतन से,
+            रु. <input type="text" id="monthlyDeductionAmount_hi" name="monthlyDeductionAmount_hi" class="input-inline" style="width: 100px;" readonly>
+            (रुपये शब्दों में <input type="text" id="monthlyDeductionAmountWords_hi" name="monthlyDeductionAmountWords_hi" class="input-inline" style="width: 250px;" readonly>)
+            ऋण और ब्याज की चुकौती के लिए, जब तक कि पूरा ऋण और उस पर ब्याज पूरी तरह से चुकाया नहीं जाता, कटौती करने के लिए अधिकृत करता हूँ।
+        </p>
+        <p>Yours faithfully, <br> आपला विश्वासू, <br> भवदीय,</p>
+        <div class="flex-container" style="margin-top: 30px;">
+            <div class="flex-item">
+                <div class="form-group">
+                    <label for="employeeSignatureDate">Date / तारीख / दिनांक:</label>
+                    <input type="text" id="employeeSignatureDate" name="employeeSignatureDate" readonly>
+                </div>
+                 <div class="form-group">
+                    <label for="employeeNameSignature">Name of Employee / कर्मचाऱ्याचे नाव / कर्मचारी का नाम:</label>
+                    <input type="text" id="employeeNameSignature" name="employeeNameSignature" readonly>
+                </div>
+            </div>
+            <div class="flex-item" style="text-align: right;">
+                <div class="signature-area" style="margin-left: auto; margin-right: 0;">
+                    Signature of Employee <br> कर्मचाऱ्याची सही <br> कर्मचारी के हस्ताक्षर
+                </div>
+            </div>
+        </div>
+        <hr style="margin-top:30px; margin-bottom:30px;">
+        <p class="section-title">FOR OFFICE USE ONLY <br> केवळ कार्यालयीन वापरासाठी <br> केवल कार्यालय उपयोग के लिए</p>
+        <p>Certified that the above employee is working in this office and his/her signature has been verified from our records.</p>
+        <p>प्रमाणित केले जाते की वरील कर्मचारी या कार्यालयात कार्यरत आहे आणि त्यांची सही आमच्या नोंदीतून सत्यापित केली गेली आहे.</p>
+        <p>प्रमाणित किया जाता है कि उपरोक्त कर्मचारी इस कार्यालय में कार्यरत है और उनके हस्ताक्षर हमारे रिकॉर्ड से सत्यापित किए गए हैं।</p>
+        <div class="flex-container" style="margin-top: 30px;">
+            <div class="flex-item">
+                <div class="form-group">
+                    <label for="officeUseDate">Date / तारीख / दिनांक:</label>
+                    <input type="text" id="officeUseDate" name="officeUseDate" readonly>
+                </div>
+            </div>
+            <div class="flex-item" style="text-align: right;">
+                <div class="signature-area" style="margin-left: auto; margin-right: 0;">
+                    Signature of Authorised Official <br> अधिकृत अधिकाऱ्याची सही <br> प्राधिकृत अधिकारी के हस्ताक्षर
+                </div>
+                 <div style="text-align: right; margin-right: 20px; margin-top:5px;">(Office Seal) <br> (कार्यालयीन शिक्का) <br> (कार्यालय की मुहर)</div>
+            </div>
+        </div>
+    </div> <!-- End of visualPage3 -->
+
+    <!-- Page 4 Content (from page304.html - Terms & Conditions) -->
+    <div class="form-page" id="visualPage4">
+        <div class="section-title">
+            TERMS AND CONDITIONS FOR GRANTING LOANS AGAINST LIFE INSURANCE POLICIES ISSUED BY THE CORPORATION<br>
+            निगम द्वारा जारी जीवन बीमा पॉलिसियों पर ऋण प्रदान करने के नियम और शर्तें<br>
+            महामंडळाने जारी केलेल्या आयुर्विमा पॉलिसींवरील कर्ज देण्यासाठी अटी आणि नियम
+        </div>
+        <div class="terms-section">
+            <p>The Life Insurance Corporation of India (hereinafter called the Corporation) grants loans to the policyholders against the security of their policies on the following terms and conditions:- <br>
+            भारतीय जीवन बीमा निगम (इसके बाद निगम कहा जाएगा) पॉलिसीधारकों को उनकी पॉलिसियों की सुरक्षा पर निम्नलिखित नियमों और शर्तों पर ऋण प्रदान करता है:- <br>
+            भारतीय आयुर्विमा महामंडळ (येथे महामंडळ म्हटले जाईल) पॉलिसीधारकांना त्यांच्या पॉलिसींच्या सुरक्षेवर खालील अटी आणि नियमांनुसार कर्ज देते:-</p>
+            <ol>
+                <li>The loan will be granted if the policy is in full force for the full sum assured and has acquired a surrender value acceptable for the grant of a loan on the date of application for loan... (Content truncated for brevity in this example, full content from page304.html goes here) ...</li>
+                <li>These terms and conditions are subject to alteration from time to time as may be decided by the Corporation. <br>
+                ये नियम और शर्तें निगम द्वारा समय-समय पर तय किए गए परिवर्तनों के अधीन हैं। <br>
+                या अटी आणि नियम महामंडळाद्वारे वेळोवेळी ठरवल्याप्रमाणे बदलू शकतात.</li>
+            </ol>
+        </div>
+        <div class="signature-area-page4">
+            <div class="signature-line-page4">
+                Signature of Policyholder <br>
+                पॉलिसीधारक के हस्ताक्षर <br>
+                पॉलिसीधारकाची सही
+            </div>
+        </div>
+    </div> <!-- End of visualPage4 -->
+
+    <!-- Page 5 Content (from page305.html - Instructions/Declarations) -->
+    <div class="form-page" id="visualPage5">
+        <div class="section-title">
+            INSTRUCTIONS <br> सूचना <br> निर्देश
+        </div>
+        <div class="content-section">
+            <p class="highlight">FOR POLICYHOLDERS:</p>
+            <!-- ... Full content from page305.html section ... -->
+            <ul>
+                <li>The loan amount will be disbursed subject to the terms and conditions of the Corporation. <br> कर्जाची रक्कम महामंडळाच्या अटी आणि नियमांनुसार वितरित केली जाईल. <br> ऋण राशि निगम के नियमों और शर्तों के अधीन वितरित की जाएगी।</li>
+            </ul>
+            <p class="highlight" style="margin-top: 20px;">DECLARATION TO BE MADE BY A THIRD PERSON IF THE POLICYHOLDER IS ILLITERATE OR SIGNS IN A VERNACULAR LANGUAGE</p>
+            <!-- ... Full declaration text ... -->
+             <p>
+                मैं एतद्द्वारा घोषित करता/करती हूँ कि मैंने इस आवेदन पत्र की सामग्री आवेदक श्री/श्रीमती/कुमारी.
+                <span class="input-inline" style="width: 200px;"> </span> <!-- Example of where data might go, if any -->
+                को <span class="input-inline" style="width: 100px;"> </span> भाषा में समझाई है और उन्होंने इसकी सामग्री को पूरी तरह समझने के बाद मेरी उपस्थिति में इस पर अपने हस्ताक्षर/अंगूठे का निशान लगाया है।
+            </p>
+        </div>
+        <div class="signature-section-page5">
+            <div class="flex-container-page5">
+                <div class="flex-item-page5">
+                    <div class="signature-line-page5">
+                        Signature of Declarant <br>
+                        घोषणाकर्त्याची सही <br>
+                        घोषणाकर्ता के हस्ताक्षर
+                    </div>
+                    <p style="font-size:0.9em;">Name: <span class="input-inline" style="width: 200px;"> </span></p>
+                    <p style="font-size:0.9em;">Address: <span class="input-inline" style="width: 200px;"> </span></p>
+                </div>
+                <div class="flex-item-page5">
+                    <div class="signature-line-page5">
+                        Signature / Thumb Impression of Applicant <br>
+                        अर्जदाराची सही / अंगठ्याचा ठसा <br>
+                        आवेदक के हस्ताक्षर / अंगूठे का निशान
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="margin-top: 30px; margin-bottom: 20px;">
+        <p class="centered-text" style="font-size:0.9em;">
+            (For Office Use Only / केवळ कार्यालयीन वापरासाठी / केवल कार्यालय उपयोग के लिए)
+        </p>
+        <p class="centered-text" style="font-size:0.9em;">
+            Loan Sanctioned: Rs. <span class="input-inline" style="width: 150px;"> </span>
+            Date: <span class="input-inline" style="width: 100px;"> </span>
+            Authorised Signatory: <span class="input-inline" style="width: 200px;"> </span>
+        </p>
+    </div> <!-- End of visualPage5 -->
+
+    <!-- Page 6 Content (from page306.html - Instructions) -->
+    <div class="form-page" id="visualPage6">
+        <div class="section-title">सूचनाएँ / सुचना</div>
+        <div class="instructions-section">
+            <p class="lang-hindi">यह फॉर्म केवल तभी प्रयोग में लाया जायेगा जब पॉलिसी पर ऋण की शर्तों का पृष्ठांकन पहले से ही किया गया हो या जब पॉलिसी दिनांक 1-6-1969 को या उसके बाद जारी की गई हो।</p>
+            <!-- ... Full content from page306.html section ... -->
+            <div class="note">
+                <p>Note: If the Policy is on the life of an Agent falling under Clause (c) of Regulation 17(1) of the Life Insurance Corporation of India (Agents) Regulations, 1972, this application should be accompanied by a declaration to the effect that the Policy is not assigned in favour of the Corporation nor is it held by the Corporation in any other manner.</p>
+            </div>
+        </div>
+    </div> <!-- End of visualPage6 -->
+
+</div> <!-- End of document-container -->
+
+<script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const SUPABASE_URL = 'https://efduqdondmlzmwhfgkfz.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
+    let supabase;
+
+    try {
+        supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log("Supabase client initialized successfully for combined form.");
+    } catch (e) {
+        console.error("FATAL ERROR: Could not initialize Supabase client!", e);
+    }
+
+    // --- Language Toggle Function (from page301) ---
+    function showLanguage(lang) {
+        const englishForm = document.getElementById('englishForm'); // This is on Page 1
+        const hindiForm = document.getElementById('hindiForm');     // This is on Page 1
+        const marathiForm = document.getElementById('marathiForm'); // This is on Page 1
+        
+        const englishBtn = document.getElementById('englishBtn');
+        const hindiBtn = document.getElementById('hindiBtn');
+        const marathiBtn = document.getElementById('marathiBtn');
+
+        if (englishForm && hindiForm && marathiForm && englishBtn && hindiBtn && marathiBtn) {
+            englishForm.classList.add('hidden');
+            hindiForm.classList.add('hidden');
+            marathiForm.classList.add('hidden');
+
+            englishBtn.classList.remove('active');
+            hindiBtn.classList.remove('active');
+            marathiBtn.classList.remove('active');
+
+            const targetForm = document.getElementById(lang + 'Form');
+            const targetBtn = document.getElementById(lang + 'Btn');
+            if (targetForm) targetForm.classList.remove('hidden');
+            if (targetBtn) targetBtn.classList.add('active');
+        } else {
+            console.warn("Language toggle elements for Page 1 not found. Ensure IDs 'englishForm', 'hindiForm', 'marathiForm', 'englishBtn', 'hindiBtn', 'marathiBtn' exist within #visualPage1.");
+        }
+    }
+    window.showLanguage = showLanguage; // Make it global for onclick
+
+    // --- Clear All Form Fields Function ---
+    function clearAllPagesFormFields() {
+        // Page 1 fields (Loan Application)
+        const p1_fields_input = [
+            'policyNo_en', 'date_en', 'loanAmount_en', 'loanAmountWords_en',
+            'policyNo_hi', 'date_hi', 'loanAmount_hi', 'loanAmountWords_hi',
+            'policyNo_mr', 'date_mr', 'loanAmount_mr', 'loanAmountWords_mr',
+            'p1_loanAmountNum_en_inline', 'p1_loanAmountWords_en_inline',
+            'p1_loanAmountNum_mr_inline', 'p1_loanAmountWords_mr_inline',
+            'p1_loanAmountNum_hi_inline', 'p1_loanAmountWords_hi_inline',
+            'p1_loanAmountNum_hi_form_inline', 'p1_loanAmountWords_hi_form_inline',
+            'p1_loanAmountNum_mr_form_inline_h', 'p1_loanAmountWords_mr_form_inline_h',
+            'p1_loanAmountNum_en_form_inline_h', 'p1_loanAmountWords_en_form_inline_h',
+            'p1_loanAmountNum_mr_form_inline_m', 'p1_loanAmountWords_mr_form_inline_m',
+            'p1_loanAmountNum_hi_form_inline_m', 'p1_loanAmountWords_hi_form_inline_m',
+            'p1_loanAmountNum_en_form_inline_m', 'p1_loanAmountWords_en_form_inline_m'
+
+        ];
+        p1_fields_input.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        document.querySelectorAll('input[name="loanType_en"], input[name="loanType_hi"], input[name="loanType_mr"]').forEach(radio => radio.checked = false);
+
+        // Page 2 fields (Receipt & Assignment)
+        const p2_fields_input = [
+            'loanAmountReceived', 'loanAmountReceivedWords', 'policyNumberLoanReceipt', 'lifeOf',
+            'loanAmountReceived_mr', 'loanAmountReceivedWords_mr', 'policyNumberLoanReceipt_mr', 'lifeOf_mr',
+            'loanAmountReceived_hi', 'loanAmountReceivedWords_hi', 'policyNumberLoanReceipt_hi', 'lifeOf_hi',
+            'dateReceipt',
+            'assignorName', 'policyNumberAssignment', 'lifeOfAssignment',
+            'assignorName_mr', 'policyNumberAssignment_mr', 'lifeOfAssignment_mr',
+            'assignorName_hi', 'policyNumberAssignment_hi', 'lifeOfAssignment_hi',
+            'dateAssignment'
+        ];
+        p2_fields_input.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+
+        // Page 3 fields (Salary Deduction Consent)
+        const p3_fields_input = [
+            'employeeOfficeLocation', 'sssPolicyNumbers', 'staffNumber',
+            'requestedLoanAmount', 'requestedLoanAmountWords', 'deductionStartMonth', 'deductionStartYear', 'monthlyDeductionAmount', 'monthlyDeductionAmountWords',
+            'requestedLoanAmount_mr', 'requestedLoanAmountWords_mr', 'deductionStartMonth_mr', 'deductionStartYear_mr', 'monthlyDeductionAmount_mr', 'monthlyDeductionAmountWords_mr',
+            'requestedLoanAmount_hi', 'requestedLoanAmountWords_hi', 'deductionStartMonth_hi', 'deductionStartYear_hi', 'monthlyDeductionAmount_hi', 'monthlyDeductionAmountWords_hi',
+            'employeeSignatureDate', 'employeeNameSignature', 'officeUseDate'
+        ];
+        p3_fields_input.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        console.log("All relevant form fields cleared.");
+    }
+    window.clearAllPagesFormFields = clearAllPagesFormFields;
+
+    // --- Fetch and Populate All Pages Function ---
+    async function fetchAndPopulateAllPages() {
+        if (!supabase) {
+            console.error("Supabase client is not initialized. Cannot fetch details.");
+            return;
+        }
+
+        const policyNumber = document.getElementById('masterPolicyInput').value.trim();
+        if (!policyNumber) {
+            console.warn('Master policy number input is empty.');
+            clearAllPagesFormFields();
+            return;
+        }
+        console.log("Attempting to fetch all details for policy:", policyNumber);
+        clearAllPagesFormFields(); // Clear previous data
+
+        try {
+            // Adjust select string to include ALL columns needed for ALL pages
+            const { data, error } = await supabase
+                .from('loan') // Assuming 'loan' is the correct table for all this data
+                .select(`
+                    policy_number, today_date, loan_amount, loan_amount_words, loan_type, name, 
+                    lic_branch_name, staff_number, 
+                    deduction_start_month, deduction_start_year, 
+                    monthly_deduction_amount, monthly_deduction_amount_words
+                `) // Add any other columns like assignor_name if available and needed
+                .eq('policy_number', policyNumber)
+                .single();
+
+            if (error) {
+                console.error("Supabase Error Fetching All Data:", JSON.stringify(error, null, 2));
+                if (error.code === 'PGRST116') {
+                    console.warn('No details found for this policy number in the loan table.');
+                }
+                return;
+            }
+
+            if (data) {
+                console.log("Supabase Data Object (All Pages):", JSON.stringify(data, null, 2));
+
+                // Populate Page 1 (visualPage1)
+                document.getElementById('policyNo_en').value = data.policy_number || '';
+                document.getElementById('date_en').value = data.today_date || '';
+                document.getElementById('loanAmount_en').value = data.loan_amount || '';
+                document.getElementById('loanAmountWords_en').value = data.loan_amount_words || '';
+                // Inline fields for Page 1 English
+                document.getElementById('p1_loanAmountNum_en_inline').value = data.loan_amount || '';
+                document.getElementById('p1_loanAmountWords_en_inline').value = data.loan_amount_words || '';
+
+
+                document.getElementById('policyNo_hi').value = data.policy_number || '';
+                document.getElementById('date_hi').value = data.today_date || '';
+                document.getElementById('loanAmount_hi').value = data.loan_amount || '';
+                document.getElementById('loanAmountWords_hi').value = data.loan_amount_words || '';
+                // Inline fields for Page 1 Hindi
+                document.getElementById('p1_loanAmountNum_hi_inline').value = data.loan_amount || '';
+                document.getElementById('p1_loanAmountWords_hi_inline').value = data.loan_amount_words || '';
+                 document.getElementById('p1_loanAmountNum_hi_form_inline').value = data.loan_amount || ''; // For Hindi form part
+                document.getElementById('p1_loanAmountWords_hi_form_inline').value = data.loan_amount_words || '';
+
+
+                document.getElementById('policyNo_mr').value = data.policy_number || '';
+                document.getElementById('date_mr').value = data.today_date || '';
+                document.getElementById('loanAmount_mr').value = data.loan_amount || '';
+                document.getElementById('loanAmountWords_mr').value = data.loan_amount_words || '';
+                 // Inline fields for Page 1 Marathi
+                document.getElementById('p1_loanAmountNum_mr_inline').value = data.loan_amount || '';
+                document.getElementById('p1_loanAmountWords_mr_inline').value = data.loan_amount_words || '';
+                document.getElementById('p1_loanAmountNum_mr_form_inline_h').value = data.loan_amount || ''; // For Hindi form part
+                document.getElementById('p1_loanAmountWords_mr_form_inline_h').value = data.loan_amount_words || '';
+                document.getElementById('p1_loanAmountNum_mr_form_inline_m').value = data.loan_amount || ''; // For Marathi form part
+                document.getElementById('p1_loanAmountWords_mr_form_inline_m').value = data.loan_amount_words || '';
+
+                 // Radio buttons for loan type
+                if (data.loan_type) {
+                    const loanTypeEn = document.querySelector(`#visualPage1 #englishForm input[name="loanType_en"][value="${data.loan_type}"]`);
+                    if (loanTypeEn) loanTypeEn.checked = true;
+                    const loanTypeHi = document.querySelector(`#visualPage1 #hindiForm input[name="loanType_hi"][value="${data.loan_type}"]`);
+                    if (loanTypeHi) loanTypeHi.checked = true;
+                    const loanTypeMr = document.querySelector(`#visualPage1 #marathiForm input[name="loanType_mr"][value="${data.loan_type}"]`);
+                    if (loanTypeMr) loanTypeMr.checked = true;
+                }
+
+
+                // Populate Page 2 (visualPage2 - Receipt & Assignment)
+                document.getElementById('loanAmountReceived').value = data.loan_amount || '';
+                document.getElementById('loanAmountReceivedWords').value = data.loan_amount_words || '';
+                document.getElementById('policyNumberLoanReceipt').value = data.policy_number || '';
+                document.getElementById('lifeOf').value = data.name || ''; // Assuming 'name' is life assured
+
+                document.getElementById('loanAmountReceived_mr').value = data.loan_amount || '';
+                document.getElementById('loanAmountReceivedWords_mr').value = data.loan_amount_words || ''; // Needs Marathi conversion
+                document.getElementById('policyNumberLoanReceipt_mr').value = data.policy_number || '';
+                document.getElementById('lifeOf_mr').value = data.name || '';
+
+                document.getElementById('loanAmountReceived_hi').value = data.loan_amount || '';
+                document.getElementById('loanAmountReceivedWords_hi').value = data.loan_amount_words || ''; // Needs Hindi conversion
+                document.getElementById('policyNumberLoanReceipt_hi').value = data.policy_number || '';
+                document.getElementById('lifeOf_hi').value = data.name || '';
+                
+                document.getElementById('dateReceipt').value = data.today_date || '';
+
+                // Assignment part (assuming policyholder is assignor if no specific 'assignor_name' field)
+                document.getElementById('assignorName').value = data.name || ''; // Or data.assignor_name if you have it
+                document.getElementById('policyNumberAssignment').value = data.policy_number || '';
+                document.getElementById('lifeOfAssignment').value = data.name || '';
+                document.getElementById('assignorName_mr').value = data.name || '';
+                document.getElementById('policyNumberAssignment_mr').value = data.policy_number || '';
+                document.getElementById('lifeOfAssignment_mr').value = data.name || '';
+                document.getElementById('assignorName_hi').value = data.name || '';
+                document.getElementById('policyNumberAssignment_hi').value = data.policy_number || '';
+                document.getElementById('lifeOfAssignment_hi').value = data.name || '';
+                document.getElementById('dateAssignment').value = data.today_date || '';
+
+
+                // Populate Page 3 (visualPage3 - Salary Deduction)
+                document.getElementById('employeeOfficeLocation').value = data.lic_branch_name || '';
+                document.getElementById('sssPolicyNumbers').value = data.policy_number || ''; // Assuming master policy is SSS here
+                document.getElementById('staffNumber').value = data.staff_number || '';
+
+                document.getElementById('requestedLoanAmount').value = data.loan_amount || '';
+                document.getElementById('requestedLoanAmountWords').value = data.loan_amount_words || '';
+                document.getElementById('deductionStartMonth').value = data.deduction_start_month || '';
+                document.getElementById('deductionStartYear').value = data.deduction_start_year || '';
+                document.getElementById('monthlyDeductionAmount').value = data.monthly_deduction_amount || '';
+                document.getElementById('monthlyDeductionAmountWords').value = data.monthly_deduction_amount_words || '';
+
+                document.getElementById('requestedLoanAmount_mr').value = data.loan_amount || '';
+                document.getElementById('requestedLoanAmountWords_mr').value = data.loan_amount_words || ''; // Needs Marathi
+                document.getElementById('deductionStartMonth_mr').value = data.deduction_start_month || '';
+                document.getElementById('deductionStartYear_mr').value = data.deduction_start_year || '';
+                document.getElementById('monthlyDeductionAmount_mr').value = data.monthly_deduction_amount || '';
+                document.getElementById('monthlyDeductionAmountWords_mr').value = data.monthly_deduction_amount_words || ''; // Needs Marathi
+
+                document.getElementById('requestedLoanAmount_hi').value = data.loan_amount || '';
+                document.getElementById('requestedLoanAmountWords_hi').value = data.loan_amount_words || ''; // Needs Hindi
+                document.getElementById('deductionStartMonth_hi').value = data.deduction_start_month || '';
+                document.getElementById('deductionStartYear_hi').value = data.deduction_start_year || '';
+                document.getElementById('monthlyDeductionAmount_hi').value = data.monthly_deduction_amount || '';
+                document.getElementById('monthlyDeductionAmountWords_hi').value = data.monthly_deduction_amount_words || ''; // Needs Hindi
+
+                document.getElementById('employeeSignatureDate').value = data.today_date || '';
+                document.getElementById('employeeNameSignature').value = data.name || '';
+
+                // Pages 4, 5, 6 are static, no population needed unless specific fields are identified.
+
+            } else {
+                console.warn('No data returned for this policy from the loan table.');
+            }
+        } catch (e) {
+            console.error("CRITICAL UNEXPECTED ERROR in fetchAndPopulateAllPages:", e);
+        }
+    }
+    window.fetchAndPopulateAllPages = fetchAndPopulateAllPages;
+
+    // --- Event Listener for Master Load Button ---
+    const masterLoadBtn = document.getElementById('masterLoadButton');
+    if (masterLoadBtn) {
+        masterLoadBtn.addEventListener('click', fetchAndPopulateAllPages);
+    } else {
+        console.error("Master Load Button not found!");
+    }
+
+    // --- Initial Setup ---
+    showLanguage('english'); // For Page 1 language toggle
+    clearAllPagesFormFields(); // Clear all fields on initial load
+
+</script>
+</body>
+</html>

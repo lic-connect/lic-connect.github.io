@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+<!-- Favicon fix -->
+<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/1/1e/LIC_India_Logo.svg" type="image/svg+xml" />
+
+<!-- Or local: -->
+<!-- <link rel="icon" href="favicon.ico" /> -->
+
+  <title>Agents Data - LIC CONNECT</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff url('background.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #004d00;
+      text-shadow: 1px 1px #ccc;
+    }
+    .fetch-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      width: 300px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      background: linear-gradient(to bottom right, #00cc44, #009933);
+      color: black;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: rgba(255, 255, 255, 0.95);
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #ccffcc;
+    }
+    .table-container {
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Agent Data</h1>
+
+  <div class="fetch-box">
+    <input type="text" id="agentInput" placeholder="Enter Agency Code" />
+    <button onclick="fetchAgent()">Fetch</button>
+  </div>
+
+  <div class="table-container">
+    <table id="agentTable">
+      <thead>
+        <tr>
+          <th>Name of Agent</th>
+          <th>Agency Code</th>
+          <th>DO Code</th>
+          <th>Date of Joining</th>
+          <th>Full Address</th>
+          <th>Mobile No</th>
+          <th>Email</th>
+          <th>PAN</th>
+          <th>Aadhaar</th>
+          <th>Club</th>
+          <th>Total Policy Holders</th>
+          <th>Total Premium</th>
+          <th>Total Commission</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody id="agentDataBody">
+        <!-- Data will be inserted here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const supabase = window.supabase.createClient(
+      "https://efduqdondmlzmwhfgkfz.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44"
+    );
+
+    async function fetchAgent() {
+      const agencyCode = document.getElementById("agentInput").value.trim();
+
+      if (!agencyCode) {
+        alert("Please enter an agency code.");
+        return;
+      }
+
+      console.log("Searching for:", agencyCode);
+
+      try {
+        const { data, error } = await supabase
+          .from("agents")
+          .select("*")
+          .eq("agency_code", agencyCode)
+          .maybeSingle(); // avoids throwing 406 when no record found
+
+        console.log("Data:", data);
+        console.log("Error:", error);
+
+        const agentDataBody = document.getElementById("agentDataBody");
+        agentDataBody.innerHTML = "";
+
+        if (!data) {
+          alert("Agent not found.");
+          return;
+        }
+
+        agentDataBody.innerHTML = `
+          <tr>
+            <td>${data.name || ""}</td>
+            <td>${data.agency_code || ""}</td>
+            <td>${data.do_code || ""}</td>
+            <td>${data.date_of_joining || ""}</td>
+            <td>${data.full_address || ""}</td>
+            <td>${data.mobile_number || ""}</td>
+            <td>${data.email || ""}</td>
+            <td>${data.pan || ""}</td>
+            <td>${data.aadhaar || ""}</td>
+            <td>${data.club || ""}</td>
+            <td>${data.total_policyholders || 0}</td>
+            <td>${data.total_premium || 0}</td>
+            <td>${data.total_commission || 0}</td>
+            <td>${data.remarks || ""}</td>
+          </tr>
+        `;
+      } catch (err) {
+        console.error("Unexpected error:", err);
+        alert("An unexpected error occurred.");
+      }
+    }
+  </script>
+</body>
+</html>

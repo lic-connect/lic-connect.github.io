@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Surrender/Discounted Value Form (5074/3510) - Combined</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .document-container { }
+        .form-page {
+            background-color: #fff;
+            margin: 0 auto 40px auto; 
+            padding: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 8.5in;
+            min-height: 11in; /* A4-like min height */
+            box-sizing: border-box;
+            page-break-after: always; 
+        }
+        .form-page:last-child {
+            page-break-after: avoid;
+            margin-bottom: 20px; 
+        }
+
+        .header-section { text-align: center; margin-bottom: 20px; }
+        .header-section img { max-width: 130px; margin-bottom: 10px; }
+        .header-section .form-title { font-size: 1.1em; font-weight: bold; }
+        .header-info { display: flex; justify-content: space-between; font-size: 0.9em; margin-bottom: 15px; }
+
+        .section { margin-bottom: 15px; }
+        .section-title-main { font-size: 1.1em; font-weight: bold; text-align: center; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid #eee; }
+        .address-block p, .salutation p, .subject-block p { margin: 0 0 5px 0; font-size: 0.95em; }
+        .point-list { list-style: none; padding-left: 0; }
+        .point-list li { margin-bottom: 8px; display: flex; }
+        .point-list li .asterisk { margin-right: 8px; font-weight: bold; }
+        .declaration-text { font-size: 0.9em; margin-bottom: 15px; }
+        
+        .signature-block-container { margin-top: 20px; text-align: center; }
+        .signature-line-display { /* For the visual line if needed underneath image */
+            border-top: 1px dotted #555;
+            display: inline-block;
+            min-width: 200px;
+            margin-top: 5px;
+        }
+         .input-inline { 
+            border: none; 
+            border-bottom: 1px dotted #333; 
+            padding: 1px 3px;
+            font-family: inherit;
+            font-size: inherit;
+            background-color: #e9e9e9; 
+            text-align: center; 
+            margin: 0 2px;
+            min-width: 50px; /* Minimum width for better appearance */
+        }
+        .note-block { font-size: 0.85em; margin-top: 15px; padding: 10px; border: 1px solid #eee; background-color: #f9f9f9; }
+        table.data-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9em; }
+        table.data-table th, table.data-table td { border: 1px solid #333; padding: 6px; text-align: left; vertical-align: top; }
+        table.data-table th { background-color: #f2f2f2; font-weight: bold; }
+        .text-hindi { font-family: 'Nirmala UI', Arial, sans-serif; }
+        .text-marathi { font-family: 'Nirmala UI', Arial, sans-serif; }
+        
+        .neft-form { margin-top: 20px; }
+        .neft-form .neft-title { font-weight: bold; text-align: center; margin-bottom: 10px; font-size: 1em; text-decoration: underline;}
+        .neft-form p { margin: 5px 0; font-size: 0.9em;}
+        .neft-form .input-box { display: inline-block; border: 1px solid #333; padding: 0px 2px; margin: 0 1px; width: 18px; height: 20px; text-align: center; line-height:20px; }
+
+        .centered { text-align: center; }
+        .right-aligned { text-align: right; }
+        .bold { font-weight: bold; }
+        .hidden { display: none !important; }
+
+
+        .master-policy-input-area { text-align: center; padding: 20px; background-color: #e9e9f9; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ccc; }
+        .master-policy-input-area label { font-weight: bold; margin-right: 10px; }
+        .master-policy-input-area input[type="text"] { padding: 10px; width: 250px; border: 1px solid #aaa; border-radius: 4px; }
+        .master-policy-input-area input[type="checkbox"] { vertical-align: middle; margin-right:3px;}
+        .master-policy-input-area label[for="isVernacularOrIlliterate_surrender"], 
+        .master-policy-input-area label[for="isPolicyAssigned_surrender"] { font-weight: normal; margin-left: 0;}
+        .master-policy-input-area button { padding: 10px 20px; background-color: #0056b3; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; margin-left: 10px; }
+        .master-policy-input-area button:hover { background-color: #003d82; }
+
+        .signature-upload-section { margin-top: 10px; text-align: center; padding-bottom:5px; }
+        .signature-upload-section img { display:none; max-width: 200px; max-height: 80px; border: 1px solid #ccc; margin-bottom: 10px; background-color: #f9f9f9;}
+        .signature-upload-section input[type="file"] { margin-top: 5px; display: inline-block; width: auto; padding: 5px;}
+
+
+        @media print {
+            body { margin: 0; padding: 0; background-color: #fff; }
+            .form-page { margin: 0 0 5mm 0; padding: 15mm 10mm; border: none; box-shadow: none; page-break-inside: avoid; }
+            .master-policy-input-area, .signature-upload-section input[type="file"] { display: none !important; }
+            .signature-upload-section img { display: block !important; }
+            .input-inline[readonly] { 
+                background-color: #fff !important; 
+                border-bottom: 1px dotted #000 !important;
+                color: #000 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="document-container">
+
+    <div class="master-policy-input-area">
+        <div>
+            <label for="surrenderPolicyInput">Enter Policy Number:</label>
+            <input type="text" id="surrenderPolicyInput" placeholder="Enter Policy Number">
+        </div>
+        <div style="margin-top: 10px;">
+            <input type="checkbox" id="isVernacularOrIlliterate_surrender" name="isVernacularOrIlliterate_surrender">
+            <label for="isVernacularOrIlliterate_surrender">Applicant used Vernacular Medium / is Illiterate</label>
+        </div>
+        <div style="margin-top: 5px; margin-bottom: 15px;">
+            <input type="checkbox" id="isPolicyAssigned_surrender" name="isPolicyAssigned_surrender">
+            <label for="isPolicyAssigned_surrender">Is Policy Assigned?</label>
+        </div>
+        <div>
+            <button type="button" id="surrenderLoadButton">Load Surrender Details</button>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="lic-black.png" alt="LIC Logo" style="max-width: 150px; height: auto;">
+    </div>
+
+    <!-- Page 1 Content (Surrender Form) -->
+    <div class="form-page" id="visualSurrenderPage1">
+        <div class="header-info">
+            <span>SDP 50,000-12/12</span>
+            <span class="right-aligned">प्रपत्र सं/Form No. 5074/3510</span>
+        </div>
+        <div class="header-section">
+            <p class="bold text-hindi" style="font-size: 1.2em;">भारतीय जीवन बीमा निगम</p>
+            <p class="bold" style="font-size: 1.1em;">LIFE INSURANCE CORPORATION OF INDIA</p>
+            <p class="text-hindi">दिल्ली मण्डल/Delhi Division -III</p>
+            <p class="form-title text-hindi">अभ्यर्पण/बहागत मूल्य के प्रार्थना पत्र</p>
+            <p class="form-title">Application for Surrender/Discounted Value</p>
+        </div>
+        <div class="address-block">
+            <p class="text-hindi">वरिष्ठ शाखा प्रबन्धक</p>
+            <p>The Sr. Branch Manager</p>
+            <p class="text-hindi">भारतीय जीवन बीमा निगम</p>
+            <p>LIFE INSURANCE CORPORATION OF INDIA</p>
+            <p class="text-hindi">शाखा कार्यालय सं./ Branch Unit No. <input type="text" id="s_p1_branchUnitNo" class="input-inline" style="width:100px;" readonly></p>
+        </div>
+        <div class="header-info" style="margin-top:15px;">
+            <span class="text-hindi">स्थान/Place: <input type="text" id="s_p1_place" class="input-inline" style="width:150px;" readonly></span>
+            <span class="right-aligned text-hindi">दिनांक/Date: <input type="text" id="s_p1_date" class="input-inline" style="width:120px;" readonly></span>
+        </div>
+        <div class="salutation" style="margin-top:15px;"> <p class="text-hindi">प्रिय महोदय/महोदया,</p> <p>Dear Sir/Madam,</p> </div>
+        <div class="subject-block">
+            <p class="text-hindi">विषयः पालिसी सं. <input type="text" id="s_p1_policyNoSubject" class="input-inline" style="width:150px;" readonly> स्वजीवन पर <input type="text" id="s_p1_lifeAssuredNameSubject" class="input-inline" style="width:200px;" readonly> Fvg.</p>
+            <p>Re.: Policy No. <input type="text" id="s_p1_policyNoSubject_en" class="input-inline" style="width:150px;" readonly></p>
+        </div>
+        <ul class="point-list" style="margin-top:15px;">
+            <li><span class="asterisk">*</span> <span class="text-hindi">मैं अपनी पालिसी का अभ्यर्पण करना चाहता हूं। कृपया अभ्यर्पण मूल्य का भुगतान कर दें।</span></li>
+            <li><span class="asterisk">*</span> <span class="text-hindi">मेरी उपरोक्त पालिसी दिनांक <input type="text" id="s_p1_maturityDate" class="input-inline" style="width:120px;" readonly> को परिपक्व को प्राप्त हो रही है। परन्तु मैं इसका बहागत मूल्य प्राप्त करना चाहता हूं। कृपया मुझे उसका भुगतान कर दें।</span></li>
+            <li><span class="asterisk">*</span> <span>I intend to surrender my above Policy. Kindly pay me the same.</span></li>
+            <li><span class="asterisk">*</span> <span>My above mentioned policy will mature on <input type="text" id="s_p1_maturityDate_en" class="input-inline" style="width:120px;" readonly>. I intend to have it discounted value. Kindly pay me the same.</span></li>
+        </ul>
+        <div class="signature-block right-aligned" style="margin-top:30px;">
+            <p class="text-hindi">भवदीय / Yours faithfully,</p>
+            <div class="signature-upload-section" style="margin-top:0; text-align: right;">
+                <p class="text-hindi" style="margin-bottom:2px;">हस्ताक्षर/Signature:</p>
+                <img id="s_p1_applicantSignatureImage" src="#" alt="Applicant Signature" /> <br/>
+                <input type="file" id="s_p1_applicantSignatureUpload" accept="image/*">
+            </div>
+            <p class="text-hindi" style="margin-top:5px;">पूरा नाम / Full Name: <input type="text" id="s_p1_claimantFullName" class="input-inline" style="width:250px;" readonly></p>
+            <p class="text-hindi">पता / Address: <input type="text" id="s_p1_claimantAddress" class="input-inline" style="width:300px;" readonly></p>
+        </div>
+        <div class="content-block" style="margin-top:15px; font-size:0.9em;"> <p><span class="asterisk">*</span> <span class="text-hindi">जो लागू न हो उसे काट दें।</span> / Delete where Inapplicable</p> </div>
+        <div class="note-block" id="s_p1_assignmentNoteSection"> <!-- ID for conditional visibility -->
+            <p class="text-hindi">टिप्पणी : यदि पालिसी का समनुदेशन हो चुका हो तो इस प्रार्थना पत्र पर समनुदेशियी के हस्ताक्षर होने चाहिए।</p>
+            <p>Note: In case the policy is assigned, the application must be signed by the assignee.</p>
+        </div>
+        <div class="content-block" style="margin-top:20px; font-size: 0.9em;">
+            <p class="text-hindi">श्री <input type="text" id="s_p1_lifeAssuredReceipt" class="input-inline" style="width:200px;" readonly> के जीवन पर दिनांक <input type="text" id="s_p1_policyDateReceipt" class="input-inline" style="width:120px;" readonly></p>
+            <p class="text-hindi">को जारी की गई <input type="text" id="s_p1_sumAssuredReceipt" class="input-inline" style="width:120px;" readonly> रूपये की पालिसी सं. <input type="text" id="s_p1_policyNoReceipt" class="input-inline" style="width:150px;" readonly></p>
+            <p class="text-hindi">के समर्पित मूल्य के भुगतान का फार्म</p>
+            <p>Receipt or the Surrender/Discounted Value of Policy No. <input type="text" id="s_p1_policyNoReceipt_en" class="input-inline" style="width:150px;" readonly> on</p>
+            <p>the life of <input type="text" id="s_p1_lifeOfReceipt_en" class="input-inline" style="width:200px;" readonly> for</p>
+            <p>Rs. <input type="text" id="s_p1_rsReceipt_en" class="input-inline" style="width:120px;" readonly></p>
+        </div>
+        <div class="content-block" style="margin-top:15px; font-size:0.95em;">
+            <p class="text-hindi">मैं/हम <input type="text" id="s_p1_receipt_iwe" class="input-inline" style="width:200px;" readonly> एतद द्वारा भारतीय जीवन बीमा निगम में उपर्युक्त पालिसी के नगद मूल्य सहित <input type="text" id="s_p1_receipt_cash_value_words" class="input-inline" style="width:300px;" readonly> (शब्दों में कुल रकम भरिये) <input type="text" id="s_p1_receipt_cash_value_num" class="input-inline" style="width:120px;" readonly> रूपये के समर्पित मूल्य की प्राप्ति स्वीकार करता हूं/ करते हैं और उपरोक्त पालिसी रद्द करने हेतु लौटा रहा हूं/ रहे हैं। इसकी पुष्टि में कागज पन्नों पर (स्थान) <input type="text" id="s_p1_receipt_place" class="input-inline" style="width:120px;" readonly> में दिनांक <input type="text" id="s_p1_receipt_day" class="input-inline" style="width:40px;" readonly> माह <input type="text" id="s_p1_receipt_month" class="input-inline" style="width:80px;" readonly> 20 <input type="text" id="s_p1_receipt_year" class="input-inline" style="width:40px;" readonly> को मेरे/हमारे द्वारा हस्ताक्षर किये गये।</p>
+            <p class="text-hindi">प्रयर्पित मूल्य (बोनस के नगद मूल्य सहित) रू. <input type="text" id="s_p1_surrenderValueWithBonus" class="input-inline" style="width:150px;" readonly></p>
+        </div>
+         <div class="right-aligned" style="margin-top:10px;">
+            <span class="text-hindi">(जहां चेक भिजवाना चाहते हैं)</span><br>
+            <span class="text-hindi">(at which cheque is to be posted)</span>
+            <input type="text" id="s_p1_cheque_post_address" class="input-inline" style="width:300px; border:1px solid #ccc; background-color:transparent; text-align:left;" placeholder="Cheque Posting Address">
+        </div>
+    </div> <!-- End of visualSurrenderPage1 -->
+
+    <!-- Page 2 Content (Surrender Form) -->
+    <div class="form-page" id="visualSurrenderPage2">
+        <div class="content-block" style="margin-top: 20px;">
+            <p>I/We <input type="text" id="s_p2_iwe_ack" class="input-inline" style="width:200px;" readonly> do hereby acknowledge receipt from Life Insurance Corporation of India the sum of Rs. <input type="text" id="s_p2_sum_ack_rs" class="input-inline" style="width:150px;" readonly> being the Gross/ Surrender/ Discounted Value including Case Value of Bonus of above mentioned policy which is here with delivered upto the said Corporation to be cancelled. In witness, whereof the presents are subscribed by me/us at Place <input type="text" id="s_p2_place_ack" class="input-inline" style="width:120px;" readonly> on <input type="text" id="s_p2_day_ack" class="input-inline" style="width:40px;" readonly> day of <input type="text" id="s_p2_month_ack" class="input-inline" style="width:80px;" readonly> 20 <input type="text" id="s_p2_year_ack" class="input-inline" style="width:40px;" readonly>.</p>
+        </div>
+        <div class="flex-container" style="margin-top: 15px;">
+            <div class="flex-item" style="flex-basis: 60%;">
+                <p>Surrender/Discounted Value (inclusive of case Value of Bonus)</p>
+                <p>D.A.B. Refund</p>
+                <p style="margin-top:10px; font-weight:bold;">निम्न राशि काट ली गयी/Less</p>
+                <p>ऋण/Loan</p>
+                <p>व्याज/Loan Interest</p>
+                <p>देय किस्त/Premium Due</p>
+                <p>ए.पी. एल. का पवाना/APL Debit</p>
+                <p>अन्य रकमें/x- Charge</p>
+            </div>
+            <div class="flex-item" style="flex-basis: 40%; text-align: right;">
+                <p>Rs. <input type="text" id="s_p2_surrender_value_rs" class="input-inline" style="width:80px;" readonly> P. <input type="text" id="s_p2_surrender_value_p" class="input-inline" style="width:40px;" readonly></p>
+                <p>Rs. <input type="text" id="s_p2_dab_refund_rs" class="input-inline" style="width:80px;" readonly> P. <input type="text" id="s_p2_dab_refund_p" class="input-inline" style="width:40px;" readonly></p>
+                <p style="margin-top:10px; font-weight:bold;">TOTAL Rs. <input type="text" id="s_p2_total_rs" class="input-inline" style="width:80px;" readonly> P. <input type="text" id="s_p2_total_p" class="input-inline" style="width:40px;" readonly></p>
+                <p>रू०/Rs. <input type="text" id="s_p2_less_loan_rs" class="input-inline" style="width:80px;" readonly></p>
+                <p>रू०/Rs. <input type="text" id="s_p2_less_loan_interest_rs" class="input-inline" style="width:80px;" readonly></p>
+                <p>रू०/Rs. <input type="text" id="s_p2_less_premium_due_rs" class="input-inline" style="width:80px;" readonly></p>
+                <p>रू०/Rs. <input type="text" id="s_p2_less_apl_debit_rs" class="input-inline" style="width:80px;" readonly></p>
+                <p>रू०/Rs. <input type="text" id="s_p2_less_xcharge_rs" class="input-inline" style="width:80px;" readonly></p>
+                <p style="font-weight:bold;">(-) रु०/Rs. <input type="text" id="s_p2_net_payable_rs" class="input-inline" style="width:80px;" readonly> ...पै/P. <input type="text" id="s_p2_net_payable_p" class="input-inline" style="width:40px;" readonly></p>
+            </div>
+        </div>
+        <div class="declaration-text" style="margin-top: 20px; font-size:0.85em;">
+            <p class="text-hindi">मैं/हम एतद द्वारा घोषित करता हूं/ करते हैं कि सिर्फ उन नोटिस को छोड़कर (यदि कोई हो) जो भारतीय जीवन बीमा निगम अथवा उपरोक्त पालिसी जारी करने वाले बीमा अनुयायी द्वारा पहले ही पंजीकृत कर ली गई हो मैंने / हमने उपर्युक्त पालिसी के सम्बन्ध में अभ्यर्पण का कोई नोटिस भारतीय जीवन बीमा निगम के किसी कार्यालय के नाम जारी नहीं किये हैं और न ही मैं / हम ऋण मूल्य वापसी मूल्य के भुगतान के पहले अभ्यर्पण या गुनरभ्यर्पण का कोई नोटिस उक्त निगम के किसी कार्यालय के नाम जारी करूंगा/करेंगे। हिन्दी जानने वाले केः</p>
+            <p>"I/We hereby declare that I/We have not assigned the above Life Insurance Policy to any one nor I/We have dealt with the same in any manner, except for any Assignment/Reassignment already registered as on date by the Life Insurance Corporation of India or the Insurer who insured the above policy upon due Notice. I/We hereby further Declare that I/We have not served on any office of the Life Insurance Corporation of India any other or further notice of assignment or reassignment in respect of above policy, nor shall I/We serve on any office of the said Corporation any notice of assignment or reassignment before payment of Loan/Surrender Value/Survival Benefit"</p>
+        </div>
+        <div class="flex-container" style="margin-top: 15px;">
+            <div class="flex-item" style="font-size:0.9em;">
+                WITNESS:
+                 <div class="signature-upload-section" style="text-align:left; margin-top:0;">
+                    <p class="text-hindi" style="margin-bottom:2px;">हस्ताक्षर/Signature:</p>
+                    <img id="s_p2_witnessSignatureImage" src="#" alt="Witness Signature" /> <br/>
+                    <input type="file" id="s_p2_witnessSignatureUpload" accept="image/*">
+                </div>
+                <p class="text-hindi">पूरा नाम/Full Name: <input type="text" id="s_p2_witness_name" class="input-inline" style="width:220px;" readonly></p>
+                <p class="text-hindi">व्यवसाय/Occupation: <input type="text" id="s_p2_witness_occupation" class="input-inline" style="width:200px;" readonly></p>
+                <p class="text-hindi">पता/Address: <input type="text" id="s_p2_witness_address" class="input-inline" style="width:250px;" readonly></p>
+            </div>
+            <div class="flex-item right-aligned" style="font-size:0.9em;">
+                 <div class="note-block" style="width: 200px; text-align:center; display:inline-block; padding:5px; margin-bottom:10px; background-color:transparent; border: 1px solid #777;">
+                    <span class="text-hindi">यदि कुल रकम 500 रु. से अधिक हो तो 1 रु. का रसीदी टिकट लगायें</span><br>
+                    Rupee One Revenue Stamp to be affixed if Gross Surrender Value is Rs.500
+                </div><br>
+                <div class="signature-upload-section" style="margin-top:0; text-align: right;">
+                    <img id="s_p2_lifeAssuredSignatureImage" src="#" alt="Life Assured Signature" /> <br/>
+                    <input type="file" id="s_p2_lifeAssuredSignatureUpload" accept="image/*">
+                </div>
+                <p class="text-hindi" style="margin-top:5px;">(बीमाकृत के हस्ताक्षर/Signature of Life assured)</p>
+                <p>Son of/Wife of <input type="text" id="s_p2_son_wife_of" class="input-inline" style="width:200px;" readonly></p>
+            </div>
+        </div>
+        <div class="neft-form">
+            <p class="neft-title">NEFT MANDATE FORM</p>
+            <p>• Bank Name: <input type="text" id="s_p2_bank_name" class="input-inline" style="width:calc(100% - 100px);" readonly></p>
+            <p>• Bank Branch Address: <input type="text" id="s_p2_bank_branch_address" class="input-inline" style="width:calc(100% - 180px);" readonly></p>
+            <p>• Account Type: Savings/Current/Cash Credit/NRI <input type="text" id="s_p2_account_type" class="input-inline" style="width:150px;" readonly></p>
+            <p>• Account No. <input type="text" id="s_p2_account_no_full" class="input-inline" style="width:200px;" readonly> </p>
+            <p class="small-print">(Bank account number should be written from left to right)</p>
+            <p>• MICR No. <input type="text" id="s_p2_micr_no_full" class="input-inline" style="width:120px;" readonly> </p>
+            <p>• IFSC Code: <input type="text" id="s_p2_ifsc_code_full" class="input-inline" style="width:150px;" readonly> </p>
+            <p>• Mobile Number: + 9 1 <input type="text" id="s_p2_mobile_no" class="input-inline" style="width:150px;" readonly></p>
+            <p>• Email id: <input type="text" id="s_p2_email_id" class="input-inline" style="width:calc(100% - 80px);" readonly></p>
+        </div>
+        <p class="centered" style="margin-top:5px;">2</p>
+    </div> <!-- End of visualSurrenderPage2 -->
+
+    <!-- Page 3 Content (Surrender Form) -->
+    <div class="form-page" id="visualSurrenderPage3">
+        <div id="s_p3_vernacularDeclarationSection"> <!-- Always Visible, content populated conditionally -->
+            <div class="note-block" style="font-size:0.85em;">
+                <p class="text-hindi">नोटः जो व्यक्ति पढ़े लिखे न हों उन्हें अपना अंगूठा लगाना चाहिए जिनकी शिनाखत कार्यालय की मोहर के सहित प्रमाणित मजिस्ट्रेट के द्वारा या जस्टिस ऑफ पीस या खण्ड विकास अधिकारी या राजपत्रित अधिकारी या सरकार द्वारा संचालित स्थानीय उच्च विद्यालय अथवा उच्चतर माध्यमिक के प्रधानाचार्य/प्रधानाध्यापक या राष्ट्रीयकृत बैंक के एजेन्ट या निगम के प्रथम श्रेणी अधिकारी या निगम के विकास अधिकारी, जो कम से कम पांच वर्ष सेवारत रह चुका हो और फार्म भरने वाले व्यक्ति की पहचान के बारे में पूर्णतया सन्तुष्ट हो के द्वारा की जानी चाहिए। हिन्दी के अलावा अन्य भाषा में हस्ताक्षरित होने पर उन्हें किसी प्रतिष्ठक हिन्दी जानने वाले व्यक्ति के द्वारा प्रमानित करना चाहिए । ऐसे हस्ताक्षर या अंगूठा निशान को प्रमाणित करने वाले साक्षी को निम्न घोषणा में हस्ताक्षर करने चाहिए।</p>
+                <p>Note: Illiterate persons must affix thumb marks which should be identified by attesting Magistrate under the seal of his office by a Justice of the Peace or a Block Development Officer or a Gazetted Officer or a Principal/Headmaster of Local High School or Higher Secondary School run by the Government or an agent of Nationalised Bank or a Class I Officer of the Corporation or a Development Officer of the Corporation with at least five years service or by an Agent of the Corporation who is a member of the Club at the level of Divisional Manager and above provided he/she is fully satisfied about the identity of the person (s) executing the form. Signature in Regional Languages must be attested by a respectable English Knowing person. The witness attesting the signatures or thumb marks should sign the Declaration below:</p>
+            </div>
+            <div class="content-block" style="margin-top:15px; font-size:0.9em;">
+                <p class="text-hindi">इस भुगतान पत्र का विवरण श्री <input type="text" id="s_p3_discharge_person_name" class="input-inline" style="width:200px;" readonly> का समझा दिया गया हैं और उन्होंने विवरण को भली भांति समझ लेने के बाद ही अपने हस्ताक्षर किए हैं/अपना अंगूठा लगया है।</p>
+                <p>The content of this discharge form have been explained to <input type="text" id="s_p3_discharge_person_name_en" class="input-inline" style="width:200px;" readonly> and he/she/they has/have signed the same after understanding the same.</p>
+            </div>
+        </div>
+        <div class="content-block" style="margin-top:15px;"> <p>SEAL OF OFFICE</p> <p>IF ANY</p> </div>
+        <div class="flex-container" style="margin-top:15px;">
+            <div class="flex-item" style="font-size:0.9em;">
+                <p class="text-hindi">साक्षी का पूरा नाम/Name of Witness: <input type="text" id="s_p3_witness_name" class="input-inline" style="width:250px;" readonly></p>
+                <p class="text-hindi">व्यवसाय/Occupation: <input type="text" id="s_p3_witness_occupation" class="input-inline" style="width:220px;" readonly></p>
+                <p class="text-hindi">पत्ता/Address: <input type="text" id="s_p3_witness_address" class="input-inline" style="width:300px;" readonly></p>
+            </div>
+            <div class="flex-item right-aligned signature-upload-section" style="font-size:0.9em; margin-top:0;">
+                 <img id="s_p3_witnessSignatureImage" src="#" alt="Witness Signature" /> <br/>
+                 <input type="file" id="s_p3_witnessSignatureUpload" accept="image/*">
+                <p class="text-hindi" style="margin-top:5px;">साक्षी के हस्ताक्षर/Signature of Witness</p>
+            </div>
+        </div>
+        <div class="content-block" style="margin-top:10px;"> <p class="text-hindi">कार्यालय का मुहर/Seal Office</p> </div>
+        <div class="note-block" style="font-size:0.85em; margin-top:20px;">
+            <p class="text-hindi">यदि इस भुगतान पत्र पर एक से अधिक व्यक्तियों ने हस्ताक्षर किये हैं किन्तु भुगतान इनमें से किसी एक व्यक्ति को किये जाने की इच्छा व्यक्त की गई है तो जिस व्यक्ति को रकम लेने का अधिकार देना हो उसे छोड़ कर अन्य सभी व्यक्तियों को नीचे दिया अधिकार पत्र मजिस्ट्रेट या जस्टिस आफ पीस या राजपत्रित अधिकारी या खण्ड विकास अधिकारी या सरकार द्वारा संचालित स्थानीय उच्च विद्यालय के प्रधानाचार्य/प्रधानाध्यापक या राष्ट्रीयकृत बैंक के एजेन्ट या निगम के प्रथम श्रेणी अधिकारी या निगम के विकासधिकारी जो कम से कम पाँच वर्ष सेवारत रह चुका हो और हस्ताक्षरकर्ताओं को पहचान के बारे में पूर्णतया सन्तुष्ट होके समझ कर उसमें हस्ताक्षर करने चाहिए। यदि इस भुगतान पत्र हस्ताक्षर करने वाले व्यक्ति के अलावा किसी अन्य व्यक्ति को दिया जाता है तो उस दशा में निम्न अधिकार पत्र की भी आवश्यकता होगी।</p>
+            <p class="bold">Important</p>
+            <p>If the within written receipt is signed by more than one person and payment is desired to be made to only one of them then the following note of authority must be completed and signed by all of them before a magistrate or to a Justice of Peace or Gazetted Officer or a Block Development Officer or a Principal/Headmaster of Local High School or Higher Secondary School run by the Government or Agent of a Nationalised Bank or a Class-I Officer of the Corporation or a Development Officer of the Corporation with at least five year's service provided he/she is fully satisfied about the identity of the executants The letter of Authority will also be required if payment is to be made to any person other than the signatories or the receipt.</p>
+        </div>
+        <div class="header-info" style="margin-top:30px; border-top:1px solid #eee; padding-top:10px;">
+            <span class="text-hindi">स्थान/Place: <input type="text" id="s_p3_auth_place" class="input-inline" style="width:150px;" readonly></span>
+            <span class="right-aligned text-hindi">दिनांक/Date: <input type="text" id="s_p3_auth_date" class="input-inline" style="width:120px;" readonly></span>
+        </div>
+        <p class="centered" style="margin-top:5px;">3</p>
+    </div> <!-- End of visualSurrenderPage3 -->
+    
+    <!-- Page 4 Content (Surrender Form) -->
+    <div class="form-page" id="visualSurrenderPage4">
+        <div class="content-block" style="font-size:0.95em; margin-top:20px;">
+            <p class="text-hindi">मैं/हम एतद द्वारा भारतीय जीवन बीमा निगम को अधिकार देता हूं/देते हैं कि उपर्युक्त <input type="text" id="s_p4_amount_words" class="input-inline" style="width:300px;" readonly> रुपये की रकम श्री <input type="text" id="s_p4_payee_name" class="input-inline" style="width:250px;" readonly> को भुगतान कर दें।</p>
+            <p>I/We hereby authorise and request Life insurance Corporation of India to pay the above mentioned amount of Rs <input type="text" id="s_p4_amount_rs" class="input-inline" style="width:150px;" readonly> Address <input type="text" id="s_p4_payee_address" class="input-inline" style="width:calc(100% - 300px);" readonly>.</p>
+            <p class="text-hindi">इन व्यक्ति या व्यक्तियों ने निम्न की उपस्थिति में हस्ताक्षर किए।</p>
+            <p>Witness: (See introduction below)</p>
+        </div>
+        <div class="flex-container" style="margin-top:15px;">
+            <div class="flex-item" style="font-size:0.9em;">
+                <p class="text-hindi">पूरा नाम/Full Name: <input type="text" id="s_p4_witness_name1" class="input-inline" style="width:220px;" readonly></p>
+                <p class="text-hindi">पद/Occupation: <input type="text" id="s_p4_witness_occupation1" class="input-inline" style="width:200px;" readonly></p>
+                <p class="text-hindi">पता/Address: <input type="text" id="s_p4_witness_address1" class="input-inline" style="width:250px;" readonly></p>
+            </div>
+             <div class="flex-item right-aligned signature-upload-section" style="font-size:0.9em; margin-top:0;">
+                <p class="text-hindi" style="margin-bottom:2px;">(अधिकार प्राप्त किए हुए व्यक्ति का नाम) <input type="text" id="s_p4_authorised_person_name" class="input-inline" style="width:200px;" readonly></p>
+                <img id="s_p4_authorisedPersonSignatureImage" src="#" alt="Authorised Person Signature" /> <br/>
+                <input type="file" id="s_p4_authorisedPersonSignatureUpload" accept="image/*">
+                <p class="text-hindi" style="margin-top:5px;">हस्ताक्षर/Signature</p>
+                <p class="text-hindi">पूरा नाम/Full Name: <input type="text" id="s_p4_authorised_person_full_name" class="input-inline" style="width:220px;" readonly></p>
+                <p class="text-hindi">पता/Address: <input type="text" id="s_p4_authorised_person_address" class="input-inline" style="width:250px;" readonly></p>
+            </div>
+        </div>
+        <div class="content-block" style="font-size:0.9em; margin-top:20px;">
+            <p class="text-hindi">मजिस्ट्रेट या जस्टिस आफ पीस के हस्ताक्षर</p>
+            <p class="text-hindi">मैं प्रमाणित करता हूं कि इस अधिकार पत्र का विवरण श्री/श्रीमती <input type="text" id="s_p4_auth_certify_person" class="input-inline" style="width:200px;" readonly> को उनके द्वारा समझी जाने वाली भाषा में समझा दिया गया था और वह / वे अधिकृत व्यक्ति या व्यक्तियों को रकम का भुगतान किये जाने के लिए सहमत हैं।</p>
+            <p>I hereby certify that the contents of this Note of Authority were explained by me in vernacular to Shri/Smt. <input type="text" id="s_p4_auth_certify_person_en" class="input-inline" style="width:200px;" readonly> and he/she has/have agreed to payment being made to <input type="text" id="s_p4_auth_certify_payee_en" class="input-inline" style="width:200px;" readonly> the party or parties authorised.</p>
+        </div>
+        <div class="right-aligned signature-upload-section" style="margin-top:15px; font-size:0.9em;">
+            <img id="s_p4_witnessAuthSignatureImage" src="#" alt="Witness of Authority Signature" /> <br/>
+            <input type="file" id="s_p4_witnessAuthSignatureUpload" accept="image/*">
+            <p style="margin-top:5px;">Signature of Witness</p>
+            <p class="text-hindi">पूरे हस्ताक्षर/Full Name <input type="text" id="s_p4_witness_full_name_auth" class="input-inline" style="width:200px;" readonly></p>
+        </div>
+        <div class="content-block" style="font-size:0.85em; margin-top:20px; border-top:1px solid #eee; padding-top:10px;">
+            <p class="bold">Instructions:</p>
+            <p class="text-hindi">इस अधिकार पत्र में मजिस्ट्रेट या जस्टिस आफ पीस या राजपत्रित अधिकारी या खण्ड विकास अधिकारी या सरकार द्वारा संचालित उच्च विद्याालय या उच्चतर माध्यमिक विद्यालय के प्रधानाचार्य/प्रधानाध्यापक या राष्ट्रीयकृत बैंक के एजेन्ट या निगम के प्रथम क्षेणी अधिकारी या निगम के विकास अधिकारी, जो कम से कम पांच वर्ष सेवारत रह चुका हो और हस्ताक्षरकर्ताओं के बारे में पुर्णतया संतुष्ट हों की उपस्थिति में हस्ताक्षर किये जाने चाहिए।</p>
+            <p>This letter of authority must be signed before a Magistrate or a Justice of peace or a Gazetted Officer or a Principal/Headmaster of Local High School or Higher Secondary School run by the Government or an Agent of a Nationalised Bank or a Class I Officer of the Corporation or a Development Officer of the Corporation with at least five years service provided he/she is fully satisfied about the identity of the executants.</p>
+            <p class="text-hindi">यदि अधिकारी पत्र भरने वाले व्यक्ति अशिक्षित हैं अथवा हिन्दी के अलावा ईतर भाषा/भाषी हैं तो घुष्टांकन प्रमाणक यदि मजिस्ट्रेट या जस्टिस ऑफ पीस या खण्ड विकास अधिकारी या राजपत्रित अधिकारी या सरकार द्वारा संचालित स्थनीय उच्च विद्यालय या उच्च माध्यमिक विद्यालय के प्रधानाचार्य/प्रधानाध्यापक या राष्ट्रीयकृत बैंक के एजेन्ट या निगम के प्रथम श्रेणी अधिकारी जो कम से कम पाँच वर्ष सेवारत रह चुका हो द्वारा भरकर हस्ताक्षर होना चाहिए।</p>
+            <p>This endorsement is required to be completed and signed by the attesting Magistrate or Justice of the peace or Block Development Officer or Gazetted Officer or a Principal/Headmaster of Local High School/Higher Secondary School run by the Government or Officer of Nationalised Bank or Class I Officer of the Corporation or a Development Officer of the Corporation with at least five year's service when the note of Authority is executed by an illiterate or vernacular knowing person (s).</p>
+        </div>
+        <p class="centered" style="margin-top:5px;">4</p>
+    </div> <!-- End of visualSurrenderPage4 -->
+
+</div> <!-- End of document-container -->
+
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+
+
+
+  const supabaseUrl = "https://efduqdondmlzmwhfgkfz.supabase.co";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44"; // ✅ Replace with your actual anon key
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+function setImageSrc(id, src) {
+  const img = document.getElementById(id);
+  if (img && src) {
+    img.src = src;
+  }
+}
+
+  function setFieldValue(fieldId, value) {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+    if (field.type === "checkbox") {
+      field.checked = !!value;
+    } else if (field.tagName === "SELECT") {
+      field.value = value || "";
+    } else {
+      field.value = value || "";
+    }
+  }
+
+  async function fetchSurrenderDetails() {
+    const policyInput = document.getElementById("surrenderPolicyInput");
+    if (!policyInput || !policyInput.value.trim()) {
+      alert("Please enter a valid policy number.");
+      return;
+    }
+
+    const policyNumber = policyInput.value.trim();
+
+    const { data, error } = await supabase
+      .from("surrender")
+      .select("*")
+      .eq("policy_number", policyNumber)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Supabase Error:", error.message);
+      alert("Error fetching data from Supabase.");
+      return;
+    }
+
+    if (!data) {
+      alert("No data found for this policy number.");
+      return;
+    }
+
+    // PAGE 1
+    setFieldValue("s_p1_branchUnitNo", data.branch_unit_no);
+    setFieldValue("s_p1_policyNoSubject", data.policy_no_subject);
+    setFieldValue("s_p1_policyNumber", data.policy_number);
+    setFieldValue("s_p1_planTerm", data.plan_term);
+    setFieldValue("s_p1_sumAssured", data.sum_assured);
+    setFieldValue("s_p1_dob", data.dob);
+    setFieldValue("s_p1_name", data.name_of_life_assured);
+    setFieldValue("s_p1_address", data.address);
+    setFieldValue("s_p1_mobile", data.mobile_number);
+    setFieldValue("s_p1_email", data.email_id);
+
+    // PAGE 2
+    setFieldValue("s_p2_iwe_ack", data.iwe_ack);
+    setFieldValue("s_p2_bank_name", data.bank_name);
+    setFieldValue("s_p2_branch", data.branch);
+    setFieldValue("s_p2_account_type", data.account_type);
+    setFieldValue("s_p2_ifsc", data.ifsc_code);
+    setFieldValue("s_p2_account_number", data.account_number);
+    setFieldValue("s_p2_pan", data.pan);
+    setFieldValue("s_p2_aadhar", data.aadhar);
+
+    // PAGE 3
+    setFieldValue("s_p3_discharge_person_name", data.discharge_person_name);
+    setFieldValue("s_p3_discharge_relationship", data.discharge_person_relationship);
+    setFieldValue("s_p3_witness_name", data.witness_name);
+    setFieldValue("s_p3_witness_occupation", data.witness_occupation);
+    setFieldValue("s_p3_witness_address", data.witness_address);
+
+    // PAGE 4
+    setFieldValue("s_p4_amount_words", data.amount_in_words);
+    setFieldValue("s_p4_authorised_person_name", data.authorised_person_name);
+    setFieldValue("s_p4_authorised_person_designation", data.authorised_person_designation);
+    setFieldValue("s_p4_place", data.place);
+
+    // Signatures
+  setImageSrc("s_p1_signature_life_assured_img", data.signature_life_assured_url);
+setImageSrc("s_p3_signature_discharge_person_img", data.signature_discharge_person_url);
+setImageSrc("s_p3_signature_witness_img", data.signature_witness_url);
+setImageSrc("s_p4_signature_authorised_person_img", data.signature_authorised_person_url);
+
+  }
+
+  document.getElementById("surrenderLoadButton").addEventListener("click", fetchSurrenderDetails);
+</script>
+</body>
+</html>
+

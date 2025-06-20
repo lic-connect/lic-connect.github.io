@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Loan Form 5196 - Page 3</title>
+    <style>
+        body {
+            font-family: 'Arial', 'Nirmala UI', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .form-page {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 8.5in;
+            min-height: 11in;
+            box-sizing: border-box;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="date"], /* Changed from input[type="text"] for date for consistency */
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group input[readonly], .form-group textarea[readonly] { /* Added textarea[readonly] */
+            background-color: #e9e9e9;
+        }
+        .sup-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            display: block;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .sup-button:hover {
+            background-color: #0056b3;
+        }
+        .section-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .declaration p, .witness-section p { /* Styles from original page3 */
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+        .signature-area { /* Styles from original page3 */
+            margin-top: 30px;
+            border-top: 1px solid #000;
+            padding-top: 5px;
+            width: 250px; 
+            text-align: center; /* Center text below line */
+        }
+        .flex-container { /* Styles from original page3 */
+            display: flex;
+            justify-content: space-between;
+            gap: 20px; 
+            align-items: flex-end; 
+        }
+        .flex-item { /* Styles from original page3 */
+            flex: 1; 
+        }
+         .photo-placeholder { /* Styles from original page3 */
+            width: 100px;
+            height: 120px;
+            border: 1px dashed #ccc;
+            display: flex;
+            flex-direction: column; /* To stack lines of text */
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #aaa;
+            font-size: 12px;
+            padding: 5px; /* Added padding */
+        }
+        .input-inline { /* For inputs within text */
+            width: auto; 
+            border: none; 
+            border-bottom: 1px dotted #000; 
+            display: inline; 
+            padding: 2px;
+            background-color: #e9e9e9; /* readonly style */
+            text-align: center; /* Center text in inline inputs */
+        }
+    </style>
+</head>
+<body>
+    <div class="form-page">
+        <!-- Content exactly as per Google Drive page3.html, preserving all languages -->
+        <p class="section-title">LETTER OF CONSENT TO DEDUCT LOAN & INTEREST FROM SALARY <br> पगारातून कर्ज आणि व्याज कपात करण्यासाठी संमती पत्र <br> वेतन से ऋण और ब्याज की कटौती के लिए सहमति पत्र</p>
+        <p>(To be completed only if loan repayment is desired through salary deductions - applicable to LIC employees only)<br>(केवळ एलआयसी कर्मचाऱ्यांसाठी लागू - जर पगारातून कर्ज परतफेड करायची असेल तरच पूर्ण करावे)<br>(केवल एलआईसी कर्मचारियों के लिए लागू - यदि वेतन कटौती के माध्यम से ऋण चुकौती वांछित है तो ही पूरा किया जाए)</p>
+        
+        <div class="form-group">
+            <label for="employeeName">To, <br> प्रति,</label>
+            The Zonal/Divisional Manager, <br>
+            Life Insurance Corporation of India, <br>
+            <input type="text" id="employeeOfficeLocation" name="employeeOfficeLocation" placeholder="Office Location" readonly> <!-- Assuming office location might be pre-filled -->
+        </div>
+
+        <p>Dear Sir,</p>
+        <p>Re: Salary Saving Scheme Policy No.(s) <input type="text" id="sssPolicyNumbers" name="sssPolicyNumbers" class="input-inline" style="width: 200px;" readonly> Staff No. <input type="text" id="staffNumber" name="staffNumber" class="input-inline" style="width: 100px;" readonly></p>
+        <p>
+            I hereby request you to grant me a loan of Rs. <input type="text" id="requestedLoanAmount" name="requestedLoanAmount" class="input-inline" style="width: 120px;" readonly>
+            (Rupees <input type="text" id="requestedLoanAmountWords" name="requestedLoanAmountWords" class="input-inline" style="width: 300px;" readonly>)
+            against the security of my above policy/policies.
+        </p>
+        <p>
+            I hereby authorize you to deduct from my salary each month, commencing from the salary for the month of 
+            <input type="text" id="deductionStartMonth" name="deductionStartMonth" class="input-inline" style="width: 100px;" readonly> / 
+            <input type="text" id="deductionStartYear" name="deductionStartYear" class="input-inline" style="width: 60px;" readonly>
+            an amount of Rs. <input type="text" id="monthlyDeductionAmount" name="monthlyDeductionAmount" class="input-inline" style="width: 100px;" readonly>
+            (Rupees <input type="text" id="monthlyDeductionAmountWords" name="monthlyDeductionAmountWords" class="input-inline" style="width: 250px;" readonly>)
+            towards repayment of the loan and interest, until the entire loan with interest thereon is fully repaid.
+        </p>
+        <p>
+            मी याद्वारे तुम्हाला माझ्या उपरोक्त पॉलिसी/पॉलिसींच्या सुरक्षेवर रु. <input type="text" id="requestedLoanAmount_mr" name="requestedLoanAmount_mr" class="input-inline" style="width: 120px;" readonly>
+            (अक्षरी रुपये <input type="text" id="requestedLoanAmountWords_mr" name="requestedLoanAmountWords_mr" class="input-inline" style="width: 300px;" readonly>) कर्ज मंजूर करण्याची विनंती करतो.
+        </p>
+        <p>
+            मी याद्वारे तुम्हाला माझ्या पगारातून दरमहा, <input type="text" id="deductionStartMonth_mr" name="deductionStartMonth_mr" class="input-inline" style="width: 100px;" readonly> / 
+            <input type="text" id="deductionStartYear_mr" name="deductionStartYear_mr" class="input-inline" style="width: 60px;" readonly> महिन्याच्या पगारापासून,
+            रु. <input type="text" id="monthlyDeductionAmount_mr" name="monthlyDeductionAmount_mr" class="input-inline" style="width: 100px;" readonly>
+            (अक्षरी रुपये <input type="text" id="monthlyDeductionAmountWords_mr" name="monthlyDeductionAmountWords_mr" class="input-inline" style="width: 250px;" readonly>)
+            कर्ज आणि व्याजाच्या परतफेडीसाठी, संपूर्ण कर्ज आणि त्यावरील व्याज पूर्णपणे परतफेड होईपर्यंत कपात करण्यास अधिकृत करतो.
+        </p>
+        <p>
+            मैं एतद्द्वारा आपसे अनुरोध करता हूँ कि मुझे मेरी उपरोक्त पॉलिसी/पॉलिसीयों की सुरक्षा पर रु. <input type="text" id="requestedLoanAmount_hi" name="requestedLoanAmount_hi" class="input-inline" style="width: 120px;" readonly>
+            (रुपये शब्दों में <input type="text" id="requestedLoanAmountWords_hi" name="requestedLoanAmountWords_hi" class="input-inline" style="width: 300px;" readonly>) का ऋण प्रदान करें।
+        </p>
+        <p>
+            मैं एतद्द्वारा आपको मेरे वेतन से प्रत्येक माह, माह <input type="text" id="deductionStartMonth_hi" name="deductionStartMonth_hi" class="input-inline" style="width: 100px;" readonly> / 
+            <input type="text" id="deductionStartYear_hi" name="deductionStartYear_hi" class="input-inline" style="width: 60px;" readonly> के वेतन से,
+            रु. <input type="text" id="monthlyDeductionAmount_hi" name="monthlyDeductionAmount_hi" class="input-inline" style="width: 100px;" readonly>
+            (रुपये शब्दों में <input type="text" id="monthlyDeductionAmountWords_hi" name="monthlyDeductionAmountWords_hi" class="input-inline" style="width: 250px;" readonly>)
+            ऋण और ब्याज की चुकौती के लिए, जब तक कि पूरा ऋण और उस पर ब्याज पूरी तरह से चुकाया नहीं जाता, कटौती करने के लिए अधिकृत करता हूँ।
+        </p>
+        
+        <p>Yours faithfully, <br> आपला विश्वासू, <br> भवदीय,</p>
+
+        <div class="flex-container" style="margin-top: 30px;">
+            <div class="flex-item">
+                <div class="form-group">
+                    <label for="employeeSignatureDate">Date / तारीख / दिनांक:</label>
+                    <input type="text" id="employeeSignatureDate" name="employeeSignatureDate" readonly>
+                </div>
+                 <div class="form-group">
+                    <label for="employeeNameSignature">Name of Employee / कर्मचाऱ्याचे नाव / कर्मचारी का नाम:</label>
+                    <input type="text" id="employeeNameSignature" name="employeeNameSignature" readonly>
+                </div>
+            </div>
+            <div class="flex-item" style="text-align: right;">
+                <div class="signature-area" style="margin-left: auto; margin-right: 0;">
+                    Signature of Employee <br> कर्मचाऱ्याची सही <br> कर्मचारी के हस्ताक्षर
+                </div>
+            </div>
+        </div>
+
+        <hr style="margin-top:30px; margin-bottom:30px;">
+
+        <p class="section-title">FOR OFFICE USE ONLY <br> केवळ कार्यालयीन वापरासाठी <br> केवल कार्यालय उपयोग के लिए</p>
+        <p>Certified that the above employee is working in this office and his/her signature has been verified from our records.</p>
+        <p>प्रमाणित केले जाते की वरील कर्मचारी या कार्यालयात कार्यरत आहे आणि त्यांची सही आमच्या नोंदीतून सत्यापित केली गेली आहे.</p>
+        <p>प्रमाणित किया जाता है कि उपरोक्त कर्मचारी इस कार्यालय में कार्यरत है और उनके हस्ताक्षर हमारे रिकॉर्ड से सत्यापित किए गए हैं।</p>
+        
+        <div class="flex-container" style="margin-top: 30px;">
+            <div class="flex-item">
+                <div class="form-group">
+                    <label for="officeUseDate">Date / तारीख / दिनांक:</label>
+                    <input type="text" id="officeUseDate" name="officeUseDate" readonly> <!-- Usually office fills this -->
+                </div>
+            </div>
+            <div class="flex-item" style="text-align: right;">
+                <div class="signature-area" style="margin-left: auto; margin-right: 0;">
+                    Signature of Authorised Official <br> अधिकृत अधिकाऱ्याची सही <br> प्राधिकृत अधिकारी के हस्ताक्षर
+                </div>
+                 <div style="text-align: right; margin-right: 20px; margin-top:5px;">(Office Seal) <br> (कार्यालयीन शिक्का) <br> (कार्यालय की मुहर)</div>
+            </div>
+        </div>
+
+
+        <div class="form-group" style="margin-top: 30px;">
+            <label for="inputPolicyNumberPage3">Enter Policy Number to Load Details:</label>
+            <input type="text" id="inputPolicyNumberPage3" placeholder="Enter Policy Number">
+            <button class="sup-button" onclick="fetchPolicyDetailsForPage3()" style="display: block; margin-left:auto; margin-right:auto;">Load Page 3 Details</button>
+        </div>
+    </div>
+
+   <script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        const SUPABASE_URL = 'https://efduqdondmlzmwhfgkfz.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
+        let supabase;
+
+        try {
+            supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log("Supabase client initialized successfully for Page 3.");
+        } catch (e) {
+            console.error("FATAL ERROR: Could not initialize Supabase client for Page 3!", e);
+        }
+
+        async function fetchPolicyDetailsForPage3() {
+            if (!supabase) {
+                console.error("Supabase client is not initialized. Cannot fetch Page 3 details.");
+                return;
+            }
+
+            const policyNumberInput = document.getElementById('inputPolicyNumberPage3').value;
+            if (!policyNumberInput) {
+                console.warn('Policy number input for Page 3 is empty.');
+                return;
+            }
+            console.log("Attempting to fetch Page 3 details for policy:", policyNumberInput);
+
+            try {
+                // Fields for Page 3 (Letter of Consent - for LIC Employees)
+                // 'branch_name' for employeeOfficeLocation (or a dedicated field if you have it)
+                // 'policy_number' for sssPolicyNumbers (if it's a single SSS policy, else needs different handling)
+                // 'staff_number' (if you have this field)
+                // 'loan_amount' for requestedLoanAmount
+                // 'loan_amount_words' for requestedLoanAmountWords
+                // 'deduction_start_month', 'deduction_start_year', 'monthly_deduction_amount', 'monthly_deduction_amount_words'
+                // 'today_date' for employeeSignatureDate
+                // 'name' for employeeNameSignature
+                const { data, error } = await supabase
+                    .from('loan') 
+                    .select('lic_branch_name, policy_number, staff_number, loan_amount, loan_amount_words, deduction_start_month, deduction_start_year, monthly_deduction_amount, monthly_deduction_amount_words, today_date, name')
+                    .eq('policy_number', policyNumberInput) // This assumes the input policy number is the SSS policy
+                    .single();
+
+                if (error) {
+                    console.error("Supabase Error fetching Page 3 data:", JSON.stringify(error, null, 2));
+                    clearPage3FormFields();
+                    if (error.code === 'PGRST116') { 
+                        console.warn('No details found for this policy number on Page 3.');
+                    }
+                    return;
+                }
+
+                if (data) {
+                    console.log("Supabase Data Object for Page 3:", JSON.stringify(data, null, 2));
+                    document.getElementById('employeeOfficeLocation').value = data.lic_branch_name || ''; // Assuming branch_name is office location
+                    document.getElementById('sssPolicyNumbers').value = data.policy_number || ''; // If multiple, needs different handling
+                    document.getElementById('staffNumber').value = data.staff_number || '';
+
+                    // English
+                    document.getElementById('requestedLoanAmount').value = data.loan_amount || '';
+                    document.getElementById('requestedLoanAmountWords').value = data.loan_amount_words || '';
+                    document.getElementById('deductionStartMonth').value = data.deduction_start_month || '';
+                    document.getElementById('deductionStartYear').value = data.deduction_start_year || '';
+                    document.getElementById('monthlyDeductionAmount').value = data.monthly_deduction_amount || '';
+                    document.getElementById('monthlyDeductionAmountWords').value = data.monthly_deduction_amount_words || '';
+                    
+                    // Marathi - Assuming similar data or requires specific fields/conversion
+                    document.getElementById('requestedLoanAmount_mr').value = data.loan_amount || '';
+                    document.getElementById('requestedLoanAmountWords_mr').value = data.loan_amount_words || ''; // Needs Marathi words
+                    document.getElementById('deductionStartMonth_mr').value = data.deduction_start_month || '';
+                    document.getElementById('deductionStartYear_mr').value = data.deduction_start_year || '';
+                    document.getElementById('monthlyDeductionAmount_mr').value = data.monthly_deduction_amount || '';
+                    document.getElementById('monthlyDeductionAmountWords_mr').value = data.monthly_deduction_amount_words || ''; // Needs Marathi words
+
+                    // Hindi - Assuming similar data or requires specific fields/conversion
+                    document.getElementById('requestedLoanAmount_hi').value = data.loan_amount || '';
+                    document.getElementById('requestedLoanAmountWords_hi').value = data.loan_amount_words || ''; // Needs Hindi words
+                    document.getElementById('deductionStartMonth_hi').value = data.deduction_start_month || '';
+                    document.getElementById('deductionStartYear_hi').value = data.deduction_start_year || '';
+                    document.getElementById('monthlyDeductionAmount_hi').value = data.monthly_deduction_amount || '';
+                    document.getElementById('monthlyDeductionAmountWords_hi').value = data.monthly_deduction_amount_words || ''; // Needs Hindi words
+
+                    document.getElementById('employeeSignatureDate').value = data.today_date || '';
+                    document.getElementById('employeeNameSignature').value = data.name || ''; // Employee's name
+
+                    // Office use section is typically not pre-filled from this data load.
+                    // document.getElementById('officeUseDate').value = ''; 
+                } else {
+                    console.warn('No data returned for Page 3 for policy:', policyNumberInput);
+                    clearPage3FormFields();
+                }
+            } catch (e) {
+                console.error("CRITICAL UNEXPECTED ERROR in fetchPolicyDetailsForPage3:", e);
+                clearPage3FormFields();
+            }
+        }
+
+        function clearPage3FormFields() {
+            document.getElementById('employeeOfficeLocation').value = '';
+            document.getElementById('sssPolicyNumbers').value = '';
+            document.getElementById('staffNumber').value = '';
+            // English
+            document.getElementById('requestedLoanAmount').value = '';
+            document.getElementById('requestedLoanAmountWords').value = '';
+            document.getElementById('deductionStartMonth').value = '';
+            document.getElementById('deductionStartYear').value = '';
+            document.getElementById('monthlyDeductionAmount').value = '';
+            document.getElementById('monthlyDeductionAmountWords').value = '';
+            // Marathi
+            document.getElementById('requestedLoanAmount_mr').value = '';
+            document.getElementById('requestedLoanAmountWords_mr').value = '';
+            document.getElementById('deductionStartMonth_mr').value = '';
+            document.getElementById('deductionStartYear_mr').value = '';
+            document.getElementById('monthlyDeductionAmount_mr').value = '';
+            document.getElementById('monthlyDeductionAmountWords_mr').value = '';
+            // Hindi
+            document.getElementById('requestedLoanAmount_hi').value = '';
+            document.getElementById('requestedLoanAmountWords_hi').value = '';
+            document.getElementById('deductionStartMonth_hi').value = '';
+            document.getElementById('deductionStartYear_hi').value = '';
+            document.getElementById('monthlyDeductionAmount_hi').value = '';
+            document.getElementById('monthlyDeductionAmountWords_hi').value = '';
+
+            document.getElementById('employeeSignatureDate').value = '';
+            document.getElementById('employeeNameSignature').value = '';
+            // document.getElementById('officeUseDate').value = '';
+        }
+
+        window.fetchPolicyDetailsForPage3 = fetchPolicyDetailsForPage3;
+        clearPage3FormFields();
+
+    </script>
+</body>
+</html>

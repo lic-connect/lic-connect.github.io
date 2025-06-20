@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Load Test - page2K</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .status { padding: 10px; margin-top: 10px; border-radius: 4px; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>Testing Supabase Library on page2K.html</h1>
+    <div id="statusMessage" class="status">Checking Supabase status...</div>
+    <hr>
+    <p>If Supabase loads correctly, you should see a success message above and details in the console.</p>
+    <p>If there's an error, it will be indicated above and in the console.</p>
+
+    <!-- Attempt 1: Standard CDN script (should be fetched before DOMContentLoaded if not deferred) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('[page2K.html] DOMContentLoaded event fired.');
+            const statusDiv = document.getElementById('statusMessage');
+            let supabaseClient;
+
+            // Add a small delay to give the external script even more chance to load,
+            // though DOMContentLoaded should theoretically be enough.
+            setTimeout(() => {
+                console.log('[page2K.html] Inside setTimeout, checking for Supabase object.');
+                debugger; // PAUSE EXECUTION HERE - BROWSER DEBUGGER WILL STOP
+
+                if (typeof Supabase !== 'undefined') {
+                    statusDiv.textContent = 'SUCCESS: Supabase global object IS DEFINED.';
+                    statusDiv.className = 'status success';
+                    console.log('[page2K.html] Supabase global object IS DEFINED.');
+                    try {
+                        const SUPABASE_URL = 'https://efduqdondmlzmwhfgkfz.supabase.co';
+                        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
+                        supabaseClient = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                        statusDiv.textContent += ' Supabase client instance CREATED successfully!';
+                        console.log('[page2K.html] Supabase client instance CREATED successfully:', supabaseClient);
+                    } catch (e) {
+                        statusDiv.textContent = `ERROR: Supabase global object defined, but client creation FAILED: ${e.message}`;
+                        statusDiv.className = 'status error';
+                        console.error('[page2K.html] Error initializing Supabase client:', e);
+                    }
+                } else {
+                    statusDiv.textContent = 'ERROR: Supabase global object IS UNDEFINED. Library not loaded or executed.';
+                    statusDiv.className = 'status error';
+                    console.error('[page2K.html] Supabase global object IS UNDEFINED.');
+                }
+            }, 100); // 100ms delay
+        });
+    </script>
+</body>
+</html>

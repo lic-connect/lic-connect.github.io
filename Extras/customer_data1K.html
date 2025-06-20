@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Policyholder Lookup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff url('https://images.unsplash.com/photo-1604480134146-550d92b91b4d') no-repeat center center fixed;
+      background-size: cover;
+      padding: 20px;
+    }
+    .container {
+      background-color: rgba(255,255,255,0.95);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      font-size: 16px;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .center {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Policyholder Lookup</h1>
+    <input type="text" id="policyInput" placeholder="Enter Policy Number">
+    <button onclick="fetchData()">Search</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Policy Name</th>
+          <th>DOB</th>
+          <th>Age</th>
+          <th>Policy No</th>
+          <th>Plan No</th>
+          <th>Policy Term</th>
+          <th>PPT</th>
+          <th>Sum Assured</th>
+          <th>Premium</th>
+          <th>DOC</th>
+          <th>Mode</th>
+          <th>Maturity Amount</th>
+          <th>Death Benefit</th>
+          <th>Maturity Date</th>
+          <th>Bonus</th>
+          <th>FAB</th>
+          <th>Loan</th>
+          <th>Revival</th>
+          <th>SB</th>
+          <th>Paid-up</th>
+          <th>Surrender</th>
+          <th>Remarks</th>
+        </tr>
+      </thead>
+      <tbody id="dataBody"></tbody>
+    </table>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const SUPABASE_URL = 'https://efduqdondmlzmwhfgkfz.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'; // Replace with your actual anon key
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    window.fetchData = async function () {
+      const policyNo = document.getElementById("policyInput").value.trim();
+      const dataBody = document.getElementById("dataBody");
+      dataBody.innerHTML = '';
+
+      if (!policyNo) {
+        alert("Please enter a policy number.");
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('policyholder')
+          .select('*')
+          .eq('policy_number', policyNo);
+
+        if (error) {
+          console.error("Error fetching data:", error.message);
+          alert("Error fetching data: " + error.message);
+          return;
+        }
+
+        if (data && data.length > 0) {
+          const row = data[0];
+          dataBody.innerHTML = `
+            <tr>
+              <td>${row.name || ''}</td>
+              <td>${row.policy_name || ''}</td>
+              <td>${row.date_of_birth || ''}</td>
+              <td>${row.age || ''}</td>
+              <td>${row.policy_number || ''}</td>
+              <td>${row.plan_no || ''}</td>
+              <td>${row.policy_term || ''}</td>
+              <td>${row.ppt || ''}</td>
+              <td>${row.sum_assured || ''}</td>
+              <td>${row.premium || ''}</td>
+              <td>${row.date_of_commencement || ''}</td>
+              <td>${row.mode_of_premium || ''}</td>
+              <td>${row.maturity_amount || ''}</td>
+              <td>${row.death_benefit || ''}</td>
+              <td>${row.maturity_date || ''}</td>
+              <td>${row.bonus || ''}</td>
+              <td>${row.fab || ''}</td>
+              <td>${row.loan_details || ''}</td>
+              <td>${row.revival_details || ''}</td>
+              <td>${row.sb_details || ''}</td>
+              <td>${row.paid_up_value || ''}</td>
+              <td>${row.surrender_value || ''}</td>
+              <td>${row.remarks || ''}</td>
+            </tr>
+          `;
+        } else {
+          dataBody.innerHTML = `<tr><td colspan="23" class="center">No data found for this policy number.</td></tr>`;
+        }
+
+      } catch (e) {
+        console.error("Unexpected error:", e);
+        alert("Unexpected error occurred. Check console.");
+      }
+    };
+  </script>
+</body>
+</html>

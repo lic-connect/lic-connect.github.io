@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC Connect - Login & Signup</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('background.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      width: 400px;
+      margin: auto;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 10px;
+      margin-top: 80px;
+    }
+    h2 {
+      text-align: center;
+      color: #004d00;
+    }
+    .tab-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    .tab-buttons button {
+      flex: 1;
+      padding: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      background-color: #e0ffe0;
+      border: none;
+    }
+    .tab-buttons button.active {
+      background-color: #00cc44;
+      color: white;
+    }
+    .form-section {
+      display: none;
+    }
+    .form-section.active {
+      display: block;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button[type="submit"], .link-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #009933;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .link-button {
+      background: none;
+      color: #0077cc;
+      text-align: left;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="tab-buttons">
+    <button id="loginTab" class="active">Login</button>
+    <button id="signupTab">Signup</button>
+  </div>
+
+  <!-- Login Form -->
+  <div id="loginForm" class="form-section active">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email" required>
+    <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password">
+    <button onclick="handleLogin()">Proceed</button>
+    <button class="link-button" onclick="handleForgotPassword()">Forgot Password?</button>
+  </div>
+
+  <!-- Signup Form -->
+  <div id="signupForm" class="form-section">
+    <h2>Signup</h2>
+    <input type="text" id="signupName" placeholder="Full Name" required>
+    <input type="email" id="signupEmail" placeholder="Email" required>
+    <input type="password" id="signupPassword" placeholder="Password" required autocomplete="new-password">
+    <select id="signupGender">
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+    <input type="text" id="signupMobile" placeholder="Mobile Number">
+    <input type="text" id="signupCity" placeholder="City" oninput="suggestCity(this.value)">
+    <input type="text" id="signupState" placeholder="State" readonly>
+    <input type="text" id="signupCountry" placeholder="Country" readonly>
+    <input type="text" id="signupProfession" placeholder="Profession">
+    <input type="text" id="signupIncome" placeholder="Annual Income">
+    <button onclick="handleSignup()">Signup</button>
+  </div>
+</div>
+
+<script>
+  // ✅ Initialize Supabase
+  const supabase = window.supabase.createClient(
+    'https://efduqdondmlzmwhfgkfz.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
+  );
+
+  // ✅ Toggle Forms
+  document.getElementById('loginTab').onclick = () => {
+    toggleTab('login');
+  };
+  document.getElementById('signupTab').onclick = () => {
+    toggleTab('signup');
+  };
+
+  function toggleTab(tab) {
+    document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+    document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
+    document.getElementById('loginForm').classList.toggle('active', tab === 'login');
+    document.getElementById('signupForm').classList.toggle('active', tab === 'signup');
+  }
+
+  // ✅ City to State/Country Logic
+  const cityMap = {
+    'Mumbai': { state: 'Maharashtra', country: 'India' },
+    'Delhi': { state: 'Delhi', country: 'India' },
+    'Chennai': { state: 'Tamil Nadu', country: 'India' },
+    'Kolkata': { state: 'West Bengal', country: 'India' },
+    'New York': { state: 'New York', country: 'USA' },
+    'London': { state: 'England', country: 'UK' }
+  };
+
+  function suggestCity(input) {
+    const city = input.trim();
+    if (city.length >= 3 && cityMap[city]) {
+      document.getElementById('signupState').value = cityMap[city].state;
+      document.getElementById('signupCountry').value = cityMap[city].country;
+    }
+  }
+
+  // ✅ Signup Handler
+  async function handleSignup() {
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const fullName = document.getElementById('signupName').value;
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+    emailRedirectTo: 'http://localhost:8080/main.html',
+        data: {
+          full_name: fullName,
+          gender: document.getElementById('signupGender').value,
+          mobile: document.getElementById('signupMobile').value,
+          city: document.getElementById('signupCity').value,
+          state: document.getElementById('signupState').value,
+          country: document.getElementById('signupCountry').value,
+          profession: document.getElementById('signupProfession').value,
+          annual_income: document.getElementById('signupIncome').value
+        }
+      }
+    });
+
+    if (error) {
+      alert('Signup Error: ' + error.message);
+    } else {
+      alert('Signup successful! Please check your email for confirmation.');
+    }
+  }
+
+  // ✅ Login Handler
+  async function handleLogin() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      alert('Login failed: ' + error.message);
+    } else {
+      alert('Login successful!');
+      // Redirect or continue...
+    }
+  }
+
+  // ✅ Forgot Password Handler
+  async function handleForgotPassword() {
+    const email = document.getElementById('loginEmail').value;
+
+    if (!email) {
+      alert('Please enter your email first.');
+      return;
+    }
+
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email);
+
+    if (error) {
+      alert('Error sending reset email: ' + error.message);
+    } else {
+      alert('Password reset email sent.');
+    }
+  }
+</script>
+</body>
+</html>

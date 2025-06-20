@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load LIC Loan Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+        }
+        h1 {
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 1.8em;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #555;
+            text-align: left;
+        }
+        input[type="text"] {
+            width: 100%; /* Full width */
+            padding: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        input[type="text"]:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+            outline: none;
+        }
+        button {
+            padding: 12px 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.2s ease-in-out;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: #dc3545;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LIC Loan Application</h1>
+        <label for="policyNumberInput">Enter Policy Number:</label>
+        <input type="text" id="policyNumberInput" placeholder="e.g., 987654321">
+        <button id="loadButton">Load Application Form</button> <!-- Changed to ID for JS event listener -->
+        <p id="errorMessage" class="error-message"></p>
+    </div>
+
+    <!-- ... (your HTML head and body up to the scripts) ... -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DOMContentLoaded event fired for page2K.html."); // New Log
+
+            const SUPABASE_URL = 'https://efduqdondmlzmwhfgkfz.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
+            let supabase;
+            const loadButton = document.getElementById('loadButton');
+            const errorMessageElement = document.getElementById('errorMessage');
+            const policyNumberInput = document.getElementById('policyNumberInput'); // Get this early
+
+            console.log("loadButton element:", loadButton); // New Log
+            console.log("errorMessageElement:", errorMessageElement); // New Log
+            console.log("policyNumberInput element:", policyNumberInput); // New Log
+
+            if (typeof Supabase !== 'undefined') {
+                console.log("Supabase global object IS defined."); // New Log
+                try {
+                    supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    console.log("Supabase client instance CREATED successfully:", supabase); // New Log
+                } catch (e) {
+                    console.error("ERROR initializing Supabase client:", e);
+                    if (errorMessageElement) errorMessageElement.textContent = 'Critical Error: Data service initialization failed. ' + e.message;
+                    if (loadButton) loadButton.disabled = true;
+                    return;
+                }
+            } else {
+                console.error("Supabase global object IS UNDEFINED. Library not loaded.");
+                if (errorMessageElement) errorMessageElement.textContent = 'Critical Error: Data service library not loaded.';
+                if (loadButton) loadButton.disabled = true;
+                return;
+            }
+
+            async function fetchAndOpenForm() {
+                console.log("fetchAndOpenForm function CALLED."); // New Log
+
+                if (!policyNumberInput) { // Check if the input element itself was found
+                    console.error("Policy number input element not found in fetchAndOpenForm!");
+                    if (errorMessageElement) errorMessageElement.textContent = "Error: Policy input field missing.";
+                    return;
+                }
+                const policyNumber = policyNumberInput.value.trim();
+                console.log("Policy number entered:", policyNumber); // New Log
+
+                if (errorMessageElement) errorMessageElement.textContent = '';
+
+                if (!policyNumber) {
+                    console.log("Policy number is empty."); // New Log
+                    if (errorMessageElement) errorMessageElement.textContent = 'Please enter a policy number.';
+                    return;
+                }
+
+                if (!supabase) {
+                    console.error("Supabase client is NULL or UNDEFINED in fetchAndOpenForm."); // New Log
+                    if (errorMessageElement) errorMessageElement.textContent = 'Data service is not available. Please refresh.';
+                    return;
+                }
+                console.log("Supabase client IS available in fetchAndOpenForm. Proceeding to query."); // New Log
+
+                try {
+                    console.log("Attempting Supabase query for policy:", policyNumber); // New Log
+                    const { data, error } = await supabase
+                        .from('loan5196')
+                        .select('policy_number, today_date, loan_amount, loan_amount_words, loan_type')
+                        .eq('policy_number', policyNumber)
+                        .single();
+
+                    if (error) {
+                        console.error('Supabase query error:', error);
+                        if (error.code === 'PGRST116') {
+                            if (errorMessageElement) errorMessageElement.textContent = `No application found for policy number: ${policyNumber}`;
+                        } else {
+                            if (errorMessageElement) errorMessageElement.textContent = 'Error fetching details. Please try again. Details: ' + error.message;
+                        }
+                        return;
+                    }
+
+                    if (data) {
+                        console.log("Supabase query successful. Data:", data); // New Log
+                        sessionStorage.setItem('loanApplicationDataToDisplay', JSON.stringify(data));
+                        console.log("Data stored in sessionStorage. Redirecting to loan_form_display.html..."); // New Log
+                        window.location.href = 'loan_form_display.html'; // Make sure this filename is correct
+                    } else {
+                        console.log("Supabase query returned no data (but no error). Policy:", policyNumber); // New Log
+                        // This case should ideally be covered by PGRST116 with .single()
+                        if (errorMessageElement) errorMessageElement.textContent = `No application found for policy number: ${policyNumber}`;
+                    }
+                } catch (e) {
+                    console.error('CRITICAL ERROR in fetchAndOpenForm function:', e); // New Log
+                    if (errorMessageElement) errorMessageElement.textContent = 'An unexpected error occurred: ' + e.message;
+                }
+            }
+
+            if (loadButton) {
+                console.log("Attaching event listener to loadButton."); // New Log
+                loadButton.addEventListener('click', fetchAndOpenForm);
+                loadButton.disabled = false; // Ensure button is enabled if Supabase init was successful
+                console.log("Event listener ATTACHED to loadButton."); // New Log
+            } else {
+                console.error("Load button (#loadButton) NOT FOUND. Event listener cannot be attached.");
+                if(errorMessageElement) errorMessageElement.textContent = "Error: Load button missing from page.";
+            }
+        });
+    </script>
+</body>
+</html>

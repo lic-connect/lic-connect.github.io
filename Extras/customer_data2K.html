@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Policyholder Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff url('https://images.unsplash.com/photo-1604480134146-550d92b91b4d') no-repeat center center fixed;
+      background-size: cover;
+      padding: 20px;
+    }
+    .container {
+      background-color: rgba(255,255,255,0.95);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      font-size: 16px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    .center {
+      text-align: center;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Policyholder Form</h1>
+    <div class="form-grid">
+      <label>Name: <input type="text" id="name"></label>
+      <label>Policy Name: <input type="text" id="policy_name"></label>
+      <label>DOB: <input type="date" id="date_of_birth"></label>
+      <label>Age: <input type="number" id="age"></label>
+      <label>Policy Number: <input type="text" id="policy_number"></label>
+      <label>Plan No: <input type="text" id="plan_no"></label>
+      <label>Policy Term: <input type="number" id="policy_term"></label>
+      <label>PPT: <input type="number" id="ppt"></label>
+      <label>Sum Assured: <input type="number" id="sum_assured"></label>
+      <label>Premium: <input type="number" id="premium"></label>
+      <label>DOC: <input type="date" id="date_of_commencement"></label>
+      <label>Mode: <input type="text" id="mode_of_premium"></label>
+      <label>Maturity Amount: <input type="number" id="maturity_amount"></label>
+      <label>Death Benefit: <input type="number" id="death_benefit"></label>
+      <label>Maturity Date: <input type="date" id="maturity_date"></label>
+      <label>Bonus: <input type="number" id="bonus"></label>
+      <label>FAB: <input type="number" id="fab"></label>
+      <label>Loan: <input type="text" id="loan_details"></label>
+      <label>Revival: <input type="text" id="revival_details"></label>
+      <label>SB: <input type="text" id="sb_details"></label>
+      <label>Paid-up: <input type="number" id="paid_up_value"></label>
+      <label>Surrender: <input type="number" id="surrender_value"></label>
+      <label>Remarks: <input type="text" id="remarks"></label>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <button onclick="insertData()">Insert</button>
+      <button onclick="updateData()">Update</button>
+      <button onclick="deleteData()">Delete</button>
+      <button onclick="fetchData()">Fetch</button>
+    </div>
+
+    <div style="margin-top: 20px;">
+      <input type="text" id="lookup_policy_number" placeholder="Enter Policy Number for Lookup">
+      <button onclick="lookupPolicy()">Lookup</button>
+      <button onclick="clearLookup()">Clear</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th colspan="23">Policyholder Data</th>
+        </tr>
+      </thead>
+      <tbody id="dataBody"></tbody>
+    </table>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabase = createClient(
+      'https://efduqdondmlzmwhfgkfz.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
+    );
+
+    function getFieldValues() {
+      const fields = [
+        'name','policy_name','date_of_birth','age','policy_number','plan_no','policy_term','ppt','sum_assured','premium','date_of_commencement','mode_of_premium','maturity_amount','death_benefit','maturity_date','bonus','fab','loan_details','revival_details','sb_details','paid_up_value','surrender_value','remarks'
+      ];
+      const values = {};
+      fields.forEach(id => values[id] = document.getElementById(id).value);
+      return values;
+    }
+
+    window.insertData = async function () {
+      const values = getFieldValues();
+      const { error } = await supabase.from('policyholder').insert([values]);
+      if (error) alert('Insert Error: ' + error.message);
+      else alert('Inserted successfully');
+    };
+
+    window.updateData = async function () {
+      const values = getFieldValues();
+      const { error } = await supabase
+        .from('policyholder')
+        .update(values)
+        .eq('policy_number', values.policy_number);
+      if (error) alert('Update Error: ' + error.message);
+      else alert('Updated successfully');
+    };
+
+    window.deleteData = async function () {
+      const { policy_number } = getFieldValues();
+      const { error } = await supabase
+        .from('policyholder')
+        .delete()
+        .eq('policy_number', policy_number);
+      if (error) alert('Delete Error: ' + error.message);
+      else alert('Deleted successfully');
+    };
+
+    window.fetchData = async function () {
+      const { policy_number } = getFieldValues();
+      const { data, error } = await supabase
+        .from('policyholder')
+        .select('*')
+        .eq('policy_number', policy_number)
+        .single();
+
+      const dataBody = document.getElementById('dataBody');
+      const table = dataBody.closest('table');
+      const thead = table.querySelector('thead');
+
+      dataBody.innerHTML = '';
+      while (thead.rows.length > 1) {
+        thead.deleteRow(1);
+      }
+
+      if (error) {
+        alert('Fetch Error: ' + error.message);
+        return;
+      }
+
+      const headerRow = document.createElement('tr');
+      Object.keys(data).forEach(key => {
+        const th = document.createElement('th');
+        th.textContent = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+
+      const row = document.createElement('tr');
+      Object.values(data).forEach(val => {
+        const td = document.createElement('td');
+        td.textContent = val ?? '';
+        row.appendChild(td);
+      });
+      dataBody.appendChild(row);
+
+      Object.entries(data).forEach(([key, val]) => {
+        const field = document.getElementById(key);
+        if (field) field.value = val;
+      });
+    };
+
+    window.lookupPolicy = async function () {
+      const policyNumber = document.getElementById('lookup_policy_number').value.trim();
+      if (!policyNumber) return alert("Enter a policy number.");
+
+      const { data, error } = await supabase
+        .from('policyholder')
+        .select('*')
+        .eq('policy_number', policyNumber)
+        .single();
+
+      const dataBody = document.getElementById('dataBody');
+      const table = dataBody.closest('table');
+      const thead = table.querySelector('thead');
+
+      dataBody.innerHTML = '';
+      while (thead.rows.length > 1) {
+        thead.deleteRow(1);
+      }
+
+      if (error || !data) return alert("Policy not found.");
+
+      const headerRow = document.createElement('tr');
+      Object.keys(data).forEach(key => {
+        const th = document.createElement('th');
+        th.textContent = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+
+      const row = document.createElement('tr');
+      Object.values(data).forEach(val => {
+        const td = document.createElement('td');
+        td.textContent = val ?? '';
+        row.appendChild(td);
+      });
+      dataBody.appendChild(row);
+
+      Object.entries(data).forEach(([key, val]) => {
+        const field = document.getElementById(key);
+        if (field) field.value = val;
+      });
+    };
+
+    window.clearLookup = function () {
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => input.value = '');
+
+      const dataBody = document.getElementById('dataBody');
+      dataBody.innerHTML = '';
+    };
+  </script>
+</body>
+</html>
