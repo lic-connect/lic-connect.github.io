@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LIC Single Premium Plans</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+    .toolbar {
+      background-color: #2c3e50;
+      color: white;
+      padding: 15px;
+      font-size: 20px;
+      text-align: center;
+    }
+    .tab-container {
+      display: flex;
+      background-color: #ecf0f1;
+      border-bottom: 1px solid #ccc;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .tab.active {
+      background-color: #ffffff;
+      border-bottom: 3px solid #2980b9;
+    }
+    .tab-content {
+      display: none;
+      padding: 20px;
+      background: #fff;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    input[type="number"], select {
+      padding: 6px;
+      margin-bottom: 10px;
+      width: 120px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #1c5980;
+    }
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Toolbar -->
+<div class="toolbar" id="planTitle">Loading...</div>
+
+<!-- Tabs -->
+<div class="tab-container">
+  <div class="tab active" onclick="showTab(0)">Premium<br>Calculator</div>
+  <div class="tab" onclick="showTab(1)">Plan Feature</div>
+</div>
+
+<!-- Tab Content -->
+<div class="tab-content active" id="tab0">
+  <h3>Single Premium Calculator</h3>
+  <label>Age:
+    <input type="number" id="age" min="8" max="65" value="30">
+  </label>
+  <label>Sum Assured:
+    <input type="number" id="sumAssured" value="500000">
+  </label>
+  <label>Policy Term:
+    <select id="term">
+      <option value="10">10 Years</option>
+      <option value="15">15 Years</option>
+      <option value="20">20 Years</option>
+    </select>
+  </label>
+  <button onclick="calculateSinglePremium()">Calculate</button>
+  <div class="result" id="premiumResult">Enter details and click calculate.</div>
+</div>
+
+<div class="tab-content" id="tab1">
+  <h3>Plan Feature</h3>
+  <ul>
+    <li>Single premium payment only</li>
+    <li>Risk cover throughout the policy term</li>
+    <li>Tax benefit under Section 80C & 10(10D)</li>
+    <li>Loan facility available after 1 year</li>
+    <li>Maturity = Sum Assured + Loyalty Additions</li>
+  </ul>
+</div>
+
+<!-- Scripts -->
+<script>
+  // Plan ID to Plan Name mapping
+  const planNames = {
+    846: "Jeevan Utkarsh",
+    863: "Dhan Rekha",
+    866: "Dhan Varsha",
+    869: "Dhan Vriddhi",
+    8181: "Jeevan Nidhi (Single Premium)"
+  };
+
+  // Get query string ?plan=...
+  function getPlanNameFromQuery() {
+    const params = new URLSearchParams(window.location.search);
+    const planId = parseInt(params.get("plan"));
+    return planNames[planId] || "Single Premium Plan";
+  }
+
+  // Set plan name on load
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("planTitle").textContent = getPlanNameFromQuery();
+  });
+
+  // Tab switching logic
+  function showTab(index) {
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+    tabs.forEach((tab, i) => {
+      tab.classList.toggle('active', i === index);
+      contents[i].classList.toggle('active', i === index);
+    });
+  }
+
+  // Dummy calculator logic (replace with API or real formula)
+  function calculateSinglePremium() {
+    const age = parseInt(document.getElementById('age').value);
+    const sa = parseInt(document.getElementById('sumAssured').value);
+    const term = parseInt(document.getElementById('term').value);
+
+    let rate;
+    if (term === 10) rate = 0.093;
+    else if (term === 15) rate = 0.091;
+    else rate = 0.089;
+
+    // Age adjustment factor (fictitious for example)
+    const ageFactor = 1 - ((age - 20) * 0.003);
+    const basePremium = sa * rate * ageFactor;
+    const tax = basePremium * 0.045;
+    const totalPremium = Math.round(basePremium + tax);
+
+    document.getElementById('premiumResult').textContent =
+      `Estimated Premium (incl. 4.5% GST): ₹${totalPremium.toLocaleString()}`;
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Plan Features - LIC CONNECT</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff url('happy-family.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #004d00;
+      text-shadow: 1px 1px #ccc;
+    }
+    .plan-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    .plan-button {
+      padding: 12px 20px;
+      background: linear-gradient(to bottom right, #00cc44, #009933);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+      transition: background 0.3s;
+    }
+    .plan-button:hover {
+      background: linear-gradient(to bottom right, #009933, #007f29);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Current LIC Plans</h1>
+
+  <div class="plan-list">
+    <button class="plan-button" onclick="openPlan('714')">Plan 714</button>
+    <button class="plan-button" onclick="openPlan('715')">Plan 715</button>
+    <button class="plan-button" onclick="openPlan('717')">Plan 717</button>
+    <button class="plan-button" onclick="openPlan('720')">Plan 720</button>
+    <button class="plan-button" onclick="openPlan('721')">Plan 721</button>
+    <button class="plan-button" onclick="openPlan('732')">Plan 732</button>
+    <button class="plan-button" onclick="openPlan('733')">Plan 733</button>
+    <button class="plan-button" onclick="openPlan('734')">Plan 734</button>
+    <button class="plan-button" onclick="openPlan('736')">Plan 736</button>
+    <button class="plan-button" onclick="openPlan('745')">Plan 745</button>
+    <button class="plan-button" onclick="openPlan('748')">Plan 748</button>
+    <button class="plan-button" onclick="openPlan('751')">Plan 751</button>
+    <button class="plan-button" onclick="openPlan('758')">Plan 758</button>
+    <button class="plan-button" onclick="openPlan('760')">Plan 760</button>
+    <button class="plan-button" onclick="openPlan('768')">Plan 768</button>
+    <button class="plan-button" onclick="openPlan('771')">Plan 771</button>
+    <button class="plan-button" onclick="openPlan('774')">Plan 774</button>
+    <button class="plan-button" onclick="openPlan('857')">Plan 857</button>
+    <button class="plan-button" onclick="openPlan('859')">Plan 859</button>
+    <button class="plan-button" onclick="openPlan('862')">Plan 862</button>
+    <button class="plan-button" onclick="openPlan('875')">Plan 875</button>
+    <button class="plan-button" onclick="openPlan('877')">Plan 877</button>
+    <button class="plan-button" onclick="openPlan('879')">Plan 879</button>
+    <button class="plan-button" onclick="openPlan('955')">Plan 955</button>
+  </div>
+
+  <script>
+    function openPlan(planNo) {
+      window.open(planNo + '.txt', '_blank');
+    }
+  </script>
+
+</body>
+</html>

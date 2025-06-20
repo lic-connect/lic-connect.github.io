@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLAN COMPARISON TABLE</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f0f2f5; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 1300px; margin: 20px auto; padding: 25px; background-color: #ffffff; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #005030; border-bottom: 2px solid #e0e0e0; padding-bottom: 15px; margin-bottom: 30px; font-size: 2.5em; }
+        .input-section { padding: 20px; background-color: #fdfdfd; border: 1px solid #e7e7e7; border-radius: 12px; margin-bottom: 30px; }
+        .input-grid, .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; align-items: end; margin-bottom: 20px; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        label { font-weight: 600; color: #333; font-size: 0.9em; }
+        .styled-input, .styled-button { border: 1px solid #ccc; padding: 12px 15px; font-size: 1em; color: #333; border-radius: 10px; outline: none; transition: all 0.2s ease-in-out; background-color: #f9f9f9; box-shadow: inset 2px 2px 5px #e0e0e0, inset -2px -2px 5px #ffffff; -webkit-appearance: none; -moz-appearance: none; appearance: none; }
+        select.styled-input { cursor: pointer; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right .9em top 50%; background-size: .65em auto; }
+        input.styled-input[readonly] { background-color: #e9ecef; cursor: not-allowed; box-shadow: none; font-weight: bold; color: #555; }
+        .styled-input:focus { box-shadow: inset 2px 2px 5px #e0e0e0, inset -2px -2px 5px #ffffff, 0 0 0 2px #4caf50; border-color: #4caf50; }
+        .styled-button { display: block; width: 100%; max-width: 350px; margin: 35px auto 0; font-weight: bold; font-size: 1.2em; color: #ffffff; background: linear-gradient(145deg, #43a047, #2e7d32); box-shadow: 5px 5px 10px #b0b0b0, -5px -5px 10px #ffffff; border: none; cursor: pointer;}
+        .styled-button:hover { background: linear-gradient(145deg, #4caf50, #388e3c); }
+        .styled-button:active { box-shadow: inset 5px 5px 10px #2e7d32, inset -5px -5px 10px #4caf50; font-size: 1.18em; }
+        .comparison-section { margin-top: 40px; overflow-x: auto; display: none; }
+        #comparisonTable { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 10px; overflow: hidden;}
+        #comparisonTable th, #comparisonTable td { padding: 14px 18px; border: 1px solid #e0e0e0; text-align: left; vertical-align: top; }
+        #comparisonTable thead th { background-color: #005030; color: white; font-size: 1.15em; text-align: center; position: sticky; top: 0; z-index: 1;}
+        #comparisonTable tbody th { background-color: #f8f9fa; font-weight: 600; width: 220px; }
+        #comparisonTable td { line-height: 1.6; font-size: 0.95em; }
+        #error-message { color: #d32f2f; text-align: center; font-weight: bold; margin-top: 15px; min-height: 20px;}
+        .plan-column { border-right: 2px solid #ddd; padding-right: 20px; padding-left: 20px;}
+        .plan-column:first-child { padding-left: 0; }
+        .plan-column:last-child { border-right: none; padding-right: 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>PLAN COMPARISON TABLE</h1>
+
+    <div class="input-section">
+        <!-- Plan-specific Inputs -->
+        <div class="plan-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <!-- Column for Plan 1 -->
+            <div class="plan-column">
+                <div class="input-group"><label for="planSelector1">Select Plan 1</label><select id="planSelector1" class="styled-input plan-selector"></select></div>
+                <div class="input-group"><label for="policyTerm1">Policy Term</label><select id="policyTerm1" class="styled-input term-selector"></select></div>
+                <div class="input-group"><label for="ppt1">Premium Paying Term</label><input type="text" id="ppt1" class="styled-input ppt-input" readonly></div>
+            </div>
+            
+            <!-- Column for Plan 2 -->
+            <div class="plan-column">
+                <div class="input-group"><label for="planSelector2">Select Plan 2</label><select id="planSelector2" class="styled-input plan-selector"></select></div>
+                <div class="input-group"><label for="policyTerm2">Policy Term</label><select id="policyTerm2" class="styled-input term-selector"></select></div>
+                <div class="input-group"><label for="ppt2">Premium Paying Term</label><input type="text" id="ppt2" class="styled-input ppt-input" readonly></div>
+            </div>
+            
+            <!-- Column for Plan 3 -->
+            <div class="plan-column">
+                <div class="input-group"><label for="planSelector3">Select Plan 3</label><select id="planSelector3" class="styled-input plan-selector"></select></div>
+                <div class="input-group"><label for="policyTerm3">Policy Term</label><select id="policyTerm3" class="styled-input term-selector"></select></div>
+                <div class="input-group"><label for="ppt3">Premium Paying Term</label><input type="text" id="ppt3" class="styled-input ppt-input" readonly></div>
+            </div>
+        </div>
+
+        <hr style="margin: 30px 0; border-top: 1px solid #e0e0e0;">
+
+        <!-- Common Inputs in the Center -->
+        <div class="input-grid" style="grid-template-columns: 1fr 1fr; max-width: 600px; margin-left: auto; margin-right: auto;">
+            <div class="input-group"><label for="commonAge">Common Age (Years)</label><input type="number" id="commonAge" class="styled-input" placeholder="e.g., 35" value="35"></div>
+            <div class="input-group"><label for="commonSA">Common Sum Assured (₹)</label><input type="number" id="commonSA" class="styled-input" placeholder="e.g., 1000000" value="1000000"></div>
+        </div>
+
+        <button id="compareBtn" class="styled-button">COMPARE & CALCULATE PREMIUMS</button>
+        <div id="error-message"></div>
+    </div>
+
+    <div class="comparison-section" id="comparisonSection">
+        <table id="comparisonTable">
+            <thead id="comparisonTableHead"></thead>
+            <tbody id="comparisonTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- COMPLETE DATA STORE SECTION ---
+            const planData = [
+        {"planName":"New Endowment","planNumber":"714","minSumAssured":"200000","maxSumAssured":"NO LIMIT","minAge":"8","maxAge":"50","minTerm":"12","maxTerm":"35","pptRule":"Term", "illustrativeExample": "Person: Ramesh, Age 30\nSum Assured (SA): ₹2,00,000\nPolicy Term: 20 years\n\nBenefits:\nMaturity (if Ramesh survives 20 years): ₹2,00,000 (SA) + ₹1,00,000 (assumed bonus) = ₹3,00,000 total.\nDeath Benefit (if he dies in 10th year): ₹2,00,000 (SA) + ₹50,000 (bonus till year 10) = ₹2,50,000 to nominee."},
+        {"planName":"Jeevan Anand","planNumber":"715","minSumAssured":"200000","maxSumAssured":"NO LIMIT","minAge":"18","maxAge":"50","minTerm":"15","maxTerm":"35","pptRule":"Term", "illustrativeExample": "Person: Sunita, Age 28\nSum Assured: ₹3,00,000\nPolicy Term: 25 years\n\nBenefits:\nMaturity (survives 25 years): ₹3,00,000 + bonus (₹1.5 Lakh) = ₹4.5 Lakh.\nPLUS: Life cover continues. On her death at age 70, nominee gets an additional ₹3,00,000."},
+        {"planName":"Single Premium Endowment","planNumber":"717","minSumAssured":"100000","maxSumAssured":"NO LIMIT","minAge":"0","maxAge":"65","minTerm":"10","maxTerm":"25","pptRule":"1", "illustrativeExample": "Person: Rajesh, Age 35\nSum Assured: ₹1,00,000\nTerm: 10 years\nSingle Premium Paid: ₹75,000 one-time.\n\nBenefits:\nMaturity (after 10 years): ₹1,00,000 + Bonus (₹30,000 approx.) = ₹1,30,000\nDeath: At least 125% of SA + bonus."},
+        {"planName":"20Year Money Back","planNumber":"720","minSumAssured":"200000","maxSumAssured":"NO LIMIT","minAge":"13","maxAge":"50","minTerm":"20","maxTerm":"20","pptRule":"Table", "illustrativeExample": "Person: Priya, Age 27\nSum Assured: ₹2,00,000\nTerm: 20 years\n\nBenefits:\nSurvival: ₹40,000 each at year 5, 10, and 15.\nMaturity (year 20): Remaining ₹80,000 + bonuses.\nDeath: Full ₹2,00,000 + bonus paid, regardless of prior payouts."},
+        {"planName":"25Year Money Back","planNumber":"721","minSumAssured":"200000","maxSumAssured":"NO LIMIT","minAge":"13","maxAge":"45","minTerm":"25","maxTerm":"25","pptRule":"Table","illustrativeExample":"Person: Mahesh, Age 29\nSum Assured: ₹5,00,000\nTerm: 25 years\n\nBenefits:\nSurvival: ₹75,000 at years 5, 10, 15, and 20.\nMaturity (year 25): Remaining ₹2,00,000 + bonuses (approx. ₹2.5 Lakh) = ₹4,50,000."},
+        {"planName":"Child Money Back","planNumber":"732","minSumAssured":"200000","maxSumAssured":"NO LIMIT","minAge":"0","maxAge":"12","minTerm":"13","maxTerm":"25","pptRule":"Term", "illustrativeExample": "Child: Aarav, age 5\nSum Assured: ₹2,00,000\n\nBenefits:\nSurvival Payouts: ₹40,000 each at child's age 18, 20, and 22.\nMaturity (age 25): Remaining ₹80,000 + bonuses. Premiums can be waived on parent's death (if rider is taken)."},
+        {"planName":"Jeevan Lakshya","planNumber":"733","minSumAssured":"200000","maxSumAssured":"NO LIMIT","minAge":"18","maxAge":"50","minTerm":"13","maxTerm":"25","pptRule":"Term-3", "illustrativeExample": "Person: Ravi, age 30\nSum Assured: ₹3,00,000\nTerm: 25 years\n\nBenefits:\nMaturity (age 55): ₹3,00,000 + bonuses.\nUnique Death Benefit: Nominee gets 10% of SA (₹30,000) every year until maturity, and then still receives the full maturity amount. All future premiums are waived."},
+        {"planName":"Jeevan Tarun","planNumber":"734","minSumAssured":"200000","maxSumAssured":"NO LIMIT","minAge":"0","maxAge":"12","minTerm":"13","maxTerm":"25","pptRule":"20-Age", "illustrativeExample": "Child: Meera, age 8\nSum Assured: ₹2,00,000\n\nBenefits:\nFlexible Survival Payouts from age 20-24 (e.g., 5% of SA per year). The rest is paid at maturity on age 25 with bonuses. The option is chosen at the start."},
+        {"planName":"Jeevan Labh","planNumber":"736","minSumAssured":"200000","maxSumAssured":"NO LIMIT","minAge":"8","maxAge":"59","minTerm":"16","maxTerm":"25","pptRule":"Table", "illustrativeExample": "Person: Asha, age 35\nSum Assured: ₹5,00,000\nPolicy Term: 16 years (but pay premium for only 10 years).\n\nBenefits:\nMaturity (after 16 years): ₹5,00,000 + bonuses (approx. ₹7,00,000 total).\nDeath: ~₹6.25 Lakh + bonuses."},
+        {"planName":"Jeevan Umang","planNumber":"745","minSumAssured":"200000","maxSumAssured":"NO LIMIT","minAge":"0","maxAge":"55","minTerm":"45","maxTerm":"100","pptRule":"Input", "illustrativeExample": "Person: Deepak, age 30\nSum Assured: ₹3,00,000\nPPT: 30 years\n\nBenefits:\nFrom age 60 (after PPT), starts receiving ₹24,000 (8% of SA) every year for life. At age 100 or on death, nominee receives SA + bonuses."},
+        {"planName":"Bima Shree","planNumber":"748","minSumAssured":"1000000","maxSumAssured":"No Limit","minAge":"8","maxAge":"55","minTerm":"14","maxTerm":"28","pptRule":"Table","illustrativeExample":"Person: Harsh, age 35\nSA: ₹10 Lakh\nTerm: 20 years\n\nBenefits:\nSurvival: Payouts at years 16 & 18.\nMaturity (year 20): Remaining SA + Guaranteed & Loyalty Additions.\nDeath: 125% of SA + accrued additions."},
+        {"planName":"Micro Bachat","planNumber":"751","minSumAssured":"100000","maxSumAssured":"200000","minAge":"18","maxAge":"55","minTerm":"10","maxTerm":"15","pptRule":"Term", "illustrativeExample": "Person: Sita, age 35\nSA: ₹1,00,000\nTerm: 15 years\n\nBenefits:\nMaturity: ₹1,00,000 + Loyalty additions.\nDeath: ₹1,00,000 + additions. Double benefit for accidental death. No medical tests required."},
+        {"planName":"New Jeevan Shanti","planNumber":"758","minSumAssured":"150000","maxSumAssured":"NO LIMIT","minAge":"30","maxAge":"79","minTerm":"1","maxTerm":"12","pptRule":"1","illustrativeExample":"Person: Anand, age 45\nInvestment: ₹10,00,000 (one-time)\nDeferment: 10 years\n\nBenefits:\nPension of ~₹72,000/year starts from age 55 for life. On death, nominee gets back the full ₹10,00,000 purchase price."},
+        {"planName":"Bima Jyoti","planNumber":"760","minSumAssured":"125000","maxSumAssured":"No Limit","minAge":"0","maxAge":"60","minTerm":"15","maxTerm":"20","pptRule":"Table", "illustrativeExample": "Person: Rina, age 30\nSA: ₹5,00,000\nTerm: 20 years\n\nBenefits:\nGuaranteed Addition of ₹25,000 (₹50 per 1000 SA) every year.\nMaturity: ₹5,00,000 (SA) + ₹5,00,000 (Total GA) = ₹10,00,000."},
+        {"planName":"Bima Ratna","planNumber":"764","minSumAssured":"1000000","maxSumAssured":"No Limit","minAge":"0","maxAge":"55","minTerm":"15","maxTerm":"25","pptRule":"Table", "illustrativeExample": "Person: Vivek, age 28\nSA: ₹10,00,000\nTerm: 20 years, PPT: 15 years\n\nBenefits:\nSurvival: 25% of SA at years 18 & 19.\nMaturity (year 20): 50% of SA + Guaranteed Additions."},
+        {"planName":"Jeevan Azad","planNumber":"768","minSumAssured":"200000","maxSumAssured":"500000","minAge":"0","maxAge":"50","minTerm":"15","maxTerm":"20","pptRule":"Term-8", "illustrativeExample": "Person: Neha, age 30\nSA: ₹2,00,000\nTerm: 20 years (Pay for only 12 years)\n\nBenefits:\nMaturity (year 20): ₹2,00,000 (Guaranteed). Death: 125% of SA."},
+        {"planName":"Jeevan Utsav","planNumber":"771","minSumAssured":"500000","maxSumAssured":"NO LIMIT","minAge":"0","maxAge":"65","minTerm":"35","maxTerm":"100","pptRule":"Input", "illustrativeExample": "Person: Arjun, age 40\nSA: ₹5,00,000\nPPT: 10 years\n\nBenefits:\nGuaranteed Income of ₹50,000 (10% of SA) every year for life, starting after a deferment period. Death: SA + Guaranteed Additions."},
+        {"planName":"Amritbaal","planNumber":"774","minSumAssured":"200000","maxSumAssured":"NO LIMIT","minAge":"0","maxAge":"13","minTerm":"5","maxTerm":"25","pptRule":"Input", "illustrativeExample": "Child: Diya, age 5\nSA: ₹5,00,000\nTerm: 20 years\n\nBenefits:\nMaturity at age 25: ₹5,00,000 + Guaranteed Additions. Total Maturity ≈ ₹8–9 lakh. Optional survival payouts available."},
+        {"planName":"Jeevan Akshay VII","planNumber":"857","minSumAssured":"100000","maxSumAssured":"NO LIMIT","minAge":"25","maxAge":"100","minTerm":"1","maxTerm":"1","pptRule":"1", "illustrativeExample": "Person: Sameer, age 60\nSingle Premium: ₹10,00,000\n\nBenefits:\nPension starts immediately (~₹72,000/year for life). On death, nominee gets the ₹10,00,000 purchase price back (Option F)."},
+        {"planName":"Saral Jeevan Bima","planNumber":"859","minSumAssured":"500000","maxSumAssured":"2500000","minAge":"18","maxAge":"65","minTerm":"5","maxTerm":"40","pptRule":"Input", "illustrativeExample": "Person: Kavita, age 30\nSA: ₹10,00,000\nTerm: 20 years\n\nBenefits:\nDeath Benefit Only: If Kavita dies within 20 years, nominee gets ₹10,00,000. No maturity value if she survives."},
+        {"planName":"Saral Pension","planNumber":"862","minSumAssured":"100000","maxSumAssured":"NO LIMIT","minAge":"40","maxAge":"80","minTerm":"1","maxTerm":"1","pptRule":"1", "illustrativeExample": "Person: Mr. Dinesh, age 45\nInvestment: ₹10,00,000 (one-time)\n\nBenefits:\nPension starts immediately (~₹5,500/month for life). On death, nominee receives the full ₹10,00,000 purchase price back."},
+        {"planName":"Yuva Term","planNumber":"875","minSumAssured":"5000000","maxSumAssured":"50000000","minAge":"18","maxAge":"45","minTerm":"15","maxTerm":"40","pptRule":"Input", "illustrativeExample": "Person: Rahul, age 25\nSA: ₹1 crore\nTerm: 35 years\n\nBenefits:\nDeath during policy term: ₹1 crore paid to nominee. No maturity benefit. Best suited for young adults wanting large life cover at a low cost."},
+        {"planName":"Yuva Credit Life","planNumber":"877","minSumAssured":"5000000","maxSumAssured":"50000000","minAge":"18","maxAge":"45","minTerm":"5","maxTerm":"30","pptRule":"Input", "illustrativeExample": "Person: Ankit, age 28\nLoan Amount Covered: ₹25 lakh\nTerm: 20 years\n\nBenefits:\nDeath during term: The outstanding loan amount is paid directly to the lender. Ideal for loan protection (housing, personal, etc.)."},
+        {"planName":"Smart Pension","planNumber":"879","minSumAssured":"100000","maxSumAssured":"NO LIMIT","minAge":"18","maxAge":"100","minTerm":"1","maxTerm":"1","pptRule":"1", "illustrativeExample": "Person: Anjali, age 40\nTotal Investment: ₹5,00,000 over 10 years\nRetirement Age Target: 60\n\nBenefits:\nULIP-based plan. At age 60, use the accumulated fund to buy an annuity for a lifetime pension. Suitable for those seeking market-linked growth for retirement."},
+        {"planName":"New Jeevan Amar","planNumber":"955","minSumAssured":"2500000","maxSumAssured":"NO LIMIT","minAge":"18","maxAge":"65","minTerm":"10","maxTerm":"40","pptRule":"Input", "illustrativeExample": "Person: Priyanka, age 35\nSA: ₹50 lakh\nTerm: 25 years\n\nBenefits:\nDeath During Term: ₹50 lakh paid to nominee. Offers flexible death benefit payout options (lump sum, monthly income). No maturity value."}
+    ];
+    const premiumRates = {
+        "714":[{"Age":8,"T12":92.35,"T13":84.7,"T14":78.2,"T15":73.7,"T16":68.65,"T17":64.25,"T18":60.3,"T19":56.8,"T20":53.65,"T21":50.95,"T22":48.45,"T23":46.2,"T24":44.1,"T25":42.2,"T26":40.45,"T27":38.85,"T28":37.35,"T29":35.95,"T30":34.65,"T31":33.55,"T32":32.45,"T33":31.45,"T34":30.55,"T35":29.65},{"Age":9,"T12":92.4,"T13":84.8,"T14":78.25,"T15":73.75,"T16":68.7,"T17":64.3,"T18":60.35,"T19":56.85,"T20":53.75,"T21":51,"T22":48.5,"T23":46.25,"T24":44.15,"T25":42.25,"T26":40.5,"T27":38.9,"T28":37.4,"T29":36,"T30":34.75,"T31":33.6,"T32":32.55,"T33":31.55,"T34":30.6,"T35":29.7},{"Age":10,"T12":92.45,"T13":84.85,"T14":78.35,"T15":73.8,"T16":68.8,"T17":64.35,"T18":60.45,"T19":56.95,"T20":53.8,"T21":51.05,"T22":48.55,"T23":46.3,"T24":44.25,"T25":42.35,"T26":40.55,"T27":38.95,"T28":37.45,"T29":36.1,"T30":34.8,"T31":33.65,"T32":32.6,"T33":31.6,"T34":30.65,"T35":29.8},{"Age":11,"T12":92.55,"T13":84.9,"T14":78.4,"T15":73.9,"T16":68.85,"T17":64.4,"T18":60.5,"T19":57,"T20":53.85,"T21":51.1,"T22":48.65,"T23":46.35,"T24":44.3,"T25":42.4,"T26":40.65,"T27":39,"T28":37.5,"T29":36.15,"T30":34.85,"T31":33.7,"T32":32.65,"T33":31.65,"T34":30.7,"T35":29.85},{"Age":12,"T12":92.6,"T13":85,"T14":78.45,"T15":73.95,"T16":68.9,"T17":64.5,"T18":60.55,"T19":57.05,"T20":53.9,"T21":51.15,"T22":48.7,"T23":46.4,"T24":44.35,"T25":42.45,"T26":40.7,"T27":39.05,"T28":37.6,"T29":36.2,"T30":34.9,"T31":33.75,"T32":32.7,"T33":31.7,"T34":30.8,"T35":29.9},{"Age":13,"T12":92.65,"T13":85.05,"T14":78.5,"T15":74,"T16":68.95,"T17":64.55,"T18":60.6,"T19":57.1,"T20":53.95,"T21":51.2,"T22":48.74,"T23":46.45,"T24":44.4,"T25":42.5,"T26":40.75,"T27":39.15,"T28":37.65,"T29":36.25,"T30":34.95,"T31":33.85,"T32":32.75,"T33":31.75,"T34":30.85,"T35":30},{"Age":14,"T12":92.7,"T13":85.1,"T14":78.55,"T15":74.05,"T16":69,"T17":64.6,"T18":60.65,"T19":57.15,"T20":54,"T21":51.25,"T22":48.8,"T23":46.5,"T24":44.45,"T25":42.55,"T26":40.8,"T27":39.15,"T28":37.7,"T29":36.3,"T30":35,"T31":33.9,"T32":32.8,"T33":31.8,"T34":30.9,"T35":30.05},{"Age":15,"T12":92.75,"T13":85.15,"T14":78.6,"T15":74.1,"T16":69.05,"T17":64.6,"T18":60.7,"T19":57.2,"T20":54.05,"T21":51.3,"T22":48.8,"T23":46.55,"T24":44.45,"T25":42.55,"T26":40.8,"T27":39.21,"T28":37.7,"T29":36.35,"T30":35.05,"T31":33.9,"T32":32.85,"T33":31.85,"T34":30.95,"T35":30.1},{"Age":16,"T12":92.8,"T13":85.15,"T14":78.65,"T15":74.1,"T16":69.1,"T17":64.65,"T18":60.7,"T19":57.2,"T20":54.05,"T21":51.35,"T22":48.85,"T23":46.6,"T24":44.5,"T25":42.6,"T26":40.85,"T27":39.25,"T28":37.75,"T29":36.4,"T30":35.1,"T31":33.95,"T32":32.9,"T33":31.9,"T34":31,"T35":30.15},{"Age":17,"T12":92.8,"T13":85.2,"T14":78.65,"T15":74.15,"T16":69.1,"T17":64.65,"T18":60.75,"T19":57.25,"T20":54.1,"T21":51.35,"T22":48.85,"T23":46.6,"T24":44.55,"T25":42.65,"T26":40.9,"T27":39.25,"T28":37.8,"T29":36.4,"T30":35.15,"T31":34,"T32":32.95,"T33":31.95,"T34":31.05,"T35":30.2},{"Age":18,"T12":92.85,"T13":85.2,"T14":78.65,"T15":74.15,"T16":69.15,"T17":64.7,"T18":60.75,"T19":57.25,"T20":54.1,"T21":51.35,"T22":48.9,"T23":46.6,"T24":44.55,"T25":42.65,"T26":40.9,"T27":39.3,"T28":37.8,"T29":36.45,"T30":35.15,"T31":34.05,"T32":33,"T33":32,"T34":31.1,"T35":30.25},{"Age":19,"T12":92.85,"T13":85.2,"T14":78.7,"T15":74.15,"T16":69.15,"T17":64.7,"T18":60.75,"T19":57.25,"T20":54.1,"T21":51.4,"T22":48.9,"T23":46.65,"T24":44.55,"T25":42.7,"T26":40.95,"T27":39.35,"T28":37.85,"T29":36.45,"T30":35.2,"T31":34.1,"T32":33.05,"T33":32.05,"T34":31.15,"T35":30.3},{"Age":20,"T12":92.85,"T13":85.2,"T14":78.7,"T15":74.2,"T16":69.15,"T17":64.7,"T18":60.8,"T19":57.3,"T20":54.15,"T21":51.4,"T22":48.9,"T23":46.65,"T24":44.6,"T25":42.7,"T26":40.95,"T27":39.35,"T28":37.9,"T29":36.5,"T30":35.25,"T31":34.1,"T32":33.05,"T33":32.1,"T34":31.2,"T35":30.35},{"Age":21,"T12":92.85,"T13":85.2,"T14":78.7,"T15":74.2,"T16":69.15,"T17":64.7,"T18":60.8,"T19":57.3,"T20":54.15,"T21":51.4,"T22":48.95,"T23":46.7,"T24":44.6,"T25":42.75,"T26":41,"T27":39.43,"T28":37.9,"T29":36.57,"T30":35.3,"T31":34.15,"T32":33.15,"T33":32.15,"T34":31.25,"T35":30.4},{"Age":22,"T12":92.85,"T13":85.2,"T14":78.7,"T15":74.2,"T16":69.15,"T17":64.7,"T18":60.8,"T19":57.3,"T20":54.15,"T21":51.45,"T22":48.95,"T23":46.7,"T24":44.65,"T25":42.75,"T26":41,"T27":39.45,"T28":37.95,"T29":36.6,"T30":35.35,"T31":34.2,"T32":33.2,"T33":32.2,"T34":31.35,"T35":30.5},{"Age":23,"T12":92.85,"T13":85.2,"T14":78.7,"T15":74.2,"T16":69.15,"T17":64.75,"T18":60.8,"T19":57.3,"T20":54.2,"T21":51.45,"T22":49,"T23":46.75,"T24":44.7,"T25":42.8,"T26":41.05,"T27":39.45,"T28":38,"T29":36.65,"T30":35.4,"T31":34.3,"T32":33.25,"T33":32.3,"T34":31.4,"T35":30.6},{"Age":24,"T12":92.85,"T13":85.25,"T14":78.7,"T15":74.2,"T16":69.2,"T17":64.75,"T18":60.85,"T19":57.35,"T20":54.2,"T21":51.5,"T22":49,"T23":46.75,"T24":44.7,"T25":42.85,"T26":41.1,"T27":39.5,"T28":38.05,"T29":36.7,"T30":35.45,"T31":34.35,"T32":33.35,"T33":32.4,"T34":31.5,"T35":30.7},{"Age":25,"T12":92.85,"T13":85.25,"T14":78.75,"T15":74.25,"T16":69.2,"T17":64.8,"T18":60.85,"T19":57.35,"T20":54.25,"T21":51.55,"T22":49.05,"T23":46.8,"T24":44.75,"T25":42.9,"T26":41.15,"T27":39.6,"T28":38.15,"T29":36.8,"T30":35.55,"T31":34.45,"T32":33.45,"T33":32.5,"T34":31.6,"T35":30.8},{"Age":26,"T12":92.9,"T13":85.25,"T14":78.75,"T15":74.25,"T16":69.25,"T17":64.8,"T18":60.9,"T19":57.4,"T20":54.3,"T21":51.55,"T22":49.1,"T23":46.85,"T24":44.8,"T25":42.95,"T26":41.25,"T27":39.65,"T28":38.2,"T29":36.9,"T30":35.65,"T31":34.55,"T32":33.55,"T33":32.6,"T34":31.75,"T35":30.95},{"Age":27,"T12":92.9,"T13":85.3,"T14":78.8,"T15":74.3,"T16":69.25,"T17":64.85,"T18":60.95,"T19":57.45,"T20":54.35,"T21":51.6,"T22":49.15,"T23":46.97,"T24":44.9,"T25":43.05,"T26":41.3,"T27":39.75,"T28":38.3,"T29":37,"T30":35.75,"T31":34.7,"T32":33.7,"T33":32.75,"T34":31.9,"T35":31.1},{"Age":28,"T12":92.95,"T13":85.3,"T14":78.8,"T15":74.35,"T16":69.3,"T17":64.9,"T18":61,"T19":57.5,"T20":54.4,"T21":51.7,"T22":49.25,"T23":47,"T24":44.95,"T25":43.1,"T26":41.4,"T27":39.85,"T28":38.4,"T29":37.1,"T30":35.9,"T31":34.8,"T32":33.8,"T33":32.9,"T34":32.05,"T35":31.25},{"Age":29,"T12":92.95,"T13":85.35,"T14":78.85,"T15":74.35,"T16":69.35,"T17":64.95,"T18":61.05,"T19":57.6,"T20":54.45,"T21":51.75,"T22":49.3,"T23":47.1,"T24":45.05,"T25":43.2,"T26":41.55,"T27":40,"T28":38.55,"T29":37.25,"T30":36.05,"T31":34.95,"T32":34,"T33":33.1,"T34":32.25,"T35":31.45},{"Age":30,"T12":93,"T13":85.4,"T14":78.9,"T15":74.45,"T16":69.4,"T17":65,"T18":61.1,"T19":57.65,"T20":54.55,"T21":51.85,"T22":49.4,"T23":47.2,"T24":45.2,"T25":43.35,"T26":41.65,"T27":40.1,"T28":38.7,"T29":37.4,"T30":36.2,"T31":35.15,"T32":34.2,"T33":33.3,"T34":32.45,"T35":31.7},{"Age":31,"T12":93.05,"T13":85.45,"T14":78.95,"T15":74.5,"T16":69.5,"T17":65.1,"T18":61.1,"T19":57.75,"T20":54.65,"T21":51.95,"T22":49.55,"T23":47.3,"T24":45.3,"T25":43.5,"T26":41.8,"T27":40.3,"T28":38.85,"T29":37.6,"T30":36.4,"T31":35.35,"T32":34.4,"T33":33.5,"T34":32.7,"T35":31.9},{"Age":32,"T12":93.15,"T13":85.5,"T14":79.05,"T15":74.55,"T16":69.55,"T17":65.2,"T18":61.3,"T19":57.85,"T20":54.75,"T21":52.1,"T22":49.65,"T23":47.45,"T24":45.45,"T25":43.65,"T26":42,"T27":40.45,"T28":39.05,"T29":37.8,"T30":36.6,"T31":35.55,"T32":34.6,"T33":33.75,"T34":32.95,"T35":32.2},{"Age":33,"T12":93.2,"T13":85.6,"T14":79.1,"T15":74.56,"T16":69.65,"T17":65.3,"T18":61.4,"T19":57.95,"T20":54.9,"T21":52.2,"T22":49.8,"T23":47.6,"T24":45.65,"T25":43.8,"T26":42.3,"T27":40.65,"T28":39.82,"T29":38,"T30":36.85,"T31":35.8,"T32":34.9,"T33":34,"T34":33.2,"T35":32.5},{"Age":34,"T12":93.3,"T13":85.7,"T14":79.2,"T15":74.75,"T16":69.75,"T17":65.4,"T18":61.55,"T19":58.1,"T20":55.05,"T21":52.35,"T22":49.95,"T23":47.8,"T24":45.8,"T25":44,"T26":42.4,"T27":40.9,"T28":39.5,"T29":38.25,"T30":37.1,"T31":35.9,"T32":35.15,"T33":34.3,"T34":33.55,"T35":32.8},{"Age":35,"T12":93.35,"T13":85.8,"T14":79.3,"T15":74.9,"T16":69.9,"T17":65.55,"T18":61.7,"T19":58.25,"T20":55.2,"T21":52.55,"T22":50.15,"T23":48,"T24":46.05,"T25":44.25,"T26":42.65,"T27":41.15,"T28":39.8,"T29":38.55,"T30":37.4,"T31":36.4,"T32":35.5,"T33":34.65,"T34":33.85,"T35":33.15},{"Age":36,"T12":93.45,"T13":85.9,"T14":79.45,"T15":75,"T16":70.05,"T17":65.75,"T18":61.85,"T19":58.45,"T20":55.4,"T21":52.75,"T22":50.4,"T23":48.25,"T24":46.3,"T25":44.5,"T26":42.9,"T27":41.4,"T28":40.1,"T29":38.85,"T30":37.75,"T31":36.75,"T32":35.85,"T33":35,"T34":34.25,"T35":33.55},{"Age":37,"T12":93.6,"T13":86,"T14":79.55,"T15":75.15,"T16":70.2,"T17":65.85,"T18":62.05,"T19":58.65,"T20":55.6,"T21":53,"T22":50.6,"T23":49.01,"T24":46.55,"T25":44.8,"T26":43.2,"T27":41.75,"T28":40.4,"T29":39.2,"T30":38.1,"T31":37.1,"T32":36.2,"T33":35.4,"T34":34.65,"T35":34.05},{"Age":38,"T12":93.7,"T13":86.15,"T14":79.75,"T15":75.35,"T16":70.4,"T17":66.05,"T18":62.25,"T19":58.85,"T20":55.85,"T21":53.25,"T22":50.9,"T23":48.75,"T24":46.85,"T25":45.1,"T26":43.5,"T27":42.1,"T28":40.75,"T29":39.55,"T30":38.45,"T31":37.5,"T32":36.65,"T33":35.85,"T34":35.1,"T35":34.45},{"Age":39,"T12":93.9,"T13":86.35,"T14":79.9,"T15":75.04,"T16":70.6,"T17":66.3,"T18":62.5,"T19":59.15,"T20":56.15,"T21":53.55,"T22":51.2,"T23":49.1,"T24":47.2,"T25":45.45,"T26":43.9,"T27":42.45,"T28":41.15,"T29":40,"T30":38.9,"T31":37.95,"T32":37.1,"T33":36.3,"T34":35.6,"T35":34.95},{"Age":40,"T12":94.05,"T13":86.55,"T14":80.1,"T15":75.75,"T16":70.85,"T17":66.55,"T18":62.75,"T19":59.4,"T20":56.45,"T21":53.85,"T22":51.55,"T23":49.45,"T24":47.55,"T25":45.85,"T26":44.3,"T27":42.9,"T28":41.6,"T29":40.45,"T30":39.35,"T31":38.45,"T32":37.6,"T33":36.85,"T34":36.15,"T35":35.5},{"Age":41,"T12":94.25,"T13":86.75,"T14":80.35,"T15":76,"T16":71.1,"T17":66.85,"T18":63.1,"T19":59.75,"T20":56.8,"T21":54.2,"T22":51.9,"T23":49.85,"T24":47.95,"T25":46.25,"T26":44.75,"T27":43.35,"T28":42.05,"T29":40.9,"T30":39.9,"T31":38.95,"T32":38.15,"T33":37.4,"T34":36.75,"T35":0},{"Age":42,"T12":94.5,"T13":87,"T14":80.6,"T15":76.3,"T16":71.45,"T17":67.15,"T18":63.45,"T19":60.1,"T20":57.15,"T21":54.76,"T22":52.37,"T23":50.25,"T24":48.4,"T25":46.75,"T26":45.2,"T27":43.85,"T28":42.6,"T29":41.45,"T30":40.45,"T31":39.69,"T32":38.75,"T33":38,"T34":0,"T35":0},{"Age":43,"T12":94.75,"T13":87.3,"T14":80.9,"T15":76.65,"T16":71.8,"T17":67.55,"T18":63.8,"T19":60.5,"T20":57.6,"T21":55.05,"T22":52.8,"T23":50.75,"T24":48.9,"T25":47.25,"T26":45.75,"T27":44.4,"T28":43.15,"T29":42.05,"T30":41.05,"T31":40.2,"T32":39.4,"T33":0,"T34":0,"T35":0},{"Age":44,"T12":95.05,"T13":87.6,"T14":81.25,"T15":77,"T16":72.2,"T17":67.95,"T18":64.25,"T19":60.95,"T20":58.05,"T21":55.55,"T22":53.3,"T23":51.25,"T24":49.45,"T25":47.8,"T26":46.3,"T27":45,"T28":43.75,"T29":42.7,"T30":41.7,"T31":40.85,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":45,"T12":95.4,"T13":87.95,"T14":81.65,"T15":77.45,"T16":72.6,"T17":68.4,"T18":64.7,"T19":61.45,"T20":58.55,"T21":56.05,"T22":53.85,"T23":51.85,"T24":50.05,"T25":48.4,"T26":46.95,"T27":45.65,"T28":44.45,"T29":43.4,"T30":42.45,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":46,"T12":95.8,"T13":88.4,"T14":82.1,"T15":77.9,"T16":73.1,"T17":68.9,"T18":65.25,"T19":62,"T20":59.1,"T21":56.65,"T22":54.45,"T23":52.45,"T24":50.65,"T25":49.05,"T26":47.65,"T27":46.35,"T28":45.2,"T29":44.15,"T30":0,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":47,"T12":96.25,"T13":88.85,"T14":82.55,"T15":78.4,"T16":73.6,"T17":69.45,"T18":65.8,"T19":62.55,"T20":59.7,"T21":57.25,"T22":55.05,"T23":53.1,"T24":51.35,"T25":49.8,"T26":48.35,"T27":47.1,"T28":46,"T29":0,"T30":0,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":48,"T12":96.7,"T13":89.35,"T14":83.05,"T15":78.95,"T16":74.2,"T17":70.05,"T18":66.4,"T19":63.2,"T20":60.35,"T21":57.95,"T22":55.75,"T23":53.85,"T24":52.1,"T25":50.55,"T26":49.15,"T27":47.95,"T28":0,"T29":0,"T30":0,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":49,"T12":97.25,"T13":89.85,"T14":83.6,"T15":79.55,"T16":74.8,"T17":70.65,"T18":67.05,"T19":63.85,"T20":61.05,"T21":58.65,"T22":56.5,"T23":54.6,"T24":52.9,"T25":51.4,"T26":50.05,"T27":0,"T28":0,"T29":0,"T30":0,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":50,"T12":97.8,"T13":90.45,"T14":84.2,"T15":80.15,"T16":75.45,"T17":71.35,"T18":67.75,"T19":64.6,"T20":61.8,"T21":59.45,"T22":57.3,"T23":55.45,"T24":53.75,"T25":52.3,"T26":0,"T27":0,"T28":0,"T29":0,"T30":0,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0}],
+        "715":[{"Age":18,"T15":82.3,"T16":76.8,"T17":71.95,"T18":67.6,"T19":63.75,"T20":60.3,"T21":57.2,"T22":54.4,"T23":51.8,"T24":49.45,"T25":47.3,"T26":45.35,"T27":43.81,"T28":41.85,"T29":40.3,"T30":38.85,"T31":37.5,"T32":36.25,"T33":35.05,"T34":34,"T35":32.95},{"Age":19,"T15":82.55,"T16":77,"T17":72.15,"T18":67.8,"T19":63.95,"T20":60.5,"T21":57.4,"T22":54.55,"T23":52,"T24":49.65,"T25":47.5,"T26":45.5,"T27":43.7,"T28":42,"T29":40.45,"T30":39,"T31":37.65,"T32":36.4,"T33":35.2,"T34":34.15,"T35":33.1},{"Age":20,"T15":82.8,"T16":77.25,"T17":72.35,"T18":68.05,"T19":64.15,"T20":60.7,"T21":57.6,"T22":54.75,"T23":52.15,"T24":49.8,"T25":47.65,"T26":45.7,"T27":43.85,"T28":42.15,"T29":40.6,"T30":39.15,"T31":37.8,"T32":36.55,"T33":35.35,"T34":34.3,"T35":33.25},{"Age":21,"T15":83.05,"T16":77.5,"T17":72.6,"T18":68.25,"T19":64.4,"T20":60.9,"T21":57.8,"T22":54.95,"T23":52.35,"T24":50,"T25":47.85,"T26":45.85,"T27":44,"T28":42.35,"T29":40.75,"T30":39.3,"T31":37.95,"T32":36.7,"T33":35.55,"T34":34.45,"T35":33.4},{"Age":22,"T15":83.3,"T16":77.75,"T17":72.85,"T18":68.5,"T19":64.6,"T20":61.15,"T21":58,"T22":55.15,"T23":52.55,"T24":50.2,"T25":48.05,"T26":46.05,"T27":44.2,"T28":42.5,"T29":40.95,"T30":39.5,"T31":38.15,"T32":36.85,"T33":35.7,"T34":34.6,"T35":33.59},{"Age":23,"T15":83.6,"T16":78,"T17":73.1,"T18":68.75,"T19":64.85,"T20":61.35,"T21":58.2,"T22":55.35,"T23":52.8,"T24":50.4,"T25":48.25,"T26":46.25,"T27":44.4,"T28":42.7,"T29":41.1,"T30":39.65,"T31":38.3,"T32":37.05,"T33":35.85,"T34":34.8,"T35":33.75},{"Age":24,"T15":83.9,"T16":78.3,"T17":73.35,"T18":69,"T19":65.1,"T20":61.6,"T21":58.45,"T22":55.6,"T23":53,"T24":50.65,"T25":48.45,"T26":46.45,"T27":44.6,"T28":42.9,"T29":41.3,"T30":39.85,"T31":38.5,"T32":37.25,"T33":36.05,"T34":34.95,"T35":33.95},{"Age":25,"T15":84.2,"T16":78.6,"T17":73.65,"T18":69.3,"T19":65.4,"T20":61.85,"T21":58.7,"T22":55.85,"T23":53.25,"T24":50.85,"T25":48.7,"T26":46.65,"T27":44.8,"T28":43.1,"T29":41.55,"T30":40.05,"T31":38.7,"T32":37.45,"T33":36.25,"T34":35.2,"T35":34.15},{"Age":26,"T15":84.55,"T16":78.9,"T17":73.96,"T18":69.6,"T19":65.65,"T20":62.15,"T21":59,"T22":56.1,"T23":53.5,"T24":51.1,"T25":48.9,"T26":46.9,"T27":45.05,"T28":43.35,"T29":41.75,"T30":40.3,"T31":38.95,"T32":37.65,"T33":36.5,"T34":35.4,"T35":34.4},{"Age":27,"T15":84.9,"T16":79.25,"T17":74.3,"T18":69.9,"T19":66,"T20":62.45,"T21":59.25,"T22":56.4,"T23":53.75,"T24":51.4,"T25":49.2,"T26":47.15,"T27":45.3,"T28":43.6,"T29":42,"T30":40.55,"T31":39.2,"T32":37.9,"T33":36.75,"T34":35.65,"T35":34.65},{"Age":28,"T15":85.3,"T16":79.65,"T17":74.65,"T18":70.25,"T19":66.3,"T20":62.75,"T21":59.45,"T22":56.7,"T23":54.05,"T24":51.65,"T25":49.45,"T26":47.45,"T27":45.55,"T28":43.85,"T29":42.25,"T30":40.8,"T31":39.45,"T32":38.2,"T33":37,"T34":35.95,"T35":35.1},{"Age":29,"T15":85.7,"T16":80.05,"T17":75.05,"T18":70.6,"T19":66.65,"T20":63.1,"T21":59.9,"T22":57,"T23":54.35,"T24":51.95,"T25":49.6,"T26":47.7,"T27":45.85,"T28":44.15,"T29":42.55,"T30":41.1,"T31":39.75,"T32":38.45,"T33":37.3,"T34":36.25,"T35":35.2},{"Age":30,"T15":86.15,"T16":80.45,"T17":75.45,"T18":71,"T19":67,"T20":63.45,"T21":60.25,"T22":57.35,"T23":54.7,"T24":52.25,"T25":50.05,"T26":48.05,"T27":46.15,"T28":44.45,"T29":42.85,"T30":41.4,"T31":40.05,"T32":38.8,"T33":37.6,"T34":36.55,"T35":35.55},{"Age":31,"T15":86.6,"T16":80.9,"T17":75.85,"T18":71.4,"T19":67.4,"T20":63.85,"T21":60.6,"T22":57.7,"T23":55.05,"T24":52.6,"T25":50.4,"T26":48.35,"T27":46.5,"T28":44.75,"T29":43.2,"T30":41.7,"T31":40.34,"T32":39.1,"T33":37.92,"T34":36.9,"T35":35.9},{"Age":32,"T15":87.1,"T16":81.35,"T17":76.3,"T18":71.8,"T19":67.8,"T20":64.2,"T21":61,"T22":58.05,"T23":55.4,"T24":52.95,"T25":50.75,"T26":48.7,"T27":46.85,"T28":45.15,"T29":43.55,"T30":42.1,"T31":40.75,"T32":39.5,"T33":38.35,"T34":37.25,"T35":36.25},{"Age":33,"T15":87.6,"T16":81.8,"T17":76.75,"T18":72.25,"T19":68.25,"T20":64.65,"T21":61.4,"T22":58.45,"T23":55.8,"T24":53.35,"T25":51.15,"T26":49.1,"T27":47.2,"T28":45.5,"T29":43.9,"T30":42.45,"T31":41.1,"T32":39.85,"T33":38.7,"T34":37.65,"T35":36.65},{"Age":34,"T15":88.15,"T16":82.35,"T17":77.25,"T18":72.7,"T19":68.7,"T20":65.1,"T21":61.8,"T22":58.85,"T23":56.2,"T24":53.75,"T25":51.55,"T26":49.5,"T27":47.65,"T28":45.9,"T29":44.35,"T30":42.9,"T31":41.55,"T32":40.3,"T33":39.15,"T34":38.1,"T35":37.1},{"Age":35,"T15":88.7,"T16":82.85,"T17":77.75,"T18":73.2,"T19":69.15,"T20":65.55,"T21":62.25,"T22":59.3,"T23":56.65,"T24":54.2,"T25":51.95,"T26":49.95,"T27":48.05,"T28":46.35,"T29":44.8,"T30":43.3,"T31":42,"T32":40.75,"T33":39.6,"T34":38.55,"T35":37.55},{"Age":36,"T15":89.25,"T16":83.4,"T17":78.3,"T18":73.7,"T19":69.65,"T20":66.05,"T21":62.75,"T22":59.8,"T23":57.1,"T24":54.65,"T25":52.45,"T26":50.4,"T27":48.55,"T28":46.8,"T29":45.25,"T30":43.8,"T31":42.45,"T32":41.2,"T33":40.1,"T34":39.05,"T35":38.05},{"Age":37,"T15":89.9,"T16":84,"T17":78.85,"T18":74.25,"T19":70.2,"T20":66.55,"T21":63.25,"T22":60.3,"T23":57.6,"T24":55.15,"T25":52.95,"T26":50.9,"T27":49.05,"T28":47.35,"T29":45.75,"T30":44.3,"T31":42.95,"T32":41.75,"T33":40.6,"T34":39.55,"T35":38.6},{"Age":38,"T15":90.5,"T16":84.6,"T17":79.45,"T18":74.85,"T19":70.75,"T20":67.1,"T21":63.8,"T22":60.85,"T23":58.15,"T24":55.7,"T25":53.45,"T26":51.45,"T27":49.55,"T28":47.85,"T29":46.3,"T30":44.85,"T31":43.5,"T32":42.3,"T33":41.15,"T34":40.1,"T35":39.05},{"Age":39,"T15":91.2,"T16":85.25,"T17":80.05,"T18":75.45,"T19":71.35,"T20":67.7,"T21":64.4,"T22":61.4,"T23":58.7,"T24":56.25,"T25":54.05,"T26":52,"T27":50.15,"T28":48.45,"T29":46.85,"T30":45.45,"T31":44.1,"T32":42.85,"T33":41.75,"T34":40.7,"T35":39.75},{"Age":40,"T15":91.9,"T16":85.95,"T17":80.7,"T18":76.1,"T19":72,"T20":68.3,"T21":65,"T22":62.05,"T23":59.35,"T24":56.9,"T25":54.65,"T26":52.6,"T27":50.75,"T28":49.05,"T29":47.5,"T30":46.05,"T31":44.7,"T32":43.5,"T33":42.4,"T34":41.35,"T35":40.4},{"Age":41,"T15":92.65,"T16":86.65,"T17":81.4,"T18":76.8,"T19":72.65,"T20":68.95,"T21":65.65,"T22":62.7,"T23":60,"T24":57.55,"T25":55.3,"T26":53.25,"T27":51.4,"T28":49.7,"T29":48.15,"T30":46.7,"T31":45.4,"T32":44.15,"T33":43.05,"T34":42,"T35":0},{"Age":42,"T15":93.45,"T16":87.45,"T17":82.15,"T18":77.5,"T19":73.4,"T20":69.7,"T21":66.35,"T22":63.4,"T23":60.7,"T24":58.25,"T25":56,"T26":53.95,"T27":52.1,"T28":50.4,"T29":48.85,"T30":47.4,"T31":46.1,"T32":44.9,"T33":43.75,"T34":0,"T35":0},{"Age":43,"T15":94.25,"T16":88.25,"T17":82.95,"T18":78.3,"T19":74.15,"T20":70.45,"T21":67.1,"T22":64.15,"T23":61.45,"T24":58.95,"T25":56.75,"T26":54.7,"T27":52.85,"T28":51.15,"T29":49.6,"T30":48.15,"T31":46.85,"T32":45.65,"T33":0,"T34":0,"T35":0},{"Age":44,"T15":95.15,"T16":89.1,"T17":83.8,"T18":79.1,"T19":74.95,"T20":71.25,"T21":67.9,"T22":64.9,"T23":62.2,"T24":59.75,"T25":57.5,"T26":55.5,"T27":53.65,"T28":51.95,"T29":50.35,"T30":48.95,"T31":47.65,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":45,"T15":96.1,"T16":90,"T17":84.7,"T18":80,"T19":75.85,"T20":72.1,"T21":68.75,"T22":65.75,"T23":63.05,"T24":60.6,"T25":58.35,"T26":56.3,"T27":54.45,"T28":52.75,"T29":51.2,"T30":49.8,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":46,"T15":97.1,"T16":91,"T17":85.65,"T18":80.95,"T19":76.75,"T20":73,"T21":69.65,"T22":66.65,"T23":63.95,"T24":61.45,"T25":59.25,"T26":57.2,"T27":55.35,"T28":53.65,"T29":52.1,"T30":0,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":47,"T15":98.15,"T16":92,"T17":86.65,"T18":81.9,"T19":77.7,"T20":73.95,"T21":70.6,"T22":67.76,"T23":64.85,"T24":62.4,"T25":60.15,"T26":58.1,"T27":56.25,"T28":54.6,"T29":0,"T30":0,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":48,"T15":99.25,"T16":93.1,"T17":87.7,"T18":82.95,"T19":78.75,"T20":74.95,"T21":71.6,"T22":68.6,"T23":65.85,"T24":63.35,"T25":61.15,"T26":59.1,"T27":57.25,"T28":0,"T29":0,"T30":0,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":49,"T15":100.4,"T16":94.2,"T17":88.8,"T18":84,"T19":79.8,"T20":76,"T21":72.65,"T22":69.6,"T23":66.85,"T24":64.4,"T25":62.15,"T26":60.15,"T27":0,"T28":0,"T29":0,"T30":0,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0},{"Age":50,"T15":101.6,"T16":95.35,"T17":89.95,"T18":85.15,"T19":80.9,"T20":77.1,"T21":73.7,"T22":70.7,"T23":67.95,"T24":65.45,"T25":63.25,"T26":0,"T27":0,"T28":0,"T29":0,"T30":0,"T31":0,"T32":0,"T33":0,"T34":0,"T35":0}],
+        "717":[{"Age":0,"T18":606.45,"T19":588.25,"T20":570.75,"T21":554.95,"T22":539.75,"T23":525.15,"T24":511.05,"T25":497.55},{"Age":1,"T17":625.15,"T18":606.45,"T19":588.25,"T20":570.75,"T21":554.95,"T22":539.75,"T23":525.15,"T24":511.05,"T25":497.55},{"Age":2,"T16":644.7,"T17":625.15,"T18":606.45,"T19":588.25,"T20":570.75,"T21":554.95,"T22":539.75,"T23":525.15,"T24":511.05,"T25":497.55},{"Age":3,"T15":665.15,"T16":644.75,"T17":625.15,"T18":606.45,"T19":588.25,"T20":570.75,"T21":554.95,"T22":539.75,"T23":525.15,"T24":511.05,"T25":497.55},{"Age":4,"T14":686.35,"T15":665.2,"T16":644.85,"T17":625.25,"T18":606.45,"T19":588.25,"T20":570.75,"T21":554.95,"T22":539.8,"T23":525.15,"T24":511.15,"T25":497.65},{"Age":5,"T13":708.3,"T14":686.45,"T15":665.35,"T16":645,"T17":625.4,"T18":606.55,"T19":588.4,"T20":570.95,"T21":555.2,"T22":540.05,"T23":525.45,"T24":511.4,"T25":497.95},{"Age":6,"T12":731.05,"T13":708.4,"T14":686.6,"T15":665.5,"T16":645.2,"T17":625.6,"T18":606.75,"T19":588.6,"T20":571.2,"T21":555.45,"T22":540.3,"T23":525.75,"T24":511.75,"T25":498.25},{"Age":7,"T11":754.55,"T12":731.2,"T13":708.6,"T14":686.8,"T15":665.75,"T16":645.45,"T17":625.9,"T18":607.1,"T19":588.95,"T20":571.55,"T21":555.85,"T22":540.75,"T23":526.15,"T24":512.2,"T25":498.75},{"Age":8,"T10":778.85,"T11":754.75,"T12":731.4,"T13":708.55,"T14":687.05,"T15":666.05,"T16":645.75,"T17":626.25,"T18":607.45,"T19":589.35,"T20":571.95,"T21":556.25,"T22":541.15,"T23":526.65,"T24":512.65,"T25":499.25},{"Age":9,"T10":778.95,"T11":754.9,"T12":731.55,"T13":709.05,"T14":687.25,"T15":666.25,"T16":646,"T17":626.5,"T18":607.7,"T19":589.65,"T20":572.3,"T21":556.6,"T22":541.5,"T23":527,"T24":513.05,"T25":499.65},{"Age":10,"T10":779.1,"T11":755.05,"T12":731.75,"T13":709.2,"T14":687.5,"T15":666.5,"T16":646.25,"T17":626.8,"T18":608,"T19":589.95,"T20":572.6,"T21":556.95,"T22":541.9,"T23":527.4,"T24":513.45,"T25":500.05},{"Age":11,"T10":779.25,"T11":755.2,"T12":731.9,"T13":709.4,"T14":687.7,"T15":666.75,"T16":646.5,"T17":627.05,"T18":608.3,"T19":590.25,"T20":572.95,"T21":557.3,"T22":542.25,"T23":527.75,"T24":513.8,"T25":500.45},{"Age":12,"T10":779.35,"T11":755.35,"T12":732.1,"T13":709.6,"T14":687.9,"T15":666.95,"T16":646.75,"T17":627.3,"T18":608.55,"T19":590.55,"T20":573.25,"T21":557.6,"T22":542.55,"T23":528.1,"T24":514.15,"T25":500.8},{"Age":13,"T10":779.5,"T11":755.45,"T12":732.25,"T13":709.75,"T14":688.1,"T15":667.15,"T16":646.95,"T17":627.5,"T18":608.8,"T19":590.8,"T20":573.5,"T21":557.85,"T22":542.85,"T23":528.4,"T24":514.5,"T25":501.15},{"Age":14,"T10":779.6,"T11":755.6,"T12":732.35,"T13":709.9,"T14":688.25,"T15":667.3,"T16":647.15,"T17":627.7,"T18":609,"T19":591,"T20":573.7,"T21":558.1,"T22":543.1,"T23":528.65,"T24":514.75,"T25":501.45},{"Age":15,"T10":779.65,"T11":755.7,"T12":732.45,"T13":710.05,"T14":688.35,"T15":667.45,"T16":647.3,"T17":627.85,"T18":609.15,"T19":591.2,"T20":573.9,"T21":558.3,"T22":543.3,"T23":528.85,"T24":515,"T25":501.7},{"Age":16,"T10":779.75,"T11":755.75,"T12":732.55,"T13":710.1,"T14":688.45,"T15":667.55,"T16":647.4,"T17":628,"T18":609.3,"T19":591.3,"T20":574.05,"T21":558.45,"T22":543.45,"T23":529.05,"T24":515.2,"T25":501.9},{"Age":17,"T10":779.8,"T11":755.8,"T12":732.6,"T13":710.2,"T14":688.5,"T15":667.6,"T16":647.45,"T17":628.05,"T18":609.4,"T19":591.4,"T20":574.15,"T21":558.6,"T22":543.6,"T23":529.2,"T24":515.35,"T25":502.05},{"Age":18,"T10":779.8,"T11":755.85,"T12":732.65,"T13":710.2,"T14":688.55,"T15":667.65,"T16":647.55,"T17":628.15,"T18":609.45,"T19":591.5,"T20":574.25,"T21":558.7,"T22":543.7,"T23":529.35,"T24":515.5,"T25":502.25},{"Age":19,"T10":779.85,"T11":755.85,"T12":732.65,"T13":710.25,"T14":688.6,"T15":667.7,"T16":647.55,"T17":628.2,"T18":609.5,"T19":591.55,"T20":574.3,"T21":558.8,"T22":543.8,"T23":529.45,"T24":515.65,"T25":502.4},{"Age":20,"T10":779.85,"T11":755.85,"T12":732.7,"T13":710.25,"T14":688.6,"T15":667.75,"T16":647.6,"T17":628.2,"T18":609.55,"T19":591.65,"T20":574.4,"T21":558.85,"T22":543.95,"T23":529.55,"T24":515.8,"T25":502.55},{"Age":21,"T10":779.85,"T11":755.9,"T12":732.7,"T13":710.25,"T14":688.65,"T15":667.75,"T16":647.65,"T17":628.25,"T18":609.6,"T19":591.7,"T20":574.5,"T21":558.95,"T22":544.05,"T23":529.7,"T24":515.95,"T25":502.75},{"Age":22,"T10":779.85,"T11":755.9,"T12":732.7,"T13":710.3,"T14":688.65,"T15":667.8,"T16":647.65,"T17":628.3,"T18":609.7,"T19":591.75,"T20":574.55,"T21":559.05,"T22":544.15,"T23":529.85,"T24":516.1,"T25":502.95},{"Age":23,"T10":779.85,"T11":755.9,"T12":732.7,"T13":710.3,"T14":688.7,"T15":667.8,"T16":647.7,"T17":628.35,"T18":609.75,"T19":591.85,"T20":574.7,"T21":559.2,"T22":544.35,"T23":530.05,"T24":516.35,"T25":503.2},{"Age":24,"T10":779.85,"T11":755.9,"T12":732.75,"T13":710.35,"T14":688.7,"T15":667.85,"T16":647.8,"T17":628.45,"T18":609.85,"T19":592,"T20":574.85,"T21":559.35,"T22":544.55,"T23":530.25,"T24":516.6,"T25":503.5},{"Age":25,"T10":779.85,"T11":755.9,"T12":732.75,"T13":710.35,"T14":688.75,"T15":667.95,"T16":647.85,"T17":628.55,"T18":610,"T19":592.15,"T20":575,"T21":559.6,"T22":544.75,"T23":530.55,"T24":516.9,"T25":503.85},{"Age":26,"T10":779.9,"T11":755.95,"T12":732.8,"T13":710.45,"T14":688.85,"T15":668,"T16":647.95,"T17":628.7,"T18":610.15,"T19":592.3,"T20":575.2,"T21":559.85,"T22":545.05,"T23":530.9,"T24":517.3,"T25":504.3},{"Age":27,"T10":779.95,"T11":756,"T12":732.85,"T13":710.5,"T14":688.95,"T15":668.15,"T16":648.1,"T17":628.85,"T18":610.35,"T19":592.55,"T20":575.5,"T21":560.15,"T22":545.4,"T23":531.3,"T24":517.75,"T25":504.8},{"Age":28,"T10":779.95,"T11":756.05,"T12":732.95,"T13":710.6,"T14":689.05,"T15":668.25,"T16":648.3,"T17":629.05,"T18":610.55,"T19":592.8,"T20":575.8,"T21":560.5,"T22":545.85,"T23":531.75,"T24":518.3,"T25":505.4},{"Age":29,"T10":780.05,"T11":756.15,"T12":733,"T13":710.7,"T14":689.2,"T15":668.45,"T16":648.5,"T17":629.3,"T18":610.85,"T19":593.15,"T20":576.2,"T21":560.95,"T22":546.3,"T23":532.3,"T24":518.9,"T25":506.15},{"Age":30,"T10":780.1,"T11":756.2,"T12":733.15,"T13":710.85,"T14":689.35,"T15":668.65,"T16":648.7,"T17":629.55,"T18":611.15,"T19":593.5,"T20":576.6,"T21":561.45,"T22":546.9,"T23":532.95,"T24":519.65,"T25":506.95},{"Age":31,"T10":780.2,"T11":756.3,"T12":733.25,"T13":711,"T14":689.55,"T15":668.9,"T16":649,"T17":629.9,"T18":611.55,"T19":593.95,"T20":577.15,"T21":562,"T22":547.55,"T23":533.7,"T24":520.5,"T25":507.9},{"Age":32,"T10":780.3,"T11":756.45,"T12":733.4,"T13":711.2,"T14":689.75,"T15":669.15,"T16":649.3,"T17":630.25,"T18":612,"T19":594.45,"T20":577.7,"T21":562.7,"T22":548.3,"T23":534.55,"T24":521.45,"T25":508.95},{"Age":33,"T10":780.4,"T11":756.6,"T12":733.6,"T13":711.4,"T14":690.05,"T15":669.45,"T16":649.7,"T17":630.7,"T18":612.5,"T19":595.05,"T20":584.8,"T21":570.7,"T22":557.25,"T23":544.45,"T24":532.4,"T25":520.95},{"Age":40,"T10":781.8,"T11":758.35,"T12":735.8,"T13":714.1,"T14":693.3,"T15":673.35,"T16":654.25,"T17":636.05,"T18":618.65,"T19":602.15,"T20":586.4,"T21":572.45,"T22":559.15,"T23":546.65,"T24":534.65,"T25":523.4},{"Age":41,"T10":782.15,"T11":758.8,"T12":736.3,"T13":714.75,"T14":694.05,"T15":674.25,"T16":655.3,"T17":637.25,"T18":620.05,"T19":603.7,"T20":588.15,"T21":574.35,"T22":561.25,"T23":548.85,"T24":537.15,"T25":526.1},{"Age":42,"T10":782.5,"T11":759.25,"T12":736.9,"T13":715.45,"T14":694.9,"T15":675.25,"T16":656.45,"T17":638.6,"T18":621.55,"T19":605.4,"T20":590.1,"T21":576.45,"T22":563.55,"T23":551.35,"T24":539.85,"T25":529},{"Age":43,"T10":782.95,"T11":759.8,"T12":737.6,"T13":716.25,"T14":695.85,"T15":676.4,"T16":657.8,"T17":640.1,"T18":623.25,"T19":607.3,"T20":592.2,"T21":578.75,"T22":566.1,"T23":554.1,"T24":542.8,"T25":532.2},{"Age":44,"T10":783.45,"T11":760.45,"T12":738.35,"T13":717.2,"T14":696.95,"T15":677.65,"T16":659.25,"T17":641.75,"T18":625.1,"T19":609.35,"T20":594.5,"T21":581.25,"T22":568.8,"T23":557.05,"T24":545.95,"T25":535.6},{"Age":45,"T10":784,"T11":761.15,"T12":739.2,"T13":718.2,"T14":698.15,"T15":679.05,"T16":660.85,"T17":643.55,"T18":627.15,"T19":611.65,"T20":596.95,"T21":584,"T22":571.75,"T23":560.2,"T24":549.4,"T25":539.25},{"Age":46,"T10":784.65,"T11":761.95,"T12":740.2,"T13":719.35,"T14":699.5,"T15":680.6,"T16":662.6,"T17":645.5,"T18":629.35,"T19":614.05,"T20":599.65,"T21":586.9,"T22":574.9,"T23":563.6,"T24":553.05,"T25":543.2},{"Age":47,"T10":785.4,"T11":762.85,"T12":741.25,"T13":720.65,"T14":700.95,"T15":682.25,"T16":664.5,"T17":647.65,"T18":631.7,"T19":616.7,"T20":602.5,"T21":590,"T22":578.25,"T23":567.25,"T24":556.95,"T25":547.4},{"Age":48,"T10":786.2,"T11":763.8,"T12":742.4,"T13":722,"T14":702.55,"T15":684.05,"T16":666.55,"T17":649.95,"T18":634.25,"T19":619.45,"T20":605.55,"T21":593.35,"T22":581.85,"T23":571.1,"T24":561.15,"T25":551.85},{"Age":49,"T10":787.05,"T11":764.85,"T12":743.65,"T13":723.45,"T14":704.25,"T15":686,"T16":668.7,"T17":652.35,"T18":636.9,"T19":622.4,"T20":608.8,"T21":596.85,"T22":585.65,"T23":575.25,"T24":565.55,"T25":556.6},{"Age":50,"T10":788,"T11":766,"T12":745,"T13":725,"T14":706,"T15":688,"T16":670.95,"T17":654.9,"T18":639.75,"T19":625.55,"T20":612.2,"T21":600.55,"T22":589.65,"T23":579.55,"T24":570.2,"T25":561.6}]
+    };
+    
+    const pptTable = { "720-20": 15, "736-16": 10, "736-21": 15, "736-25": 16, "748-14": 10, "748-16": 12, "748-18": 14, "748-20": 16, "760-15": 10, "760-16": 11, "760-17": 12, "760-18": 13, "760-19": 14, "760-20": 15 };
+
+    // --- UI ELEMENT REFERENCES ---
+    const selectors = [document.getElementById('planSelector1'), document.getElementById('planSelector2'), document.getElementById('planSelector3')];
+    const commonAgeInput = document.getElementById('commonAge');
+    const commonSAInput = document.getElementById('commonSA');
+    const compareBtn = document.getElementById('compareBtn');
+    const comparisonSection = document.getElementById('comparisonSection');
+    const tableHead = document.getElementById('comparisonTableHead');
+    const tableBody = document.getElementById('comparisonTableBody');
+    const errorMessageDiv = document.getElementById('error-message');
+
+    // --- INITIALIZATION ---
+    function init() {
+        populatePlanSelectors();
+        setupEventListeners();
+        // Initial population of term and PPT for the first column
+        updateTermOptions(0);
+    }
+
+    // --- EVENT LISTENERS SETUP ---
+    function setupEventListeners() {
+        compareBtn.addEventListener('click', runComparisonAndCalculation);
+
+        for (let i = 0; i < 3; i++) {
+            selectors[i].addEventListener('change', () => updateTermOptions(i));
+            document.getElementById(`policyTerm${i+1}`).addEventListener('change', () => autoPopulatePPT(i));
+        }
+    }
+
+    // --- FUNCTION DEFINITIONS ---
+    function populatePlanSelectors() {
+        const defaultOption = '<option value="">-- Select a Plan --</option>';
+        const optionsHTML = planData
+            .sort((a, b) => parseInt(a.planNumber) - parseInt(b.planNumber))
+            .map(plan => `<option value="${plan.planNumber}">${plan.planName} (${plan.planNumber})</option>`)
+            .join('');
+        selectors.forEach(selector => selector.innerHTML = defaultOption + optionsHTML);
+    }
+    
+    function updateTermOptions(index) {
+        const planSelector = selectors[index];
+        const termSelector = document.getElementById(`policyTerm${index + 1}`);
+        const planNumber = planSelector.value;
+        
+        termSelector.innerHTML = '<option value="">-- Select Term --</option>';
+        
+        if (!planNumber) {
+            autoPopulatePPT(index);
+            return;
+        }
+
+        const plan = planData.find(p => p.planNumber === planNumber);
+        if (!plan) return;
+
+        let optionsHTML = '';
+        if (plan.pptRule === 'Table') { // For table-based plans like 736
+            Object.keys(pptTable).forEach(key => {
+                if (key.startsWith(planNumber + '-')) {
+                    const term = key.split('-')[1];
+                    optionsHTML += `<option value="${term}">${term} Years</option>`;
+                }
+            });
+        } else { // For range-based plans
+            const min = parseInt(plan.minTerm);
+            const max = parseInt(plan.maxTerm);
+            for (let t = min; t <= max; t++) {
+                optionsHTML += `<option value="${t}">${t} Years</option>`;
+            }
+        }
+        termSelector.innerHTML += optionsHTML;
+        autoPopulatePPT(index);
+    }
+
+    function autoPopulatePPT(index) {
+        const planNumber = selectors[index].value;
+        const term = document.getElementById(`policyTerm${index + 1}`).value;
+        const pptInput = document.getElementById(`ppt${index + 1}`);
+        const age = parseInt(commonAgeInput.value, 10);
+        const plan = planData.find(p => p.planNumber === planNumber);
+        
+        pptInput.value = '';
+        pptInput.readOnly = true;
+
+        if (!plan || !term) return;
+        
+        let pptValue = '';
+        switch(plan.pptRule) {
+            case "Term": pptValue = term; break;
+            case "Term-3": pptValue = term - 3; break;
+            case "Term-8": pptValue = term - 8; break;
+            case "20-Age": pptValue = 20 - age; break;
+            case "1": pptValue = 1; break;
+            case "Input": 
+                pptInput.readOnly = false;
+                pptInput.placeholder = "Enter PPT";
+                break;
+            case "Table":
+                const key = `${plan.planNumber}-${term}`;
+                pptValue = pptTable[key] || '';
+                break;
+        }
+        if (pptValue) pptInput.value = pptValue;
+    }
+    
+    function runComparisonAndCalculation() {
+        errorMessageDiv.textContent = '';
+        let hasSelection = selectors.some(s => s.value !== '');
+        if (!hasSelection) {
+            errorMessageDiv.textContent = "Please select at least one plan to compare.";
+            comparisonSection.style.display = 'none';
+            return;
+        }
+
+        let headerHTML = '<tr><th>Feature</th>';
+        let selectedPlanDetails = [];
+        selectors.forEach((selector, index) => {
+            const planNumber = selector.value;
+            const plan = planData.find(p => p.planNumber === planNumber);
+            selectedPlanDetails.push(plan);
+            headerHTML += `<th>${plan ? `${plan.planName} (${plan.planNumber})` : '-'}</th>`;
+        });
+        headerHTML += '</tr>';
+        tableHead.innerHTML = headerHTML;
+
+        const age = parseInt(commonAgeInput.value, 10);
+        const sumAssured = parseFloat(commonSAInput.value);
+        
+        if (isNaN(age) || isNaN(sumAssured)) {
+            errorMessageDiv.textContent = "Please enter valid Age and Sum Assured.";
+            comparisonSection.style.display = 'none';
+            return;
+        }
+
+        const features = [
+            { key: 'minAge', label: 'Min/Max Entry Age' }, 
+            { key: 'minTerm', label: 'Policy Term Range' },
+            { key: 'minSumAssured', label: 'Min Sum Assured', format: 'currency' }, { key: 'maxSumAssured', label: 'Max Sum Assured' },
+            { key: 'annual_premium', label: 'Annual Premium' },
+            { key: 'hly_premium', label: 'Half-Yearly Premium' },
+            { key: 'qly_premium', label: 'Quarterly Premium' },
+            { key: 'mly_premium', label: 'Monthly Premium' },
+    { key: 'illustrativeExample', label: 'Illustrative Example' }
+        ];
+
+        let bodyHTML = '';
+        features.forEach(feature => {
+            bodyHTML += `<tr><th>${feature.label}</th>`;
+            selectedPlanDetails.forEach((plan, index) => {
+                let cellContent = '-';
+                if (plan) {
+                    const term = parseInt(document.getElementById(`policyTerm${index + 1}`).value, 10);
+                    const pptInput = document.getElementById(`ppt${index + 1}`);
+                    let ppt = plan.pptRule === 'Input' ? parseInt(pptInput.value, 10) : parseInt(pptInput.value, 10);
+
+                    let validationError = '';
+                    if (!term) validationError = 'Select Term';
+                    else if (plan.pptRule === 'Input' && isNaN(ppt)) validationError = 'Enter PPT';
+                    else if (age < parseInt(plan.minAge) || age > parseInt(plan.maxAge)) validationError = 'Invalid Age';
+                    else if (term < parseInt(plan.minTerm) || term > parseInt(plan.maxTerm)) validationError = 'Invalid Term';
+                    else if (sumAssured < parseInt(plan.minSumAssured.replace(/,/g, ''))) validationError = 'SA Too Low';
+                    
+                    if(feature.key.includes('_premium')){
+                         if (validationError) {
+                            cellContent = `<span style="color:red; font-weight:bold;">${validationError}</span>`;
+                        } else {
+                            const rate = getPremiumRate(plan.planNumber, age, term);
+                            if (rate) {
+                                const annualPremium = (sumAssured / 1000) * rate;
+                                let modePremium = annualPremium;
+                                if(feature.key === 'hly_premium') modePremium = annualPremium * 0.5090;
+                                if(feature.key === 'qly_premium') modePremium = annualPremium * 0.2568;
+                                if(feature.key === 'mly_premium') modePremium = annualPremium * 0.0865;
+                                cellContent = formatCurrency(modePremium);
+                            } else {
+                                cellContent = `<span style="color:red; font-weight:bold;">Not Available</span>`;
+                            }
+                        }
+                    } else {
+                        switch (feature.key) {
+                            case 'minAge': cellContent = `${plan.minAge} to ${plan.maxAge} Years`; break;
+                            case 'minTerm': cellContent = `${plan.minTerm} to ${plan.maxTerm} Years`; break;
+                            case 'minSumAssured': cellContent = formatCurrency(plan.minSumAssured); break;
+                            default: cellContent = plan[feature.key] || '-';
+                        }
+                    }
+                }
+                bodyHTML += `<td>${cellContent}</td>`;
+            });
+            bodyHTML += '</tr>';
+        });
+
+        tableBody.innerHTML = bodyHTML;
+        comparisonSection.style.display = 'block';
+    }
+
+    function getPremiumRate(planNumber, age, term) {
+        const planRateTable = premiumRates[planNumber];
+        if (!planRateTable) return null;
+        const ageRow = planRateTable.find(row => row.Age === age);
+        if (!ageRow) return null;
+        const termKey = 'T' + term;
+        const rate = ageRow[termKey];
+        return (rate === undefined || rate === null || rate === 0) ? null : rate;
+    }
+
+    function formatCurrency(value) {
+        const num = parseFloat(String(value).replace(/,/g, ''));
+        if (isNaN(num)) return '-';
+        return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(num);
+    }
+    
+    init();
+});
+</script>
+
+</body>
+</html>

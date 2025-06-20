@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Email Verified - Saving Profile</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+  <h2>Please wait while we save your profile...</h2>
+
+  <script>
+    const supabase = window.supabase.createClient(
+      'https://efduqdondmlzmwhfgkfz.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
+    );
+
+    window.addEventListener('load', async () => {
+      const { data: { user }, error } = await supabase.auth.getUser();
+
+      if (error || !user) {
+        alert("You must be logged in to continue.");
+        window.location.href = "signup.html";
+        return;
+      }
+
+      const { id, email, user_metadata = {} } = user;
+
+      const { full_name, gender, mobile, city, state, country, profession, annual_income } = user_metadata;
+
+      const { error: insertError } = await supabase
+        .from('profiles')
+        .upsert({
+          id,
+          email,
+          full_name,
+          gender,
+          mobile,
+          city,
+          state,
+          country,
+          profession,
+          annual_income
+        });
+
+      if (insertError) {
+        alert("Error saving profile: " + insertError.message);
+        console.error(insertError);
+      } else {
+        alert("✅ Profile saved successfully! Welcome " + (full_name || email));
+        window.location.href = "main.html";
+      }
+    });
+  </script>
+</body>
+</html>

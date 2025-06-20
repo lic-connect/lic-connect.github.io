@@ -1,0 +1,30 @@
+-- Enable Row Level Security (RLS) on the table
+ALTER TABLE agents ENABLE ROW LEVEL SECURITY;
+
+-- SELECT policy
+CREATE POLICY "Allow anon SELECT"
+ON agents
+FOR SELECT
+TO anon
+USING (true);
+
+-- INSERT policy
+CREATE POLICY "Allow anon INSERT"
+ON agents
+FOR INSERT
+TO anon
+WITH CHECK (true);
+
+-- UPDATE policy
+CREATE POLICY "Allow anon UPDATE"
+ON agents
+FOR UPDATE
+TO anon
+USING (true);
+
+-- DELETE policy
+CREATE POLICY "Allow anon DELETE"
+ON agents
+FOR DELETE
+TO anon
+USING (true);

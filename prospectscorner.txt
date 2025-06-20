@@ -1,0 +1,100 @@
+can u create an html page which is related to the agents and his prospects
+
+Title : Prospect's Corner
+
+Canvassed by :
+Agent name
+Agency code
+Date : 
+
+input : 
+Date of prospecting : 
+prospect : new/old
+prospects full name
+prospects age
+prospects gender
+prospects address
+prospects mobile no
+prospects email
+prospects profession
+Budget of the prospect(in terms of monthly Premium)
+plan proposed
+status (box to contain no more than 500 characters)
+remarks (box to contain no more than 500 characters)
+
+submit button : when clicked, data should be saved in supabase in the table, prospects
+
+below this,
+Input box with the heading on it :  Search
+on the right hand side, radio button : prospects email, date of prospecting
+when prospects email is clicked, that particular record should be displayed
+when date of prospecting is clicked, all the records of that particular date should be displayed
+
+there should be an option to download the details 
+
+following is the style of the page
+
+  <style>
+    body {
+      background-color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #333333;
+      margin-bottom: 5px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #666666;
+      margin-bottom: 60px;
+    }
+
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px; /* Horizontal gap between buttons */
+    }
+
+    .row-gap {
+      margin-bottom: 40px; /* Equal gap between all rows */
+    }
+
+    .dashboard-button {
+      background: linear-gradient(to bottom, #333333, #808080); /* black to grey gradient */
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 20px;
+      box-shadow: 
+        inset 0 -3px 8px rgba(255, 255, 255, 0.4), /* Top light for bevel effect */
+        0 6px 15px rgba(0, 0, 0, 0.6); /* Bottom shadow for 3D effect */
+      width: 240px;
+      height: 70px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .dashboard-button:hover {
+      box-shadow:
+        inset 0 -3px 8px rgba(255, 255, 255, 0.6), /* Lightens top bevel on hover */
+        0 8px 20px rgba(0, 0, 0, 0.8); /* Stronger shadow for deeper 3D effect */
+      transform: translateY(-2px); /* Lifts the button on hover */
+    }
+
+    .full-width {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+  </style>
+

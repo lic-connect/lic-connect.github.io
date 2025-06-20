@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prospect's Corner</title>
+  <style>
+    body {
+      background-color: #ffffff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #333333;
+      margin-bottom: 5px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #666666;
+      margin-bottom: 60px;
+    }
+
+    form, .search-section {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .dashboard-button {
+      background: linear-gradient(to bottom, #333333, #808080);
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 20px;
+      box-shadow:
+        inset 0 -3px 8px rgba(255, 255, 255, 0.4),
+        0 6px 15px rgba(0, 0, 0, 0.6);
+      width: 240px;
+      height: 70px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s ease;
+      margin: 30px auto 0;
+      display: block;
+    }
+
+    .dashboard-button:hover {
+      box-shadow:
+        inset 0 -3px 8px rgba(255, 255, 255, 0.6),
+        0 8px 20px rgba(0, 0, 0, 0.8);
+      transform: translateY(-2px);
+    }
+
+    .search-section h2 {
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    .search-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .search-controls input[type="text"] {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Prospect's Corner</h1>
+  <p>Manage your prospecting data with ease</p>
+
+  <form id="prospectForm">
+    <label>Canvassed by: <input type="text" id="agentName" required /></label>
+    <label>Agency code: <input type="text" id="agencyCode" required /></label>
+    <label>Date: <input type="date" id="entryDate" required /></label>
+
+    <hr />
+
+    <label>Date of Prospecting: <input type="date" id="prospectingDate" required /></label>
+
+    <label>Prospect Type:
+      <select id="prospectType" required>
+        <option value="" disabled selected>-- Select Prospect Type --</option>
+        <option value="New">New</option>
+        <option value="Old">Old</option>
+      </select>
+    </label>
+
+    <label>Prospect's Full Name: <input type="text" id="fullName" required /></label>
+    <label>Age: <input type="number" id="age" min="0" required /></label>
+
+    <label>Gender:
+      <select id="gender" required>
+        <option value="" disabled selected>-- Select Gender --</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+    </label>
+
+    <label>Address: <textarea id="address" rows="2"></textarea></label>
+    <label>Mobile No: <input type="tel" id="mobile" /></label>
+    <label>Email: <input type="email" id="email" /></label>
+    <label>Profession: <input type="text" id="profession" /></label>
+    <label>Budget of the prospect (Monthly Premium ₹): <input type="number" id="budget" min="0" /></label>
+    <label>Plan Proposed: <input type="text" id="plan" /></label>
+    <label>Status: <textarea id="status" maxlength="500" rows="3"></textarea></label>
+    <label>Remarks: <textarea id="remarks" maxlength="500" rows="3"></textarea></label>
+
+    <button class="dashboard-button" type="submit">Submit</button>
+  </form>
+
+  <div class="search-section">
+    <h2>Search</h2>
+    <form id="searchForm">
+      <div class="search-controls">
+        <input type="text" id="searchInput" placeholder="Enter search term..." required />
+        <div class="radio-group">
+          <label><input type="radio" name="searchType" value="email" checked /> Prospect's Email</label>
+          <label><input type="radio" name="searchType" value="date" /> Date of Prospecting</label>
+        </div>
+        <button class="dashboard-button" type="submit" style="width:180px; height:50px;">Search</button>
+      </div>
+    </form>
+
+    <div class="results" id="results"></div>
+    <button class="dashboard-button" onclick="downloadCSV()">Download</button>
+  </div>
+
+  <!-- Supabase SDK must load first -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <script>
+    // Initialize Supabase client - REPLACE below with your own credentials!
+    const supabaseUrl = 'https://efduqdondmlzmwhfgkfz.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+</script>
+<script>
+
+    // Form submit: insert data to Supabase
+    document.getElementById('prospectForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Optional: check if user is logged in, if you implement auth
+      // const { data: { user } } = await supabase.auth.getUser();
+      // if (!user) {
+      //   alert('Please log in first');
+      //   return;
+      // }
+
+      const data = {
+        agent_name: document.getElementById('agentName').value.trim(),
+        agency_code: document.getElementById('agencyCode').value.trim(),
+        entry_date: document.getElementById('entryDate').value,
+        prospecting_date: document.getElementById('prospectingDate').value,
+        prospect_type: document.getElementById('prospectType').value,
+        full_name: document.getElementById('fullName').value.trim(),
+        age: parseInt(document.getElementById('age').value, 10),
+        gender: document.getElementById('gender').value,
+        address: document.getElementById('address').value.trim(),
+        mobile: document.getElementById('mobile').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        profession: document.getElementById('profession').value.trim(),
+        budget: document.getElementById('budget').value ? parseFloat(document.getElementById('budget').value) : null,
+        plan: document.getElementById('plan').value.trim(),
+        status: document.getElementById('status').value.trim(),
+        remarks: document.getElementById('remarks').value.trim(),
+        // user_id: user?.id  // Uncomment if you use auth and want to store user id
+      };
+
+      const { error } = await supabase.from('prospects').insert([data]);
+
+      if (error) {
+        alert('Error submitting data: ' + error.message);
+      } else {
+        alert('Data submitted successfully!');
+        document.getElementById('prospectForm').reset();
+        document.getElementById('results').innerHTML = '';
+      }
+    });
+
+    // Search form submit handler
+    document.getElementById('searchForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const query = document.getElementById('searchInput').value.trim();
+      const type = document.querySelector('input[name="searchType"]:checked').value;
+
+      let result;
+      if (type === 'email') {
+        result = await supabase.from('prospects').select('*').eq('email', query);
+      } else {
+        result = await supabase.from('prospects').select('*').eq('prospecting_date', query);
+      }
+
+      displayResults(result.data);
+    });
+
+    // Display results in table format
+    function displayResults(data) {
+      const container = document.getElementById('results');
+      if (!data || data.length === 0) {
+        container.innerHTML = '<p>No records found</p>';
+        return;
+      }
+
+      let html = '<table><thead><tr>' +
+        '<th>Name</th><th>Email</th><th>Mobile</th><th>Prospecting Date</th><th>Plan</th>' +
+        '</tr></thead><tbody>';
+
+      data.forEach(d => {
+        html += `<tr>
+          <td>${escapeHtml(d.full_name)}</td>
+          <td>${escapeHtml(d.email || '')}</td>
+          <td>${escapeHtml(d.mobile || '')}</td>
+          <td>${escapeHtml(d.prospecting_date)}</td>
+          <td>${escapeHtml(d.plan || '')}</td>
+        </tr>`;
+      });
+
+      html += '</tbody></table>';
+      container.innerHTML = html;
+    }
+
+    // Simple escaping to prevent HTML injection in results
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Download displayed table data as CSV
+    function downloadCSV() {
+      const table = document.querySelector('#results table');
+      if (!table) {
+        alert("No data to download.");
+        return;
+      }
+
+      let csv = [];
+      const rows = table.querySelectorAll('tr');
+      rows.forEach(row => {
+        const cols = Array.from(row.querySelectorAll('th, td')).map(col => `"${col.innerText.replace(/"/g, '""')}"`);
+        csv.push(cols.join(','));
+      });
+
+      const blob = new Blob([csv.join('\n')], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('hidden', '');
+      a.href = url;
+      a.download = 'prospects.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+
+</body>
+</html>

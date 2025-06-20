@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Maturity Claim - Page 1 (Form 3825 Rev.)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; 
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .form-page { /* We only have one page in this version */
+            background-color: #fff;
+            margin: 0 auto 40px auto; 
+            padding: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 8.5in;
+            min-height: 11in; 
+            box-sizing: border-box;
+        }
+        .logo-container { text-align: center; margin-bottom: 20px; }
+        .logo-container img { max-width: 150px; height: auto; }
+        .header-section { text-align: center; margin-bottom: 20px; }
+        .header-section .form-main-title { font-size: 1.2em; font-weight: bold; margin-top: 5px;}
+        .header-section .form-sub-title { font-size: 1.1em; font-weight: bold; }
+        .header-info { display: flex; justify-content: space-between; font-size: 0.9em; margin-bottom: 15px; }
+        .content-block p { margin: 0 0 8px 0; font-size: 0.95em; line-height: 1.5; }
+        .point-list { list-style: none; padding-left: 0; }
+        .point-list li { margin-bottom: 8px; display: flex; }
+        .point-list li .asterisk { margin-right: 8px; font-weight: bold; }
+        .input-inline { 
+            border: none; 
+            border-bottom: 1px dotted #333; 
+            padding: 1px 3px;
+            font-family: inherit;
+            font-size: inherit;
+            background-color: #e9e9e9; 
+            text-align: center; 
+            margin: 0 2px;
+            min-width: 50px;
+        }
+        input.input-inline[readonly] { background-color: #e9e9e9 !important; }
+        .note-block { font-size: 0.85em; margin-top: 15px; padding: 10px; border: 1px solid #eee; background-color: #f9f9f9; }
+        table.data-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9em; }
+        table.data-table th, table.data-table td { border: 1px solid #333; padding: 6px; text-align: left; vertical-align: top; }
+        table.data-table th { background-color: #f2f2f2; font-weight: bold; }
+        .text-hindi, .text-marathi { font-family: 'Nirmala UI', Arial, sans-serif; } 
+        .centered { text-align: center; }
+        .right-aligned { text-align: right; }
+        .bold { font-weight: bold; }
+        .hidden { display: none !important; }
+
+        .master-policy-input-area { text-align: center; padding: 20px; background-color: #e9e9f9; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ccc; }
+        .master-policy-input-area label { font-weight: bold; margin-right: 10px; }
+        .master-policy-input-area input[type="text"] { padding: 10px; width: 250px; border: 1px solid #aaa; border-radius: 4px; }
+        .master-policy-input-area input[type="checkbox"] { vertical-align: middle; margin-right:3px;}
+        .master-policy-input-area label[for="isVernacularOrIlliterate_maturity"], 
+        .master-policy-input-area label[for="isPolicyAssigned_maturity"] { font-weight: normal; margin-left: 0;}
+        .master-policy-input-area button { padding: 10px 20px; background-color: #0056b3; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; margin-left: 10px; }
+        .master-policy-input-area button:hover { background-color: #003d82; }
+
+        .signature-upload-section { margin-top: 10px; text-align: center; padding-bottom:5px; }
+        .signature-upload-section img { display:none; max-width: 200px; max-height: 80px; border: 1px solid #ccc; margin-bottom: 10px; background-color: #f9f9f9;}
+        .signature-upload-section input[type="file"] { margin-top: 5px; display: inline-block; width: auto; padding: 5px;}
+        .signature-label { margin-bottom: 2px; font-size: 0.9em; }
+
+        @media print { /* Basic print styles */ }
+    </style>
+</head>
+<body>
+
+<div class="document-container">
+
+    <div class="logo-container">
+        <img src="lic-black.png" alt="LIC Logo">
+    </div>
+
+    <div class="master-policy-input-area">
+        <div>
+            <label for="maturityPolicyInput">Enter Policy Number:</label>
+            <input type="text" id="maturityPolicyInput" placeholder="Enter Policy Number">
+        </div>
+        <div style="margin-top: 10px;">
+            <input type="checkbox" id="isVernacularOrIlliterate_maturity" name="isVernacularOrIlliterate_maturity">
+            <label for="isVernacularOrIlliterate_maturity">Applicant used Vernacular Medium / is Illiterate</label>
+        </div>
+        <div style="margin-top: 5px; margin-bottom: 15px;">
+            <input type="checkbox" id="isPolicyAssigned_maturity" name="isPolicyAssigned_maturity">
+            <label for="isPolicyAssigned_maturity">Is Policy Assigned?</label>
+        </div>
+        <div>
+            <button type="button" id="maturityLoadButton">Load Details</button>
+        </div>
+    </div>
+    
+    <!-- Page 1 Content (Maturity Form - Form No. 3825 Rev.) -->
+    <div class="form-page" id="visualMaturityPage1">
+        <div class="header-info">
+            <span>SDP 50,000-12/12</span>
+            <span class="right-aligned text-hindi">शाखा क्र. / Branch No.: <input type="text" id="m_p1_branch_no" class="input-inline" style="width:80px;" readonly></span>
+        </div>
+        <div class="header-section">
+            <p class="bold text-hindi form-main-title">भारतीय जीवन बीमा निगम</p>
+            <p class="bold form-main-title">LIFE INSURANCE CORPORATION OF INDIA</p>
+            <p class="text-hindi">मुंबई विभाग / मुंबई मंडल / MUMBAI DIVISION</p>
+            <p class="text-hindi">(आयुर्विमा अधिनियम 1956 च्या अन्वये संस्थापित)</p>
+            <p class="text-hindi">(जीवन बीमा निगम अधिनियम 1956 द्वारा स्थापित)</p>
+            <p>(Established by the Life Insurance Corporation Act of 1956)</p>
+        </div>
+        <div class="content-block centered bold" style="font-size:1.1em; margin-bottom:20px;">
+             <span class="text-hindi">के जीवन पर पूर्णावधि प्राप्त (Matured) <input type="text" id="m_p1_life_assured_name_header_hin" class="input-inline" style="width:200px;" readonly> की भुगतान की रसीद</span><br>
+             <span>DISCHARGE OF MATURED POLICY No. <input type="text" id="m_p1_policy_number_header" class="input-inline" style="width:150px;" readonly> Dated <input type="text" id="m_p1_form_date_header" class="input-inline" style="width:120px;" readonly></span><br>
+             <span>on the Life of Shri/Smt. <input type="text" id="m_p1_life_assured_name_header_en" class="input-inline" style="width:200px;" readonly></span>
+        </div>
+
+        <div class="content-block">
+            <p><span class="text-marathi">मी/आम्ही</span> <input type="text" id="m_p1_claimant_assignee_mar" class="input-inline" style="width:180px;" readonly> <span class="text-marathi">व्यक्ति/समनुदेशिती दिनांक</span> <input type="text" id="m_p1_assignment_date_mar" class="input-inline" style="width:100px;" readonly> <span class="text-marathi">च्या समनुदेशनाच्या आधारे मान्य करतो की, ह्या अन्वये उपरोक्त महामंडळाकडून</span> <input type="text" id="m_p1_sum_rupees_words_mar" class="input-inline" style="width:calc(100% - 680px); min-width:150px;" readonly> <span class="text-marathi">रुपये रक्कमेची प्राप्ती माझ्या आयुष्यावरील/आमच्या आयुष्यावरील पॉलिसी अंतर्गत सर्व देय आणि मागण्या हयांच्या पूर्णतः अंतिमतः समाधान स्वरुप आणि विमुक्तिस्वरुप झालेली आहे. आणि पॉलिसी रद्द करण्यासाठी महामंडळाकडे सुपूर्त करण्यात आली आहे.</span></p>
+            <p><span class="text-hindi">मैं/हम</span> <input type="text" id="m_p1_claimant_assignee_hin" class="input-inline" style="width:180px;" readonly> <span class="text-hindi">बीमेदार/अभ्यर्पिती दिनांक</span> <input type="text" id="m_p1_assignment_date_hin" class="input-inline" style="width:100px;" readonly> <span class="text-hindi">के अभ्यर्पण के नाते एतद्वारा उपरोक्त निगम से बोनस की रकम को जोड़कर</span> <input type="text" id="m_p1_sum_rupees_words_hin" class="input-inline" style="width:calc(100% - 680px); min-width:150px;" readonly> <span class="text-hindi">रुपये की रकम की प्राप्ति दिनांक पूर्ण सन्तुष्टि के साथ स्वीकार करता हूँ / करते हैं और अपने जीवन / जीवनों की उपरोक्त पॉलिसी के अपने समस्त दावों और मांगो के लिये भरपाई करता हूँ / करते हैं, जिसकी अवधि दिनांक</span> <input type="text" id="m_p1_maturity_date_claim_hin" class="input-inline" style="width:100px;" readonly> <span class="text-hindi">को पूर्ण होती है और जो एतद्वारा उपरोक्त निगम को रद्द करने के लिये सौंपी जाती है ।</span></p>
+            <p>I/We <input type="text" id="m_p1_claimant_assignee_en" class="input-inline" style="width:180px;" readonly> the Life Assured / Assignee by virtue of the assignment dated <input type="text" id="m_p1_assignment_date_en" class="input-inline" style="width:100px;" readonly> do hereby acknowledge receipt from the Life Insurance Corporation of India, the sum of Rupees (In words) <input type="text" id="m_p1_sum_rupees_words_en" class="input-inline" style="width:calc(100% - 680px); min-width:150px;" readonly> including the amount of Bonus, in full and final satisfaction and discharge of all my/our claims and demands under the above mentioned Policy which matured on <input type="text" id="m_p1_maturity_date_claim_en" class="input-inline" style="width:100px;" readonly> and which Policy is hereby delivered upto the said Corporation to be cancelled.</p>
+        </div>
+
+        <table class="data-table" style="margin-top:25px;">
+            <tr> <td>विमा रक्कम / स्थगिती मूल्य <br> बीमा राशि / प्रदत्त मूल्य <br> Sum Assured / Paid-up Value</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_sum_assured_paidup_value_rs" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>निहित लागू बोनस /निहित बोनस अबंटित / Vested Bonus alloted</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_vested_bonus_alloted_rs" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>अन्तरिम बोनस / Interim Bonus</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_interim_bonus_rs" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>अंतिम बोनस / आवधिक बोनस / Terminal Bonus</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_terminal_bonus_rs" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>अतिरिक्त अंतिम बोनस / Final Additional Bonus</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_final_additional_bonus_rs" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>वय जास्त नमूद झाल्यामुळे हयातील फरक <br> उम्र अधिक लिखी होने के कारण प्रीमियम की अन्तर राशि/ <br> Difference of premiums on account of overstatement of age</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_age_overstatement_diff_rs" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>लिंग, व्यवसाय आणि दुहेरी अपघाती लाभ आणि विस्तारित निरंतर अपंगत्व लाभ ह्यासाठींच्या ज्यादा हप्त्यांचा परतावा <br> लिंग तथा व्यवसाय हेतु अतिरिक्त प्रीमियम-दु.दू. हि. तथा वि. अस्था अ. हि/ <br> Refund of extra Premium for sex D.A.B. & E.P.D.B. & occupation</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_sex_dab_epdb_occupation_refund_rs" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td class="bold">एकूण दावा रक्कम / कुल दावा राशि/Gross claim amount</td> <td class="bold right-aligned">रु./Rs. <input type="text" id="m_p1_gross_claim_amount_rs" class="input-inline" style="width:100px;" readonly></td> </tr>
+        </table>
+        
+        <div id="s_p1_assignmentNoteSection" class="hidden"> <!-- Conditional Section for Assignment Note -->
+            <div class="note-block">
+                <p class="text-hindi">टिप्पणी : यदि पालिसी का समनुदेशन हो चुका हो तो इस प्रार्थना पत्र पर समनुदेशियी के हस्ताक्षर होने चाहिए।</p>
+                <p>Note: In case the policy is assigned, the application must be signed by the assignee.</p>
+            </div>
+        </div>
+         <p class="centered" style="margin-top:15px;">.. 1 ..</p>
+        <p class="right-aligned">(कृ. मा. प. / कृ. पी. दे./P.T.O.)</p>
+    </div> <!-- End of visualMaturityPage1 -->
+
+
+
+</div> <!-- End of document-container -->
+<button id="insertSampleBtn">Insert Sample Data</button>
+
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabase = createClient(
+    'https://efduqdondmlzmwhfgkfz.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'  // keep your real key here
+  );
+
+  async function insertSampleRow() {
+    // Get logged in user
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      alert('User not logged in!');
+      return;
+    }
+
+    const insertData = {
+      user_id: user.id,
+      policy_number: '111111111',
+      life_assured_name: 'John Doe',
+      form_submission_date: '2023-01-01',
+      sum_assured_paidup_value: 100000,
+      vested_bonus: 5000,
+      interim_bonus: 2000,
+      terminal_bonus: 3000,
+      final_additional_bonus: 1000,
+      age_overstatement_diff: 0,
+      extra_premium_refund_sex_dab_epdb: 0,
+      gross_claim_amount: 111000,
+      assignment_date: '2023-01-01',
+      sum_assured_words: 'One Hundred Eleven Thousand',
+      policy_maturity_date: '2033-01-01'
+    };
+
+    const { data, error } = await supabase
+      .from('maturity3825one')
+      .insert([insertData]);
+
+    if (error) {
+      alert('Insert error: ' + error.message);
+    } else {
+      alert('Sample row inserted successfully');
+    }
+  }
+
+  async function fetchMaturityData() {
+    const policyInput = document.getElementById('policy_number');
+    if (!policyInput) {
+      alert("Policy number input not found.");
+      return;
+    }
+
+    const policyNumber = policyInput.value.trim();
+    if (!policyNumber) {
+      alert("Please enter a Policy Number.");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from('maturity3825one')
+      .select('*')
+      .eq('policy_number', policyNumber)
+      .maybeSingle();
+
+    if (error || !data) {
+      alert("No data found for the given policy number.");
+      return;
+    }
+
+    // Fill form fields safely
+    const setValue = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.value = value || '';
+    };
+
+    setValue('life_assured', data.life_assured_name);
+    setValue('date_of_application', data.form_submission_date);
+    setValue('sum_assured_paidup_value', data.sum_assured_paidup_value);
+    setValue('vested_bonus', data.vested_bonus);
+    setValue('interim_bonus', data.interim_bonus);
+    setValue('terminal_bonus', data.terminal_bonus);
+    setValue('final_additional_bonus', data.final_additional_bonus);
+    setValue('age_overstatement_diff', data.age_overstatement_diff);
+    setValue('extra_premium_refund', data.extra_premium_refund_sex_dab_epdb);
+    setValue('gross_claim_amount', data.gross_claim_amount);
+    setValue('assignment_date', data.assignment_date);
+    setValue('assignment_sum_assured', data.sum_assured_words);
+    setValue('policy_maturity_date', data.policy_maturity_date);
+    setValue('m_p1_policy_number_header', data.policy_number);
+  }
+
+  // Attach event listeners
+  document.getElementById('insertSampleBtn').addEventListener('click', insertSampleRow);
+  document.getElementById('maturityLoadButton').addEventListener('click', fetchMaturityData);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LIC Surrender Value Calculator</title>
+  <style>
+    body {
+      background-color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    form {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #f9f9f9;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: inset 2px 2px 5px #e0e0e0, inset -2px -2px 5px #ffffff;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: #666;
+      outline: none;
+    }
+
+    button {
+      background: linear-gradient(145deg, #3a3a3a, #1a1a1a);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 4px 4px 10px #00000080, -4px -4px 10px #4d4d4d;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+    }
+
+    #resultContainer {
+      display: none;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    #result span {
+      font-size: 18px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>LIC Surrender Value Calculator</h1>
+
+  <form onsubmit="calculateSurrenderValue(event)">
+    <label for="planName">Plan Name:</label>
+    <input type="text" id="planName" required>
+
+    <label for="sumAssured">Sum Assured (₹):</label>
+    <input type="number" id="sumAssured" required>
+
+    <label for="bonusRate">Bonus Rate (per ₹1000):</label>
+    <input type="number" id="bonusRate" value="48" required>
+
+    <label for="totalInstallments">Total No. of Installments (Years):</label>
+    <input type="number" id="totalInstallments" required>
+
+    <label for="installmentsPaid">Installments Paid (Years):</label>
+    <input type="number" id="installmentsPaid" required>
+
+    <label for="yearlyPremium">Yearly Premium (₹):</label>
+    <input type="number" id="yearlyPremium" required>
+
+    <label for="riderPremium">Total Rider Premium (₹):</label>
+    <input type="number" id="riderPremium" value="0">
+
+    <div style="text-align:center;">
+      <button type="submit">CALCULATE</button>
+    </div>
+  </form>
+
+  <div id="resultContainer">
+    <p id="result"></p>
+  </div>
+
+  <script>
+    function calculateSurrenderValue(event) {
+      event.preventDefault();
+
+      const sumAssured = parseFloat(document.getElementById('sumAssured').value);
+      const bonusRate = parseFloat(document.getElementById('bonusRate').value);
+      const totalInstallments = parseFloat(document.getElementById('totalInstallments').value);
+      const installmentsPaid = parseFloat(document.getElementById('installmentsPaid').value);
+      const yearlyPremium = parseFloat(document.getElementById('yearlyPremium').value);
+      const riderPremium = parseFloat(document.getElementById('riderPremium').value) || 0;
+
+      const totalPremiumPaid = installmentsPaid * yearlyPremium;
+      const adjustedPremiumPaid = totalPremiumPaid - yearlyPremium - riderPremium;
+
+      // Accurate bonus calculation
+      const bonus = (sumAssured / 1000) * bonusRate * installmentsPaid;
+
+      // Surrender Value Factor Table
+      const svfRates = {
+        1: 0.00, 2: 0.30, 3: 0.35, 4: 0.50, 5: 0.50, 6: 0.50, 7: 0.50,
+        8: 0.5148, 9: 0.5296, 10: 0.5444, 11: 0.5593, 12: 0.5741,
+        13: 0.5889, 14: 0.6037, 15: 0.6185, 16: 0.6333, 17: 0.6481,
+        18: 0.6630, 19: 0.6778, 20: 0.6926, 21: 0.7074, 22: 0.7222,
+        23: 0.7370, 24: 0.7519, 25: 0.7667, 26: 0.7815, 27: 0.7963,
+        28: 0.8111, 29: 0.8259, 30: 0.8407, 31: 0.8556, 32: 0.8704,
+        33: 0.8852, 34: 0.9000
+      };
+
+      const svf = svfRates[installmentsPaid] || (installmentsPaid >= 35 ? 0.90 : 0.00);
+
+      const gsv = adjustedPremiumPaid * svf;
+      const ssv = (((installmentsPaid / totalInstallments) * sumAssured) + bonus) * svf;
+      const totalSV = gsv + ssv;
+
+      // Output
+      const result = document.getElementById('result');
+      result.innerHTML = `
+        <span style="color: darkorange;">Accrued Bonus: ₹ ${bonus.toFixed(2)}</span>
+        <span style="color: green;">Guaranteed Surrender Value (GSV): ₹ ${gsv.toFixed(2)}</span>
+        <span>Special Surrender Value (SSV): ₹ ${ssv.toFixed(2)}</span>
+        <span style="color: blue;">Total Surrender Value (GSV + SSV): ₹ ${totalSV.toFixed(2)}</span>
+      `;
+      document.getElementById('resultContainer').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
