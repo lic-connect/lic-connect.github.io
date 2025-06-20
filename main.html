@@ -6,146 +6,273 @@
   <title>LIC CONNECT</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
   <style>
+    /* General Body and Background Styling */
     body {
       margin: 0;
       padding: 0;
-      background: url('background.jpeg') no-repeat center center fixed;
+      background-color: #ffffff;
+      background-image: url('licimage.jpg');
       background-size: cover;
+      background-position: center center;
+      background-attachment: fixed;
       font-family: Arial, sans-serif;
+      color: #333;
     }
 
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      min-height: 100vh;
-      padding: 20px;
+    /* Main Container to hold all content */
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.92);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Header Styling */
+    header {
       text-align: center;
+      margin-bottom: 40px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 20px;
+    }
+
+    #welcomeMsg {
+      font-size: 20px;
+      font-weight: normal;
+      color: #555;
+      margin: 0;
     }
 
     h1 {
-      font-size: 32px;
-      margin-bottom: 20px;
+      font-size: 42px;
+      margin: 5px 0 0 0;
+      color: #1a1a1a;
     }
 
-    .button-grid {
+    /* Two-Column Layout for Buttons */
+    .button-container {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin: 20px 0;
+      justify-content: space-between;
+      gap: 40px;
     }
 
-    .button-grid a {
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 6px;
-      background-color: #ffc107;
-      color: black;
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 48%;
+    }
+
+    /* --- The 3D Button Style You Requested --- */
+    .dashboard-button {
+      display: block;
+      background: linear-gradient(to bottom, #4d4d4d, #1a1a1a); /* Greyish-black gradient */
+      color: white;
+      padding: 18px 25px;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
       text-decoration: none;
-      display: inline-block;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      border: none;
+      border-radius: 15px;
+      box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.6), /* High intensity shadow */
+        inset 0 -4px 7px rgba(255, 255, 255, 0.25); /* Top light for 3D bevel effect */
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
 
-    .button-grid a:hover {
-      background-color: #ff9800;
+    .dashboard-button:hover {
+      transform: translateY(-4px) scale(1.02); /* Lifts the button */
+      box-shadow: 
+        0 14px 35px rgba(0, 0, 0, 0.7), /* Stronger shadow on hover */
+        inset 0 -4px 7px rgba(255, 255, 255, 0.35);
     }
 
-    .footer-links {
-      margin-top: 30px;
+    /* --- Dropdown Container for "Types of calculators" --- */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #333;
+      min-width: 100%;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+      z-index: 1;
+      border-radius: 10px;
+      padding: 10px 0;
+      margin-top: 5px;
+    }
+
+    .dropdown-content a {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 16px;
+      text-align: left;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #555;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    /* Logout Section Styling */
+    .logout-section {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .logout-button {
+      padding: 12px 25px;
+      font-size: 16px;
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.2s ease;
+    }
+    
+    .logout-button:hover {
+      background-color: #c9302c;
+    }
+
+    #logoutMsg {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    /* Footer Styling */
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+    }
+
+    footer a {
+      color: #333;
+      text-decoration: none;
+      margin: 0 10px;
       font-size: 14px;
     }
 
-    .footer-links a {
-      color: #ffc107;
-      text-decoration: none;
-      margin: 0 8px;
-    }
-
-    .footer-links a:hover {
+    footer a:hover {
       text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <h2 id="welcomeMsg" style="color: #fff; font-size: 20px; margin-bottom: 10px;"></h2>
-    <h1>Welcome To LIC CONNECT</h1>
+  <div class="container">
+    <header>
+      <h2 id="welcomeMsg"></h2>
+      <h1>LIC CONNECT</h1>
+    </header>
 
-    <div class="button-grid">
-      <a href="customer_data.html">Customer Data</a>
-      <a href="agents_data.html">Agents Data</a>
-      <a href="plan_features.html">Plan Features</a>
-      <a href="types_of_forms.html">Types of Forms</a>
-      <a href="lic_process.html">Types of Process</a>
-      <a href="agents_module.html">Agents Module</a>
-      <a href="prospect_corner.html">Prospects Corner</a>
-      <a href="automatic_fetch.html">Automatic Fetch</a>
-      <a href="customer_corner.html">Customer's Corner</a>
-      <a href="agents_corner.html">Agent's Corner</a>
+    <main class="button-container">
+      <!-- Left Column -->
+      <div class="column">
+        <a href="customer_data.html" class="dashboard-button">Customer Data</a>
+        <a href="agents_data.html" class="dashboard-button">Agents Data</a>
+        <a href="commissionenquiry.html" class="dashboard-button">Agents Corner</a>
+        <a href="agents_module.html" class="dashboard-button">Agents Module</a>
+        <a href="automatic_fetch.html" class="dashboard-button">Automatic Fetch</a>
+        <a href="branches.html" class="dashboard-button">Lic Branch Locator</a>
+        <a href="customer_corner.html" class="dashboard-button">Customers Corner</a>
+        <a href="types_of_forms.html" class="dashboard-button">Types of Forms</a>
+      </div>
+
+      <!-- Right Column -->
+      <div class="column">
+        <div class="dropdown">
+          <button class="dashboard-button">Types of calculators ▾</button>
+          <div class="dropdown-content">
+            <a href="surrendercalculator.html">Surrender Calculator</a>
+            <a href="SBcalculator.html">SB Calculator</a>
+            <a href="maturitycalculator.html">Maturity Calculator</a>
+            <a href="revivalcalculator.html">Revival Calculator</a>
+          </div>
+        </div>
+        <a href="lic_process.html" class="dashboard-button">Types of processes</a>
+        <a href="IRR.xlsm" class="dashboard-button">IRR Calculation</a>
+        <a href="plan_features.html" class="dashboard-button">Plan features</a>
+        <a href="plancomparison.html" class="dashboard-button">Plan Comparison tool</a>
+        <a href="mybestplan.html" class="dashboard-button">Plans as per Need</a>
+        <a href="prospectscorner.html" class="dashboard-button">Prospects Corner</a>
+        <a href="terminologies.html" class="dashboard-button">Glossary</a>
+      </div>
+    </main>
+
+    <div class="logout-section">
+      <button onclick="handleLogout()" class="logout-button">Logout</button>
+      <p id="logoutMsg"></p>
     </div>
 
-    <div class="footer-links">
+    <footer>
       <a href="about.pdf" target="_blank" rel="noopener noreferrer">About</a> |
+      <a href="contact.html" target="_blank">Contact Us</a> |
       <a href="privacypolicy.pdf" target="_blank" rel="noopener noreferrer">Privacy Policy</a> |
-      <a href="disclaimer.pdf" target="_blank" rel="noopener noreferrer">Disclaimer</a> |
-     <a href="contact.html" target="_blank" rel="noopener noreferrer">Contact Us</a> |
-    </div>
-
-    <div style="text-align: center; margin-top: 40px;">
-      <button onclick="handleLogout()" style="
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #ff4d4d;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;">
-        Logout
-      </button>
-      <p id="logoutMsg" style="margin-top: 15px; font-size: 18px; color: green;"></p>
-    </div>
+      <a href="disclaimer.pdf" target="_blank" rel="noopener noreferrer">Disclaimer</a>
+    </footer>
   </div>
 
   <script>
+    // --- SUPABASE CLIENT INITIALIZATION ---
     const supabase = window.supabase.createClient(
       'https://efduqdondmlzmwhfgkfz.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
     );
 
+    // --- PAGE LOAD LOGIC ---
     window.addEventListener("DOMContentLoaded", async () => {
       const { data: { session } } = await supabase.auth.getSession();
 
       if (!session || !session.user) {
-        // Not logged in  redirect
+        // If user is not logged in, redirect to the signup/login page.
         window.location.href = "signup.html";
         return;
       }
 
       const userId = session.user.id;
 
-      // Try to fetch full_name from profiles table
+      // Try to fetch the user's full name from the 'profiles' table.
       const { data: profile, error } = await supabase
         .from("profiles")
         .select("full_name")
         .eq("id", userId)
         .single();
 
+      // Determine the name to display, falling back to metadata or email.
       const name = profile?.full_name || session.user.user_metadata?.full_name || session.user.email || "User";
 
-      document.getElementById("welcomeMsg").textContent = `Welcome ${name}`;
+      document.getElementById("welcomeMsg").textContent = `Welcome, ${name}`;
     });
 
+    // --- LOGOUT FUNCTIONALITY ---
     async function handleLogout() {
       const { data: { session } } = await supabase.auth.getSession();
       const user = session?.user;
       const name = user?.user_metadata?.full_name || user?.email || "User";
 
+      // Sign the user out from Supabase.
       await supabase.auth.signOut();
 
-      document.getElementById("logoutMsg").textContent = `Bye Bye ${name}`;
+      // Display a farewell message.
+      document.getElementById("logoutMsg").textContent = `Bye Bye, ${name}!`;
       document.getElementById("welcomeMsg").textContent = "";
 
+      // Redirect to the signup/login page after a short delay.
       setTimeout(() => {
         window.location.href = "signup.html";
       }, 1500);
