@@ -23,6 +23,30 @@ status (box to contain no more than 500 characters)
 remarks (box to contain no more than 500 characters)
 
 submit button : when clicked, data should be saved in supabase in the table, prospects
+i jv already created the prospects table with rls policy and the fields are as followed 
+
+uuid
+agent_name
+agency_code
+entry_date
+prospecting_date
+prospect_type
+full_name
+age
+gender
+address
+mobile
+email
+profession
+budget
+plan
+status
+remarks
+user_id
+inserted_at
+
+
+
 
 below this,
 Input box with the heading on it :  Search

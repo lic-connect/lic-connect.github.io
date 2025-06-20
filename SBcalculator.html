@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LIC Survival Benefit Calculator</title>
+  <style>
+    body {
+      background: white;
+      font-family: Impact, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: black;
+    }
+    #errorMsg {
+      color: red;
+      font-weight: bold;
+      font-family: Impact, sans-serif;
+      text-align: center;
+      margin-bottom: 15px;
+      height: 24px; /* reserve space */
+    }
+    input.input-button, button.calculate-button, button.share-button, select.input-button {
+      background: linear-gradient(to bottom, #40e0d0, #20b2aa);
+      border: 4px solid #008b8b;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: Impact, sans-serif;
+      color: white;
+      font-weight: bold;
+      padding: 10px;
+      margin: 10px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      box-shadow: inset 2px 2px 6px #222, 3px 3px 8px #444;
+      text-shadow: 1px 1px 1px black;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    input.input-button::placeholder {
+      color: black;
+    }
+    input[disabled].input-button {
+      background: #b0d9d6;
+      color: #333;
+      border: 3px solid #80b7b3;
+      cursor: default;
+      box-shadow: none;
+      text-shadow: none;
+    }
+    .results-container {
+      margin-top: 30px;
+      padding: 20px;
+      border: 2px dashed #999;
+      border-radius: 15px;
+      background: #f9f9f9;
+      text-align: center;
+    }
+    .output-label {
+      color: black;
+      font-size: 18px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .marquee {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      color: black;
+      font-size: 16px;
+      font-family: Impact, sans-serif;
+      margin-top: 20px;
+      direction: rtl;
+    }
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 15s linear infinite;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+<body>
+  <h1>LIC Survival Benefit Calculator</h1>
+
+  <div id="errorMsg"></div>
+
+  <input class="input-button" id="planNo" placeholder="Enter Plan Number" oninput="validatePlanNo()" />
+  <input class="input-button" id="planName" placeholder="Plan Name" disabled />
+  <input class="input-button" id="sumAssured" type="number" placeholder="Sum Assured" oninput="validateSumAssured()" />
+  <input class="input-button" id="doc" type="date" placeholder="Date of Commencement" />
+  <button class="calculate-button" onclick="calculateSB()">CALCULATE</button>
+
+  <div class="results-container">
+    <label class="output-label">SB Due Dates and Amounts:</label>
+    <select class="input-button" id="sbResults">
+      <option>-- Select SB Event --</option>
+    </select>
+
+    <button class="share-button" onclick="shareResults()">SHARE</button>
+  </div>
+
+  <div class="marquee"><span id="remarks">Remarks will appear here after calculation...</span></div>
+
+<script>
+  const sbData = {
+    "720": { name: "20-Year Money Back", sbPercents: {5: 20, 10: 20, 15: 20}, minSA: 10000 },
+    "721": { name: "25-Year Money Back", sbPercents: {5: 15, 10: 15, 15: 15, 20: 15}, minSA: 10000 },
+    "732": { name: "Child Money Back", sbPercents: {18: 20, 20: 20, 22: 20}, minSA: 50000 },
+    "734": { name: "Jeevan Tarun (Option 2)", sbPercents: {20: 5, 21: 5, 22: 5, 23: 5, 24: 5}, minSA: 75000 },
+    "745": { name: "Jeevan Umang", sbPercents: {afterPPT: 8}, minSA: 200000 },
+    "748": { name: "Bima Shree", sbPercents: {14: 30, 18: 30, 22: 40, 26: 45}, minSA: 1000000 },
+    "771": { name: "Jeevan Utsav", sbPercents: {afterIncomeStart: 10}, minSA: 500000 }
+  };
+
+  function setError(message) {
+    document.getElementById('errorMsg').innerText = message;
+  }
+
+  function clearError() {
+    setError('');
+  }
+
+  function validatePlanNo() {
+    const planNo = document.getElementById('planNo').value.trim();
+    if (!planNo) {
+      document.getElementById('planName').value = '';
+      clearError();
+      return;
+    }
+    if (!sbData[planNo]) {
+      document.getElementById('planName').value = '';
+      setError('Sorry! Invalid Details');
+    } else {
+      clearError();
+      document.getElementById('planName').value = sbData[planNo].name;
+    }
+    resetResultsAndRemarks();
+  }
+
+  function validateSumAssured() {
+    const planNo = document.getElementById('planNo').value.trim();
+    const sa = parseFloat(document.getElementById('sumAssured').value);
+    if (!planNo || !sbData[planNo]) {
+      clearError();
+      return;
+    }
+    if (isNaN(sa)) {
+      clearError();
+      return;
+    }
+    if (sa < sbData[planNo].minSA) {
+      setError('Sorry! Invalid Details');
+    } else {
+      clearError();
+    }
+    resetResultsAndRemarks();
+  }
+
+  function resetResultsAndRemarks() {
+    document.getElementById('sbResults').innerHTML = '<option>-- Select SB Event --</option>';
+    document.getElementById('remarks').innerText = 'Remarks will appear here after calculation...';
+  }
+
+  function calculateSB() {
+    clearError();
+
+    const planNo = document.getElementById('planNo').value.trim();
+    const sa = parseFloat(document.getElementById('sumAssured').value);
+    const doc = document.getElementById('doc').value;
+    const plan = sbData[planNo];
+
+    const sbBox = document.getElementById('sbResults');
+    sbBox.innerHTML = '<option>-- Select SB Event --</option>';
+
+    if (!planNo) {
+      setError('Sorry! Invalid Details');
+      return;
+    }
+    if (!plan) {
+      setError('Sorry! Invalid Details');
+      return;
+    }
+    if (!doc) {
+      setError('Please enter Date of Commencement');
+      return;
+    }
+    if (isNaN(sa)) {
+      setError('Sorry! Invalid Details');
+      return;
+    }
+    if (sa < plan.minSA) {
+      setError('Sorry! Invalid Details');
+      return;
+    }
+
+    const docDate = new Date(doc);
+    const sbPercents = plan.sbPercents;
+    let entriesAdded = 0;
+
+    for (let year in sbPercents) {
+      if (!isNaN(year)) {
+        let dueDate = new Date(docDate);
+        dueDate.setFullYear(dueDate.getFullYear() + parseInt(year));
+        const sbAmt = (sa * sbPercents[year]) / 100;
+        const label = `${dueDate.toLocaleDateString('en-GB')} (₹${sbAmt.toFixed(2)})`;
+        const option = document.createElement('option');
+        option.text = label;
+        option.value = label;
+        sbBox.add(option);
+        entriesAdded++;
+      }
+    }
+
+    if(entriesAdded === 0) {
+      document.getElementById('remarks').innerText = 'No standard Survival Benefit dates found for this plan.';
+    } else {
+      document.getElementById('remarks').innerText = `SB calculation complete for Plan ${planNo}. Choose from the dropdown.`;
+    }
+  }
+
+  function shareResults() {
+    const planNo = document.getElementById('planNo').value.trim();
+    const planName = document.getElementById('planName').value;
+    const sa = document.getElementById('sumAssured').value;
+    const doc = document.getElementById('doc').value;
+    const sbBox = document.getElementById('sbResults');
+
+    if (!planNo || !planName || !sa || !doc || sbBox.options.length <= 1) {
+      alert('No results to share. Please perform a valid calculation first.');
+      return;
+    }
+
+    let textToShare = `LIC Survival Benefit Calculation\n\n`;
+    textToShare += `Plan Number: ${planNo}\n`;
+    textToShare += `Plan Name: ${planName}\n`;
+    textToShare += `Sum Assured: ₹${sa}\n`;
+    textToShare += `Date of Commencement: ${doc}\n\n`;
+    textToShare += `Survival Benefit Events:\n`;
+
+    for(let i=1; i < sbBox.options.length; i++) {
+      textToShare += `- ${sbBox.options[i].text}\n`;
+    }
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'LIC Survival Benefit Calculation',
+        text: textToShare,
+      }).catch((error) => {
+        alert('Error sharing: ' + error);
+      });
+    } else {
+      alert('Share not supported on this browser. You can copy the results manually.');
+    }
+  }
+</script>
+
+</body>
+</html>

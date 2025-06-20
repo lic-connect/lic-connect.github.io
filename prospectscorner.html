@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prospect's Corner</title>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        /* Your Provided Styles */
+        body {
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px 5%;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333333;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #444444;
+            margin-top: 40px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #666666;
+        }
+
+        .dashboard-button {
+            background: linear-gradient(to bottom, #333333, #808080); /* black to grey gradient */
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 
+                inset 0 -3px 8px rgba(255, 255, 255, 0.4), /* Top light for bevel effect */
+                0 6px 15px rgba(0, 0, 0, 0.6); /* Bottom shadow for 3D effect */
+            width: 240px;
+            height: 70px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .dashboard-button:hover {
+            box-shadow:
+                inset 0 -3px 8px rgba(255, 255, 255, 0.6), /* Lightens top bevel on hover */
+                0 8px 20px rgba(0, 0, 0, 0.8); /* Stronger shadow for deeper 3D effect */
+            transform: translateY(-2px); /* Lifts the button on hover */
+        }
+
+        /* Custom Styles for Form and Layout */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .canvassed-info {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .canvassed-info p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box; /* Important for padding */
+        }
+        
+        .form-group-radio {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .form-group-radio label {
+            font-weight: normal;
+            margin-bottom: 0;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        #search-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        #search-container input[type="text"], 
+        #search-container input[type="date"] {
+             flex-grow: 1;
+             padding: 10px;
+             font-size: 16px;
+             border: 1px solid #ccc;
+             border-radius: 5px;
+        }
+        
+        #search-options {
+            display: flex;
+            gap: 15px;
+        }
+        
+        #results-container {
+            margin-top: 30px;
+            overflow-x: auto; /* For responsive tables */
+        }
+
+        #results-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        #results-table th, #results-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        #results-table th {
+            background-color: #f2f2f2;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        #results-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #downloadButton {
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Prospect's Corner</h1>
+    <p>Your one-stop place for managing prospect information.</p>
+
+    <div class="container">
+        <!-- Canvassed By Section -->
+        <div class="canvassed-info">
+            <p><strong>Canvassed by:</strong></p>
+            <p>Agent Name: <span id="agentName">John Doe</span></p>
+            <p>Agency Code: <span id="agencyCode">AGNT-12345</span></p>
+            <p>Date: <span id="currentDate"></span></p>
+        </div>
+
+        <!-- Prospect Entry Form -->
+        <form id="prospectForm">
+            <h2>New Prospect Entry</h2>
+            <div class="form-group">
+                <label for="prospectingDate">Date of Prospecting:</label>
+                <input type="date" id="prospectingDate" required>
+            </div>
+            <div class="form-group">
+                <label>Prospect:</label>
+                <div class="form-group-radio">
+                    <label><input type="radio" name="prospectType" value="New" checked> New</label>
+                    <label><input type="radio" name="prospectType" value="Old"> Old</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="fullName">Prospect's Full Name:</label>
+                <input type="text" id="fullName" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Prospect's Age:</label>
+                <input type="number" id="age" min="1" required>
+            </div>
+            <div class="form-group">
+                <label>Prospect's Gender:</label>
+                <div class="form-group-radio">
+                    <label><input type="radio" name="gender" value="Male" checked> Male</label>
+                    <label><input type="radio" name="gender" value="Female"> Female</label>
+                    <label><input type="radio" name="gender" value="Other"> Other</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Prospect's Address:</label>
+                <textarea id="address"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="mobile">Prospect's Mobile No:</label>
+                <input type="tel" id="mobile" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Prospect's Email:</label>
+                <input type="email" id="email">
+            </div>
+            <div class="form-group">
+                <label for="profession">Prospect's Profession:</label>
+                <input type="text" id="profession">
+            </div>
+            <div class="form-group">
+                <label for="budget">Budget (Monthly Premium):</label>
+                <input type="number" id="budget" min="0" step="100">
+            </div>
+            <div class="form-group">
+                <label for="plan">Plan Proposed:</label>
+                <input type="text" id="plan">
+            </div>
+            <div class="form-group">
+                <label for="status">Status (max 500 chars):</label>
+                <textarea id="status" maxlength="500"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="remarks">Remarks (max 500 chars):</label>
+                <textarea id="remarks" maxlength="500"></textarea>
+            </div>
+            <button type="submit" class="dashboard-button">Submit Prospect</button>
+        </form>
+    </div>
+
+    <div class="container" style="margin-top: 40px;">
+        <h2>Search Prospects</h2>
+        <div id="search-container">
+            <input type="text" id="searchInput" placeholder="Enter email or select a date...">
+            <div id="search-options">
+                <label><input type="radio" name="searchType" value="email" checked> Prospect's Email</label>
+                <label><input type="radio" name="searchType" value="date"> Date of Prospecting</label>
+            </div>
+        </div>
+        <button id="searchButton" class="dashboard-button" style="width: 180px; height: 50px;">Search</button>
+
+        <div id="results-container">
+            <!-- Search results will be dynamically inserted here -->
+        </div>
+
+        <button id="downloadButton" class="dashboard-button" style="width: 240px; height: 60px;">Download Results (CSV)</button>
+    </div>
+
+    <script>
+    // ============== SUPABASE SETUP ==============
+    // IMPORTANT: Replace with your actual Supabase Project URL and Public Anon Key
+    const SUPABASE_URL = 'https://efduqdondmlzmwhfgkfz.supabase.co/';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
+
+    const { createClient } = supabase;
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ============== GLOBAL STATE ==============
+    let currentUser = null; 
+
+    // ============== DOM ELEMENTS ==============
+    const prospectForm = document.getElementById('prospectForm');
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const searchTypeRadios = document.querySelectorAll('input[name="searchType"]');
+    const resultsContainer = document.getElementById('results-container');
+    const downloadButton = document.getElementById('downloadButton');
+    const canvassedInfoAgent = document.getElementById('agentName');
+    const canvassedInfoAgency = document.getElementById('agencyCode');
+    
+    let currentResults = [];
+
+    // ============== AUTHENTICATION HANDLING ==============
+    const checkUserSession = async () => {
+        const { data: { session }, error } = await db.auth.getSession();
+
+        if (error) {
+            console.error("Error getting user session:", error);
+            return;
+        }
+
+        if (session && session.user) {
+            currentUser = session.user;
+            console.log('User is logged in:', currentUser);
+            canvassedInfoAgent.textContent = currentUser.email; 
+            canvassedInfoAgency.textContent = currentUser.user_metadata?.agency_code || 'N/A';
+        } else {
+            currentUser = null;
+            console.log('No user is logged in. Access denied.');
+            document.body.innerHTML = `<div class="container" style="text-align: center;"><h1>Prospect's Corner</h1><p style="color:red; font-weight: bold;">Access Denied</p><p>You must be logged in to view and manage prospects.</p><p>Please log in to continue.</p></div>`;
+        }
+    };
+
+    // ============== INITIAL PAGE SETUP ==============
+    document.addEventListener('DOMContentLoaded', async () => {
+        await checkUserSession();
+
+        if (!currentUser) return;
+        
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString();
+        
+        searchTypeRadios.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                searchInput.type = e.target.value === 'date' ? 'date' : 'text';
+                searchInput.placeholder = e.target.value === 'date' ? 'Select a date...' : 'Enter prospect email...';
+                searchInput.value = '';
+            });
+        });
+    });
+
+    // ============== FORM SUBMISSION HANDLER ==============
+    if (prospectForm) { // Add this check to prevent errors if form is not on page
+        prospectForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            if (!currentUser) {
+                alert('Your session has expired. Please log in again to save a prospect.');
+                return;
+            }
+
+            const prospectData = {
+                user_id: currentUser.id, 
+                agent_name: canvassedInfoAgent.textContent,
+                agency_code: canvassedInfoAgency.textContent,
+                entry_date: new Date().toISOString(),
+                prospecting_date: document.getElementById('prospectingDate').value,
+                prospect_type: document.querySelector('input[name="prospectType"]:checked').value,
+                full_name: document.getElementById('fullName').value,
+                age: parseInt(document.getElementById('age').value) || null,
+                gender: document.querySelector('input[name="gender"]:checked').value,
+                address: document.getElementById('address').value,
+                mobile: document.getElementById('mobile').value,
+                email: document.getElementById('email').value,
+                profession: document.getElementById('profession').value,
+                budget: parseFloat(document.getElementById('budget').value) || null,
+                plan: document.getElementById('plan').value,
+                status: document.getElementById('status').value,
+                remarks: document.getElementById('remarks').value,
+            };
+
+            // DEBUGGING LINE: Check the object right before sending
+            console.log('Data being sent to Supabase:', prospectData);
+
+            const { data, error } = await db
+                .from('prospects')
+                .insert([prospectData])
+                .select();
+
+            if (error) {
+                console.error('Error inserting data:', error);
+                alert(`Error saving prospect: ${error.message}`);
+            } else {
+                console.log('Data inserted successfully:', data);
+                alert('Prospect saved successfully!');
+                prospectForm.reset();
+            }
+        });
+    }
+
+    // ============== SEARCH HANDLER ==============
+    if (searchButton) { // Add this check
+        searchButton.addEventListener('click', async () => {
+            const searchTerm = searchInput.value.trim();
+            const searchType = document.querySelector('input[name="searchType"]:checked').value;
+
+            if (!searchTerm) {
+                alert('Please enter a search term.');
+                return;
+            }
+
+            resultsContainer.innerHTML = '<p>Searching...</p>';
+            downloadButton.style.display = 'none';
+            currentResults = [];
+
+            let query = db.from('prospects').select('*');
+
+            if (searchType === 'email') {
+                query = query.eq('email', searchTerm);
+            } else if (searchType === 'date') {
+                query = query.eq('prospecting_date', searchTerm);
+            }
+
+            const { data, error } = await query.order('inserted_at', { ascending: false });
+
+            if (error) {
+                console.error('Error searching:', error);
+                resultsContainer.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+                return;
+            }
+
+            if (data && data.length > 0) {
+                currentResults = data;
+                displayResults(data);
+                downloadButton.style.display = 'inline-block';
+            } else {
+                resultsContainer.innerHTML = '<p>No prospects found matching your criteria.</p>';
+            }
+        });
+    }
+    
+    // ============== DISPLAY RESULTS FUNCTION ==============
+    function displayResults(results) {
+        let tableHTML = `
+            <table id="results-table">
+                <thead>
+                    <tr>
+                        <th>Full Name</th><th>Age</th><th>Mobile</th><th>Email</th><th>Prospecting Date</th><th>Status</th><th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        results.forEach(prospect => {
+            tableHTML += `
+                <tr>
+                    <td>${prospect.full_name || ''}</td><td>${prospect.age || ''}</td><td>${prospect.mobile || ''}</td><td>${prospect.email || ''}</td><td>${new Date(prospect.prospecting_date).toLocaleDateString()}</td><td>${prospect.status || ''}</td><td>${prospect.remarks || ''}</td>
+                </tr>
+            `;
+        });
+        tableHTML += '</tbody></table>';
+        resultsContainer.innerHTML = tableHTML;
+    }
+
+    // ============== DOWNLOAD HANDLER ==============
+    if (downloadButton) { // Add this check
+        downloadButton.addEventListener('click', () => {
+            if (currentResults.length === 0) {
+                alert('No data to download.');
+                return;
+            }
+            const headers = ['uuid', 'agent_name', 'agency_code', 'entry_date', 'prospecting_date', 'prospect_type', 'full_name', 'age', 'gender', 'address', 'mobile', 'email', 'profession', 'budget', 'plan', 'status', 'remarks'];
+            const escapeCsvCell = (cell) => {
+                const strCell = String(cell === null || cell === undefined ? '' : cell);
+                if (strCell.includes(',') || strCell.includes('"') || strCell.includes('\n')) {
+                    return `"${strCell.replace(/"/g, '""')}"`;
+                }
+                return strCell;
+            };
+            const csvRows = currentResults.map(row => headers.map(header => escapeCsvCell(row[header])).join(','));
+            const csvContent = [headers.join(','), ...csvRows].join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            if (link.download !== undefined) {
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', `prospects_export_${new Date().toISOString().split('T')[0]}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

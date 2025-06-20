@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LIC Revival Calculator</title>
+  <style>
+    body {
+      background: white;
+      font-family: Impact, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: black;
+    }
+
+    .input-button, .calculate-button, .print-button, select {
+      background: linear-gradient(to bottom, #40e0d0, #20b2aa);
+      border: 4px solid #008b8b;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: Impact, sans-serif;
+      color: white;
+      font-weight: bold;
+      padding: 10px;
+      margin: 10px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      box-shadow: inset 2px 2px 6px #222, 3px 3px 8px #444;
+      text-shadow: 1px 1px 1px black;
+      text-align: center;
+    }
+
+    .input-button::placeholder {
+      color: black;
+    }
+
+    .results-container {
+      margin-top: 30px;
+      padding: 20px;
+      border: 2px dashed #999;
+      border-radius: 15px;
+      background: #f9f9f9;
+    }
+
+    .output-field {
+      font-size: 18px;
+      color: black;
+      margin-bottom: 15px;
+    }
+
+    .marquee {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      color: black;
+      font-size: 16px;
+      font-family: Impact, sans-serif;
+      margin-top: 20px;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 15s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+  </style>
+</head>
+<body>
+  <h1>LIC Revival Calculator</h1>
+
+  <input class="input-button" type="text" id="planNo" placeholder="Plan Number" />
+  <input class="input-button" type="number" id="age" placeholder="Age of Policyholder" />
+  <input class="input-button" type="date" id="dateOfFUP" />
+  <input class="input-button" type="date" id="dateOfRevival" />
+  <input class="input-button" type="number" id="premium" placeholder="Premium Amount (Per Mode)" />
+
+  <select class="input-button" id="mode">
+    <option value="Y">Yearly</option>
+    <option value="H">Half-Yearly</option>
+    <option value="Q">Quarterly</option>
+    <option value="M">Monthly</option>
+  </select>
+
+  <select class="input-button" id="revivalType">
+    <option value="Ordinary">Ordinary Revival</option>
+    <option value="Special">Special Revival</option>
+    <option value="Installment">Installment Revival</option>
+    <option value="Loan-cum">Loan-cum-Revival</option>
+    <option value="Survival-cum">Survival Benefits-cum-Revival</option>
+  </select>
+
+  <button class="calculate-button" onclick="calculateRevival()">CALCULATE</button>
+
+  <div class="results-container" id="resultContainer">
+    <div class="output-field" id="lateFeesField">Late Fees:</div>
+    <div class="output-field" id="factorField">Revival Type Factor:</div>
+    <div class="output-field" id="totalPremiumField">Total Premium Due:</div>
+    <div class="output-field" id="gstField">GST (4.5%):</div>
+    <div class="output-field" id="revivalAmountField">Total Revival Payable (with GST):</div>
+    <div class="output-field" id="medicalRequirement">Medical Requirement:</div>
+    <div class="output-field" id="formRequirement">Required Form:</div>
+  </div>
+
+  <button class="print-button" onclick="window.print()">🖨️ PRINT REVIVAL DETAILS</button>
+  <button class="print-button" onclick="downloadDetails()">⬇️ DOWNLOAD REVIVAL DETAILS</button>
+
+  <div class="marquee"><span id="remarksText">Remarks will appear here after calculation...</span></div>
+
+  <script>
+    function getMonthsDifference(date1, date2) {
+      const d1 = new Date(date1);
+      const d2 = new Date(date2);
+      let months = (d2.getFullYear() - d1.getFullYear()) * 12;
+      months += d2.getMonth() - d1.getMonth() + 1;
+      return Math.max(0, months);
+    }
+
+    function getFactorByRevivalType(type) {
+      switch (type) {
+        case 'Ordinary': return 1.0;
+        case 'Special': return 0.95;
+        case 'Installment': return 1.05;
+        case 'Loan-cum': return 1.10;
+        case 'Survival-cum': return 1.08;
+        default: return 1.0;
+      }
+    }
+
+    function getInterestRateByPlan(planNo) {
+      const singlePremiumPlans = ['717', '758', '857'];
+      return singlePremiumPlans.includes(planNo) ? 0.05 : 0.095;
+    }
+
+    function requiresMedical(lapseMonths, age) {
+      if (lapseMonths > 120 || age > 50) return "Medical exam mandatory (lapse > 10 years or age > 50).";
+      if (lapseMonths > 60 || age > 45) return "Medical exam may be required (5-10 years or age > 45).";
+      return "No medical required.";
+    }
+
+    function getFormByRevivalType(revivalType) {
+      switch (revivalType) {
+        case 'Ordinary': return "Form No. 680 (Regular Premium Policy)";
+        case 'Special': return "Form No. 680 with Special Revival Questionnaire";
+        case 'Installment': return "Form No. 680 with Installment Declaration";
+        case 'Loan-cum': return "Form No. 720 (Limited Premium Policy)";
+        case 'Survival-cum': return "Form No. 700 (Single Premium with SB Revival)";
+        default: return "Form No. 680";
+      }
+    }
+
+    let finalValues = {};
+
+    function calculateRevival() {
+      const planNo = document.getElementById('planNo').value.trim();
+      const age = parseInt(document.getElementById('age').value);
+      const premiumPerMode = parseFloat(document.getElementById('premium').value);
+      const mode = document.getElementById('mode').value;
+      const fup = document.getElementById('dateOfFUP').value;
+      const dor = document.getElementById('dateOfRevival').value;
+      const revivalType = document.getElementById('revivalType').value;
+
+      if (!planNo || isNaN(age) || isNaN(premiumPerMode) || !fup || !dor) {
+        alert("Please fill all required fields correctly.");
+        return;
+      }
+
+      const interestRate = getInterestRateByPlan(planNo);
+      const factor = getFactorByRevivalType(revivalType);
+      const monthsDiff = getMonthsDifference(fup, dor);
+      const lapseYears = monthsDiff / 12;
+
+      let modeDivisor = 1;
+      if (mode === 'H') modeDivisor = 6;
+      else if (mode === 'Q') modeDivisor = 3;
+      else if (mode === 'M') modeDivisor = 1;
+      else if (mode === 'Y') modeDivisor = 12;
+
+      const duePeriods = Math.floor(monthsDiff / modeDivisor);
+      const totalUnpaidPremiums = premiumPerMode * duePeriods;
+      const lateFee = totalUnpaidPremiums * interestRate * lapseYears;
+      const baseAmount = totalUnpaidPremiums + lateFee;
+      const factorAmount = baseAmount * (factor - 1);
+      const revivedAmountBeforeGST = baseAmount + factorAmount;
+      const gst = revivedAmountBeforeGST * 0.045;
+      const finalRevival = revivedAmountBeforeGST + gst;
+
+      const medical = requiresMedical(monthsDiff, age);
+      const form = getFormByRevivalType(revivalType);
+
+      document.getElementById('lateFeesField').innerText = `Late Fees: ₹${lateFee.toFixed(2)}`;
+      document.getElementById('factorField').innerText = `Revival Type Factor: ${factor} (₹${factorAmount.toFixed(2)})`;
+      document.getElementById('totalPremiumField').innerText = `Total Premium Due: ₹${totalUnpaidPremiums.toFixed(2)} (${duePeriods} installments)`;
+      document.getElementById('gstField').innerText = `GST (4.5%): ₹${gst.toFixed(2)}`;
+      document.getElementById('revivalAmountField').innerText = `Total Revival Payable (with GST): ₹${finalRevival.toFixed(2)}`;
+      document.getElementById('medicalRequirement').innerText = `Medical Requirement: ${medical}`;
+      document.getElementById('formRequirement').innerText = `Required Form: ${form}`;
+      document.getElementById('remarksText').innerText = `Interest Rate used: ${(interestRate * 100).toFixed(2)}%. Revival type '${revivalType}' factor applied: ${factor}. GST 4.5% applied.`;
+
+      finalValues = {
+        planNo, age, monthsDiff,
+        premium: premiumPerMode.toFixed(2),
+        totalUnpaidPremiums: totalUnpaidPremiums.toFixed(2),
+        duePeriods,
+        lateFee: lateFee.toFixed(2),
+        factor, factorAmount: factorAmount.toFixed(2),
+        gst: gst.toFixed(2),
+        finalRevival: finalRevival.toFixed(2),
+        medical, form
+      };
+    }
+
+    function downloadDetails() {
+      if (!finalValues.planNo) {
+        alert("Please calculate the revival amount before downloading.");
+        return;
+      }
+      const text = `LIC Revival Estimate\n\nPlan No: ${finalValues.planNo}\nAge: ${finalValues.age}\nLapse Duration: ${finalValues.monthsDiff} months\nInstallments Missed: ${finalValues.duePeriods}\nPremium per Installment: ₹${finalValues.premium}\nTotal Premium Due: ₹${finalValues.totalUnpaidPremiums}\nLate Fee: ₹${finalValues.lateFee}\nRevival Type Factor: ${finalValues.factor} (₹${finalValues.factorAmount})\nGST (4.5%): ₹${finalValues.gst}\nTotal Revival Amount: ₹${finalValues.finalRevival}\nMedical Requirement: ${finalValues.medical}\nRequired Form: ${finalValues.form}`;
+
+      const blob = new Blob([text], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `Revival_Estimate_${finalValues.planNo}.txt`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
