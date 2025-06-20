@@ -1,0 +1,2656 @@
+20
+15
+300000
+
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :15
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 25752 (24643 + 1109)
+Halfly : 13006 (12446 + 560)
+Quarterly : 6568 (6285 + 283)
+Monthly(ECS) : 2189 (2095 + 94)
+YLY Mode Average Prem/Day : 70
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 25197 (24643 + 554)
+Halfly : 12726 (12446 + 280)
+Quarterly : 6426 (6285 + 141)
+Monthly(ECS) : 2142 (2095 + 47)
+YLY Mode Average Prem/Day : 69
+
+20
+20
+300000
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :20
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 18963 (18146 + 817)
+Halfly : 9576 (9164 + 412)
+Quarterly : 4836 (4628 + 208)
+Monthly(ECS) : 1612 (1543 + 69)
+YLY Mode Average Prem/Day : 51
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 18554 (18146 + 408)
+Halfly : 9370 (9164 + 206)
+Quarterly : 4732 (4628 + 104)
+Monthly(ECS) : 1578 (1543 + 35)
+YLY Mode Average Prem/Day : 50
+
+20
+25
+300000
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :25
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 14953 (14309 + 644)
+Halfly : 7551 (7226 + 325)
+Quarterly : 3813 (3649 + 164)
+Monthly(ECS) : 1271 (1216 + 55)
+YLY Mode Average Prem/Day : 40
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 14631 (14309 + 322)
+Halfly : 7389 (7226 + 163)
+Quarterly : 3731 (3649 + 82)
+Monthly(ECS) : 1243 (1216 + 27)
+YLY Mode Average Prem/Day : 40
+
+20
+30
+300000
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :30
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 12341 (11810 + 531)
+Halfly : 6232 (5964 + 268)
+Quarterly : 3147 (3011 + 136)
+Monthly(ECS) : 1049 (1004 + 45)
+YLY Mode Average Prem/Day : 33
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 12076 (11810 + 266)
+Halfly : 6098 (5964 + 134)
+Quarterly : 3079 (3011 + 68)
+Monthly(ECS) : 1027 (1004 + 23)
+YLY Mode Average Prem/Day : 33
+
+20
+35
+300000
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :35
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 10529 (10076 + 453)
+Halfly : 5317 (5088 + 229)
+Quarterly : 2685 (2569 + 116)
+Monthly(ECS) : 895 (856 + 39)
+YLY Mode Average Prem/Day : 28
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 10303 (10076 + 227)
+Halfly : 5202 (5088 + 114)
+Quarterly : 2627 (2569 + 58)
+Monthly(ECS) : 875 (856 + 19)
+YLY Mode Average Prem/Day : 28
+
+25
+15
+300000
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :15
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 26182 (25055 + 1127)
+Halfly : 13223 (12654 + 569)
+Quarterly : 6678 (6390 + 288)
+Monthly(ECS) : 2226 (2130 + 96)
+YLY Mode Average Prem/Day : 71
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 25619 (25055 + 564)
+Halfly : 12939 (12654 + 285)
+Quarterly : 6534 (6390 + 144)
+Monthly(ECS) : 2178 (2130 + 48)
+YLY Mode Average Prem/Day : 70
+
+25
+20
+300000
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :20
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 19316 (18484 + 832)
+Halfly : 9755 (9335 + 420)
+Quarterly : 4926 (4714 + 212)
+Monthly(ECS) : 1642 (1571 + 71)
+YLY Mode Average Prem/Day : 52
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 18900 (18484 + 416)
+Halfly : 9545 (9335 + 210)
+Quarterly : 4820 (4714 + 106)
+Monthly(ECS) : 1606 (1571 + 35)
+YLY Mode Average Prem/Day : 51
+
+25
+25
+300000
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :25
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 15276 (14618 + 658)
+Halfly : 7714 (7382 + 332)
+Quarterly : 3896 (3728 + 168)
+Monthly(ECS) : 1299 (1243 + 56)
+YLY Mode Average Prem/Day : 41
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 14947 (14618 + 329)
+Halfly : 7548 (7382 + 166)
+Quarterly : 3812 (3728 + 84)
+Monthly(ECS) : 1271 (1243 + 28)
+YLY Mode Average Prem/Day : 40
+
+25
+30
+300000
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :30
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 12618 (12075 + 543)
+Halfly : 6372 (6098 + 274)
+Quarterly : 3218 (3079 + 139)
+Monthly(ECS) : 1072 (1026 + 46)
+YLY Mode Average Prem/Day : 34
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 12347 (12075 + 272)
+Halfly : 6235 (6098 + 137)
+Quarterly : 3148 (3079 + 69)
+Monthly(ECS) : 1049 (1026 + 23)
+YLY Mode Average Prem/Day : 33
+
+25
+35
+300000
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :35
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 10805 (10340 + 465)
+Halfly : 5457 (5222 + 235)
+Quarterly : 2755 (2636 + 119)
+Monthly(ECS) : 919 (879 + 40)
+YLY Mode Average Prem/Day : 29
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 10573 (10340 + 233)
+Halfly : 5339 (5222 + 117)
+Quarterly : 2695 (2636 + 59)
+Monthly(ECS) : 899 (879 + 20)
+YLY Mode Average Prem/Day : 28
+
+30
+15
+300000
+Plan : Jeevan Anand - 715
+
+Age :30
+Term :15
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 26781 (25628 + 1153)
+Halfly : 13526 (12944 + 582)
+Quarterly : 6830 (6536 + 294)
+Monthly(ECS) : 2277 (2179 + 98)
+YLY Mode Average Prem/Day : 73
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 26205 (25628 + 577)
+Halfly : 13235 (12944 + 291)
+Quarterly : 6683 (6536 + 147)
+Monthly(ECS) : 2228 (2179 + 49)
+YLY Mode Average Prem/Day : 71
+
+30
+20
+300000
+Plan : Jeevan Anand - 715
+
+Age :30
+Term :20
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 19807 (18954 + 853)
+Halfly : 10004 (9573 + 431)
+Quarterly : 5052 (4834 + 218)
+Monthly(ECS) : 1684 (1611 + 73)
+YLY Mode Average Prem/Day : 54
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 19380 (18954 + 426)
+Halfly : 9788 (9573 + 215)
+Quarterly : 4943 (4834 + 109)
+Monthly(ECS) : 1647 (1611 + 36)
+YLY Mode Average Prem/Day : 53
+
+30
+25
+300000
+Plan : Jeevan Anand - 715
+
+Age :30
+Term :25
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 15691 (15015 + 676)
+Halfly : 7924 (7583 + 341)
+Quarterly : 4001 (3829 + 172)
+Monthly(ECS) : 1333 (1276 + 57)
+YLY Mode Average Prem/Day : 42
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 15353 (15015 + 338)
+Halfly : 7754 (7583 + 171)
+Quarterly : 3915 (3829 + 86)
+Monthly(ECS) : 1305 (1276 + 29)
+YLY Mode Average Prem/Day : 42
+
+30
+30
+300000
+Plan : Jeevan Anand - 715
+
+Age :30
+Term :30
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 13033 (12472 + 561)
+Halfly : 6581 (6298 + 283)
+Quarterly : 3323 (3180 + 143)
+Monthly(ECS) : 1108 (1060 + 48)
+YLY Mode Average Prem/Day : 35
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 12753 (12472 + 281)
+Halfly : 6440 (6298 + 142)
+Quarterly : 3252 (3180 + 72)
+Monthly(ECS) : 1084 (1060 + 24)
+YLY Mode Average Prem/Day : 34
+
+30
+35
+300000
+Plan : Jeevan Anand - 715
+
+Age :30
+Term :35
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 11236 (10752 + 484)
+Halfly : 5673 (5429 + 244)
+Quarterly : 2864 (2741 + 123)
+Monthly(ECS) : 955 (914 + 41)
+YLY Mode Average Prem/Day : 30
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 10994 (10752 + 242)
+Halfly : 5551 (5429 + 122)
+Quarterly : 2803 (2741 + 62)
+Monthly(ECS) : 935 (914 + 21)
+YLY Mode Average Prem/Day : 30
+
+35
+15
+300000
+Plan : Jeevan Anand - 715
+
+Age :35
+Term :15
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 27565 (26378 + 1187)
+Halfly : 13921 (13322 + 599)
+Quarterly : 7031 (6728 + 303)
+Monthly(ECS) : 2344 (2243 + 101)
+YLY Mode Average Prem/Day : 75
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 26972 (26378 + 594)
+Halfly : 13622 (13322 + 300)
+Quarterly : 6879 (6728 + 151)
+Monthly(ECS) : 2293 (2243 + 50)
+YLY Mode Average Prem/Day : 73
+
+35
+20
+300000
+Plan : Jeevan Anand - 715
+
+Age :35
+Term :20
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 20453 (19572 + 881)
+Halfly : 10329 (9884 + 445)
+Quarterly : 5216 (4991 + 225)
+Monthly(ECS) : 1739 (1664 + 75)
+YLY Mode Average Prem/Day : 56
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 20012 (19572 + 440)
+Halfly : 10106 (9884 + 222)
+Quarterly : 5103 (4991 + 112)
+Monthly(ECS) : 1701 (1664 + 37)
+YLY Mode Average Prem/Day : 54
+
+35
+25
+300000
+Plan : Jeevan Anand - 715
+
+Age :35
+Term :25
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 16274 (15573 + 701)
+Halfly : 8219 (7865 + 354)
+Quarterly : 4150 (3971 + 179)
+Monthly(ECS) : 1384 (1324 + 60)
+YLY Mode Average Prem/Day : 44
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 15923 (15573 + 350)
+Halfly : 8042 (7865 + 177)
+Quarterly : 4060 (3971 + 89)
+Monthly(ECS) : 1354 (1324 + 30)
+YLY Mode Average Prem/Day : 43
+
+35
+30
+300000
+Plan : Jeevan Anand - 715
+
+Age :35
+Term :30
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 13616 (13030 + 586)
+Halfly : 6876 (6580 + 296)
+Quarterly : 3473 (3323 + 150)
+Monthly(ECS) : 1158 (1108 + 50)
+YLY Mode Average Prem/Day : 37
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 13323 (13030 + 293)
+Halfly : 6728 (6580 + 148)
+Quarterly : 3398 (3323 + 75)
+Monthly(ECS) : 1133 (1108 + 25)
+YLY Mode Average Prem/Day : 36
+
+35
+35
+300000
+Plan : Jeevan Anand - 715
+
+Age :35
+Term :35
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 11850 (11340 + 510)
+Halfly : 5984 (5726 + 258)
+Quarterly : 3021 (2891 + 130)
+Monthly(ECS) : 1007 (964 + 43)
+YLY Mode Average Prem/Day : 32
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 11595 (11340 + 255)
+Halfly : 5855 (5726 + 129)
+Quarterly : 2956 (2891 + 65)
+Monthly(ECS) : 986 (964 + 22)
+YLY Mode Average Prem/Day : 31
+
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :22
+D.A.B. : 400000
+Death Sum Assured :500000
+Basic Sum Assured :400000
+
+1st year Premium With TAX 4.5% :
+Yearly : 22846 (21862 + 984)
+Halfly : 11538 (11041 + 497)
+Quarterly : 5826 (5575 + 251)
+Monthly(ECS) : 1942 (1858 + 84)
+YLY Mode Average Prem/Day : 62
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 22354 (21862 + 492)
+Halfly : 11289 (11041 + 248)
+Quarterly : 5700 (5575 + 125)
+Monthly(ECS) : 1900 (1858 + 42)
+YLY Mode Average Prem/Day : 61
+
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :24
+D.A.B. : 200000
+Death Sum Assured :250000
+Basic Sum Assured :200000
+
+1st year Premium With TAX 4.5% :
+Yearly : 10409 (9961 + 448)
+Halfly : 5256 (5030 + 226)
+Quarterly : 2654 (2540 + 114)
+Monthly(ECS) : 885 (847 + 38)
+YLY Mode Average Prem/Day : 28
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 10185 (9961 + 224)
+Halfly : 5143 (5030 + 113)
+Quarterly : 2597 (2540 + 57)
+Monthly(ECS) : 866 (847 + 19)
+YLY Mode Average Prem/Day : 27
+
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :26
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 22617 (21643 + 974)
+Halfly : 11428 (10936 + 492)
+Quarterly : 5774 (5525 + 249)
+Monthly(ECS) : 1925 (1842 + 83)
+YLY Mode Average Prem/Day : 61
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 22130 (21643 + 487)
+Halfly : 11182 (10936 + 246)
+Quarterly : 5649 (5525 + 124)
+Monthly(ECS) : 1883 (1842 + 41)
+YLY Mode Average Prem/Day : 60
+
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :28
+D.A.B. : 600000
+Death Sum Assured :750000
+Basic Sum Assured :600000
+
+1st year Premium With TAX 4.5% :
+Yearly : 24959 (23884 + 1075)
+Halfly : 12612 (12069 + 543)
+Quarterly : 6372 (6098 + 274)
+Monthly(ECS) : 2124 (2033 + 91)
+YLY Mode Average Prem/Day : 68
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 24421 (23884 + 537)
+Halfly : 12341 (12069 + 272)
+Quarterly : 6235 (6098 + 137)
+Monthly(ECS) : 2079 (2033 + 46)
+YLY Mode Average Prem/Day : 66
+
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :30
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 12341 (11810 + 531)
+Halfly : 6232 (5964 + 268)
+Quarterly : 3147 (3011 + 136)
+Monthly(ECS) : 1049 (1004 + 45)
+YLY Mode Average Prem/Day : 33
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 12076 (11810 + 266)
+Halfly : 6098 (5964 + 134)
+Quarterly : 3079 (3011 + 68)
+Monthly(ECS) : 1027 (1004 + 23)
+YLY Mode Average Prem/Day : 33
+
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :32
+D.A.B. : 900000
+Death Sum Assured :1125000
+Basic Sum Assured :900000
+
+1st year Premium With TAX 4.5% :
+Yearly : 30866 (29537 + 1329)
+Halfly : 15605 (14933 + 672)
+Quarterly : 7889 (7549 + 340)
+Monthly(ECS) : 2629 (2516 + 113)
+YLY Mode Average Prem/Day : 84
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 30202 (29537 + 665)
+Halfly : 15269 (14933 + 336)
+Quarterly : 7719 (7549 + 170)
+Monthly(ECS) : 2573 (2516 + 57)
+YLY Mode Average Prem/Day : 82
+
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :34
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 10851 (10384 + 467)
+Halfly : 5480 (5244 + 236)
+Quarterly : 2767 (2648 + 119)
+Monthly(ECS) : 923 (883 + 40)
+YLY Mode Average Prem/Day : 29
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 10618 (10384 + 234)
+Halfly : 5362 (5244 + 118)
+Quarterly : 2708 (2648 + 60)
+Monthly(ECS) : 903 (883 + 20)
+YLY Mode Average Prem/Day : 29
+
+Plan : Jeevan Anand - 715
+
+Age :20
+Term :35
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 16242 (15543 + 699)
+Halfly : 8208 (7855 + 353)
+Quarterly : 4148 (3969 + 179)
+Monthly(ECS) : 1383 (1323 + 60)
+YLY Mode Average Prem/Day : 44
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 15893 (15543 + 350)
+Halfly : 8032 (7855 + 177)
+Quarterly : 4058 (3969 + 89)
+Monthly(ECS) : 1353 (1323 + 30)
+YLY Mode Average Prem/Day : 43
+
+Plan : Jeevan Anand - 715
+
+Age :22
+Term :15
+D.A.B. : 200000
+Death Sum Assured :250000
+Basic Sum Assured :200000
+
+1st year Premium With TAX 4.5% :
+Yearly : 17271 (16527 + 744)
+Halfly : 8723 (8347 + 376)
+Quarterly : 4405 (4215 + 190)
+Monthly(ECS) : 1468 (1405 + 63)
+YLY Mode Average Prem/Day : 47
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 16899 (16527 + 372)
+Halfly : 8535 (8347 + 188)
+Quarterly : 4310 (4215 + 95)
+Monthly(ECS) : 1437 (1405 + 32)
+YLY Mode Average Prem/Day : 46
+
+Plan : Jeevan Anand - 715
+
+Age :22
+Term :18
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 21359 (20439 + 920)
+Halfly : 10788 (10323 + 465)
+Quarterly : 5448 (5213 + 235)
+Monthly(ECS) : 1816 (1738 + 78)
+YLY Mode Average Prem/Day : 58
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 20899 (20439 + 460)
+Halfly : 10555 (10323 + 232)
+Quarterly : 5330 (5213 + 117)
+Monthly(ECS) : 1777 (1738 + 39)
+YLY Mode Average Prem/Day : 57
+
+Plan : Jeevan Anand - 715
+
+Age :22
+Term :21
+D.A.B. : 400000
+Death Sum Assured :500000
+Basic Sum Assured :400000
+
+1st year Premium With TAX 4.5% :
+Yearly : 24177 (23136 + 1041)
+Halfly : 12210 (11684 + 526)
+Quarterly : 6166 (5900 + 266)
+Monthly(ECS) : 2056 (1967 + 89)
+YLY Mode Average Prem/Day : 66
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 23657 (23136 + 521)
+Halfly : 11947 (11684 + 263)
+Quarterly : 6033 (5900 + 133)
+Monthly(ECS) : 2011 (1967 + 44)
+YLY Mode Average Prem/Day : 64
+
+Plan : Jeevan Anand - 715
+
+Age :22
+Term :24
+D.A.B. : 600000
+Death Sum Assured :750000
+Basic Sum Assured :600000
+
+1st year Premium With TAX 4.5% :
+Yearly : 29906 (28618 + 1288)
+Halfly : 15111 (14460 + 651)
+Quarterly : 7634 (7305 + 329)
+Monthly(ECS) : 2545 (2435 + 110)
+YLY Mode Average Prem/Day : 81
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 29262 (28618 + 644)
+Halfly : 14785 (14460 + 325)
+Quarterly : 7469 (7305 + 164)
+Monthly(ECS) : 2490 (2435 + 55)
+YLY Mode Average Prem/Day : 80
+
+Plan : Jeevan Anand - 715
+
+Age :22
+Term :27
+D.A.B. : 1000000
+Death Sum Assured :1250000
+Basic Sum Assured :1000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 42130 (40316 + 1814)
+Halfly : 21296 (20379 + 917)
+Quarterly : 10764 (10300 + 464)
+Monthly(ECS) : 3588 (3433 + 155)
+YLY Mode Average Prem/Day : 115
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 41223 (40316 + 907)
+Halfly : 20838 (20379 + 459)
+Quarterly : 10532 (10300 + 232)
+Monthly(ECS) : 3510 (3433 + 77)
+YLY Mode Average Prem/Day : 112
+
+Plan : Jeevan Anand - 715
+
+Age :22
+Term :29
+D.A.B. : 2000000
+Death Sum Assured :2500000
+Basic Sum Assured :2000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 77604 (74262 + 3342)
+Halfly : 39230 (37541 + 1689)
+Quarterly : 19829 (18975 + 854)
+Monthly(ECS) : 6610 (6325 + 285)
+YLY Mode Average Prem/Day : 212
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 75933 (74262 + 1671)
+Halfly : 38386 (37541 + 845)
+Quarterly : 19402 (18975 + 427)
+Monthly(ECS) : 6467 (6325 + 142)
+YLY Mode Average Prem/Day : 208
+
+Plan : Jeevan Anand - 715
+
+Age :22
+Term :32
+D.A.B. : 10000000
+Death Sum Assured :12500000
+Basic Sum Assured :10000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 346031 (331130 + 14901)
+Halfly : 174941 (167408 + 7533)
+Quarterly : 88433 (84625 + 3808)
+Monthly(ECS) : 29477 (28208 + 1269)
+YLY Mode Average Prem/Day : 948
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 338580 (331130 + 7450)
+Halfly : 171175 (167408 + 3767)
+Quarterly : 86529 (84625 + 1904)
+Monthly(ECS) : 28843 (28208 + 635)
+YLY Mode Average Prem/Day : 927
+
+Plan : Jeevan Anand - 715
+
+Age :22
+Term :35
+D.A.B. : 200000
+Death Sum Assured :250000
+Basic Sum Assured :200000
+
+1st year Premium With TAX 4.5% :
+Yearly : 7089 (6784 + 305)
+Halfly : 3580 (3426 + 154)
+Quarterly : 1808 (1730 + 78)
+Monthly(ECS) : 603 (577 + 26)
+YLY Mode Average Prem/Day : 19
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 6937 (6784 + 153)
+Halfly : 3503 (3426 + 77)
+Quarterly : 1769 (1730 + 39)
+Monthly(ECS) : 590 (577 + 13)
+YLY Mode Average Prem/Day : 19
+
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :15
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 26182 (25055 + 1127)
+Halfly : 13223 (12654 + 569)
+Quarterly : 6678 (6390 + 288)
+Monthly(ECS) : 2226 (2130 + 96)
+YLY Mode Average Prem/Day : 71
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 25619 (25055 + 564)
+Halfly : 12939 (12654 + 285)
+Quarterly : 6534 (6390 + 144)
+Monthly(ECS) : 2178 (2130 + 48)
+YLY Mode Average Prem/Day : 70
+
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :17
+D.A.B. : 400000
+Death Sum Assured :500000
+Basic Sum Assured :400000
+
+1st year Premium With TAX 4.5% :
+Yearly : 30588 (29271 + 1317)
+Halfly : 15448 (14783 + 665)
+Quarterly : 7801 (7465 + 336)
+Monthly(ECS) : 2600 (2488 + 112)
+YLY Mode Average Prem/Day : 83
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 29930 (29271 + 659)
+Halfly : 15116 (14783 + 333)
+Quarterly : 7633 (7465 + 168)
+Monthly(ECS) : 2544 (2488 + 56)
+YLY Mode Average Prem/Day : 82
+
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :20
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 30887 (29557 + 1330)
+Halfly : 15605 (14933 + 672)
+Quarterly : 7883 (7544 + 339)
+Monthly(ECS) : 2628 (2515 + 113)
+YLY Mode Average Prem/Day : 84
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 30222 (29557 + 665)
+Halfly : 15269 (14933 + 336)
+Quarterly : 7714 (7544 + 170)
+Monthly(ECS) : 2572 (2515 + 57)
+YLY Mode Average Prem/Day : 82
+
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :22
+D.A.B. : 700000
+Death Sum Assured :875000
+Basic Sum Assured :700000
+
+1st year Premium With TAX 4.5% :
+Yearly : 38940 (37263 + 1677)
+Halfly : 19674 (18827 + 847)
+Quarterly : 9939 (9511 + 428)
+Monthly(ECS) : 3313 (3170 + 143)
+YLY Mode Average Prem/Day : 106
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 38101 (37263 + 838)
+Halfly : 19251 (18827 + 424)
+Quarterly : 9725 (9511 + 214)
+Monthly(ECS) : 3241 (3170 + 71)
+YLY Mode Average Prem/Day : 104
+
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :24
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 25255 (24167 + 1088)
+Halfly : 12760 (12211 + 549)
+Quarterly : 6447 (6169 + 278)
+Monthly(ECS) : 2149 (2056 + 93)
+YLY Mode Average Prem/Day : 69
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 24711 (24167 + 544)
+Halfly : 12486 (12211 + 275)
+Quarterly : 6308 (6169 + 139)
+Monthly(ECS) : 2102 (2056 + 46)
+YLY Mode Average Prem/Day : 67
+
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :27
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 14077 (13471 + 606)
+Halfly : 7109 (6803 + 306)
+Quarterly : 3590 (3435 + 155)
+Monthly(ECS) : 1197 (1145 + 52)
+YLY Mode Average Prem/Day : 38
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 13774 (13471 + 303)
+Halfly : 6956 (6803 + 153)
+Quarterly : 3512 (3435 + 77)
+Monthly(ECS) : 1171 (1145 + 26)
+YLY Mode Average Prem/Day : 37
+
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :29
+D.A.B. : 200000
+Death Sum Assured :250000
+Basic Sum Assured :200000
+
+1st year Premium With TAX 4.5% :
+Yearly : 8719 (8344 + 375)
+Halfly : 4404 (4214 + 190)
+Quarterly : 2224 (2128 + 96)
+Monthly(ECS) : 741 (709 + 32)
+YLY Mode Average Prem/Day : 23
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 8532 (8344 + 188)
+Halfly : 4309 (4214 + 95)
+Quarterly : 2176 (2128 + 48)
+Monthly(ECS) : 725 (709 + 16)
+YLY Mode Average Prem/Day : 23
+
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :32
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 18393 (17601 + 792)
+Halfly : 9294 (8894 + 400)
+Quarterly : 4696 (4494 + 202)
+Monthly(ECS) : 1565 (1498 + 67)
+YLY Mode Average Prem/Day : 50
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 17997 (17601 + 396)
+Halfly : 9094 (8894 + 200)
+Quarterly : 4595 (4494 + 101)
+Monthly(ECS) : 1532 (1498 + 34)
+YLY Mode Average Prem/Day : 49
+
+Plan : Jeevan Anand - 715
+
+Age :25
+Term :35
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 10805 (10340 + 465)
+Halfly : 5457 (5222 + 235)
+Quarterly : 2755 (2636 + 119)
+Monthly(ECS) : 919 (879 + 40)
+YLY Mode Average Prem/Day : 29
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 10573 (10340 + 233)
+Halfly : 5339 (5222 + 117)
+Quarterly : 2695 (2636 + 59)
+Monthly(ECS) : 899 (879 + 20)
+YLY Mode Average Prem/Day : 28
+
+Plan : Jeevan Anand - 715
+
+Age :28
+Term :15
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 26520 (25378 + 1142)
+Halfly : 13394 (12817 + 577)
+Quarterly : 6764 (6473 + 291)
+Monthly(ECS) : 2255 (2158 + 97)
+YLY Mode Average Prem/Day : 72
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 25949 (25378 + 571)
+Halfly : 13105 (12817 + 288)
+Quarterly : 6619 (6473 + 146)
+Monthly(ECS) : 2207 (2158 + 49)
+YLY Mode Average Prem/Day : 71
+
+Plan : Jeevan Anand - 715
+
+Age :28
+Term :18
+D.A.B. : 450000
+Death Sum Assured :562500
+Basic Sum Assured :450000
+
+1st year Premium With TAX 4.5% :
+Yearly : 30963 (29630 + 1333)
+Halfly : 15647 (14973 + 674)
+Quarterly : 7906 (7566 + 340)
+Monthly(ECS) : 2635 (2522 + 113)
+YLY Mode Average Prem/Day : 84
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 30297 (29630 + 667)
+Halfly : 15310 (14973 + 337)
+Quarterly : 7736 (7566 + 170)
+Monthly(ECS) : 2579 (2522 + 57)
+YLY Mode Average Prem/Day : 83
+
+Plan : Jeevan Anand - 715
+
+Age :28
+Term :21
+D.A.B. : 550000
+Death Sum Assured :687500
+Basic Sum Assured :550000
+
+1st year Premium With TAX 4.5% :
+Yearly : 32624 (31219 + 1405)
+Halfly : 16483 (15773 + 710)
+Quarterly : 8327 (7968 + 359)
+Monthly(ECS) : 2776 (2656 + 120)
+YLY Mode Average Prem/Day : 89
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 31921 (31219 + 702)
+Halfly : 16128 (15773 + 355)
+Quarterly : 8147 (7968 + 179)
+Monthly(ECS) : 2716 (2656 + 60)
+YLY Mode Average Prem/Day : 87
+
+Plan : Jeevan Anand - 715
+
+Age :28
+Term :24
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 16182 (15485 + 697)
+Halfly : 8172 (7820 + 352)
+Quarterly : 4127 (3949 + 178)
+Monthly(ECS) : 1375 (1316 + 59)
+YLY Mode Average Prem/Day : 44
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 15833 (15485 + 348)
+Halfly : 7996 (7820 + 176)
+Quarterly : 4038 (3949 + 89)
+Monthly(ECS) : 1346 (1316 + 30)
+YLY Mode Average Prem/Day : 43
+
+Plan : Jeevan Anand - 715
+
+Age :28
+Term :26
+D.A.B. : 600000
+Death Sum Assured :750000
+Basic Sum Assured :600000
+
+1st year Premium With TAX 4.5% :
+Yearly : 28216 (27001 + 1215)
+Halfly : 14257 (13643 + 614)
+Quarterly : 7203 (6893 + 310)
+Monthly(ECS) : 2401 (2298 + 103)
+YLY Mode Average Prem/Day : 77
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 27609 (27001 + 608)
+Halfly : 13950 (13643 + 307)
+Quarterly : 7048 (6893 + 155)
+Monthly(ECS) : 2350 (2298 + 52)
+YLY Mode Average Prem/Day : 75
+
+Plan : Jeevan Anand - 715
+
+Age :28
+Term :29
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 20851 (19953 + 898)
+Halfly : 10536 (10082 + 454)
+Quarterly : 5323 (5094 + 229)
+Monthly(ECS) : 1774 (1698 + 76)
+YLY Mode Average Prem/Day : 57
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 20402 (19953 + 449)
+Halfly : 10309 (10082 + 227)
+Quarterly : 5209 (5094 + 115)
+Monthly(ECS) : 1736 (1698 + 38)
+YLY Mode Average Prem/Day : 55
+
+Plan : Jeevan Anand - 715
+
+Age :28
+Term :31
+D.A.B. : 200000
+Death Sum Assured :250000
+Basic Sum Assured :200000
+
+1st year Premium With TAX 4.5% :
+Yearly : 8289 (7932 + 357)
+Halfly : 4186 (4006 + 180)
+Quarterly : 2114 (2023 + 91)
+Monthly(ECS) : 704 (674 + 30)
+YLY Mode Average Prem/Day : 22
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 8110 (7932 + 178)
+Halfly : 4096 (4006 + 90)
+Quarterly : 2069 (2023 + 46)
+Monthly(ECS) : 689 (674 + 15)
+YLY Mode Average Prem/Day : 22
+
+Plan : Jeevan Anand - 715
+
+Age :28
+Term :33
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 11681 (11178 + 503)
+Halfly : 5899 (5645 + 254)
+Quarterly : 2978 (2850 + 128)
+Monthly(ECS) : 993 (950 + 43)
+YLY Mode Average Prem/Day : 32
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 11430 (11178 + 252)
+Halfly : 5772 (5645 + 127)
+Quarterly : 2914 (2850 + 64)
+Monthly(ECS) : 971 (950 + 21)
+YLY Mode Average Prem/Day : 31
+
+Plan : Jeevan Anand - 715
+
+Age :28
+Term :35
+D.A.B. : 1000000
+Death Sum Assured :1250000
+Basic Sum Assured :1000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 32811 (31398 + 1413)
+Halfly : 16589 (15875 + 714)
+Quarterly : 8386 (8025 + 361)
+Monthly(ECS) : 2795 (2675 + 120)
+YLY Mode Average Prem/Day : 89
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 32104 (31398 + 706)
+Halfly : 16232 (15875 + 357)
+Quarterly : 8206 (8025 + 181)
+Monthly(ECS) : 2735 (2675 + 60)
+YLY Mode Average Prem/Day : 87
+
+Plan : Jeevan Anand - 715
+
+Age :31
+Term :15
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 43560 (41684 + 1876)
+Halfly : 22007 (21059 + 948)
+Quarterly : 11117 (10638 + 479)
+Monthly(ECS) : 3706 (3546 + 160)
+YLY Mode Average Prem/Day : 119
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 42622 (41684 + 938)
+Halfly : 21533 (21059 + 474)
+Quarterly : 10877 (10638 + 239)
+Monthly(ECS) : 3626 (3546 + 80)
+YLY Mode Average Prem/Day : 116
+
+Plan : Jeevan Anand - 715
+
+Age :31
+Term :17
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 38056 (36417 + 1639)
+Halfly : 19226 (18398 + 828)
+Quarterly : 9712 (9294 + 418)
+Monthly(ECS) : 3237 (3098 + 139)
+YLY Mode Average Prem/Day : 104
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 37236 (36417 + 819)
+Halfly : 18812 (18398 + 414)
+Quarterly : 9503 (9294 + 209)
+Monthly(ECS) : 3168 (3098 + 70)
+YLY Mode Average Prem/Day : 102
+
+Plan : Jeevan Anand - 715
+
+Age :31
+Term :19
+D.A.B. : 2000000
+Death Sum Assured :2500000
+Basic Sum Assured :2000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 131779 (126104 + 5675)
+Halfly : 66594 (63726 + 2868)
+Quarterly : 33649 (32200 + 1449)
+Monthly(ECS) : 11216 (10733 + 483)
+YLY Mode Average Prem/Day : 361
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 128941 (126104 + 2837)
+Halfly : 65160 (63726 + 1434)
+Quarterly : 32925 (32200 + 725)
+Monthly(ECS) : 10975 (10733 + 242)
+YLY Mode Average Prem/Day : 353
+
+Plan : Jeevan Anand - 715
+
+Age :31
+Term :22
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 18041 (17264 + 777)
+Halfly : 9111 (8719 + 392)
+Quarterly : 4601 (4403 + 198)
+Monthly(ECS) : 1534 (1468 + 66)
+YLY Mode Average Prem/Day : 49
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 17652 (17264 + 388)
+Halfly : 8915 (8719 + 196)
+Quarterly : 4502 (4403 + 99)
+Monthly(ECS) : 1501 (1468 + 33)
+YLY Mode Average Prem/Day : 48
+
+Plan : Jeevan Anand - 715
+
+Age :31
+Term :25
+D.A.B. : 1500000
+Death Sum Assured :1875000
+Basic Sum Assured :1500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 72719 (69588 + 3131)
+Halfly : 36755 (35172 + 1583)
+Quarterly : 18575 (17775 + 800)
+Monthly(ECS) : 6192 (5925 + 267)
+YLY Mode Average Prem/Day : 199
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 71154 (69588 + 1566)
+Halfly : 35963 (35172 + 791)
+Quarterly : 18175 (17775 + 400)
+Monthly(ECS) : 6058 (5925 + 133)
+YLY Mode Average Prem/Day : 194
+
+Plan : Jeevan Anand - 715
+
+Age :31
+Term :28
+D.A.B. : 2500000
+Death Sum Assured :3125000
+Basic Sum Assured :2500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 106734 (102138 + 4596)
+Halfly : 53951 (51628 + 2323)
+Quarterly : 27268 (26094 + 1174)
+Monthly(ECS) : 9089 (8698 + 391)
+YLY Mode Average Prem/Day : 292
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 104436 (102138 + 2298)
+Halfly : 52790 (51628 + 1162)
+Quarterly : 26681 (26094 + 587)
+Monthly(ECS) : 8894 (8698 + 196)
+YLY Mode Average Prem/Day : 286
+
+Plan : Jeevan Anand - 715
+
+Age :31
+Term :31
+D.A.B. : 5000000
+Death Sum Assured :6250000
+Basic Sum Assured :5000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 190886 (182666 + 8220)
+Halfly : 96497 (92342 + 4155)
+Quarterly : 48775 (46675 + 2100)
+Monthly(ECS) : 16258 (15558 + 700)
+YLY Mode Average Prem/Day : 522
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 186776 (182666 + 4110)
+Halfly : 94420 (92342 + 2078)
+Quarterly : 47725 (46675 + 1050)
+Monthly(ECS) : 15908 (15558 + 350)
+YLY Mode Average Prem/Day : 511
+
+Plan : Jeevan Anand - 715
+
+Age :31
+Term :33
+D.A.B. : 7500000
+Death Sum Assured :9375000
+Basic Sum Assured :7500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 267742 (256212 + 11530)
+Halfly : 135357 (129528 + 5829)
+Quarterly : 68421 (65475 + 2946)
+Monthly(ECS) : 22807 (21825 + 982)
+YLY Mode Average Prem/Day : 733
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 261977 (256212 + 5765)
+Halfly : 132442 (129528 + 2914)
+Quarterly : 66948 (65475 + 1473)
+Monthly(ECS) : 22316 (21825 + 491)
+YLY Mode Average Prem/Day : 717
+
+Plan : Jeevan Anand - 715
+
+Age :31
+Term :35
+D.A.B. : 10000000
+Death Sum Assured :12500000
+Basic Sum Assured :10000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 336302 (321820 + 14482)
+Halfly : 170027 (162705 + 7322)
+Quarterly : 85951 (82250 + 3701)
+Monthly(ECS) : 28651 (27417 + 1234)
+YLY Mode Average Prem/Day : 921
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 329061 (321820 + 7241)
+Halfly : 166366 (162705 + 3661)
+Quarterly : 84101 (82250 + 1851)
+Monthly(ECS) : 28034 (27417 + 617)
+YLY Mode Average Prem/Day : 901
+
+Plan : Jeevan Anand - 715
+
+Age :34
+Term :15
+D.A.B. : 1000000
+Death Sum Assured :1250000
+Basic Sum Assured :1000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 87139 (83387 + 3752)
+Halfly : 44031 (42135 + 1896)
+Quarterly : 22246 (21288 + 958)
+Monthly(ECS) : 7415 (7096 + 319)
+YLY Mode Average Prem/Day : 238
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 85263 (83387 + 1876)
+Halfly : 43083 (42135 + 948)
+Quarterly : 21767 (21288 + 479)
+Monthly(ECS) : 7256 (7096 + 160)
+YLY Mode Average Prem/Day : 233
+
+Plan : Jeevan Anand - 715
+
+Age :34
+Term :18
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 36442 (34873 + 1569)
+Halfly : 18412 (17619 + 793)
+Quarterly : 9301 (8900 + 401)
+Monthly(ECS) : 3101 (2967 + 134)
+YLY Mode Average Prem/Day : 99
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 35658 (34873 + 785)
+Halfly : 18015 (17619 + 396)
+Quarterly : 9100 (8900 + 200)
+Monthly(ECS) : 3034 (2967 + 67)
+YLY Mode Average Prem/Day : 97
+
+Plan : Jeevan Anand - 715
+
+Age :34
+Term :21
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 19300 (18469 + 831)
+Halfly : 9748 (9328 + 420)
+Quarterly : 4922 (4710 + 212)
+Monthly(ECS) : 1641 (1570 + 71)
+YLY Mode Average Prem/Day : 52
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 18885 (18469 + 416)
+Halfly : 9538 (9328 + 210)
+Quarterly : 4816 (4710 + 106)
+Monthly(ECS) : 1605 (1570 + 35)
+YLY Mode Average Prem/Day : 51
+
+Plan : Jeevan Anand - 715
+
+Age :34
+Term :23
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 27993 (26788 + 1205)
+Halfly : 14144 (13535 + 609)
+Quarterly : 7146 (6838 + 308)
+Monthly(ECS) : 2382 (2279 + 103)
+YLY Mode Average Prem/Day : 76
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 27391 (26788 + 603)
+Halfly : 13840 (13535 + 305)
+Quarterly : 6992 (6838 + 154)
+Monthly(ECS) : 2330 (2279 + 51)
+YLY Mode Average Prem/Day : 75
+
+Plan : Jeevan Anand - 715
+
+Age :34
+Term :25
+D.A.B. : 700000
+Death Sum Assured :875000
+Basic Sum Assured :700000
+
+1st year Premium With TAX 4.5% :
+Yearly : 35857 (34313 + 1544)
+Halfly : 18117 (17337 + 780)
+Quarterly : 9153 (8759 + 394)
+Monthly(ECS) : 3051 (2920 + 131)
+YLY Mode Average Prem/Day : 98
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 35085 (34313 + 772)
+Halfly : 17727 (17337 + 390)
+Quarterly : 8956 (8759 + 197)
+Monthly(ECS) : 2986 (2920 + 66)
+YLY Mode Average Prem/Day : 96
+
+Plan : Jeevan Anand - 715
+
+Age :34
+Term :27
+D.A.B. : 1600000
+Death Sum Assured :2000000
+Basic Sum Assured :1600000
+
+1st year Premium With TAX 4.5% :
+Yearly : 73061 (69915 + 3146)
+Halfly : 36929 (35339 + 1590)
+Quarterly : 18664 (17860 + 804)
+Monthly(ECS) : 6221 (5953 + 268)
+YLY Mode Average Prem/Day : 200
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 71488 (69915 + 1573)
+Halfly : 36134 (35339 + 795)
+Quarterly : 18262 (17860 + 402)
+Monthly(ECS) : 6087 (5953 + 134)
+YLY Mode Average Prem/Day : 195
+
+Plan : Jeevan Anand - 715
+
+Age :34
+Term :29
+D.A.B. : 210000
+Death Sum Assured :262500
+Basic Sum Assured :210000
+
+1st year Premium With TAX 4.5% :
+Yearly : 9757 (9337 + 420)
+Halfly : 4927 (4715 + 212)
+Quarterly : 2488 (2381 + 107)
+Monthly(ECS) : 830 (794 + 36)
+YLY Mode Average Prem/Day : 26
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 9547 (9337 + 210)
+Halfly : 4821 (4715 + 106)
+Quarterly : 2435 (2381 + 54)
+Monthly(ECS) : 812 (794 + 18)
+YLY Mode Average Prem/Day : 26
+
+Plan : Jeevan Anand - 715
+
+Age :34
+Term :31
+D.A.B. : 330000
+Death Sum Assured :412500
+Basic Sum Assured :330000
+
+1st year Premium With TAX 4.5% :
+Yearly : 14387 (13767 + 620)
+Halfly : 7265 (6952 + 313)
+Quarterly : 3668 (3510 + 158)
+Monthly(ECS) : 1223 (1170 + 53)
+YLY Mode Average Prem/Day : 39
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 14077 (13767 + 310)
+Halfly : 7108 (6952 + 156)
+Quarterly : 3589 (3510 + 79)
+Monthly(ECS) : 1196 (1170 + 26)
+YLY Mode Average Prem/Day : 38
+
+Plan : Jeevan Anand - 715
+
+Age :34
+Term :33
+D.A.B. : 350000
+Death Sum Assured :437500
+Basic Sum Assured :350000
+
+1st year Premium With TAX 4.5% :
+Yearly : 14398 (13778 + 620)
+Halfly : 7271 (6958 + 313)
+Quarterly : 3671 (3513 + 158)
+Monthly(ECS) : 1224 (1171 + 53)
+YLY Mode Average Prem/Day : 39
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 14088 (13778 + 310)
+Halfly : 7115 (6958 + 157)
+Quarterly : 3592 (3513 + 79)
+Monthly(ECS) : 1197 (1171 + 26)
+YLY Mode Average Prem/Day : 38
+
+Plan : Jeevan Anand - 715
+
+Age :34
+Term :35
+D.A.B. : 450000
+Death Sum Assured :562500
+Basic Sum Assured :450000
+
+1st year Premium With TAX 4.5% :
+Yearly : 15686 (15011 + 675)
+Halfly : 7931 (7589 + 342)
+Quarterly : 4009 (3836 + 173)
+Monthly(ECS) : 1337 (1279 + 58)
+YLY Mode Average Prem/Day : 42
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 15349 (15011 + 338)
+Halfly : 7760 (7589 + 171)
+Quarterly : 3922 (3836 + 86)
+Monthly(ECS) : 1308 (1279 + 29)
+YLY Mode Average Prem/Day : 42
+
+Plan : Jeevan Anand - 715
+
+Age :37
+Term :15
+D.A.B. : 750000
+Death Sum Assured :937500
+Basic Sum Assured :750000
+
+1st year Premium With TAX 4.5% :
+Yearly : 67875 (64952 + 2923)
+Halfly : 34290 (32813 + 1477)
+Quarterly : 17321 (16575 + 746)
+Monthly(ECS) : 5774 (5525 + 249)
+YLY Mode Average Prem/Day : 185
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 66413 (64952 + 1461)
+Halfly : 33551 (32813 + 738)
+Quarterly : 16948 (16575 + 373)
+Monthly(ECS) : 5649 (5525 + 124)
+YLY Mode Average Prem/Day : 181
+
+Plan : Jeevan Anand - 715
+
+Age :37
+Term :17
+D.A.B. : 325000
+Death Sum Assured :406250
+Basic Sum Assured :325000
+
+1st year Premium With TAX 4.5% :
+Yearly : 26584 (25439 + 1145)
+Halfly : 13426 (12848 + 578)
+Quarterly : 6780 (6488 + 292)
+Monthly(ECS) : 2260 (2163 + 97)
+YLY Mode Average Prem/Day : 72
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 26011 (25439 + 572)
+Halfly : 13137 (12848 + 289)
+Quarterly : 6634 (6488 + 146)
+Monthly(ECS) : 2212 (2163 + 49)
+YLY Mode Average Prem/Day : 71
+
+Plan : Jeevan Anand - 715
+
+Age :37
+Term :20
+D.A.B. : 375000
+Death Sum Assured :468750
+Basic Sum Assured :375000
+
+1st year Premium With TAX 4.5% :
+Yearly : 25949 (24832 + 1117)
+Halfly : 13105 (12541 + 564)
+Quarterly : 6618 (6333 + 285)
+Monthly(ECS) : 2206 (2111 + 95)
+YLY Mode Average Prem/Day : 71
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 25391 (24832 + 559)
+Halfly : 12823 (12541 + 282)
+Quarterly : 6475 (6333 + 142)
+Monthly(ECS) : 2158 (2111 + 47)
+YLY Mode Average Prem/Day : 69
+
+Plan : Jeevan Anand - 715
+
+Age :37
+Term :22
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 30093 (28797 + 1296)
+Halfly : 15205 (14550 + 655)
+Quarterly : 7681 (7350 + 331)
+Monthly(ECS) : 2560 (2450 + 110)
+YLY Mode Average Prem/Day : 82
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 29445 (28797 + 648)
+Halfly : 14877 (14550 + 327)
+Quarterly : 7515 (7350 + 165)
+Monthly(ECS) : 2505 (2450 + 55)
+YLY Mode Average Prem/Day : 80
+
+Plan : Jeevan Anand - 715
+
+Age :37
+Term :25
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 16581 (15867 + 714)
+Halfly : 8374 (8013 + 361)
+Quarterly : 4228 (4046 + 182)
+Monthly(ECS) : 1410 (1349 + 61)
+YLY Mode Average Prem/Day : 45
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 16224 (15867 + 357)
+Halfly : 8193 (8013 + 180)
+Quarterly : 4137 (4046 + 91)
+Monthly(ECS) : 1379 (1349 + 30)
+YLY Mode Average Prem/Day : 44
+
+Plan : Jeevan Anand - 715
+
+Age :37
+Term :27
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 15383 (14721 + 662)
+Halfly : 7769 (7434 + 335)
+Quarterly : 3923 (3754 + 169)
+Monthly(ECS) : 1307 (1251 + 56)
+YLY Mode Average Prem/Day : 42
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 15052 (14721 + 331)
+Halfly : 7601 (7434 + 167)
+Quarterly : 3838 (3754 + 84)
+Monthly(ECS) : 1279 (1251 + 28)
+YLY Mode Average Prem/Day : 41
+
+Plan : Jeevan Anand - 715
+
+Age :37
+Term :29
+D.A.B. : 10000000
+Death Sum Assured :12500000
+Basic Sum Assured :10000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 437176 (418350 + 18826)
+Halfly : 220979 (211463 + 9516)
+Quarterly : 111684 (106875 + 4809)
+Monthly(ECS) : 37228 (35625 + 1603)
+YLY Mode Average Prem/Day : 1197
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 427763 (418350 + 9413)
+Halfly : 216221 (211463 + 4758)
+Quarterly : 109280 (106875 + 2405)
+Monthly(ECS) : 36427 (35625 + 802)
+YLY Mode Average Prem/Day : 1171
+
+Plan : Jeevan Anand - 715
+
+Age :37
+Term :32
+D.A.B. : 10000000 
+Death Sum Assured :125000000
+Basic Sum Assured :100000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 3868068 (3701500 + 166568)
+Halfly : 1955848 (1871625 + 84223)
+Quarterly : 988831 (946250 + 42581)
+Monthly(ECS) : 329611 (315417 + 14194)
+YLY Mode Average Prem/Day : 10597
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 3784784 (3701500 + 83284)
+Halfly : 1913737 (1871625 + 42112)
+Quarterly : 967541 (946250 + 21291)
+Monthly(ECS) : 322514 (315417 + 7097)
+YLY Mode Average Prem/Day : 10369
+
+Plan : Jeevan Anand - 715
+
+Age :37
+Term :35
+D.A.B. : 10000000 
+Death Sum Assured :1250000000
+Basic Sum Assured :1000000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 35360710 (33838000 + 1522710)
+Halfly : 17882040 (17112000 + 770040)
+Quarterly : 9041863 (8652500 + 389363)
+Monthly(ECS) : 3013955 (2884167 + 129788)
+YLY Mode Average Prem/Day : 96878
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 34599355 (33838000 + 761355)
+Halfly : 17497020 (17112000 + 385020)
+Quarterly : 8847181 (8652500 + 194681)
+Monthly(ECS) : 2949061 (2884167 + 64894)
+YLY Mode Average Prem/Day : 94792
+
+Plan : Jeevan Anand - 715
+
+Age :40
+Term :15
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 28548 (27319 + 1229)
+Halfly : 14418 (13797 + 621)
+Quarterly : 7282 (6968 + 314)
+Monthly(ECS) : 2428 (2323 + 105)
+YLY Mode Average Prem/Day : 78
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 27934 (27319 + 615)
+Halfly : 14107 (13797 + 310)
+Quarterly : 7125 (6968 + 157)
+Monthly(ECS) : 2375 (2323 + 52)
+YLY Mode Average Prem/Day : 76
+
+Plan : Jeevan Anand - 715
+
+Age :40
+Term :18
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 38183 (36539 + 1644)
+Halfly : 19291 (18460 + 831)
+Quarterly : 9745 (9325 + 420)
+Monthly(ECS) : 3248 (3108 + 140)
+YLY Mode Average Prem/Day : 104
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 37361 (36539 + 822)
+Halfly : 18875 (18460 + 415)
+Quarterly : 9535 (9325 + 210)
+Monthly(ECS) : 3178 (3108 + 70)
+YLY Mode Average Prem/Day : 102
+
+Plan : Jeevan Anand - 715
+
+Age :40
+Term :21
+D.A.B. : 1000000
+Death Sum Assured :1250000
+Basic Sum Assured :1000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 63432 (60700 + 2732)
+Halfly : 32055 (30675 + 1380)
+Quarterly : 16198 (15500 + 698)
+Monthly(ECS) : 5400 (5167 + 233)
+YLY Mode Average Prem/Day : 173
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 62066 (60700 + 1366)
+Halfly : 31365 (30675 + 690)
+Quarterly : 15849 (15500 + 349)
+Monthly(ECS) : 5283 (5167 + 116)
+YLY Mode Average Prem/Day : 170
+
+Plan : Jeevan Anand - 715
+
+Age :40
+Term :24
+D.A.B. : 2500000
+Death Sum Assured :3125000
+Basic Sum Assured :2500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 137841 (131905 + 5936)
+Halfly : 69664 (66664 + 3000)
+Quarterly : 35204 (33688 + 1516)
+Monthly(ECS) : 11734 (11229 + 505)
+YLY Mode Average Prem/Day : 377
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 134873 (131905 + 2968)
+Halfly : 68164 (66664 + 1500)
+Quarterly : 34446 (33688 + 758)
+Monthly(ECS) : 11482 (11229 + 253)
+YLY Mode Average Prem/Day : 369
+
+Plan : Jeevan Anand - 715
+
+Age :40
+Term :27
+D.A.B. : 250000
+Death Sum Assured :312500
+Basic Sum Assured :250000
+
+1st year Premium With TAX 4.5% :
+Yearly : 13255 (12684 + 571)
+Halfly : 6694 (6406 + 288)
+Quarterly : 3381 (3235 + 146)
+Monthly(ECS) : 1127 (1078 + 49)
+YLY Mode Average Prem/Day : 36
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 12969 (12684 + 285)
+Halfly : 6550 (6406 + 144)
+Quarterly : 3308 (3235 + 73)
+Monthly(ECS) : 1102 (1078 + 24)
+YLY Mode Average Prem/Day : 35
+
+Plan : Jeevan Anand - 715
+
+Age :40
+Term :29
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 14907 (14265 + 642)
+Halfly : 7528 (7204 + 324)
+Quarterly : 3802 (3638 + 164)
+Monthly(ECS) : 1268 (1213 + 55)
+YLY Mode Average Prem/Day : 40
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 14586 (14265 + 321)
+Halfly : 7366 (7204 + 162)
+Quarterly : 3720 (3638 + 82)
+Monthly(ECS) : 1240 (1213 + 27)
+YLY Mode Average Prem/Day : 39
+
+Plan : Jeevan Anand - 715
+
+Age :40
+Term :31
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 22105 (21153 + 952)
+Halfly : 11170 (10689 + 481)
+Quarterly : 5643 (5400 + 243)
+Monthly(ECS) : 1881 (1800 + 81)
+YLY Mode Average Prem/Day : 60
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 21629 (21153 + 476)
+Halfly : 10929 (10689 + 240)
+Quarterly : 5522 (5400 + 122)
+Monthly(ECS) : 1841 (1800 + 41)
+YLY Mode Average Prem/Day : 59
+
+Plan : Jeevan Anand - 715
+
+Age :40
+Term :33
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 20927 (20026 + 901)
+Halfly : 10574 (10119 + 455)
+Quarterly : 5343 (5113 + 230)
+Monthly(ECS) : 1781 (1704 + 77)
+YLY Mode Average Prem/Day : 57
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 20477 (20026 + 451)
+Halfly : 10347 (10119 + 228)
+Quarterly : 5228 (5113 + 115)
+Monthly(ECS) : 1742 (1704 + 38)
+YLY Mode Average Prem/Day : 56
+
+Plan : Jeevan Anand - 715
+
+Age :40
+Term :35
+D.A.B. : 200000
+Death Sum Assured :250000
+Basic Sum Assured :200000
+
+1st year Premium With TAX 4.5% :
+Yearly : 8483 (8118 + 365)
+Halfly : 4284 (4100 + 184)
+Quarterly : 2163 (2070 + 93)
+Monthly(ECS) : 721 (690 + 31)
+YLY Mode Average Prem/Day : 23
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 8301 (8118 + 183)
+Halfly : 4192 (4100 + 92)
+Quarterly : 2117 (2070 + 47)
+Monthly(ECS) : 706 (690 + 16)
+YLY Mode Average Prem/Day : 22
+
+Plan : Jeevan Anand - 715
+
+Age :43
+Term :15
+D.A.B. : 200000
+Death Sum Assured :250000
+Basic Sum Assured :200000
+
+1st year Premium With TAX 4.5% :
+Yearly : 19513 (18673 + 840)
+Halfly : 9855 (9431 + 424)
+Quarterly : 4977 (4763 + 214)
+Monthly(ECS) : 1659 (1588 + 71)
+YLY Mode Average Prem/Day : 53
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 19093 (18673 + 420)
+Halfly : 9643 (9431 + 212)
+Quarterly : 4870 (4763 + 107)
+Monthly(ECS) : 1624 (1588 + 36)
+YLY Mode Average Prem/Day : 52
+
+Plan : Jeevan Anand - 715
+
+Age :43
+Term :18
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 24369 (23320 + 1049)
+Halfly : 12308 (11778 + 530)
+Quarterly : 6216 (5948 + 268)
+Monthly(ECS) : 2072 (1983 + 89)
+YLY Mode Average Prem/Day : 66
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 23845 (23320 + 525)
+Halfly : 12043 (11778 + 265)
+Quarterly : 6082 (5948 + 134)
+Monthly(ECS) : 2028 (1983 + 45)
+YLY Mode Average Prem/Day : 65
+
+Plan : Jeevan Anand - 715
+
+Age :43
+Term :21
+D.A.B. : 1000000
+Death Sum Assured :1250000
+Basic Sum Assured :1000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 65582 (62758 + 2824)
+Halfly : 33142 (31715 + 1427)
+Quarterly : 16746 (16025 + 721)
+Monthly(ECS) : 5582 (5342 + 240)
+YLY Mode Average Prem/Day : 179
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 64170 (62758 + 1412)
+Halfly : 32429 (31715 + 714)
+Quarterly : 16386 (16025 + 361)
+Monthly(ECS) : 5462 (5342 + 120)
+YLY Mode Average Prem/Day : 175
+
+Plan : Jeevan Anand - 715
+
+Age :43
+Term :23
+D.A.B. : 350000
+Death Sum Assured :437500
+Basic Sum Assured :350000
+
+1st year Premium With TAX 4.5% :
+Yearly : 22391 (21427 + 964)
+Halfly : 11308 (10821 + 487)
+Quarterly : 5711 (5465 + 246)
+Monthly(ECS) : 1904 (1822 + 82)
+YLY Mode Average Prem/Day : 61
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 21909 (21427 + 482)
+Halfly : 11064 (10821 + 243)
+Quarterly : 5588 (5465 + 123)
+Monthly(ECS) : 1863 (1822 + 41)
+YLY Mode Average Prem/Day : 60
+
+Plan : Jeevan Anand - 715
+
+Age :43
+Term :25
+D.A.B. : 375000
+Death Sum Assured :468750
+Basic Sum Assured :375000
+
+1st year Premium With TAX 4.5% :
+Yearly : 22186 (21231 + 955)
+Halfly : 11204 (10722 + 482)
+Quarterly : 5658 (5414 + 244)
+Monthly(ECS) : 1886 (1805 + 81)
+YLY Mode Average Prem/Day : 60
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 21709 (21231 + 478)
+Halfly : 10963 (10722 + 241)
+Quarterly : 5536 (5414 + 122)
+Monthly(ECS) : 1846 (1805 + 41)
+YLY Mode Average Prem/Day : 59
+
+Plan : Jeevan Anand - 715
+
+Age :43
+Term :27
+D.A.B. : 390000
+Death Sum Assured :487500
+Basic Sum Assured :390000
+
+1st year Premium With TAX 4.5% :
+Yearly : 21516 (20589 + 927)
+Halfly : 10866 (10398 + 468)
+Quarterly : 5487 (5251 + 236)
+Monthly(ECS) : 1829 (1750 + 79)
+YLY Mode Average Prem/Day : 58
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 21052 (20589 + 463)
+Halfly : 10632 (10398 + 234)
+Quarterly : 5369 (5251 + 118)
+Monthly(ECS) : 1789 (1750 + 39)
+YLY Mode Average Prem/Day : 57
+
+Plan : Jeevan Anand - 715
+
+Age :43
+Term :30
+D.A.B. : 395000
+Death Sum Assured :493750
+Basic Sum Assured :395000
+
+1st year Premium With TAX 4.5% :
+Yearly : 19891 (19034 + 857)
+Halfly : 10045 (9612 + 433)
+Quarterly : 5072 (4854 + 218)
+Monthly(ECS) : 1691 (1618 + 73)
+YLY Mode Average Prem/Day : 54
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 19462 (19034 + 428)
+Halfly : 9828 (9612 + 216)
+Quarterly : 4963 (4854 + 109)
+Monthly(ECS) : 1654 (1618 + 36)
+YLY Mode Average Prem/Day : 53
+
+Plan : Jeevan Anand - 715
+
+Age :43
+Term :31
+D.A.B. : 405000
+Death Sum Assured :506250
+Basic Sum Assured :405000
+
+1st year Premium With TAX 4.5% :
+Yearly : 19855 (19000 + 855)
+Halfly : 10027 (9595 + 432)
+Quarterly : 5063 (4845 + 218)
+Monthly(ECS) : 1688 (1615 + 73)
+YLY Mode Average Prem/Day : 54
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 19428 (19000 + 428)
+Halfly : 9811 (9595 + 216)
+Quarterly : 4954 (4845 + 109)
+Monthly(ECS) : 1651 (1615 + 36)
+YLY Mode Average Prem/Day : 53
+
+Plan : Jeevan Anand - 715
+
+Age :43
+Term :32
+D.A.B. : 415000
+Death Sum Assured :518750
+Basic Sum Assured :415000
+
+1st year Premium With TAX 4.5% :
+Yearly : 19835 (18981 + 854)
+Halfly : 10016 (9585 + 431)
+Quarterly : 5058 (4840 + 218)
+Monthly(ECS) : 1686 (1613 + 73)
+YLY Mode Average Prem/Day : 54
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 19408 (18981 + 427)
+Halfly : 9801 (9585 + 216)
+Quarterly : 4949 (4840 + 109)
+Monthly(ECS) : 1649 (1613 + 36)
+YLY Mode Average Prem/Day : 53
+
+Plan : Jeevan Anand - 715
+
+Age :45
+Term :15
+D.A.B. : 200000
+Death Sum Assured :250000
+Basic Sum Assured :200000
+
+1st year Premium With TAX 4.5% :
+Yearly : 19893 (19036 + 857)
+Halfly : 10047 (9614 + 433)
+Quarterly : 5073 (4855 + 218)
+Monthly(ECS) : 1691 (1618 + 73)
+YLY Mode Average Prem/Day : 54
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 19464 (19036 + 428)
+Halfly : 9830 (9614 + 216)
+Quarterly : 4964 (4855 + 109)
+Monthly(ECS) : 1654 (1618 + 36)
+YLY Mode Average Prem/Day : 53
+
+Plan : Jeevan Anand - 715
+
+Age :45
+Term :18
+D.A.B. : 395000
+Death Sum Assured :493750
+Basic Sum Assured :395000
+
+1st year Premium With TAX 4.5% :
+Yearly : 32774 (31363 + 1411)
+Halfly : 16553 (15840 + 713)
+Quarterly : 8359 (7999 + 360)
+Monthly(ECS) : 2786 (2666 + 120)
+YLY Mode Average Prem/Day : 89
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 32069 (31363 + 706)
+Halfly : 16196 (15840 + 356)
+Quarterly : 8179 (7999 + 180)
+Monthly(ECS) : 2726 (2666 + 60)
+YLY Mode Average Prem/Day : 87
+
+Plan : Jeevan Anand - 715
+
+Age :45
+Term :21
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 34420 (32938 + 1482)
+Halfly : 17390 (16641 + 749)
+Quarterly : 8784 (8406 + 378)
+Monthly(ECS) : 2928 (2802 + 126)
+YLY Mode Average Prem/Day : 94
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 33679 (32938 + 741)
+Halfly : 17015 (16641 + 374)
+Quarterly : 8595 (8406 + 189)
+Monthly(ECS) : 2865 (2802 + 63)
+YLY Mode Average Prem/Day : 92
+
+Plan : Jeevan Anand - 715
+
+Age :45
+Term :24
+D.A.B. : 5000000
+Death Sum Assured :6250000
+Basic Sum Assured :5000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 294627 (281940 + 12687)
+Halfly : 148897 (142485 + 6412)
+Quarterly : 75240 (72000 + 3240)
+Monthly(ECS) : 25080 (24000 + 1080)
+YLY Mode Average Prem/Day : 807
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 288284 (281940 + 6344)
+Halfly : 145691 (142485 + 3206)
+Quarterly : 73620 (72000 + 1620)
+Monthly(ECS) : 24540 (24000 + 540)
+YLY Mode Average Prem/Day : 789
+
+Plan : Jeevan Anand - 715
+
+Age :45
+Term :26
+D.A.B. : 10000000 
+Death Sum Assured :62500000
+Basic Sum Assured :50000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 2684292 (2568700 + 115592)
+Halfly : 1356854 (1298425 + 58429)
+Quarterly : 685781 (656250 + 29531)
+Monthly(ECS) : 228594 (218750 + 9844)
+YLY Mode Average Prem/Day : 7354
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 2626496 (2568700 + 57796)
+Halfly : 1327640 (1298425 + 29215)
+Quarterly : 671016 (656250 + 14766)
+Monthly(ECS) : 223672 (218750 + 4922)
+YLY Mode Average Prem/Day : 7195
+
+Plan : Jeevan Anand - 715
+
+Age :45
+Term :29
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 16044 (15353 + 691)
+Halfly : 8102 (7753 + 349)
+Quarterly : 4091 (3915 + 176)
+Monthly(ECS) : 1364 (1305 + 59)
+YLY Mode Average Prem/Day : 43
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 15698 (15353 + 345)
+Halfly : 7927 (7753 + 174)
+Quarterly : 4003 (3915 + 88)
+Monthly(ECS) : 1334 (1305 + 29)
+YLY Mode Average Prem/Day : 43
+
+Plan : Jeevan Anand - 715
+
+Age :47
+Term :15
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 30468 (29156 + 1312)
+Halfly : 15389 (14726 + 663)
+Quarterly : 7771 (7436 + 335)
+Monthly(ECS) : 2591 (2479 + 112)
+YLY Mode Average Prem/Day : 83
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 29812 (29156 + 656)
+Halfly : 15057 (14726 + 331)
+Quarterly : 7603 (7436 + 167)
+Monthly(ECS) : 2535 (2479 + 56)
+YLY Mode Average Prem/Day : 81
+
+Plan : Jeevan Anand - 715
+
+Age :47
+Term :17
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 43586 (41709 + 1877)
+Halfly : 22019 (21071 + 948)
+Quarterly : 11123 (10644 + 479)
+Monthly(ECS) : 3708 (3548 + 160)
+YLY Mode Average Prem/Day : 119
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 42647 (41709 + 938)
+Halfly : 21545 (21071 + 474)
+Quarterly : 10883 (10644 + 239)
+Monthly(ECS) : 3628 (3548 + 80)
+YLY Mode Average Prem/Day : 116
+
+Plan : Jeevan Anand - 715
+
+Age :47
+Term :20
+D.A.B. : 600000
+Death Sum Assured :750000
+Basic Sum Assured :600000
+
+1st year Premium With TAX 4.5% :
+Yearly : 44499 (42583 + 1916)
+Halfly : 22481 (21513 + 968)
+Quarterly : 11357 (10868 + 489)
+Monthly(ECS) : 3786 (3623 + 163)
+YLY Mode Average Prem/Day : 121
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 43541 (42583 + 958)
+Halfly : 21997 (21513 + 484)
+Quarterly : 11113 (10868 + 245)
+Monthly(ECS) : 3705 (3623 + 82)
+YLY Mode Average Prem/Day : 119
+
+Plan : Jeevan Anand - 715
+
+Age :47
+Term :23
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 32422 (31026 + 1396)
+Halfly : 16381 (15676 + 705)
+Quarterly : 8275 (7919 + 356)
+Monthly(ECS) : 2759 (2640 + 119)
+YLY Mode Average Prem/Day : 88
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 31724 (31026 + 698)
+Halfly : 16029 (15676 + 353)
+Quarterly : 8097 (7919 + 178)
+Monthly(ECS) : 2699 (2640 + 59)
+YLY Mode Average Prem/Day : 86
+
+Plan : Jeevan Anand - 715
+
+Age :47
+Term :26
+D.A.B. : 200000
+Death Sum Assured :250000
+Basic Sum Assured :200000
+
+1st year Premium With TAX 4.5% :
+Yearly : 12109 (11588 + 521)
+Halfly : 6115 (5852 + 263)
+Quarterly : 3088 (2955 + 133)
+Monthly(ECS) : 1029 (985 + 44)
+YLY Mode Average Prem/Day : 33
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 11849 (11588 + 261)
+Halfly : 5984 (5852 + 132)
+Quarterly : 3021 (2955 + 66)
+Monthly(ECS) : 1007 (985 + 22)
+YLY Mode Average Prem/Day : 32
+
+Plan : Jeevan Anand - 715
+
+Age :47
+Term :28
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 17088 (16352 + 736)
+Halfly : 8630 (8258 + 372)
+Quarterly : 4358 (4170 + 188)
+Monthly(ECS) : 1453 (1390 + 63)
+YLY Mode Average Prem/Day : 46
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 16720 (16352 + 368)
+Halfly : 8444 (8258 + 186)
+Quarterly : 4264 (4170 + 94)
+Monthly(ECS) : 1421 (1390 + 31)
+YLY Mode Average Prem/Day : 45
+
+Plan : Jeevan Anand - 715
+
+Age :50
+Term :15
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 31528 (30170 + 1358)
+Halfly : 15924 (15238 + 686)
+Quarterly : 8041 (7695 + 346)
+Monthly(ECS) : 2680 (2565 + 115)
+YLY Mode Average Prem/Day : 86
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 30849 (30170 + 679)
+Halfly : 15581 (15238 + 343)
+Quarterly : 7868 (7695 + 173)
+Monthly(ECS) : 2623 (2565 + 58)
+YLY Mode Average Prem/Day : 84
+
+Plan : Jeevan Anand - 715
+
+Age :50
+Term :17
+D.A.B. : 500000
+Death Sum Assured :625000
+Basic Sum Assured :500000
+
+1st year Premium With TAX 4.5% :
+Yearly : 45276 (43326 + 1950)
+Halfly : 22873 (21888 + 985)
+Quarterly : 11554 (11056 + 498)
+Monthly(ECS) : 3851 (3685 + 166)
+YLY Mode Average Prem/Day : 124
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 44301 (43326 + 975)
+Halfly : 22380 (21888 + 492)
+Quarterly : 11305 (11056 + 249)
+Monthly(ECS) : 3768 (3685 + 83)
+YLY Mode Average Prem/Day : 121
+
+Plan : Jeevan Anand - 715
+
+Age :50
+Term :19
+D.A.B. : 200000
+Death Sum Assured :250000
+Basic Sum Assured :200000
+
+1st year Premium With TAX 4.5% :
+Yearly : 16779 (16056 + 723)
+Halfly : 8474 (8109 + 365)
+Quarterly : 4279 (4095 + 184)
+Monthly(ECS) : 1426 (1365 + 61)
+YLY Mode Average Prem/Day : 45
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 16417 (16056 + 361)
+Halfly : 8291 (8109 + 182)
+Quarterly : 4187 (4095 + 92)
+Monthly(ECS) : 1396 (1365 + 31)
+YLY Mode Average Prem/Day : 44
+
+Plan : Jeevan Anand - 715
+
+Age :50
+Term :21
+D.A.B. : 300000
+Death Sum Assured :375000
+Basic Sum Assured :300000
+
+1st year Premium With TAX 4.5% :
+Yearly : 22957 (21968 + 989)
+Halfly : 11594 (11095 + 499)
+Quarterly : 5855 (5603 + 252)
+Monthly(ECS) : 1952 (1868 + 84)
+YLY Mode Average Prem/Day : 62
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 22462 (21968 + 494)
+Halfly : 11345 (11095 + 250)
+Quarterly : 5729 (5603 + 126)
+Monthly(ECS) : 1910 (1868 + 42)
+YLY Mode Average Prem/Day : 61
+
+Plan : Jeevan Anand - 715
+
+Age :50
+Term :23
+D.A.B. : 1000000
+Death Sum Assured :1250000
+Basic Sum Assured :1000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 66453 (63591 + 2862)
+Halfly : 33582 (32136 + 1446)
+Quarterly : 16969 (16238 + 731)
+Monthly(ECS) : 5657 (5413 + 244)
+YLY Mode Average Prem/Day : 182
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 65022 (63591 + 1431)
+Halfly : 32859 (32136 + 723)
+Quarterly : 16603 (16238 + 365)
+Monthly(ECS) : 5535 (5413 + 122)
+YLY Mode Average Prem/Day : 178
+
+Plan : Jeevan Anand - 715
+
+Age :50
+Term :25
+D.A.B. : 10000000
+Death Sum Assured :12500000
+Basic Sum Assured :10000000
+
+1st year Premium With TAX 4.5% :
+Yearly : 616393 (589850 + 26543)
+Halfly : 311502 (298088 + 13414)
+Quarterly : 157403 (150625 + 6778)
+Monthly(ECS) : 52467 (50208 + 2259)
+YLY Mode Average Prem/Day : 1688
+
+After 1st year Premium With TAX 2.25% :
+Yearly : 603122 (589850 + 13272)
+Halfly : 304795 (298088 + 6707)
+Quarterly : 154014 (150625 + 3389)
+Monthly(ECS) : 51338 (50208 + 1130)
+YLY Mode Average Prem/Day : 1652

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LIC 915 Premium API Integration</title>
+  <style>
+    body { font-family: Arial; max-width: 500px; margin: auto; padding: 20px; }
+    label, input, select, button { display: block; width: 100%; margin-bottom: 10px; }
+    #result { margin-top: 20px; white-space: pre-wrap; font-weight: bold; color: green; }
+  </style>
+</head>
+<body>
+  <h2>LIC Premium Calculator (Plan 915)</h2>
+  <label>Age:</label><input id="age" type="number" min="18" max="50" required>
+  <label>Term:</label><input id="term" type="number" min="15" max="35" required>
+  <label>Sum Assured (SA):</label><input id="sa" type="number" step="10000" required>
+  <label>Accident Benefit (DAB):</label>
+  <select id="dab">
+    <option value="Y">Yes</option>
+    <option value="N">No</option>
+  </select>
+  <button onclick="fetchPremium()">Get Premium</button>
+  <div id="result"></div>
+
+<script>
+async function fetchPremium() {
+  const age = document.getElementById('age').value;
+  const term = document.getElementById('term').value;
+  const sa = document.getElementById('sa').value;
+  const dab = document.getElementById('dab').value;
+
+  const formData = new URLSearchParams();
+  formData.append("table", "915");
+  formData.append("sa", sa);
+  formData.append("age", age);
+  formData.append("term", term);
+  formData.append("dab", dab);
+
+const response = await fetch("http://localhost:3000/api/plan915", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ age, term, sa, dab })
+});
+
+
+  const html = await response.text();
+  document.getElementById('result').innerHTML = html;
+}
+</script>
+</body>
+</html>

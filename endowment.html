@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Endowment Plan Calculator - Final Version</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 20px auto; padding: 0 20px; background-color: #f4f7f6; }
+        h1, h2 { color: #005A9C; text-align: center; }
+        .container { background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .form-group, .rider-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
+        .form-group input[type="text"], .form-group input[type="number"], .form-group select { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
+        .rider-group { border: 1px solid #e0e0e0; padding: 15px; border-radius: 5px; }
+        .rider-group legend { font-weight: 600; padding: 0 10px; color: #005A9C; }
+        .rider-group label { margin-right: 15px; font-weight: normal; }
+        .btn { display: block; width: 100%; padding: 12px; border: none; background-color: #28a745; color: white; font-size: 18px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
+        .btn:hover { background-color: #218838; }
+        #results-container { margin-top: 30px; overflow-x: auto; }
+        .calculator, .hidden { display: none; }
+        .disclaimer { background-color: #e2f3ff; color: #004085; padding: 15px; border: 1px solid #b8daff; border-radius: 5px; margin-bottom: 20px; text-align: center; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #005A9C; color: white; font-weight: 600; }
+        tbody tr:nth-child(even) { background-color: #f2f2f2; }
+        td:not(:first-child) { text-align: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LIC Endowment Plan Calculator</h1>
+        <div class="disclaimer">
+            <strong>Final Version:</strong> This calculator now uses a dynamic rate generator to produce realistic, non-zero sample premiums for testing. **Replace the `generateSamplePremiumRate()` function with your real database calls for production.**
+        </div>
+
+        <div class="form-group">
+            <label for="plan-selector">Select a Plan</label>
+            <select id="plan-selector">
+                <option value="">-- Choose a Plan --</option>
+                <option value="814">New Endowment (814)</option>
+                <option value="815">Jeevan Anand (815)</option>
+                <option value="817">Single Premium Endowment (817)</option>
+                <option value="833">Jeevan Lakshya (833)</option>
+                <option value="836">Jeevan Labh (836)</option>
+                <option value="851">Micro Bachat (851)</option>
+                <option value="860">Bima Jyoti (860)</option>
+                <option value="868">Jeevan Azad (868)</option>
+            </select>
+        </div>
+
+        <!-- HTML for all calculator forms remains the same, so it's shortened here for brevity -->
+        <div id="calc-814" class="calculator"><h2>New Endowment (814)</h2><form onsubmit="event.preventDefault(); calculatePremium('814')"><div class="form-group"><label for="nendow_age">Age (8-55)</label><input type="number" id="nendow_age" required></div><div class="form-group"><label for="nendow_term">Term (12-35)</label><input type="number" id="nendow_term" required></div><div class="form-group"><label for="nendow_sa">Sum Assured (Min 2,00,000)</label><input type="number" id="nendow_sa" required></div><fieldset class="rider-group"><legend>Riders</legend><label><input type="checkbox" id="nendow_dab"> DAB/ADDB</label><label><input type="checkbox" id="nendow_tr"> Term Rider</label></fieldset><div class="form-group hidden" id="nendow_tr_sa_group"><label for="nendow_tr_sa">Term Rider Sum Assured</label><input type="number" id="nendow_tr_sa"></div><button type="submit" class="btn">Calculate Premium</button></form></div>
+        <div id="calc-815" class="calculator"><h2>Jeevan Anand (815)</h2><form onsubmit="event.preventDefault(); calculatePremium('815')"><div class="form-group"><label for="anand_age">Age (18-50)</label><input type="number" id="anand_age" required></div><div class="form-group"><label for="anand_term">Term (15-35)</label><input type="number" id="anand_term" required></div><div class="form-group"><label for="anand_sa">Sum Assured (Min 2,00,000)</label><input type="number" id="anand_sa" required></div><fieldset class="rider-group"><legend>Riders</legend><label><input type="checkbox" id="anand_dab"> DAB/ADDB</label></fieldset><button type="submit" class="btn">Calculate Premium</button></form></div>
+        <div id="calc-817" class="calculator"><h2>Single Premium Endowment (817)</h2><form onsubmit="event.preventDefault(); calculatePremium('817')"><div class="form-group"><label for="spe_age">Age (0-65)</label><input type="number" id="spe_age" required></div><div class="form-group"><label for="spe_term">Term (10-25)</label><input type="number" id="spe_term" required></div><div class="form-group"><label for="spe_sa">Sum Assured (Min 1,00,000)</label><input type="number" id="spe_sa" required></div><fieldset class="rider-group"><legend>Riders</legend><label><input type="checkbox" id="spe_addb"> ADDB</label></fieldset><button type="submit" class="btn">Calculate Premium</button></form></div>
+        <div id="calc-833" class="calculator"><h2>Jeevan Lakshya (833)</h2><form onsubmit="event.preventDefault(); calculatePremium('833')"><div class="form-group"><label for="jlakshya_age">Age (18-50)</label><input type="number" id="jlakshya_age" required></div><div class="form-group"><label for="jlakshya_term">Term (13-25)</label><input type="number" id="jlakshya_term" required></div><div class="form-group"><label for="jlakshya_sa">Sum Assured (Min 2,00,000)</label><input type="number" id="jlakshya_sa" required></div><fieldset class="rider-group"><legend>Riders</legend><label><input type="checkbox" id="jlakshya_dab"> DAB/ADDB</label><label><input type="checkbox" id="jlakshya_tr"> Term Rider</label></fieldset><div class="form-group hidden" id="jlakshya_tr_sa_group"><label for="jlakshya_tr_sa">Term Rider Sum Assured</label><input type="number" id="jlakshya_tr_sa"></div><button type="submit" class="btn">Calculate Premium</button></form></div>
+        <div id="calc-836" class="calculator"><h2>Jeevan Labh (836)</h2><form onsubmit="event.preventDefault(); calculatePremium('836')"><div class="form-group"><label for="jlabh_age">Age</label><input type="number" id="jlabh_age" required></div><div class="form-group"><label for="jlabh_termppt">Term / PPT</label><select id="jlabh_termppt"><option value="16/10">16 / 10</option><option value="21/15">21 / 15</option><option value="25/16">25 / 16</option></select></div><div class="form-group"><label for="jlabh_sa">Sum Assured (Min 2,00,000)</label><input type="number" id="jlabh_sa" required></div><fieldset class="rider-group"><legend>Riders</legend><label><input type="checkbox" id="jlabh_dab"> DAB/ADDB</label><label><input type="checkbox" id="jlabh_tr"> Term Rider</label></fieldset><div class="form-group hidden" id="jlabh_tr_sa_group"><label for="jlabh_tr_sa">Term Rider Sum Assured</label><input type="number" id="jlabh_tr_sa"></div><button type="submit" class="btn">Calculate Premium</button></form></div>
+        <div id="calc-851" class="calculator"><h2>Micro Bachat (851)</h2><form onsubmit="event.preventDefault(); calculatePremium('851')"><div class="form-group"><label for="mbachat_age">Age (18-55)</label><input type="number" id="mbachat_age" required></div><div class="form-group"><label for="mbachat_term">Term (10-15)</label><input type="number" id="mbachat_term" required></div><div class="form-group"><label for="mbachat_sa">Sum Assured (100k - 200k)</label><input type="number" id="mbachat_sa" required></div><fieldset class="rider-group"><legend>Riders</legend><label><input type="checkbox" id="mbachat_dab"> DAB</label></fieldset><button type="submit" class="btn">Calculate Premium</button></form></div>
+        <div id="calc-860" class="calculator"><h2>Bima Jyoti (860)</h2><form onsubmit="event.preventDefault(); calculatePremium('860')"><div class="form-group"><label for="bimajyoti_age">Age</label><input type="number" id="bimajyoti_age" required></div><div class="form-group"><label for="bimajyoti_termppt">Term / PPT</label><select id="bimajyoti_termppt"><option value="15/10">15 / 10</option><option value="16/11">16 / 11</option><option value="17/12">17 / 12</option><option value="18/13">18 / 13</option><option value="19/14">19 / 14</option><option value="20/15">20 / 15</option></select></div><div class="form-group"><label for="bimajyoti_sa">Sum Assured (Min 1,25,000)</label><input type="number" id="bimajyoti_sa" required></div><fieldset class="rider-group"><legend>Riders</legend><label><input type="checkbox" id="bimajyoti_addb"> AD&DB</label></fieldset><button type="submit" class="btn">Calculate Premium</button></form></div>
+        <div id="calc-868" class="calculator"><h2>Jeevan Azad (868)</h2><form onsubmit="event.preventDefault(); calculatePremium('868')"><div class="form-group"><label for="jazad_age">Age</label><input type="number" id="jazad_age" required></div><div class="form-group"><label for="jazad_termppt">Term / PPT</label><select id="jazad_termppt"><option value="15/7">15 / 7</option><option value="16/8">16 / 8</option><option value="17/9">17 / 9</option><option value="18/10">18 / 10</option><option value="19/11">19 / 11</option><option value="20/12">20 / 12</option></select></div><div class="form-group"><label for="jazad_sa">Sum Assured (200k - 500k)</label><input type="number" id="jazad_sa" required></div><fieldset class="rider-group"><legend>Riders</legend><label><input type="checkbox" id="jazad_dab"> DAB/ADDB</label></fieldset><button type="submit" class="btn">Calculate Premium</button></form></div>
+
+        <div id="results-container" class="hidden"></div>
+    </div>
+
+<script>
+    // --- DYNAMIC RATE GENERATOR (SIMULATES DATABASE) ---
+    // This function generates realistic sample rates to ensure the calculator is always testable.
+    // TODO: For production, replace the logic inside this function with your actual database API calls.
+    function generateSamplePremiumRate(planId, age, term, ppt = 0) {
+        let baseRate = 30;
+        age = Math.max(age, 1); term = Math.max(term, 1); ppt = Math.max(ppt, 1);
+        baseRate += (term / 2) + (age / 3) - (ppt / 4);
+        switch (String(planId)) {
+            case '814': baseRate *= 1.0; break;
+            case '815': baseRate *= 1.1; break;
+            case '817': baseRate = 350 + (age / 2) + (term * 5); break;
+            case '833': baseRate *= 1.15; break;
+            case '836': baseRate *= 1.05; break;
+            case '851': baseRate *= 0.9; break;
+            case '860': baseRate *= 1.2; break;
+            case '868': baseRate *= 0.95; break;
+        }
+        return Math.max(baseRate, 10);
+    }
+    function db_getPremiumRate(planId, age, term, ppt = 0) { return generateSamplePremiumRate(planId, age, term, ppt); }
+    function db_getDabRate() { return 1.0; }
+    function db_getAddbRate() { return 0.5; }
+    function db_getTermRiderRate(age, term) { return 2.5 + (age/20); }
+
+    // --- UI LOGIC ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const planSelector = getById('plan-selector'); const calculators = document.querySelectorAll('.calculator');
+        planSelector.addEventListener('change', function() { const selectedPlan = this.value; calculators.forEach(calc => { calc.style.display = (calc.id === `calc-${selectedPlan}`) ? 'block' : 'none'; }); clearResults(); });
+        document.querySelectorAll('input[type="checkbox"][id$="_tr"]').forEach(chk => {
+            chk.addEventListener('change', function() { const prefix = this.id.split('_')[0]; const saGroup = getById(`${prefix}_tr_sa_group`); const saInput = getById(`${prefix}_tr_sa`); saGroup.classList.toggle('hidden', !this.checked); saInput.required = this.checked; });
+        });
+    });
+
+    // --- UTILITY AND DISPLAY FUNCTIONS ---
+    function getById(id) { return document.getElementById(id); }
+    function clearResults() { getById('results-container').innerHTML = ''; getById('results-container').classList.add('hidden'); }
+    const format = (num) => num ? num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0}) : '0';
+
+    // --- CORE CALCULATION LOGIC ---
+    function calculatePremium(planId) {
+        clearResults();
+        
+        let age, term, sa, ppt;
+        let dabChecked, addbChecked, trChecked;
+        let trSa = 0;
+        
+        // CORRECTION: Use a switch to get the correct element IDs for each plan
+        let prefix;
+        switch(planId) {
+            case '814': prefix = 'nendow'; break;
+            case '815': prefix = 'anand'; break;
+            case '817': prefix = 'spe'; break;
+            case '833': prefix = 'jlakshya'; break;
+            case '836': prefix = 'jlabh'; break;
+            case '851': prefix = 'mbachat'; break;
+            case '860': prefix = 'bimajyoti'; break;
+            case '868': prefix = 'jazad'; break;
+            default: return;
+        }
+
+        age = parseInt(getById(`${prefix}_age`).value, 10);
+        sa = parseInt(getById(`${prefix}_sa`).value, 10);
+        
+        if (getById(`${prefix}_term`)) {
+            term = parseInt(getById(`${prefix}_term`).value, 10);
+        } else if (getById(`${prefix}_termppt`)) {
+            const termPpt = getById(`${prefix}_termppt`).value.split('/');
+            term = parseInt(termPpt[0], 10);
+            ppt = parseInt(termPpt[1], 10);
+        }
+        ppt = ppt || term;
+        
+        if (isNaN(age) || isNaN(sa) || isNaN(term)) { alert("Please fill all required fields."); return; }
+        
+        dabChecked = getById(`${prefix}_dab`)?.checked;
+        addbChecked = getById(`${prefix}_addb`)?.checked;
+        trChecked = getById(`${prefix}_tr`)?.checked;
+        if (trChecked) { trSa = parseInt(getById(`${prefix}_tr_sa`).value, 10) || 0; }
+        
+        let baseRate = db_getPremiumRate(planId, age, term, ppt);
+        
+        if (sa >= 1000000) baseRate -= 2.0;
+        else if (sa >= 500000) baseRate -= 1.5;
+        else if (sa >= 300000) baseRate -= 1.0;
+        
+        const sa_per_1000 = sa / 1000;
+        let baseYearlyPremium = baseRate * sa_per_1000;
+
+        if (planId === '817') { baseYearlyPremium = baseRate * sa_per_1000; }
+        
+        const premiumYly = baseYearlyPremium * 0.98;
+        const premiumHly = baseYearlyPremium * 0.99;
+        const premiumQly = baseYearlyPremium;
+        const premiumMly = baseYearlyPremium * 1.05; // Monthly loading
+        
+        let yearlyRider = 0;
+        if (dabChecked) yearlyRider += (sa / 1000) * db_getDabRate();
+        if (addbChecked) yearlyRider += (sa / 1000) * db_getAddbRate();
+        if (trChecked && trSa > 0) yearlyRider += (trSa / 1000) * db_getTermRiderRate(age, term);
+        
+        const modes = [
+            { name: 'Yearly', factor: 1.0, basePremium: premiumYly },
+            { name: 'Half-Yearly', factor: 0.51, basePremium: premiumHly },
+            { name: 'Quarterly', factor: 0.26, basePremium: premiumQly },
+            { name: 'Monthly (ECS)', factor: 0.088, basePremium: premiumMly }
+        ];
+
+        let tableHtml = '<h3>Premium Calculation</h3><table><thead><tr><th>Mode</th><th>Base Premium</th><th>GST (1st Year @4.5%)</th><th>Total (1st Year)</th><th>GST (2nd Year+ @2.25%)</th><th>Total (2nd Year+)</th></tr></thead><tbody>';
+
+        if (planId === '817') {
+            const singlePremium = baseYearlyPremium + yearlyRider;
+            const gst = singlePremium * 0.045;
+            const total = singlePremium + gst;
+            tableHtml += `<tr><td>Single</td><td>${format(singlePremium)}</td><td>${format(gst)}</td><td colspan="3">${format(total)}</td></tr>`;
+        } else {
+             modes.forEach(mode => {
+                const baseInstallment = mode.basePremium * mode.factor + yearlyRider * mode.factor;
+                const gst1 = baseInstallment * 0.045;
+                const gst2 = baseInstallment * 0.0225;
+                const total1 = baseInstallment + gst1;
+                const total2 = baseInstallment + gst2;
+                tableHtml += `<tr><td>${mode.name}</td><td>${format(baseInstallment)}</td><td>${format(gst1)}</td><td>${format(total1)}</td><td>${format(gst2)}</td><td>${format(total2)}</td></tr>`;
+            });
+        }
+        
+        tableHtml += '</tbody></table>';
+        getById('results-container').innerHTML = tableHtml;
+        getById('results-container').classList.remove('hidden');
+    }
+</script>
+</body>
+</html>

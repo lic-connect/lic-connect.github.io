@@ -1,0 +1,132 @@
+Private Sub Worksheet_Change(ByVal Target As Range)
+    ' This code handles all automatic actions when key input cells are changed.
+    ' It auto-populates the Plan Number and the PPT, and clears the report.
+
+    ' Exit if more than one cell is changed at once to prevent errors
+    If Target.CountLarge > 1 Then
+    If Not Intersect(Target, Me.Range("B2:B6")) Is Nothing Then
+        Call ClearReportAndDependentCells
+    End If
+    Exit Sub
+End If
+
+    ' --- FIX #3: Temporarily unprotect the sheet to make changes ---
+    Me.Unprotect Password:=""
+
+    On Error GoTo SafeExit
+    Application.EnableEvents = False ' Prevent this code from running again on itself
+
+    ' --- FIX #2: Check if any key input cell was CLEARED ---
+    If Not Intersect(Target, Me.Range("B2, B4, B5, B6")) Is Nothing Then
+        If IsEmpty(Target.Value) Then
+            Call ClearReportAndDependentCells
+            GoTo SafeExit
+        End If
+    End If
+    
+    ' --- FIX #1: Correct logic for Plan Name change (B2) ---
+    If Not Intersect(Target, Me.Range("B2")) Is Nothing Then
+        Call UpdatePlanNumber ' This now reliably calls the sub to update the plan number
+        Call AutoPopulatePPT  ' Also update PPT when the plan changes
+    End If
+    
+    ' --- Auto-populate PPT when Age (B5) or Term (B6) changes ---
+    If Not Intersect(Target, Me.Range("B5, B6")) Is Nothing Then
+        Call AutoPopulatePPT
+    End If
+
+SafeExit:
+    ' --- FIX #3: Re-protect the sheet after changes are made ---
+    ' Me.Protect Password:=""  ' <-- LINE REMOVED as requested to stop protection
+    Application.EnableEvents = True ' IMPORTANT: Always re-enable events
+End Sub
+
+Sub UpdatePlanNumber()
+    ' Looks up and populates the plan number from the plan name
+    Dim calcSheet As Worksheet, dataSheet As Worksheet
+    Set calcSheet = ThisWorkbook.Sheets("IRR Calculator")
+    Set dataSheet = ThisWorkbook.Sheets("Plan_Data")
+    
+    Dim planName As String, planNum As Variant
+    planName = calcSheet.Range("B2").Value
+    
+    If planName <> "" Then
+        On Error Resume Next
+        planNum = Application.WorksheetFunction.VLookup(planName, dataSheet.Range("A:B"), 2, False)
+        If Not IsError(planNum) Then
+            calcSheet.Range("B3").Value = planNum
+        Else
+            calcSheet.Range("B3").ClearContents
+        End If
+        On Error GoTo 0
+    Else
+        calcSheet.Range("B3").ClearContents
+    End If
+End Sub
+
+Sub AutoPopulatePPT()
+    ' This helper sub calculates and populates the PPT based on Plan, Age, and Term
+    Dim calcSheet As Worksheet, pptRulesSheet As Worksheet
+    Dim planNum As Long, policyTerm As Long, age As Long, pptRule As String, newPPT As Variant
+    
+    On Error GoTo CleanExit
+    Set calcSheet = ThisWorkbook.Sheets("IRR Calculator")
+    
+    ' Only proceed if we have a valid plan number and term
+    If IsNumeric(calcSheet.Range("B3").Value) And calcSheet.Range("B3").Value > 0 Then
+        planNum = calcSheet.Range("B3").Value
+        policyTerm = calcSheet.Range("B6").Value
+        age = calcSheet.Range("B5").Value
+        
+        pptRule = Application.WorksheetFunction.VLookup(planNum, ThisWorkbook.Sheets("Plan_Data").Range("B:H"), 7, False)
+        
+        newPPT = "" ' Reset before logic
+        
+        Select Case pptRule
+            Case "Term": newPPT = policyTerm
+            Case "Term-3": newPPT = policyTerm - 3
+            Case "Term-8": newPPT = policyTerm - 8
+            Case "20-Age": If age > 0 Then newPPT = 20 - age
+            Case "1": newPPT = 1
+            Case "Input":
+                calcSheet.Range("B7").ClearContents
+                GoTo CleanExit
+            Case "Table"
+                Set pptRulesSheet = ThisWorkbook.Sheets("PPT_Rules")
+                Dim r As Long
+                For r = 2 To pptRulesSheet.Cells(pptRulesSheet.Rows.Count, "A").End(xlUp).Row
+                    If pptRulesSheet.Cells(r, "A").Value = planNum And pptRulesSheet.Cells(r, "B").Value = policyTerm Then
+                        newPPT = pptRulesSheet.Cells(r, "C").Value
+                        Exit For
+                    End If
+                Next r
+        End Select
+        
+        If IsNumeric(newPPT) And newPPT <> "" Then
+            calcSheet.Range("B7").Value = CInt(newPPT)
+        Else
+            calcSheet.Range("B7").ClearContents
+        End If
+    Else
+        calcSheet.Range("B7").ClearContents
+    End If
+CleanExit:
+    ' This handles any errors during the process
+End Sub
+
+Sub ClearReportAndDependentCells()
+    ' FIX #2: This helper sub now correctly clears the report and dependent cells
+    Dim calcSheet As Worksheet
+    Set calcSheet = ThisWorkbook.Sheets("IRR Calculator")
+    
+    ' Clear the entire report table and IRR result
+    calcSheet.Range("A13:S150").ClearContents
+    calcSheet.Range("A9").ClearContents ' Clear error message
+    
+    ' If Plan Name is cleared, also clear Plan No and PPT
+    If IsEmpty(calcSheet.Range("B2").Value) Then
+        calcSheet.Range("B3").ClearContents
+        calcSheet.Range("B7").ClearContents
+    End If
+End Sub
+

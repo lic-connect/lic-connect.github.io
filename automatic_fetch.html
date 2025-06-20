@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Automatic Fetch</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f6fa;
+      padding: 40px;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; /* Align to top if content is short */
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%; /* Responsive for smaller screens */
+      margin: auto; /* Centers if body doesn't have flex */
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    input[type="text"] {
+      display: block;
+      width: calc(100% - 22px); /* Account for padding and border */
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #0984e3;
+      border-radius: 5px;
+      background: #0984e3;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0073cc;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    #result p {
+      margin: 8px 0;
+    }
+    .error-message {
+        color: red;
+        font-weight: bold;
+    }
+    .success-message strong {
+        color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Automatic Fetch</h2>
+    <label for="policyNo">Enter Policy Number</label>
+    <input type="text" id="policyNo" placeholder="e.g. 987654321" />
+    <button onclick="fetchPolicyholder()">Fetch Details</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Ensure these are your actual Supabase project credentials
+    const supabaseUrl = 'https://efduqdondmlzmwhfgkfz.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
+
+    // Corrected Supabase client initialization:
+    // 'supabase' here refers to the global object loaded by the CDN script
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function fetchPolicyholder() {
+      const policyNoInput = document.getElementById('policyNo');
+      const policyNo = policyNoInput.value.trim();
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = ''; // Clear previous results
+
+      if (!policyNo) {
+        resultDiv.innerHTML = '<p class="error-message">❌ Please enter a policy number.</p>';
+        return;
+      }
+
+      console.log('Attempting to fetch for Policy Number:', policyNo);
+
+      try {
+        // IMPORTANT: Double-check the exact column name in your Supabase table.
+        // It might be 'policy_number' (lowercase) if you didn't use quotes when creating it.
+        const { data, error } = await supabaseClient
+          .from('automatic_fetch') // Ensure this table name is correct
+          .select('policyholder_name, agents_name') // Ensure these column names are correct
+          .eq('Policy_number', policyNo) // <-- CRITICAL: Verify 'Policy_number' or 'policy_number'
+          .single(); // .single() expects exactly one row or it throws an error
+
+        console.log('Supabase Query Result - Data:', data);
+        console.log('Supabase Query Result - Error:', error);
+
+        if (error) {
+          // .single() will produce an error if 0 or >1 rows are found.
+          // Common error code for no rows with .single() is 'PGRST116'.
+          let errorMessage = '❌ An error occurred while fetching data.';
+          if (error.code === 'PGRST116' || (error.message && error.message.toLowerCase().includes("no rows returned")) ) {
+            errorMessage = '❌ No data found for this policy number.';
+          } else if (error.message) {
+            errorMessage = `❌ Error: ${error.message}`;
+          }
+          resultDiv.innerHTML = `<p class="error-message">${errorMessage}</p>`;
+          console.error('Supabase error details:', error);
+        } else if (!data) {
+          // This case might be redundant if .single() always populates 'error' when no data is found.
+          // However, it's a good fallback.
+          resultDiv.innerHTML = '<p class="error-message">❌ No data found for this policy number (data object is null).</p>';
+        } else {
+          resultDiv.innerHTML = `
+            <p class="success-message"><strong>Policyholder Name:</strong> ${data.policyholder_name || 'N/A'}</p>
+            <p class="success-message"><strong>Agent Name:</strong> ${data.agents_name || 'N/A'}</p>
+          `;
+        }
+      } catch (catchError) {
+        // Catch any unexpected errors during the async operation or from .single()
+        console.error('Caught an unexpected error:', catchError);
+        resultDiv.innerHTML = `<p class="error-message">❌ An unexpected error occurred: ${catchError.message}</p>`;
+      }
+    }
+  </script>
+</body>
+</html>

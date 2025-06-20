@@ -1,0 +1,737 @@
+✅ 1. Plan 714 – New Endowment Plan
+Scenario:
+Person: Ramesh, Age 30
+
+Sum Assured (SA): ₹2,00,000
+
+Policy Term: 20 years
+
+Premium: ₹10,000/year approx.
+
+📌 Benefits:
+Maturity Benefit (if Ramesh survives 20 years):
+
+₹2,00,000 (Sum Assured)
+
+₹1,00,000 (assumed total bonus over 20 years)
+
+= ₹3,00,000 total
+
+Death Benefit (if he dies in 10th year):
+
+₹2,00,000 (SA)
+
+₹50,000 (bonus till year 10)
+
+= ₹2,50,000 to nominee
+
+No survival payouts during the policy; only final payout at maturity.
+
+✅ 2. Plan 715 – New Jeevan Anand
+Scenario:
+Person: Sunita, Age 28
+
+Sum Assured: ₹3,00,000
+
+Policy Term: 25 years
+
+Premium: ₹12,000/year approx.
+
+📌 Benefits:
+Maturity Benefit (if Sunita survives 25 years):
+
+₹3,00,000
+
+₹1,50,000 (bonus assumed)
+
+= ₹4,50,000
+
+Continued Death Cover even after maturity (lifetime)
+
+If she dies at 70 (after maturity), nominee gets ₹3,00,000
+
+Death During Policy Term:
+
+SA ₹3,00,000 + bonuses = ₹4,00,000–₹4,50,000 range
+
+✅ 3. Plan 717 – Single Premium Endowment
+Scenario:
+Person: Rajesh, Age 35
+
+Sum Assured: ₹1,00,000
+
+Term: 10 years
+
+Single Premium Paid: ₹75,000 one-time
+
+📌 Benefits:
+Maturity (after 10 years):
+
+₹1,00,000 + Bonus (₹30,000 approx.)
+
+= ₹1,30,000
+
+Death Anytime in 10 years:
+
+Minimum 125% of SA = ₹1,25,000 + bonus
+
+= ₹1,30,000 to ₹1,50,000 approx.
+
+Only one-time payment, no yearly premiums.
+
+✅ 4. Plan 720 – Twenty-Year Money Back
+Scenario:
+Person: Priya, Age 27
+
+Sum Assured: ₹2,00,000
+
+Term: 20 years
+
+Premium: ₹12,000/year approx.
+
+📌 Benefits:
+Survival Benefits (Money Back):
+
+20% of SA at year 5 = ₹40,000
+
+20% at year 10 = ₹40,000
+
+20% at year 15 = ₹40,000
+
+Maturity (year 20):
+
+Remaining 40% SA = ₹80,000
+
+Bonus = ₹1,00,000
+
+= ₹1,80,000
+
+Death During Term:
+
+Full ₹2,00,000 + bonuses paid
+
+Already paid survival benefits do not get deducted
+
+✅ 5. Plan 721 – Twenty-Five Year Money Back
+Scenario:
+Person: Mahesh, Age 29
+
+Sum Assured: ₹5,00,000
+
+Term: 25 years
+
+Premium: ₹18,000/year approx.
+
+📌 Benefits:
+Survival Payouts:
+
+15% at year 5 = ₹75,000
+
+15% at year 10 = ₹75,000
+
+15% at year 15 = ₹75,000
+
+15% at year 20 = ₹75,000
+
+Maturity (year 25):
+
+Remaining 40% SA = ₹2,00,000
+
+Bonus (₹2,50,000 assumed)
+
+= ₹4,50,000
+
+Death Before Term Ends:
+
+₹5,00,000 SA + full bonus (even if some money back is paid earlier)
+
+Would you like me to continue with the next batch (Plans 732, 733, 734, 736, 745)?
+
+
+
+
+
+
+
+
+You said:
+yes, please
+
+
+ChatGPT said:
+Here’s the next batch of 5 LIC plans, again with clear, real-life examples that explain maturity, death, and survival benefits in simple terms.
+
+✅ 6. Plan 732 – Child Money Back Plan
+Scenario:
+Child: Aarav, age 5 (proposer is parent)
+
+Sum Assured: ₹2,00,000
+
+Policy Term: 25 years (matures at age 30)
+
+Premium: ~₹9,000/year till age 25
+
+📌 Benefits:
+Survival Payouts:
+
+20% of SA at age 18 = ₹40,000
+
+20% at age 20 = ₹40,000
+
+20% at age 22 = ₹40,000
+
+Maturity (age 30):
+
+Remaining 40% SA = ₹80,000
+
+Bonuses (₹1,00,000 assumed)
+
+= ₹1,80,000
+
+Death Before Age 18:
+
+Full SA ₹2,00,000 + bonuses
+
+All future premiums waived (if Premium Waiver Rider is chosen)
+
+✅ 7. Plan 733 – Jeevan Lakshya
+Scenario:
+Person: Ravi, age 30
+
+Sum Assured: ₹3,00,000
+
+Policy Term: 25 years
+
+Premium: ₹14,000/year approx.
+
+📌 Benefits:
+Maturity (age 55):
+
+₹3,00,000 + bonuses (₹1,50,000 approx.)
+
+= ₹4,50,000
+
+Death During Term:
+
+Immediate payment: 10% of SA = ₹30,000
+
+Annual income: ₹30,000/year till maturity
+
+Maturity amount ₹3,00,000 + bonus still paid at end of term
+
+Total benefit to nominee ≈ ₹6,00,000+
+
+This plan is ideal for securing regular income for the family if the life assured passes away.
+
+✅ 8. Plan 734 – Jeevan Tarun
+Scenario:
+Child: Meera, age 8 (policy in child’s name, parent pays)
+
+Sum Assured: ₹2,00,000
+
+Policy Term: 20 years (matures at 25)
+
+Premium: ₹8,000/year approx.
+
+📌 Survival Benefit Options (you can choose):
+Let’s say Option 2: 5% per year from age 20–24 = ₹10,000/year
+
+Survival payouts: ₹10,000 x 5 = ₹50,000
+
+Maturity (age 25):
+
+₹1,50,000 + bonuses = ₹2,00,000 approx.
+
+Death During Term:
+
+₹2,00,000 + bonuses
+
+Option to waive future premiums (if rider chosen)
+
+✅ 9. Plan 736 – Jeevan Labh
+Scenario:
+Person: Asha, age 35
+
+Sum Assured: ₹5,00,000
+
+Policy Term: 16 years
+
+Premium Paying Term: 10 years
+
+Premium: ₹32,000/year approx.
+
+📌 Benefits:
+Maturity (after 16 years):
+
+₹5,00,000
+
+bonuses (₹2,00,000 approx.)
+
+= ₹7,00,000
+
+Death During Term:
+
+125% of SA = ₹6,25,000
+
+Bonuses
+
+= ₹8,00,000+ to nominee
+
+Excellent for those wanting limited premium payment but full-term cover.
+
+✅ 10. Plan 745 – Jeevan Umang
+Scenario:
+Person: Deepak, age 30
+
+Sum Assured: ₹3,00,000
+
+Premium Paying Term: 30 years
+
+Premium: ₹12,000/year approx.
+
+📌 Benefits:
+After 30 years (at age 60):
+
+Starts receiving ₹24,000 every year (8% of SA) for life
+
+This continues until death
+
+Maturity at age 100 (if alive):
+
+₹3,00,000 + bonuses = ₹6,00,000+
+
+Death Anytime:
+
+₹3,00,000 + all accrued bonuses + guaranteed income (if applicable)
+
+This is a whole-life income plan + maturity or death benefit.
+
+Would you like me to continue with the next batch (Plans 748, 751, 758, 760, 764)?
+
+
+
+
+
+
+
+
+You said:
+yes, please
+
+
+ChatGPT said:
+Here is the next batch of 5 LIC plans with clear, simple examples covering death, maturity, and survival benefits. These include high-value, pension, and guaranteed return plans.
+
+✅ 11. Plan 748 – Bima Shree
+Scenario:
+Person: Harsh, age 35
+
+Sum Assured: ₹10,00,000 (minimum for this plan)
+
+Policy Term: 20 years
+
+Premium Paying Term: 16 years
+
+Premium: ~₹75,000/year
+
+📌 Benefits:
+Survival Benefits: Paid at fixed intervals:
+
+15% of SA at year 14 = ₹1.5 lakh
+
+15% at year 16 = ₹1.5 lakh
+
+20% at year 18 = ₹2 lakh
+
+Total = ₹5 lakh before maturity
+
+Maturity Benefit (end of 20 years):
+
+50% of SA = ₹5 lakh
+
+Loyalty Additions (approx ₹3 lakh)
+
+= ₹8 lakh
+
+Death Benefit:
+
+10× annual premium or 125% of SA = ₹12.5 lakh
+
+Loyalty Additions = Total ₹15–17 lakh to nominee
+
+✅ 12. Plan 751 – Micro Bachat
+Scenario:
+Person: Sita, age 35 (lower-income rural woman)
+
+Sum Assured: ₹1,00,000
+
+Policy Term: 15 years
+
+Premium: ₹2,000/year approx.
+
+📌 Benefits:
+Maturity:
+
+₹1,00,000
+
+Loyalty additions (say ₹20,000)
+
+= ₹1,20,000
+
+Death Benefit (natural death):
+
+₹1,00,000
+
+Loyalty Additions
+
+Death Benefit (accidental death):
+
+₹2,00,000
+
+Loyalty Additions
+
+This is a micro-insurance plan with double cover for accidental death and no medical test.
+
+✅ 13. Plan 758 – New Jeevan Shanti (Deferred Annuity)
+Scenario:
+Person: Anand, age 45
+
+One-time Investment: ₹10,00,000
+
+Deferment Period: 10 years
+
+Annuity Option: Life annuity with return of purchase price
+
+📌 Benefits:
+After 10 years, he starts receiving:
+
+Monthly annuity: ₹6,000 (₹72,000/year) for life
+
+If he dies at age 70:
+
+Nominee gets back the entire ₹10,00,000 purchase price
+
+No maturity benefit as it's a pension product, but offers guaranteed lifetime income.
+
+✅ 14. Plan 760 – Bima Jyoti
+Scenario:
+Person: Rina, age 30
+
+Sum Assured: ₹5,00,000
+
+Policy Term: 20 years
+
+Premium Paying Term: 15 years
+
+Premium: ~₹30,000/year
+
+📌 Benefits:
+Guaranteed Additions:
+
+₹50 per ₹1,000 SA per year = ₹25,000/year
+
+For 20 years = ₹5,00,000 in total!
+
+Maturity (year 20):
+
+₹5,00,000 + ₹5,00,000 = ₹10,00,000
+
+Death Benefit:
+
+125% of SA = ₹6.25 lakh
+
+Guaranteed Additions accrued
+
+No bonus or profit-sharing. A purely guaranteed returns plan.
+
+✅ 15. Plan 764 – Bima Ratna
+Scenario:
+Person: Vivek, age 28
+
+Sum Assured: ₹10,00,000
+
+Policy Term: 20 years
+
+Premium Paying Term: 15 years
+
+Premium: ₹40,000/year approx.
+
+📌 Benefits:
+Survival Payouts:
+
+15% of SA at end of 15th, 16th, 17th, 18th, 19th year = ₹1.5 lakh × 5 = ₹7.5 lakh
+
+Maturity:
+
+40% of SA = ₹4 lakh
+
+Guaranteed Additions (₹5.2 lakh assumed)
+
+= ₹9.2 lakh
+
+Death Benefit:
+
+125% of SA = ₹12.5 lakh
+
+Guaranteed Additions till date
+
+A non-participating money back plan with assured survival and maturity returns.
+
+Would you like me to proceed with the next batch (Plans 768, 771, 774, 857, 859)?
+
+
+
+
+
+
+
+
+You said:
+yes, please
+
+
+ChatGPT said:
+Excellent! Here is the next batch of 5 LIC plans with real-world, easy-to-understand examples focusing on death benefit, maturity, and survival payouts, wherever applicable.
+
+✅ 16. Plan 768 – Jeevan Azad
+Scenario:
+Person: Neha, age 30
+
+Sum Assured: ₹2,00,000
+
+Policy Term: 20 years
+
+Premium Paying Term: 8 years
+
+Premium: ₹12,000/year approx.
+
+📌 Benefits:
+Maturity (at year 20):
+
+₹2,00,000 (Guaranteed Sum Assured)
+
+No bonuses — it's a non-participating plan
+
+= ₹2,00,000 payout (guaranteed)
+
+Death Benefit (during policy term):
+
+125% of SA = ₹2,50,000
+
+= ₹2.5 lakh payout to nominee
+
+Ideal for people who want short premium term but guaranteed returns.
+
+✅ 17. Plan 771 – Jeevan Utsav (Launched 2023)
+Scenario:
+Person: Arjun, age 40
+
+Premium Paid: ₹5,00,000 (single premium)
+
+Income Start Age: 51
+
+Sum Assured on Death: ₹10,00,000
+
+📌 Benefits:
+Guaranteed Income for Life:
+
+₹50,000 yearly (1/10th of Sum Assured on Death) from age 51
+
+Paid for life
+
+Maturity (at age 100):
+
+₹10,00,000 paid if alive
+
+Death Anytime:
+
+₹10,00,000 to nominee
+
+Ideal for creating a tax-free retirement income stream for life.
+
+✅ 18. Plan 774 – Amrit Baal
+Scenario:
+Child: Diya, age 5
+
+Proposer: Parent
+
+Sum Assured: ₹5,00,000
+
+Policy Term: 20 years
+
+Premium: ₹18,000/year approx.
+
+📌 Benefits:
+Maturity at age 25:
+
+₹5,00,000 + Guaranteed Additions
+
+Total Maturity = ₹8–9 lakh approx.
+
+Survival payouts optional depending on option chosen
+
+If proposer dies, future premiums are waived (if rider taken)
+
+Excellent for child’s higher education or marriage planning.
+
+✅ 19. Plan 857 – Jeevan Akshay-VII (Immediate Annuity)
+Scenario:
+Person: Sameer, age 60
+
+Single Premium: ₹10,00,000
+
+Annuity Option: Life Annuity with return of purchase price
+
+📌 Benefits:
+Pension Starts Immediately:
+
+₹6,000/month for life = ₹72,000/year
+
+Paid until death
+
+Death Benefit:
+
+₹10,00,000 (purchase price) returned to nominee
+
+A lifetime pension product, suitable after retirement
+
+✅ 20. Plan 859 – Saral Jeevan Bima
+Scenario:
+Person: Kavita, age 30
+
+Sum Assured: ₹10,00,000
+
+Policy Term: 20 years
+
+Premium: ₹3,000/year approx.
+
+📌 Benefits:
+Death Benefit Only:
+
+No maturity or survival benefit
+
+If Kavita dies anytime in 20 years → ₹10,00,000 to nominee
+
+If she survives 20 years, she gets nothing.
+
+Pure term plan – ideal for basic low-cost family protection.
+
+Would you like me to continue with the final batch (Plans 862, 875, 877, 879, 955)?
+
+
+
+
+
+
+
+
+You said:
+yes, please
+
+
+ChatGPT said:
+Perfect! Here's the final batch of LIC plans with practical, easy-to-understand examples for each, covering maturity, death, and survival benefits wherever applicable.
+
+✅ 21. Plan 862 – Saral Pension (Deferred Annuity)
+Scenario:
+Person: Mr. Dinesh, age 45
+
+Investment: ₹10,00,000 (single premium)
+
+Deferment Period: 10 years
+
+Annuity Option: Lifetime pension with return of purchase price
+
+📌 Benefits:
+From age 55, he receives ₹6,000 per month (₹72,000/year) for life
+
+If he dies at age 70, nominee receives ₹10,00,000 (initial premium back)
+
+No maturity benefit, just lifetime income and return of capital on death
+
+Simple, transparent pension plan with guaranteed payouts.
+
+✅ 22. Plan 875 – Yuva Term
+Scenario:
+Person: Rahul, age 25
+
+Sum Assured: ₹1 crore
+
+Term: 35 years
+
+Premium: ₹6,000/year approx.
+
+📌 Benefits:
+Death during policy term:
+
+₹1 crore paid to nominee, no questions asked
+
+No maturity or survival benefit
+
+Premium is fixed and very affordable for young people
+
+Best suited for young adults wanting large life cover at a low cost.
+
+✅ 23. Plan 877 – Yuva Credit Life
+Scenario:
+Person: Ankit, age 28
+
+Loan Amount Covered: ₹25 lakh
+
+Policy Term: 20 years
+
+Premium: ₹25,000 one-time (single premium)
+
+📌 Benefits:
+Death during term:
+
+Loan amount balance paid to the lender directly
+
+No maturity or survival benefit
+
+Ideal for loan protection (housing, personal, education loan) — ensures loan doesn't burden the family after death.
+
+✅ 24. Plan 879 – LIC Smart Pension
+Scenario:
+Person: Anjali, age 40
+
+Total Investment: ₹5,00,000 over 10 years
+
+Retirement Age Target: 60
+
+📌 Benefits:
+Accumulates pension wealth via ULIP (market-linked) fund
+
+At age 60:
+
+Use part of the fund to buy annuity
+
+Withdraw some as tax-free lump sum
+
+Pension continues monthly for life based on fund value
+
+Nominee receives fund value on death before vesting
+
+Suitable for long-term investors seeking both growth & guaranteed pension.
+
+✅ 25. Plan 955 – Jeevan Amar (Term Plan)
+Scenario:
+Person: Priyanka, age 35
+
+Sum Assured: ₹50 lakh
+
+Policy Term: 25 years
+
+Premium: ₹5,000/year approx.
+
+📌 Benefits:
+Death During Term:
+
+₹50 lakh paid to nominee
+
+Flexible death benefit options: lump sum, monthly income, or combination
+
+No maturity value if she survives 25 years
+
+Ideal for people who want a customizable, large, and pure life cover
+

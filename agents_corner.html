@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Agents Corner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f6ff;
+      padding: 30px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #003366;
+    }
+    form {
+      max-width: 500px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 5px;
+    }
+    table {
+      margin: 30px auto;
+      border-collapse: collapse;
+      width: 90%;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #cce5ff;
+      color: #003366;
+    }
+    .note {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Agent's Corner</h1>
+
+  <form>
+    <label for="targetCommission">Enter Planned Fresh Commission (₹):</label>
+    <input type="number" id="targetCommission" placeholder="e.g. 10000" min="0" required>
+  </form>
+
+  <table id="resultTable" style="display: none;">
+    <thead>
+      <tr>
+        <th>Plan No</th>
+        <th>Plan Name</th>
+        <th>Premium to be Sold (₹)</th>
+      </tr>
+    </thead>
+    <tbody id="resultBody"></tbody>
+  </table>
+
+  <p class="note">* Calculations based on estimated average commission rates.</p>
+
+  <script>
+    const plans = [
+      { planNo: '914', name: 'Endowment Assurance', rate: 0.25 },
+      { planNo: '920', name: 'Money Back Plan', rate: 0.20 },
+      { planNo: '843', name: 'Jeevan Lakshya', rate: 0.22 },
+      { planNo: '849', name: 'Jeevan Shanti', rate: 0.18 },
+      { planNo: '858', name: 'Bima Jyoti', rate: 0.23 }
+    ];
+
+    const input = document.getElementById('targetCommission');
+    const resultTable = document.getElementById('resultTable');
+    const resultBody = document.getElementById('resultBody');
+
+    input.addEventListener('input', () => {
+      const commission = parseFloat(input.value);
+
+      if (!commission || commission <= 0) {
+        resultTable.style.display = 'none';
+        return;
+      }
+
+      resultBody.innerHTML = ''; // clear old rows
+      plans.forEach(plan => {
+        const requiredPremium = Math.ceil(commission / plan.rate);
+        const row = `<tr>
+                      <td>${plan.planNo}</td>
+                      <td>${plan.name}</td>
+                      <td>${requiredPremium.toLocaleString()}</td>
+                    </tr>`;
+        resultBody.innerHTML += row;
+      });
+
+      resultTable.style.display = 'table';
+    });
+  </script>
+</body>
+</html>

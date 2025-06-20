@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Plan 915 (New Jeevan Anand) Premium Calculator</title>
+    <!-- Using Bootstrap for basic styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f8ff;
+            padding: 2rem;
+        }
+        .calculator-container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        #result-container {
+            margin-top: 2rem;
+        }
+        .table {
+            margin-top: 1.5rem;
+        }
+        .error-message {
+            display: none;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-container">
+        <h2 class="mb-4 text-center">LIC New Jeevan Anand (Plan 915)</h2>
+        <h5 class="mb-4 text-center text-muted">Premium Calculator</h5>
+        
+        <form id="licForm">
+            <div class="mb-3">
+                <label for="age" class="form-label">Your Age (18-50 years)</label>
+                <input type="number" class="form-control" id="age" value="35" required min="18" max="50">
+            </div>
+            <div class="mb-3">
+                <label for="sa" class="form-label">Sum Assured (e.g., 300000)</label>
+                <input type="number" class="form-control" id="sa" value="300000" required min="100000" step="5000">
+            </div>
+            <div class="mb-3">
+                <label for="term" class="form-label">Policy Term (15-35 years)</label>
+                <input type="number" class="form-control" id="term" value="35" required min="15" max="35">
+            </div>
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="dab" checked>
+                <label class="form-check-label" for="dab">Include Accidental Death & Disability Rider?</label>
+            </div>
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="termRd" checked>
+                <label class="form-check-label" for="termRd">Include Term Rider?</label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">Calculate Premium</button>
+        </form>
+
+        <div id="loading" class="text-center mt-3" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Calculating...</p>
+        </div>
+
+        <div id="result-container">
+            <!-- The calculated result will be injected here -->
+        </div>
+
+        <div id="error-message" class="alert alert-danger error-message">
+            <strong>Error:</strong> Could not fetch data. This is likely due to a CORS policy block by your browser.
+            <hr>
+            <strong>Solution:</strong> Please install and enable a CORS-unblocking browser extension (like "Allow CORS" for Chrome) and try again. This is required for this page to communicate with the LIC calculator server.
+        </div>
+    </div>
+
+    <!-- jQuery from CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        // Wait for the document to be ready
+        $(document).ready(function() {
+            // Handle form submission
+            $('#licForm').on('submit', function(event) {
+                // Prevent the default form submission
+                event.preventDefault();
+
+                // Show loading spinner and hide previous results/errors
+                $('#loading').show();
+                $('#result-container').empty();
+                $('#error-message').hide();
+
+                // Gather data from the form inputs
+                const payload = {
+                    table: '915', // Plan number
+                    sa: $('#sa').val(),
+                    age: $('#age').val(),
+                    term: $('#term').val(),
+                    dab: $('#dab').is(':checked') ? 'Y' : 'N',
+                    termRd: $('#termRd').is(':checked') ? 'Y' : 'N'
+                };
+
+                // Make the AJAX call to the server
+                $.ajax({
+                    url: 'https://www.licpremiumcalculator.in/calc/calc915.php',
+                    type: 'POST',
+                    data: payload,
+                    success: function(response) {
+                        $('#loading').hide();
+
+                        // Parse the HTML response from the server
+                        const resultHtml = $(response);
+                        
+                        // Find the tables for 1st year and subsequent year premiums
+                        const firstYearTableRows = resultHtml.find('table').eq(1).find('tr');
+                        const secondYearTableRows = resultHtml.find('table').eq(2).find('tr');
+
+                        // Build the new, clean output in the desired format
+                        let output = `
+                            <h4 class="mt-4 text-center">Premium Calculation Results</h4>
+                        `;
+
+                        // --- First Year Premium Table ---
+                        output += `
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-dark">
+                                    <tr><th colspan="4" class="text-center">First Year Premium</th></tr>
+                                    <tr>
+                                        <th>Mode</th>
+                                        <th>Premium</th>
+                                        <th>GST (@4.5%)</th>
+                                        <th>Total Premium</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        `;
+                        // Loop through rows, skipping the header row
+                        firstYearTableRows.slice(2).each(function() {
+                            const cells = $(this).find('td');
+                            const mode = cells.eq(0).text();
+                            const premium = cells.eq(1).text();
+                            const gst = cells.eq(2).text();
+                            const total = cells.eq(3).text();
+                            output += `<tr><td>${mode}</td><td>${premium}</td><td>${gst}</td><td><strong>${total}</strong></td></tr>`;
+                        });
+                        output += `</tbody></table>`;
+                        
+                        // --- Subsequent Years Premium Table ---
+                        output += `
+                            <table class="table table-bordered table-striped">
+                                <thead class="table-secondary">
+                                    <tr><th colspan="4" class="text-center">Second Year & Onward Premium</th></tr>
+                                    <tr>
+                                        <th>Mode</th>
+                                        <th>Premium</th>
+                                        <th>GST (@2.25%)</th>
+                                        <th>Total Premium</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        `;
+                        // Loop through rows, skipping the header row
+                        secondYearTableRows.slice(2).each(function() {
+                            const cells = $(this).find('td');
+                            const mode = cells.eq(0).text();
+                            const premium = cells.eq(1).text();
+                            const gst = cells.eq(2).text();
+                            const total = cells.eq(3).text();
+                            output += `<tr><td>${mode}</td><td>${premium}</td><td>${gst}</td><td><strong>${total}</strong></td></tr>`;
+                        });
+                        output += `</tbody></table>`;
+
+                        // Inject the formatted result into the page
+                        $('#result-container').html(output);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        // Handle errors (most likely CORS)
+                        $('#loading').hide();
+                        $('#error-message').show();
+                        console.error("AJAX Error:", textStatus, errorThrown);
+                        console.error("Response:", jqXHR.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

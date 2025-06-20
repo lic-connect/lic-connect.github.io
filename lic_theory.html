@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LIC Process Types</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f9f9f9;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 10px;
+    }
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>LIC Process Types</h1>
+    <label for="processSelect">Select a Process:</label>
+    <select id="processSelect">
+      <option value="">-- Choose a Process --</option>
+      <option value="surrender.html">Surrender</option>
+      <option value="SB.html">Survival Benefit (SB)</option>
+      <option value="Revival.html">Revival</option>
+      <option value="NEFT.html">NEFT</option>
+      <option value="Maturity.html">Maturity</option>
+      <option value="Loan.html">Loan</option>
+      <option value="Fatca.html">FATCA</option>
+      <option value="Duplicate.html">Duplicate</option>
+      <option value="Death_claim.html">Death Claim</option>
+    </select>
+  </div>
+
+  <script>
+    const processSelect = document.getElementById('processSelect');
+    processSelect.addEventListener('change', function() {
+      const selectedValue = this.value;
+      if (selectedValue) {
+        // Open the corresponding process detail page in a new tab
+        window.open(selectedValue, '_blank');
+        // Optionally reset selection to default
+        this.value = "";
+      }
+    });
+  </script>
+</body>
+</html>

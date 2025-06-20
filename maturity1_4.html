@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Maturity Claim Discharge Form (No. 3825 Rev.) - All Pages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; 
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .document-container { }
+        .form-page {
+            background-color: #fff;
+            margin: 0 auto 40px auto; 
+            padding: 30px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 8.5in;
+            min-height: 11in; 
+            box-sizing: border-box;
+            page-break-after: always; 
+        }
+        .form-page:last-child {
+            page-break-after: avoid;
+            margin-bottom: 20px; 
+        }
+
+        .logo-container { 
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo-container img {
+            max-width: 150px; 
+            height: auto;
+        }
+
+        .header-section { text-align: center; margin-bottom: 20px; }
+        .header-section .form-main-title { font-size: 1.2em; font-weight: bold; margin-top: 5px;}
+        .header-section .form-sub-title { font-size: 1.1em; font-weight: bold; }
+        .header-info { display: flex; justify-content: space-between; font-size: 0.9em; margin-bottom: 15px; }
+
+        .section { margin-bottom: 15px; }
+        .section-title-main { font-size: 1.1em; font-weight: bold; text-align: center; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid #eee; }
+        .address-block p, .salutation p, .subject-block p, .content-block p { margin: 0 0 8px 0; font-size: 0.95em; line-height: 1.5; }
+        .point-list { list-style: none; padding-left: 0; }
+        .point-list li { margin-bottom: 8px; display: flex; }
+        .point-list li .asterisk { margin-right: 8px; font-weight: bold; }
+        .declaration-text { font-size: 0.9em; margin-bottom: 15px; }
+        
+        .signature-block-container { margin-top: 10px; text-align: center; }
+        .input-inline { 
+            border: none; 
+            border-bottom: 1px dotted #333; 
+            padding: 1px 3px;
+            font-family: inherit;
+            font-size: inherit;
+            background-color: #e9e9e9; 
+            text-align: center; 
+            margin: 0 2px;
+            min-width: 50px;
+        }
+        input.input-inline[readonly] { background-color: #e9e9e9 !important; }
+        .note-block { font-size: 0.85em; margin-top: 15px; padding: 10px; border: 1px solid #eee; background-color: #f9f9f9; }
+        table.data-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9em; }
+        table.data-table th, table.data-table td { border: 1px solid #333; padding: 6px; text-align: left; vertical-align: top; }
+        table.data-table th { background-color: #f2f2f2; font-weight: bold; }
+        .text-hindi, .text-marathi { font-family: 'Nirmala UI', Arial, sans-serif; } 
+        
+        .neft-form { margin-top: 20px; }
+        .neft-form .neft-title { font-weight: bold; text-align: center; margin-bottom: 10px; font-size: 1em; text-decoration: underline;}
+        .neft-form p { margin: 5px 0; font-size: 0.9em;}
+        .neft-form .input-box { display: inline-block; border: 1px solid #333; padding: 0px 2px; margin: 0 1px; width: 18px; height: 20px; text-align: center; line-height:20px; }
+
+        .centered { text-align: center; }
+        .right-aligned { text-align: right; }
+        .bold { font-weight: bold; }
+        .hidden { display: none !important; } /* This class is used to hide conditional sub-sections */
+
+        .master-policy-input-area { text-align: center; padding: 20px; background-color: #e9e9f9; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ccc; }
+        .master-policy-input-area label { font-weight: bold; margin-right: 10px; }
+        .master-policy-input-area input[type="text"] { padding: 10px; width: 250px; border: 1px solid #aaa; border-radius: 4px; }
+        .master-policy-input-area input[type="checkbox"] { vertical-align: middle; margin-right:3px;}
+        .master-policy-input-area label[for="isVernacularOrIlliterate_maturity"], 
+        .master-policy-input-area label[for="isPolicyAssigned_maturity"] { font-weight: normal; margin-left: 0;}
+        .master-policy-input-area button { padding: 10px 20px; background-color: #0056b3; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; margin-left: 10px; }
+        .master-policy-input-area button:hover { background-color: #003d82; }
+
+        .signature-upload-section { margin-top: 10px; text-align: center; padding-bottom:5px; }
+        .signature-upload-section img { display:none; max-width: 200px; max-height: 80px; border: 1px solid #ccc; margin-bottom: 10px; background-color: #f9f9f9;}
+        .signature-upload-section input[type="file"] { margin-top: 5px; display: inline-block; width: auto; padding: 5px;}
+        .signature-label { margin-bottom: 2px; font-size: 0.9em; }
+
+        @media print { /* Basic print styles */ }
+    </style>
+</head>
+<body>
+
+<div class="document-container">
+
+    <div class="logo-container">
+        <img src="lic-black.png" alt="LIC Logo">
+    </div>
+
+    <div class="master-policy-input-area">
+        <div>
+            <label for="maturityPolicyInput">Enter Policy Number:</label>
+            <input type="text" id="maturityPolicyInput" placeholder="Enter Policy Number">
+        </div>
+        <div style="margin-top: 10px;">
+            <input type="checkbox" id="isVernacularOrIlliterate_maturity" name="isVernacularOrIlliterate_maturity">
+            <label for="isVernacularOrIlliterate_maturity">Applicant used Vernacular Medium / is Illiterate (affects Page 3)</label>
+        </div>
+        <div style="margin-top: 5px; margin-bottom: 15px;">
+            <input type="checkbox" id="isPolicyAssigned_maturity" name="isPolicyAssigned_maturity">
+            <label for="isPolicyAssigned_maturity">Is Policy Assigned? (affects Page 1 Note & Assignor Info)</label>
+        </div>
+        <div>
+            <button type="button" id="maturityLoadButton">Load Details</button>
+        </div>
+    </div>
+    
+    <!-- Page 1 Content (Maturity Form - Form No. 3825 Rev.) -->
+    <div class="form-page" id="visualMaturityPage1">
+        <!-- ... Full HTML content of Page 1 from OCR, as in the previous correct version ... -->
+        <!-- (Ensuring all m_p1_ IDs are correct and present) -->
+        <div class="header-info">
+            <span>SDP 50,000-12/12</span>
+            <span class="right-aligned text-hindi">शाखा क्र. / Branch No.: <input type="text" id="m_p1_branch_no" class="input-inline" style="width:80px;" readonly></span>
+        </div>
+        <div class="header-section">
+            <p class="bold text-hindi form-main-title">भारतीय जीवन बीमा निगम</p>
+            <p class="bold form-main-title">LIFE INSURANCE CORPORATION OF INDIA</p>
+            <p class="text-hindi">मुंबई विभाग / मुंबई मंडल / MUMBAI DIVISION</p>
+            <p class="text-hindi">(आयुर्विमा अधिनियम 1956 च्या अन्वये संस्थापित)</p>
+            <p class="text-hindi">(जीवन बीमा निगम अधिनियम 1956 द्वारा स्थापित)</p>
+            <p>(Established by the Life Insurance Corporation Act of 1956)</p>
+        </div>
+        <div class="content-block centered bold" style="font-size:1.1em; margin-bottom:20px;">
+             <span class="text-hindi">के जीवन पर पूर्णावधि प्राप्त (Matured) <input type="text" id="m_p1_life_assured_name_header_hin" class="input-inline" style="width:200px;" readonly> की भुगतान की रसीद</span><br>
+             <span>DISCHARGE OF MATURED POLICY No. <input type="text" id="m_p1_policy_no_header" class="input-inline" style="width:150px;" readonly> Dated <input type="text" id="m_p1_form_date_header" class="input-inline" style="width:120px;" readonly></span><br>
+             <span>on the Life of Shri/Smt. <input type="text" id="m_p1_life_assured_name_header_en" class="input-inline" style="width:200px;" readonly></span>
+        </div>
+        <div class="content-block">
+            <p><span class="text-marathi">मी/आम्ही</span> <input type="text" id="m_p1_claimant_assignee_mar" class="input-inline" style="width:180px;" readonly> <span class="text-marathi">व्यक्ति/समनुदेशिती दिनांक</span> <input type="text" id="m_p1_assignment_date_mar" class="input-inline" style="width:100px;" readonly> <span class="text-marathi">च्या समनुदेशनाच्या आधारे मान्य करतो की, ह्या अन्वये उपरोक्त महामंडळाकडून</span> <input type="text" id="m_p1_sum_rupees_words_mar" class="input-inline" style="width:calc(100% - 680px); min-width:150px;" readonly> <span class="text-marathi">रुपये रक्कमेची प्राप्ती माझ्या आयुष्यावरील/आमच्या आयुष्यावरील पॉलिसी अंतर्गत सर्व देय आणि मागण्या हयांच्या पूर्णतः अंतिमतः समाधान स्वरुप आणि विमुक्तिस्वरुप झालेली आहे. आणि पॉलिसी रद्द करण्यासाठी महामंडळाकडे सुपूर्त करण्यात आली आहे.</span></p>
+            <p><span class="text-hindi">मैं/हम</span> <input type="text" id="m_p1_claimant_assignee_hin" class="input-inline" style="width:180px;" readonly> <span class="text-hindi">बीमेदार/अभ्यर्पिती दिनांक</span> <input type="text" id="m_p1_assignment_date_hin" class="input-inline" style="width:100px;" readonly> <span class="text-hindi">के अभ्यर्पण के नाते एतद्वारा उपरोक्त निगम से बोनस की रकम को जोड़कर</span> <input type="text" id="m_p1_sum_rupees_words_hin" class="input-inline" style="width:calc(100% - 680px); min-width:150px;" readonly> <span class="text-hindi">रुपये की रकम की प्राप्ति दिनांक पूर्ण सन्तुष्टि के साथ स्वीकार करता हूँ / करते हैं और अपने जीवन / जीवनों की उपरोक्त पॉलिसी के अपने समस्त दावों और मांगो के लिये भरपाई करता हूँ / करते हैं, जिसकी अवधि दिनांक</span> <input type="text" id="m_p1_maturity_date_claim_hin" class="input-inline" style="width:100px;" readonly> <span class="text-hindi">को पूर्ण होती है और जो एतद्वारा उपरोक्त निगम को रद्द करने के लिये सौंपी जाती है ।</span></p>
+            <p>I/We <input type="text" id="m_p1_claimant_assignee_en" class="input-inline" style="width:180px;" readonly> the Life Assured / Assignee by virtue of the assignment dated <input type="text" id="m_p1_assignment_date_en" class="input-inline" style="width:100px;" readonly> do hereby acknowledge receipt from the Life Insurance Corporation of India, the sum of Rupees (In words) <input type="text" id="m_p1_sum_rupees_words_en" class="input-inline" style="width:calc(100% - 680px); min-width:150px;" readonly> including the amount of Bonus, in full and final satisfaction and discharge of all my/our claims and demands under the above mentioned Policy which matured on <input type="text" id="m_p1_maturity_date_claim_en" class="input-inline" style="width:100px;" readonly> and which Policy is hereby delivered upto the said Corporation to be cancelled.</p>
+        </div>
+        <table class="data-table" style="margin-top:25px;">
+            <tr> <td>विमा रक्कम / स्थगिती मूल्य <br> बीमा राशि / प्रदत्त मूल्य <br> Sum Assured / Paid-up Value</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_sum_assured_paidup_value" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>निहित लागू बोनस /निहित बोनस अबंटित / Vested Bonus alloted</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_vested_bonus" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>अन्तरिम बोनस / Interim Bonus</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_interim_bonus" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>अंतिम बोनस / आवधिक बोनस / Terminal Bonus</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_terminal_bonus" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>अतिरिक्त अंतिम बोनस / Final Additional Bonus</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_final_additional_bonus" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>वय जास्त नमूद झाल्यामुळे हयातील फरक <br> उम्र अधिक लिखी होने के कारण प्रीमियम की अन्तर राशि/ <br> Difference of premiums on account of overstatement of age</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_age_overstatement_diff" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>लिंग, व्यवसाय आणि दुहेरी अपघाती लाभ आणि विस्तारित निरंतर अपंगत्व लाभ ह्यासाठींच्या ज्यादा हप्त्यांचा परतावा <br> लिंग तथा व्यवसाय हेतु अतिरिक्त प्रीमियम-दु.दू. हि. तथा वि. अस्था अ. हि/ <br> Refund of extra Premium for sex D.A.B. & E.P.D.B. & occupation</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p1_extra_premium_refund_sex_dab_epdb" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td class="bold">एकूण दावा रक्कम / कुल दावा राशि/Gross claim amount</td> <td class="bold right-aligned">रु./Rs. <input type="text" id="m_p1_gross_claim_amount" class="input-inline" style="width:100px;" readonly></td> </tr>
+        </table>
+        <div id="s_p1_assignmentNoteSection" class="hidden"> <!-- Conditional Section for Assignment Note -->
+            <div class="note-block">
+                <p class="text-hindi">टिप्पणी : यदि पालिसी का समनुदेशन हो चुका हो तो इस प्रार्थना पत्र पर समनुदेशियी के हस्ताक्षर होने चाहिए।</p>
+                <p>Note: In case the policy is assigned, the application must be signed by the assignee.</p>
+            </div>
+        </div>
+         <p class="centered" style="margin-top:15px;">.. 1 ..</p>
+        <p class="right-aligned">(कृ. मा. प. / कृ. पी. दे./P.T.O.)</p>
+    </div> <!-- End of visualMaturityPage1 -->
+
+    <!-- Page 2 Content (Maturity Form) -->
+    <div class="form-page" id="visualMaturityPage2">
+        <!-- Full HTML content of Page 2 from OCR, with m_p2_ prefixed input-inline IDs and signature-upload-section for signatures -->
+        <!-- (This was provided in the previous full HTML response, ensure all IDs are `m_p2_...`) -->
+        <table class="data-table" style="margin-top:20px;">
+            <tr> <td class="bold" colspan="2">वजा / इसमें निम्न रकमें घटानी हैं/Less :</td> </tr>
+            <tr> <td>देय हप्त्यांची थकबाकी/बकाया देय प्रीमियम /Unpaid instalments of premiums due</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p2_unpaid_premiums_due" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>त्यावरील विलंब शुल्क / विलम्ब शुल्क / Late fee thereon</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p2_late_fee_thereon" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>स्वाभाविक गैर जप्ती कर्ज/ए. एन. एफ. ऋण/A.N.F. Dept.</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p2_anf_dept_loan" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>कसर/अंशराशीकृत व्याज/कटौती/कम्यूटेडब्याज/ Discount/Commuted Interest</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p2_discount_commuted_interest" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>कर्ज / ऋण / Loan</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p2_loan_amount_deduction" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>व्याज / ब्याज / Interest</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p2_loan_interest_deduction" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td>वय कमी उल्लेखिल्याने वसूल करावयाची रक्कम <br> उम्र कम लिखी होने के कारण वसूली योग्य राशि <br> Amount recoverable on account of under-statement of age</td> <td class="right-aligned">रु./Rs. <input type="text" id="m_p2_age_understatement_recovery" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td class="bold">एकूण कपात / कुल कटौती / Total Deductions</td> <td class="bold right-aligned">रु./Rs. <input type="text" id="m_p2_total_deductions" class="input-inline" style="width:100px;" readonly></td> </tr>
+            <tr> <td class="bold">निव्वळ दावा रक्कम रु./शुध्द दावा राशि/Net claim amount</td> <td class="bold right-aligned">रु./Rs. <input type="text" id="m_p2_net_claim_amount" class="input-inline" style="width:100px;" readonly></td> </tr>
+        </table>
+        <div class="content-block">
+            <p>दिनांकत ठिकाण/dated at <input type="text" id="m_p2_discharge_place" class="input-inline" style="width:150px;" readonly> दिनांक/this <input type="text" id="m_p2_discharge_day" class="input-inline" style="width:40px;" readonly> माहे/day of <input type="text" id="m_p2_discharge_month" class="input-inline" style="width:80px;" readonly> वर्ष 20<input type="text" id="m_p2_discharge_year" class="input-inline" style="width:40px;" readonly></p>
+            <p>श्री/श्रीमती <input type="text" id="m_p2_discharge_signed_by_name_mar" class="input-inline" style="width:200px;" readonly> हयांनी माझ्या समक्ष स्वाक्षरी केली.</p>
+            <p class="text-hindi">श्री/श्रीमती <input type="text" id="m_p2_discharge_signed_by_name_hin" class="input-inline" style="width:200px;" readonly> 'ने नीचे लिखे साक्षी के सामने हस्ताक्षर किए।</p>
+            <p>Signed by Shri/Smt. <input type="text" id="m_p2_discharge_signed_by_name_en" class="input-inline" style="width:200px;" readonly> - in the presence of*</p>
+        </div>
+        <div class="flex-container" style="margin-top:15px;">
+            <div class="flex-item" style="font-size:0.9em;">
+                <div class="signature-upload-section" style="text-align:left; margin-top:0;">
+                    <p class="text-hindi signature-label" style="margin-bottom:2px;">साक्षीदाराची स्वाक्षरी / साक्षी के हस्ताक्षर / Signature of Witness</p>
+                    <img id="m_p2_discharge_witness_signature_image" src="#" alt="Witness Signature" /> <br/>
+                    <input type="file" id="m_p2_discharge_witness_signature_upload" accept="image/*">
+                </div>
+                <p class="text-hindi">पूर्ण नांव / पूरा नाम / Full Name: <input type="text" id="m_p2_discharge_witness_name" class="input-inline" style="width:220px;" readonly></p>
+                <p class="text-hindi">हुद्दा / पद / Designation: <input type="text" id="m_p2_discharge_witness_occupation" class="input-inline" style="width:200px;" readonly></p>
+                <p class="text-hindi">पत्ता / पता / Address: <input type="text" id="m_p2_discharge_witness_address" class="input-inline" style="width:250px;" readonly></p>
+            </div>
+            <div class="flex-item right-aligned" style="font-size:0.9em;">
+                 <div class="note-block" style="width: 150px; text-align:center; display:inline-block; padding:5px; margin-bottom:10px; background-color:transparent; border: 1px solid #777;">
+                    <span class="text-hindi">एक रुपयाचे राजस्व टिकिट</span><br>
+                    <span class="text-hindi">एक रुपया का राजस्व टिकट</span><br>
+                    One Rupee Revenue Stamp
+                </div><br>
+                <div class="signature-upload-section" style="margin-top:0; text-align: right;">
+                    <p class="text-hindi signature-label">दावेदार/दावेदारांची संपूर्ण स्वाक्षरी <br> दावेदार/दावेदारों के पूर्ण हस्ताक्षर <br> Signature(s) of the claimants (s) in full <br> (as per Specimen in the Record)</p>
+                    <img id="m_p2_claimant_specimen_signature_image" src="#" alt="Claimant Specimen Signature" /> <br/>
+                    <input type="file" id="m_p2_claimant_specimen_signature_upload" accept="image/*">
+                </div>
+            </div>
+        </div>
+         <div class="content-block" style="margin-top:10px;"> <p class="text-hindi">सध्याचा पत्ता / वर्तमान पत्ता / Present address: <input type="text" id="m_p2_claimant_present_address" class="input-inline" style="width:calc(100% - 250px);" readonly></p> </div>
+        <div class="content-block"> <p>Please Send the cheque to my Banker's</p> <p>S. B. A/c. No. <input type="text" id="m_p2_cheque_bank_account_no" class="input-inline" style="width:200px;" readonly></p> <p>Name of Bank: <input type="text" id="m_p2_cheque_bank_name" class="input-inline" style="width:calc(100% - 120px);" readonly></p> <p>Address of Bank: <input type="text" id="m_p2_cheque_bank_address" class="input-inline" style="width:calc(100% - 140px);" readonly></p> </div>
+        <div class="note-block" style="font-size:0.9em"> <p class="bold text-hindi">टीप (1) NOTES</p> <p class="text-hindi">रक्कम अपरिक्राम्य आदाता खात्याद्वारा अदा केली जाईल... <input type="text" id="m_p2_mo_dd_payee_name_mar" class="input-inline" style="width:150px;" readonly> ... <input type="text" id="m_p2_mo_dd_bank_name_mar" class="input-inline" style="width:150px;" readonly> ... (Full text)</p> <p class="text-hindi">भुगतान अपराक्रम्य-आदाता खाता चेक द्वारा किया जायेगा। ... <input type="text" id="m_p2_mo_dd_payee_name_hin" class="input-inline" style="width:150px;" readonly> ... <input type="text" id="m_p2_mo_dd_bank_name_hin" class="input-inline" style="width:150px;" readonly> ... (Full text)</p> <p>Payment will be made by a not negotiable -Account/Payee cheque... on the <input type="text" id="m_p2_mo_dd_bank_name_en" class="input-inline" style="width:180px;" readonly> Bank <input type="text" id="m_p2_mo_dd_payee_name_en" class="input-inline" style="width:180px;" readonly> at my/our risk... (Full text)</p> </div>
+        <div class="signature-upload-section right-aligned" style="margin-top:10px;"> <p class="text-hindi signature-label">दावेदाराची/दावेदारांची स्वाक्षरी <br> दावेदार/दावेदारों के हस्ताक्षर <br> Signature(s) of the claimants (s)</p> <img id="m_p2_claimant_final_signature_image" src="#" alt="Claimant Final Signature" /> <br/> <input type="file" id="m_p2_claimant_final_signature_upload" accept="image/*"> </div>
+        <p class="centered" style="margin-top:5px;">.. 2 ..</p>
+    </div> <!-- End of visualMaturityPage2 -->
+
+    <!-- Page 3 Content (Maturity Form) -->
+    <div class="form-page" id="visualMaturityPage3">
+        <!-- Full Page 3 HTML from previous full example, ensuring all IDs are m_p3_... -->
+        <div class="content-block">
+            <p><span class="asterisk">*</span> (2) ... (Full text as per OCR) ... knows the life assured.</p>
+            <p><span class="asterisk">+</span> (3) ... (Full text as per OCR) ... persons should be stated.</p>
+        </div>
+        <div id="s_p3_vernacularDeclarationSection" class="hidden"> 
+            <div class="content-block"> <p>(4) ... (Full text from OCR for point 4) ...</p> <p>"In case the claimant affixes ... (Full text from OCR) ... under his Signature.</p> </div>
+            <p style="margin-top:15px;">श्री / श्रीमती <input type="text" id="m_p3_vernacular_applicant_name_ref" class="input-inline" style="width:180px;" readonly> ... (Full text) ... <input type="text" id="m_p3_vernacular_relation1_name_ref" class="input-inline" style="width:180px;" readonly> ...</p>
+            <p class="text-hindi">श्री./श्रीमती <input type="text" id="m_p3_vernacular_applicant_name_ref_hin" class="input-inline" style="width:180px;" readonly> ... (Full text) ... <input type="text" id="m_p3_vernacular_relation2_name_ref_hin" class="input-inline" style="width:180px;" readonly> ...</p>
+            <p>Shri/Smt. <input type="text" id="m_p3_vernacular_applicant_name_ref_en" class="input-inline" style="width:180px;" readonly> ... (Full text) ... Shri <input type="text" id="m_p3_vernacular_relation2_name_ref_en" class="input-inline" style="width:180px;" readonly> ...</p>
+            <div class="content-block" style="font-size:0.9em; margin-top: 10px;">
+                <p class="text-hindi">साक्षी का पूरा नाम/Name of Witness: <input type="text" id="m_p3_vernacular_attesting_official_name" class="input-inline" style="width:250px;" readonly></p>
+                <p class="text-hindi">व्यवसाय/Occupation: <input type="text" id="m_p3_vernacular_attesting_official_occupation" class="input-inline" style="width:220px;" readonly></p>
+                <p class="text-hindi">पत्ता/Address: <input type="text" id="m_p3_vernacular_attesting_official_address" class="input-inline" style="width:300px;" readonly></p>
+            </div>
+            <div class="right-aligned signature-upload-section"> <img id="m_p3_attestingOfficialSignatureImage" src="#" alt="Attesting Official Signature" /><br/> <input type="file" id="m_p3_attestingOfficialSignatureUpload" accept="image/*"> <p class="signature-label" style="margin-top:5px;">Signature of the official with Seal of his office</p> </div>
+        </div>
+        <div class="content-block" style="margin-top:20px;"> <p class="text-hindi">(5) आमच्या नोंदीनुसार <input type="text" id="m_p3_final_premium_paid_date_mar" class="input-inline" style="width:120px;" readonly> ... (Full text) ...</p> </div>
+        <p class="centered" style="margin-top:5px;">.. 3 ..</p>
+    </div> <!-- End of visualMaturityPage3 -->
+    
+    <!-- Page 4 Content (Maturity Form) -->
+    <div class="form-page" id="visualMaturityPage4">
+        <!-- Full Page 4 HTML from previous full example, ensuring all IDs are m_p4_... -->
+        <div class="content-block" style="font-size:0.9em;"> <p>(5) Since our records do not show that the final premium due on <input type="text" id="m_p4_final_premium_paid_date_en" class="input-inline" style="width:120px;" readonly> ... (Full text)</p> </div>
+        <div class="flex-container" style="font-size:0.95em;"> <div class="flex-item text-hindi">ठिकाण/स्थान/Place <input type="text" id="m_p4_loa_place" class="input-inline" style="width:150px;" readonly></div> <div class="flex-item text-hindi right-aligned">दिनांक/Date <input type="text" id="m_p4_loa_date" class="input-inline" style="width:120px;" readonly></div> </div>
+        <div class="content-block" style="font-size:0.95em; margin-top:10px;"> <p class="text-hindi">आम्ही ह्या अन्वये उपरोल्लेखित रु. <input type="text" id="m_p4_loa_amount_rs_mr" class="input-inline" style="width:120px;" readonly> ... <input type="text" id="m_p4_loa_payee_name_mar" class="input-inline" style="width:200px;" readonly> ...</p> <p class="text-hindi">हम एतद्वारा ... <input type="text" id="m_p4_loa_amount_words_hin" class="input-inline" style="width:300px;" readonly> ... <input type="text" id="m_p4_loa_payee_name_hin" class="input-inline" style="width:200px;" readonly> ...</p> <p>We hereby authorise ... Rs. <input type="text" id="m_p4_loa_amount_numeric_en" class="input-inline" style="width:120px;" readonly> To Shri/Smt. <input type="text" id="m_p4_loa_payee_name_en" class="input-inline" style="width:200px;" readonly>.</p> </div>
+        <div class="content-block" style="font-size:0.9em;"> <p>Signed by the parties...</p> <p>1. <input type="text" id="m_p4_loa_party_signature_1_name" class="input-inline" style="width:calc(100% - 25px);" readonly></p> <p>2. <input type="text" id="m_p4_loa_party_signature_2_name" class="input-inline" style="width:calc(100% - 25px);" readonly></p> <p>3. <input type="text" id="m_p4_loa_party_signature_3_name" class="input-inline" style="width:calc(100% - 25px);" readonly></p> <div class="signature-upload-section right-aligned"> <p class="text-hindi signature-label">Signature in full of the Claimant (s)</p> <img id="m_p4_loa_claimant_full_signature_image" src="#" alt="LoA Claimant Sig" /> <br/> <input type="file" id="m_p4_loa_claimant_full_signature_upload" accept="image/*"> </div> </div>
+        <div class="content-block" style="font-size:0.9em;"> <p class="text-hindi bold">Witness :</p> <div class="signature-upload-section" style="text-align:left; margin-top:0;"> <p class="text-hindi signature-label">Signature :</p> <img id="m_p4_loa_witness_signature_image" src="#" alt="LoA Witness Sig" /> <br/> <input type="file" id="m_p4_loa_witness_signature_upload" accept="image/*"> </div> <p class="text-hindi">Full Name : <input type="text" id="m_p4_loa_witness_name" class="input-inline" style="width:250px;" readonly></p> <p class="text-hindi">Designation : <input type="text" id="m_p4_loa_witness_occupation" class="input-inline" style="width:220px;" readonly></p> <p class="text-hindi">Address : <input type="text" id="m_p4_loa_witness_address" class="input-inline" style="width:300px;" readonly></p> </div>
+        <div class="content-block" style="font-size:0.9em; margin-top:15px;"> <p>I, Certify that ... Shri/Smt. <input type="text" id="m_p4_loa_certify_explained_to_en" class="input-inline" style="width:200px;" readonly> ... to Shri/Smt. <input type="text" id="m_p4_loa_certify_agreed_by_en" class="input-inline" style="width:200px;" readonly> ...</p> </div>
+        <div class="right-aligned signature-upload-section" style="font-size:0.9em;"> <img id="m_p4_loa_certify_witness_signature_image" src="#" alt="LoA Certifying Witness Sig" /> <br/> <input type="file" id="m_p4_loa_certify_witness_signature_upload" accept="image/*"> <p style="margin-top:5px;" class="text-hindi">Signature of the witness</p> </div>
+        <hr> <div class="content-block" style="font-size:0.85em;"> <p>Form No. 3825 (Rev.)</p> </div> <div class="note-block" style="font-size:0.8em;"> <p>NOTE: In case of dispute ...</p> </div> <p class="centered" style="margin-top:5px;">4</p>
+    </div> <!-- End of visualMaturityPage4 -->
+
+</div> <!-- End of document-container -->
+
+<script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const SUPABASE_URL = 'https://efduqdondmlzmwhfgkfz.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
+    let supabase;
+
+    const defaultPlaceholderText = "...................."; 
+    const datePlaceholderText = "[Date]";
+
+    try {
+        supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log("Supabase client initialized successfully for Maturity Form.");
+    } catch (e) {
+        console.error("FATAL ERROR: Could not initialize Supabase client for Maturity Form!", e);
+        alert("Application Error: Could not connect to data services.");
+    }
+
+    function setFieldValue(id, value, isDate = false) {
+        const element = document.getElementById(id);
+        if (element) {
+            let valueToSet = value === null || value === undefined ? '' : String(value);
+            if (isDate && valueToSet) {
+                try {
+                    if (valueToSet && !/^\d{4}-\d{2}-\d{2}$/.test(valueToSet)) {
+                        const dateObj = new Date(valueToSet);
+                        if (!isNaN(dateObj.valueOf())) { 
+                           valueToSet = dateObj.toISOString().split('T')[0];
+                        } else { valueToSet = ''; }
+                    } else if (!valueToSet) { valueToSet = '';}
+                } catch (dateError) {
+                    console.warn(`Error formatting date for ID ${id}, value ${value}:`, dateError);
+                    valueToSet = ''; 
+                }
+            }
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.value = valueToSet || (isDate ? datePlaceholderText : defaultPlaceholderText);
+            }
+        } else {
+            // console.warn(`Element with ID '${id}' not found for setting value: ${id}`);
+        }
+    }
+    
+    function toggleSectionVisibility(sectionId, show) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            if (show) { section.classList.remove('hidden'); } 
+            else { section.classList.add('hidden'); }
+        } else { console.warn(`Conditional section with ID '${sectionId}' not found.`);}
+    }
+
+    function clearMaturityFormFields() {
+        const allInputInlineFields = document.querySelectorAll('.input-inline');
+        allInputInlineFields.forEach(el => {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                 el.value = (el.type === 'date' || (el.id && el.id.toLowerCase().includes('date'))) ? datePlaceholderText : defaultPlaceholderText;
+            }
+        });
+        const signatureUploads = [
+            's_p1_applicantSignatureUpload', 's_p1_applicantSignatureImage',
+            'm_p2_witness_sig_upload', 'm_p2_witness_sig_image',
+            'm_p2_claimant_specimen_sig_upload', 'm_p2_claimant_specimen_sig_image',
+            'm_p2_claimant_final_sig_upload', 'm_p2_claimant_final_sig_image',
+            's_p3_attestingOfficialSignatureUpload', 's_p3_attestingOfficialSignatureImage', 
+            's_p4_authorisedPersonSignatureUpload', 's_p4_authorisedPersonSignatureImage',
+            's_p4_witnessAuthSignatureUpload', 's_p4_witnessAuthSignatureImage',
+            's_p4_claimantFullSignatureUpload', 's_p4_claimantFullSignatureImage'
+        ];
+        signatureUploads.forEach(id => { 
+            const el = document.getElementById(id);
+            if(el && el.tagName === 'INPUT' && el.type === 'file') el.value = '';
+            if(el && el.tagName === 'IMG') {
+                el.src = '#';
+                el.style.display = 'none';
+            }
+        });
+        
+        const vernacularCheckbox = document.getElementById('isVernacularOrIlliterate_maturity');
+        const assignedCheckbox = document.getElementById('isPolicyAssigned_maturity');
+        if(vernacularCheckbox) vernacularCheckbox.checked = false;
+        if(assignedCheckbox) assignedCheckbox.checked = false;
+
+        toggleSectionVisibility('s_p1_assignmentNoteSection', false); 
+        toggleSectionVisibility('s_p3_vernacularDeclarationSection', false); 
+
+        console.log("Maturity form fields cleared.");
+    }
+    
+    function setupSignatureUpload(uploadInputId, imageDisplayId) {
+        const signatureUploadInput = document.getElementById(uploadInputId);
+        const signatureImageDisplay = document.getElementById(imageDisplayId);
+        if (signatureUploadInput && signatureImageDisplay) {
+            signatureUploadInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) { signatureImageDisplay.src = e.target.result; signatureImageDisplay.style.display = 'block'; };
+                    reader.readAsDataURL(file);
+                } else { signatureImageDisplay.src = "#"; signatureImageDisplay.style.display = 'none'; }
+            });
+        } else { console.warn(`Sig elements missing for: Input ID "${uploadInputId}" or Image ID "${imageDisplayId}"`); }
+    }
+    // Initialize ALL signature uploads
+    setupSignatureUpload('s_p1_applicantSignatureUpload', 's_p1_applicantSignatureImage');
+    setupSignatureUpload('m_p2_witness_sig_upload', 'm_p2_witness_sig_image');
+    setupSignatureUpload('m_p2_claimant_specimen_sig_upload', 'm_p2_claimant_specimen_sig_image');
+    setupSignatureUpload('m_p2_claimant_final_sig_upload', 'm_p2_claimant_final_sig_image');
+    setupSignatureUpload('s_p3_attestingOfficialSignatureUpload', 's_p3_attestingOfficialSignatureImage'); 
+    setupSignatureUpload('s_p4_authorisedPersonSignatureUpload', 's_p4_authorisedPersonSignatureImage');
+    setupSignatureUpload('s_p4_witnessAuthSignatureUpload', 's_p4_witnessAuthSignatureImage');
+    setupSignatureUpload('s_p4_claimantFullSignatureUpload', 's_p4_claimantFullSignatureImage');
+
+
+    async function fetchMaturityDetails() { 
+        if (!supabase) { console.error("Supabase client not initialized."); alert("Data service error."); return; }
+        const policyNumber = document.getElementById('maturityPolicyInput').value.trim();
+        let isVernacular = document.getElementById('isVernacularOrIlliterate_maturity').checked;
+        let isAssignedFromCheckbox = document.getElementById('isPolicyAssigned_maturity').checked;
+
+        if (!policyNumber) { console.warn('Policy number empty.'); clearMaturityFormFields(); return; }
+        console.log("Fetching maturity details for policy:", `"${policyNumber}"`, "Vernacular CBox:", isVernacular, "Assigned CBox:", isAssignedFromCheckbox);
+        
+        const tempVernacular = isVernacular;
+        const tempAssigned = isAssignedFromCheckbox;
+        clearMaturityFormFields(); 
+        document.getElementById('isVernacularOrIlliterate_maturity').checked = tempVernacular;
+        document.getElementById('isPolicyAssigned_maturity').checked = tempAssigned;
+
+        try {
+            // Using your table name 'maturity' and the refined SELECT string
+            const columnsToSelect = `
+                branch_no, form_submission_date, policy_no, life_assured_name, 
+                claimant_full_name, claimant_address, is_policy_assigned, assignor_name, assignment_date, 
+                policy_maturity_date, sum_rupees_words, sum_assured_paidup_value, 
+                vested_bonus, interim_bonus, terminal_bonus, final_additional_bonus, 
+                age_overstatement_diff, extra_premium_refund_sex_dab_epdb, gross_claim_amount,
+                is_vernacular_or_illiterate, claimant_assignee_name, policy_issue_date, sum_assured,
+                place_of_receipt, receipt_day, receipt_month, receipt_year,
+                maturity_value_with_bonus, cheque_posting_address,
+                unpaid_premiums_due, late_fee_thereon, anf_dept_loan, discount_commuted_interest,
+                loan_amount_deduction, loan_interest_deduction, age_understatement_recovery,
+                total_deductions, net_claim_amount,
+                discharge_place, discharge_date, discharge_signed_by_name,
+                discharge_witness_name, discharge_witness_occupation, discharge_witness_address,
+                discharge_life_assured_relation, claimant_present_address,
+                cheque_bank_account_no, cheque_bank_name, cheque_bank_address,
+                mo_dd_request_bank_name, mo_dd_request_payee_name,
+                vernacular_applicant_name_ref, vernacular_relation1_name_ref, vernacular_relation2_name_ref,
+                vernacular_attesting_official_name, vernacular_attesting_official_occupation,
+                vernacular_attesting_official_address,
+                p3_auth_note_place, p3_auth_note_date, 
+                final_premium_paid_date, final_premium_office_or_bank,
+                final_premium_receipt_no, final_premium_receipt_date,
+                loa_place, loa_date, loa_amount_numeric, loa_amount_words,
+                loa_payee_name, loa_payee_address,
+                loa_party_signature_1_name, loa_party_signature_2_name, loa_party_signature_3_name,
+                loa_witness_name, loa_witness_occupation, loa_witness_address,
+                loa_certified_explained_to, loa_certified_agreed_by, loa_certified_witness_name
+            `;
+
+            const { data, error } = await supabase.from('maturity').select(columnsToSelect).eq('policy_no', policyNumber).single();
+            
+            if (error) {
+                console.error("Supabase Error (Maturity Form):", JSON.stringify(error, null, 2));
+                if (error.code === 'PGRST116') alert(`No maturity record found for Policy No. ${policyNumber}. Error: ${error.message}.`);
+                else alert(`Error fetching data: ${error.message}`);
+                return;
+            }
+            if (data) {
+                console.log("Supabase Data (Maturity Form):", JSON.stringify(data, null, 2));
+
+                isAssignedFromCheckbox = data.is_policy_assigned !== undefined ? data.is_policy_assigned : isAssignedFromCheckbox;
+                isVernacular = data.is_vernacular_or_illiterate !== undefined ? data.is_vernacular_or_illiterate : isVernacular;
+                document.getElementById('isPolicyAssigned_maturity').checked = isAssignedFromCheckbox;
+                document.getElementById('isVernacularOrIlliterate_maturity').checked = isVernacular;
+
+                // === Page 1 Population ===
+                setFieldValue('m_p1_branch_no', data.branch_no);
+                setFieldValue('m_p1_form_date_header', data.form_submission_date, true); 
+                setFieldValue('m_p1_policy_no_header', data.policy_no);
+                setFieldValue('m_p1_life_assured_name_header_hin', data.life_assured_name);
+                setFieldValue('m_p1_life_assured_name_header_en', data.life_assured_name);
+                
+                let p1ClaimantDisplay = isAssignedFromCheckbox ? (data.assignor_name || data.claimant_assignee_name || data.life_assured_name) : (data.claimant_assignee_name || data.life_assured_name);
+                setFieldValue('m_p1_claimant_assignee_mar', p1ClaimantDisplay); 
+                setFieldValue('m_p1_assignment_date_mar', isAssignedFromCheckbox ? data.assignment_date : '', true);
+                setFieldValue('m_p1_sum_rupees_words_mar', data.sum_rupees_words);
+                setFieldValue('m_p1_claimant_assignee_hin', p1ClaimantDisplay);
+                setFieldValue('m_p1_assignment_date_hin', isAssignedFromCheckbox ? data.assignment_date : '', true);
+                setFieldValue('m_p1_sum_rupees_words_hin', data.sum_rupees_words);
+                setFieldValue('m_p1_maturity_date_claim_hin', data.policy_maturity_date, true);
+                setFieldValue('m_p1_claimant_assignee_en', p1ClaimantDisplay);
+                setFieldValue('m_p1_assignment_date_en', isAssignedFromCheckbox ? data.assignment_date : '', true);
+                setFieldValue('m_p1_sum_rupees_words_en', data.sum_rupees_words);
+                setFieldValue('m_p1_maturity_date_claim_en', data.policy_maturity_date, true);
+                
+                setFieldValue('m_p1_sum_assured_paidup_value', data.sum_assured_paidup_value);
+                setFieldValue('m_p1_vested_bonus', data.vested_bonus);
+                setFieldValue('m_p1_interim_bonus', data.interim_bonus);
+                setFieldValue('m_p1_terminal_bonus', data.terminal_bonus);
+                setFieldValue('m_p1_final_additional_bonus', data.final_additional_bonus);
+                setFieldValue('m_p1_age_overstatement_diff', data.age_overstatement_diff);
+                setFieldValue('m_p1_extra_premium_refund_sex_dab_epdb', data.extra_premium_refund_sex_dab_epdb);
+                setFieldValue('m_p1_gross_claim_amount', data.gross_claim_amount);
+                toggleSectionVisibility('s_p1_assignmentNoteSection', isAssignedFromCheckbox);
+
+                // === Page 2 Population ===
+                setFieldValue('m_p2_unpaid_premiums_due', data.unpaid_premiums_due);
+                setFieldValue('m_p2_late_fee_thereon', data.late_fee_thereon);
+                setFieldValue('m_p2_anf_dept_loan', data.anf_dept_loan);
+                setFieldValue('m_p2_discount_commuted_interest', data.discount_commuted_interest);
+                setFieldValue('m_p2_loan_amount_deduction', data.loan_amount_deduction);
+                setFieldValue('m_p2_loan_interest_deduction', data.loan_interest_deduction);
+                setFieldValue('m_p2_age_understatement_recovery', data.age_understatement_recovery);
+                setFieldValue('m_p2_total_deductions', data.total_deductions);
+                setFieldValue('m_p2_net_claim_amount', data.net_claim_amount);
+                setFieldValue('m_p2_discharge_place', data.discharge_place);
+                // For discharge_date, if you stored day/month/year separately in DB:
+                // setFieldValue('m_p2_discharge_day', data.discharge_dated_at_day); 
+                // setFieldValue('m_p2_discharge_month', data.discharge_dated_at_month);
+                // setFieldValue('m_p2_discharge_year', data.discharge_dated_at_year);
+                // OR if you stored it as a single 'discharge_date':
+                if(data.discharge_date){
+                    const dDate = new Date(data.discharge_date);
+                    if(!isNaN(dDate.valueOf())){
+                        setFieldValue('m_p2_discharge_day', dDate.getDate());
+                        setFieldValue('m_p2_discharge_month', dDate.toLocaleString('default', { month: 'long' }) || dDate.getMonth() + 1); // Or numeric month
+                        setFieldValue('m_p2_discharge_year', dDate.getFullYear().toString().slice(-2));
+                    }
+                }
+                setFieldValue('m_p2_discharge_signed_by_name_mar', data.discharge_signed_by_name);
+                setFieldValue('m_p2_discharge_signed_by_name_hin', data.discharge_signed_by_name);
+                setFieldValue('m_p2_discharge_signed_by_name_en', data.discharge_signed_by_name);
+                setFieldValue('m_p2_witness_full_name', data.discharge_witness_name);
+                setFieldValue('m_p2_witness_designation', data.discharge_witness_occupation);
+                setFieldValue('m_p2_witness_address', data.discharge_witness_address);
+                setFieldValue('s_p2_son_wife_of', data.discharge_life_assured_relation);
+                setFieldValue('m_p2_claimant_present_address', data.claimant_present_address);
+                setFieldValue('m_p2_cheque_bank_account_no', data.cheque_bank_account_no);
+                setFieldValue('m_p2_cheque_bank_name', data.cheque_bank_name);
+                setFieldValue('m_p2_cheque_bank_address', data.cheque_bank_address);
+                setFieldValue('m_p2_mo_dd_payee_name_mar', data.mo_dd_request_payee_name);
+                setFieldValue('m_p2_mo_dd_bank_name_mar', data.mo_dd_request_bank_name);
+                setFieldValue('m_p2_mo_dd_payee_name_hin', data.mo_dd_request_payee_name);
+                setFieldValue('m_p2_mo_dd_bank_name_hin', data.mo_dd_request_bank_name);
+                setFieldValue('m_p2_mo_dd_bank_name_en', data.mo_dd_request_bank_name);
+                setFieldValue('m_p2_mo_dd_payee_name_en', data.mo_dd_request_payee_name);
+
+                // === Page 3 Population ===
+                toggleSectionVisibility('s_p3_vernacularDeclarationSection', isVernacular);
+                if (isVernacular) {
+                    setFieldValue('s_p3_vernacular_applicant_name', data.vernacular_applicant_name_ref || data.life_assured_name);
+                    setFieldValue('s_p3_vernacular_relation1_name', data.vernacular_relation1_name_ref);
+                    setFieldValue('s_p3_vernacular_applicant_name_hin', data.vernacular_applicant_name_ref || data.life_assured_name);
+                    setFieldValue('s_p3_vernacular_relation1_name_hin', data.vernacular_relation1_name_ref);
+                    setFieldValue('s_p3_vernacular_relation2_name_hin', data.vernacular_relation2_name_ref);
+                    setFieldValue('s_p3_vernacular_applicant_name_en', data.vernacular_applicant_name_ref || data.life_assured_name);
+                    setFieldValue('s_p3_vernacular_father_name_en', data.vernacular_relation1_name_ref); 
+                    setFieldValue('s_p3_vernacular_husband_name_en', data.vernacular_relation2_name_ref); 
+                    setFieldValue('m_p3_vernacular_attesting_official_name', data.vernacular_attesting_official_name);
+                    setFieldValue('m_p3_vernacular_attesting_official_occupation', data.vernacular_attesting_official_occupation);
+                    setFieldValue('m_p3_vernacular_attesting_official_address', data.vernacular_attesting_official_address);
+                }
+                setFieldValue('m_p3_final_premium_paid_date_mar', data.final_premium_paid_date, true); 
+                setFieldValue('m_p3_final_premium_paid_date_hin', data.final_premium_paid_date, true);
+                setFieldValue('s_p3_auth_place', data.p3_auth_note_place); // From SQL
+                setFieldValue('s_p3_auth_date', data.p3_auth_note_date, true); // From SQL
+                
+                // === Page 4 Population ===
+                setFieldValue('s_p4_final_premium_paid_date_en', data.final_premium_paid_date, true); 
+                setFieldValue('s_p4_loa_place', data.loa_place); 
+                setFieldValue('s_p4_loa_date', data.loa_date, true); 
+                setFieldValue('s_p4_auth_note_amount_rs_mr', data.loa_amount_numeric);
+                setFieldValue('s_p4_auth_note_payee_mr', data.loa_payee_name);
+                setFieldValue('s_p4_loa_amount_words_hin', data.loa_amount_words); 
+                setFieldValue('s_p4_auth_note_payee_hin', data.loa_payee_name);
+                setFieldValue('s_p4_loa_amount_numeric_en', data.loa_amount_numeric); 
+                setFieldValue('s_p4_loa_payee_name_en', data.loa_payee_name);
+                setFieldValue('s_p4_loa_party_signature_1_name', data.loa_party_signature_1_name); 
+                setFieldValue('s_p4_loa_party_signature_2_name', data.loa_party_signature_2_name);
+                setFieldValue('s_p4_loa_party_signature_3_name', data.loa_party_signature_3_name);
+                setFieldValue('s_p4_loa_witness_name', data.loa_witness_name); 
+                setFieldValue('s_p4_loa_witness_occupation', data.loa_witness_occupation);
+                setFieldValue('s_p4_loa_witness_address', data.loa_witness_address);
+                setFieldValue('s_p4_loa_certify_explained_to', data.loa_certified_explained_to); 
+                setFieldValue('s_p4_loa_certify_agreed_by', data.loa_certified_agreed_by); 
+                setFieldValue('s_p4_loa_certify_explained_to_hin', data.loa_certified_explained_to);
+                setFieldValue('s_p4_loa_certify_agreed_by_hin', data.loa_certified_agreed_by);
+                setFieldValue('s_p4_loa_certify_explained_to_en', data.loa_certified_explained_to);
+                setFieldValue('s_p4_loa_certify_agreed_by_en', data.loa_certified_agreed_by);
+                setFieldValue('s_p4_loa_certify_witness_full_name', data.loa_certified_witness_name);
+                
+            } else {
+                console.warn('No data returned for this policy from maturity table.');
+                alert('No data found for this policy number.');
+            }
+        } catch (e) {
+            console.error("CRITICAL UNEXPECTED ERROR in fetchMaturityDetails:", e);
+            alert("An unexpected error occurred while fetching data.");
+        }
+    }
+
+    const loadButton = document.getElementById('maturityLoadButton');
+    if (loadButton) {
+        loadButton.addEventListener('click', fetchMaturityDetails); 
+    } else {
+        console.error("Load button 'maturityLoadButton' not found!");
+    }
+    
+    window.fetchMaturityDetails = fetchMaturityDetails; 
+    clearMaturityFormFields(); 
+
+</script>
+</body>
+</html>

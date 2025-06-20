@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Death Claim Form - LIC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header img {
+            max-width: 150px; /* Adjust as needed */
+        }
+        .page {
+            margin-bottom: 40px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 20px;
+        }
+        .page:last-child {
+            border-bottom: none;
+        }
+        .section-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .subsection-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+        .content-block {
+            margin-bottom: 10px;
+        }
+        .content-block p {
+            margin: 2px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .note {
+            font-size: 0.9em;
+            margin-top: 20px;
+            border: 1px solid #eee;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .data-placeholder { /* Style for the spans where data will be injected */
+            font-weight: bold;
+            /* text-decoration: underline; */
+            /* color: blue; */
+            display: inline; /* Ensure it flows with text */
+        }
+        /* Styles for the policy input part */
+        .policy-input-container {
+            margin-bottom: 30px; /* Increased margin */
+            margin-top: 10px; /* Added top margin */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Center the input and button */
+            padding: 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+         .policy-input-container input[type="text"]{
+            width: 250px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-right: 10px;
+         }
+        .policy-input-container button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .policy-input-container button:hover {
+            background-color: #0056b3;
+        }
+        .policy-input-container label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="lic-black.png" alt="LIC Logo">
+    </div>
+
+    <div class="policy-input-container">
+        <label for="policy_input">Enter Policy Number:</label>
+        <input type="text" id="policy_input" name="policy_input" placeholder="Policy Number to Fetch" />
+        <button id="fetch_btn" type="button">Load Details</button>
+    </div>
+
+    <!-- Static Content of the Death Claim Form - Pages 1-4 Visuals -->
+    <div class="page">
+        <div class="content-block">
+            <p>भारतीय आयुर्विमा महामंडळ</p>
+            <p>भारतीय जीवन बीमा निगम</p>
+            <p>LIFE INSURANCE CORPORATION OF INDIA</p>
+            <p>मुंबई विभाग-१ / मुंबई मंडल- 1/ Mumbai Division-1</p>
+        </div>
+        <div class="content-block">
+            <p>संलग्नक अनुलग्नक - ANNEXURE - 1</p>
+            <p>प्रपत्र क्र. 3783 (सुधारीत)</p>
+            <p>दावा प्रपत्र अ फार्म सं. F. No.3783 (Rev.)</p>
+            <p>(संशो. दावा फार्म ए) CLAIM FORM 'A'</p>
+        </div>
+        <div class="content-block">
+            <p>शाखा कार्यालय: <span id="branch_office_value" class="data-placeholder">....................</span></p>
+            <p>Branch Office.</p>
+        </div>
+        <div class="section-title">दावेदाराचे कथनपत्र / दावेदार का बयान / CLAIMANT'S STATEMENT</div>
+        <div class="content-block">
+            <p>(पॉलिसीच्या रकमेवर कायदेशीर स्वामित्व असणाऱ्या व्यक्तिने भरणे)</p>
+            <p>(वैधानिक रुप से पॉलिसी धन पाने के हकदार व्यक्ति द्वारा भरा जाए)</p>
+            <p>(To be filled in by the person legally entitled to the Policy moneys)</p>
+            <p>(सर्व उत्तरे सुस्पष्टपणे द्यावी. उत्तरे शब्दांत असावी. लेखणीचा बिंदु किंवा रेषा स्वीकारल्या जाणार नाहीत.)</p>
+            <p>(सभी उत्तर स्पष्ट लिखे जाएँ। उत्तर शब्दों में दिये जाने चाहिए। कलम के निशान, बिन्दु या लकीरे उत्तर रुप में स्वीकार नहीं की जा सकती)</p>
+            <p>(All answer to be filled in legibly. Answers must be given in words. Strokes of the pen or dots or dashes cannot be accepted as replies)</p>
+        </div>
+        <div class="content-block">
+            <p>या आयुष्यावरील (<span id="deceased_name_intro_mar" class="data-placeholder">[मृतकाचे पूर्ण नांव]</span>)</p>
+            <p>क्र. <span id="policy_no_intro_mar" class="data-placeholder">[ पॉलिसी क्र. ]</span> च्या संदर्भात.</p>
+        </div>
+        <div class="content-block">
+            <p>स्व (<span id="deceased_name_intro_hin" class="data-placeholder">[मृतक का पूरा नाम लिखे]</span>) के जीवन पर ली गई</p>
+            <p>राशी की पॉलिसी संख्या <span id="policy_no_intro_hin" class="data-placeholder">[ पॉलिसी क्र. ]</span> के दावे के सम्बन्ध में।</p>
+        </div>
+        <div class="content-block">
+            <p>In Connection with claim under policy No. <span id="policy_no_intro_eng" class="data-placeholder">[Policy No.]</span></p>
+            <p>for Rs. <span id="sum_assured_intro_eng" class="data-placeholder">[Sum Assured]</span></p>
+            <p>on the life of <span id="deceased_name_intro_eng" class="data-placeholder">[Insert full name of the deceased]</span></p>
+            <p>रु. <span id="sum_assured_intro_mar" class="data-placeholder">[विमा रक्कम]</span> ची पॉलिसी</p>
+            <p>रु. <span id="sum_assured_intro_hin" class="data-placeholder">[बीमा राशि]</span> की बिमा</p>
+        </div>
+        <div class="content-block">
+            <p>मी वरील पॉलिसी खालील दावेदार पुढीलप्रमाणे विधाने करतो. पॉलिसी के दावेदार के रूप में निम्न विवरण देता हूँ।</p>
+            <p>I, as the claimant under the policy make the following statement:</p>
+        </div>
+        <div class="subsection-title">1) दावेदारासंबंधी माहिती दावेदार के विषय में विवरण- Particulars regarding the claimant:</div>
+        <div class="content-block">
+            <p>i) दावेदाराचे नाव / दावेदार का नाम / Name of the Claimant: <span id="claimant_name_value" class="data-placeholder">....................</span></p>
+            <p>ii) वय / आयु / Age: <span id="claimant_age_value" class="data-placeholder">....................</span></p>
+            <p>iii) दूरध्वनि क्र. / Tel. No.: <span id="claimant_phone_value" class="data-placeholder">....................</span></p>
+            <p>iv) पत्ता / पत्ता / Address: <span id="claimant_address_value" class="data-placeholder">...................................................................</span></p>
+            <p>v) मृत वीमित व्यक्तिशी नाते / मृत बीमेदार से सम्बन्ध / Relationship to the deceased life assured: <span id="claimant_relationship_to_deceased_value" class="data-placeholder">....................</span></p>
+            <p>vi) पॉलिसीच्या रकमेवरील स्वामित्वाचा प्रकार / स्वरुप नामित, समनुदेशिती, निष्पादक, प्रशासक, विश्वस्त किंवा हितधारक</p>
+            <p>स्वामित्व का प्रकार जिसके अंतर्गत पॉलिसी राशि के लिए दावा प्रस्तुत किया गया, अर्थात नामांकित, अभ्यर्थी, निष्पादक, प्रशासक, न्यासी या हिताधिकारी</p>
+            <p>Nature of Title under which the claim for policy money is submitted viz: Nominee, Assignee, Executor, Administrator, Trustee of Beneficiary: <span id="claimant_title_type_value" class="data-placeholder">....................</span></p>
+        </div>
+        <div class="subsection-title">2) मृत वीमित व्यक्तिसंबंधी तपशील</div>
+        <div class="content-block">
+            <p>मृत बीमेदार के विषय में विवरण Particulars regarding the deceased life assured.</p>
+            <p>श्री/श्रीमती Shri/Smt. <span id="deceased_full_name_value" class="data-placeholder">....................</span></p>
+            <p>1) वीमित व्यक्तिच्या मृत्यूचे ठिकाण / बीमेदार की मृत्यु का स्थान / Place of death of the life assured: <span id="deceased_place_of_death_value" class="data-placeholder">....................</span></p>
+            <p>(P.T.O)</p>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="content-block">
+            <p>..2..</p>
+        </div>
+        <div class="content-block">
+            <p>ii) मृत्यू दिनांक / मृत्यु तिथि / Date of death: <span id="deceased_date_of_death_value" class="data-placeholder">[DD/MM/YYYY]</span></p>
+            <p>मृत्यूची निश्चित वेळ / मृत्यु का ठीक समय / Exact time of death: <span id="deceased_time_of_death_value" class="data-placeholder">[HH:MM]</span></p>
+            <p>स/दु / रा वाजता प्रातः अपरान्हः AM/PM..</p>
+        </div>
+        <div class="content-block">
+            <p>iii) मृत्यूसमयी वीमित व्यक्तिचे वय / मृत्यू के समय बीमेदार की आयु / Age of life assured at death: <span id="deceased_age_at_death_value" class="data-placeholder">....................</span></p>
+        </div>
+        <div class="content-block">
+            <p>iv) अखेरच्या आजारपणाची मुदत / अन्तिम बीमारी की अवधि / Duration of last illness: <span id="deceased_illness_duration_value" class="data-placeholder">....................</span></p>
+        </div>
+        <div class="content-block">
+            <p>v) मृत्यूचे तात्कालिक कारण / मृत्यु होने का तात्कालिक कारण / Immediate cause of death: <span id="deceased_cause_of_death_value" class="data-placeholder">....................</span></p>
+        </div>
+        <div class="content-block">
+            <p>vi) वीमित व्यक्तिचा अखेरचा व्यवसाय / बीमेदार का अंतिम व्यवसाय / Last occupation of the life assured: <span id="deceased_last_occupation_value" class="data-placeholder">....................</span></p>
+        </div>
+        <div class="content-block">
+            <p>vii) वीमित व्यक्तिचा अखेरचा पत्ता / बीमेदार का अंतिम पता / Last address of the life assured: <span id="deceased_last_address_value" class="data-placeholder">....................</span></p>
+        </div>
+        <div class="content-block">
+            <p>viii) मृतकाच्या वडिलांचे पूर्ण नांव / मृतक के पिता का पूरा नाम / Full name of deceased's father: <span id="deceased_father_full_name_value" class="data-placeholder">....................</span></p>
+        </div>
+        <div class="subsection-title">3) मृत व्यक्तिच्या आयुष्यावरील अन्य पॉलिसीची माहिती / मृतक के जीवन पर अन्य पॉलिसीयों के विषय में विवरण</div>
+        <div class="content-block">
+            <p>Particulars regarding the other Policies on the life of deceased:</p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>पॉलिसी क्र.<br>पॉलिसी सं.<br>Policy No.</th>
+                    <th>वीमित रक्कम<br>बीमा राशि<br>Sum Assured</th>
+                    <th>पॉलिसी देणाऱ्या / सेवा देणाऱ्या<br>कार्यालयाचे नाव / जारी करने वाले<br>कार्यालय तथा सेवा शाखा का नाम<br>Name of issuing Office<br>& Servicing Branch</th>
+                    <th>प्रारंभ दिनांक<br>आरंभ की तिथि<br>Date of<br>Commencement</th>
+                    <th>दुहेरी अपघात लाभ विस्तारीत अपंगत्व<br>लाभ सहित आहे का ?<br>दोहरी दुर्घटना, अथवा विस्तारित<br>अपंगता हितलाभ के साथ<br>Whether with Double Accident<br>or Extended Disability Benefits</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span id="other_policy_no_cell1" class="data-placeholder"></span></td>
+                    <td><span id="other_sum_assured_cell1" class="data-placeholder"></span></td>
+                    <td><span id="other_issuing_office_cell1" class="data-placeholder"></span></td>
+                    <td><span id="other_commencement_date_cell1" class="data-placeholder"></span></td>
+                    <td><span id="other_accident_benefit_cell1" class="data-placeholder"></span></td>
+                </tr>
+                <!-- You can add more static rows with unique IDs if needed for more policies, -->
+                <!-- or implement dynamic row creation in JavaScript if the number of other policies varies greatly. -->
+            </tbody>
+        </table>
+        <div class="content-block">
+            <p>4) a) तब्येत ठीक नसल्याबद्दलची तक्रार मृत व्यक्तिने प्रथम केव्हा केली होती ? / मृतक ने स्वास्थ ठीक न होने की सबसे पहले शिकायत कब की थी ? / When did the deceased first complain of being not in usual good health?: <span id="health_first_complaint_date_value" class="data-placeholder">[DD/MM/YYYY]</span></p>
+        </div>
+        <div class="content-block">
+            <p>b) त्यावेळेला तक्रार केलेल्या आजारपणाचे स्वरुप / उस समय किस तरह की बीमारी की शिकायत हुई। / Nature of illness then complained: <span id="health_first_illness_nature_value" class="data-placeholder">....................</span></p>
+        </div>
+        <div class="content-block">
+            <p>5) शेवटच्या आजारपणात उपचार करणाऱ्या वैद्यकीय चिकित्सकांची नावे / अन्तिम बीमारी के समय चिकित्सा करने वालों के नाम। / The names of medical attendants during the last illness: <span id="health_last_illness_attendants_value" class="data-placeholder">....................</span></p>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="content-block">
+            <p>3..</p>
+        </div>
+        <div class="content-block">
+            <p>6. गेल्या तीन वर्षात ज्यांचा सल्ला घेतला, अशा तीन वैद्यकीय चिकित्सकांची नावे आणि पत्ते.</p>
+            <p>प्रत्येक चिकित्सकांच्या नावापुढे सल्ला घेतलेल्या तक्रारींचे<br>स्वरुप आणि त्यांचे दिनांक लिहा.</p>
+            <p>पिछले तीन वर्षों के अन्दर मृतक ने जिन चिकित्सकों से परामर्श लिया अथवा चिकित्सा कराई हो, उनके नाम और पते तथा प्रत्येक के सामने शिकायत<br>तथा लिए गए परामर्श और उसकी तिथि या तिथियाँ बताए।</p>
+            <p>Names and addresses of the doctors consulted during the last three years stating against each name the complaint for<br>which he was consulted and the date or dates thereof:</p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>सल्ला घेतलेले दिनांक<br>सलाह लेने की तिथि या तिथियाँ<br>Date or Dates of consultation</th>
+                    <th>चिकित्सक / रुग्णालये यांची नांवे आणि पत्ते<br>चिकित्सकों या अस्पतालों के नाम और पते<br>Name of the Doctor or Hospital<br>and address</th>
+                    <th>तक्ररीचे स्वरुप<br>शिकायत की किस्म<br>Nature of complaint</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td><span id="doc_consult_date_1_cell" class="data-placeholder"></span></td>
+                    <td><span id="doc_name_address_1_cell" class="data-placeholder"></span></td>
+                    <td><span id="doc_complaint_1_cell" class="data-placeholder"></span></td>
+                </tr>
+                <tr>
+                    <td>2.</td>
+                    <td><span id="doc_consult_date_2_cell" class="data-placeholder"></span></td>
+                    <td><span id="doc_name_address_2_cell" class="data-placeholder"></span></td>
+                    <td><span id="doc_complaint_2_cell" class="data-placeholder"></span></td>
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td><span id="doc_consult_date_3_cell" class="data-placeholder"></span></td>
+                    <td><span id="doc_name_address_3_cell" class="data-placeholder"></span></td>
+                    <td><span id="doc_complaint_3_cell" class="data-placeholder"></span></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="content-block">
+            <p>मी <span id="declaration_claimant_name_1" class="data-placeholder">[Claimant's Name]</span> की वर केलेली विधाने प्रत्येक बाबतीत खरी आहेत.</p>
+            <p>मैं <span id="declaration_claimant_name_2" class="data-placeholder">[Claimant's Name]</span> कि ऊपर लिखे हर एक एवं सभी प्रश्नों के उत्तर सभी तरह से सत्य है।</p>
+            <p>I, <span id="declaration_claimant_name_3" class="data-placeholder">[Claimant's Name]</span>, that the statements made herein above are true in each and every respect.</p>
+        </div>
+        <div class="content-block">
+            <p>ह्या अन्वये घोषित करतो/ते</p>
+            <p>एतद्वारा घोषित करता/करती हूँ</p>
+            <p>do hereby declare</p>
+        </div>
+        <div class="content-block">
+            <p>गोपनियतेच्या कारणास्तव एखाद्या व्यक्तिवर उपचार करीत असताना वा त्याची परीक्षा घेत असताना एखाद्या वैद्यकीय चिकित्सकांस वा रुग्णालयास अवगत झालेले वा माहिती अन्य कोणाकडेही उघड करण्यासंबंधात प्रचलीत असलेल्या कायदा, परंपरा रीत किंवा पध्दत ह्यांची तरतूद लक्षात घेऊन ही वरील मृत व्यक्त्तिवर उपचार केलेल्या वा त्यास तपासलेल्या कोणत्याही आजारपणाच्या संदर्भातील मृत व्यक्तिच्या तब्येतीच्या संबंधातील माहिती जी महामंडळाची पॉलिसी देण्याअगोदर वा नंतर वरील चिकित्सक / रुग्णालय ह्यांस अवगत झाली असेल ती महामंडळ त्याची कार्यालये त्याचे कायदेशीर सल्लागार किंवा कोणतेही न्यायालय ह्यांच्यापुढे उघड करण्यास मी अनुज्ञा देत आहे.</p>
+            <p>किसी भी नियम, प्रचलन, रीति वा रिवाज के किसी प्रावधान के कुछ समय तक जारी रहते हुए किसी भी चिकित्सक या अस्पताल को गोपनियता के आधार पर किसी व्यक्ति की जाँच करने पर प्राप्त हुई जानकारी या सूचना बताने के लिए वर्जित करते हो तो मैं एतद्वारा उस चिकित्सक या अस्पताल को, जिसने उपरोक्त मृत बीमेदार को किसी बीमारी या रोग के लिए जाँचा या उपचार किया, अधिकार देता हूँ कि मृतक के स्वास्थ्य के विषय में जो भी जानकारी या सूचना उनको निगम द्वारा पॉलिसी जारी किये जाने के पहले या बाद मे मिली हो, वह निगम, उसके कार्यालयों</p>
+            <p>और विधि सलाहकारों या किसी भी न्यायालय को स्पष्टतया बता दे।</p>
+            <p>Notwithstanding the provisions of any law, usage, custom or convention for the time being in force prohibiting any physician or Hospital<br>from divulging any knowledge or information acquired by him/them in attending upon or examining a person on the ground of secrecy.</p>
+            <p>I <span id="declaration_claimant_name_auth" class="data-placeholder">[Claimant's Name]</span> hereby authorise the physician or Hospital who has attended upon or examined or treated the aforesaid deceased life assured for any<br>ailment or illness to divulge any knowledge or information regarding the deceased state of health which he/they may have acquired whether<br>before or after the Policy was issued by the Corporation, to the Corporation, its offices and legal advisors or in court of law.</p>
+        </div>
+        <div class="content-block">
+            <p>स्थान / Declare at: <span id="declaration_place_value" class="data-placeholder">[Place]</span></p>
+            <p>महिना / दिनांक / वर्ष - 20 <span id="declaration_date_value" class="data-placeholder">[Date]</span></p>
+            <p>माह-20<br>this day of 20</p>
+            <p>माझ्या समक्ष / मेरे समक्ष घोषित / before me.</p>
+        </div>
+        <div class="content-block">
+            <p>दावेदाराची स्वाक्षरी / अंगठ्याची निशाणी / दावेदार के हस्ताक्षर / अंगूठे के निशान / Signature/Thumb impression of the claimant: <span id="claimant_signature_status_value" class="data-placeholder">[Status/Image if stored]</span></p>
+            <p>दिनांक / this वर्ष 20</p>
+            <p>माझ्या समक्ष / में मेरे समक्ष घोषित</p>
+        </div>
+        <div class="content-block">
+            <p>पूर्ण नाव / पूरा नाम / Full Name: <span id="witness_full_name_value" class="data-placeholder">[Witness Name]</span></p>
+            <p>हुद्दा / पद / Designation: <span id="witness_designation_value" class="data-placeholder">[Witness Designation]</span></p>
+            <p>पत्ता / पता / Address: <span id="witness_address_value" class="data-placeholder">[Witness Address]</span></p>
+        </div>
+        <div class="content-block">
+            <p>ठिकाण / स्थान / Declare at: <span id="witness_declaration_place_value" class="data-placeholder">[Place]</span></p>
+            <p>महिना / माह / <span id="witness_declaration_date_value" class="data-placeholder">[Date]</span> 20</p>
+            <p>Dated at this Day of 20 before me</p>
+        </div>
+        <div class="content-block">
+            <p>साक्षीदाराची स्वाक्षरी / साक्षी के हस्ताक्षर / Signature of Witness: <span id="witness_signature_status_value" class="data-placeholder">[Status/Image if stored]</span></p>
+            <p>दूरध्वनी क्र./ Tel. No.: <span id="witness_phone_value" class="data-placeholder">[Witness Phone]</span></p>
+            <p>(Ρ.Τ.Ο.)</p>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="note">
+            <p>शेरा : हे विधानपत्र पुढीलप्रमाणे कुणीतरी स्वाक्षरी केलेले पाहीजे (1) वकील (2) महामंडळाचा एजंट (जो विभागीय प्रबंधक संघ किंवा त्याहून वरच्या<br>संघाचा सदस्य असला पाहीजे) (3) बँक मॅनेजर (4) गट विकास अधिकारी (5) शपथ आयुक्त (6) डॉक्टर (7) राजपत्रित अधिकारी (8)<br>माध्यमिक विद्यालयाचा मुख्याध्यापक (9) मुख्य पोस्ट मास्तर किंवा खात्यांतील उप-पोस्ट मास्तर (पण शाखा पोस्ट-मास्तर नव्हे) (10)<br>न्यायाधीश (11) आयुर्विमा महामंडळाचा अधिकारी किंवा किमान 5 वर्षे नोकरी झालेला विकास अधिकारी किंवा विभागीय प्रबंधक किंवा शाखा प्रबंधक<br>ह्यांचा संघाचा सदस्य असल्यास एजंट्समधून निवडलेला आणि कायम झालेला विकास अधिकारी किंवा (12) ग्रामपंचायत किंवा<br>स्थानिक संस्थांचा अध्यक्ष.</p>
+            <p>टिप्पणी : यह बयान निम्नांकित में किसी एक मे द्वारा प्रति हस्ताक्षरित होना चाहिए (1) अधिवक्ता (2) निगम का अभिकर्ता (जो मण्डल प्रबंधक क्लब या<br>उससे ऊपर के अभिकर्ता क्लब का सदस्य है।) (3) बैंक प्रबंधक (4) प्रखंड विकास अधिकारी (5) शपथ आयुक्त (6) चिकित्सक (7)<br>राजपत्रित अधिकारी (8) उच्च पाठशाला का मुख्याध्यापक (9) मुख्य डाकपाल अथवा विभागीय उप डाकपाल (शाखा डाकपाल नहीं) (10)<br>दण्डाधिकारी (11) निगम का अधिकारी, अथवा अधिक्षक या विकास अधिकारी (जिसने विकास अधिकारी के रुप में कम से कम ५ वर्षों तक<br>सेवा की हो) या, ३ वर्ष के स्थायी या ऐसे अभिकर्ताओं में नियुक्त जो<br>मं.प्र., या क्षे.प्र. या. अध्यक्ष क्लब सदस्यों वि. अ. के रुप<br>नियुक्त होने के पूर्व सदस्य थे.</p>
+            <p>(12) ग्राम पंचायत अथवा स्थानीय निकाय का अध्यक्ष।</p>
+            <p>NOTE: This form must be completed before (1) An Advocate (2) An Agent of the Corporation (who is a member of the<br>club at the level of Divisional Manager's Club or above), (3) a Bank Manager, (4) a Block Development Officer,<br>(5) a Commissioner of Oaths, (6) a Doctor, (7) a Gazetted Officer, (8) a Head Master of High School, (9) a Head<br>Post Master or Department Sub-Post Master (but not a Branch Post Master) (10) a Magistrate, (11) an Officer or<br>Development Officer of atleast 5 years standing or confirmed Development<br>Officer recruited from Agents who<br>were Z.M. or Chairman's club member before joining (12) President of a Village Panchayat or Local Board.</p>
+        </div>
+        <div class="content-block">
+            <p>जर घोषणाकर्त्याने स्थानिक / अन्य भाषेत स्वाक्षरी केली असेल किंवा अंगठ्याचा ठसा उमटविला असेल तर साक्षीदाराने पुढील घोषणापत्रावरही<br>स्वाक्षरी केली पाहीजे.</p>
+            <p>यदि घोषणाकर्ता किसी प्रादेशिक भाषा में हस्ताक्षर करता है या अंगूठे का निशान लगाता है तो साक्षी को निम्नलिखित घोषणा पर भी हस्ताक्षर करना<br>चाहिए।</p>
+            <p>IF THE DECLARANT SIGNS IN VERNACULAR OR AFFIXES THUMB IMPRESSION, THE WITNESS SHOULD<br>ALSO SIGN THE FOLLOWING DECLARATION.</p>
+        </div>
+        <div class="content-block">
+            <p>* प्रमाणित करण्यात येत आहे की ह्या प्रपत्राचा मसुदा घोषणाकर्त्यास स्थानिक भाषेत समजावून देण्यात आला आणि त्याने/तिने त्याची/तिची स्वाक्षरी/<br>अंगठ्याचा ठसा हा मजकूर पूर्णपणे समजल्यानंतर केली/उमटविला आहे."</p>
+            <p>प्रमाणित किया जाता है कि इस फार्म विवरण घोषणाकर्ता को उसके द्वारा समझी जाने वाली भाषा में समझा दिया गया और उसने विवरण को भली भांति समझ<br>लेने के बाद ही यहाँ पर अपने हस्ताक्षर किये है। अपना अंगूठा निशान लगाया है।</p>
+            <p>CERTIFIED THAT THE CONTENTS OF THIS FORM WERE EXPLAINED TO THE DECLARANT OF VERNACULAR AND<br>HE/SHE HAS AFFIXED HIS / HER SIGNATURE/THUMB IMPRESSION HERE TO AFTER FULLY UNDERSTANDING THE<br>SAME.</p>
+        </div>
+
+<div id="signatureContainer" style="position: absolute; top: 755%; right: 0; transform: translateY(-50%); display: flex; align-items: center; gap: 1px;">
+  <img id="userSignature" src="" alt="User Signature" style="display:none; max-width: 125px; max-height: 75px; border: 1px solid #ccc;margin-left: -160px;">
+  <input type="file" id="signatureUpload" accept="image/*" />
+</div>
+
+
+        <div class="content-block">
+            <p>स्वाक्षरी / हस्ताक्षर / Signature: <span id="vernacular_witness_sig_value" class="data-placeholder"></span></p>
+            <p>पूर्ण नाव / पूरा नाम / Full Name: <span id="vernacular_fitness_full_name_value" class="data-placeholder"></span></p>
+            <p>हुद्दा / पद / Designation: <span id="vernacular_fitness_designation_value" class="data-placeholder"></span></p>
+            <p>पत्ता / पता / Address: <span id="vernacular_fitness_address_value" class="data-placeholder"></span></p>
+            <p>दूरध्वनी / दूरभाष / Tel. No.: <span id="vernacular_fitness_phone_value" class="data-placeholder"></span></p>
+        </div>
+        <div class="content-block">
+            <p>प्रपत्र क्र./ फॉर्म सं. / F. No. 3783 (Rev.)</p>
+            <p>JA/10000/08-2016</p>
+        </div>
+        <div class="note">
+            <p>सूचना : ह्या प्रपत्राबाबत कोणताही विवाद उ‌द्भवल्यास इंग्रजी भाषेतील संस्करण ग्राह्य धरले जाईल.</p>
+            <p>टिप : इस प्रपत्र की कानूनी व्याख्या के लिए अंग्रेजी पाठ ही अंतिम माना जाएगा।</p>
+            <p>Note In case of dispute in respect of interpretation of terms the English version shall stand valid.</p>
+        </div>
+    </div>
+    
+  <script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+
+        const SUPABASE_URL = 'https://efduqdondmlzmwhfgkfz.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
+        let supabase;
+
+        const placeholderText = '....................'; // Default placeholder
+        const datePlaceholder = '[Date]';
+        const policyNoPlaceholder = '[Policy No.]';
+        const namePlaceholder = '[Name]';
+        const sumAssuredPlaceholder = '[Sum Assured]';
+
+
+        try {
+            supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            console.log("Supabase client initialized successfully for Death Claim Form.");
+        } catch (e) {
+            console.error("FATAL ERROR: Could not initialize Supabase client for Death Claim Form!", e);
+        }
+
+        function setTextContent(id, value, fallback = placeholderText) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = value || fallback;
+            } else {
+                console.warn(`Element with ID '${id}' not found.`);
+            }
+        }
+
+        function clearDeathClaimFormFields() {
+            const spanPlaceholders = document.querySelectorAll('.data-placeholder');
+            spanPlaceholders.forEach(span => {
+                // Reset to a generic placeholder or an empty string
+                // For specific placeholders like dates or names, you might want different defaults
+                if (span.id.includes('date')) {
+                    span.textContent = datePlaceholder;
+                } else if (span.id.includes('name')) {
+                    span.textContent = namePlaceholder;
+                } else if (span.id.includes('policy_no')) {
+                    span.textContent = policyNoPlaceholder;
+                } else if (span.id.includes('sum_assured')) {
+                    span.textContent = sumAssuredPlaceholder;
+                } else {
+                    span.textContent = placeholderText;
+                }
+            });
+        }
+
+        async function fetchDeathClaimDetails() {
+            if (!supabase) {
+                console.error("Supabase client is not initialized. Cannot fetch Death Claim details.");
+                return;
+            }
+
+            const policyNumberInputVal = document.getElementById('policy_input').value.trim();
+            if (!policyNumberInputVal) {
+                console.warn('Policy number input for Death Claim is empty.');
+                clearDeathClaimFormFields();
+                return;
+            }
+            console.log("Attempting to fetch Death Claim details for policy:", policyNumberInputVal);
+            clearDeathClaimFormFields(); 
+
+            try {
+                const { data, error } = await supabase
+                    .from('deathclaim')
+                    .select('*') 
+                    .eq('policy_number', policyNumberInputVal)
+                    .single();
+
+                if (error) {
+                    console.error("Supabase Error fetching Death Claim data:", JSON.stringify(error, null, 2));
+                    if (error.code === 'PGRST116') {
+                        console.warn('No record found for that policy number in deathclaim table.');
+                    }
+                    return; 
+                }
+
+                if (data) {
+                    console.log("Supabase Data Object for Death Claim:", JSON.stringify(data, null, 2));
+                    
+                    // --- Populate Header Introduction ---
+                    // Assuming branch_office is a column, or set a default
+                    setTextContent('branch_office_value', data.branch_office, 'As per policy records'); 
+                    setTextContent('deceased_name_intro_mar', data.deceased_full_name, namePlaceholder);
+                    setTextContent('policy_no_intro_mar', data.policy_number, policyNoPlaceholder);
+                    setTextContent('deceased_name_intro_hin', data.deceased_full_name, namePlaceholder);
+                    setTextContent('policy_no_intro_hin', data.policy_number, policyNoPlaceholder);
+                    setTextContent('deceased_name_intro_eng', data.deceased_full_name, namePlaceholder);
+                    setTextContent('policy_no_intro_eng', data.policy_number, policyNoPlaceholder);
+                    // Assuming 'sum_assured' is a column for the main policy
+                    setTextContent('sum_assured_intro_eng', data.sum_assured, sumAssuredPlaceholder); 
+                    setTextContent('sum_assured_intro_mar', data.sum_assured, sumAssuredPlaceholder);
+                    setTextContent('sum_assured_intro_hin', data.sum_assured, sumAssuredPlaceholder);
+
+                    // --- Populate Claimant Details (Section 1) ---
+                    setTextContent('claimant_name_value', data.claimant_name);
+                    setTextContent('claimant_age_value', data.claimant_age);
+                    setTextContent('claimant_phone_value', data.claimant_phone);
+                    setTextContent('claimant_address_value', data.claimant_address);
+                    setTextContent('claimant_relationship_to_deceased_value', data.claimant_relationship_to_deceased);
+                    setTextContent('claimant_title_type_value', data.claimant_title_type);
+
+                    // --- Populate Deceased Life Assured Details (Section 2) ---
+                    setTextContent('deceased_full_name_value', data.deceased_full_name); // Already used in intro, but also here
+                    setTextContent('deceased_place_of_death_value', data.deceased_place_of_death);
+                    setTextContent('deceased_date_of_death_value', data.deceased_date_of_death, datePlaceholder);
+                    setTextContent('deceased_time_of_death_value', data.deceased_time_of_death, '[HH:MM]');
+                    setTextContent('deceased_age_at_death_value', data.deceased_age_at_death);
+                    setTextContent('deceased_illness_duration_value', data.deceased_illness_duration);
+                    setTextContent('deceased_cause_of_death_value', data.deceased_cause_of_death);
+                    setTextContent('deceased_last_occupation_value', data.deceased_last_occupation);
+                    setTextContent('deceased_last_address_value', data.deceased_last_address);
+                    setTextContent('deceased_father_full_name_value', data.deceased_father_full_name);
+                    
+                    // --- Populate Other Policies Table (Section 3 - First Row) ---
+                    setTextContent('other_policy_no_cell1', data.other_policy_no, '-');
+                    setTextContent('other_sum_assured_cell1', data.other_policy_sum_assured, '-');
+                    setTextContent('other_issuing_office_cell1', data.other_policy_issuing_branch, '-');
+                    setTextContent('other_commencement_date_cell1', data.other_policy_commencement_date, '-');
+                    setTextContent('other_accident_benefit_cell1', data.other_policy_double_accident_benefit, '-');
+
+                    // --- Populate Health Details (Section 4 & 5) ---
+                    setTextContent('health_first_complaint_date_value', data.health_first_complaint_date, datePlaceholder);
+                    setTextContent('health_first_illness_nature_value', data.health_first_illness_nature);
+                    setTextContent('health_last_illness_attendants_value', data.health_last_illness_attendants);
+
+                    // --- Populate Doctors Consulted Table (Section 6) ---
+                    setTextContent('doc_consult_date_1_cell', data.dr_consulted_date_1, '-');
+                    setTextContent('doc_name_address_1_cell', data.dr_consulted_name_address_1, '-');
+                    setTextContent('doc_complaint_1_cell', data.dr_consulted_complaint_1, '-');
+
+                    setTextContent('doc_consult_date_2_cell', data.dr_consulted_date_2, '-');
+                    setTextContent('doc_name_address_2_cell', data.dr_consulted_name_address_2, '-');
+                    setTextContent('doc_complaint_2_cell', data.dr_consulted_complaint_2, '-');
+
+                    setTextContent('doc_consult_date_3_cell', data.dr_consulted_date_3, '-');
+                    setTextContent('doc_name_address_3_cell', data.dr_consulted_name_address_3, '-');
+                    setTextContent('doc_complaint_3_cell', data.dr_consulted_complaint_3, '-');
+                    
+                    // --- Populate Declaration Section ---
+                    setTextContent('declaration_claimant_name_1', data.claimant_name, namePlaceholder);
+                    setTextContent('declaration_claimant_name_2', data.claimant_name, namePlaceholder);
+                    setTextContent('declaration_claimant_name_3', data.claimant_name, namePlaceholder);
+                    setTextContent('declaration_claimant_name_auth', data.claimant_name, namePlaceholder);
+                    
+                    setTextContent('declaration_place_value', data.declaration_place);
+                    setTextContent('declaration_date_value', data.declaration_date, datePlaceholder);
+                    setTextContent('claimant_signature_status_value', data.claimant_signature_status || '[Signature/Thumb Impression]');
+
+                    // --- Witness Details (Populate if these columns exist in your 'deathclaim' table for the main record) ---
+                    setTextContent('witness_full_name_value', data.witness_full_name);
+                    setTextContent('witness_designation_value', data.witness_designation);
+                    setTextContent('witness_address_value', data.witness_address); // Note: This ID was from the form, might need to be witness_address_info or similar
+                    setTextContent('witness_declaration_place_value', data.witness_declaration_place || data.declaration_place); // Assuming same place or separate field
+                    setTextContent('witness_declaration_date_value', data.witness_declaration_date || data.declaration_date, datePlaceholder); // Assuming same date or separate
+                    setTextContent('witness_signature_status_value', data.witness_signature_status || '[Witness Signature]');
+                    setTextContent('witness_phone_value', data.witness_phone);
+
+                    // --- Vernacular Witness Details ---
+                    setTextContent('vernacular_witness_sig_value', data.vernacular_witness_signature || '[Signature]');
+                    setTextContent('vernacular_fitness_full_name_value', data.vernacular_fitness_full_name);
+                    setTextContent('vernacular_fitness_designation_value', data.vernacular_fitness_designation);
+                    setTextContent('vernacular_fitness_address_value', data.vernacular_fitness_address);
+                    setTextContent('vernacular_fitness_phone_value', data.vernacular_fitness_phone || data.witness_phone); // Example: use witness_phone if specific one isn't there
+
+                } else {
+                    console.warn('No data returned for Death Claim for policy:', policyNumberInputVal);
+                }
+            } catch (e) {
+                console.error("CRITICAL UNEXPECTED ERROR in fetchDeathClaimDetails:", e);
+            }
+        }
+
+        const fetchButton = document.getElementById('fetch_btn');
+        if (fetchButton) {
+            fetchButton.addEventListener('click', fetchDeathClaimDetails);
+        } else {
+            console.error("Fetch button with ID 'fetch_btn' not found!");
+        }
+        
+        window.fetchDeathClaimDetails = fetchDeathClaimDetails;
+        window.clearDeathClaimFormFields = clearDeathClaimFormFields;
+
+        clearDeathClaimFormFields(); // Clear form on initial load
+    </script>
+
+<script>
+document.getElementById('signatureUpload').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = document.getElementById('userSignature');
+    img.src = e.target.result;
+    img.style.display = 'inline-block'; // Show the image
+  };
+  reader.readAsDataURL(file);
+});
+</script>
+
+</body>
+</html>

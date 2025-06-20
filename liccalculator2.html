@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LIC Premium Calculator</title>
+  <style>
+    body { font-family: Arial; max-width: 500px; margin: auto; padding: 20px; }
+    label, input, select, button { display: block; width: 100%; margin-bottom: 10px; }
+    #result { margin-top: 20px; white-space: pre-wrap; font-weight: bold; color: green; }
+  </style>
+</head>
+<body>
+  <h2>LIC Premium Calculator</h2>
+
+  <label>Select Plan:</label>
+  <select id="plan">
+    <option value="">--Select Plan--</option>
+    <option value="715">715</option>
+    <option value="720">720</option>
+    <option value="714">714</option>
+  </select>
+
+  <label>Age:</label><input id="age" type="number" min="18" max="60" required>
+  <label>Term:</label><input id="term" type="number" required>
+  <label>Sum Assured (SA):</label><input id="sa" type="number" step="10000" required>
+
+  <label>Accident Benefit (DAB):</label>
+  <select id="dab">
+    <option value="Y">Yes</option>
+    <option value="N">No</option>
+  </select>
+
+  <label>Mode of Payment:</label>
+  <select id="mode">
+    <option value="YLY">Yearly</option>
+    <option value="HLY">Half-Yearly</option>
+    <option value="QLY">Quarterly</option>
+    <option value="MLY">Monthly</option>
+  </select>
+
+  <button onclick="fetchPremium()">Get Premium</button>
+  <div id="result"></div>
+
+  <script>
+    async function fetchPremium() {
+      const plan = document.getElementById('plan').value;
+      const age = document.getElementById('age').value;
+      const term = document.getElementById('term').value;
+      const sa = document.getElementById('sa').value;
+      const dab = document.getElementById('dab').value;
+      const mode = document.getElementById('mode').value;
+
+      if (!plan || !age || !term || !sa || !mode) {
+        document.getElementById("result").innerText = "Please fill all fields.";
+        return;
+      }
+
+      const response = await fetch("http://localhost:3000/api/plan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan, age, term, sa, dab, mode })
+      });
+
+      const html = await response.text();
+      document.getElementById('result').innerHTML = html;
+    }
+  </script>
+</body>
+</html>

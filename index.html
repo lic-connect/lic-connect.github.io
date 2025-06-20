@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LIC Connect</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      background: black;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    video {
+      display: none;
+      width: 100%;
+      height: auto;
+    }
+    #tap {
+      cursor: pointer;
+      width: 150px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <img id="tap" src="tap.png" alt="Tap to Start" />
+
+  <video id="licVideo" src="lic-connect.mp4" autoplay muted playsinline></video>
+  <audio id="audio" src="lic-connect.mp4" type="video/mp4"></audio>
+
+  <script>
+    const tapImg = document.getElementById('tap');
+    const video = document.getElementById('licVideo');
+    const audio = document.getElementById('audio');
+
+    tapImg.addEventListener('click', () => {
+      tapImg.style.display = 'none';
+      video.style.display = 'block';
+      video.muted = false;
+      video.play();
+      audio.play();
+
+      // Redirect after video ends
+      video.addEventListener('ended', () => {
+        window.location.href = "signup.html";
+      });
+    });
+  </script>
+
+</body>
+</html>

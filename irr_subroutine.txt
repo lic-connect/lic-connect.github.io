@@ -1,0 +1,230 @@
+Option Explicit
+
+'================================================================================
+'  FINAL, POLISHED XIRR REPORT GENERATOR
+'================================================================================
+Sub GenerateIRR_Report()
+    ' --- 1. SETUP & CLEAR ---
+    Dim calcSheet As Worksheet
+    On Error GoTo ErrorHandler
+    Set calcSheet = ThisWorkbook.Sheets("IRR Calculator")
+    
+    calcSheet.Unprotect Password:=""
+    
+    ' Clear previous report data and error messages
+    calcSheet.Range("A13:S150").Clear
+    calcSheet.Range("A9").ClearContents
+    
+    ' --- VALIDATE INPUTS BEFORE PROCEEDING ---
+    If Not ValidateInputs() Then
+        calcSheet.Protect Password:=""
+        Exit Sub ' Stop the macro if inputs are invalid
+    End If
+    
+    ' --- 2. GET INPUTS & READ PPT ---
+    Dim planNum As Long, startDate As Date
+    Dim sumAssured As Double, age As Integer, policyTerm As Integer, ppt As Integer
+    
+    startDate = CDate(calcSheet.Range("B8").Value)
+    planNum = calcSheet.Range("B3").Value
+    sumAssured = calcSheet.Range("B4").Value
+    age = calcSheet.Range("B5").Value
+    policyTerm = calcSheet.Range("B6").Value
+    ppt = calcSheet.Range("B7").Value
+    
+    ' --- 3. LOOKUP PREMIUM RATE ---
+    Dim ratesSheet As Worksheet, premiumSheetName As String, premiumRatePer1000 As Double, annualPremium As Double
+    Dim ageRow As Variant, termCol As Variant, termHeader As String
+    
+    premiumSheetName = "PLAN_" & planNum
+    On Error Resume Next
+    Set ratesSheet = ThisWorkbook.Sheets(premiumSheetName)
+    On Error GoTo ErrorHandler
+    
+    If ratesSheet Is Nothing Then
+        MsgBox "Data sheet named '" & premiumSheetName & "' not found.", vbCritical, "Sheet Missing": Exit Sub
+    End If
+    
+    ageRow = Application.Match(age, ratesSheet.Range("A:A"), 0)
+    termHeader = "T" & policyTerm
+    termCol = Application.Match(termHeader, ratesSheet.Range("1:1"), 0)
+    
+    If IsError(ageRow) Or IsError(termCol) Then
+        MsgBox "Premium Rate Not Found for Plan " & planNum & ", Age " & age & ", Term " & policyTerm & ".", vbCritical, "Data Mismatch": Exit Sub
+    End If
+    
+    premiumRatePer1000 = Application.Index(ratesSheet.UsedRange, ageRow, termCol)
+    
+    If Not IsNumeric(premiumRatePer1000) Or premiumRatePer1000 <= 0 Then
+        MsgBox "This policy is not available for the selected Age/Term (Rate is zero or invalid).", vbExclamation, "Invalid Rate": Exit Sub
+    End If
+    
+    annualPremium = (sumAssured / 1000) * premiumRatePer1000
+    
+    ' --- 4. POPULATE DATA ROWS ---
+    Dim headers As Variant
+    headers = Array("Policy Year", "Age", "Date", "Total Outflow", "Premium", "Loan", "Loan Interest", "Revival Fees", "Rider Premium", "Total Inflow", "SB", "Maturity", "Bonus", "FAB", "LA", "GA", "Death Benefit", "Surrender Value", "Net Cash Flow")
+    calcSheet.Range("A12").Resize(1, UBound(headers) + 1).Value = headers
+    calcSheet.Range("A12:S12").Font.Bold = True
+
+    Dim j As Integer, currentRow As Long
+    For j = 1 To policyTerm
+        currentRow = 12 + j
+        calcSheet.Cells(currentRow, "A").Value = j
+        calcSheet.Cells(currentRow, "B").Value = age + j - 1
+        calcSheet.Cells(currentRow, "C").Formula = "=EDATE($B$8,(" & j & "-1)*12)"
+        calcSheet.Cells(currentRow, "C").NumberFormat = "dd-mmm-yyyy"
+        
+        If j <= ppt Then calcSheet.Cells(currentRow, "E").Value = -annualPremium Else calcSheet.Cells(currentRow, "E").Value = 0
+        
+        calcSheet.Range("F" & currentRow & ":I" & currentRow).Value = 0
+        calcSheet.Range("K" & currentRow & ":R" & currentRow).Value = 0
+        
+        ' --- SURVIVAL AND MATURITY BENEFIT LOGIC ---
+        Select Case planNum
+            Case 714, 733, 736, 751, 760, 768, 717, 734
+                If j = policyTerm Then calcSheet.Cells(currentRow, "L").Value = sumAssured
+            Case 715
+                If j = policyTerm Then calcSheet.Cells(currentRow, "L").Value = sumAssured
+            Case 720
+                If j = 5 Or j = 10 Or j = 15 Then calcSheet.Cells(currentRow, "K").Value = sumAssured * 0.2
+                If j = 20 Then calcSheet.Cells(currentRow, "L").Value = sumAssured * 0.4
+            Case 721
+                If j = 5 Or j = 10 Or j = 15 Or j = 20 Then calcSheet.Cells(currentRow, "K").Value = sumAssured * 0.15
+                If j = 25 Then calcSheet.Cells(currentRow, "L").Value = sumAssured * 0.4
+            Case 748
+                Dim sbPercent As Double: sbPercent = 0
+                If policyTerm = 14 And (j = 10 Or j = 12) Then sbPercent = 0.3
+                If policyTerm = 16 And (j = 12 Or j = 14) Then sbPercent = 0.35
+                If policyTerm = 18 And (j = 14 Or j = 16) Then sbPercent = 0.4
+                If policyTerm = 20 And (j = 16 Or j = 18) Then sbPercent = 0.45
+                If sbPercent > 0 Then calcSheet.Cells(currentRow, "K").Value = sumAssured * sbPercent
+                If j = policyTerm Then calcSheet.Cells(currentRow, "L").Value = sumAssured * (1 - (2 * sbPercent))
+            Case 745
+                If j > ppt And j < policyTerm Then calcSheet.Cells(currentRow, "K").Value = sumAssured * 0.08
+                If j = policyTerm Then calcSheet.Cells(currentRow, "L").Value = sumAssured
+        End Select
+        
+        ' Formulas
+        calcSheet.Cells(currentRow, "D").Formula = "=ABS(SUM(E" & currentRow & ":I" & currentRow & "))"
+        calcSheet.Cells(currentRow, "J").Formula = "=SUM(K" & currentRow & ":R" & currentRow & ")"
+        ' *** CRITICAL FIX FOR IRR: Net Cash Flow is the sum of all individual positive (inflow) and negative (outflow) values ***
+        calcSheet.Cells(currentRow, "S").Formula = "=SUM(E" & currentRow & ":R" & currentRow & ")"
+    Next j
+
+    ' --- 5. CALCULATE TOTALS AND XIRR ---
+    Dim lastRow As Long, totalRow As Long, irrRow As Long
+    lastRow = calcSheet.Cells(calcSheet.Rows.Count, "A").End(xlUp).Row
+    
+    If lastRow >= 13 Then
+        totalRow = lastRow + 1
+        calcSheet.Cells(totalRow, "B").Value = "TOTAL"
+        
+        Dim col As Integer
+        For col = 4 To 19
+             calcSheet.Cells(totalRow, col).Formula = "=SUM(" & calcSheet.Cells(13, col).Address(False, False) & ":" & calcSheet.Cells(lastRow, col).Address(False, False) & ")"
+        Next col
+        
+        With calcSheet.Rows(totalRow)
+            .Font.Bold = True
+            .Interior.Color = RGB(204, 255, 204) ' Green highlight
+        End With
+        
+        Dim cashFlowRange As Range, dateRange As Range
+        Set cashFlowRange = calcSheet.Range("S13:S" & lastRow)
+        Set dateRange = calcSheet.Range("C13:C" & lastRow)
+        
+        irrRow = totalRow + 2
+        calcSheet.Cells(irrRow, "F").Value = "XIRR (Annualized)"
+        calcSheet.Cells(irrRow, "F").Font.Bold = True
+        
+        On Error Resume Next
+        calcSheet.Cells(irrRow, "G").Formula = "=XIRR(" & cashFlowRange.Address & "," & dateRange.Address & ")"
+        If IsError(calcSheet.Cells(irrRow, "G").Value) Then
+            calcSheet.Cells(irrRow, "G").Value = "Check Flows"
+        End If
+        On Error GoTo ErrorHandler
+        
+        With calcSheet.Cells(irrRow, "G")
+            .NumberFormat = "0.00%"
+            .Font.Bold = True
+            .HorizontalAlignment = xlCenter
+        End With
+    End If
+    
+    calcSheet.Protect Password:=""
+    calcSheet.Unprotect Password:=""
+
+
+    MsgBox "Report Generated Successfully!", vbInformation
+    Exit Sub
+
+ErrorHandler:
+    If Not calcSheet Is Nothing Then calcSheet.Protect Password:=""
+    MsgBox "A runtime error occurred!" & vbCrLf & vbCrLf & "Error: " & Err.Description, vbCritical, "Macro Error"
+End Sub
+
+'================================================================================
+'  VALIDATION FUNCTION
+'================================================================================
+Function ValidateInputs() As Boolean
+    Dim calcSheet As Worksheet, dataSheet As Worksheet
+    Set calcSheet = ThisWorkbook.Sheets("IRR Calculator")
+    Set dataSheet = ThisWorkbook.Sheets("Plan_Data")
+    
+    Dim errorMsg As String: errorMsg = ""
+    ValidateInputs = True
+    
+    calcSheet.Range("A9").ClearContents
+    
+    Dim planNum As Long
+    Dim age As Long, policyTerm As Long, sumAssured As Double
+    
+    If calcSheet.Range("B2").Value = "" Then
+        errorMsg = "Please select a plan from the dropdown list."
+    ElseIf Not IsNumeric(calcSheet.Range("B4").Value) Or Not IsNumeric(calcSheet.Range("B5").Value) Or Not IsNumeric(calcSheet.Range("B6").Value) Then
+        errorMsg = "Sum Assured, Age, and Term must all be numeric values."
+    Else
+        planNum = calcSheet.Range("B3").Value
+        
+        On Error Resume Next
+        Dim minAge As Long, maxAge As Long, minTerm As Long, maxTerm As Long, minSA As Double
+        
+        minAge = Application.WorksheetFunction.VLookup(planNum, dataSheet.Range("B:H"), 2, False)
+        maxAge = Application.WorksheetFunction.VLookup(planNum, dataSheet.Range("B:H"), 3, False)
+        minTerm = Application.WorksheetFunction.VLookup(planNum, dataSheet.Range("B:H"), 4, False)
+        maxTerm = Application.WorksheetFunction.VLookup(planNum, dataSheet.Range("B:H"), 5, False)
+        minSA = Application.WorksheetFunction.VLookup(planNum, dataSheet.Range("B:H"), 6, False)
+        
+        If Err.Number <> 0 Then
+            errorMsg = "Plan " & planNum & " data not found in 'Plan_Data' sheet."
+            On Error GoTo 0
+        Else
+            On Error GoTo 0
+            
+            age = calcSheet.Range("B5").Value
+            policyTerm = calcSheet.Range("B6").Value
+            sumAssured = calcSheet.Range("B4").Value
+
+            If age < minAge Or age > maxAge Then
+                errorMsg = errorMsg & "Age for this plan must be between " & minAge & " and " & maxAge & ". "
+            End If
+            
+            If minTerm > 0 And (policyTerm < minTerm Or policyTerm > maxTerm) Then
+                errorMsg = errorMsg & "Term for this plan must be between " & minTerm & " and " & maxTerm & ". "
+            End If
+            
+            If sumAssured < minSA Then
+                errorMsg = errorMsg & "Sum Assured must be at least " & Format(minSA, "#,##0") & ". "
+            End If
+        End If
+    End If
+    
+    If errorMsg <> "" Then
+        calcSheet.Range("A9").Value = "INPUT ERROR: " & errorMsg
+        calcSheet.Range("A9").Font.Color = vbRed
+        calcSheet.Range("A9").Font.Bold = True
+        ValidateInputs = False
+    End If
+End Function
+

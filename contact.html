@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us</title>
+  <style>
+    body {
+      background-color: white;
+      color: green;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      max-width: 500px;
+      margin: auto;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid green;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 16px;
+      margin-top: 8px;
+    }
+
+    textarea {
+      height: 120px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      font-size: 18px;
+      color: white;
+      background: linear-gradient(to bottom, #2ecc71, #27ae60);
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      box-shadow: 0 6px #1e8449, 0 8px 20px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    button:active {
+      box-shadow: 0 3px #1e8449;
+      transform: translateY(3px);
+    }
+  </style>
+</head>
+<body>
+  <h1>Contact Us</h1>
+  <form id="contactForm">
+    <label for="fullname">Full Name</label>
+    <input type="text" id="fullname" name="fullname" required />
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required />
+
+    <label for="mobile">Mobile Number</label>
+    <input type="tel" id="mobile" name="mobile" required pattern="[0-9]{10}" />
+
+    <label for="message">Message</label>
+    <textarea id="message" name="message" required></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+    const supabaseUrl = 'https://efduqdondmlzmwhfgkfz.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const form = document.getElementById("contactForm");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const fullname = document.getElementById("fullname").value;
+      const email = document.getElementById("email").value;
+      const mobile = document.getElementById("mobile").value;
+      const message = document.getElementById("message").value;
+
+      const { data, error } = await supabase
+        .from("contact")
+        .insert([{ fullname, email, mobile, message }]);
+
+      if (error) {
+        alert("Error saving message: " + error.message);
+      } else {
+        alert("Message submitted successfully!");
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>

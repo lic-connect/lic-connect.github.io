@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agents Module</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #004080;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    .section h2 {
+      border-bottom: 2px solid #004080;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
+      color: #004080;
+      font-size: 1.25rem;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 1.1rem;
+    }
+    .row label {
+      font-weight: 600;
+      color: #555;
+      flex: 1;
+    }
+    .row .value,
+    .row input {
+      font-weight: 700;
+      color: #000;
+      width: 150px;
+      padding: 6px 8px;
+      font-size: 1.05rem;
+      text-align: right;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    .row .value {
+      border: none;
+      background: transparent;
+      cursor: default;
+    }
+    /* Percentage style */
+    .percentage .value {
+      color: #007a00;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Agents Module</h1>
+
+    <div class="section" id="target">
+      <h2>Target for Current Month</h2>
+      <div class="row">
+        <label for="target-policyholders">No of Policy Holders:</label>
+        <input type="number" id="target-policyholders" value="100" min="0" />
+      </div>
+      <div class="row">
+        <label for="target-regular-premium">Total Regular Premium:</label>
+        <input type="number" id="target-regular-premium" value="500000" min="0" />
+      </div>
+      <div class="row">
+        <label for="target-single-premium">Total Single Premium:</label>
+        <input type="number" id="target-single-premium" value="200000" min="0" />
+      </div>
+    </div>
+
+    <div class="section" id="achieved">
+      <h2>Achieved for Current Month</h2>
+      <div class="row">
+        <label for="achieved-policyholders">No of Policy Holders:</label>
+        <input type="number" id="achieved-policyholders" value="80" min="0" />
+      </div>
+      <div class="row">
+        <label for="achieved-regular-premium">Total Regular Premium:</label>
+        <input type="number" id="achieved-regular-premium" value="400000" min="0" />
+      </div>
+      <div class="row">
+        <label for="achieved-single-premium">Total Single Premium:</label>
+        <input type="number" id="achieved-single-premium" value="180000" min="0" />
+      </div>
+    </div>
+
+    <div class="section percentage" id="percentage">
+      <h2>Percentage Achieved</h2>
+      <div class="row">
+        <label>% of Policy Holders:</label>
+        <div class="value" id="percent-policyholders">--%</div>
+      </div>
+      <div class="row">
+        <label>% of Total Regular Premium:</label>
+        <div class="value" id="percent-regular-premium">--%</div>
+      </div>
+      <div class="row">
+        <label>% of Total Single Premium:</label>
+        <div class="value" id="percent-single-premium">--%</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Grab all inputs
+    const inputs = [
+      'target-policyholders',
+      'target-regular-premium',
+      'target-single-premium',
+      'achieved-policyholders',
+      'achieved-regular-premium',
+      'achieved-single-premium'
+    ].map(id => document.getElementById(id));
+
+    // Grab percentage display elements
+    const percentPolicyholders = document.getElementById('percent-policyholders');
+    const percentRegularPremium = document.getElementById('percent-regular-premium');
+    const percentSinglePremium = document.getElementById('percent-single-premium');
+
+    function calculatePercentages() {
+      const tPolicy = parseFloat(document.getElementById('target-policyholders').value) || 0;
+      const tRegPrem = parseFloat(document.getElementById('target-regular-premium').value) || 0;
+      const tSinglePrem = parseFloat(document.getElementById('target-single-premium').value) || 0;
+      const aPolicy = parseFloat(document.getElementById('achieved-policyholders').value) || 0;
+      const aRegPrem = parseFloat(document.getElementById('achieved-regular-premium').value) || 0;
+      const aSinglePrem = parseFloat(document.getElementById('achieved-single-premium').value) || 0;
+
+      function percent(achieved, target) {
+        return target === 0 ? '--' : ((achieved / target) * 100).toFixed(2) + '%';
+      }
+
+      percentPolicyholders.textContent = percent(aPolicy, tPolicy);
+      percentRegularPremium.textContent = percent(aRegPrem, tRegPrem);
+      percentSinglePremium.textContent = percent(aSinglePrem, tSinglePrem);
+    }
+
+    // Add event listeners to all inputs to recalc on change
+    inputs.forEach(input => {
+      input.addEventListener('input', calculatePercentages);
+    });
+
+    // Calculate initially on page load
+    calculatePercentages();
+  </script>
+</body>
+</html>
