@@ -275,46 +275,38 @@
     );
 
     // --- FUNCTION TO FETCH NEWS FOR MARQUEE ---
+        // --- SIMPLE & WORKING FUNCTION ---
     async function fetchMarqueeMessage() {
       const marqueeTextElement = document.querySelector(".marquee-container p");
 
-      // The original URL of the RSS feed
-      const rssFeedUrl = 'https://economictimes.indiatimes.com/wealth/insure/rssfeeds/21262242.cms';
+      // We will use a different RSS feed that is less likely to be blocked
+      const rssFeedUrl = 'https://feeds.feedburner.com/moneycontrol/news_insurance';
       
-      // We prepend the proxy URL to bypass CORS issues
-      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssFeedUrl)}`;
+      // And a different, often more reliable, proxy service
+      const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
 
       try {
         const response = await fetch(proxyUrl);
         if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
+          throw new Error('News feed could not be loaded.');
         }
 
-        const xmlText = await response.text();
+        const data = await response.json();
 
-        // Use a regular expression to find all headlines inside the <title> tags
-        const titleRegex = /<title><!\[CDATA\[(.*?)]]><\/title>/g;
-        const headlines = [];
-        let match;
+        // This proxy formats the data nicely in a JSON object
+        if (data.status === 'ok' && data.items.length > 0) {
+          // Extract just the titles from the items
+          const headlines = data.items.map(item => item.title);
 
-        // Skip the first title (it's the name of the feed)
-        titleRegex.exec(xmlText);
-
-        // Loop through all other matches and collect the headlines
-        while ((match = titleRegex.exec(xmlText)) !== null) {
-          headlines.push(match[1]);
-        }
-
-        if (headlines.length > 0) {
-          // Join the first 5-7 headlines to create the marquee text
+          // Join the first 7 headlines to create the marquee text
           const marqueeText = headlines.slice(0, 7).join('   +++   ');
           marqueeTextElement.textContent = marqueeText;
         } else {
-          marqueeTextElement.textContent = "Latest news and updates from the insurance sector.";
+          throw new Error('No news items found in the feed.');
         }
 
       } catch (error) {
-        console.error("Error fetching or parsing RSS feed:", error);
+        console.error("Error fetching RSS feed:", error);
         marqueeTextElement.textContent = "Could not load latest news at this time.";
       }
     }
