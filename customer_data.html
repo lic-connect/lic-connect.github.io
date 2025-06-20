@@ -128,7 +128,7 @@
   <input type="text" id="revival_details">
 
   <label for="surrender_value">Surrender:</label>
-  <input type="text" id="surrender_value" readonly>
+  <input type="number" id="surrender_value" readonly>
 
   <label for="paid_up_value">Paid-up:</label>
   <input type="number" id="paid_up_value">
@@ -174,16 +174,42 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
     );
 
+        // --- FINAL AND CORRECT getFieldValues FUNCTION ---
     function getFieldValues() {
-      const fields = [
-  'name','policy_number','plan_no','policy_name','date_of_birth','age',
-  'address','mobile_number','email',
-  'policy_term','ppt','sum_assured','premium','mode_of_premium','date_of_commencement',
-  'maturity_date','maturity_amount','death_benefit','bonus','fab','sb_details',
-  'loan_details','revival_details','surrender_value','paid_up_value','remarks'
-];
+      const allFieldIds = [
+        'name','policy_number','plan_no','policy_name','date_of_birth','age',
+        'address','mobile_number','email',
+        'policy_term','ppt','sum_assured','premium','mode_of_premium','date_of_commencement',
+        'maturity_date','maturity_amount','death_benefit','bonus','fab','sb_details',
+        'loan_details','revival_details','surrender_value','paid_up_value','remarks'
+      ];
+
+      // This list defines which columns are NUMBERS in your Supabase table.
+      const numericFieldIds = [
+        'age', 'policy_term', 'ppt', 'sum_assured', 'premium', 
+        'maturity_amount', 'death_benefit', 'bonus', 'fab', 
+        'paid_up_value', 'surrender_value'
+      ];
+
       const values = {};
-      fields.forEach(id => values[id] = document.getElementById(id).value);
+      
+      allFieldIds.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+          const value = element.value;
+
+          // Check if this field should be a number
+          if (numericFieldIds.includes(id)) {
+            // If the value is an empty string ('') or not a valid number, send null.
+            // Otherwise, convert it to a number.
+            values[id] = (value === '' || isNaN(parseFloat(value))) ? null : parseFloat(value);
+          } else {
+            // For text fields (like sb_details, loan_details, revival_details),
+            // send the value, or null if it's empty.
+            values[id] = value || null;
+          }
+        }
+      });
       return values;
     }
 
@@ -381,14 +407,18 @@
     const docInput = document.getElementById('date_of_commencement');
 
     if (saInput && sbField && planInput && docInput) {
+            // --- CORRECTED updateSB FUNCTION ---
       function updateSB() { 
         const planNo = planInput.value.trim(); 
-        const sa = parseFloat(saInput.value); 
+        const sa = parseFloat(saInput.value) || 0; // Use || 0 to prevent NaN
         const doc = docInput.value; 
+
+        // Stricter check: only run if all required values are present
         if (!planNo || !sa || !sbPlans[planNo] || !doc) { 
-          sbField.value = ''; 
+          sbField.value = ''; // Ensure the field is cleared if inputs are missing
           return; 
         } 
+        
         const sbInfo = sbPlans[planNo]; 
         const messages = sbInfo.percents.map((percent, idx) => { 
           const sbAmount = Math.round((sa * percent) / 100); 
@@ -397,7 +427,6 @@
         }); 
         sbField.value = messages.join("; "); 
       }
-
       saInput.addEventListener('input', updateSB); 
       planInput.addEventListener('input', updateSB); 
       docInput.addEventListener('change', updateSB);
@@ -830,7 +859,7 @@ function autoCalculateBenefits() {
     if (ppt !== "") pptField.value = ppt;
   }
 
-  document.getElementById('policy_term').addEventListener('change', autoFillPPT);
+  document.getElementById('policy_term').addEventListener('input', autoFillPPT);
   document.getElementById('plan_no').addEventListener('input', autoFillPPT);
   document.getElementById('date_of_birth').addEventListener('change', autoFillPPT); // for Jeevan Tarun
 </script>
@@ -857,29 +886,41 @@ function autoCalculateBenefits() {
     MLY: 12
   };
 
+    // --- CORRECTED updateSV FUNCTION ---
   function updateSV() {
     const planNo = planInput.value.trim();
-    const premium = parseFloat(premiumInput.value);
+    const premium = parseFloat(premiumInput.value) || 0; // Use || 0
     const mode = modeInput.value.toUpperCase();
     const doc = docInput.value;
 
-    if (!planNo || isNaN(premium) || !doc || !modeMultiplier[mode] || !svFactors[planNo]) {
-      svField.value = '';
+    // Stricter check: run only if all values are present
+    if (!planNo || !premium || !doc || !modeMultiplier[mode] || !svFactors[planNo]) {
+      svField.value = ''; // Clear the field if inputs are missing
       return;
     }
 
     const annualPremium = premium * modeMultiplier[mode];
     const docDate = new Date(doc);
     const today = new Date();
-    const completedYears = Math.floor((today - docDate) / (1000 * 60 * 60 * 24 * 365.25));
+    // Ensure completedYears isn't negative if DOC is in the future
+    const completedYears = Math.max(0, Math.floor((today - docDate) / (1000 * 60 * 60 * 24 * 365.25)));
+    
+    // Check if the completedYears is within the bounds of our svFactors array
+    if (completedYears >= svFactors[planNo].length) {
+      svField.value = 'Calculation factor not available for this duration.';
+      return;
+    }
+    
     const factor = svFactors[planNo][completedYears] || 0;
 
     if (factor > 0) {
       const totalPremiumPaid = annualPremium * completedYears;
       const sv = Math.round(totalPremiumPaid * factor);
-      svField.value = `Eligible. SV is ₹${sv}`;
+      // Put the final numeric value here, NOT a sentence.
+      // We will also change the input type to 'number' in the HTML.
+      svField.value = sv; 
     } else {
-      svField.value = 'Not eligible for surrender (less than 2 years)';
+      svField.value = '0'; // Not eligible yet, but the value is 0.
     }
   }
 
