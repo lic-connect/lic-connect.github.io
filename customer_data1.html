@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Policyholder original Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff url('https://images.unsplash.com/photo-1604480134146-550d92b91b4d') no-repeat center center fixed;
+      background-size: cover;
+      padding: 20px;
+    }
+    .container {
+      background-color: rgba(255,255,255,0.95);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 8px;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  <h1>Policyholder original Form</h1>
+
+  <label for="name">Name:</label>
+  <input type="text" id="name">
+
+  <label for="policy_number">Policy Number:</label>
+  <input type="text" id="policy_number">
+
+  <label for="plan_no">Plan No:</label>
+  <input type="text" id="plan_no">
+
+  <label for="policy_name">Policy Name:</label>
+  <input type="text" id="policy_name" readonly>
+
+  <label for="date_of_birth">DOB:</label>
+  <input type="date" id="date_of_birth">
+
+  <label for="age">Age:</label>
+  <input type="number" id="age" readonly>
+
+  <label for="address">Address:</label>
+  <input type="text" id="address">
+
+  <label for="mobile_number">Mobile Number:</label>
+  <input type="text" id="mobile_number">
+
+  <label for="email">Email:</label>
+  <input type="email" id="email">
+
+  <label for="policy_term">Policy Term:</label>
+  <input type="number" id="policy_term">
+
+  <label for="ppt">PPT:</label>
+  <input type="number" id="ppt" readonly>
+
+  <label for="sum_assured">Sum Assured:</label>
+  <input type="number" id="sum_assured">
+
+  <label for="premium">Premium:</label>
+  <input type="number" id="premium">
+
+  <label for="mode_of_premium">Mode:</label>
+  <select id="mode_of_premium">
+    <option value="">Select Mode</option>
+    <option value="YLY">Yly</option>
+    <option value="HLY">Hly</option>
+    <option value="QLY">Qly</option>
+    <option value="MLY">Mly</option>
+  </select>
+
+  <label for="date_of_commencement">DOC:</label>
+  <input type="date" id="date_of_commencement">
+
+  <label for="maturity_date">Maturity Date:</label>
+  <input type="date" id="maturity_date" readonly>
+
+  <label for="maturity_amount">Maturity Amount:</label>
+  <input type="number" id="maturity_amount" readonly>
+
+  <label for="death_benefit">Death Benefit:</label>
+  <input type="number" id="death_benefit" readonly>
+
+  <label for="bonus">Bonus:</label>
+  <input type="number" id="bonus" readonly>
+
+  <label for="fab">FAB:</label>
+  <input type="number" id="fab" readonly>
+
+  <label for="sb_details">SB:</label>
+  <input type="text" id="sb_details" readonly>
+
+  <label for="loan_details">Loan:</label>
+  <input type="text" id="loan_details">
+
+  <label for="revival_details">Revival:</label>
+  <input type="text" id="revival_details">
+
+  <label for="surrender_value">Surrender:</label>
+  <input type="number" id="surrender_value" readonly>
+
+  <label for="paid_up_value">Paid-up:</label>
+  <input type="number" id="paid_up_value">
+
+  <label for="remarks">Remarks:</label>
+  <input type="text" id="remarks">
+
+  <button onclick="insertData()">Insert</button>
+  <button onclick="updateData()">Update</button>
+  <button onclick="deleteData()">Delete</button>
+  <button onclick="fetchData()">Fetch</button>
+
+  <input type="text" id="lookup_policy_number" placeholder="Enter Policy Number for Lookup">
+  <button onclick="lookupPolicy()">Lookup</button>
+  <button onclick="clearLookup()">Clear</button>
+
+  <table>
+    <thead><tr><th colspan="25">Policyholder Data</th></tr></thead>
+    <tbody id="dataBody"></tbody>
+  </table>
+</div>
+
+    
+  
+  <script>
+  document.getElementById('date_of_birth').addEventListener('change', function () {
+    const dob = new Date(this.value);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+    document.getElementById('age').value = age;
+  });
+</script>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabase = createClient(
+      'https://efduqdondmlzmwhfgkfz.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
+    );
+
+        // --- FINAL AND CORRECT getFieldValues FUNCTION ---
+    function getFieldValues() {
+      const allFieldIds = [
+        'name','policy_number','plan_no','policy_name','date_of_birth','age',
+        'address','mobile_number','email',
+        'policy_term','ppt','sum_assured','premium','mode_of_premium','date_of_commencement',
+        'maturity_date','maturity_amount','death_benefit','bonus','fab','sb_details',
+        'loan_details','revival_details','surrender_value','paid_up_value','remarks'
+      ];
+
+      // This list defines which columns are NUMBERS in your Supabase table.
+      const numericFieldIds = [
+        'age', 'policy_term', 'ppt', 'sum_assured', 'premium', 
+        'maturity_amount', 'death_benefit', 'bonus', 'fab', 
+        'paid_up_value', 'surrender_value'
+      ];
+
+      const values = {};
+      
+      allFieldIds.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+          const value = element.value;
+
+          // Check if this field should be a number
+          if (numericFieldIds.includes(id)) {
+            // If the value is an empty string ('') or not a valid number, send null.
+            // Otherwise, convert it to a number.
+            values[id] = (value === '' || isNaN(parseFloat(value))) ? null : parseFloat(value);
+          } else {
+            // For text fields (like sb_details, loan_details, revival_details),
+            // send the value, or null if it's empty.
+            values[id] = value || null;
+          }
+        }
+      });
+      return values;
+    }
+
+    window.insertData = async function () {
+      const values = getFieldValues();
+      const { error } = await supabase.from('policyholder').insert([values]);
+      if (error) alert('Insert Error: ' + error.message);
+      else alert('Inserted successfully');
+    };
+
+    window.updateData = async function () {
+      const values = getFieldValues();
+      const { error } = await supabase
+        .from('policyholder')
+        .update(values)
+        .eq('policy_number', values.policy_number);
+      if (error) alert('Update Error: ' + error.message);
+      else alert('Updated successfully');
+    };
+
+    window.deleteData = async function () {
+      const { policy_number } = getFieldValues();
+      const { error } = await supabase
+        .from('policyholder')
+        .delete()
+        .eq('policy_number', policy_number);
+      if (error) alert('Delete Error: ' + error.message);
+      else alert('Deleted successfully');
+    };
+
+    window.fetchData = async function () {
+      const { policy_number } = getFieldValues();
+      const { data, error } = await supabase
+        .from('policyholder')
+        .select('*')
+        .eq('policy_number', policy_number)
+        .single();
+
+      const dataBody = document.getElementById('dataBody');
+      const table = dataBody.closest('table');
+      const thead = table.querySelector('thead');
+
+      dataBody.innerHTML = '';
+      while (thead.rows.length > 1) {
+        thead.deleteRow(1);
+      }
+
+      if (error) {
+        alert('Fetch Error: ' + error.message);
+        return;
+      }
+
+      const headerRow = document.createElement('tr');
+      Object.keys(data).forEach(key => {
+        const th = document.createElement('th');
+        th.textContent = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+
+      const row = document.createElement('tr');
+      Object.values(data).forEach(val => {
+        const td = document.createElement('td');
+        td.textContent = val ?? '';
+        row.appendChild(td);
+      });
+      dataBody.appendChild(row);
+
+      Object.entries(data).forEach(([key, val]) => {
+        const field = document.getElementById(key);
+        if (field) field.value = val;
+      });
+    };
+
+    window.lookupPolicy = async function () {
+      const policyNumber = document.getElementById('lookup_policy_number').value.trim();
+      if (!policyNumber) return alert("Enter a policy number.");
+
+      const { data, error } = await supabase
+        .from('policyholder')
+        .select('*')
+        .eq('policy_number', policyNumber)
+        .single();
+
+      const dataBody = document.getElementById('dataBody');
+      const table = dataBody.closest('table');
+      const thead = table.querySelector('thead');
+
+      dataBody.innerHTML = '';
+      while (thead.rows.length > 1) {
+        thead.deleteRow(1);
+      }
+
+      if (error || !data) return alert("Policy not found.");
+
+      const headerRow = document.createElement('tr');
+      Object.keys(data).forEach(key => {
+        const th = document.createElement('th');
+        th.textContent = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+
+      const row = document.createElement('tr');
+      Object.values(data).forEach(val => {
+        const td = document.createElement('td');
+        td.textContent = val ?? '';
+        row.appendChild(td);
+      });
+      dataBody.appendChild(row);
+
+      Object.entries(data).forEach(([key, val]) => {
+        const field = document.getElementById(key);
+        if (field) field.value = val;
+      });
+    };
+
+    window.clearLookup = function () {
+    	document.getElementById('date_of_birth').addEventListener('change', function () {
+  const dob = new Date(this.value);
+  const today = new Date();
+  let age = today.getFullYear() - dob.getFullYear();
+  const m = today.getMonth() - dob.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+    age--;
+  }
+  document.getElementById('age').value = age;
+});
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => input.value = '');
+
+      const dataBody = document.getElementById('dataBody');
+      dataBody.innerHTML = '';
+    };
+  </script>
+  
+  <script>
+  const planMap = {
+    "714": "New Endowment",
+    "715": "Jeevan Anand",
+    "717": "Single Premium Endowment",
+    "720": "20Year Money Back",
+    "721": "25Year Money Back",
+    "732": "Child Money Back",
+    "733": "Jeevan Lakshya",
+    "734": "Jeevan Tarun",
+    "736": "Jeevan Labh",
+    "745": "Jeevan Umang",
+    "748": "Bima Shree",
+    "751": "Micro Bachat",
+    "758": "New Jeevan Shanti",
+    "760": "Bima Jyoti",
+    "768": "Jeevan Azad",
+    "771": "Jeevan Utsav",
+    "774": "Amritbaal",
+    "857": "Jeevan Akshay VII",
+    "859": "Saral Jeevan Bima",
+    "862": "Saral Pension",
+    "875": "Yuva Term",
+    "877": "Yuva Credit Life",
+    "879": "Smart Pension",
+    "955": "New Jeevan Amar"
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const planInput = document.getElementById('plan_no');
+    const nameInput = document.getElementById('policy_name');
+
+    if (planInput && nameInput) {
+      planInput.addEventListener('input', function () {
+        const enteredPlanNo = planInput.value.trim();
+        nameInput.value = planMap[enteredPlanNo] || "";
+      });
+    }
+  });
+</script>
+
+<script>
+  const sbPlans = {
+    "720": { percents: [20, 20, 20], years: [5, 10, 15] },
+    "721": { percents: [20, 20, 20, 20], years: [5, 10, 15, 20] }
+  };
+
+  function formatDatePlusYears(baseDate, yearsToAdd) {
+    const date = new Date(baseDate);
+    date.setFullYear(date.getFullYear() + yearsToAdd);
+    return date.toISOString().split('T')[0];
+  }
+
+  // Everything inside DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', function () {
+    const saInput = document.getElementById('sum_assured');
+    const sbField = document.getElementById('sb_details');
+    const planInput = document.getElementById('plan_no');
+    const docInput = document.getElementById('date_of_commencement');
+
+    if (saInput && sbField && planInput && docInput) {
+            // --- CORRECTED updateSB FUNCTION ---
+      function updateSB() { 
+        const planNo = planInput.value.trim(); 
+        const sa = parseFloat(saInput.value) || 0; // Use || 0 to prevent NaN
+        const doc = docInput.value; 
+
+        // Stricter check: only run if all required values are present
+        if (!planNo || !sa || !sbPlans[planNo] || !doc) { 
+          sbField.value = ''; // Ensure the field is cleared if inputs are missing
+          return; 
+        } 
+        
+        const sbInfo = sbPlans[planNo]; 
+        const messages = sbInfo.percents.map((percent, idx) => { 
+          const sbAmount = Math.round((sa * percent) / 100); 
+          const dueDate = formatDatePlusYears(doc, sbInfo.years[idx]); 
+          return `SB is ₹${sbAmount} due on ${dueDate}`; 
+        }); 
+        sbField.value = messages.join("; "); 
+      }
+      saInput.addEventListener('input', updateSB); 
+      planInput.addEventListener('input', updateSB); 
+      docInput.addEventListener('change', updateSB);
+    }
+  });
+</script>
+
+<script>
+  function calculateBonusAndFAB() {
+    const sa = parseFloat(document.getElementById('sum_assured').value) || 0;
+    const term = parseInt(document.getElementById('policy_term').value) || 0;
+
+    // Calculate Bonus
+    const bonus = (sa / 1000) * 45 * term;
+    document.getElementById('bonus').value = bonus.toFixed(2);
+
+    // Calculate FAB if term is 15 or more
+    const fab = term >= 15 ? (sa / 1000) * 75 : 0;
+    document.getElementById('fab').value = fab.toFixed(2);
+  }
+
+  // Attach the function to the relevant input fields
+  document.getElementById('sum_assured').addEventListener('input', calculateBonusAndFAB);
+  document.getElementById('policy_term').addEventListener('input', calculateBonusAndFAB);
+</script>
+
+
+<script>
+function getBenefits(planNo, sa, term) {
+  const bonus = (sa / 1000) * 45 * term;
+  const fab = term >= 15 ? (sa / 1000) * 75 : 0;
+  const ga = (planNo === '760') ? (sa / 1000) * 50 * term : 0;
+  const la = (planNo === '748') ? (sa / 1000) * 55 * term : 0;
+
+  let maturity = 0;
+  let death = 0;
+
+  switch (planNo) {
+    case '714':
+    case '717':
+    case '733':
+    case '736':
+    case '745':
+      maturity = sa + bonus + fab;
+      death = sa + bonus + fab;
+      break;
+
+    case '715':
+      maturity = sa + bonus + fab;
+      death = Math.max(1.25 * sa, sa + bonus + fab);
+      break;
+
+    case '720':
+    case '721':
+    case '732':
+      maturity = sa * 0.4 + bonus + fab;
+      death = Math.max(1.25 * sa, sa + bonus + fab);
+      break;
+
+    case '734':
+      maturity = sa;
+      death = Math.max(1.25 * sa, sa + bonus + fab);
+      break;
+
+    case '748':
+      maturity = sa + la;
+      death = Math.max(1.25 * sa, sa + la);
+      break;
+
+    case '751':
+      maturity = sa; // Assuming minimal additions
+      death = Math.max(sa, sa); // Replace with logic if Loyalty Additions known
+      break;
+
+    case '760':
+      maturity = sa + ga;
+      death = Math.max(1.25 * sa, sa + ga);
+      break;
+
+    case '768':
+    case '771':
+    case '774':
+      maturity = sa;
+      death = Math.max(sa, sa); // Simplified
+      break;
+
+    case '857':
+    case '862':
+    case '879':
+      maturity = 0;
+      death = 0;
+      break;
+
+    case '875':
+    case '877':
+    case '955':
+      maturity = 0;
+      death = Math.max(1.25 * sa, sa);
+      break;
+
+    default:
+      maturity = sa + bonus + fab;
+      death = sa + bonus + fab;
+  }
+
+  return { bonus, fab, maturity, death };
+}
+
+function autoCalculateBenefits() {
+  const planNo = document.getElementById('plan_no').value.trim();
+  const sa = parseFloat(document.getElementById('sum_assured').value) || 0;
+  const term = parseInt(document.getElementById('policy_term').value) || 0;
+
+  if (!planNo || !sa || !term) return;
+
+  const { bonus, fab, maturity, death } = getBenefits(planNo, sa, term);
+
+  document.getElementById('bonus').value = bonus.toFixed(2);
+  document.getElementById('fab').value = fab.toFixed(2);
+  document.getElementById('maturity_amount').value = maturity.toFixed(2);
+  document.getElementById('death_benefit').value = death.toFixed(2);
+}
+
+['plan_no', 'sum_assured', 'policy_term'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', autoCalculateBenefits);
+});
+</script>
+
+
+<script>
+  function calculateMaturityDate() {
+    const docStr = document.getElementById('date_of_commencement').value;
+    const dobStr = document.getElementById('date_of_birth').value;
+    const planNo = document.getElementById('plan_no').value.trim();
+    const term = parseInt(document.getElementById('policy_term').value) || 0;
+
+    if (!docStr || !planNo) return;
+
+    const docDate = new Date(docStr);
+    const dobDate = dobStr ? new Date(dobStr) : null;
+
+    function cloneAndAddYears(baseDate, years) {
+      const d = new Date(baseDate.getTime());
+      d.setFullYear(d.getFullYear() + years);
+      return d;
+    }
+
+    let maturityDate = null;
+
+    switch (planNo) {
+      case "714": // New Endowment
+      case "715": // Jeevan Anand
+      case "717": // Single Premium Endowment
+      case "720": // 20-Year Money Back
+      case "721": // 25-Year Money Back
+      case "733": // Jeevan Lakshya
+      case "736": // Jeevan Labh
+      case "748": // Bima Shree
+      case "751": // Micro Bachat
+      case "760": // Bima Jyoti
+      case "768": // Jeevan Azad
+        if (!term) return;
+        maturityDate = cloneAndAddYears(docDate, term);
+        break;
+
+      case "734": // Jeevan Tarun
+      case "732": // Child Money Back
+        if (!dobDate) return;
+        maturityDate = cloneAndAddYears(dobDate, 25);
+        break;
+
+      case "745": // Jeevan Umang
+      case "771": // Jeevan Utsav
+        if (!dobDate) return;
+        maturityDate = cloneAndAddYears(dobDate, 100);
+        break;
+
+      case "774": // Amritbaal
+        if (!dobDate) return;
+        // Age at maturity between 18 and 25; assume max for simplicity
+        maturityDate = cloneAndAddYears(dobDate, 25);
+        break;
+
+      case "857": // Jeevan Akshay VII
+      case "862": // Saral Pension
+      case "875": // Yuva Term
+      case "877": // Yuva Credit Life
+      case "879": // Smart Pension
+      case "955": // New Jeevan Amar
+      case "859": // Saral Jeevan Bima
+        maturityDate = null; // No maturity benefit
+        break;
+
+      case "758": // New Jeevan Shanti
+        if (!term) return;
+        // Deferment period up to 12 years; assume term as deferment
+        maturityDate = cloneAndAddYears(docDate, term);
+        break;
+
+      default:
+        if (!term) return;
+        maturityDate = cloneAndAddYears(docDate, term);
+    }
+
+    const domField = document.getElementById('maturity_date');
+    if (maturityDate && maturityDate.getFullYear() >= 2025) {
+      domField.value = maturityDate.toISOString().split('T')[0];
+    } else {
+      domField.value = '';
+    }
+  }
+
+  // Attach listeners
+  ['date_of_commencement', 'plan_no', 'policy_term', 'date_of_birth'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', calculateMaturityDate);
+    if (el && (id === 'plan_no' || id === 'policy_term')) el.addEventListener('input', calculateMaturityDate);
+  });
+</script>
+  
+  <script>
+  function checkEligibility() {
+    const planNo = document.getElementById('plan_no').value.trim();
+    const ageStr = document.getElementById('age').value;
+    
+    if (!planNo || !ageStr) return; // Don't run unless both fields are filled
+
+    const age = parseInt(ageStr);
+    if (isNaN(age)) return;
+
+    const ageLimits = {
+      "714": { min: 8, max: 50 },
+      "715": { min: 18, max: 50 },
+      "717": { min: 0, max: 65 },
+      "720": { min: 13, max: 50 },
+      "721": { min: 13, max: 45 },
+      "732": { min: 0, max: 12 },
+      "733": { min: 18, max: 50 },
+      "734": { min: 0, max: 12 },
+      "736": { min: 8, max: 59 },
+      "745": { min: 0, max: 55 },
+      "748": { min: 8, max: 55 },
+      "751": { min: 18, max: 55 },
+      "758": { min: 30, max: 79 },
+      "760": { min: 0, max: 60 },
+      "768": { min: 0, max: 50 },
+      "771": { min: 0, max: 65 },
+      "774": { min: 0, max: 13 },
+      "857": { min: 25, max: 100 },
+      "859": { min: 18, max: 65 },
+      "862": { min: 40, max: 80 },
+      "875": { min: 18, max: 45 },
+      "877": { min: 18, max: 45 },
+      "879": { min: 18, max: 100 },
+      "955": { min: 18, max: 65 }
+    };
+
+    if (!ageLimits[planNo]) return;
+
+    const { min, max } = ageLimits[planNo];
+    if (age < min || age > max) {
+      alert("Not eligible");
+
+      // Clear all inputs
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => input.value = '');
+    }
+  }
+
+  // Trigger only when both DOB and Plan No are filled
+  document.getElementById('plan_no').addEventListener('change', checkEligibility);
+  document.getElementById('age').addEventListener('input', checkEligibility);
+</script>
+
+
+
+<script>
+  function clearAllInputs() {
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => input.value = '');
+  }
+
+  function validateSumAssured() {
+    const planNo = document.getElementById('plan_no').value.trim();
+    const sa = parseInt(document.getElementById('sum_assured').value) || 0;
+
+    const saLimits = {
+      "714": { min: 200000 },
+      "715": { min: 200000 },
+      "717": { min: 100000 },
+      "720": { min: 200000 },
+      "721": { min: 200000 },
+      "732": { min: 200000 },
+      "733": { min: 200000 },
+      "734": { min: 200000 },
+      "736": { min: 200000 },
+      "745": { min: 200000 },
+      "748": { min: 1000000 },
+      "751": { min: 100000, max: 200000 },
+      "758": { min: 150000 },
+      "760": { min: 125000 },
+      "768": { min: 200000, max: 500000 },
+      "771": { min: 500000 },
+      "774": { min: 200000 },
+      "857": { min: 100000 },
+      "859": { min: 500000, max: 2500000 },
+      "862": { min: 0 },
+      "875": { min: 5000000 },
+      "877": { min: 5000000 },
+      "879": { min: 100000 },
+      "955": { min: 2500000 }
+    };
+
+    const limits = saLimits[planNo];
+    if (!limits) return;
+
+    if (sa < limits.min || (limits.max && sa > limits.max)) {
+      alert("Not valid");
+      clearAllInputs();
+    }
+  }
+
+  function validatePolicyTerm() {
+    const planNo = document.getElementById('plan_no').value.trim();
+    const term = parseInt(document.getElementById('policy_term').value) || 0;
+
+    const termLimits = {
+      "714": { min: 12, max: 35 },
+      "715": { min: 15, max: 35 },
+      "717": { min: 10, max: 25 },
+      "720": { min: 20, max: 20 },
+      "721": { min: 25, max: 25 },
+      "733": { min: 13, max: 25 },
+      "736": { values: [16, 21, 25] },
+      "751": { min: 10, max: 15 },
+      "768": { values: [15, 16, 17, 18, 19, 20] },
+      "771": { min: 35, max: 100 }, // derived from age to 100
+      "774": { min: 10, max: 25 },
+      "875": { min: 15, max: 40 },
+      "877": { min: 5, max: 30 },
+      "955": { min: 10, max: 40 }
+    };
+
+    const limits = termLimits[planNo];
+    if (!limits) return;
+
+    const isInvalid = (limits.values && !limits.values.includes(term)) ||
+                      (limits.min && term < limits.min) ||
+                      (limits.max && term > limits.max);
+
+    if (isInvalid) {
+      alert("Not valid");
+      clearAllInputs();
+    }
+  }
+
+  document.getElementById('sum_assured').addEventListener('change', validateSumAssured);
+  document.getElementById('policy_term').addEventListener('change', validatePolicyTerm);
+</script>
+  
+  
+  <script>
+  function autoFillPPT() {
+    const planNo = document.getElementById('plan_no').value.trim();
+    const term = parseInt(document.getElementById('policy_term').value) || 0;
+    const pptField = document.getElementById('ppt');
+
+    if (!planNo || !term) return;
+
+    let ppt = "";
+
+    switch (planNo) {
+      case "736": // Jeevan Labh
+        if (term === 16) ppt = 10;
+        else if (term === 21) ppt = 15;
+        else if (term === 25) ppt = 16;
+        break;
+
+      case "720": // 20-Year Money Back
+        ppt = 15;
+        break;
+
+      case "721": // 25-Year Money Back
+        ppt = 20;
+        break;
+
+      case "733": // Jeevan Lakshya
+        ppt = term - 3;
+        break;
+
+      case "734": // Jeevan Tarun
+        const dobStr = document.getElementById('date_of_birth').value;
+        if (dobStr) {
+          const dob = new Date(dobStr);
+          const entryAge = new Date().getFullYear() - dob.getFullYear();
+          ppt = 20 - entryAge;
+        }
+        break;
+
+      case "748": // Bima Shree
+        if (term === 14) ppt = 10;
+        else if (term === 16) ppt = 12;
+        else if (term === 18) ppt = 14;
+        else if (term === 20) ppt = 16;
+        else if (term === 24) ppt = 20;
+        else if (term === 28) ppt = 24;
+        break;
+
+      case "760": // Bima Jyoti
+        ppt = term - 5;
+        break;
+
+      case "768": // Jeevan Azad
+        ppt = term - 8;
+        break;
+
+      case "771": // Jeevan Utsav
+        ppt = ""; // User-defined (5 to 16 years)
+        break;
+
+      case "774": // Amritbaal
+        ppt = ""; // User chooses Single/5/6/7-year mode
+        break;
+
+      default:
+        ppt = ""; // For plans where PPT isn't auto-calculated
+    }
+
+    if (ppt !== "") pptField.value = ppt;
+  }
+
+  document.getElementById('policy_term').addEventListener('input', autoFillPPT);
+  document.getElementById('plan_no').addEventListener('input', autoFillPPT);
+  document.getElementById('date_of_birth').addEventListener('change', autoFillPPT); // for Jeevan Tarun
+</script>
+
+<script>
+  const planInput = document.getElementById('plan_no');
+  const premiumInput = document.getElementById('premium');
+  const modeInput = document.getElementById('mode_of_premium');
+  const docInput = document.getElementById('date_of_commencement');
+  const svField = document.getElementById('surrender_value');
+
+  // Surrender Value Factors (index = completed years)
+  const svFactors = {
+    "720": [0, 0, 0.3, 0.35, 0.4, 0.45],
+    "721": [0, 0, 0.25, 0.3, 0.35, 0.4]
+    // Add more plan-wise factors as needed
+  };
+
+  // Conversion multipliers to get annual premium
+  const modeMultiplier = {
+    YLY: 1,
+    HLY: 2,
+    QLY: 4,
+    MLY: 12
+  };
+
+    // --- CORRECTED updateSV FUNCTION ---
+  function updateSV() {
+    const planNo = planInput.value.trim();
+    const premium = parseFloat(premiumInput.value) || 0; // Use || 0
+    const mode = modeInput.value.toUpperCase();
+    const doc = docInput.value;
+
+    // Stricter check: run only if all values are present
+    if (!planNo || !premium || !doc || !modeMultiplier[mode] || !svFactors[planNo]) {
+      svField.value = ''; // Clear the field if inputs are missing
+      return;
+    }
+
+    const annualPremium = premium * modeMultiplier[mode];
+    const docDate = new Date(doc);
+    const today = new Date();
+    // Ensure completedYears isn't negative if DOC is in the future
+    const completedYears = Math.max(0, Math.floor((today - docDate) / (1000 * 60 * 60 * 24 * 365.25)));
+    
+    // Check if the completedYears is within the bounds of our svFactors array
+    if (completedYears >= svFactors[planNo].length) {
+      svField.value = 'Calculation factor not available for this duration.';
+      return;
+    }
+    
+    const factor = svFactors[planNo][completedYears] || 0;
+
+    if (factor > 0) {
+      const totalPremiumPaid = annualPremium * completedYears;
+      const sv = Math.round(totalPremiumPaid * factor);
+      // Put the final numeric value here, NOT a sentence.
+      // We will also change the input type to 'number' in the HTML.
+      svField.value = sv; 
+    } else {
+      svField.value = '0'; // Not eligible yet, but the value is 0.
+    }
+  }
+
+  // Attach event listeners
+  planInput.addEventListener('input', updateSV);
+  premiumInput.addEventListener('input', updateSV);
+  modeInput.addEventListener('change', updateSV);
+  docInput.addEventListener('change', updateSV);
+</script>
+
+<script>
+  function calculatePaidUpValue() {
+    const sa = parseFloat(document.getElementById('sum_assured').value) || 0;
+    const ppt = parseInt(document.getElementById('ppt').value) || 0;
+    const docStr = document.getElementById('date_of_commencement').value;
+    const paidUpField = document.getElementById('paid_up_value');
+
+    if (!sa || !ppt || !docStr) {
+      paidUpField.value = '';
+      return;
+    }
+
+    const doc = new Date(docStr);
+    const today = new Date();
+    const completedYears = Math.max(0, Math.floor((today - doc) / (1000 * 60 * 60 * 24 * 365.25)));
+
+    const premiumsPaid = Math.min(completedYears, ppt);
+    const paidUp = Math.round((sa * premiumsPaid) / ppt);
+
+    paidUpField.value = paidUp;
+  }
+
+  document.getElementById('sum_assured').addEventListener('input', calculatePaidUpValue);
+  document.getElementById('ppt').addEventListener('input', calculatePaidUpValue);
+  document.getElementById('date_of_commencement').addEventListener('change', calculatePaidUpValue);
+</script>
+
+
+  
+</body>
+</html>

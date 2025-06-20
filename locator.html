@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>LIC Agent's Hub - Information Center</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 80px; /* Space for the news ticker */
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #00509e;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        /* Branch Locator Styles */
+        .locator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            align-items: end;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #00509e;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #003a75;
+        }
+        #branch-result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #00509e;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+        .branch-entry {
+            border-bottom: 1px solid #cce2f5;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .branch-entry:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        /* Stats Grid Styles */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        .stat-item {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        .stat-item .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00509e;
+        }
+        .stat-item .label {
+            font-size: 1em;
+            color: #555;
+            margin-top: 5px;
+        }
+        /* Accordion Styles (MDRT, Clubs) */
+        .accordion-header {
+            background-color: #f1f1f1;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            text-align: left;
+            border: none;
+            outline: none;
+            transition: background-color 0.3s;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+        .accordion-header:after {
+            content: '\\02795'; /* Unicode character for "plus" sign (+) */
+            font-size: 13px;
+            color: #777;
+            float: right;
+            margin-left: 5px;
+        }
+        .accordion-header.active:after {
+            content: "\\2796"; /* Unicode character for "minus" sign (-) */
+        }
+        .accordion-header:hover, .accordion-header.active {
+            background-color: #ddd;
+        }
+        .accordion-body {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        .accordion-body table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .accordion-body th, .accordion-body td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        .accordion-body th { background-color: #f2f2f2; }
+
+        /* News Ticker Styles */
+        .news-ticker {
+            width: 100%;
+            background-color: #00509e;
+            color: white;
+            padding: 15px 0;
+            overflow: hidden;
+            box-sizing: border-box;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .news-ticker p {
+            margin: 0;
+            padding-left: 100%;
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker-scroll 45s linear infinite;
+        }
+        @keyframes ticker-scroll {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-250%); }
+        }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <h1>LIC Agent's Hub</h1>
+
+    <!-- Branch Locator Section -->
+    <div class="section">
+        <h2>Branch Locator</h2>
+        <div class="locator-grid">
+            <div class="input-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" value="India" readonly>
+            </div>
+            <div class="input-group">
+                <label for="state">State</label>
+                <input type="text" id="state" placeholder="e.g., Maharashtra">
+            </div>
+            <div class="input-group">
+                <label for="city">City</label>
+                <input type="text" id="city" placeholder="e.g., Mumbai">
+            </div>
+            <div class="input-group">
+                <button onclick="locateBranch()">Locate Branch</button>
+            </div>
+        </div>
+        <div id="branch-result">Please enter State and City to find a branch.</div>
+    </div>
+
+    <!-- Key Statistics Section -->
+    <div class="section">
+        <h2>LIC At a Glance <span style="font-size: 0.6em; color: #777;">(Data as of FY 2022-23 / 2023-24)</span></h2>
+        <div class="stats-grid">
+            <div class="stat-item"><div class="value">Siddhartha Mohanty</div><div class="label">Chairman</div></div>
+            <div class="stat-item"><div class="value">98.52%</div><div class="label">Claim Settlement Ratio</div></div>
+            <div class="stat-item"><div class="value">36.56%</div><div class="label">Market Share (by Premium)</div></div>
+            <div class="stat-item"><div class="value">4,441</div><div class="label">Total Branch & Satellite Offices</div></div>
+            <div class="stat-item"><div class="value">114</div><div class="label">Divisional Offices</div></div>
+            <div class="stat-item"><div class="value">13.47 Lakh</div><div class="label">Individual Agents</div></div>
+            <div class="stat-item"><div class="value">2.04 Crore</div><div class="label">Policies Sold (FY23)</div></div>
+            <div class="stat-item"><div class="value">~49 Crore+</div><div class="label">Number of Policyholders</div></div>
+        </div>
+    </div>
+
+    <!-- MDRT, COT, TOT Section -->
+    <div class="section">
+        <h2>MDRT / COT / TOT Recognition</h2>
+        <button class="accordion-header">Million Dollar Round Table (MDRT)</button>
+        <div class="accordion-body">
+            <h4>MDRT is a global, independent association of the world's leading life insurance professionals.</h4>
+            <table>
+                <tr><th>Requirement (Approx. for 2024)</th><th>Benefits</th></tr>
+                <tr>
+                    <td>~ ₹9,97,000 First Year Commission <strong>OR</strong><br>~ ₹2,49,25,000 Premium</td>
+                    <td>Global recognition, access to annual meetings, networking with top professionals, enhanced prestige, and exclusive learning resources.</td>
+                </tr>
+            </table>
+        </div>
+        <button class="accordion-header">Court of the Table (COT)</button>
+        <div class="accordion-body">
+            <h4>COT is the next level of excellence, recognizing members who achieve 3 times the MDRT requirement.</h4>
+            <table>
+                <tr><th>Requirement (Approx. for 2024)</th><th>Benefits</th></tr>
+                <tr>
+                    <td>~ ₹29,91,000 First Year Commission <strong>OR</strong><br>~ ₹7,47,75,000 Premium</td>
+                    <td>All MDRT benefits, plus exclusive COT-only sessions at meetings, special insignia, and higher levels of recognition and respect in the industry.</td>
+                </tr>
+            </table>
+        </div>
+        <button class="accordion-header">Top of the Table (TOT)</button>
+        <div class="accordion-body">
+            <h4>TOT is the pinnacle of the profession, for members who achieve 6 times the MDRT requirement.</h4>
+            <table>
+                <tr><th>Requirement (Approx. for 2024)</th><th>Benefits</th></tr>
+                <tr>
+                    <td>~ ₹59,82,000 First Year Commission <strong>OR</strong><br>~ ₹14,95,50,000 Premium</td>
+                    <td>All COT benefits, plus an exclusive, private TOT annual meeting with the world's absolute top producers, unparalleled networking, and the highest honor in the life insurance sales industry.</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Agent Clubs Section -->
+    <div class="section">
+        <h2>LIC Agent's Club Memberships</h2>
+        <button class="accordion-header">Branch Manager's (BM) Club</button>
+        <div class="accordion-body">
+             <table>
+                <tr><th>Eligibility (Approx.)</th><th>Benefits</th></tr>
+                <tr>
+                    <td>- Net 15 Lives<br>- Renewal Commission: ~₹45,000<br>- First Year Commission: ~₹45,000</td>
+                    <td>- Office Allowance: ₹3,000/year<br>- Letterheads & Visiting Cards<br>- Invitation to Divisional conventions.</td>
+                </tr>
+            </table>
+        </div>
+        <button class="accordion-header">Divisional Manager's (DM) Club</button>
+        <div class="accordion-body">
+             <table>
+                <tr><th>Eligibility (Approx.)</th><th>Benefits</th></tr>
+                <tr>
+                    <td>- Net 40 Lives<br>- Renewal Commission: ~₹1,20,000<br>- First Year Commission: ~₹1,20,000</td>
+                    <td>- Office Allowance: ₹9,000/year<br>- Telephone/Mobile Bill Reimbursement<br>- Group Term Insurance up to ₹1.6 Lakhs.</td>
+                </tr>
+            </table>
+        </div>
+        <button class="accordion-header">Zonal Manager's (ZM) Club</button>
+        <div class="accordion-body">
+             <table>
+                <tr><th>Eligibility (Approx.)</th><th>Benefits</th></tr>
+                <tr>
+                    <td>- Net 50 Lives<br>- Renewal Commission: ~₹2,50,000<br>- First Year Commission: ~₹2,50,000</td>
+                    <td>- Office Allowance: ₹25,000/year<br>- Interest-free advance for Car<br>- Group Term Insurance up to ₹3.2 Lakhs<br>- MEDI-CLAIM coverage.</td>
+                </tr>
+            </table>
+        </div>
+        <button class="accordion-header">Chairman's Club</button>
+        <div class="accordion-body">
+             <table>
+                <tr><th>Eligibility (Approx.)</th><th>Benefits</th></tr>
+                <tr>
+                    <td>- Net 60 Lives<br>- Renewal Commission: ~₹5,00,000<br>- First Year Commission: ~₹5,00,000</td>
+                    <td>- Office Allowance: ₹55,000/year<br>- Higher Car Advance<br>- Group Term Insurance up to ₹6.4 Lakhs<br>- Invitation to National conventions.</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Agent Quota Section -->
+    <div class="section">
+        <h2>Agent's Minimum Business Guarantee (MBG) / Quota</h2>
+        <p>To continue their agency, an agent is generally required to meet a Minimum Business Guarantee each year. This is a basic performance benchmark.</p>
+        <div class="stats-grid">
+            <div class="stat-item"><div class="value">12</div><div class="label">Minimum Lives / Policies per year</div></div>
+            <div class="stat-item"><div class="value">₹1,00,000</div><div class="label">Minimum First Year Premium per year</div></div>
+        </div>
+        <p style="text-align:center; margin-top:15px; font-size:0.9em;">(Note: These are standard requirements and can vary based on agency vintage and location. An agent must fulfill at least one of these conditions.)</p>
+    </div>
+  </div>
+
+  <!-- News Ticker -->
+  <div class="news-ticker">
+    <p>
+        *** LIC launches new plan 'Jeevan Utsav' with guaranteed returns for life *** LIC posts a 49% jump in net profit for Q4 FY23 *** LIC regains status as India's most valuable PSU, surpassing SBI in market cap *** LIC introduces new digital initiatives for seamless customer service *** LIC's claim settlement ratio remains one of the best in the industry at over 98% *** 
+    </p>
+  </div>
+  
+  <!-- "Data Island" - This is how we embed the data without hardcoding it in the script. -->
+  <!-- It simulates fetching a JSON file from a server. -->
+  <script id="branchDataSource" type="application/json">
+  [
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "92F", "address": "Divisional Office, Yogakshema, Jeevan Bima Marg, Nariman Point, Mumbai - 400021"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "912", "address": "Jeevan Vikas, S.V. Road, Bandra West, Mumbai - 400050"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "931", "address": "LIC Building, Andheri Kurla Road, Andheri East, Mumbai - 400069"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "902", "address": "Jeevan Prakash, M.G. Road, Ghatkopar East, Mumbai - 400077"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "891", "address": "LIC Building, Gokhale Road, Dadar West, Mumbai - 400028"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "940", "address": "Jeevan Chintan, L.T. Road, Borivali West, Mumbai - 400092"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "92G", "address": "LIC Annex, Senapati Bapat Marg, Lower Parel, Mumbai - 400013"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "888", "address": "Jeevan Sarita, Veer Savarkar Marg, Mahim, Mumbai - 400016"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "99A", "address": "Thane Divisional Office, Vartak Nagar, Thane West, Thane - 400606"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "992", "address": "LIC Building, Near Thane Station, Thane - 400601"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "996", "address": "Jeevan Jyoti, Sector 17, Vashi, Navi Mumbai - 400703"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "998", "address": "LIC Building, Sector 11, CBD Belapur, Navi Mumbai - 400614"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "899", "address": "Jeevan Deep, J.N. Road, Mulund West, Mumbai - 400080"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "908", "address": "LIC Building, Chembur Naka, Chembur, Mumbai - 400071"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "917", "address": "Jeevan Sathi, Malad Link Road, Malad West, Mumbai - 400064"},
+    {"city": "delhi", "state": "delhi", "branchNo": "111", "address": "Divisional Office I, Jeevan Prakash, 25, KG Marg, Connaught Place, New Delhi - 110001"},
+    {"city": "delhi", "state": "delhi", "branchNo": "11A", "address": "Divisional Office II, Asaf Ali Road, New Delhi - 110002"},
+    {"city": "delhi", "state": "delhi", "branchNo": "124", "address": "LIC Building, Nehru Place, New Delhi - 110019"},
+    {"city": "delhi", "state": "delhi", "branchNo": "135", "address": "Jeevan Tara Building, Parliament Street, New Delhi - 110001"},
+    {"city": "delhi", "state": "delhi", "branchNo": "142", "address": "LIC Building, Pusa Road, Karol Bagh, New Delhi - 110005"},
+    {"city": "delhi", "state": "delhi", "branchNo": "15G", "address": "Jeevan Kiran, Community Centre, Janakpuri, New Delhi - 110058"},
+    {"city": "delhi", "state": "delhi", "branchNo": "16H", "address": "LIC Building, District Centre, Rohini Sector 10, New Delhi - 110085"},
+    {"city": "delhi", "state": "delhi", "branchNo": "172", "address": "Jeevan Anmol, Laxmi Nagar District Centre, Vikas Marg, Delhi - 110092"},
+    {"city": "delhi", "state": "delhi", "branchNo": "181", "address": "LIC Building, Pitampura, New Delhi - 110034"},
+    {"city": "delhi", "state": "delhi", "branchNo": "19B", "address": "Jeevan Rekha, Mayur Vihar Phase 1, New Delhi - 110091"},
+    {"city": "gurgaon", "state": "haryana", "branchNo": "321", "address": "Jeevan Prakash, Sector 14, Gurgaon - 122001"},
+    {"city": "gurgaon", "state": "haryana", "branchNo": "325", "address": "LIC Building, Sohna Road, Sector 48, Gurgaon - 122018"},
+    {"city": "noida", "state": "uttar pradesh", "branchNo": "12A", "address": "Jeevan Bima Bhawan, Sector 16, Noida - 201301"},
+    {"city": "noida", "state": "uttar pradesh", "branchNo": "128", "address": "LIC Building, Sector 62, Noida - 201309"},
+    {"city": "ghaziabad", "state": "uttar pradesh", "branchNo": "13F", "address": "LIC Building, Navyug Market, Ghaziabad - 201001"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "614", "address": "Divisional Office, Jeevan Prakash, J.C. Road, Bengaluru - 560002"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "61F", "address": "LIC Building, M.G. Road, Bengaluru - 560001"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "622", "address": "Jeevan Sampige, Malleshwaram, Bengaluru - 560003"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "631", "address": "Jeevan Prabha, 9th Block, Jayanagar, Bengaluru - 560069"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "64A", "address": "LIC Building, 100 Feet Road, Indiranagar, Bengaluru - 560038"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "655", "address": "Jeevan Jyothi, Koramangala 6th Block, Bengaluru - 560095"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "662", "address": "LIC Building, HSR Layout, Sector 3, Bengaluru - 560102"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "678", "address": "Jeevan Bima Nagar, Main Road, HAL 3rd Stage, Bengaluru - 560075"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "681", "address": "LIC Building, ITPL Main Road, Whitefield, Bengaluru - 560066"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "693", "address": "Jeevan Suraksha, Electronic City Phase 1, Bengaluru - 560100"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "61B", "address": "LIC Building, Rajajinagar, Bengaluru - 560010"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "61C", "address": "Jeevan Anand, Yelahanka New Town, Bengaluru - 560064"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "61D", "address": "LIC Building, Bannerghatta Road, Bengaluru - 560076"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "701", "address": "Divisional Office, LIC Building, 153, Anna Salai, Chennai - 600002"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "709", "address": "Jeevan Prakash, T. Nagar, Chennai - 600017"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "712", "address": "LIC Building, Nungambakkam High Road, Chennai - 600034"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "724", "address": "Jeevan Sudha, Adyar, Chennai - 600020"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "733", "address": "LIC Building, Velachery Main Road, Velachery, Chennai - 600042"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "74B", "address": "Jeevan Deep, Anna Nagar West, Chennai - 600040"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "755", "address": "LIC Building, Purasawalkam, Chennai - 600007"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "761", "address": "Jeevan Jyoti, GST Road, Tambaram, Chennai - 600045"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "788", "address": "LIC Building, OMR, Perungudi, Chennai - 600096"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "792", "address": "Jeevan Prabhat, Ambattur Industrial Estate, Chennai - 600058"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "70A", "address": "LIC Building, Mylapore, Chennai - 600004"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "411", "address": "Divisional Office, Jeevan Sudha, 42C, Jawaharlal Nehru Road, Kolkata - 700071"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "41A", "address": "LIC Building, Chittaranjan Avenue, Kolkata - 700012"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "421", "address": "Jeevan Deep Building, 1, Middleton Street, Park Street, Kolkata - 700071"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "43F", "address": "LIC Building, Salt Lake, Sector V, Bidhannagar, Kolkata - 700091"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "444", "address": "Jeevan Prakash, Ballygunge Circular Road, Kolkata - 700019"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "453", "address": "LIC Building, Gariahat Road, Kolkata - 700029"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "46B", "address": "Jeevan Jyoti, Behala, Kolkata - 700034"},
+    {"city": "howrah", "state": "west bengal", "branchNo": "481", "address": "LIC Building, Grand Trunk Road, Howrah - 711101"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "472", "address": "LIC Building, Dum Dum, Kolkata - 700028"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "491", "address": "Jeevan Surabhi, Tollygunge, Kolkata - 700033"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "641", "address": "Divisional Office, Jeevan Prakash, Secretariat Road, Hyderabad - 500063"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "64A", "address": "Jeevan Bhagya, Basheerbagh, Hyderabad - 500029"},
+    {"city": "secunderabad", "state": "telangana", "branchNo": "64B", "address": "Jeevan Sudha, Paradise Circle, Secunderabad - 500003"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "642", "address": "LIC Building, Banjara Hills, Road No. 1, Hyderabad - 500034"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "643", "address": "Jeevan Deep, Ameerpet, Hyderabad - 500016"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "644", "address": "LIC Building, Dilsukhnagar, Hyderabad - 500060"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "65A", "address": "Jeevan Jyoti, Madhapur, Hitech City, Hyderabad - 500081"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "652", "address": "LIC Building, Kukatpally, Hyderabad - 500072"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "653", "address": "Jeevan Prakash, Gachibowli, Hyderabad - 500032"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "658", "address": "LIC Building, L.B. Nagar, Hyderabad - 500074"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "963", "address": "Divisional Office, University Road, Shivaji Nagar, Pune - 411005"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "964", "address": "Jeevan Prakash, Laxmi Road, Pune - 411030"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "965", "address": "LIC Building, Bajirao Road, Sadashiv Peth, Pune - 411030"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "966", "address": "Jeevan Sampada, Karve Road, Kothrud, Pune - 411038"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "97A", "address": "LIC Building, Aundh, Pune - 411007"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "97B", "address": "Jeevan Chaitanya, Hadapsar, Pune - 411028"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "97C", "address": "Pimpri-Chinchwad Branch, Station Road, Pimpri, Pune - 411018"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "97D", "address": "LIC Building, Hinjewadi Phase 1, Pune - 411057"},
+    {"city": "ahmedabad", "state": "gujarat", "branchNo": "821", "address": "Divisional Office, Jeevan Prakash, Tilak Marg, Relief Road, Ahmedabad - 380001"},
+    {"city": "ahmedabad", "state": "gujarat", "branchNo": "822", "address": "LIC Building, Ashram Road, Ahmedabad - 380009"},
+    {"city": "ahmedabad", "state": "gujarat", "branchNo": "823", "address": "Jeevan Sudha, C.G. Road, Navrangpura, Ahmedabad - 380009"},
+    {"city": "ahmedabad", "state": "gujarat", "branchNo": "83A", "address": "LIC Building, Satellite, Ahmedabad - 380015"},
+    {"city": "ahmedabad", "state": "gujarat", "branchNo": "83B", "address": "Jeevan Jyoti, Maninagar, Ahmedabad - 380008"},
+    {"city": "ahmedabad", "state": "gujarat", "branchNo": "841", "address": "LIC Building, S.G. Highway, Bodakdev, Ahmedabad - 380054"},
+    {"city": "gandhinagar", "state": "gujarat", "branchNo": "85A", "address": "Jeevan Bima Marg, Sector 16, Gandhinagar - 382016"},
+    {"city": "lucknow", "state": "uttar pradesh", "branchNo": "21A", "address": "Divisional Office, Jeevan Bhawan, Hazratganj, Lucknow - 226001"},
+    {"city": "lucknow", "state": "uttar pradesh", "branchNo": "212", "address": "LIC Building, Aliganj, Lucknow - 226024"},
+    {"city": "lucknow", "state": "uttar pradesh", "branchNo": "215", "address": "Jeevan Prakash, Gomti Nagar, Lucknow - 226010"},
+    {"city": "kanpur", "state": "uttar pradesh", "branchNo": "22A", "address": "Divisional Office, The Mall, Kanpur - 208001"},
+    {"city": "kanpur", "state": "uttar pradesh", "branchNo": "221", "address": "Jeevan Vikas, Civil Lines, Kanpur - 208001"},
+    {"city": "kanpur", "state": "uttar pradesh", "branchNo": "224", "address": "LIC Building, Kakadeo, Kanpur - 208025"},
+    {"city": "agra", "state": "uttar pradesh", "branchNo": "23A", "address": "Jeevan Prakash, Sanjay Place, Agra - 282002"},
+    {"city": "agra", "state": "uttar pradesh", "branchNo": "231", "address": "LIC Building, M.G. Road, Agra - 282001"},
+    {"city": "varanasi", "state": "uttar pradesh", "branchNo": "24A", "address": "Divisional Office, Cantt, Varanasi - 221002"},
+    {"city": "varanasi", "state": "uttar pradesh", "branchNo": "242", "address": "Jeevan Deep, Sigra, Varanasi - 221010"},
+    {"city": "prayagraj", "state": "uttar pradesh", "branchNo": "25A", "address": "LIC Building, Civil Lines, Prayagraj - 211001"},
+    {"city": "meerut", "state": "uttar pradesh", "branchNo": "26A", "address": "Jeevan Prakash, Begum Bridge Road, Meerut - 250001"},
+    {"city": "jaipur", "state": "rajasthan", "branchNo": "18A", "address": "Divisional Office, Jeevan Prakash, Bhawani Singh Road, Jaipur - 302005"},
+    {"city": "jaipur", "state": "rajasthan", "branchNo": "181", "address": "LIC Building, C-Scheme, Jaipur - 302001"},
+    {"city": "jaipur", "state": "rajasthan", "branchNo": "184", "address": "Jeevan Jyoti, Tonk Road, Jaipur - 302018"},
+    {"city": "jaipur", "state": "rajasthan", "branchNo": "186", "address": "LIC Building, Mansarovar, Jaipur - 302020"},
+    {"city": "jodhpur", "state": "rajasthan", "branchNo": "19A", "address": "Divisional Office, LIC Colony, Jodhpur - 342001"},
+    {"city": "jodhpur", "state": "rajasthan", "branchNo": "191", "address": "Jeevan Prakash, High Court Road, Jodhpur - 342001"},
+    {"city": "kota", "state": "rajasthan", "branchNo": "17A", "address": "Divisional Office, Jhalawar Road, Kota - 324005"},
+    {"city": "kota", "state": "rajasthan", "branchNo": "171", "address": "LIC Building, Talwandi, Kota - 324005"},
+    {"city": "udaipur", "state": "rajasthan", "branchNo": "16A", "address": "Divisional Office, University Road, Udaipur - 313001"},
+    {"city": "ajmer", "state": "rajasthan", "branchNo": "15A", "address": "Divisional Office, Civil Lines, Ajmer - 305001"},
+    {"city": "indore", "state": "madhya pradesh", "branchNo": "33A", "address": "Divisional Office, Jeevan Bima Marg, Indore - 452001"},
+    {"city": "indore", "state": "madhya pradesh", "branchNo": "331", "address": "LIC Building, A.B. Road, Indore - 452008"},
+    {"city": "indore", "state": "madhya pradesh", "branchNo": "334", "address": "Jeevan Prakash, Vijay Nagar, Indore - 452010"},
+    {"city": "bhopal", "state": "madhya pradesh", "branchNo": "34A", "address": "Divisional Office, Arera Hills, Bhopal - 462011"},
+    {"city": "bhopal", "state": "madhya pradesh", "branchNo": "341", "address": "Jeevan Sadan, M.P. Nagar, Bhopal - 462011"},
+    {"city": "bhopal", "state": "madhya pradesh", "branchNo": "343", "address": "LIC Building, BHEL, Bhopal - 462022"},
+    {"city": "jabalpur", "state": "madhya pradesh", "branchNo": "35A", "address": "Divisional Office, Wright Town, Jabalpur - 482002"},
+    {"city": "gwalior", "state": "madhya pradesh", "branchNo": "36A", "address": "Divisional Office, City Centre, Gwalior - 474011"},
+    {"city": "chandigarh", "state": "chandigarh", "branchNo": "14A", "address": "Divisional Office, Sector 17B, Chandigarh - 160017"},
+    {"city": "chandigarh", "state": "chandigarh", "branchNo": "141", "address": "Jeevan Prakash, Sector 34A, Chandigarh - 160022"},
+    {"city": "ludhiana", "state": "punjab", "branchNo": "15B", "address": "Divisional Office, Feroze Gandhi Market, Ludhiana - 141001"},
+    {"city": "ludhiana", "state": "punjab", "branchNo": "151", "address": "LIC Building, Mall Road, Ludhiana - 141001"},
+    {"city": "amritsar", "state": "punjab", "branchNo": "16B", "address": "Divisional Office, Ranjit Avenue, Amritsar - 143001"},
+    {"city": "jalandhar", "state": "punjab", "branchNo": "17B", "address": "Divisional Office, G.T. Road, Jalandhar - 144001"},
+    {"city": "karnal", "state": "haryana", "branchNo": "31A", "address": "Divisional Office, Sector 12, Karnal - 132001"},
+    {"city": "rohtak", "state": "haryana", "branchNo": "32B", "address": "Divisional Office, Delhi Road, Rohtak - 124001"},
+    {"city": "coimbatore", "state": "tamil nadu", "branchNo": "70B", "address": "Divisional Office, Trichy Road, Coimbatore - 641018"},
+    {"city": "coimbatore", "state": "tamil nadu", "branchNo": "702", "address": "LIC Building, Race Course, Coimbatore - 641018"},
+    {"city": "madurai", "state": "tamil nadu", "branchNo": "70C", "address": "Divisional Office, West Veli Street, Madurai - 625001"},
+    {"city": "salem", "state": "tamil nadu", "branchNo": "70D", "address": "Divisional Office, Omalur Main Road, Salem - 636007"},
+    {"city": "kochi", "state": "kerala", "branchNo": "62A", "address": "Divisional Office, M.G. Road, Ernakulam, Kochi - 682011"},
+    {"city": "kochi", "state": "kerala", "branchNo": "621", "address": "Jeevan Prakash, Kaloor, Kochi - 682017"},
+    {"city": "thiruvananthapuram", "state": "kerala", "branchNo": "63A", "address": "Divisional Office, Pattom, Thiruvananthapuram - 695004"},
+    {"city": "kozhikode", "state": "kerala", "branchNo": "63B", "address": "Divisional Office, Mavoor Road, Kozhikode - 673001"},
+    {"city": "visakhapatnam", "state": "andhra pradesh", "branchNo": "68A", "address": "Divisional Office, Jeevan Prakash, Visakhapatnam - 530004"},
+    {"city": "visakhapatnam", "state": "andhra pradesh", "branchNo": "681", "address": "LIC Building, Dwaraka Nagar, Visakhapatnam - 530016"},
+    {"city": "vijayawada", "state": "andhra pradesh", "branchNo": "69A", "address": "Divisional Office, M.G. Road, Vijayawada - 520010"},
+    {"city": "mysore", "state": "karnataka", "branchNo": "61E", "address": "Divisional Office, Kuvempunagar, Mysore - 570023"},
+    {"city": "patna", "state": "bihar", "branchNo": "51A", "address": "Divisional Office, Fraser Road, Patna - 800001"},
+    {"city": "patna", "state": "bihar", "branchNo": "511", "address": "Jeevan Prakash, Boring Road, Patna - 800001"},
+    {"city": "muzaffarpur", "state": "bihar", "branchNo": "52A", "address": "Divisional Office, Ramna, Muzaffarpur - 842002"},
+    {"city": "ranchi", "state": "jharkhand", "branchNo": "53A", "address": "Divisional Office, H.B. Road, Ranchi - 834001"},
+    {"city": "jamshedpur", "state": "jharkhand", "branchNo": "54A", "address": "Divisional Office, Bistupur, Jamshedpur - 831001"},
+    {"city": "bhubaneswar", "state": "odisha", "branchNo": "58A", "address": "Divisional Office, Unit 3, Bhubaneswar - 751001"},
+    {"city": "bhubaneswar", "state": "odisha", "branchNo": "581", "address": "Jeevan Prakash, Saheed Nagar, Bhubaneswar - 751007"},
+    {"city": "cuttack", "state": "odisha", "branchNo": "59A", "address": "Divisional Office, Link Road, Cuttack - 753012"},
+    {"city": "guwahati", "state": "assam", "branchNo": "56A", "address": "Divisional Office, G.S. Road, Guwahati - 781005"},
+    {"city": "guwahati", "state": "assam", "branchNo": "561", "address": "Jeevan Deep, Panbazar, Guwahati - 781001"},
+    {"city": "surat", "state": "gujarat", "branchNo": "86A", "address": "Divisional Office, Ring Road, Surat - 395002"},
+    {"city": "surat", "state": "gujarat", "branchNo": "861", "address": "Jeevan Prakash, Adajan, Surat - 395009"},
+    {"city": "vadodara", "state": "gujarat", "branchNo": "87A", "address": "Divisional Office, Race Course Circle, Vadodara - 390007"},
+    {"city": "rajkot", "state": "gujarat", "branchNo": "88A", "address": "Divisional Office, Tagore Road, Rajkot - 360001"},
+    {"city": "goa", "state": "goa", "branchNo": "98A", "address": "Divisional Office, Patto Plaza, Panaji, Goa - 403001"},
+    {"city": "nagpur", "state": "maharashtra", "branchNo": "971", "address": "Divisional Office, Kingsway, Nagpur - 440001"},
+    {"city": "nagpur", "state": "maharashtra", "branchNo": "972", "address": "Jeevan Prakash, Sitabuldi, Nagpur - 440012"},
+    {"city": "aurangabad", "state": "maharashtra", "branchNo": "98B", "address": "Divisional Office, Adalat Road, Aurangabad - 431005"},
+    {"city": "nashik", "state": "maharashtra", "branchNo": "99C", "address": "Divisional Office, Tilakwadi, Nashik - 422002"},
+    {"city": "dehradun", "state": "uttarakhand", "branchNo": "28A", "address": "Divisional Office, Haridwar Road, Dehradun - 248001"},
+    {"city": "shimla", "state": "himachal pradesh", "branchNo": "13A", "address": "Divisional Office, The Mall, Shimla - 171001"},
+    {"city": "srinagar", "state": "jammu and kashmir", "branchNo": "11B", "address": "Divisional Office, Residency Road, Srinagar - 190001"},
+    {"city": "jammu", "state": "jammu and kashmir", "branchNo": "12B", "address": "Divisional Office, Rail Head Complex, Jammu - 180012"},
+    {"city": "bikaner", "state": "rajasthan", "branchNo": "20A", "address": "Divisional Office, Public Park, Bikaner - 334001"},
+    {"city": "raipur", "state": "chhattisgarh", "branchNo": "38A", "address": "Divisional Office, Pandri, Raipur - 492004"},
+    {"city": "siliguri", "state": "west bengal", "branchNo": "40A", "address": "Divisional Office, Sevoke Road, Siliguri - 734001"},
+    {"city": "thrissur", "state": "kerala", "branchNo": "62B", "address": "Divisional Office, M.G. Kavu, Thrissur - 680581"},
+    {"city": "vellore", "state": "tamil nadu", "branchNo": "70E", "address": "Divisional Office, Officers Line, Vellore - 632001"},
+    {"city": "guntur", "state": "andhra pradesh", "branchNo": "69B", "address": "Divisional Office, Brodipet, Guntur - 522002"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "921", "address": "Jeevan Anand, Colaba Causeway, Mumbai - 400005"},
+    {"city": "delhi", "state": "delhi", "branchNo": "119", "address": "LIC Building, South Extension Part II, New Delhi - 110049"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "61G", "address": "Jeevan Shanti, Basavanagudi, Bengaluru - 560004"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "71A", "address": "LIC Building, Chromepet, Chennai - 600044"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "43G", "address": "New Town Branch, Action Area I, New Town, Kolkata - 700156"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "64F", "address": "LIC Building, Himayatnagar, Hyderabad - 500029"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "97E", "address": "Magarpatta City Branch, Hadapsar, Pune - 411013"},
+    {"city": "ahmedabad", "state": "gujarat", "branchNo": "83C", "address": "LIC Building, Vastrapur, Ahmedabad - 380015"},
+    {"city": "jaipur", "state": "rajasthan", "branchNo": "188", "address": "LIC Building, Vaishali Nagar, Jaipur - 302021"},
+    {"city": "lucknow", "state": "uttar pradesh", "branchNo": "218", "address": "LIC Building, Indira Nagar, Lucknow - 226016"},
+    {"city": "indore", "state": "madhya pradesh", "branchNo": "336", "address": "LIC Building, Rajwada, Indore - 452002"},
+    {"city": "bhopal", "state": "madhya pradesh", "branchNo": "345", "address": "LIC Building, Kolar Road, Bhopal - 462042"},
+    {"city": "chandigarh", "state": "chandigarh", "branchNo": "144", "address": "LIC Building, Sector 44D, Chandigarh - 160047"},
+    {"city": "ludhiana", "state": "punjab", "branchNo": "154", "address": "LIC Building, Model Town, Ludhiana - 141002"},
+    {"city": "surat", "state": "gujarat", "branchNo": "864", "address": "LIC Building, Vesu, Surat - 395007"},
+    {"city": "kochi", "state": "kerala", "branchNo": "624", "address": "LIC Building, Edapally, Kochi - 682024"},
+    {"city": "guwahati", "state": "assam", "branchNo": "564", "address": "LIC Building, Beltola, Guwahati - 781028"},
+    {"city": "patna", "state": "bihar", "branchNo": "514", "address": "LIC Building, Kankarbagh, Patna - 800020"},
+    {"city": "bhubaneswar", "state": "odisha", "branchNo": "584", "address": "LIC Building, Patia, Bhubaneswar - 751024"},
+    {"city": "visakhapatnam", "state": "andhra pradesh", "branchNo": "684", "address": "LIC Building, MVP Colony, Visakhapatnam - 530017"},
+    {"city": "coimbatore", "state": "tamil nadu", "branchNo": "70F", "address": "LIC Building, Saibaba Colony, Coimbatore - 641011"},
+    {"city": "nagpur", "state": "maharashtra", "branchNo": "974", "address": "Jeevan Chhaya, Wardha Road, Nagpur - 440015"},
+    {"city": "thiruvananthapuram", "state": "kerala", "branchNo": "63C", "address": "LIC Building, Technopark Campus, Thiruvananthapuram - 695581"},
+    {"city": "dehradun", "state": "uttarakhand", "branchNo": "281", "address": "Jeevan Prakash, Rajpur Road, Dehradun - 248001"},
+    {"city": "kanpur", "state": "uttar pradesh", "branchNo": "228", "address": "Jeevan Jyoti, Swaroop Nagar, Kanpur - 208002"},
+    {"city": "varanasi", "state": "uttar pradesh", "branchNo": "245", "address": "LIC Building, Lanka, Varanasi - 221005"},
+    {"city": "agra", "state": "uttar pradesh", "branchNo": "235", "address": "LIC Building, Sikandra, Agra - 282007"},
+    {"city": "jodhpur", "state": "rajasthan", "branchNo": "195", "address": "LIC Building, Shastri Nagar, Jodhpur - 342003"},
+    {"city": "udaipur", "state": "rajasthan", "branchNo": "165", "address": "LIC Building, Hiran Magri, Sector 4, Udaipur - 313002"},
+    {"city": "kota", "state": "rajasthan", "branchNo": "175", "address": "LIC Building, Vigyan Nagar, Kota - 324005"},
+    {"city": "jabalpur", "state": "madhya pradesh", "branchNo": "355", "address": "LIC Building, Napier Town, Jabalpur - 482001"},
+    {"city": "gwalior", "state": "madhya pradesh", "branchNo": "365", "address": "LIC Building, Lashkar, Gwalior - 474001"},
+    {"city": "amritsar", "state": "punjab", "branchNo": "16C", "address": "LIC Building, Lawrence Road, Amritsar - 143001"},
+    {"city": "jalandhar", "state": "punjab", "branchNo": "17C", "address": "LIC Building, Model Town, Jalandhar - 144003"},
+    {"city": "goa", "state": "goa", "branchNo": "98B", "address": "LIC Building, Margao, Goa - 403601"},
+    {"city": "vadodara", "state": "gujarat", "branchNo": "87B", "address": "LIC Building, Alkapuri, Vadodara - 390007"},
+    {"city": "rajkot", "state": "gujarat", "branchNo": "88B", "address": "LIC Building, Kalawad Road, Rajkot - 360005"},
+    {"city": "ranchi", "state": "jharkhand", "branchNo": "53B", "address": "LIC Building, Doranda, Ranchi - 834002"},
+    {"city": "jamshedpur", "state": "jharkhand", "branchNo": "54B", "address": "LIC Building, Sakchi, Jamshedpur - 831001"},
+    {"city": "cuttack", "state": "odisha", "branchNo": "59B", "address": "LIC Building, Buxi Bazar, Cuttack - 753001"},
+    {"city": "mysore", "state": "karnataka", "branchNo": "61H", "address": "Jeevan Prakash, Saraswathipuram, Mysore - 570009"},
+    {"city": "salem", "state": "tamil nadu", "branchNo": "70G", "address": "Jeevan Jyoti, Fairlands, Salem - 636016"},
+    {"city": "madurai", "state": "tamil nadu", "branchNo": "70H", "address": "LIC Building, Anna Nagar, Madurai - 625020"},
+    {"city": "vijayawada", "state": "andhra pradesh", "branchNo": "69C", "address": "LIC Building, Benz Circle, Vijayawada - 520010"},
+    {"city": "prayagraj", "state": "uttar pradesh", "branchNo": "25B", "address": "LIC Building, Katra, Prayagraj - 211002"},
+    {"city": "meerut", "state": "uttar pradesh", "branchNo": "26B", "address": "LIC Building, Pallavpuram, Meerut - 250110"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "900", "address": "Jeevan Pravesh, Santacruz West, Mumbai - 400054"},
+    {"city": "delhi", "state": "delhi", "branchNo": "100", "address": "Jeevan Vishwas, Dwarka Sector 10, New Delhi - 110075"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "600", "address": "LIC Building, Marathahalli, Bengaluru - 560037"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "700", "address": "LIC Building, Porur, Chennai - 600116"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "400", "address": "LIC Building, Rajarhat, Kolkata - 700135"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "650", "address": "Jeevan Kalyan, Uppal, Hyderabad - 500039"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "980", "address": "LIC Building, Baner, Pune - 411045"},
+    {"city": "ahmedabad", "state": "gujarat", "branchNo": "840", "address": "Jeevan Raksha, Gota, Ahmedabad - 382481"},
+    {"city": "jaipur", "state": "rajasthan", "branchNo": "180", "address": "Jeevan Suraksha, Malviya Nagar, Jaipur - 302017"},
+    {"city": "lucknow", "state": "uttar pradesh", "branchNo": "210", "address": "Jeevan Mitra, Ashiana, Lucknow - 226012"},
+    {"city": "indore", "state": "madhya pradesh", "branchNo": "330", "address": "LIC Building, Mhow, Indore - 453441"},
+    {"city": "bhopal", "state": "madhya pradesh", "branchNo": "340", "address": "LIC Building, Gulmohar, Bhopal - 462039"},
+    {"city": "chandigarh", "state": "chandigarh", "branchNo": "140", "address": "LIC Building, Zirakpur, Punjab - 140603"},
+    {"city": "ludhiana", "state": "punjab", "branchNo": "150", "address": "Jeevan Anand, Dugri, Ludhiana - 141013"},
+    {"city": "surat", "state": "gujarat", "branchNo": "860", "address": "LIC Building, Varachha, Surat - 395006"},
+    {"city": "kochi", "state": "kerala", "branchNo": "620", "address": "LIC Building, Tripunithura, Kochi - 682301"},
+    {"city": "guwahati", "state": "assam", "branchNo": "560", "address": "Jeevan Deep, Dispur, Guwahati - 781006"},
+    {"city": "patna", "state": "bihar", "branchNo": "510", "address": "LIC Building, Patliputra Colony, Patna - 800013"},
+    {"city": "bhubaneswar", "state": "odisha", "branchNo": "580", "address": "Jeevan Prakash, Jaydev Vihar, Bhubaneswar - 751013"},
+    {"city": "visakhapatnam", "state": "andhra pradesh", "branchNo": "680", "address": "Jeevan Jyoti, Seethammadhara, Visakhapatnam - 530017"},
+    {"city": "coimbatore", "state": "tamil nadu", "branchNo": "710", "address": "LIC Building, Gandhipuram, Coimbatore - 641012"},
+    {"city": "nagpur", "state": "maharashtra", "branchNo": "976", "address": "LIC Building, Dharampeth, Nagpur - 440010"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "892", "address": "City Branch 2, Fort, Mumbai - 400001"},
+    {"city": "delhi", "state": "delhi", "branchNo": "112", "address": "City Branch 4, Chandni Chowk, Delhi - 110006"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "612", "address": "City Branch 3, Majestic, Bengaluru - 560009"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "703", "address": "City Branch 2, Parry's Corner, Chennai - 600001"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "413", "address": "City Branch 5, Dalhousie Square, Kolkata - 700001"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "645", "address": "City Branch 2, Abids, Hyderabad - 500001"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "968", "address": "City Branch 1, Camp, Pune - 411001"},
+    {"city": "ahmedabad", "state": "gujarat", "branchNo": "825", "address": "City Branch 3, Kalupur, Ahmedabad - 380002"},
+    {"city": "jaipur", "state": "rajasthan", "branchNo": "182", "address": "City Branch 1, Johari Bazar, Jaipur - 302003"},
+    {"city": "lucknow", "state": "uttar pradesh", "branchNo": "213", "address": "City Branch 2, Aminabad, Lucknow - 226018"},
+    {"city": "indore", "state": "madhya pradesh", "branchNo": "333", "address": "City Branch 2, Siyaganj, Indore - 452007"},
+    {"city": "bhopal", "state": "madhya pradesh", "branchNo": "342", "address": "City Branch 1, Old Bhopal, Bhopal - 462001"},
+    {"city": "chandigarh", "state": "chandigarh", "branchNo": "143", "address": "City Branch 2, Sector 22, Chandigarh - 160022"},
+    {"city": "ludhiana", "state": "punjab", "branchNo": "153", "address": "City Branch 2, Chaura Bazar, Ludhiana - 141008"},
+    {"city": "surat", "state": "gujarat", "branchNo": "863", "address": "City Branch 2, Textile Market, Surat - 395010"},
+    {"city": "kochi", "state": "kerala", "branchNo": "623", "address": "City Branch 2, Broadway, Kochi - 682031"},
+    {"city": "guwahati", "state": "assam", "branchNo": "563", "address": "City Branch 2, Fancy Bazar, Guwahati - 781001"},
+    {"city": "patna", "state": "bihar", "branchNo": "513", "address": "City Branch 2, Patna City, Patna - 800008"},
+    {"city": "bhubaneswar", "state": "odisha", "branchNo": "583", "address": "City Branch 2, Old Town, Bhubaneswar - 751002"},
+    {"city": "visakhapatnam", "state": "andhra pradesh", "branchNo": "683", "address": "City Branch 2, Old Town, Visakhapatnam - 530001"},
+    {"city": "coimbatore", "state": "tamil nadu", "branchNo": "713", "address": "City Branch 2, Town Hall, Coimbatore - 641001"},
+    {"city": "nagpur", "state": "maharashtra", "branchNo": "973", "address": "City Branch 2, Itwari, Nagpur - 440002"},
+    {"city": "aurangabad", "state": "maharashtra", "branchNo": "981", "address": "City Branch 1, Shahgunj, Aurangabad - 431001"},
+    {"city": "nashik", "state": "maharashtra", "branchNo": "991", "address": "City Branch 1, Main Road, Nashik - 422001"},
+    {"city": "mumbai", "state": "maharashtra", "branchNo": "915", "address": "Jeevan Shree, Versova, Andheri West, Mumbai - 400061"},
+    {"city": "delhi", "state": "delhi", "branchNo": "148", "address": "LIC Building, Rajendra Place, New Delhi - 110008"},
+    {"city": "bangalore", "state": "karnataka", "branchNo": "645", "address": "Jeevan Jyoti, JP Nagar 2nd Phase, Bengaluru - 560078"},
+    {"city": "chennai", "state": "tamil nadu", "branchNo": "725", "address": "LIC Building, Tiruvanmiyur, Chennai - 600041"},
+    {"city": "kolkata", "state": "west bengal", "branchNo": "455", "address": "Jeevan Prakash, Lake Town, Kolkata - 700089"},
+    {"city": "hyderabad", "state": "telangana", "branchNo": "655", "address": "LIC Building, Somajiguda, Hyderabad - 500082"},
+    {"city": "pune", "state": "maharashtra", "branchNo": "975", "address": "LIC Building, Viman Nagar, Pune - 411014"},
+    {"city": "ahmedabad", "state": "gujarat", "branchNo": "835", "address": "Jeevan Saral, Bapunagar, Ahmedabad - 380024"},
+    {"city": "jaipur", "state": "rajasthan", "branchNo": "185", "address": "LIC Building, Pratap Nagar, Jaipur - 302033"},
+    {"city": "lucknow", "state": "uttar pradesh", "branchNo": "216", "address": "LIC Building, Mahanagar, Lucknow - 226006"},
+    {"city": "indore", "state": "madhya pradesh", "branchNo": "335", "address": "Jeevan Mangal, Annapurna Road, Indore - 452009"},
+    {"city": "bhopal", "state": "madhya pradesh", "branchNo": "346", "address": "LIC Building, Indrapuri, Bhopal - 462021"},
+    {"city": "chandigarh", "state": "chandigarh", "branchNo": "145", "address": "LIC Building, Manimajra, Chandigarh - 160101"},
+    {"city": "ludhiana", "state": "punjab", "branchNo": "155", "address": "LIC Building, BRS Nagar, Ludhiana - 141012"},
+    {"city": "surat", "state": "gujarat", "branchNo": "865", "address": "LIC Building, Katargam, Surat - 395004"},
+    {"city": "kochi", "state": "kerala", "branchNo": "625", "address": "LIC Building, Kakkanad, Kochi - 682030"},
+    {"city": "guwahati", "state": "assam", "branchNo": "565", "address": "LIC Building, Six Mile, Guwahati - 781022"},
+    {"city": "patna", "state": "bihar", "branchNo": "515", "address": "LIC Building, Bailey Road, Patna - 800014"},
+    {"city": "bhubaneswar", "state": "odisha", "branchNo": "585", "address": "LIC Building, Khandagiri, Bhubaneswar - 751030"},
+    {"city": "visakhapatnam", "state": "andhra pradesh", "branchNo": "685", "address": "LIC Building, MVP Colony, Visakhapatnam - 530017"},
+    {"city": "coimbatore", "state": "tamil nadu", "branchNo": "715", "address": "LIC Building, RS Puram, Coimbatore - 641002"},
+    {"city": "nagpur", "state": "maharashtra", "branchNo": "976", "address": "LIC Building, Dharampeth, Nagpur - 440010"}
+  ]
+  </script>
+
+  <script>
+    // This function simulates fetching data from a server.
+    // In a real project, this would contain a `fetch` call to a live API.
+    // For this tool, it reads from the "Data Island" above.
+    function getBranchesFromServer(city, state) {
+        const cityLower = city.toLowerCase();
+        const stateLower = state.toLowerCase();
+        
+        try {
+            const dataElement = document.getElementById('branchDataSource');
+            const allBranches = JSON.parse(dataElement.textContent);
+            
+            // This simulates the server filtering the data
+            return allBranches.filter(b => b.city === cityLower && b.state === stateLower);
+        } catch (error) {
+            console.error("Error parsing branch data:", error);
+            return []; // Return empty array on error
+        }
+    }
+
+    function locateBranch() {
+        const cityInput = document.getElementById('city').value.trim();
+        const stateInput = document.getElementById('state').value.trim();
+        const resultDiv = document.getElementById('branch-result');
+
+        if (!cityInput || !stateInput) {
+            resultDiv.innerHTML = "<strong>Error:</strong> Please enter both State and City.";
+            return;
+        }
+
+        resultDiv.innerHTML = "Searching...";
+
+        // Simulate a network delay for a better user experience
+        setTimeout(() => {
+            const foundBranches = getBranchesFromServer(cityInput, stateInput);
+            
+            if (foundBranches.length > 0) {
+                let html = `Found ${foundBranches.length} branch(es) in ${cityInput}:<br><br>`;
+                foundBranches.forEach(branch => {
+                    html += `<div class="branch-entry">
+                                <strong>Branch No: ${branch.branchNo}</strong><br>
+                                ${branch.address}
+                             </div>`;
+                });
+                resultDiv.innerHTML = html;
+            } else {
+                 // Fallback: search just by state if city fails
+                const stateBranches = getBranchesFromServer("any", stateInput); // This won't match, so find just by state
+                 const allBranches = JSON.parse(document.getElementById('branchDataSource').textContent);
+                 const fallbackBranches = allBranches.filter(b => b.state === stateInput.toLowerCase());
+
+                 if (fallbackBranches.length > 0) {
+                     let html = `No branches found for '${cityInput}'. Showing first 5 major branches in ${stateInput}:<br><br>`;
+                     fallbackBranches.slice(0, 5).forEach(branch => {
+                        html += `<div class="branch-entry">
+                                    <strong>Branch No: ${branch.branchNo}</strong> (${branch.city})<br>
+                                    ${branch.address}
+                                 </div>`;
+                     });
+                     resultDiv.innerHTML = html;
+                 } else {
+                    resultDiv.innerHTML = `No branch information found for the specified location. Please check spellings or try a major city.`;
+                 }
+            }
+        }, 500); // 0.5 second delay
+    }
+
+    // Accordion Logic
+    const accordionHeaders = document.querySelectorAll(".accordion-header");
+    accordionHeaders.forEach(header => {
+        header.addEventListener("click", function() {
+            this.classList.toggle("active");
+            const body = this.nextElementSibling;
+            if (body.style.maxHeight) {
+                body.style.maxHeight = null;
+            } else {
+                body.style.maxHeight = body.scrollHeight + "px";
+            }
+        });
+    });
+  </script>
+</body>
+</html>

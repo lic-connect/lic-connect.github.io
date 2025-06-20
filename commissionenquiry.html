@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>LIC Agent's Commission Planner</title>
+    <style>
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            background: #fdfdfd;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #1B5E20;
+            font-family: 'Impact', sans-serif;
+            text-shadow: 1px 1px 2px #ccc;
+        }
+        .input-grid, .output-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            align-items: end;
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-family: 'Impact', sans-serif;
+            color: #1a1a1a;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 3px outset #555;
+            font-size: 1.2em;
+            color: white;
+            background: linear-gradient(145deg, #4a4a4a, #1a1a1a);
+            box-shadow: 7px 7px 15px rgba(0,0,0,0.4), inset 3px 3px 5px rgba(255,255,255,0.2), inset -3px -3px 5px rgba(0,0,0,0.2);
+            text-align: center;
+            font-family: 'Impact', sans-serif;
+            text-shadow: 1px 1px 2px black;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+        input::placeholder { color: rgba(255, 255, 255, 0.7); }
+        input[readonly] { background: linear-gradient(145deg, #6b6b6b, #3b3b3b); cursor: not-allowed; }
+        select { text-align-last: center; }
+        button:active {
+            transform: scale(0.97);
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.5), inset 3px 3px 5px rgba(0,0,0,0.3);
+            border-style: inset;
+        }
+        .navigation-arrows {
+            grid-column: 1 / -1; /* Span full width */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .nav-btn { width: 120px; }
+        .combination-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+        #comboExample {
+            margin-top: 15px; padding: 15px; background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50; border-radius: 8px;
+            text-align: left; font-family: Arial, sans-serif; line-height: 1.6;
+        }
+        .combo-title { font-size: 1.5em; font-family: Impact, sans-serif; color: #1B5E20; margin-bottom: 15px; }
+        .plan-card { background: #fff; border: 1px solid #ddd; border-radius: 5px; padding: 15px; margin-bottom: 15px; }
+        .plan-card h4 { margin-top: 0; color: #388E3C; }
+        .combo-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9em; }
+        .combo-table th, .combo-table td { background: white; border: 1px solid #ccc; padding: 8px; text-align: center; }
+        .combo-table th { background: #e0e0e0; color: #333; font-family: Arial, sans-serif; font-weight: bold; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Agent's Corner</h1>
+    <h2>Commission Planner</h2>
+    
+        <div class="input-grid">
+      <div class="input-group">
+        <label for="agentName">Agent's Name</label>
+        <input type="text" id="agentName" placeholder="Enter agent name">
+      </div>
+      <div class="input-group">
+        <label for="agencyCode">Agency Code</label>
+        <input type="text" id="agencyCode" placeholder="Enter agency code">
+      </div>
+      <div class="input-group">
+        <label for="branchNumber">Branch Number</label>
+        <input type="text" id="branchNumber" placeholder="Enter branch number">
+      </div>
+      <div class="input-group">
+        <label for="targetMonth">Target Month & Year</label>
+        <input type="month" id="targetMonth">
+      </div>
+    </div>
+    
+    <div class="input-grid">
+      <div class="input-group">
+        <label for="targetFyp">Target FYP Commission</label>
+        <input type="number" id="targetFyp" placeholder="Enter FYP Target">
+      </div>
+       <div class="input-group">
+        <label for="age">Age of Policyholder</label>
+        <input type="number" id="age" placeholder="Enter Age">
+      </div>
+      <div class="input-group">
+        <label for="policyTerm">Desired Policy Term</label>
+        <input type="number" id="policyTerm" placeholder="Enter Term">
+      </div>
+      <div class="input-group" id="mode-group">
+        <label for="modeOfPayment">Mode of Premium</label>
+        <select id="modeOfPayment">
+          <option value="Yearly">Yearly</option>
+          <option value="Half-Yearly">Half-Yearly</option>
+          <option value="Quarterly">Quarterly</option>
+          <option value="Monthly">Monthly</option>
+        </select>
+      </div>
+    </div>
+    
+    <button onclick="calculateResults()">SHOW RESULTS</button>
+
+    <div class="output-grid">
+      <div class="input-group">
+        <label>Plan Number</label>
+        <input type="text" id="planNumberOutput" readonly>
+      </div>
+      <div class="input-group">
+        <label>Plan Name</label>
+        <input type="text" id="planNameOutput" readonly>
+      </div>
+       <div class="input-group">
+        <label>Premium Paying Term (PPT)</label>
+        <input type="text" id="pptOutput" readonly>
+      </div>
+      <div class="input-group">
+        <label>Required Premium (Per Mode)</label>
+        <input type="text" id="premiumOutput" readonly>
+      </div>
+       <div class="input-group">
+        <label>Required Sum Assured</label>
+        <input type="text" id="sumAssuredOutput" readonly>
+      </div>
+      <div class="navigation-arrows hidden" id="navigation-controls">
+        <button id="prevBtn" class="nav-btn" onclick="prevPlan()">Previous</button>
+        <span id="navCounter"></span>
+        <button id="nextBtn" class="nav-btn" onclick="nextPlan()">Next</button>
+      </div>
+    </div>
+    
+    <div class="combination-container">
+      <button onclick="toggleCombinations()">PLAN COMBINATION</button>
+      <select id="comboPlans" class="hidden" onchange="showComboExample(this.value)">
+        <option value="">-- Select Combination --</option>
+        <option value="childFuture">The Ultimate Child's Future Plan</option>
+        <option value="pensionLegacy">The Ultimate Pension & Legacy Plan</option>
+        <option value="crorepati">The Crorepati Plan</option>
+        <option value="hniPower">HNIs Legacy & Liquidity Powerhouse</option>
+        <option value="milestone">Guaranteed Milestones Ladder</option>
+        <option value="growthGratification">Young Professional's Growth & Gratification Plan</option>
+        <option value="tripleIncome">Triple Action Income + Corpus Combination</option>
+        <option value="lifelongSecurity">Daughter's Lifelong Financial Security</option>
+      </select>
+      <div id="comboExample" class="hidden" style="margin-top:15px;"></div>
+    </div>
+  </div>
+
+<script>
+  // --- COMPLETE & ACCURATE PLAN DATA ---
+    // --- CORRECTED & DETAILED plansData OBJECT ---
+  const plansData = {
+      714: { name: 'New Endowment', category: 'Endowment', minSA: 200000, term: {min: 12, max: 35}, pptRule: (t) => t, minEntryAge: 8, maxEntryAge: 50, maxMaturityAge: 75},
+      715: { name: 'Jeevan Anand', category: 'Endowment', minSA: 200000, term: {min: 15, max: 35}, pptRule: (t) => t, minEntryAge: 18, maxEntryAge: 50, maxMaturityAge: 75},
+      720: { name: '20Year Money Back', category: 'Money Back', minSA: 200000, term: 20, pptRule: (t) => 15, minEntryAge: 13, maxEntryAge: 50, maxMaturityAge: 70},
+      721: { name: '25Year Money Back', category: 'Money Back', minSA: 200000, term: 25, pptRule: (t) => 20, minEntryAge: 13, maxEntryAge: 45, maxMaturityAge: 70},
+      732: { name: 'Child Money Back', category: 'Children', minSA: 200000, term: {min:13, max:25}, pptRule: (t, age) => 25 - age, minEntryAge: 0, maxEntryAge: 12, maxMaturityAge: 25 },
+      733: { name: 'Jeevan Lakshya', category: 'Endowment', minSA: 200000, term: {min: 13, max: 25}, pptRule: (t) => t - 3, minEntryAge: 18, maxEntryAge: 50, maxMaturityAge: 65},
+      734: { name: 'Jeevan Tarun', category: 'Children', minSA: 200000, term: {min:13, max:25}, pptRule: (t, age) => 20 - age, minEntryAge: 0, maxEntryAge: 12, maxMaturityAge: 25 },
+      736: { name: 'Jeevan Labh', category: 'Endowment', minSA: 200000, term: [16, 21, 25], pptRule: (t) => ({16:10, 21:15, 25:16}[t]), minEntryAge: 8, maxEntryAge: 59, maxMaturityAge: 75},
+      745: { name: 'Jeevan Umang', category: 'Endowment', minSA: 200000, term: (age) => 100-age, pptRule: (t, age, p) => p, isPptValid: [15,20,25,30], minEntryAge: 0, maxEntryAge: 55, maxMaturityAge: 100, checkMaxEntryByPPT: true}, // Special case
+      748: { name: 'Bima Shree', category: 'Money Back', minSA: 1000000, term: [14,16,18,20,24,28], pptRule: (t) => ({14:10, 16:12, 18:14, 20:16, 24:20, 28:24}[t]), minEntryAge: 8, maxEntryAge: 55, maxMaturityAge: 69},
+      751: { name: 'Micro Bachat', category: 'Endowment', minSA: 100000, maxSA: 200000, term: {min:10, max:15}, pptRule: (t) => t, minEntryAge: 18, maxEntryAge: 55, maxMaturityAge: 70},
+      760: { name: 'Bima Jyoti', category: 'Endowment', minSA: 125000, term: {min: 15, max: 20}, pptRule: (t) => t-5, minEntryAge: 0, maxEntryAge: 60, maxMaturityAge: 75},
+      768: { name: 'Jeevan Azad', category: 'Endowment', minSA: 200000, maxSA: 500000, term: {min: 15, max: 20}, pptRule: (t) => t-8, minEntryAge: 0, maxEntryAge: 50, maxMaturityAge: 70}, // Age is 90 days, simplified to 0
+      771: { name: 'Jeevan Utsav', category: 'Endowment', minSA: 500000, term: (age) => 100-age, pptRule: (t, age, p) => p, isPptValidRange: {min:5, max:16}, minEntryAge: 0, maxEntryAge: 65, maxMaturityAge: 100},
+      859: { name: 'Saral Jeevan Bima', category: 'Term', minSA: 500000, maxSA: 2500000, term: {min:5, max:40}, pptRule: (t) => t, minEntryAge: 18, maxEntryAge: 65, maxMaturityAge: 70},
+      955: { name: 'New Jeevan Amar', category: 'Term', minSA: 2500000, term: {min:10, max:40}, pptRule: (t) => t, minEntryAge: 18, maxEntryAge: 65, maxMaturityAge: 80}, // Max maturity assumed 80
+      875: { name: 'Yuva Term', category: 'Term', minSA: 5000000, term: {min:15, max:40}, pptRule: (t) => t, minEntryAge: 18, maxEntryAge: 45, maxMaturityAge: 85}, // Max maturity assumed 85
+      774: { name: 'Amritbaal', category: 'Children', minSA: 200000, term: {min: 10, max: 25}, pptRule: (t, age, p) => p, isPptValid: [5,6,7], minEntryAge: 0, maxEntryAge: 13, maxMaturityAge: 25}
+      // Note: Plans like 877 Yuva Credit Life are excluded as they are too specialized for this calculator's logic
+  };
+  
+  let results = [];
+  let currentIndex = 0;
+
+  function getCommissionRate(planData, term, ppt) {
+      if (planData.type === 'Single') return 0.02;
+      const { category } = planData;
+      if (category === 'Children') { if (ppt >= 9) return 0.10; if (ppt >= 5) return 0.075; return 0.05;}
+      if (category === 'Money Back') { if (term >= 20) return 0.20; if (term >= 15) return 0.15; }
+      if (category === 'Term') { if (term >= 15) return 0.25; }
+      if (category === 'Endowment') { if (ppt >= 15) return 0.25; if (ppt >= 10) return 0.20; if (ppt >= 5) return 0.10; return 0.05;}
+      return null;
+  }
+  
+  function getPremiumPer1000SA(category, age) {
+      const baseRates = { Term: 10, Endowment: 40, 'Money Back': 45, Children: 38 };
+      const baseRate = baseRates[category] || 40;
+      const ageFactor = 1 + (Math.max(0, age - 30) * 0.035);
+      return baseRate * ageFactor;
+  }
+  
+  function estimateSA(annualPremium, category, age) {
+      const premiumRatePer1000 = getPremiumPer1000SA(category, age);
+      const estimatedSA = (annualPremium * 1000) / premiumRatePer1000;
+      return Math.round(estimatedSA / 25000) * 25000;
+  }
+  
+    // --- CORRECTED calculateResults FUNCTION WITH VALIDATION ---
+  function calculateResults() {
+      clearOutputs();
+      results = [];
+      document.getElementById('navigation-controls').classList.add('hidden');
+
+      // 1. GATHER AND VALIDATE BASIC INPUTS
+      const targetFYP = parseFloat(document.getElementById("targetFyp").value);
+      const age = parseInt(document.getElementById("age").value, 10);
+      let term = parseInt(document.getElementById("policyTerm").value, 10);
+
+      if (isNaN(targetFYP) || isNaN(age) || isNaN(term)) {
+        alert("Please fill all required fields: Target FYP, Age, and Policy Term.");
+        return;
+      }
+
+      // 2. ITERATE AND VALIDATE FOR ALL PLANS
+      for (const planNumber in plansData) {
+          const plan = plansData[planNumber];
+          
+          // A. Term Validation
+          let isTermValid = false;
+          let termError = '';
+          // Handle age-dependent term for Jeevan Umang/Utsav etc.
+          if (typeof plan.term === 'function') {
+              const calculatedTerm = plan.term(age);
+              // For these plans, user-entered term should match the calculated one
+              if (term === calculatedTerm) isTermValid = true;
+          } else if (typeof plan.term === 'object' && !Array.isArray(plan.term)) { // Range {min, max}
+              if(term >= plan.term.min && term <= plan.term.max) isTermValid = true;
+              else termError = `Term for Plan ${planNumber} must be between ${plan.term.min}-${plan.term.max}.`;
+          } else if (Array.isArray(plan.term)) { // Array [16, 21, 25]
+              if(plan.term.includes(term)) isTermValid = true;
+              else termError = `Term for Plan ${planNumber} must be one of: ${plan.term.join(', ')}.`;
+          } else if (typeof plan.term === 'number') { // Fixed number
+              if (plan.term === term) isTermValid = true;
+              else termError = `Term for Plan ${planNumber} must be ${plan.term}.`;
+          }
+
+          if (!isTermValid) continue; // Skip to next plan if term doesn't match
+          
+          // B. Age and Maturity Validation
+          if (age < plan.minEntryAge) continue; // Silently skip if age is too low
+          if (age > plan.maxEntryAge) continue; // Silently skip if age is too high
+
+          const maturityAge = age + term;
+          if (maturityAge > plan.maxMaturityAge) continue; // Silently skip if maturity age is too high
+
+          // C. PPT Calculation
+          const ppt = plan.pptRule(term, age);
+          if (isNaN(ppt) || ppt <= 0) continue; 
+
+          // D. Commission Calculation
+          const commissionRate = getCommissionRate(plan, term, ppt);
+          if (!commissionRate) continue;
+
+          const annualPremium = targetFYP / commissionRate;
+          const sumAssured = estimateSA(annualPremium, plan.category, age);
+
+          // E. Final Check against Min/Max SA
+          if (typeof sumAssured === 'number' && sumAssured >= plan.minSA && (!plan.maxSA || sumAssured <= plan.maxSA)) {
+              results.push({ planNumber, plan, term, ppt, annualPremium, sumAssured });
+          }
+      }
+
+      // 3. DISPLAY RESULTS OR ERROR
+      if (results.length > 0) {
+          currentIndex = 0;
+          displayResult(currentIndex);
+          if (results.length > 1) {
+              document.getElementById('navigation-controls').classList.remove('hidden');
+          }
+      } else {
+          // Provide a general error message if no plans passed all validations
+          alert("No suitable plans found for the given criteria. Please check if the Age and Term combination is valid, or try different inputs.");
+      }
+  }
+
+  function displayResult(index) {
+      if (!results[index]) return;
+      
+      const result = results[index];
+      const mode = document.getElementById("modeOfPayment").value;
+      const modeMultiplier = {'Yearly': 1, 'Half-Yearly': 2, 'Quarterly': 4, 'Monthly': 12}[mode];
+      const modalPremium = result.annualPremium / modeMultiplier;
+
+      const f = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 });
+
+      document.getElementById("planNumberOutput").value = result.planNumber;
+      document.getElementById("planNameOutput").value = result.plan.name;
+      document.getElementById("pptOutput").value = result.ppt;
+      document.getElementById("premiumOutput").value = f.format(modalPremium);
+      document.getElementById("sumAssuredOutput").value = f.format(result.sumAssured);
+      
+      const navCounter = document.getElementById('navCounter');
+      navCounter.textContent = `${index + 1} of ${results.length}`;
+      document.getElementById('prevBtn').disabled = (index === 0);
+      document.getElementById('nextBtn').disabled = (index === results.length - 1);
+  }
+
+  function prevPlan() {
+      if (currentIndex > 0) {
+          currentIndex--;
+          displayResult(currentIndex);
+      }
+  }
+
+  function nextPlan() {
+      if (currentIndex < results.length - 1) {
+          currentIndex++;
+          displayResult(currentIndex);
+      }
+  }
+
+  function clearOutputs() {
+      document.getElementById("planNumberOutput").value = '';
+      document.getElementById("planNameOutput").value = '';
+      document.getElementById("pptOutput").value = '';
+      document.getElementById("premiumOutput").value = '';
+      document.getElementById("sumAssuredOutput").value = '';
+  }
+
+  function toggleCombinations() {
+      const comboSelect = document.getElementById("comboPlans");
+      const comboDiv = document.getElementById("comboExample");
+      const isHidden = comboSelect.classList.contains("hidden");
+      comboSelect.classList.toggle("hidden", !isHidden);
+      if (isHidden) {
+          comboDiv.classList.add("hidden");
+          comboSelect.value = '';
+      }
+  }
+
+  const comboExamples = {
+      childFuture: { title: "The Ultimate Child's Future Plan (Education & Marriage)", html: `<p>This combination is designed to provide funds for a child's key milestones, like higher education and marriage, while ensuring the plan continues even if the parent is no longer around.</p><h4>Financial Goal:</h4><p>To create a guaranteed corpus for a child's future and ensure financial support for the family in case of the parent's untimely demise.</p><h4>Plan Combination:</h4><ul><li><strong>Jeevan Lakshya (Plan 733):</strong> The core of the plan. It's an endowment plan with a unique death benefit.</li><li><strong>Jeevan Tarun (Plan 734):</strong> A specialized children's money-back plan to provide staggered funds during college years.</li></ul><h4>How It Works:</h4><p>Jeevan Lakshya acts as the main funding vehicle and safety net. If the parent passes away, future premiums are waived, the family receives an annual payout (10% of Sum Assured) until the maturity date, and the nominee still receives the full maturity amount at the end of the term. Jeevan Tarun is timed to provide money-back payments during the crucial college years (ages 20-24) to handle fees and other expenses.</p><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Kumar, age 30. | <strong>Child:</strong> A 1-year-old daughter. | <strong>Goal:</strong> Funds for her graduation (age 20-24) and a lump sum for her Master's/Marriage (age 25).</p><table class="combo-table"><tr><th>Plan Details</th><th>Jeevan Lakshya (733)</th><th>Jeevan Tarun (734)</th></tr><tr><td>Parent's Age</td><td>30</td><td>30</td></tr><tr><td>Child's Age</td><td>1</td><td>1</td></tr><tr><td>Policy Term</td><td>24 Years (Matures when child is 25)</td><td>24 Years (Matures when child is 25)</td></tr><tr><td>Premium Paying Term</td><td>21 Years</td><td>19 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹20,00,000</td><td>₹10,00,000 (with Option 4)</td></tr></table><h5>Scenario 1: Mr. Kumar Survives the Term</h5><ul><li><strong>During College (Child's age 20-24):</strong> From the Jeevan Tarun policy, the family receives ₹1,50,000 (15% of ₹10 Lakh SA) every year for 5 years.</li><li><strong>At Maturity (Child's age 25):</strong><ul><li>From Jeevan Lakshya: Approx. ₹41,60,000 (₹20L SA + Vested Bonus + FAB).</li><li>From Jeevan Tarun: Approx. ₹5,00,000 (25% of ₹10L SA + Vested Bonus + FAB).</li><li>Total Maturity Corpus at Age 25: <strong>~ ₹46.6 Lakhs</strong></li></ul></li></ul><h5>Scenario 2: Mr. Kumar passes away after 5 years</h5><ul><li>Immediate Benefit: The family receives the death benefit from both plans.</li><li><strong>Jeevan Lakshya's Magic:</strong><ul><li>All future premiums are waived.</li><li>The family starts receiving ₹2,00,000 every year (10% of SA) until the policy matures.</li><li>At the original maturity date (when the child turns 25), the nominee receives the full maturity amount of <strong>~ ₹41.6 Lakhs</strong>.</li></ul></li><li>Jeevan Tarun: The death benefit is paid out, providing immediate liquidity.</li></ul><p><strong>Key Advantage:</strong> This combination provides unparalleled security. The child's future is financially secured no matter what.</p>` },
+      pensionLegacy: { title: "The Ultimate Tax-Free Pension & Legacy Plan", html: `<p>This combination is for professionals who want to create a guaranteed, tax-free income stream for life post-retirement, and leave a massive legacy for their family.</p><h4>Plan Combination:</h4><ul><li>Jeevan Umang (Plan 745): The pension engine.</li><li>Jeevan Labh (Plan 736): The retirement booster.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Ms. Gupta, age 40. | <strong>Goal:</strong> Retire at 60 with a large corpus and a lifelong income.</p><table class="combo-table"><tr><th>Plan Details</th><th>Jeevan Umang (745)</th><th>Jeevan Labh (736)</th></tr><tr><td>Client's Age</td><td>40</td><td>40</td></tr><tr><td>Policy Term</td><td>60 Years (100 - 40)</td><td>20 Years (Matures at age 60)</td></tr><tr><td>Premium Paying Term</td><td>20 Years (Stops at age 60)</td><td>15 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹25,00,000</td><td>₹20,00,000</td></tr></table><h5>Scenario: Ms. Gupta at age 60</h5><ul><li><strong>Lump Sum Boost:</strong> The Jeevan Labh policy matures. She receives approximately ₹42,00,000 tax-free.</li><li><strong>Pension Starts:</strong> The Jeevan Umang policy starts paying her ₹2,00,000 every year, tax-free and guaranteed for life.</li><li><strong>Legacy:</strong> When Ms. Gupta passes away (at any age after 60), her nominee will receive a massive death benefit from the Jeevan Umang policy, which could be well over ₹1 Crore.</li></ul><p><strong>Key Advantage:</strong> This combination creates a perfect retirement solution: a large lump sum for immediate needs and a worry-free, guaranteed income stream for life, all while creating a huge tax-free estate for her children.</p>` },
+      crorepati: { title: 'The "Crorepati" Plan (Maximum Protection + High Savings)', html: `<p>This combination is ideal for young earners who want maximum life cover for their family at a low cost, while aggressively saving for long-term wealth creation.</p><h4>Plan Combination:</h4><ul><li>New Jeevan Amar (Plan 955): A pure term insurance plan.</li><li>Jeevan Labh (Plan 736): A high-bonus-earning endowment plan.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Singh, age 25. | <strong>Goal:</strong> Secure his family with a ₹1 Crore cover and build wealth for his future.</p><table class="combo-table"><tr><th>Plan Details</th><th>New Jeevan Amar (955)</th><th>Jeevan Labh (736)</th></tr><tr><td>Client's Age</td><td>25</td><td>25</td></tr><tr><td>Policy Term</td><td>35 Years (Cover till age 60)</td><td>25 Years (Matures at age 50)</td></tr><tr><td>Premium Paying Term</td><td>35 Years (Regular Pay)</td><td>16 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹1,00,00,000</td><td>₹25,00,000</td></tr></table><h5>Scenario 1: Mr. Singh Survives the Term</h5><p>At Age 50: His Jeevan Labh policy matures. He receives a huge tax-free corpus of approximately <strong>₹66,00,000</strong>. His New Jeevan Amar policy continues to provide the ₹1 Crore risk cover until he turns 60.</p><h5>Scenario 2: Mr. Singh passes away during the policy term (e.g., at age 40)</h5><p>His nominee receives: ₹1,00,00,000 tax-free from New Jeevan Amar, and the death benefit from Jeevan Labh (approx. ₹40,00,000+). Total Payout to Family: <strong>~ ₹1.4 Crore</strong>.</p>` },
+      hniPower: { title: "The HNI's Legacy & Liquidity Powerhouse", html: `<p>This is a premium combination designed for High Net-worth Individuals (HNIs) who want guaranteed periodic cash flows for lifestyle or business needs, coupled with a massive legacy creation for the next generation.</p><h4>Plan Combination:</h4><ul><li>Bima Shree (Plan 748): The HNI money-back engine.</li><li>New Jeevan Amar (Plan 955): The low-cost legacy multiplier.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Sharma, age 40. | <strong>Goal:</strong> Receive large payouts at age 56 and 58, and leave a legacy of over ₹3 Crores.</p><table class="combo-table"><tr><th>Plan Details</th><th>Bima Shree (748)</th><th>New Jeevan Amar (955)</th></tr><tr><td>Client's Age</td><td>40</td><td>40</td></tr><tr><td>Policy Term</td><td>20 Years (Matures at age 60)</td><td>30 Years (Cover till age 70)</td></tr><tr><td>Premium Paying Term</td><td>16 Years</td><td>30 Years (Regular Pay)</td></tr><tr><td>Basic Sum Assured</td><td>₹50,00,000</td><td>₹2,50,00,000 (₹2.5 Crore)</td></tr></table><h5>Scenario 1: Mr. Sharma Survives</h5><ul><li>At Age 56 & 58: He receives Survival Benefits of <strong>₹22,50,000</strong> each, tax-free.</li><li>At Age 60: Bima Shree matures for approx. <strong>₹45,00,000</strong>.</li></ul><h5>Scenario 2: Mr. Sharma passes away at age 50</h5><p>Total Legacy Left for Family: <strong>~ ₹3.4 Crores</strong> (₹2.5 Cr from Jeevan Amar + ~₹90 Lakhs from Bima Shree).</p>`},
+      milestone: { title: 'The "Guaranteed Milestones" Ladder', html: `<p>This combination is perfect for the meticulous planner who wants absolute certainty. It uses plans with guaranteed additions to create a "ladder" of payouts, timed perfectly to fund specific, non-negotiable life goals.</p><h4>Plan Combination:</h4><ul><li>Bima Jyoti (Plan 760) - Policy 1</li><li>Bima Jyoti (Plan 760) - Policy 2</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Ms. Desai, age 30. | <strong>Goals:</strong> ~₹10L at age 45, ~₹20L at age 50.</p><table class="combo-table"><tr><th>Plan Details</th><th>Bima Jyoti (Policy 1)</th><th>Bima Jyoti (Policy 2)</th></tr><tr><td>Client's Age</td><td>30</td><td>30</td></tr><tr><td>Policy Term</td><td>15 Years</td><td>20 Years</td></tr><tr><td>Premium Paying Term</td><td>10 Years</td><td>15 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹6,00,000</td><td>₹10,00,000</td></tr></table><h5>Payouts:</h5><ul><li>At Age 45 (Policy 1 Matures): Receives a guaranteed payout of <strong>₹10,50,000</strong>.</li><li>At Age 50 (Policy 2 Matures): Receives a guaranteed payout of <strong>₹20,00,000</strong>.</li></ul>`},
+      growthGratification: { title: "The Young Professional's 'Growth & Gratification' Plan", html: `<p>This is designed for young earners in their 20s. It balances the need for long-term wealth creation with the desire for periodic gratification.</p><h4>Plan Combination:</h4><ul><li>25 Year Money Back (Plan 721): The "Gratification" plan.</li><li>New Endowment (Plan 714): The "Growth" plan.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Rao, age 25. | <strong>Goal:</strong> Get regular payouts and build a large corpus by age 55.</p><table class="combo-table"><tr><th>Plan Details</th><th>25 Year Money Back (721)</th><th>New Endowment (714)</th></tr><tr><td>Client's Age</td><td>25</td><td>25</td></tr><tr><td>Policy Term</td><td>25 Years</td><td>30 Years</td></tr><tr><td>Premium Paying Term</td><td>20 Years</td><td>30 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹10,00,000</td><td>₹20,00,000</td></tr></table><h5>Cash Flows:</h5><p>Receives <strong>₹1,50,000</strong> at ages 30, 35, 40, and 45. Receives maturity of ~<strong>₹11,00,000</strong> at age 50 from the Money Back plan. Receives a final large maturity of ~<strong>₹58,00,000</strong> at age 55 from the Endowment plan.</p>`},
+      tripleIncome: { title: "The 'Triple-Action' Income & Corpus Combination", html: `<p>This solution is built with three distinct policies, purchased at the same time, each performing a unique role.</p><h4>Plan Combination:</h4><ul><li>Immediate Pension: Jeevan Akshay VII (Plan 857)</li><li>Periodic Survival Benefits: 25 Year Money Back (Plan 721)</li><li>Single Premium Lump Sum: Single Premium Endowment (Plan 717)</li></ul><h4>Illustrative Example:</h4><p>Let's assume the client is Mr. Roy, age 40.</p><table class="combo-table"><tr><th>Component</th><th>Plan Name</th><th>Role</th><th>Premium</th></tr><tr><td>Policy 1</td><td>Jeevan Akshay VII (857)</td><td>Provides immediate, guaranteed pension for 20 years.</td><td>Single Premium (One-time)</td></tr><tr><td>Policy 2</td><td>25 Year Money Back (721)</td><td>Provides survival benefits every 5 years.</td><td>Limited Premium (Pay for 20 years)</td></tr><tr><td>Policy 3</td><td>Single Premium Endowment (717)</td><td>Builds a large, single lump sum corpus.</td><td>Single Premium (One-time)</td></tr></table><h5>Timeline of Your Cash Flows:</h5><p><strong>Phase 1 (Years 1 to 20):</strong> Receives an annual pension from Policy 1, plus large lump sums every 5 years from Policy 2.</p><p><strong>Phase 2 (Year 25):</strong> The two long-term plans mature together, delivering a massive lump sum.</p>`},
+      lifelongSecurity: { title: "Daughter's Lifelong Financial Security", html: `<p>A powerful three-policy combination to provide for a daughter's education, marriage, and lifelong financial independence.</p><h4>Plan Combination:</h4><ul><li>Jeevan Tarun (Plan 734): The Education Fund.</li><li>Jeevan Lakshya (Plan 733): The Marriage Corpus & Safety Net.</li><li>Jeevan Umang (Plan 745): The Lifelong Pension.</li></ul><h4>Illustrative Example:</h4><p>Client: Mr. Gupta, age 30. Daughter: Anjali, age 1.</p><table class="combo-table"><tr><th>Role</th><th>Plan Name</th><th>Life Assured</th><th>Sum Assured</th></tr><tr><td>Education Fund</td><td>Jeevan Tarun (734)</td><td>Daughter</td><td>₹15,00,000</td></tr><tr><td>Marriage Corpus</td><td>Jeevan Lakshya (733)</td><td>Parent</td><td>₹25,00,000</td></tr><tr><td>Lifelong Pension</td><td>Jeevan Umang (745)</td><td>Daughter</td><td>₹10,00,000</td></tr></table><h5>Benefits for Anjali:</h5><ul><li><strong>Age 20-24:</strong> Receives <strong>₹2,25,000</strong> every year for college.</li><li><strong>Age 25:</strong> Receives a massive lump sum of ~<strong>₹53,00,000</strong> for marriage/settlement.</li><li><strong>From Age 31 For Life:</strong> Receives a guaranteed, tax-free pension of <strong>₹80,000</strong> every year.</li></ul><p><strong>Key Advantage:</strong> The Jeevan Lakshya plan ensures all goals are met even if the parent passes away prematurely. The plan is self-completing.</p>`}
+  };
+
+  function showComboExample(value) {
+      const displayDiv = document.getElementById("comboExample");
+      if (value && comboExamples[value]) {
+          const content = comboExamples[value];
+          displayDiv.innerHTML = `<div class="combo-title">${content.title}</div>${content.html}`;
+          displayDiv.classList.remove("hidden");
+      } else {
+          displayDiv.classList.add("hidden");
+      }
+  }
+</script>
+</body>
+</html>

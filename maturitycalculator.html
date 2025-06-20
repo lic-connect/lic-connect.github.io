@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LIC Maturity Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: white;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #007c91;
+    }
+    .form-section {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(to right, #00b4db, #0083b0);
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 128, 128, 0.5);
+      cursor: pointer;
+    }
+    .button:hover {
+      background: linear-gradient(to right, #0083b0, #00b4db);
+    }
+    .output {
+      margin-top: 30px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>LIC Maturity Calculator</h2>
+
+  <div class="form-section">
+    <label for="planNo">Plan No</label>
+    <input type="number" id="planNo" onchange="autoPopulatePlanName()" />
+
+    <label for="planName">Plan Name</label>
+    <input type="text" id="planName" readonly />
+
+    <label for="sumAssured">Sum Assured</label>
+    <input type="number" id="sumAssured" />
+
+    <label for="premium">Premium</label>
+    <input type="number" id="premium" />
+
+    <label for="mode">Mode of Payment</label>
+    <select id="mode">
+      <option>Yearly</option>
+      <option>Half-Yearly</option>
+      <option>Quarterly</option>
+      <option>Monthly (ECS)</option>
+    </select>
+
+    <label for="term">Policy Term (Years)</label>
+    <input type="number" id="term" />
+
+    <label for="doc">Date of Commencement</label>
+    <input type="date" id="doc" />
+
+    <button class="button" onclick="calculateMaturity()">CALCULATOR</button>
+
+    <div class="output" id="result"></div>
+
+    <button class="button" onclick="shareDetails()">SHARE</button>
+  </div>
+
+  <script>
+    const planNames = {
+      714: "New Endowment",
+      715: "Jeevan Anand",
+      717: "Single Premium Endowment",
+      720: "20-Year Money Back",
+      721: "25-Year Money Back",
+      732: "Child Money Back",
+      733: "Jeevan Lakshya",
+      734: "Jeevan Tarun",
+      736: "Jeevan Labh",
+      745: "Jeevan Umang",
+      748: "Bima Shree",
+      751: "Micro Bachat",
+      758: "New Jeevan Shanti",
+      760: "Bima Jyoti",
+      768: "Jeevan Azad",
+      771: "Jeevan Utsav",
+      774: "AmritBaal",
+      857: "Jeevan Akshay VII",
+      859: "Saral Jeevan Bima",
+      862: "Saral Pension",
+      875: "Yuva Term",
+      877: "Yuva Credit Life",
+      879: "Smart Pension",
+      955: "New Jeevan Amar"
+    };
+
+    function autoPopulatePlanName() {
+      const planNo = document.getElementById("planNo").value;
+      document.getElementById("planName").value = planNames[planNo] || "Unknown Plan";
+    }
+
+    function calculateMaturity() {
+      const sa = parseFloat(document.getElementById("sumAssured").value);
+      const term = parseInt(document.getElementById("term").value);
+      const doc = new Date(document.getElementById("doc").value);
+
+      if (!sa || !term || isNaN(doc)) {
+        document.getElementById("result").innerHTML = "❌ Please enter valid values.";
+        return;
+      }
+
+      // Bonus Rates
+      const bonus = (sa / 1000) * 45 * term;
+      const fab = term >= 15 ? (sa / 1000) * 50 : 0;
+      const loyalty = (sa / 1000) * 550; // fixed assumption
+      const guaranteedAddition = 0; // add plan-specific logic if needed
+
+      const maturityAmount = sa + bonus + fab + loyalty + guaranteedAddition;
+
+      // Maturity Date
+      const maturityDate = new Date(doc.setFullYear(doc.getFullYear() + term)).toLocaleDateString();
+
+      document.getElementById("result").innerHTML = `
+        <b>Maturity Date:</b> ${maturityDate}<br/>
+        <b>Estimated Maturity Amount:</b> ₹${maturityAmount.toFixed(2)}
+      `;
+    }
+
+    function shareDetails() {
+      const resultText = document.getElementById("result").innerText;
+      if (!resultText) {
+        alert("❗ Please calculate first.");
+        return;
+      }
+      const shareData = {
+        title: "LIC Maturity Details",
+        text: resultText
+      };
+      if (navigator.share) {
+        navigator.share(shareData).catch(err => console.error(err));
+      } else {
+        alert("Sharing is not supported in this browser.");
+      }
+    }
+  </script>
+
+</body>
+</html>

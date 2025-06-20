@@ -1,0 +1,65 @@
+Plan :Bima Jyoti (760)
+
+Product Summary :
+Bima Jyoti is a Non-linked, Non-participating, Individual, Limited Premium Payment, Life Insurance Savings Plan. Under this plan, Guaranteed Additions shall accrue at the rate of Rs.50 per thousand Basic Sum Assured at the end of each policy year throughout the policy term.
+
+Premium Payment Mode :
+Yearly, Halfly, Quarterly, Monthly(ECS)
+
+Term/Ppt :
+15/10, 16/11, 17/12 ,18/13,19/14 and 20/15 Years
+
+Minimum Entry Age :
+3 Years (Nearer Birthday) for Term 15
+2 Years (Nearer Birthday) for Term 16
+1 Years (Nearer Birthday) for Term 17
+0 Years (Nearer Birthday) for Term 18
+0 Years (Nearer Birthday) for Term 19
+0 Years (Nearer Birthday) for Term 20
+
+Maximum Entry Age :
+60 Years (Nearer Birthday) for Term 15
+59 Years (Nearer Birthday) for Term 16
+58 Years (Nearer Birthday) for Term 17
+57 Years (Nearer Birthday) for Term 18
+56 Years (Nearer Birthday) for Term 19
+55 Years (Nearer Birthday) for Term 20
+
+Minimum Maturity Age :
+18 years (completed)
+
+Maximum Maturity Age :
+75 years (nearer birthday)
+
+Minimum Sum Assured :
+Rs 1,25,000
+
+Maximum Sum Assured :
+No Limit
+
+Guaranteed Addition :
+Rs 50/- per 1000 SA for throughout the policy term
+
+Policy Benefits :
+On Death :
+On death during the policy term before the date of commencement of risk: Return of premiums paid excluding taxes, any. extra amount chargeable under the policy due to underwriting decision and rider premium(s), if any.
+On death during the policy term after the date of commencement of risk : SA on Death + GA
+*SA on Death* : 125% of BSA or 7 times AP or 105% of Premiums Paid
+Date of Commencement of Risk: In case the age at entry of the Life Assured is less than 8 years, the risk under this plan will commence either 2 years from the date of commencement or from the policy anniversary coinciding with or immediately following the attainment of 8 years of age, whichever is earlier. For those aged 8 years or more, risk will commence immediately.
+
+Survival Benefits :
+SA on Maturity + GA
+*SA on Maturity* = Basic Sum Assured
+
+New Term Assurance Rider available.
+New Critical Illness Benefit Rider available.
+Premium Waiver Benefit Rider available.
+Surrendered Value :
+The Policy can be surrendered at any time during the policy term provided at least 2 full years premiums have been paid.
+
+Loan :
+Loan Facility is available under this plan, after payment of premiums for at least 2 full years.
+
+Revised Proposal Form No. 300, 340 and 360 shall be used under this plan.
+For more information visit www.LicAllinOneCalc.com
+

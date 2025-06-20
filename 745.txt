@@ -1,0 +1,65 @@
+Plan :Jeevan Umang (745)
+
+Product Summary :
+Jeevan Umang Plan (745) is a non-linked, with-profits whole life assurance plan. This plan provides for annual survival benefits from the end of the premium paying term till maturity and lump sum payment at the time of maturity or on death of the policyholder during the policy term.
+
+Premium Payment Mode:
+Yearly, Halfly, Quarterly, Monthly(ECS)
+
+Term :
+[100 - age entry] Year
+
+PPT :
+15 year
+20 year
+25 year
+30 year
+
+Minimum Entry Age :
+[90]days (completed)
+
+Maximum Entry Age :
+55 years (Nearest Birthday) for PPT = 15
+50 years (Nearest Birthday) for PPT = 20
+45 years (Nearest Birthday) for PPT = 25
+40 years (Nearest Birthday) for PPT = 30
+
+Minimum age at the end of the PPT :
+[30]years(Nearest Birthday)
+
+Maximum age at the end of the PPT :
+[70]years(Nearest Birthday)
+
+Age at Maturity :
+[100]years(Nearest Birthday)
+
+Minimum Sum Assured :
+2,00,000
+
+Maximum Sum Assured :
+NO LIMIT (Depending upon Income)
+
+Maximum Accidental Death and Disability Benefit Rider up to age 70.
+
+
+Maximum Accidental Benefit Rider shall be available during the ppt only.
+
+
+Policy Benefits :
+
+
+On Death :
+On death before the commencement of Risk:
+An amount equal to the total amount of premium/s paid without interest shall be payable.
+On death after commencement of Risk:
+Sum Assured on Death+vested simple reversionary Bonus + FAB if any.
+Where Sum Assured on Death is defined as the highest of 
+Basic Sum-Assured,OR
+7 times of Annualized Premium, OR
+105%of all Premiums paid as on death
+
+On Survival :
+On survival 8% of Basic Sum Assured shall be payable each year.
+
+For more information visit www.LicAllinOneCalc.com
+
