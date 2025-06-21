@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Policy Report & IRR Generator</title>
-  <!-- The financial.min.js script has been MOVED to the end of the body for guaranteed loading order -->
   <style>
     body { margin: 0; padding: 0; background-color: #f4f7f6; font-family: Arial, sans-serif; color: #333; }
     .container { max-width: 95%; margin: 20px auto; padding: 20px 30px; background-color: #ffffff; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); }
@@ -44,35 +43,41 @@
         <div class="form-group"><label for="ppt">PPT</label><input type="number" id="ppt" readonly></div>
         <div class="form-group" style="grid-column: 1 / -1;"><label for="policyStartDate">Policy Start Date</label><input type="date" id="policyStartDate"></div>
         <div id="errorMessage"></div>
-        <!-- REMOVED onclick="..." from this button -->
-        <button class="action-button">Generate Initial Report</button>
+        <button id="generateReportBtn" class="action-button">Generate Initial Report</button>
       </div>
       <div id="report-output"></div>
     </main>
     <footer><a href="main.html">Back to Main Menu</a></footer>
   </div>
 
-  <!-- ======================================================================== -->
-  <!--                      CORRECTED SCRIPT LOADING ORDER                    -->
-  <!-- ======================================================================== -->
-
-  <!-- 1. LOAD THE EXTERNAL LIBRARY FIRST. This guarantees it's ready. -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/financial/0.1.3/financial.min.js"></script>
-
-  <!-- 2. NOW, RUN YOUR SCRIPT THAT USES THE LIBRARY -->
   <script>
-    // Use DOMContentLoaded which runs as soon as the HTML is parsed.
-    // This is safe now because the financial.js script is already loaded before this script tag is reached.
     document.addEventListener('DOMContentLoaded', () => {
 
-        // ========================================================================
-        //  DATA OBJECTS & CONSTANTS
-        // ========================================================================
         const planData={"714":{name:"New Endowment",minAge:8,maxAge:50,minTerm:12,maxTerm:35,minSA:2e5,pptRule:"Term"},"715":{name:"Jeevan Anand",minAge:18,maxAge:50,minTerm:15,maxTerm:35,minSA:2e5,pptRule:"Term"},"717":{name:"Single Premium Endowment",minAge:0,maxAge:65,minTerm:10,maxTerm:25,minSA:1e5,pptRule:"1"},"720":{name:"20Year Money Back",minAge:13,maxAge:50,minTerm:20,maxTerm:20,minSA:2e5,pptRule:"15"},"721":{name:"25Year Money Back",minAge:13,maxAge:45,minTerm:25,maxTerm:25,minSA:2e5,pptRule:"20"},"732":{name:"Child Money Back",minAge:0,maxAge:12,minTerm:25,maxTerm:25,minSA:2e5,pptRule:"25-Age"},"733":{name:"Jeevan Lakshya",minAge:18,maxAge:50,minTerm:13,maxTerm:25,minSA:2e5,pptRule:"Term-3"},"734":{name:"Jeevan Tarun",minAge:0,maxAge:12,minTerm:25,maxTerm:25,minSA:2e5,pptRule:"20-Age"},"736":{name:"Jeevan Labh",minAge:8,maxAge:59,minTerm:16,maxTerm:25,minSA:2e5,pptRule:"Table"},"745":{name:"Jeevan Umang",minAge:0,maxAge:55,minTerm:100,maxTerm:100,minSA:2e5,pptRule:"Input"},"748":{name:"Bima Shree",minAge:8,maxAge:55,minTerm:14,maxTerm:28,minSA:1e6,pptRule:"Table"},"751":{name:"Micro Bachat",minAge:18,maxAge:55,minTerm:10,maxTerm:15,minSA:1e5,pptRule:"Term"},"758":{name:"New Jeevan Shanti",minAge:30,maxAge:79,minTerm:1,maxTerm:12,minSA:15e4,pptRule:"1"},"760":{name:"Bima Jyoti",minAge:0,maxAge:60,minTerm:15,maxTerm:20,minSA:125e3,pptRule:"Term-5"},"768":{name:"Jeevan Azad",minAge:0,maxAge:50,minTerm:15,maxTerm:20,minSA:2e5,pptRule:"Term-8"},"771":{name:"Jeevan Utsav",minAge:0,maxAge:65,minTerm:100,maxTerm:100,minSA:5e5,pptRule:"Input"},"774":{name:"Amritbaal",minAge:0,maxAge:13,minTerm:5,maxTerm:25,minSA:2e5,pptRule:"Input"},"857":{name:"Jeevan Akshay VII",minAge:25,maxAge:100,minTerm:0,maxTerm:0,minSA:1e5,pptRule:"1"},"859":{name:"Saral Jeevan Bima",minAge:18,maxAge:65,minTerm:5,maxTerm:40,minSA:5e5,pptRule:"Term"},"862":{name:"Saral Pension",minAge:40,maxAge:80,minTerm:0,maxTerm:0,minSA:0,pptRule:"1"},"875":{name:"Yuva Term",minAge:18,maxAge:45,minTerm:15,maxTerm:40,minSA:5e6,pptRule:"Term"},"877":{name:"Yuva Credit Life",minAge:18,maxAge:45,minTerm:5,maxTerm:30,minSA:5e6,pptRule:"Term"},"879":{name:"Smart Pension",minAge:18,maxAge:100,minTerm:0,maxTerm:0,minSA:1e5,pptRule:"1"},"955":{name:"New Jeevan Amar",minAge:18,maxAge:65,minTerm:10,maxTerm:40,minSA:25e5,pptRule:"Term"}};
         const pptRulesTable={"736":{16:10,21:15,25:16},"748":{14:10,16:12,18:14,20:16,24:20,28:24}};
         const premiumRates={PLAN_714:{"8":{T12:92.35,T13:84.7,T14:78.2,T15:73.7,T16:68.65,T17:64.25,T18:60.3,T19:56.8,T20:53.65,T21:50.95,T22:48.45,T23:46.2,T24:44.1,T25:42.2,T26:40.45,T27:38.85,T28:37.35,T29:35.95,T30:34.65,T31:33.55,T32:32.45,T33:31.45,T34:30.55,T35:29.65},"9":{T12:92.4,T13:84.8,T14:78.25,T15:73.75,T16:68.7,T17:64.3,T18:60.35,T19:56.85,T20:53.75,T21:51,T22:48.5,T23:46.25,T24:44.15,T25:42.25,T26:40.5,T27:38.9,T28:37.4,T29:36,T30:34.75,T31:33.6,T32:32.55,T33:31.55,T34:30.6,T35:29.7},"10":{T12:92.45,T13:84.85,T14:78.35,T15:73.8,T16:68.8,T17:64.35,T18:60.45,T19:56.95,T20:53.8,T21:51.05,T22:48.55,T23:46.3,T24:44.25,T25:42.35,T26:40.55,T27:38.95,T28:37.45,T29:36.1,T30:34.8,T31:33.65,T32:32.6,T33:31.6,T34:30.65,T35:29.8},"11":{T12:92.55,T13:84.9,T14:78.4,T15:73.9,T16:68.85,T17:64.4,T18:60.5,T19:57,T20:53.85,T21:51.1,T22:48.65,T23:46.35,T24:44.3,T25:42.4,T26:40.65,T27:39,T28:37.5,T29:36.15,T30:34.85,T31:33.7,T32:32.65,T33:31.65,T34:30.7,T35:29.85},"12":{T12:92.6,T13:85,T14:78.45,T15:73.95,T16:68.9,T17:64.5,T18:60.55,T19:57.05,T20:53.9,T21:51.15,T22:48.7,T23:46.4,T24:44.35,T25:42.45,T26:40.7,T27:39.05,T28:37.6,T29:36.2,T30:34.9,T31:33.75,T32:32.7,T33:31.7,T34:30.8,T35:29.9},"13":{T12:92.65,T13:85.05,T14:78.5,T15:74,T16:68.95,T17:64.55,T18:60.6,T19:57.1,T20:53.95,T21:51.2,T22:48.74,T23:46.45,T24:44.4,T25:42.5,T26:40.75,T27:39.15,T28:37.65,T29:36.25,T30:34.95,T31:33.85,T32:32.75,T33:31.75,T34:30.85,T35:30},"14":{T12:92.7,T13:85.1,T14:78.55,T15:74.05,T16:69,T17:64.6,T18:60.65,T19:57.15,T20:54,T21:51.25,T22:48.8,T23:46.5,T24:44.45,T25:42.55,T26:40.8,T27:39.15,T28:37.7,T29:36.3,T30:35,T31:33.9,T32:32.8,T33:31.8,T34:30.9,T35:30.05},"15":{T12:92.75,T13:85.15,T14:78.6,T15:74.1,T16:69.05,T17:64.6,T18:60.7,T19:57.2,T20:54.05,T21:51.3,T22:48.8,T23:46.55,T24:44.45,T25:42.55,T26:40.8,T27:39.21,T28:37.7,T29:36.35,T30:35.05,T31:33.9,T32:32.85,T33:31.85,T34:30.95,T35:30.1},"16":{T12:92.8,T13:85.15,T14:78.65,T15:74.1,T16:69.1,T17:64.65,T18:60.7,T19:57.2,T20:54.05,T21:51.35,T22:48.85,T23:46.6,T24:44.5,T25:42.6,T26:40.85,T27:39.25,T28:37.75,T29:36.4,T30:35.1,T31:33.95,T32:32.9,T33:31.9,T34:31,T35:30.15},"17":{T12:92.8,T13:85.2,T14:78.65,T15:74.15,T16:69.1,T17:64.65,T18:60.75,T19:57.25,T20:54.1,T21:51.35,T22:48.85,T23:46.6,T24:44.55,T25:42.65,T26:40.9,T27:39.25,T28:37.8,T29:36.4,T30:35.15,T31:34,T32:32.95,T33:31.95,T34:31.05,T35:30.2},"18":{T12:92.85,T13:85.2,T14:78.65,T15:74.15,T16:69.15,T17:64.7,T18:60.75,T19:57.25,T20:54.1,T21:51.35,T22:48.9,T23:46.6,T24:44.55,T25:42.65,T26:40.9,T27:39.3,T28:37.8,T29:36.45,T30:35.15,T31:34.05,T32:33,T33:32,T34:31.1,T35:30.25},"19":{T12:92.85,T13:85.2,T14:78.7,T15:74.15,T16:69.15,T17:64.7,T18:60.75,T19:57.25,T20:54.1,T21:51.4,T22:48.9,T23:46.65,T24:44.55,T25:42.7,T26:40.95,T27:39.35,T28:37.85,T29:36.45,T30:35.2,T31:34.1,T32:33.05,T33:32.05,T34:31.15,T35:30.3},"20":{T12:92.85,T13:85.2,T14:78.7,T15:74.2,T16:69.15,T17:64.7,T18:60.8,T19:57.3,T20:54.15,T21:51.4,T22:48.9,T23:46.65,T24:44.6,T25:42.7,T26:40.95,T27:39.35,T28:37.9,T29:36.5,T30:35.25,T31:34.1,T32:33.05,T33:32.1,T34:31.2,T35:30.35},"21":{T12:92.85,T13:85.2,T14:78.7,T15:74.2,T16:69.15,T17:64.7,T18:60.8,T19:57.3,T20:54.15,T21:51.4,T22:48.95,T23:46.7,T24:44.6,T25:42.75,T26:41,T27:39.43,T28:37.9,T29:36.57,T30:35.3,T31:34.15,T32:33.15,T33:32.15,T34:31.25,T35:30.4},"22":{T12:92.85,T13:85.2,T14:78.7,T15:74.2,T16:69.15,T17:64.7,T18:60.8,T19:57.3,T20:54.15,T21:51.45,T22:48.95,T23:46.7,T24:44.65,T25:42.75,T26:41,T27:39.45,T28:37.95,T29:36.6,T30:35.35,T31:34.2,T32:33.2,T33:32.2,T34:31.35,T35:30.5},"23":{T12:92.85,T13:85.2,T14:78.7,T15:74.2,T16:69.15,T17:64.75,T18:60.8,T19:57.3,T20:54.2,T21:51.45,T22:49,T23:46.75,T24:44.7,T25:42.8,T26:41.05,T27:39.45,T28:38,T29:36.65,T30:35.4,T31:34.3,T32:33.25,T33:32.3,T34:31.4,T35:30.6},"24":{T12:92.85,T13:85.25,T14:78.7,T15:74.2,T16:69.2,T17:64.75,T18:60.85,T19:57.35,T20:54.2,T21:51.5,T22:49,T23:46.75,T24:44.7,T25:42.85,T26:41.1,T27:39.5,T28:38.05,T29:36.7,T30:35.45,T31:34.35,T32:33.35,T33:32.4,T34:31.5,T35:30.7},"25":{T12:92.85,T13:85.25,T14:78.75,T15:74.25,T16:69.2,T17:64.8,T18:60.85,T19:57.35,T20:54.25,T21:51.55,T22:49.05,T23:46.8,T24:44.75,T25:42.9,T26:41.15,T27:39.6,T28:38.15,T29:36.8,T30:35.55,T31:34.45,T32:33.45,T33:32.5,T34:31.6,T35:30.8},"26":{T12:92.9,T13:85.25,T14:78.75,T15:74.25,T16:69.25,T17:64.8,T18:60.9,T19:57.4,T20:54.3,T21:51.55,T22:49.1,T23:46.85,T24:44.8,T25:42.95,T26:41.25,T27:39.65,T28:38.2,T29:36.9,T30:35.65,T31:34.55,T32:33.55,T33:32.6,T34:31.75,T35:30.95},"27":{T12:92.9,T13:85.3,T14:78.8,T15:74.3,T16:69.25,T17:64.85,T18:60.95,T19:57.45,T20:54.35,T21:51.6,T22:49.15,T23:46.97,T24:44.9,T25:43.05,T26:41.3,T27:39.75,T28:38.3,T29:37,T30:35.75,T31:34.7,T32:33.7,T33:32.75,T34:31.9,T35:31.1},"28":{T12:92.95,T13:85.3,T14:78.8,T15:74.35,T16:69.3,T17:64.9,T18:61,T19:57.5,T20:54.4,T21:51.7,T22:49.25,T23:47,T24:44.95,T25:43.1,T26:41.4,T27:39.85,T28:38.4,T29:37.1,T30:35.9,T31:34.8,T32:33.8,T33:32.9,T34:32.05,T35:31.25},"29":{T12:92.95,T13:85.35,T14:78.85,T15:74.35,T16:69.35,T17:64.95,T18:61.05,T19:57.6,T20:54.45,T21:51.75,T22:49.3,T23:47.1,T24:45.05,T25:43.2,T26:41.55,T27:40,T28:38.55,T29:37.25,T30:36.05,T31:34.95,T32:34,T33:33.1,T34:32.25,T35:31.45},"30":{T12:93,T13:85.4,T14:78.9,T15:74.45,T16:69.4,T17:65,T18:61.1,T19:57.65,T20:54.55,T21:51.85,T22:49.4,T23:47.2,T24:45.2,T25:43.35,T26:41.65,T27:40.1,T28:38.7,T29:37.4,T30:36.2,T31:35.15,T32:34.2,T33:33.3,T34:32.45,T35:31.7},"31":{T12:93.05,T13:85.45,T14:78.95,T15:74.5,T16:69.5,T17:65.1,T18:61.1,T19:57.75,T20:54.65,T21:51.95,T22:49.55,T23:47.3,T24:45.3,T25:43.5,T26:41.8,T27:40.3,T28:38.85,T29:37.6,T30:36.4,T31:35.35,T32:34.4,T33:33.5,T34:32.7,T35:31.9},"32":{T12:93.15,T13:85.5,T14:79.05,T15:74.55,T16:69.55,T17:65.2,T18:61.3,T19:57.85,T20:54.75,T21:52.1,T22:49.65,T23:47.45,T24:45.45,T25:43.65,T26:42,T27:40.45,T28:39.05,T29:37.8,T30:36.6,T31:35.55,T32:34.6,T33:33.75,T34:32.95,T35:32.2},"33":{T12:93.2,T13:85.6,T14:79.1,T15:74.56,T16:69.65,T17:65.3,T18:61.4,T19:57.95,T20:54.9,T21:52.2,T22:49.8,T23:47.6,T24:45.65,T25:43.8,T26:42.3,T27:40.65,T28:39.82,T29:38,T30:36.85,T31:35.8,T32:34.9,T33:34,T34:33.2,T35:32.5},"34":{T12:93.3,T13:85.7,T14:79.2,T15:74.75,T16:69.75,T17:65.4,T18:61.55,T19:58.1,T20:55.05,T21:52.35,T22:49.95,T23:47.8,T24:45.8,T25:44,T26:42.4,T27:40.9,T28:39.5,T29:38.25,T30:37.1,T31:35.9,T32:35.15,T33:34.3,T34:33.55,T35:32.8},"35":{T12:93.35,T13:85.8,T14:79.3,T15:74.9,T16:69.9,T17:65.55,T18:61.7,T19:58.25,T20:55.2,T21:52.55,T22:50.15,T23:48,T24:46.05,T25:44.25,T26:42.65,T27:41.15,T28:39.8,T29:38.55,T30:37.4,T31:36.4,T32:35.5,T33:34.65,T34:33.85,T35:33.15},"36":{T12:93.45,T13:85.9,T14:79.45,T15:75,T16:70.05,T17:65.75,T18:61.85,T19:58.45,T20:55.4,T21:52.75,T22:50.4,T23:48.25,T24:46.3,T25:44.5,T26:42.9,T27:41.4,T28:40.1,T29:38.85,T30:37.75,T31:36.75,T32:35.85,T33:35,T34:34.25,T35:33.55},"37":{T12:93.6,T13:86,T14:79.55,T15:75.15,T16:70.2,T17:65.85,T18:62.05,T19:58.65,T20:55.6,T21:53,T22:50.6,T23:49.01,T24:46.55,T25:44.8,T26:43.2,T27:41.75,T28:40.4,T29:39.2,T30:38.1,T31:37.1,T32:36.2,T33:35.4,T34:34.65,T35:34.05},"38":{T12:93.7,T13:86.15,T14:79.75,T15:75.35,T16:70.4,T17:66.05,T18:62.25,T19:58.85,T20:55.85,T21:53.25,T22:50.9,T23:48.75,T24:46.85,T25:45.1,T26:43.5,T27:42.1,T28:40.75,T29:39.55,T30:38.45,T31:37.5,T32:36.65,T33:35.85,T34:35.1,T35:34.45},"39":{T12:93.9,T13:86.35,T14:79.9,T15:75.04,T16:70.6,T17:66.3,T18:62.5,T19:59.15,T20:56.15,T21:53.55,T22:51.2,T23:49.1,T24:47.2,T25:45.45,T26:43.9,T27:42.45,T28:41.15,T29:40,T30:38.9,T31:37.95,T32:37.1,T33:36.3,T34:35.6,T35:34.95},"40":{T12:94.05,T13:86.55,T14:80.1,T15:75.75,T16:70.85,T17:66.55,T18:62.75,T19:59.4,T20:56.45,T21:53.85,T22:51.55,T23:49.45,T24:47.55,T25:45.85,T26:44.3,T27:42.9,T28:41.6,T29:40.45,T30:39.35,T31:38.45,T32:37.6,T33:36.85,T34:36.15,T35:35.5},"41":{T12:94.25,T13:86.75,T14:80.35,T15:76,T16:71.1,T17:66.85,T18:63.1,T19:59.75,T20:56.8,T21:54.2,T22:51.9,T23:49.85,T24:47.95,T25:46.25,T26:44.75,T27:43.35,T28:42.05,T29:40.9,T30:39.9,T31:38.95,T32:38.15,T33:37.4,T34:36.75},"42":{T12:94.5,T13:87,T14:80.6,T15:76.3,T16:71.45,T17:67.15,T18:63.45,T19:60.1,T20:57.15,T21:54.76,T22:52.37,T23:50.25,T24:48.4,T25:46.75,T26:45.2,T27:43.85,T28:42.6,T29:41.45,T30:40.45,T31:39.69,T32:38.75,T33:38},"43":{T12:94.75,T13:87.3,T14:80.9,T15:76.65,T16:71.8,T17:67.55,T18:63.8,T19:60.5,T20:57.6,T21:55.05,T22:52.8,T23:50.75,T24:48.9,T25:47.25,T26:45.75,T27:44.4,T28:43.15,T29:42.05,T30:41.05,T31:40.2,T32:39.4},"44":{T12:95.05,T13:87.6,T14:81.25,T15:77,T16:72.2,T17:67.95,T18:64.25,T19:60.95,T20:58.05,T21:55.55,T22:53.3,T23:51.25,T24:49.45,T25:47.8,T26:46.3,T27:45,T28:43.75,T29:42.7,T30:41.7,T31:40.85},"45":{T12:95.4,T13:87.95,T14:81.65,T15:77.45,T16:72.6,T17:68.4,T18:64.7,T19:61.45,T20:58.55,T21:56.05,T22:53.85,T23:51.85,T24:50.05,T25:48.4,T26:46.95,T27:45.65,T28:44.45,T29:43.4,T30:42.45},"46":{T12:95.8,T13:88.4,T14:82.1,T15:77.9,T16:73.1,T17:68.9,T18:65.25,T19:62,T20:59.1,T21:56.65,T22:54.45,T23:52.45,T24:50.65,T25:49.05,T26:47.65,T27:46.35,T28:45.2,T29:44.15},"47":{T12:96.25,T13:88.85,T14:82.55,T15:78.4,T16:73.6,T17:69.45,T18:65.8,T19:62.55,T20:59.7,T21:57.25,T22:55.05,T23:53.1,T24:51.35,T25:49.8,T26:48.35,T27:47.1,T28:46},"48":{T12:96.7,T13:89.35,T14:83.05,T15:78.95,T16:74.2,T17:70.05,T18:66.4,T19:63.2,T20:60.35,T21:57.95,T22:55.75,T23:53.85,T24:52.1,T25:50.55,T26:49.15,T27:47.95},"49":{T12:97.25,T13:89.85,T14:83.6,T15:79.55,T16:74.8,T17:70.65,T18:67.05,T19:63.85,T20:61.05,T21:58.65,T22:56.5,T23:54.6,T24:52.9,T25:51.4,T26:50.05},"50":{T12:97.8,T13:90.45,T14:84.2,T15:80.15,T16:75.45,T17:71.35,T18:67.75,T19:64.6,T20:61.8,T21:59.45,T22:57.3,T23:55.45,T24:53.75,T25:52.3}},
-        // ... (rest of the premiumRates data) ...
+        PLAN_721: { /* ADD PLAN 721 DATA HERE */ }
         };
+
+        function irr(values, guess) {
+            guess = guess || 0.1;
+            const maxTries = 100;
+            const accuracy = 0.0000001;
+            for (let i = 0; i < maxTries; i++) {
+                let npv = 0;
+                let dNpv = 0;
+                for (let j = 0; j < values.length; j++) {
+                    npv += values[j] / Math.pow(1 + guess, j);
+                    dNpv += -j * values[j] / Math.pow(1 + guess, j + 1);
+                }
+                const newGuess = guess - npv / dNpv;
+                if (Math.abs(newGuess - guess) < accuracy) {
+                    return newGuess;
+                }
+                guess = newGuess;
+            }
+            return null;
+        }
 
         function handleInputChange() {
             updatePlanNumber();
@@ -169,6 +174,7 @@
                 <th style="background-color:#ffe0b2;">Premium</th><th style="background-color:#ffe0b2;">Loan</th><th style="background-color:#ffe0b2;">Loan Int</th><th style="background-color:#ffe0b2;">Revival</th><th style="background-color:#ffe0b2;">Rider</th>
                 <th style="background-color:#c8e6c9;">Total Inflow</th>
                 <th style="background-color:#d1c4e9;">SB</th><th style="background-color:#d1c4e9;">Maturity</th><th style="background-color:#d1c4e9;">Bonus</th><th style="background-color:#d1c4e9;">FAB</th><th style="background-color:#d1c4e9;">LA</th><th style="background-color:#d1c4e9;">GA</th><th style="background-color:#d1c4e9;">Death Ben</th><th style="background-color:#d1c4e9;">Surrender</th>
+                <th style="background-color:#a5d6a7;">Accrued Bonus</th><th style="background-color:#a5d6a7;">Accrued FAB</th>
                 <th style="background-color:#bbdefb;">Net Cash Flow</th>
                 </tr></thead><tbody>`;
 
@@ -176,8 +182,12 @@
                 const baseStartDate = new Date(startDateStr + 'T00:00:00');
                 const currentDate = new Date(baseStartDate.setFullYear(baseStartDate.getFullYear() + j));
                 const currentRowAge = age + j;
-                let premium = (j < ppt) ? -annualPremium : 0; // Outflow is negative
+                let premium = (j < ppt) ? annualPremium : 0;
                 let sb = 0, maturity = 0;
+                
+                // NEW: Auto-calculate default Bonus and FAB
+                let yearlyBonus = (j > 0 && j <= policyTerm) ? (sumAssured / 1000) * 45 : 0; // Standard bonus rate
+                let finalBonus = (j === policyTerm) ? (sumAssured / 1000) * 75 : 0; // FAB only at maturity
 
                 switch (planNum) {
                     case "714": case "715": case "717": case "733": case "734": case "736": case "751": case "760": case "768": case "771": case "774":
@@ -201,7 +211,7 @@
                 tableHTML += `<tr id="row-${j}">
                     <td class="calculated-cell">${j}</td><td class="calculated-cell">${currentRowAge}</td><td class="calculated-cell">${currentDate.toLocaleDateString('en-GB')}</td>
                     <td class="calculated-cell" data-col="total_outflow">0</td>
-                    <td class="calculated-cell" data-col="premium">${Math.abs(premium).toFixed(0)}</td>
+                    <td class="calculated-cell" data-col="premium">${premium.toFixed(0)}</td>
                     <td><input type="number" class="cashflow-input" data-col="loan" value="0"></td>
                     <td><input type="number" class="cashflow-input" data-col="loan_interest" value="0"></td>
                     <td><input type="number" class="cashflow-input" data-col="revival_fees" value="0"></td>
@@ -209,12 +219,14 @@
                     <td class="calculated-cell" data-col="total_inflow">0</td>
                     <td class="calculated-cell" data-col="sb">${sb.toFixed(0)}</td>
                     <td class="calculated-cell" data-col="maturity">${maturity.toFixed(0)}</td>
-                    <td><input type="number" class="cashflow-input" data-col="bonus" value="0"></td>
-                    <td><input type="number" class="cashflow-input" data-col="fab" value="0"></td>
+                    <td><input type="number" class="cashflow-input" data-col="bonus" value="${yearlyBonus.toFixed(0)}"></td>
+                    <td><input type="number" class="cashflow-input" data-col="fab" value="${finalBonus.toFixed(0)}"></td>
                     <td><input type="number" class="cashflow-input" data-col="la" value="0"></td>
                     <td><input type="number" class="cashflow-input" data-col="ga" value="0"></td>
                     <td><input type="number" class="cashflow-input" data-col="death_benefit" value="0"></td>
                     <td><input type="number" class="cashflow-input" data-col="surrender_value" value="0"></td>
+                    <td class="calculated-cell" data-col="accrued_bonus">0</td>
+                    <td class="calculated-cell" data-col="accrued_fab">0</td>
                     <td class="calculated-cell" data-col="net_cash_flow">0</td>
                 </tr>`;
             }
@@ -223,6 +235,7 @@
                 <td colspan="3"><strong>TOTAL</strong></td>
                 <td data-total="total_outflow">0</td> <td data-total="premium">0</td> <td data-total="loan">0</td> <td data-total="loan_interest">0</td> <td data-total="revival_fees">0</td> <td data-total="rider_premium">0</td>
                 <td data-total="total_inflow">0</td> <td data-total="sb">0</td> <td data-total="maturity">0</td> <td data-total="bonus">0</td> <td data-total="fab">0</td> <td data-total="la">0</td> <td data-total="ga">0</td> <td data-total="death_benefit">0</td> <td data-total="surrender_value">0</td>
+                <td data-total="accrued_bonus"></td> <td data-total="accrued_fab"></td>
                 <td></td>
             </tr></tfoot></table><div id="irr-result"></div>`;
             reportOutputDiv.innerHTML = tableHTML;
@@ -232,8 +245,11 @@
         function recalculateTotals() {
             const table = document.getElementById('main-report-table');
             if (!table) return;
-            const totals = { total_outflow: 0, premium: 0, loan: 0, loan_interest: 0, revival_fees: 0, rider_premium: 0, total_inflow: 0, sb: 0, maturity: 0, bonus: 0, fab: 0, la: 0, ga: 0, death_benefit: 0, surrender_value: 0 };
+            const displayTotals = { total_outflow: 0, premium: 0, loan: 0, loan_interest: 0, revival_fees: 0, rider_premium: 0, total_inflow: 0, sb: 0, maturity: 0, bonus: 0, fab: 0, la: 0, ga: 0, death_benefit: 0, surrender_value: 0 };
             const cashFlowsForIRR = [];
+            let runningBonus = 0;
+            let runningFab = 0;
+
             const rows = table.querySelectorAll('tbody tr');
             rows.forEach(row => {
                 const getVal = (col) => {
@@ -244,11 +260,11 @@
                 };
 
                 const premium = getVal('premium');
-                const loanOutflow = getVal('loan'); // loan is an outflow
-                const loanInterest = getVal('loan_interest'); // interest is an outflow
-                const revivalFees = getVal('revival_fees'); // fees are an outflow
-                const riderPremium = getVal('rider_premium'); // rider is an outflow
-
+                const loanOutflow = getVal('loan'); 
+                const loanInterest = getVal('loan_interest');
+                const revivalFees = getVal('revival_fees');
+                const riderPremium = getVal('rider_premium');
+                
                 const sb = getVal('sb');
                 const maturity = getVal('maturity');
                 const bonus = getVal('bonus');
@@ -258,52 +274,51 @@
                 const deathBenefit = getVal('death_benefit');
                 const surrenderValue = getVal('surrender_value');
                 
-                const totalOutflow = premium + loanOutflow + loanInterest + revivalFees + riderPremium;
-                const totalInflow = sb + maturity + bonus + fab + la + ga + deathBenefit + surrenderValue;
+                const totalOutflowForDisplay = premium + loanOutflow + loanInterest + revivalFees + riderPremium;
+                const totalInflowForDisplay = sb + maturity + bonus + fab + la + ga + deathBenefit + surrenderValue;
                 
-                // IMPORTANT: For IRR, outflows must be negative, inflows must be positive.
-                const netCashFlow = totalInflow - totalOutflow;
+                const netCashFlow = totalInflowForDisplay - totalOutflowForDisplay;
+                
+                runningBonus += bonus;
+                runningFab += fab;
+                row.querySelector('[data-col="accrued_bonus"]').textContent = runningBonus.toLocaleString('en-IN', {maximumFractionDigits:0});
+                row.querySelector('[data-col="accrued_fab"]').textContent = runningFab.toLocaleString('en-IN', {maximumFractionDigits:0});
 
-                row.querySelector('[data-col="total_outflow"]').textContent = totalOutflow.toLocaleString('en-IN',{maximumFractionDigits:0});
-                row.querySelector('[data-col="total_inflow"]').textContent = totalInflow.toLocaleString('en-IN',{maximumFractionDigits:0});
+                row.querySelector('[data-col="total_outflow"]').textContent = totalOutflowForDisplay.toLocaleString('en-IN',{maximumFractionDigits:0});
+                row.querySelector('[data-col="total_inflow"]').textContent = totalInflowForDisplay.toLocaleString('en-IN',{maximumFractionDigits:0});
                 row.querySelector('[data-col="net_cash_flow"]').textContent = netCashFlow.toLocaleString('en-IN',{maximumFractionDigits:0});
 
                 cashFlowsForIRR.push(netCashFlow);
                 
-                // Update running totals
-                totals.premium += premium;
-                totals.loan += loanOutflow;
-                totals.loan_interest += loanInterest;
-                totals.revival_fees += revivalFees;
-                totals.rider_premium += riderPremium;
-                totals.total_outflow += totalOutflow;
-
-                totals.sb += sb;
-                totals.maturity += maturity;
-                totals.bonus += bonus;
-                totals.fab += fab;
-                totals.la += la;
-                totals.ga += ga;
-                totals.death_benefit += deathBenefit;
-                totals.surrender_value += surrenderValue;
-                totals.total_inflow += totalInflow;
+                // Update running display totals
+                Object.keys(displayTotals).forEach(key => {
+                    if (key.startsWith('total_')) return;
+                    displayTotals[key] += getVal(key);
+                });
+                displayTotals.total_outflow += totalOutflowForDisplay;
+                displayTotals.total_inflow += totalInflowForDisplay;
             });
+            
             document.querySelectorAll('#total-row [data-total]').forEach(cell => {
                 const key = cell.getAttribute('data-total');
-                cell.textContent = totals[key].toLocaleString('en-IN',{maximumFractionDigits:0});
+                if (displayTotals[key] !== undefined) {
+                    cell.textContent = displayTotals[key].toLocaleString('en-IN', {maximumFractionDigits:0});
+                }
             });
 
             const irrResultDiv = document.getElementById('irr-result');
             let irrResultText = "";
             try {
-                if (typeof financial === 'undefined') {
-                    throw new Error("Financial library failed to load.");
+                if (!cashFlowsForIRR.some(v => v > 0) || !cashFlowsForIRR.some(v => v < 0)) {
+                   throw new Error("Requires both positive and negative cash flows.");
                 }
-                const irr = financial.irr(cashFlowsForIRR);
-                if (irr === null || !isFinite(irr)) {
-                    irrResultText = "IRR could not be calculated. (Requires both positive & negative cash flows)";
+                
+                const irrResult = irr(cashFlowsForIRR);
+                
+                if (irrResult === null || !isFinite(irrResult)) {
+                    irrResultText = "IRR could not be calculated. (Check cash flows)";
                 } else {
-                    irrResultText = `IRR (Annualized): ${(irr * 100).toFixed(2)} %`;
+                    irrResultText = `IRR (Annualized): ${(irrResult * 100).toFixed(2)} %`;
                 }
             } catch (e) {
                 irrResultText = `IRR Calculation Error: ${e.message}`;
@@ -313,7 +328,7 @@
         }
 
         // --- MODERN EVENT LISTENER ATTACHMENT ---
-        document.querySelector('.action-button').addEventListener('click', generateReport);
+        document.getElementById('generateReportBtn').addEventListener('click', generateReport);
         
         document.getElementById('report-output').addEventListener('input', (event) => {
             if (event.target.classList.contains('cashflow-input')) {
@@ -321,7 +336,7 @@
             }
         });
         
-        // Initial setup
+        // --- INITIAL PAGE SETUP ---
         document.getElementById('policyStartDate').valueAsDate = new Date();
         const planNameSelect = document.getElementById('planName');
         planNameSelect.innerHTML = '<option value="">Select a Plan</option>';
@@ -335,11 +350,10 @@
         const triggerFields = ['planName', 'sumAssured', 'age', 'policyTerm'];
         triggerFields.forEach(id => { document.getElementById(id).addEventListener('input', handleInputChange); });
         
-        // Set a default plan and trigger initial calculation
         document.getElementById('planName').value = "736";
         handleInputChange();
 
-    }); // End of the 'DOMContentLoaded' event listener
+    });
   </script>
 </body>
 </html>
