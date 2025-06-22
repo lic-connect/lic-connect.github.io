@@ -215,9 +215,56 @@
         <h1>LIC CONNECT</h1>
       </header>
 
-      <div class="marquee-container">
-        <p>Loading latest news...</p>
-      </div>
+<marquee behavior="scroll" direction="right" scrollamount="4" style="background:#ffeeba; padding:8px; color:#333; font-weight:bold;">
+  🔔 Latest Life Insurance News: <span id="rss-feed">Loading…</span>
+</marquee>
+
+<script>
+  async function fetchRSS() {
+    const proxy = "https://api.allorigins.win/get?url=";
+    const feeds = [
+      "https://www.licindia.in/rss-feeds",
+      "https://www.moneycontrol.com/rss/insurance.xml"
+    ];
+    const keywords = ["life insurance", "lic", "policy", "premium", "term"];
+
+    let headlines = [];
+
+    for (let url of feeds) {
+      try {
+        const response = await fetch(proxy + encodeURIComponent(url));
+        const data = await response.json(); // allorigins returns JSON with contents property
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data.contents, "text/xml");
+        const items = xml.querySelectorAll("item");
+
+        items.forEach(item => {
+          const title = item.querySelector("title")?.textContent || "";
+          const lowerTitle = title.toLowerCase();
+          if (keywords.some(keyword => lowerTitle.includes(keyword))) {
+            headlines.push("📰 " + title);
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching", url, error);
+      }
+    }
+
+    const feedEl = document.getElementById("rss-feed");
+    if (headlines.length > 0) {
+      feedEl.innerText = headlines.slice(0, 6).join(" | ");
+    } else {
+      feedEl.innerText = "No life insurance news found.";
+    }
+  }
+
+  fetchRSS();
+</script>
+
+
+
+
+
 
       <main class="button-container">
         <!-- Left Column -->
@@ -276,45 +323,45 @@
 
     // --- FUNCTION TO FETCH NEWS FOR MARQUEE ---
         // --- SIMPLE & WORKING FUNCTION ---
-    async function fetchMarqueeMessage() {
-      const marqueeTextElement = document.querySelector(".marquee-container p");
+    // async function fetchMarqueeMessage() {
+     //  const marqueeTextElement = document.querySelector(".marquee-container p");
 
       // We will use a different RSS feed that is less likely to be blocked
-      const rssFeedUrl = 'https://feeds.feedburner.com/moneycontrol/news_insurance';
+     //  const rssFeedUrl = 'https://feeds.feedburner.com/moneycontrol/news_insurance';
       
       // And a different, often more reliable, proxy service
-      const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
+     //  const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
 
-      try {
-        const response = await fetch(proxyUrl);
-        if (!response.ok) {
-          throw new Error('News feed could not be loaded.');
-        }
+     //  try {
+       //  const response = await fetch(proxyUrl);
+       //  if (!response.ok) {
+         //  throw new Error('News feed could not be loaded.');
+        // }
 
-        const data = await response.json();
+       //  const data = await response.json();
 
         // This proxy formats the data nicely in a JSON object
-        if (data.status === 'ok' && data.items.length > 0) {
+       //  if (data.status === 'ok' && data.items.length > 0) {
           // Extract just the titles from the items
-          const headlines = data.items.map(item => item.title);
+          // const headlines = data.items.map(item => item.title);
 
           // Join the first 7 headlines to create the marquee text
-          const marqueeText = headlines.slice(0, 7).join('   +++   ');
+         //  const marqueeText = headlines.slice(0, 7).join('   +++   ');
           marqueeTextElement.textContent = marqueeText;
-        } else {
-          throw new Error('No news items found in the feed.');
-        }
+       //  } else {
+         //  throw new Error('No news items found in the feed.');
+       //  }
 
-      } catch (error) {
-        console.error("Error fetching RSS feed:", error);
-        marqueeTextElement.textContent = "Could not load latest news at this time.";
-      }
-    }
+    //  } catch (error) {
+      //   console.error("Error fetching RSS feed:", error);
+        // marqueeTextElement.textContent = "Could not load latest news at this time.";
+     //  }
+  //   }
 
     // --- PAGE LOAD LOGIC ---
-    window.addEventListener("DOMContentLoaded", async () => {
+   // window.addEventListener("DOMContentLoaded", async () => {
       // Fetch the marquee news as soon as the page structure is ready
-      fetchMarqueeMessage();
+     //  fetchMarqueeMessage();
 
       // Handle user authentication
       const { data: { session } } = await supabase.auth.getSession();
