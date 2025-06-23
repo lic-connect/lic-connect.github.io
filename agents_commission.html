@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commission page for agents</title>
+    <style>
+        /* --- General Styling & Layout --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: auto;
+            background: #fdfdfd;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e0e0e0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c6b2e;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .calculator-body {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .input-section, .output-section {
+            flex: 1;
+            min-width: 350px;
+            padding: 20px;
+            border: 1px solid #e7e7e7;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* --- Form Elements --- */
+        label {
+            font-weight: 600;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"], select {
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #5cb85c;
+            box-shadow: 0 0 5px rgba(92, 184, 92, 0.5);
+        }
+
+        input[readonly] {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+            color: #777;
+        }
+        
+        .hidden {
+            display: none;
+        }
+
+        /* --- Buttons --- */
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex-grow: 1;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid #3e8e41;
+            background: linear-gradient(145deg, #78d17b, #5cb85c);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.25), 
+                        -5px -5px 10px rgba(255,255,255,0.8),
+                        inset 1px 1px 1px rgba(255, 255, 255, 0.4),
+                        inset -1px -1px 1px rgba(0,0,0,0.1);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+            transition: all 0.1s ease-in-out;
+            outline: none;
+        }
+
+        .btn:hover {
+            background: linear-gradient(145deg, #82e085, #64c764);
+        }
+
+        .btn:active {
+            transform: translateY(3px) scale(0.98);
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.25), 
+                        -2px -2px 5px rgba(255,255,255,0.8),
+                        inset 1px 1px 1px rgba(0, 0, 0, 0.2);
+        }
+        
+        #reset-btn {
+            background: linear-gradient(145deg, #f0ad4e, #ec971f);
+            border-color: #d58512;
+        }
+        #reset-btn:hover {
+            background: linear-gradient(145deg, #f3b965, #f0a33a);
+        }
+
+        /* --- Output Section --- */
+        .output-section h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .output-section table {
+            width: 100%; border-collapse: collapse; margin-top: 20px;
+        }
+        .output-section th, .output-section td {
+            border: 1px solid #ddd; padding: 12px; text-align: center;
+        }
+        .output-section th {
+            background-color: #5cb85c; color: white; font-weight: 600;
+        }
+        .output-section td {
+            font-size: 1.2em; font-weight: bold; color: #2a6a2c; background-color: #fafffa;
+        }
+        .error { 
+            color: #d9534f; font-weight: bold; margin-top: 15px; text-align: center; display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Commission Page for Agents</h1>
+        <div class="calculator-body">
+            <div class="input-section">
+                <div>
+                    <label for="plan-name">Plan Name:</label>
+                    <select id="plan-name">
+                        <option value="">-- Select a Plan --</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="plan-number">Plan Number:</label>
+                    <input type="text" id="plan-number" placeholder="Auto-populated" readonly>
+                </div>
+                <div id="term-container">
+                    <label for="policy-term">Policy Term (Years):</label>
+                    <input type="number" id="policy-term" min="1" placeholder="e.g., 20">
+                    <select id="term-select" class="hidden"></select>
+                </div>
+                <div id="ppt-container">
+                    <label for="ppt">PPT (Premium Paying Term):</label>
+                    <input type="text" id="ppt" placeholder="Auto-populated" readonly>
+                </div>
+                <div>
+                    <label for="premium">Premium Paid:</label>
+                    <input type="number" id="premium" min="0" placeholder="Enter premium amount">
+                </div>
+                <div>
+                    <label for="mode">Mode of Payment:</label>
+                    <select id="mode">
+                        <option value="1">Yearly (YLY)</option>
+                        <option value="2">Half-yearly (HLY)</option>
+                        <option value="4">Quarterly (QLY)</option>
+                        <option value="12">Monthly (MLY)</option>
+                    </select>
+                </div>
+
+                <div class="button-container">
+                     <button id="calculate-btn" class="btn">Calculate</button>
+                     <button id="reset-btn" class="btn">Reset</button>
+                </div>
+            </div>
+            <div class="output-section">
+                <h2>Commission in INR</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Year 1</th>
+                            <th>Year 2</th>
+                            <th>Year 3</th>
+                            <th>Year 4 onwards</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="output-y1">-</td>
+                            <td id="output-y2">-</td>
+                            <td id="output-y3">-</td>
+                            <td id="output-y4plus">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+                 <div id="error-message" class="error"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const getEndowmentRates = () => term => {
+            const y4plus = 5;
+            if (term >= 15) return { y1: 25, y2: 7.5, y3: 7.5, y4plus };
+            if (term < 15 && term > 0) return { y1: 20, y2: 7.5, y3: 7.5, y4plus };
+            return null;
+        };
+        const getMoneyBackRates = () => term => {
+            const y4plus = 6;
+            if (term >= 15) return { y1: 15, y2: 10, y3: 10, y4plus };
+            return null;
+        };
+        const getChildrensRates = () => term => {
+            const y4plus = 5;
+            if (term >= 13 && term <= 25) { 
+                if (term >= 15) return { y1: 25, y2: 7.5, y3: 7.5, y4plus };
+                else return { y1: 20, y2: 7.5, y3: 7.5, y4plus };
+            }
+            return null;
+        };
+        const getWholeLifeRates = () => term => {
+            const y4plus = 5;
+            if (term >= 15) return { y1: 25, y2: 7.5, y3: 7.5, y4plus };
+            if (term < 15 && term > 0) return { y1: 20, y2: 7.5, y3: 7.5, y4plus };
+            return null;
+        };
+        
+        const singlePremiumRates = { y1: 2, y2: 0, y3: 0, y4plus: 0 };
+        const termInsuranceRates = { y1: 7.5, y2: 2, y3: 2, y4plus: 2 };
+
+        const commissionData = {
+            '714': { name: 'New Endowment (714)', planNumber: '714', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getEndowmentRates(), minTerm: 12, maxTerm: 35 },
+            '715': { name: 'Jeevan Anand (715)', planNumber: '715', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getEndowmentRates(), minTerm: 15, maxTerm: 35 },
+            '717': { name: 'Single Premium Endowment (717)', planNumber: '717', type: 'SINGLE', pptRule: 'SINGLE', rates: singlePremiumRates, minTerm: 10, maxTerm: 25 },
+            '720': { name: '20 Year Money Back (720)', planNumber: '720', type: 'REGULAR', pptRule: 'FIXED', fixedTerm: 20, fixedPPT: 15, rates: getMoneyBackRates() },
+            '721': { name: '25 Year Money Back (721)', planNumber: '721', type: 'REGULAR', pptRule: 'FIXED', fixedTerm: 25, fixedPPT: 20, rates: getMoneyBackRates() },
+            '732': { name: 'Child Money Back (732)', planNumber: '732', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getChildrensRates(), minTerm: 13, maxTerm: 25 },
+            '733': { name: 'Jeevan Lakshya (733)', planNumber: '733', type: 'REGULAR', pptRule: 'TERM_MINUS_3', rates: getEndowmentRates(), minTerm: 13, maxTerm: 25 },
+            '734': { name: 'Jeevan Tarun (734)', planNumber: '734', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getChildrensRates(), minTerm: 13, maxTerm: 25 },
+            '736': { name: 'Jeevan Labh (736)', planNumber: '736', type: 'REGULAR', pptRule: 'MAPPED', termPptMap: { '16': 10, '21': 15, '25': 16 }, rates: getEndowmentRates() },
+            '745': { name: 'Jeevan Umang (745)', planNumber: '745', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getWholeLifeRates(), minTerm: 30, maxTerm: 100 },
+            '748': { name: 'Bima Shree (748)', planNumber: '748', type: 'REGULAR', pptRule: 'MAPPED', termPptMap: { '14': 10, '16': 12, '18': 14, '20': 16, '24':20, '28':24 }, rates: getMoneyBackRates() },
+            '751': { name: 'Micro Bachat (751)', planNumber: '751', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getEndowmentRates(), minTerm: 10, maxTerm: 15 },
+            '760': { name: 'Bima Jyoti (760)', planNumber: '760', type: 'REGULAR', pptRule: 'MAPPED', termPptMap: { '15': 10, '16': 11, '17': 12, '18': 13, '19': 14, '20': 15 }, rates: getEndowmentRates() },
+            '768': { name: 'Jeevan Azad (768)', planNumber: '768', type: 'REGULAR', pptRule: 'MAPPED', termPptMap: { '15': 7, '16': 8, '17': 9, '18': 10, '19': 11, '20': 12 }, rates: getEndowmentRates() },
+            '771': { name: 'Jeevan Utsav (771)', planNumber: '771', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getWholeLifeRates(), minTerm: 10, maxTerm: 95 },
+            '774': { name: 'Amritbaal (774)', planNumber: '774', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getChildrensRates(), minTerm: 10, maxTerm: 25 },
+            '859': { name: 'Saral Jeevan Bima (859)', planNumber: '859', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: termInsuranceRates, minTerm: 5, maxTerm: 40 },
+            '875': { name: 'Yuva Term (875)', planNumber: '875', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: termInsuranceRates, minTerm: 15, maxTerm: 40 },
+            '877': { name: 'Yuva Credit Life (877)', planNumber: '877', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: termInsuranceRates, minTerm: 5, maxTerm: 30 },
+            '955': { name: 'New Jeevan Amar (955)', planNumber: '955', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: termInsuranceRates, minTerm: 10, maxTerm: 40 },
+            
+            '758': { name: 'New Jeevan Shanti (758)', planNumber: '758', type: 'SINGLE', pptRule: 'SINGLE', rates: singlePremiumRates, minTerm: 1, maxTerm: 12 },
+            '857': { name: 'Jeevan Akshay VII (857)', planNumber: '857', type: 'SINGLE', pptRule: 'SINGLE', rates: singlePremiumRates, minTerm: 1, maxTerm: 40 },
+            '862': { name: 'Saral Pension (862)', planNumber: '862', type: 'SINGLE', pptRule: 'SINGLE', rates: singlePremiumRates, minTerm: 1, maxTerm: 40 },
+            '879': { name: 'Smart Pension (879)', planNumber: '879', type: 'SINGLE', pptRule: 'SINGLE', rates: singlePremiumRates, minTerm: 1, maxTerm: 40 },
+        };
+        
+        const planSelect = document.getElementById('plan-name');
+        const planNumberInput = document.getElementById('plan-number');
+        const termInput = document.getElementById('policy-term');
+        const termSelect = document.getElementById('term-select');
+        const pptInput = document.getElementById('ppt');
+        const premiumInput = document.getElementById('premium');
+        const modeSelect = document.getElementById('mode');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const errorMsg = document.getElementById('error-message');
+        const [outY1, outY2, outY3, outY4plus] = ['output-y1', 'output-y2', 'output-y3', 'output-y4plus'].map(id => document.getElementById(id));
+
+        const populatePlans = () => {
+            const planKeys = Object.keys(commissionData);
+            planKeys.sort((a, b) => commissionData[a].name.localeCompare(commissionData[b].name));
+            planKeys.forEach(key => {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = commissionData[key].name;
+                planSelect.appendChild(option);
+            });
+        };
+
+        const updateUIForPlan = () => {
+            clearError();
+            const selectedKey = planSelect.value;
+            if (!selectedKey) { resetForm(); return; }
+
+            const plan = commissionData[selectedKey];
+            planNumberInput.value = plan.planNumber;
+            modeSelect.disabled = plan.type === 'SINGLE';
+            if (plan.type === 'SINGLE') modeSelect.value = '1';
+            
+            [termInput, termSelect, pptInput].forEach(el => { el.value = ''; });
+            termInput.classList.remove('hidden');
+            termSelect.classList.add('hidden');
+            termInput.readOnly = false;
+            pptInput.readOnly = true;
+
+            switch (plan.pptRule) {
+                case 'MAPPED':
+                    termInput.classList.add('hidden');
+                    termSelect.classList.remove('hidden');
+                    termSelect.innerHTML = '<option value="">-- Select Term --</option>';
+                    Object.keys(plan.termPptMap).forEach(term => {
+                        const option = document.createElement('option');
+                        option.value = term;
+                        option.textContent = term;
+                        termSelect.appendChild(option);
+                    });
+                    break;
+                case 'FIXED':
+                    termInput.value = plan.fixedTerm;
+                    termInput.readOnly = true;
+                    pptInput.value = plan.fixedPPT;
+                    break;
+                case 'SINGLE':
+                    pptInput.value = '1';
+                    break;
+                case 'TERM_MINUS_3':
+                case 'TERM_EQUALS_PPT':
+                default:
+                    break;
+            }
+            updatePPT();
+        };
+
+        const updatePPT = () => {
+            const selectedKey = planSelect.value;
+            if (!selectedKey) return;
+
+            const plan = commissionData[selectedKey];
+            let term = 0;
+            if (plan.pptRule === 'MAPPED') {
+                term = parseInt(termSelect.value, 10);
+            } else {
+                term = parseInt(termInput.value, 10);
+            }
+
+            if (!term || isNaN(term)) {
+                if (plan.pptRule !== 'FIXED' && plan.pptRule !== 'SINGLE') pptInput.value = '';
+                return;
+            }
+
+            switch (plan.pptRule) {
+                case 'MAPPED':
+                    pptInput.value = plan.termPptMap[term] || '';
+                    break;
+                case 'TERM_MINUS_3':
+                    pptInput.value = term - 3;
+                    break;
+                case 'TERM_EQUALS_PPT':
+                    pptInput.value = term;
+                    break;
+            }
+        };
+        
+        const showError = (message) => { errorMsg.textContent = message; errorMsg.style.display = 'block'; };
+        const clearError = () => { errorMsg.textContent = ''; errorMsg.style.display = 'none'; };
+
+        const resetForm = () => {
+            planSelect.value = '';
+            planNumberInput.value = '';
+            termInput.value = '';
+            termSelect.innerHTML = '';
+            pptInput.value = '';
+            premiumInput.value = '';
+            modeSelect.value = '1';
+            [outY1, outY2, outY3, outY4plus].forEach(el => { el.textContent = '-'; });
+            termInput.classList.remove('hidden');
+            termSelect.classList.add('hidden');
+            termInput.readOnly = false;
+            pptInput.readOnly = true;
+            modeSelect.disabled = false;
+            clearError();
+        };
+
+        const calculateCommission = () => {
+            clearError();
+            
+            // --- STEP 1: VALIDATE FORM COMPLETENESS ---
+            const planKey = planSelect.value;
+            if (!planKey) { showError('Please select a plan.'); return; }
+            const plan = commissionData[planKey];
+
+            let term;
+            if (plan.pptRule === 'MAPPED') {
+                term = parseInt(termSelect.value, 10);
+                if (!term) { showError('Please select a policy term.'); return; }
+            } else if (plan.pptRule === 'FIXED') {
+                term = plan.fixedTerm; 
+            } else {
+                term = parseInt(termInput.value, 10);
+                if (!term || term <= 0) { showError('Please enter a valid policy term.'); return; }
+            }
+
+            const premium = parseFloat(premiumInput.value);
+            if (!premium || premium <= 0) { showError('Please enter a valid premium amount.'); return; }
+
+            // --- STEP 2: VALIDATE TERM RANGE ---
+            if (plan.minTerm && plan.maxTerm) {
+                if (term < plan.minTerm || term > plan.maxTerm) {
+                    showError(`For this plan, the term must be between ${plan.minTerm} and ${plan.maxTerm} years.`);
+                    return;
+                }
+            }
+
+            // --- STEP 3: GET RATES AND CALCULATE ---
+            let rates;
+            if (typeof plan.rates === 'function') {
+                rates = plan.rates(term);
+            } else {
+                rates = plan.rates;
+            }
+
+            if (!rates) {
+                showError(`Commission rates are not available for the selected term of ${term} years.`);
+                return;
+            }
+
+            const annualPremium = (plan.type === 'SINGLE') ? premium : premium * parseInt(modeSelect.value, 10);
+            const formatCurrency = (num) => `₹ ${num.toFixed(2)}`;
+
+            const commY1 = annualPremium * (rates.y1 / 100);
+            const commY2 = (term >= 2 && plan.type === 'REGULAR') ? annualPremium * (rates.y2 / 100) : 0;
+            const commY3 = (term >= 3 && plan.type === 'REGULAR') ? annualPremium * (rates.y3 / 100) : 0;
+            const commY4plus = (term >= 4 && plan.type === 'REGULAR') ? annualPremium * (rates.y4plus / 100) : 0;
+            
+            outY1.textContent = formatCurrency(commY1);
+            outY2.textContent = formatCurrency(commY2);
+            outY3.textContent = formatCurrency(commY3);
+            outY4plus.textContent = formatCurrency(commY4plus);
+        };
+
+        planSelect.addEventListener('change', updateUIForPlan);
+        termInput.addEventListener('input', updatePPT);
+        termSelect.addEventListener('change', updatePPT);
+        calculateBtn.addEventListener('click', calculateCommission);
+        resetBtn.addEventListener('click', resetForm);
+
+        populatePlans();
+    });
+    </script>
+</body>
+</html>
