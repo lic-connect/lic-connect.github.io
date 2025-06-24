@@ -54,47 +54,28 @@
     }
     
     /* --- Running Text (Marquee) Styling --- */
-      /* --- Running Text (Marquee) Styling --- */
-   /* .marquee-container {
-     background-color: rgba(0, 0, 0, 0.7);
-      padding: 12px 0;
+    .marquee-container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 10px 0;
       border-radius: 8px;
-     overflow: hidden;
-     white-space: nowrap;
+      overflow: hidden;
+      white-space: nowrap;
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-     margin-bottom: 40px;
-    }*/
+      margin-bottom: 40px;
+    }
     
-    /*.marquee-container p {
-     margin: 0;
+    .marquee-container p {
+      margin: 0;
       display: inline-block;
       padding-left: 100%;
-      animation: marquee 40s linear infinite; /* Slower animation for readability */
+      animation: marquee 35s linear infinite; /* Slower animation for more text */
       font-size: 16px;
-      font-weight: 500;
-    }*/
+    }
 
-   /* @keyframes marquee {
+    @keyframes marquee {
       0%   { transform: translate(0, 0); }
       100% { transform: translate(-100%, 0); }
-    }*/
-#newsTicker {
-  background: rgba(255,255,255,0.85);
-  padding: 10px;
-  border-radius: 8px;
-  color: #003366;
-  overflow: hidden;
-  position: relative;
-  margin-bottom: 20px;
-  height: 28px;
-}
-#newsText {
-  position: absolute;
-  white-space: nowrap;
-  will-change: transform;
-  font-size: 16px;
-}
-
+    }
 
     /* Two-Column Layout for Buttons */
     .button-container {
@@ -234,11 +215,9 @@
         <h1>LIC CONNECT</h1>
       </header>
 
-            <div id="newsTicker" style="overflow:hidden; white-space:nowrap; position: relative; height: 30px; border: 1px solid #ddd; padding: 5px;">
-  <div id="newsText" style="position: absolute; white-space: nowrap; will-change: transform;">Loading news...</div>
-</div>
-
-
+      <div class="marquee-container">
+        <p>Loading latest news...</p>
+      </div>
 
       <main class="button-container">
         <!-- Left Column -->
@@ -268,7 +247,7 @@
           <a href="irrnew.html" class="dashboard-button">IRR Calculation</a>
           <a href="plan_features.html" class="dashboard-button">Plan features</a>
           <a href="plancomparison.html" class="dashboard-button">Plan Comparison tool</a>
-          <a href="needs_budget.html" class="dashboard-button">Plans as per Need</a>
+          <a href="mybestplan.html" class="dashboard-button">Plans as per Need</a>
           <a href="prospectscorner.html" class="dashboard-button">Prospects Corner</a>
           <a href="terminologies.html" class="dashboard-button">Glossary</a>
         </div>
@@ -302,11 +281,45 @@
 
     // --- FUNCTION TO FETCH NEWS FOR MARQUEE ---
         // --- SIMPLE & WORKING FUNCTION ---
-     
+    async function fetchMarqueeMessage() {
+      const marqueeTextElement = document.querySelector(".marquee-container p");
+
+      // We will use a different RSS feed that is less likely to be blocked
+      const rssFeedUrl = 'https://feeds.feedburner.com/moneycontrol/news_insurance';
+      
+      // And a different, often more reliable, proxy service
+      const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
+
+      try {
+        const response = await fetch(proxyUrl);
+        if (!response.ok) {
+          throw new Error('News feed could not be loaded.');
+        }
+
+        const data = await response.json();
+
+        // This proxy formats the data nicely in a JSON object
+        if (data.status === 'ok' && data.items.length > 0) {
+          // Extract just the titles from the items
+          const headlines = data.items.map(item => item.title);
+
+          // Join the first 7 headlines to create the marquee text
+          const marqueeText = headlines.slice(0, 7).join('   +++   ');
+          marqueeTextElement.textContent = marqueeText;
+        } else {
+          throw new Error('No news items found in the feed.');
+        }
+
+      } catch (error) {
+        console.error("Error fetching RSS feed:", error);
+        marqueeTextElement.textContent = "Could not load latest news at this time.";
+      }
+    }
+
     // --- PAGE LOAD LOGIC ---
     window.addEventListener("DOMContentLoaded", async () => {
       // Fetch the marquee news as soon as the page structure is ready
-     // fetchMarqueeMessage();
+      fetchMarqueeMessage();
 
       // Handle user authentication
       const { data: { session } } = await supabase.auth.getSession();
@@ -344,57 +357,5 @@
       }, 1500);
     }
   </script>
-<script>
-const apiKey = '8a0ba6734a5022587c68aa4adcac6b33';
-const query = 'life insurance India';
-const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&country=in&token=${apiKey}&max=10`;
-
-let newsList = [];
-let index = 0;
-
-async function fetchGNews() {
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (data.articles && data.articles.length > 0) {
-      newsList = data.articles.map(article => ({
-        title: article.title,
-        url: article.url
-      }));
-      rotateNews();
-    } else {
-      document.getElementById("newsText").textContent = "No news found.";
-    }
-  } catch (error) {
-    console.error("Error fetching GNews:", error);
-    document.getElementById("newsText").textContent = "Error loading news.";
-  }
-}
-
-function rotateNews() {
-  const newsText = document.getElementById("newsText");
-  setInterval(() => {
-    const currentNews = newsList[index];
-    newsText.style.transform = 'translateX(100%)';
- newsText.innerHTML = `<a href="${currentNews.url}" target="_blank" style="color: white; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${currentNews.title}</a>`;
-
-    requestAnimationFrame(() => {
-      newsText.style.transition = 'none';
-      newsText.style.transform = 'translateX(100%)';
-      requestAnimationFrame(() => {
-        newsText.style.transition = 'transform 12s linear'; // slower scroll
-        newsText.style.transform = 'translateX(-100%)';
-      });
-    });
-    index = (index + 1) % newsList.length;
-  }, 12000); // interval should match transition duration
-}
-
-fetchGNews();
-</script>
-
-
-
 </body>
 </html>
