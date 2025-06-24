@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best plan for me???</title>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px 20px 50px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333333;
+            margin-bottom: 5px;
+        }
+
+        p.intro {
+            font-size: 18px;
+            color: #666666;
+            margin-bottom: 40px;
+        }
+
+        /* --- Custom Dropdown Styling --- */
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-button {
+            background: linear-gradient(to bottom, #333333, #808080);
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 
+                inset 0 -3px 8px rgba(255, 255, 255, 0.4),
+                0 6px 15px rgba(0, 0, 0, 0.6);
+            width: 320px; /* Adjusted width for longer text */
+            height: 70px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dashboard-button:hover {
+            box-shadow:
+                inset 0 -3px 8px rgba(255, 255, 255, 0.6),
+                0 8px 20px rgba(0, 0, 0, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .needs-list {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 320px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 10;
+            border-radius: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .needs-list .need-group {
+            padding: 10px 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #00563f;
+            font-size: 0.9em;
+            position: sticky;
+            top: 0;
+        }
+        
+        .needs-list .need-item {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .needs-list .need-item:hover {
+            background-color: #e9e9e9;
+        }
+
+        .show { display: block; }
+
+        /* --- Output Card Styling --- */
+        #plan-details-output {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            text-align: left;
+        }
+
+        .plan-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-left: 5px solid #d9232d; /* LIC Red accent */
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .plan-card h3 {
+            margin-top: 0;
+            color: #00563f;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .plan-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 8px 0;
+            color: #555;
+        }
+        .plan-card p strong {
+            color: #333;
+            display: inline-block;
+            min-width: 130px;
+        }
+        
+        .plan-card .why-reason {
+            margin-top: 15px;
+            padding: 15px;
+            border-top: 1px dashed #ccc;
+            background-color: #fdfaf6;
+            border-radius: 5px;
+        }
+        .plan-card .why-reason strong {
+            color: #d9232d;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .plan-card ul {
+            padding-left: 20px;
+            margin: 0;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        /* --- MODAL STYLES --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+        }
+        .modal-content h3 { margin-top: 0; color: #333; }
+        .modal-content .input-group { margin-bottom: 20px; text-align: left; }
+        .modal-content input, .modal-content select {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .modal-btn-group { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+        .modal-btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; font-weight: bold; color: #aaa; cursor: pointer; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Best plan for me???</h1>
+    <p class="intro">Find the perfect LIC plan tailored to your financial goals.</p>
+
+    <div class="tool-section">
+        <div class="dropdown-container">
+            <button id="needs-dropdown-btn" class="dashboard-button">Choose your need</button>
+            <div id="needs-list" class="needs-list"></div>
+        </div>
+        <div id="plan-details-output"></div>
+    </div>
+</div>
+
+<!-- Budget Modal HTML -->
+<div id="budgetModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-btn">×</span>
+        <h3 id="modalTitle">Set Your Budget</h3>
+        <div class="input-group">
+            <label for="budgetAmount">Budgeted Premium (₹)</label>
+            <input type="number" id="budgetAmount" placeholder="e.g., 50000">
+        </div>
+        <div class="input-group">
+            <label for="paymentMode">Payment Mode</label>
+            <select id="paymentMode">
+                <option value="YLY">Yearly</option>
+                <option value="HLY">Half-Yearly</option>
+                <option value="QLY">Quarterly</option>
+                <option value="MLY">Monthly (ECS)</option>
+                <option value="SINGLE">Single Premium</option>
+            </select>
+        </div>
+        <div class="modal-btn-group">
+            <button id="findPlansBtn" class="modal-btn btn-primary">Find Plans</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // --- COMPLETE DATA STORE SECTION ---
+        // --- COMPLETE DATA STORE SECTION ---
+    const planData = {
+        "714":{"planName":"New Endowment","planNumber":"714","productSummary":"A regular premium, non-linked, with-profits Endowment Plan.","term":"12 to 35 years","minAge":"8 Years","maxAge":"50 Years","minSumAssured":200000,"onDeath":"Sum Assured + Vested Bonus + FAB. Higher of 7x Annualized Premium or 105% of all Premiums paid.","onSurvival":"Basic Sum Assured + Vested Bonus + FAB.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":18916,"max":12355558},"HLY":{"min":9554,"max":6246096},"QLY":{"min":4826,"max":3157206},"MLY":{"min":1608,"max":1052402}}},
+        "715":{"planName":"Jeevan Anand","planNumber":"715","productSummary":"A participating non-linked plan combining protection and savings, with lifelong death cover.","term":"15 to 35 years","minAge":"18 Years","maxAge":"50 Years","minSumAssured":200000,"onDeath":"During term: SA on Death (Higher of 125% BSA or 7x AP) + Bonuses. After term: Basic Sum Assured.","onSurvival":"Basic Sum Assured + Vested Bonus + FAB.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":17066,"max":15159031},"HLY":{"min":8619,"max":7662136},"QLY":{"min":4352,"max":3872378},"MLY":{"min":1450,"max":1290792}}},
+        "717":{"planName":"Single Premium Endowment","planNumber":"717","productSummary":"A single premium, non-linked, with-profits Endowment Plan.","term":"10 to 25 Years","minAge":"30 Days","maxAge":"65 Years","minSumAssured":100000,"onDeath":"Sum Assured + Vested Bonus + FAB.","onSurvival":"Sum Assured + Vested Bonus + FAB.","loan":"Available after 1 policy year.","premiumLimits":{"SINGLE":{"min":51994,"max":200984328}}},
+        "720":{"planName":"20Year Money Back","planNumber":"720","productSummary":"A limited premium, with-profits Money Back Plan with periodic payouts.","term":"20 Years","ppt":"15 Years","minAge":"13 Years","maxAge":"50 Years","minSumAssured":200000,"onDeath":"SA on Death (Higher of 125% BSA or 7x AP) + Bonuses.","onSurvival":"20% of BSA at years 5, 10, & 15. Maturity: 40% of SA + Bonus.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":16539,"max":23627973},"HLY":{"min":8355,"max":11938472},"QLY":{"min":4220,"max":6031479},"MLY":{"min":1407,"max":2010493}}},
+        "721":{"planName":"25Year Money Back","planNumber":"721","productSummary":"A 25-year limited premium, with-profits Money Back Plan.","term":"25 Years","ppt":"20 Years","minAge":"13 Years","maxAge":"45 Years","minSumAssured":200000,"onDeath":"SA on Death (Higher of 125% BSA or 7x AP) + Bonuses.","onSurvival":"15% of BSA at years 5, 10, 15, & 20. Maturity: 40% of SA + Bonus.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":12771,"max":17905291},"HLY":{"min":6451,"max":9047937},"QLY":{"min":3258,"max":4571614},"MLY":{"min":1086,"max":1523871}}},
+        "732":{"planName":"Child Money Back","planNumber":"732","productSummary":"A money back plan for children, providing funds at key educational milestones.","term":"Matures at age 25","minAge":"0 Years","maxAge":"12 Years","minSumAssured":200000,"onDeath":"SA on Death + Bonuses.","onSurvival":"20% of SA at ages 18, 20, & 22. Maturity: 40% of SA + Bonus.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":9411,"max":23776624},"HLY":{"min":4754,"max":12014953},"QLY":{"min":2401,"max":6070797},"MLY":{"min":800,"max":2023599}}},
+        "733":{"planName":"Jeevan Lakshya","planNumber":"733","productSummary":"A limited premium endowment plan providing annual income on death to secure family goals.","term":"13 to 25 Years","ppt":"(Term - 3) Years","minAge":"18 Years","maxAge":"50 Years","minSumAssured":200000,"onDeath":"Annual Income (10% of BSA) till maturity, then 110% of BSA + Bonuses.","onSurvival":"Basic Sum Assured + Vested Bonus + FAB.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":9621,"max":23131075},"HLY":{"min":4858,"max":11690154},"QLY":{"min":2454,"max":5907385},"MLY":{"min":818,"max":1969128}}},
+        "734":{"planName":"Jeevan Tarun","planNumber":"734","productSummary":"A flexible money back plan for children's education with 4 survival benefit options.","term":"Matures at age 25","ppt":"(20 - Age at entry) Years","minAge":"0 Years","maxAge":"12 Years","minSumAssured":200000,"onDeath":"SA on Death (Higher of 125% BSA or 7x AP) + Bonuses.","onSurvival":"Four flexible options for annual payouts from age 20 to 24.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":9002,"max":28807515},"HLY":{"min":4550,"max":14556066},"QLY":{"min":2299,"max":7354188},"MLY":{"min":766,"max":2451396}}},
+        "736":{"planName":"Jeevan Labh","planNumber":"736","productSummary":"A limited premium paying endowment plan known for high bonuses.","term":"16, 21, or 25 Years","ppt":"10, 15, or 16 Years","minAge":"8 Years","maxAge":"59 Years","minSumAssured":200000,"onDeath":"SA on Death (Higher of BSA or 7x AP) + Bonus + FAB.","onSurvival":"Basic Sum Assured + Reversionary Bonus + FAB.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":10251,"max":25573240},"HLY":{"min":5178,"max":12921686},"QLY":{"min":2616,"max":6528376},"MLY":{"min":872,"max":2176126}}},
+        "745":{"planName":"Jeevan Umang","planNumber":"745","productSummary":"A whole life plan providing annual survival benefits after PPT and a lump sum at maturity or death.","term":"(100 - age) Years","ppt":"15, 20, 25, 30 Years","minAge":"90 Days","maxAge":"55 Years","minSumAssured":200000,"onDeath":"SA on Death + Bonus + FAB.","onSurvival":"8% of SA annually for life after PPT ends. At age 100: SA + Bonuses.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":7117,"max":21290830},"HLY":{"min":3596,"max":10759320},"QLY":{"min":1816,"max":5436613},"MLY":{"min":605,"max":1812205}}},
+        "748":{"planName":"Bima Shree","planNumber":"748","productSummary":"A premium money-back plan for HNIs with guaranteed additions.","term":"14 to 28 Years","ppt":"10 to 24 Years","minAge":"8 Years","maxAge":"55 Years","minSumAssured":1000000,"onDeath":"SA on Death + Guaranteed Additions + Loyalty Addition.","onSurvival":"Periodic payouts (30-45% of SA) based on term.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":46136,"max":32446466},"HLY":{"min":23304,"max":16388801},"QLY":{"min":11770,"max":8277184},"MLY":{"min":3923,"max":2759061}}},
+        "751":{"planName":"Micro Bachat","planNumber":"751","productSummary":"A traditional micro-insurance plan for regular savings and protection.","term":"10 to 15 Years","minAge":"18 Years","maxAge":"55 Years","minSumAssured":100000,"maxSumAssured":"2,00,000","onDeath":"Higher of BSA, 7x AP, or 105% Premiums Paid + Loyalty Addition.","onSurvival":"Basic Sum Assured + Loyalty Addition.","loan":"Available after 3 full years premiums.","premiumLimits":{"YLY":{"min":7112,"max":18377},"HLY":{"min":3592,"max":9284},"QLY":{"min":1814,"max":4690},"MLY":{"min":623,"max":1611}}},
+        "758":{"planName":"New Jeevan Shanti","planNumber":"758","productSummary":"A deferred annuity plan to invest now and start a pension after a few years.","term":"1 to 12 Years (Deferment)","minAge":"30 Years","maxAge":"79 Years","minSumAssured":150000,"onDeath":"Return of purchase price plus interest to nominee.","onSurvival":"Lifelong annuity payments start after deferment period.","loan":"Available after 3 months.","premiumLimits":{"SINGLE":{"min":152700,"max":254500000}}},
+        "760":{"planName":"Bima Jyoti","planNumber":"760","productSummary":"A non-participating plan offering guaranteed additions of Rs. 50 per 1000 SA.","term":"15 to 20 Years","ppt":"10 to 15 Years","minAge":"0 Years","maxAge":"60 Years","minSumAssured":125000,"onDeath":"SA on Death + Accrued Guaranteed Additions.","onSurvival":"Sum Assured + Guaranteed Additions.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":10798,"max":35698245},"HLY":{"min":5454,"max":18039182},"QLY":{"min":2755,"max":9114621},"MLY":{"min":919,"max":3038207}}},
+        "768":{"planName":"Jeevan Azad","planNumber":"768","productSummary":"A limited premium non-participating endowment plan.","term":"15 to 20 Years","ppt":"(Term - 8) Years","minAge":"0 Years","maxAge":"50 Years","minSumAssured":200000,"maxSumAssured":"5,00,000","onDeath":"Higher of BSA or 7x Annual Premium.","onSurvival":"Basic Sum Assured.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":8946,"max":46093},"HLY":{"min":4520,"max":23283},"QLY":{"min":2282,"max":11759},"MLY":{"min":761,"max":3920}}},
+        "771":{"planName":"Jeevan Utsav","planNumber":"771","productSummary":"A whole life plan with guaranteed additions and lifelong income benefits.","term":"(100 - age) Years","ppt":"5 to 16 Years","minAge":"90 Days","maxAge":"65 Years","minSumAssured":500000,"onDeath":"SA on Death + Guaranteed Additions.","onSurvival":"10% of SA annually for life after income start year. At age 100 or death, SA + GA paid.","loan":"Available after 2 full years premiums.","premiumLimits":{"YLY":{"min":31193,"max":98057575},"HLY":{"min":15869,"max":49899844},"QLY":{"min":7993,"max":25136577},"MLY":{"min":2684,"max":8441077}}},
+        "774":{"planName":"Amritbaal","planNumber":"774","productSummary":"A guaranteed additions savings plan designed for a child's future needs.","term":"5 to 25 Years","ppt":"Single, 5, 6, 7 Years","minAge":"0 Years","maxAge":"13 Years","minSumAssured":200000,"onDeath":"Sum Assured on Death.","onSurvival":"Basic Sum Assured + Guaranteed Additions.","loan":"Available after 2 years (Limited) or 3 months (Single).","premiumLimits":{"YLY":{"min":27724,"max":65221063},"HLY":{"min":14112,"max":33197521},"QLY":{"min":7120,"max":16748769},"MLY":{"min":2387,"max":5615533}}},
+        "857":{"planName":"Jeevan Akshay VII","planNumber":"857","productSummary":"An immediate annuity plan for a guaranteed pension for life after a one-time investment.","term":"Immediate Annuity","minAge":"25 Years","maxAge":"100 Years","minSumAssured":100000,"onDeath":"Varies by option; can include Return of Purchase Price.","onSurvival":"Lifelong annuity payments.","loan":"Not available."},
+        "859":{"planName":"Saral Jeevan Bima","planNumber":"859","productSummary":"A standardized, simple pure risk insurance plan.","term":"5 to 40 Years","minAge":"18 Years","maxAge":"65 Years","minSumAssured":500000,"maxSumAssured":"25,00,000","onDeath":"100% of Basic Sum Assured.","onSurvival":"None.","loan":"Not available.","premiumLimits":{"YLY":{"min":2608,"max":76612},"HLY":{"min":1330,"max":39072},"MLY":{"min":224,"max":6576}}},
+        "862":{"planName":"Saral Pension","planNumber":"862","productSummary":"A non-participating, single premium, immediate annuity plan with return of purchase price.","term":"Immediate Annuity","minAge":"40 Years","maxAge":"80 Years","minSumAssured":"Annuity-dependent","onDeath":"100% of Purchase Price is returned.","onSurvival":"Lifelong annuity payments.","loan":"Available after 6 months.","premiumLimits":{"SINGLE":{"min":101800,"max":264500000}}},
+        "875":{"planName":"Yuva Term","planNumber":"875","productSummary":"A pure risk plan for young earners with options for increasing cover.","term":"15 to 40 Years","minAge":"18 Years","maxAge":"45 Years","minSumAssured":5000000,"onDeath":"Level or Increasing Sum Assured options available.","onSurvival":"None.","loan":"Not available.","premiumLimits":{"YLY":{"min":6903,"max":110767},"HLY":{"min":3521,"max":56491}}},
+        "877":{"planName":"Yuva Credit Life","planNumber":"877","productSummary":"A pure risk plan designed to cover outstanding loans, with a reducing cover.","term":"5 to 30 Years","minAge":"18 Years","maxAge":"45 Years","minSumAssured":5000000,"onDeath":"Cover reduces over time, mirroring a loan balance.","onSurvival":"None.","loan":"Not available.","premiumLimits":{"YLY":{"min":6136,"max":95108},"HLY":{"min":3129,"max":48505}}},
+        "879":{"planName":"Smart Pension","planNumber":"879","productSummary":"A highly flexible immediate annuity plan with multiple payout options.","term":"Immediate Annuity","minAge":"18 Years","maxAge":"100 Years","minSumAssured":100000,"onDeath":"Varies widely based on the chosen annuity option.","onSurvival":"Lifelong annuity payments.","loan":"Available under specific options.","premiumLimits":{"SINGLE":{"min":101800,"max":254500000}}},
+        "955":{"planName":"New Jeevan Amar","planNumber":"955","productSummary":"A comprehensive and flexible pure risk protection plan.","term":"10 to 40 Years","minAge":"18 Years","maxAge":"65 Years","minSumAssured":2500000,"onDeath":"Level or Increasing Sum Assured options available.","onSurvival":"None.","loan":"Not available.","premiumLimits":{"YLY":{"min":6874,"max":4592000},"HLY":{"min":3492,"max":2341920}}}
+    };
+
+    const needsToPlanMapping = {
+        "financial_protection": [{"planNumber":"715","points":["Life cover persists even after maturity.","Bonus & FAB boost payout.","Loan facility available on policy."]},{"planNumber":"859","points":["Pure protection at low premium.","High sum assured flexibility.","Simplicity—no surviving pay-outs."]},{"planNumber":"768","points":["Guaranteed lumpsum on maturity/death.","Minimal exclusions—broad coverage.","No medical exam up to certain SA."]}],
+        "income_replacement": [{"planNumber":"715","points":["Ample death benefit replaces income.","Bonus accumulation strengthens payout.","Optional accidental rider & premium waiver."]},{"planNumber":"760","points":["Guaranteed additions provide a predictable corpus.","Lump-sum maturity can be invested for regular income.","Good for middle-income earners."]},{"planNumber":"771", "points":["Provides lifelong annual income after the premium term.", "Acts as a self-funded pension to replace salary.", "Guaranteed benefits remove market uncertainty."]}],
+        "loan_repayment": [{"planNumber":"859","points":["Large cover at low premium is ideal for loan amortization.","Term can be perfectly aligned with loan-tenor.","Riders like critical illness can be added."]},{"planNumber":"714","points":["Maturity benefit helps in final debt payoff.","Bonus accumulation adds a cushion.","Loan facility available for EMI emergencies."]},{"planNumber":"768", "points":["Guaranteed lumpsum payout is perfect for closing a loan.", "No medicals for moderate SA means quick coverage.", "Single premium option fits for settling debt upfront."]}],
+        "child_education": [{"planNumber":"734","points":["Highly flexible with 4 payout options for ages 20-24.","Specifically designed to match college fee schedules.","Premium Waiver Rider ensures goals are met even in parent's absence."]},{"planNumber":"732","points":["Provides guaranteed payouts at specific ages: 18, 20, and 22.","Helps in planning for different stages of education.","Maturity at 25 helps fund post-graduation."]},{"planNumber":"774","points":["Guaranteed Additions ensure a definite corpus for the child.","Limited PPT options (5, 6, 7 years) for convenience.","Flexible maturity age from 18 to 25 years."]}],
+        "child_marriage": [{"planNumber":"733","points":["The 'Lakshya' (goal) of the plan is perfectly suited for a fixed event like marriage.","Provides a lump sum at a pre-defined date, irrespective of survival.", "Annual income benefit on death protects the goal."]},{"planNumber":"736","points":["Shorter premium commitment for a longer policy term.","High bonus potential to create a large marriage corpus.","Maturity amount is a significant lump sum."]},{"planNumber":"720","points":["Survival payouts align well with marriage planning.","Final maturity amount provides a substantial corpus.", "Bonus accumulation enhances the final payout."]}],
+        "retirement_planning": [{"planNumber":"745","points":["Provides a guaranteed, tax-free annual income for life after the premium term.","Acts as a private pension plan.","Maturity at age 100 creates a massive legacy corpus."]},{"planNumber":"857","points":["Provides an immediate, guaranteed pension for life.","Ideal for those who have just retired and have a lump sum to invest.","Multiple options including return of purchase price."]},{"planNumber":"758","points":["Locks in current annuity rates for a future pension.", "Allows you to plan for retirement 1 to 12 years in advance.","Single premium investment simplifies financial planning."]}],
+        "wealth_creation": [{"planNumber":"715","points":["Bonus + FAB for wealth building.","Lump sum + lifelong death cover combined.","Long-term horizon amplifies returns."]},{"planNumber":"736","points":["Limited premium payment for a longer term maximizes bonus accumulation.", "Known for competitive bonus rates.", "Lump-sum maturity creates a significant corpus."]},{"planNumber":"745","points":["Continuous, tax-free income stream (8% of SA) adds to wealth.", "Large maturity value at age 100.", "A disciplined way to build a multi-generational asset."]}],
+        "tax_benefits": [{"planNumber":"715","points":["Premium qualifies for deduction under Sec 80C.","Maturity/death proceeds exempt under Sec 10(10D).","Helps exhaust your ₹1.5L limit with substantial cover."]},{"planNumber":"721","points":["Regular premiums eligible under 80C.","Survival & maturity benefits are tax-free under 10(10D).","Periodic payouts are tax-free, unlike interest income."]},{"planNumber":"745","points":["Continuous 80C benefit during PPT.", "Lifelong survival benefits (pension) are tax-free.", "Ideal for HNIs seeking tax-exempt long-term policies."]}],
+        "business_continuity": [{"planNumber":"955","points":["High sum assured available, ideal for Keyman Insurance.", "Term can be aligned with partnership deeds or loan tenors.","Death claim helps partners continue operations or settle dues."]},{"planNumber":"715","points":["High SA and maturity benefit useful for funding buy-sell agreements.", "Can be used as collateral for business loans.", "Whole-life cover is suitable for long-term succession planning."]},{"planNumber":"717", "points":["Single premium payment is ideal for covering a specific business liability.", "Can be easily assigned to the company or a partner.", "Guaranteed maturity value helps in planning business capital needs."]}],
+        "legacy_creation": [{"planNumber":"745","points":["The ultimate legacy plan. Provides lifelong income and then a massive, tax-free corpus to the next generation at age 100.", "Ensures wealth transfer across generations.", "High Sum Assured options are available."]},{"planNumber":"715","points":["The whole-life cover component ensures a guaranteed, tax-free payout to the nominee, irrespective of when death occurs after the policy term.", "Can be easily assigned to a trust or specific heir.", "Bonus and FAB enhance the legacy amount."]},{"planNumber":"955", "points":["The most cost-effective way to create a very large estate.", "A 1 Crore or higher sum assured can be created with affordable premiums.", "The death benefit is tax-free and paid out quickly to the nominee."]}],
+        "charitable_purposes": [{"planNumber":"717","points":["A single premium makes it a clean, one-time donation instrument.", "The policy can be assigned to a charitable trust from day one.", "The death benefit (SA + Bonus) goes directly to the designated cause."]},{"planNumber":"955","points":["Allows a person to donate a very large amount (e.g., 1 Crore) for a fraction of the cost.", "The trust or NGO can be made the direct nominee.", "Ensures a significant philanthropic impact."]},{"planNumber":"715","points":["The policy can be assigned to a charity. The charity receives the maturity value, and if the person lives on, the charity also receives the death benefit later.", "Provides a dual-benefit donation.", "Bonus additions make the final donation larger."]}],
+    };
+
+    const needsList = document.getElementById('needs-list');
+    const needsDropdownBtn = document.getElementById('needs-dropdown-btn');
+    const planDetailsOutput = document.getElementById('plan-details-output');
+    const budgetModal = document.getElementById('budgetModal');
+    const closeModalBtn = budgetModal.querySelector('.close-btn');
+    const findPlansBtn = document.getElementById('findPlansBtn');
+    
+    let currentNeedId = null;
+
+    function init() {
+        populateNeedsList();
+        setupEventListeners();
+    }
+
+    function setupEventListeners() {
+        needsDropdownBtn.addEventListener('click', () => needsList.classList.toggle('show'));
+        needsList.addEventListener('click', handleNeedSelection);
+        
+        window.addEventListener('click', (event) => {
+            if (!needsDropdownBtn.contains(event.target) && !needsList.contains(event.target)) {
+                needsList.classList.remove('show');
+            }
+            if (event.target == budgetModal) {
+                closeModal();
+            }
+        });
+
+        closeModalBtn.addEventListener('click', closeModal);
+        findPlansBtn.addEventListener('click', processBudgetAndFindPlans);
+    }
+    
+    function closeModal() {
+        budgetModal.style.display = 'none';
+    }
+
+    function openModal() {
+        budgetModal.style.display = 'flex';
+    }
+
+    // --- FULLY POPULATED NEEDS LIST ---
+    function populateNeedsList() {
+        const needs = [
+            { group: 'Family & Protection', items: [
+                { id: 'financial_protection', text: 'Financial Protection for Family' },
+                { id: 'income_replacement', text: 'Income Replacement' },
+                { id: 'loan_repayment', text: 'Loan / Debt Repayment' }
+            ]},
+            { group: 'Child’s Future', items: [
+                { id: 'child_education', text: 'Child’s Education' },
+                { id: 'child_marriage', text: 'Marriage of Children' }
+            ]},
+            { group: 'Savings & Retirement', items: [
+                { id: 'wealth_creation', text: 'Wealth Creation & Savings' },
+                { id: 'retirement_planning', text: 'Retirement Planning' },
+                { id: 'tax_benefits', text: 'Tax Benefits' }
+            ]},
+            { group: 'Specialized Needs', items: [
+                { id: 'legacy_creation', text: 'Legacy Creation & Estate Planning' },
+                { id: 'business_continuity', text: 'Business Continuity' },
+                { id: 'charitable_purposes', text: 'Charitable Purposes' }
+            ]}
+        ];
+        
+        let html = '';
+        needs.forEach(cat => {
+            html += `<div class="need-group">${cat.group}</div>`;
+            cat.items.forEach(item => {
+                html += `<div class="need-item" data-need-id="${item.id}">${item.text}</div>`;
+            });
+        });
+        needsList.innerHTML = html;
+    }
+
+    function handleNeedSelection(event) {
+        const selectedItem = event.target.closest('.need-item');
+        if (selectedItem) {
+            currentNeedId = selectedItem.getAttribute('data-need-id');
+            needsDropdownBtn.textContent = selectedItem.textContent;
+            document.getElementById('modalTitle').textContent = `Set Budget for ${selectedItem.textContent}`;
+            document.getElementById('budgetAmount').value = '';
+            openModal();
+            needsList.classList.remove('show');
+        }
+    }
+
+    function processBudgetAndFindPlans() {
+        const budget = parseInt(document.getElementById('budgetAmount').value);
+        const mode = document.getElementById('paymentMode').value;
+        
+        if (isNaN(budget) || budget <= 0) {
+            alert("Please enter a valid premium amount.");
+            return;
+        }
+        
+        closeModal();
+        findAndDisplayPlans(currentNeedId, budget, mode);
+    }
+
+    function findAndDisplayPlans(needId, budget, mode) {
+        planDetailsOutput.innerHTML = '';
+        const initialRecommendations = needsToPlanMapping[needId] || [];
+        
+        if (initialRecommendations.length === 0) {
+            planDetailsOutput.innerHTML = '<p style="text-align:center; color:#777;">No specific recommendations found for this need.</p>';
+            return;
+        }
+
+        let plansWithPremiumData = 0;
+        const finalRecommendations = initialRecommendations.filter(rec => {
+            const plan = planData[rec.planNumber];
+            if (plan && plan.premiumLimits) {
+                plansWithPremiumData++;
+                const limits = plan.premiumLimits[mode] || plan.premiumLimits["SINGLE"];
+                if (limits) {
+                    return budget >= limits.min && budget <= limits.max;
+                }
+            }
+            return false;
+        });
+        
+        const constructionNeededCount = initialRecommendations.length - plansWithPremiumData;
+
+        if (finalRecommendations.length === 0) {
+            let message = `<p style="text-align:center; color:#d9232d; font-weight:bold;">No suitable plans found for your budget. The premium might be too low or too high for the recommended plans.</p>`;
+            if (constructionNeededCount > 0) {
+                message += `<p style="text-align:center; color:#777; font-style:italic;">Also, for some plans in this category, the Page is under construction.</p>`;
+            }
+            planDetailsOutput.innerHTML = message;
+            return;
+        }
+
+        finalRecommendations.forEach(rec => {
+            const plan = planData[rec.planNumber];
+            if (plan) {
+                const card = document.createElement('div');
+                card.className = 'plan-card';
+                let pointsHTML = '<ul>' + rec.points.map(p => `<li>${p}</li>`).join('') + '</ul>';
+                
+                card.innerHTML = `
+                    <h3>${plan.planName} (${plan.planNumber})</h3>
+                    <p><strong>Summary:</strong> ${plan.productSummary || 'N/A'}</p>
+                    <p><strong>Entry Age:</strong> ${plan.minAge} to ${plan.maxAge}</p>
+                    <p><strong>Policy Term:</strong> ${plan.term}</p>
+                    ${plan.ppt ? `<p><strong>Premium Term:</strong> ${plan.ppt}</p>` : ''}
+                    <p><strong>Min. Sum Assured:</strong> ₹ ${new Intl.NumberFormat('en-IN').format(plan.minSumAssured)}</p>
+                    <p><strong>On Death:</strong> ${plan.onDeath}</p>
+                    <p><strong>On Survival:</strong> ${plan.onSurvival}</p>
+                    <div class="why-reason">
+                        <strong>Why it's a good fit:</strong>
+                        ${pointsHTML}
+                    </div>
+                `;
+                planDetailsOutput.appendChild(card);
+            }
+        });
+    }
+
+    init();
+});
+</script>
+
+</body>
+</html>
