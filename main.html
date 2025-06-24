@@ -247,11 +247,16 @@
           <a href="irrnew.html" class="dashboard-button">IRR Calculation</a>
           <a href="plan_features.html" class="dashboard-button">Plan features</a>
           <a href="plancomparison.html" class="dashboard-button">Plan Comparison tool</a>
-          <a href="needs_budget.html" class="dashboard-button">Plans as per Need</a>
+          <a href="mybestplan.html" class="dashboard-button">Plans as per Need</a>
           <a href="prospectscorner.html" class="dashboard-button">Prospects Corner</a>
           <a href="terminologies.html" class="dashboard-button">Glossary</a>
         </div>
       </main>
+
+<!-- Centered Commission Button -->
+<div style="display: flex; justify-content: center; margin-top: 40px; margin-bottom: 20px;">
+    <a href="agents_commission.html" class="dashboard-button">Agents Commission</a>
+</div>
 
       <div class="logout-section">
         <button onclick="handleLogout()" class="logout-button">Logout</button>
@@ -335,10 +340,6 @@
       const name = profile?.full_name || session.user.user_metadata?.full_name || session.user.email || "User";
       document.getElementById("welcomeMsg").textContent = `Welcome, ${name}`;
     });
-
-<div style="text-align: center; margin-top: 40px;">
-        <a href="agents_commission.html" class="dashboard-button" style="display: inline-block; width: 48%;">Agents commission tracker</a>
-      </div>
 
     // --- LOGOUT FUNCTIONALITY ---
     async function handleLogout() {
