@@ -336,6 +336,10 @@
       document.getElementById("welcomeMsg").textContent = `Welcome, ${name}`;
     });
 
+<div style="text-align: center; margin-top: 40px;">
+        <a href="agents_commission.html" class="dashboard-button" style="display: inline-block; width: 48%;">Agents commission tracker</a>
+      </div>
+
     // --- LOGOUT FUNCTIONALITY ---
     async function handleLogout() {
       const { data: { session } } = await supabase.auth.getSession();
