@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC Voice Alert System</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
+<style>
+  /* ✅ Import ANTON font at the very top */
+  @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+  body {
+    font-family: 'Anton', sans-serif;
+    background: #f4f4f4;
+    padding: 40px;
+  }
+
+  .voice-button {
+    background: linear-gradient(to bottom, #444, #111);
+    color: white;
+    font-family: 'Anton', sans-serif;
+    font-size: 20px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 12px;
+    box-shadow:
+      inset 0 -4px 10px rgba(255, 255, 255, 0.1),
+      0 8px 20px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .voice-button:hover {
+    transform: scale(1.05);
+    box-shadow:
+      inset 0 -4px 10px rgba(255, 255, 255, 0.2),
+      0 12px 25px rgba(0, 0, 0, 0.9);
+  }
+
+  .container {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+  }
+
+  input, button, select {
+    display: block;
+    width: 100%;
+    margin: 12px 0;
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Anton', sans-serif;
+  }
+
+  #statusMsg {
+    margin-top: 20px;
+    color: green;
+    font-weight: bold;
+  }
+</style>
+
+</head>
+<body>
+<div class="container">
+  <h2>LIC Voice Alert System</h2>
+  <input type="text" id="policyNumber" placeholder="Enter Policy Number" />
+  <input type="text" id="name" placeholder="Enter Policyholder Name" />
+  <select id="language">
+    <option value="en">English</option>
+    <option value="hi-IN">Hindi</option>
+  </select>
+  <button onclick="fetchAndSpeak()">Submit</button>
+  <p id="statusMsg"></p>
+</div>
+
+<script>
+  const supabase = window.supabase.createClient(
+    "https://efduqdondmlzmwhfgkfz.supabase.co", // Replace with yours
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44" // Replace with yours
+  );
+
+  async function fetchAndSpeak() {
+    const policyNumber = document.getElementById("policyNumber").value.trim();
+    const name = document.getElementById("name").value.trim();
+    const lang = document.getElementById("language").value;
+    const statusEl = document.getElementById("statusMsg");
+
+    statusEl.textContent = "Fetching data...";
+
+    const { data, error } = await supabase
+      .from("policyholder")
+      .select("*")
+      .eq("policy_number", policyNumber)
+      .eq("name", name)
+      .single();
+
+    if (error || !data) {
+      speakText("Policy not found", lang);
+      statusEl.textContent = "Policy not found!";
+      return;
+    }
+
+    const alerts = [];
+
+    // Policyholder name
+    alerts.push(`${data.name}, here are your LIC policy updates.`);
+
+    // SB Due
+    if (data.sb_due_date && data.sb_amount) {
+      alerts.push(`Survival Benefit of ₹${data.sb_amount} is due on ${formatDate(data.sb_due_date)}.`);
+    }
+
+    // Maturity
+    if (data.maturity_date && data.maturity_amount) {
+      alerts.push(`Maturity amount of ₹${data.maturity_amount} is due on ${formatDate(data.maturity_date)}.`);
+    }
+
+    // Calculate next premium due date (assuming yearly mode)
+    const nextDue = calculateNextDue(data.date_of_commencement, data.mode_of_premium);
+    if (nextDue) {
+      alerts.push(`Your premium is due on ${formatDate(nextDue)}.`);
+    }
+
+    // Bonus/FAB/GA/LA
+    if (data.bonus > 0) alerts.push(`Accrued Bonus is ₹${data.bonus}.`);
+    if (data.fab > 0) alerts.push(`Final Additional Bonus is ₹${data.fab}.`);
+    if (data.ga > 0) alerts.push(`Guaranteed Addition is ₹${data.ga}.`);
+    if (data.la > 0) alerts.push(`Loyalty Addition is ₹${data.la}.`);
+
+    // Loan Info
+    if (data.sloan_details) alerts.push(`Loan details: ${data.sloan_details}.`);
+
+    // Revival Info
+    if (data.revival_details) alerts.push(`Revival details: ${data.revival_details}.`);
+
+    // Speak all alerts
+    alerts.forEach(line => speakText(line, lang));
+    statusEl.textContent = "Voice alerts delivered.";
+  }
+
+  function speakText(text, lang) {
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = lang;
+    utter.rate = 1;
+    speechSynthesis.speak(utter);
+  }
+
+  function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
+  }
+
+  function calculateNextDue(doc, mode) {
+    if (!doc || !mode) return null;
+    const start = new Date(doc);
+    const now = new Date();
+    const modes = {
+      "YLY": 12,
+      "HLY": 6,
+      "QLY": 3,
+      "MLY": 1
+    };
+    const gap = modes[mode.toUpperCase()] || 12;
+    while (start < now) {
+      start.setMonth(start.getMonth() + gap);
+    }
+    return start;
+  }
+</script>
+</body>
+</html>
