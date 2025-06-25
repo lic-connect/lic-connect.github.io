@@ -1,31 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LIC CONNECT</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
   <style>
+  	
+  .post-footer-image {
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.post-footer-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ensures image scales nicely */
+  display: block;
+}
+  	
+  .logo-container {
+  text-align: center;
+  margin-top: 20px;
+  perspective: 1000px; /* adds depth for 3D effect */
+}
+
+.logo-container img {
+  width: 100px;
+  animation: fullSwing 10s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes fullSwing {
+  0%   { transform: rotateY(0deg); }
+  25%  { transform: rotateY(360deg); }
+  50%  { transform: rotateY(0deg); }
+  75%  { transform: rotateY(-360deg); }
+  100% { transform: rotateY(0deg); }
+}
+
+  
     /* General Body and Background Styling */
     body {
       margin: 0;
-      padding: 0;
-      background-color: #ffffff;
-      background-image: url('licimage.jpg');
-      background-size: cover;
-      background-position: center center;
-      background-attachment: fixed;
-      font-family: Arial, sans-serif;
-      color: white; /* Default text color is now white for readability */
-    }
+  padding: 0;
+  background-color: white; /* Pure white background */
+  font-family: Impact, sans-serif;
+  font-weight: bold;
+  color: black; /* Change text to black for readability */
+}
 
     /* Full-page overlay to ensure text is readable against the background */
     .page-overlay {
-      background-color: rgba(0, 0, 0, 0.55); /* Dark semi-transparent overlay */
-      min-height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
-    }
+  background-color: transparent;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
 
     /* Main Container for alignment and max-width */
     .container {
@@ -44,7 +79,7 @@
       font-size: 20px;
       font-weight: normal;
       margin: 0;
-      color: #f0f0f0;
+      color:black;
     }
 
     h1 {
@@ -54,28 +89,48 @@
     }
     
     /* --- Running Text (Marquee) Styling --- */
-    .marquee-container {
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 10px 0;
+      /* --- Running Text (Marquee) Styling --- */
+   /* .marquee-container {
+     background-color: rgba(0, 0, 0, 0.7);
+      padding: 12px 0;
       border-radius: 8px;
-      overflow: hidden;
-      white-space: nowrap;
+     overflow: hidden;
+     white-space: nowrap;
       box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      margin-bottom: 40px;
-    }
+     margin-bottom: 40px;
+    }*/
     
-    .marquee-container p {
-      margin: 0;
+    /*.marquee-container p {
+     margin: 0;
       display: inline-block;
       padding-left: 100%;
-      animation: marquee 35s linear infinite; /* Slower animation for more text */
+      animation: marquee 40s linear infinite; /* Slower animation for readability */
       font-size: 16px;
-    }
+      font-weight: 500;
+      color: black;
+    }*/
 
-    @keyframes marquee {
+   /* @keyframes marquee {
       0%   { transform: translate(0, 0); }
       100% { transform: translate(-100%, 0); }
-    }
+    }*/
+#newsTicker {
+  background: rgba(255,255,255,0.85);
+  padding: 10px;
+  border-radius: 8px;
+  color: #003366;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 20px;
+  height: 28px;
+}
+#newsText {
+  position: absolute;
+  white-space: nowrap;
+  will-change: transform;
+  font-size: 16px;
+}
+
 
     /* Two-Column Layout for Buttons */
     .button-container {
@@ -99,6 +154,7 @@
       padding: 18px 25px;
       font-size: 18px;
       font-weight: bold;
+      font-family: Impact, sans-serif;
       text-align: center;
       text-decoration: none;
       border: none;
@@ -116,6 +172,13 @@
         0 14px 35px rgba(0, 0, 0, 0.7),
         inset 0 -4px 7px rgba(255, 255, 255, 0.35);
     }
+    
+    .button-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
     
     /* --- Dropdown Container for "Types of calculators" --- */
     .dropdown {
@@ -205,6 +268,20 @@
     footer a:hover {
       text-decoration: underline;
     }
+    
+a {
+  font-family: Impact, sans-serif;
+  font-weight: bold;
+}
+.dashboard-button {
+  font-family: 'Anton', sans-serif;
+  font-weight: normal; /* Anton is bold by default */
+}
+
+a {
+  font-family: 'Anton', sans-serif;
+  font-weight: normal;
+}
   </style>
 </head>
 <body>
@@ -214,48 +291,78 @@
         <h2 id="welcomeMsg"></h2>
         <h1>LIC CONNECT</h1>
       </header>
+      <div class="logo-container">
+  <img src="licnew.jpg" alt="LIC Logo">
+</div>
 
-      <div class="marquee-container">
-        <p>Loading latest news...</p>
-      </div>
+            <div id="newsTicker" style="overflow:hidden; white-space:nowrap; position: relative; height: 30px; border: 1px solid #ddd; padding: 5px;">
+  <div id="newsText" style="position: absolute; white-space: nowrap; will-change: transform;">Loading news...</div>
+</div>
+
+
 
       <main class="button-container">
-        <!-- Left Column -->
-        <div class="column">
-          <a href="customer_data.html" class="dashboard-button">Customer Data</a>
-          <a href="agents_data.html" class="dashboard-button">Agents Data</a>
-          <a href="commissionenquiry.html" class="dashboard-button">Agents Corner</a>
-          <a href="agents_module.html" class="dashboard-button">Agents Module</a>
-          <a href="automatic_fetch.html" class="dashboard-button">Automatic Fetch</a>
-          <a href="branches.html" class="dashboard-button">Lic Branch Locator</a>
-          <a href="customer_corner.html" class="dashboard-button">Customers Corner</a>
-          <a href="types_of_forms.html" class="dashboard-button">Types of Forms</a>
-        </div>
+  <!-- Left Column -->
+  <div class="column">
+    <a href="customer_data.html" class="dashboard-button">
+      <img src="icons/customerData.png" class="button-icon" alt=""> Customer Data
+    </a>
+    <a href="agents_data.html" class="dashboard-button">
+      <img src="icons/agentsData.png" class="button-icon" alt=""> Agents Data
+    </a>
+    <a href="commissionenquiry.html" class="dashboard-button">
+      <img src="icons/agentsCorner1.png" class="button-icon" alt=""> Agents Corner
+    </a>
+    <a href="agents_module.html" class="dashboard-button">
+      <img src="icons/agentsModule.png" class="button-icon" alt=""> Agents Module
+    </a>
+    <a href="automatic_fetch.html" class="dashboard-button">
+      <img src="icons/automaticFetch.png" class="button-icon" alt=""> Automatic Fetch
+    </a>
+    <a href="branches.html" class="dashboard-button">
+      <img src="icons/branchLocator.png" class="button-icon" alt=""> LIC Branch Locator
+    </a>
+    <a href="customer_corner.html" class="dashboard-button">
+      <img src="icons/customersCorner.png" class="button-icon" alt=""> Customers Corner
+    </a>
+    <a href="types_of_forms.html" class="dashboard-button">
+      <img src="icons/forms.png" class="button-icon" alt=""> Types of Forms
+    </a>
+  </div>
 
-        <!-- Right Column -->
-        <div class="column">
-          <div class="dropdown">
-            <a href="#" class="dashboard-button">Types of calculators ▾</a>
-            <div class="dropdown-content">
-              <a href="surrendercalculator.html">Surrender Calculator</a>
-              <a href="SBcalculator.html">SB Calculator</a>
-              <a href="maturitycalculator.html">Maturity Calculator</a>
-              <a href="revivalcalculator.html">Revival Calculator</a>
-            </div>
-          </div>
-          <a href="lic_process.html" class="dashboard-button">Types of processes</a>
-          <a href="irrnew.html" class="dashboard-button">IRR Calculation</a>
-          <a href="plan_features.html" class="dashboard-button">Plan features</a>
-          <a href="plancomparison.html" class="dashboard-button">Plan Comparison tool</a>
-          <a href="mybestplan.html" class="dashboard-button">Plans as per Need</a>
-          <a href="prospectscorner.html" class="dashboard-button">Prospects Corner</a>
-          <a href="terminologies.html" class="dashboard-button">Glossary</a>
-        </div>
-      </main>
-
+  <!-- Right Column -->
+  <div class="column">
+    <a href="surrendercalculator.html" class="dashboard-button">
+      <img src="icons/calculator.png" class="button-icon" alt=""> Types of Calculators
+    </a>
+    <a href="lic_process.html" class="dashboard-button">
+      <img src="icons/process.png" class="button-icon" alt=""> Types of Processes
+    </a>
+    <a href="irrnew.html" class="dashboard-button">
+      <img src="icons/IRR.png" class="button-icon" alt=""> IRR Calculation
+    </a>
+    <a href="plan_features.html" class="dashboard-button">
+      <img src="icons/planFeatures.png" class="button-icon" alt=""> Plan Features
+    </a>
+    <a href="plancomparison.html" class="dashboard-button">
+      <img src="icons/planComparison.png" class="button-icon" alt=""> Plan Comparison Tool
+    </a>
+    <a href="mybestplan.html" class="dashboard-button">
+      <img src="icons/needs.png" class="button-icon" alt=""> Plans as per Need
+    </a>
+    <a href="prospectscorner.html" class="dashboard-button">
+      <img src="icons/prospectsCorner.png" class="button-icon" alt=""> Prospects Corner
+    </a>
+    <a href="terminologies.html" class="dashboard-button">
+      <img src="icons/glossary.png" class="button-icon" alt=""> Glossary
+    </a>
+  </div>
+</main>
 <!-- Centered Commission Button -->
 <div style="display: flex; justify-content: center; margin-top: 40px; margin-bottom: 20px;">
-    <a href="agents_commission.html" class="dashboard-button">Agents Commission</a>
+    <a href="agents_commission.html" class="dashboard-button">
+      <img src="icons/commission.png" class="button-icon" alt=""> Agents Commission 
+    </a>
 </div>
 
       <div class="logout-section">
@@ -271,6 +378,10 @@
       </footer>
     </div>
   </div>
+  
+  <div class="post-footer-image">
+  <img src="lic3.png" alt="LIC Promo Image">
+</div>
 
   <script>
     // --- SUPABASE CLIENT INITIALIZATION ---
@@ -281,45 +392,11 @@
 
     // --- FUNCTION TO FETCH NEWS FOR MARQUEE ---
         // --- SIMPLE & WORKING FUNCTION ---
-    async function fetchMarqueeMessage() {
-      const marqueeTextElement = document.querySelector(".marquee-container p");
-
-      // We will use a different RSS feed that is less likely to be blocked
-      const rssFeedUrl = 'https://feeds.feedburner.com/moneycontrol/news_insurance';
-      
-      // And a different, often more reliable, proxy service
-      const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
-
-      try {
-        const response = await fetch(proxyUrl);
-        if (!response.ok) {
-          throw new Error('News feed could not be loaded.');
-        }
-
-        const data = await response.json();
-
-        // This proxy formats the data nicely in a JSON object
-        if (data.status === 'ok' && data.items.length > 0) {
-          // Extract just the titles from the items
-          const headlines = data.items.map(item => item.title);
-
-          // Join the first 7 headlines to create the marquee text
-          const marqueeText = headlines.slice(0, 7).join('   +++   ');
-          marqueeTextElement.textContent = marqueeText;
-        } else {
-          throw new Error('No news items found in the feed.');
-        }
-
-      } catch (error) {
-        console.error("Error fetching RSS feed:", error);
-        marqueeTextElement.textContent = "Could not load latest news at this time.";
-      }
-    }
-
+     
     // --- PAGE LOAD LOGIC ---
     window.addEventListener("DOMContentLoaded", async () => {
       // Fetch the marquee news as soon as the page structure is ready
-      fetchMarqueeMessage();
+     // fetchMarqueeMessage();
 
       // Handle user authentication
       const { data: { session } } = await supabase.auth.getSession();
@@ -357,5 +434,57 @@
       }, 1500);
     }
   </script>
+<script>
+const apiKey = '8a0ba6734a5022587c68aa4adcac6b33';
+const query = 'life insurance India';
+const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&country=in&token=${apiKey}&max=10`;
+
+let newsList = [];
+let index = 0;
+
+async function fetchGNews() {
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.articles && data.articles.length > 0) {
+      newsList = data.articles.map(article => ({
+        title: article.title,
+        url: article.url
+      }));
+      rotateNews();
+    } else {
+      document.getElementById("newsText").textContent = "No news found.";
+    }
+  } catch (error) {
+    console.error("Error fetching GNews:", error);
+    document.getElementById("newsText").textContent = "Error loading news.";
+  }
+}
+
+function rotateNews() {
+  const newsText = document.getElementById("newsText");
+  setInterval(() => {
+    const currentNews = newsList[index];
+    newsText.style.transform = 'translateX(100%)';
+ newsText.innerHTML = `<a href="${currentNews.url}" target="_blank" style="color: black; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${currentNews.title}</a>`;
+
+    requestAnimationFrame(() => {
+      newsText.style.transition = 'none';
+      newsText.style.transform = 'translateX(100%)';
+      requestAnimationFrame(() => {
+        newsText.style.transition = 'transform 12s linear'; // slower scroll
+        newsText.style.transform = 'translateX(-100%)';
+      });
+    });
+    index = (index + 1) % newsList.length;
+  }, 12000); // interval should match transition duration
+}
+
+fetchGNews();
+</script>
+
+
+
 </body>
 </html>
