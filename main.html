@@ -1,31 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LIC CONNECT</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
   <style>
+  	
+  .logo-container {
+  text-align: center;
+  margin-top: 20px;
+  perspective: 1000px; /* adds depth for 3D effect */
+}
+
+.logo-container img {
+  width: 100px;
+  animation: fullSwing 10s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes fullSwing {
+  0%   { transform: rotateY(0deg); }
+  25%  { transform: rotateY(360deg); }
+  50%  { transform: rotateY(0deg); }
+  75%  { transform: rotateY(-360deg); }
+  100% { transform: rotateY(0deg); }
+}
+
+  
     /* General Body and Background Styling */
     body {
       margin: 0;
-      padding: 0;
-      background-color: #ffffff;
-      background-image: url('licimage.jpg');
-      background-size: cover;
-      background-position: center center;
-      background-attachment: fixed;
-      font-family: Arial, sans-serif;
-      color: white; /* Default text color is now white for readability */
-    }
+  padding: 0;
+  background-color: white; /* Pure white background */
+  font-family: Impact, sans-serif;
+  font-weight: bold;
+  color: black; /* Change text to black for readability */
+}
 
     /* Full-page overlay to ensure text is readable against the background */
     .page-overlay {
-      background-color: rgba(0, 0, 0, 0.55); /* Dark semi-transparent overlay */
-      min-height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
-    }
+  background-color: transparent;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
 
     /* Main Container for alignment and max-width */
     .container {
@@ -44,7 +64,7 @@
       font-size: 20px;
       font-weight: normal;
       margin: 0;
-      color: #f0f0f0;
+      color:black;
     }
 
     h1 {
@@ -72,6 +92,7 @@
       animation: marquee 40s linear infinite; /* Slower animation for readability */
       font-size: 16px;
       font-weight: 500;
+      color: black;
     }*/
 
    /* @keyframes marquee {
@@ -118,6 +139,7 @@
       padding: 18px 25px;
       font-size: 18px;
       font-weight: bold;
+      font-family: Impact, sans-serif;
       text-align: center;
       text-decoration: none;
       border: none;
@@ -224,6 +246,20 @@
     footer a:hover {
       text-decoration: underline;
     }
+    
+a {
+  font-family: Impact, sans-serif;
+  font-weight: bold;
+}
+.dashboard-button {
+  font-family: 'Anton', sans-serif;
+  font-weight: normal; /* Anton is bold by default */
+}
+
+a {
+  font-family: 'Anton', sans-serif;
+  font-weight: normal;
+}
   </style>
 </head>
 <body>
@@ -233,6 +269,9 @@
         <h2 id="welcomeMsg"></h2>
         <h1>LIC CONNECT</h1>
       </header>
+      <div class="logo-container">
+  <img src="licnew.jpg" alt="LIC Logo">
+</div>
 
             <div id="newsTicker" style="overflow:hidden; white-space:nowrap; position: relative; height: 30px; border: 1px solid #ddd; padding: 5px;">
   <div id="newsText" style="position: absolute; white-space: nowrap; will-change: transform;">Loading news...</div>
@@ -377,7 +416,7 @@ function rotateNews() {
   setInterval(() => {
     const currentNews = newsList[index];
     newsText.style.transform = 'translateX(100%)';
- newsText.innerHTML = `<a href="${currentNews.url}" target="_blank" style="color: white; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${currentNews.title}</a>`;
+ newsText.innerHTML = `<a href="${currentNews.url}" target="_blank" style="color: black; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${currentNews.title}</a>`;
 
     requestAnimationFrame(() => {
       newsText.style.transition = 'none';
