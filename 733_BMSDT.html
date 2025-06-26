@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC Plan 733 Premium Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
+    .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); max-width: 700px; margin:auto; }
+    h1 { text-align:center; }
+    label { font-weight:bold; margin-top:10px; display:block; }
+    input { width:100%; padding:10px; margin-bottom:10px; }
+    button { width:100%; padding:15px; background:#27ae60; color:#fff; font-size:16px; border:none; cursor:pointer; }
+    button:hover { background:#219150; }
+    table { width:100%; margin-top:20px; border-collapse:collapse; }
+    th, td { border:1px solid #ccc; padding:10px; text-align:center; }
+    th { background:#e8f5e9; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>LIC Plan 733 Premium Calculator</h1>
+
+    <label for="age">Age</label>
+    <input type="number" id="age" value="30" min="18" max="50" />
+
+    <label for="term">Policy Term</label>
+    <input type="number" id="term" value="20" min="13" max="25" />
+
+    <label for="sumAssured">Sum Assured</label>
+    <input type="number" id="sumAssured" value="2500000" step="10000" />
+
+    <label for="ppt">Premium Paying Term</label>
+    <input type="text" id="ppt" disabled />
+
+    <button onclick="calculate()">Calculate Premium</button>
+
+    <div id="results"></div>
+  </div>
+
+<script>
+const premiumRates = {
+  18:{13:103.1,14:93.25,15:85.05,16:78.15,17:72.25,18:68.2,19:63.7,20:59.7,21:56.3,22:53.25,23:50.55,24:48.1,25:45.85},
+  19:{13:103.15,14:93.25,15:85.05,16:78.15,17:72.3,18:68.25,19:63.7,20:59.75,21:56.35,22:53.3,23:50.55,24:48.1,25:45.9},
+  20:{13:103.15,14:93.25,15:85.05,16:78.2,17:75.56,18:68.25,19:63.75,20:59.75,21:56.35,22:53.3,23:50.6,24:48.15,25:45.95},
+  21:{13:103.15,14:93.25,15:85.1,16:78.2,17:72.3,18:68.3,19:63.75,20:59.8,21:56.4,22:53.35,23:50.65,24:48.2,25:46},
+  22:{13:103.15,14:93.3,15:85.1,16:78.2,17:72.35,18:68.3,19:63.8,20:59.8,21:56.4,22:53.4,23:50.7,24:48.25,25:46.05},
+  23:{13:103.15,14:93.3,15:85.1,16:78.25,17:75.61,18:68.35,19:63.8,20:59.85,21:56.45,22:53.45,23:50.75,24:48.3,25:46.1},
+  24:{13:103.2,14:93.3,15:85.15,16:78.25,17:72.4,18:68.35,19:63.85,20:59.9,21:56.5,22:53.5,23:50.8,24:48.2,25:46.15},
+  25:{13:103.2,14:93.35,15:85.15,16:78.3,17:72.45,18:68.4,19:63.9,20:59.95,21:56.55,22:53.55,23:50.85,24:48.45,25:46.25},
+  26:{13:103.25,14:93.35,15:85.2,16:78.35,17:72.5,18:68.45,19:63.95,20:60,21:56.65,22:53.65,23:50.95,24:48.55,25:46.35},
+  27:{13:103.3,14:93.4,15:85.25,16:78.4,17:72.55,18:68.55,19:64.05,20:60.1,21:56.75,22:53.75,23:51.05,24:48.65,25:46.5},
+  28:{13:103.35,14:93.5,15:85.3,16:78.45,17:72.6,18:68.65,19:64.15,20:60.2,21:56.85,22:53.85,23:51.2,24:48.8,25:46.65},
+  29:{13:103.4,14:93.55,15:85.4,16:78.55,17:72.7,18:68.75,19:64.25,20:60.35,21:57,22:54,23:51.35,24:49,25:46.85},
+  30:{13:103.5,14:93.65,15:85.5,16:78.65,17:72.85,18:68.85,19:64.4,20:60.5,21:57.15,22:54.2,23:51.55,24:49.2,25:47.05},
+  31:{13:103.6,14:93.75,15:85.6,16:78.8,17:72.95,18:69,19:64.55,20:60.65,21:57.3,22:54.35,23:51.75,24:49.4,25:47.3},
+  32:{13:103.7,14:93.85,15:85.75,16:78.9,17:73.1,18:69.2,19:64.75,20:60.85,21:57.55,22:54.6,23:52,24:49.65,25:47.55},
+  33:{13:103.85,14:94,15:85.9,16:79.1,17:73.3,18:69.35,19:64.95,20:61.05,21:57.75,22:54.85,23:52.25,24:49.95,25:47.9},
+  34:{13:104,14:94.2,15:86.1,16:79.3,17:73.5,18:69.6,19:65.2,20:61.35,21:58.05,22:55.15,23:52.6,24:50.3,25:48.25},
+  35:{13:104.15,14:94.35,15:86.3,16:79.5,17:73.75,18:69.85,19:65.45,20:61.6,21:58.35,22:55.5,23:52.95,24:50.65,25:48.65},
+  36:{13:104.35,14:94.6,15:86.5,16:79.75,17:74,18:70.15,19:65.75,20:61.95,21:58.7,22:55.85,23:53.35,24:51.1,25:49.1},
+  37:{13:104.6,14:94.8,15:86.75,16:80,17:74.3,18:70.45,19:66.1,20:62.35,21:59.1,22:56.3,23:53.8,24:51.55,25:49.55},
+  38:{13:104.85,14:95.1,15:87.05,16:80.35,17:74.65,18:70.85,19:66.5,20:65.57,21:59.55,22:56.75,23:54.3,24:52.1,25:50.1},
+  39:{13:105.15,14:95.4,15:87.4,16:80.7,17:75.05,18:71.3,19:67,20:63.25,21:60.1,22:57.3,23:54.85,24:52.65,25:50.75},
+  40:{13:105.5,14:95.8,15:87.8,16:81.15,17:75.5,18:71.75,19:67.5,20:63.75,21:60.65,22:57.9,23:55.45,24:53.3,25:51.4},
+  41:{13:105.85,14:96.2,15:88.25,16:81.6,17:76,18:72.3,19:68.05,20:64.35,21:61.25,22:58.55,23:56.15,24:54.05,25:null},
+  42:{13:106.3,14:96.65,15:88.75,16:82.15,17:76.55,18:72.9,19:68.7,20:65.05,21:61.95,22:59.25,23:56.9,24:null,25:null},
+  43:{13:106.8,14:97.2,15:89.3,16:82.75,17:77.2,18:73.6,19:69.4,20:65.8,21:62.75,22:null,23:null,24:null,25:null},
+  44:{13:107.4,14:97.8,15:89.95,16:83.4,17:77.9,18:74.35,19:70.2,20:66.6,21:63.6,22:null,23:null,24:null,25:null},
+  45:{13:108.05,14:98.5,15:90.65,16:84.15,17:78.65,18:75.15,19:71.05,20:67.5,21:null,22:null,23:null,24:null,25:null},
+  46:{13:108.75,14:99.25,15:91.45,16:85,17:79.55,18:76.1,19:72,20:null,21:null,22:null,23:null,24:null,25:null},
+  47:{13:109.55,14:100.1,15:92.35,16:85.9,17:80.45,18:77.05,19:null,20:null,21:null,22:null,23:null,24:null,25:null},
+  48:{13:110.45,14:101,15:93.3,16:86.85,17:81.5,18:null,19:null,20:null,21:null,22:null,23:null,24:null,25:null},
+  49:{13:111.4,14:102,15:94.3,16:87.95,17:null,18:null,19:null,20:null,21:null,22:null,23:null,24:null,25:null},
+  50:{13:112.4,14:103.05,15:95.4,16:null,17:null,18:null,19:null,20:null,21:null,22:null,23:null,24:null,25:null}
+};
+const addbRates = {
+  13:1.25,14:1.2,15:1.2,16:1.15,17:1.15,
+  18:1.15,19:1.15,20:1.1,21:1.1,22:1.1,
+  23:1.1,24:1.1,25:1.1
+};
+
+const modeRebate = { yly: 0.02, hly: 0, qly: 0, mly: 0 };
+const modalFactors = { yly:1, hly:0.5054, qly:0.2554, mly:0.08515 };
+const gstFirst = 1.045;
+const gstSecond = 1.0225;
+
+function formatINR(val) {
+  return "₹" + Math.round(val).toLocaleString("en-IN");
+}
+
+function calculate() {
+  const age = parseInt(document.getElementById("age").value);
+  const term = parseInt(document.getElementById("term").value);
+  const sa = parseInt(document.getElementById("sumAssured").value);
+  const ppt = term - 3;
+  document.getElementById("ppt").value = ppt + " Years";
+
+  const rate = premiumRates[age]?.[term];
+  if (!rate) {
+    document.getElementById("results").innerHTML = `<p style="color:red;">No rate found for age ${age} and term ${term}</p>`;
+    return;
+  }
+
+  // Step 1 base
+  const basePremium = (sa/1000) * rate;
+
+  // Step 2 mode rebate only for YLY
+  const modeRebateAmount = basePremium * modeRebate.yly;
+  const afterModeRebate = basePremium - modeRebateAmount;
+
+  // Step 3 sum assured rebate
+  const saRebateAmt = (sa >= 500000) ? (sa/1000)*4 : 0;
+  const afterSARebate = afterModeRebate - saRebateAmt;
+
+  // Step 4 dab premium on max 10L
+  const dabSA = Math.min(sa, 1000000);
+  const dabPremium = (dabSA/1000) * addbRates[term];
+
+  
+
+  
+  
+    // Step 5 net premium
+let netPremium = afterSARebate + dabPremium;
+
+// Step 6 apply correction factor only if SA > 10L
+
+ 
+    netPremium = netPremium * 0.99982;
+
+ 
+
+  // Step 7 tax for first and second year
+  const yearlyFirst = Math.round(netPremium * gstFirst);
+  const yearlySecond = Math.round(netPremium * gstSecond);
+
+  // Step 8 calculate premiums with modal factors
+  const premiums = {
+    yly: {
+      first: formatINR(yearlyFirst * modalFactors.yly),
+      second: formatINR(yearlySecond * modalFactors.yly)
+    },
+    hly: {
+      first: formatINR(yearlyFirst * modalFactors.hly),
+      second: formatINR(yearlySecond * modalFactors.hly)
+    },
+    qly: {
+      first: formatINR(yearlyFirst * modalFactors.qly),
+      second: formatINR(yearlySecond * modalFactors.qly)
+    },
+    mly: {
+      first: formatINR(yearlyFirst * modalFactors.mly),
+      second: formatINR(yearlySecond * modalFactors.mly)
+    }
+  };
+
+  const result = `
+  <h2>Premium Summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Mode</th>
+        <th>1st Year Premium (incl. GST)</th>
+        <th>2nd Year Onwards (incl. GST)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Yearly</td>
+        <td>${premiums.yly.first}</td>
+        <td>${premiums.yly.second}</td>
+      </tr>
+      <tr>
+        <td>Half-Yearly</td>
+        <td>${premiums.hly.first}</td>
+        <td>${premiums.hly.second}</td>
+      </tr>
+      <tr>
+        <td>Quarterly</td>
+        <td>${premiums.qly.first}</td>
+        <td>${premiums.qly.second}</td>
+      </tr>
+      <tr>
+        <td>Monthly</td>
+        <td>${premiums.mly.first}</td>
+        <td>${premiums.mly.second}</td>
+      </tr>
+    </tbody>
+  </table>
+  `;
+
+  document.getElementById("results").innerHTML = result;
+}
+</script>
+</body>
+</html>
