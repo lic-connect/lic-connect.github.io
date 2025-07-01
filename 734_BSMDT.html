@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC Plan 734 Premium Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
+    .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); max-width: 700px; margin:auto; }
+    h1 { text-align:center; }
+    label { font-weight:bold; margin-top:10px; display:block; }
+    input[type="number"], input[type="text"] { width:100%; padding:10px; margin-bottom:10px; }
+    button { width:100%; padding:15px; background:#27ae60; color:#fff; font-size:16px; border:none; cursor:pointer; }
+    button:hover { background:#219150; }
+    table { width:100%; margin-top:20px; border-collapse:collapse; }
+    th, td { border:1px solid #ccc; padding:10px; text-align:center; }
+    th { background:#e8f5e9; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>LIC Plan 734 Premium Calculator</h1>
+
+    <label for="age">Age</label>
+    <input type="number" id="age" value="10" min="0" max="12" />
+
+    <label for="term">Policy Term</label>
+<input type="text"  id="term" disabled />
+
+<label for="ppt">Premium Paying Term</label>
+<input type="text" id="ppt" disabled />
+
+    <label for="sumAssured">Sum Assured</label>
+    <input type="number" id="sumAssured" value="200000" step="10000" />
+    
+    <label for="option">Benefit Option</label>
+<select id="option">
+  <option value="T1">Option 1: 100% at Maturity, No SB</option>
+  <option value="T2">Option 2: 5% SB for 5 yrs + 75% Maturity</option>
+  <option value="T3">Option 3: 10% SB for 5 yrs + 50% Maturity</option>
+  <option value="T4">Option 4: 15% SB for 5 yrs + 25% Maturity</option>
+</select>
+
+  
+
+  
+
+    <button onclick="calculate()">Calculate Premium</button>
+
+    <div id="results"></div>
+  </div>
+  
+  
+
+<script>
+const premiumRates = {
+  0: { T1: 46.5,  T2: 47.5,  T3: 48.55,  T4: 49.6 },
+  1: { T1: 48.95, T2: 50.1,  T3: 51.25,  T4: 52.4 },
+  2: { T1: 51.8,  T2: 53.05, T3: 54.3,  T4: 55.55 },
+  3: { T1: 55.05, T2: 56.4,  T3: 57.8,  T4: 59.2 },
+  4: { T1: 58.7,  T2: 60.25, T3: 61.8,  T4: 63.3 },
+  5: { T1: 62.9,  T2: 64.6,  T3: 66.35, T4: 68.05 },
+  6: { T1: 66.75, T2: 68.6,  T3: 70.5,  T4: 72.4 },
+  7: { T1: 72.35, T2: 74.45, T3: 76.55, T4: 78.65 },
+  8: { T1: 78.9,  T2: 81.25, T3: 83.6,  T4: 85.95 },
+  9: { T1: 86.65, T2: 89.3,  T3: 92.0,  T4: 94.65 },
+ 10: { T1: 96.0,  T2: 99.05, T3: 102.1, T4: 105.15 },
+ 11: { T1: 103.15,T2: 106.55,T3: 109.9, T4: 113.25 },
+ 12: { T1: 116.6, T2: 120.55,T3: 124.45,T4: 128.4 }
+};
+
+
+const modalFactors = { yly:1, hly:0.50531, qly:0.25531,mly:0.085100 };
+const modeRebate = { yly:0.02, hly:0, qly:0, mly:0 };
+const gstFirst = 1.045;
+const gstSecond = 1.0225;
+
+function formatINR(val) {
+  return "₹" + Math.round(val).toLocaleString("en-IN");
+}
+
+
+
+function calculate() {
+  const sa = parseInt(document.getElementById("sumAssured").value);
+  const age = parseInt(document.getElementById("age").value);
+  
+  const selectedOption = document.getElementById("option").value;
+  
+  
+
+  // calculate policy term and ppt based on age
+  const term = 25 - age;
+const ppt  = 20 - age;
+
+// update on screen
+document.getElementById("term").value = term + " Years";
+document.getElementById("ppt").value  = ppt + " Years";
+
+  const rate = premiumRates[age]?.[selectedOption];
+  if (!rate) {
+    document.getElementById("results").innerHTML = `No rate available for this age and term`;
+    return;
+  }
+
+  // 1. Base premium
+  let basePrem = (sa / 1000) * rate;
+
+  // 2. Sum Assured rebate on premium
+  let saRebateRate = 0;
+
+if (selectedOption === "T1") {
+	if (sa >= 10000000) saRebateRate = 4.0815;
+else if (sa >= 5000000) saRebateRate = 4.081
+else if (sa >= 1000000) saRebateRate = 4.08
+  else  if (sa >= 500000) saRebateRate = 2.55;
+    else if (sa >= 200000) saRebateRate = 0.0;
+}
+else if (selectedOption === "T2") {
+    if (sa >= 10000000) saRebateRate = 4.0815;
+else if (sa >= 5000000) saRebateRate = 4.081
+else if (sa >= 1000000) saRebateRate = 4.08
+  else  if (sa >= 500000) saRebateRate = 2.55;
+    else if (sa >= 200000) saRebateRate = 0.0;
+}
+else if (selectedOption === "T3") {
+    if (sa >= 10000000) saRebateRate = 4.0815;
+else if (sa >= 5000000) saRebateRate = 4.081
+else if (sa >= 1000000) saRebateRate = 4.08
+  else  if (sa >= 500000) saRebateRate = 2.55;
+    else if (sa >= 200000) saRebateRate = 0.0;
+}
+else if (selectedOption === "T4") {
+    if (sa >= 10000000) saRebateRate = 4.0815;
+else if (sa >= 5000000) saRebateRate = 4.081
+else if (sa >= 1000000) saRebateRate = 4.08
+  else  if (sa >= 500000) saRebateRate = 2.55;
+    else if (sa >= 200000) saRebateRate = 0.0;
+}
+  
+  let saRebate = (sa/1000) * saRebateRate;
+  let afterSaRebate = basePrem - saRebate;
+  
+  // 3. Yearly mode rebate
+  let yearlyPrem = afterSaRebate - (afterSaRebate * modeRebate.yly);
+
+  let netAnnual = yearlyPrem;
+
+  // 4. Modal premiums with GST
+  const result = {};
+  for (let m of ["yly", "hly", "qly", "mly"]) {
+    let modalPrem = netAnnual * modalFactors[m];
+    result[m] = {
+      first: formatINR(modalPrem * gstFirst),
+      second: formatINR(modalPrem * gstSecond)
+    };
+  }
+
+  document.getElementById("results").innerHTML = `
+    <h2>Premium Summary</h2>
+    <table>
+      <tr><th>Mode</th><th>1st Year (incl. GST)</th><th>2nd Year (incl. GST)</th></tr>
+      <tr><td>Yearly</td><td>${result.yly.first}</td><td>${result.yly.second}</td></tr>
+      <tr><td>Half-Yearly</td><td>${result.hly.first}</td><td>${result.hly.second}</td></tr>
+      <tr><td>Quarterly</td><td>${result.qly.first}</td><td>${result.qly.second}</td></tr>
+      <tr><td>Monthly</td><td>${result.mly.first}</td><td>${result.mly.second}</td></tr>
+    </table>`;
+}
+</script>
+
+<div style="margin-top: 20px; font-size: 0.9em; color: #555;">
+  <strong>Disclaimer:</strong> The premium amounts calculated here are for indicative purposes only. Actual premiums may vary based on LIC’s official rates, underwriting guidelines, and policy terms. Please consult an authorized LIC agent or branch for the exact premium payable.
+</div>
+</body>
+</html>
+
