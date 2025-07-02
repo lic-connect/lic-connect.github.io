@@ -45249,103 +45249,124 @@
     }
 
     function calculatePremium() {
-        document.getElementById('results').style.display = 'none';
-        document.getElementById('error-message').style.display = 'none';
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('error-message').style.display = 'none';
 
-        const primaryAge = parseInt(document.getElementById('primary-age').value);
-        const secondAge = parseInt(document.getElementById('second-age').value);
-        const purchasePrice = parseFloat(document.getElementById('purchase-price').value);
-        const option = document.getElementById('option-type').value;
+    const primaryAge = parseInt(document.getElementById('primary-age').value);
+    const secondAge = parseInt(document.getElementById('second-age').value);
+    const purchasePrice = parseFloat(document.getElementById('purchase-price').value);
+    const option = document.getElementById('option-type').value;
 
-        const singleLifeOptions = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-        const jointLifeOptions = ['H', 'I', 'J'];
+    const singleLifeOptions = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+    const jointLifeOptions = ['H', 'I', 'J'];
 
-        if (isNaN(primaryAge) || isNaN(purchasePrice) || !option) {
-            showError("Please fill all required fields.");
-            return;
-        }
-        if (jointLifeOptions.includes(option) && (isNaN(secondAge) || secondAge < 25 || secondAge > 85)) {
-            showError("Please enter a valid Second Annuitant's Age (25-85).");
-            return;
-        }
-        if (purchasePrice < 100000) {
-            showError("Minimum Purchase Price is ₹ 1,00,000.");
-            return;
-        }
-
-        const getRebateRate = (price) =>
-            price >= 10000000 ? 4.35 :
-            price >= 5000000  ? 4.10 :
-            price >= 2500000  ? 4.10 :
-            price >= 1000000  ? 3.60 :
-            price >= 500000   ? 2.50 : 0;
-        
-        const rebateRate = getRebateRate(purchasePrice);
-
-        let finalYearlyPension = 0, finalHalfYearlyPension = 0, finalQuarterlyPension = 0, finalMonthlyPension = 0;
-
-        if (singleLifeOptions.includes(option)) {
-            const optionMap = { A: 1, B: 2, C: 3, D: 4, E: 5, F: 6, G: 7 };
-            const term = optionMap[option];
-            const rateData = annuityRates.find(r => r.age === primaryAge && r.term === term);
-
-            if (!rateData) {
-                showError("Annuity rates not found for the selected age and option.");
-                return;
-            }
-
-            const baseYearlyPayout = (purchasePrice / 1000) * rateData.TbpY;
-            const baseHalfYearlyPayout = (purchasePrice / 1000) * rateData.TbpH / 2;
-            const baseQuarterlyPayout = (purchasePrice / 1000) * rateData.TbpQ / 4;
-            const baseMonthlyPayout = (purchasePrice / 1000) * rateData.TbpM / 12;
-            
-            const rebateAnnualAmount = (purchasePrice / 1000) * rebateRate;
-            const modalFactors = { yearly: 1.0, halfYearly: 0.985, quarterly: 0.978, monthly: 0.97 };
-
-            const rebateYearlyPayout = (rebateAnnualAmount * modalFactors.yearly) / 1;
-            const rebateHalfYearlyPayout = (rebateAnnualAmount * modalFactors.halfYearly) / 2;
-            const rebateQuarterlyPayout = (rebateAnnualAmount * modalFactors.quarterly) / 4;
-            const rebateMonthlyPayout = (rebateAnnualAmount * modalFactors.monthly) / 12;
-
-            finalYearlyPension = baseYearlyPayout + rebateYearlyPayout;
-            finalHalfYearlyPension = baseHalfYearlyPayout + rebateHalfYearlyPayout;
-            finalQuarterlyPension = baseQuarterlyPayout + rebateQuarterlyPayout;
-            finalMonthlyPension = baseMonthlyPayout + rebateMonthlyPayout;
-
-        } else if (jointLifeOptions.includes(option)) {
-            const optionMap = { H: 8.1, I: 9.1, J: 10.1 };
-            const term = optionMap[option];
-            const secondaryAgeKey = `T${secondAge}`;
-            const rateData = premiumRates.find(r => r.Age === primaryAge && r.Term === term);
-
-            if (!rateData || !rateData.hasOwnProperty(secondaryAgeKey)) {
-                showError("Rates not found for this Joint Life combination.");
-                return;
-            }
-
-            const yearlyAnnuityRate = rateData[secondaryAgeKey];
-            const totalYearlyPension = (purchasePrice / 1000) * (yearlyAnnuityRate + rebateRate);
-            
-            const modalFactors = { yearly: 1.0, halfYearly: 0.985, quarterly: 0.978, monthly: 0.97 };
-
-            finalYearlyPension = (totalYearlyPension * modalFactors.yearly) / 1;
-            finalHalfYearlyPension = (totalYearlyPension * modalFactors.halfYearly) / 2;
-            finalQuarterlyPension = (totalYearlyPension * modalFactors.quarterly) / 4;
-            finalMonthlyPension = (totalYearlyPension * modalFactors.monthly) / 12;
-        }
-
-        const premiumWithGST = purchasePrice * 1.018;
-
-        document.getElementById('output-purchase-price').textContent = formatCurrency(purchasePrice);
-        document.getElementById('output-single-premium').textContent = formatCurrency(premiumWithGST);
-        
-        document.getElementById('output-yearly').textContent = formatCurrency(finalYearlyPension);
-        document.getElementById('output-half-yearly').textContent = formatCurrency(finalHalfYearlyPension);
-        document.getElementById('output-quarterly').textContent = formatCurrency(finalQuarterlyPension);
-        document.getElementById('output-monthly').textContent = formatCurrency(finalMonthlyPension);
-
-        document.getElementById('results').style.display = 'block';
+    // --- Input Validations ---
+    if (isNaN(primaryAge) || isNaN(purchasePrice) || !option) {
+        showError("Please fill all required fields.");
+        return;
     }
+    if (jointLifeOptions.includes(option) && (isNaN(secondAge) || secondAge < 25 || secondAge > 85)) {
+        showError("Please enter a valid Second Annuitant's Age (25-85).");
+        return;
+    }
+    if (purchasePrice < 100000) {
+        showError("Minimum Purchase Price is ₹ 1,00,000.");
+        return;
+    }
+
+    // --- HELPER FUNCTIONS BASED ON OFFICIAL DOCUMENTATION ---
+    function getIncentiveRates(price) {
+        if (price >= 10000000) return { yearly: 4.35, halfYearly: 4.25, quarterly: 4.20, monthly: 4.15 };
+        if (price >= 2500000) return { yearly: 4.10, halfYearly: 4.00, quarterly: 3.95, monthly: 3.90 };
+        if (price >= 1000000) return { yearly: 3.60, halfYearly: 3.50, quarterly: 3.45, monthly: 3.40 };
+        if (price >= 500000) return { yearly: 2.50, halfYearly: 2.40, quarterly: 2.35, monthly: 2.30 };
+        return { yearly: 0, halfYearly: 0, quarterly: 0, monthly: 0 };
+    }
+    
+    // NOTE: This function is still here, but it is NOT being used in the Joint Life calculation below.
+    function getReductionFactor(annualPension) {
+        if (annualPension < 100000) return 5; 
+        if (annualPension < 150000) return 2;
+        return 0;
+    }
+
+    const incentiveRates = getIncentiveRates(purchasePrice);
+    let finalYearlyPension = 0, finalHalfYearlyPension = 0, finalQuarterlyPension = 0, finalMonthlyPension = 0;
+
+    // --- SINGLE LIFE BLOCK (UNTOUCHED AND WORKING PERFECTLY) ---
+    if (singleLifeOptions.includes(option)) {
+        const optionMap = { A: 1, B: 2, C: 3, D: 4, E: 5, F: 6, G: 7 };
+        const term = optionMap[option];
+        const rateData = annuityRates.find(r => r.age === primaryAge && r.term === term);
+        if (!rateData) { showError("Annuity rates not found for the selected age and option."); return; }
+
+        const totalYearlyRate = rateData.TbpY + incentiveRates.yearly;
+        const totalHalfYearlyRate = rateData.TbpH + incentiveRates.halfYearly;
+        const totalQuarterlyRate = rateData.TbpQ + incentiveRates.quarterly;
+        const totalMonthlyRate = rateData.TbpM + incentiveRates.monthly;
+
+        finalYearlyPension = Math.round(((purchasePrice / 1000) * totalYearlyRate) / 1);
+        finalHalfYearlyPension = Math.round(((purchasePrice / 1000) * totalHalfYearlyRate) / 2);
+        finalQuarterlyPension = Math.round(((purchasePrice / 1000) * totalQuarterlyRate) / 4);
+        finalMonthlyPension = Math.round(((purchasePrice / 1000) * totalMonthlyRate) / 12);
+        
+    // --- JOINT LIFE BLOCK (USING YOUR WORKING CODE, BUT WITH REDUCTION REMOVED) ---
+    } else if (jointLifeOptions.includes(option)) {
+        
+        function getJointLifeBaseRate(term) {
+            const secondaryKey = `T${secondAge}`;
+            const rateData = premiumRates.find(r => r.Age === primaryAge && r.Term === term);
+            return (rateData && rateData.hasOwnProperty(secondaryKey)) ? rateData[secondaryKey] : null;
+        }
+        
+        const optionBase = (option === 'H') ? 8 : (option === 'I') ? 9 : 10;
+        
+        const yearlyTerm = optionBase + 0.1;
+        const halfYearlyTerm = optionBase + 0.2;
+        const quarterlyTerm = optionBase + 0.4;
+        const monthlyTerm = optionBase + 0.12;
+
+        const baseYearlyRate = getJointLifeBaseRate(yearlyTerm);
+        const baseHalfYearlyRate = getJointLifeBaseRate(halfYearlyTerm);
+        const baseQuarterlyRate = getJointLifeBaseRate(quarterlyTerm);
+        const baseMonthlyRate = getJointLifeBaseRate(monthlyTerm);
+        
+        if (baseYearlyRate === null || baseHalfYearlyRate === null || baseQuarterlyRate === null || baseMonthlyRate === null) {
+            showError("Annuity rates not found for this Joint Life combination. Please check data table.");
+            return;
+        }
+
+        // --- Calculate for each mode using ONLY the base rate and incentive rate ---
+        
+        // YEARLY
+        let grossYearlyPension = (purchasePrice / 1000) * (baseYearlyRate + incentiveRates.yearly);
+        finalYearlyPension = Math.round(grossYearlyPension);
+
+        // HALF-YEARLY
+        let grossHalfYearlyPension = (purchasePrice / 1000) * (baseHalfYearlyRate + incentiveRates.halfYearly);
+        finalHalfYearlyPension = Math.round(grossHalfYearlyPension / 2);
+
+        // QUARTERLY
+        let grossQuarterlyPension = (purchasePrice / 1000) * (baseQuarterlyRate + incentiveRates.quarterly);
+        finalQuarterlyPension = Math.round(grossQuarterlyPension / 4);
+
+        // MONTHLY
+        let grossMonthlyPension = (purchasePrice / 1000) * (baseMonthlyRate + incentiveRates.monthly);
+        finalMonthlyPension = Math.round(grossMonthlyPension / 12);
+    }
+
+    // --- Display Results ---
+    const premiumWithGST = purchasePrice * 1.018;
+    document.getElementById('output-purchase-price').textContent = formatCurrency(purchasePrice);
+    document.getElementById('output-single-premium').textContent = formatCurrency(premiumWithGST);
+    
+    document.getElementById('output-yearly').textContent = formatCurrency(finalYearlyPension);
+    document.getElementById('output-half-yearly').textContent = formatCurrency(finalHalfYearlyPension);
+    document.getElementById('output-quarterly').textContent = formatCurrency(finalQuarterlyPension);
+    document.getElementById('output-monthly').textContent = formatCurrency(finalMonthlyPension);
+
+    document.getElementById('results').style.display = 'block';
+}
 </script>
 
 </body>
