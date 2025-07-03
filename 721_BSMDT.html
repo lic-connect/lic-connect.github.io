@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIC 25-Year Money Back Calculator (Plan 721)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f0f2f5; }
+    .calculator-container { max-width: 650px; margin: 40px auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+    .result-box { background-color: #eef2f7; border-left: 4px solid #198754; }
+    h3 { color: #0c2f5a; }
+    .plan-details { font-size: 0.9rem; color: #6c757d; }
+  </style>
+</head>
+<body>
+
+<div class="calculator-container">
+  <h3 class="text-center mb-4 fw-bold">LIC 25-Year Money Back (Plan 721)</h3>
+  
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label for="age" class="form-label">Entry Age (13-50 Years)</label>
+      <input type="number" class="form-control" id="age" value="30">
+    </div>
+    <div class="col-md-6">
+      <label for="sum-assured" class="form-label">Sum Assured (₹)</label>
+      <input type="number" class="form-control" id="sum-assured" value="500000" step="5000">
+    </div>
+    <div class="col-md-12">
+        <div class="form-check mt-3">
+            <input class="form-check-input" type="checkbox" id="addb-rider">
+            <label class="form-check-label" for="addb-rider">
+                Include Accidental Death & Disability Benefit Rider? (₹1 per 1000 SA)
+            </label>
+        </div>
+    </div>
+  </div>
+
+  <div id="error-message" class="text-danger fw-bold mt-3"></div>
+  <button type="button" class="btn btn-success w-100 mt-4 py-2" onclick="calculatePremium()">Calculate Premium</button>
+  <div id="results" class="mt-4 d-none"><hr><div id="premium-results"></div></div>
+</div>
+
+<script>
+    // Data setup from the JSON you provided
+    const rawRates = [
+    {
+        "Age": 13,
+        "T25": 62.35
+    },
+    {
+        "Age": 14,
+        "T25": 62.4
+    },
+    {
+        "Age": 15,
+        "T25": 62.45
+    },
+    {
+        "Age": 16,
+        "T25": 62.55
+    },
+    {
+        "Age": 17,
+        "T25": 62.6
+    },
+    {
+        "Age": 18,
+        "T25": 62.65
+    },
+    {
+        "Age": 19,
+        "T25": 62.7
+    },
+    {
+        "Age": 20,
+        "T25": 62.75
+    },
+    {
+        "Age": 21,
+        "T25": 62.8
+    },
+    {
+        "Age": 22,
+        "T25": 62.9
+    },
+    {
+        "Age": 23,
+        "T25": 62.95
+    },
+    {
+        "Age": 24,
+        "T25": 63.05
+    },
+    {
+        "Age": 25,
+        "T25": 63.2
+    },
+    {
+        "Age": 26,
+        "T25": 63.35
+    },
+    {
+        "Age": 27,
+        "T25": 63.5
+    },
+    {
+        "Age": 28,
+        "T25": 63.7
+    },
+    {
+        "Age": 29,
+        "T25": 63.9
+    },
+    {
+        "Age": 30,
+        "T25": 64.15
+    },
+    {
+        "Age": 31,
+        "T25": 64.45
+    },
+    {
+        "Age": 32,
+        "T25": 64.75
+    },
+    {
+        "Age": 33,
+        "T25": 65.1
+    },
+    {
+        "Age": 34,
+        "T25": 65.5
+    },
+    {
+        "Age": 35,
+        "T25": 65.9
+    },
+    {
+        "Age": 36,
+        "T25": 66.4
+    },
+    {
+        "Age": 37,
+        "T25": 66.9
+    },
+    {
+        "Age": 38,
+        "T25": 67.45
+    },
+    {
+        "Age": 39,
+        "T25": 68.05
+    },
+    {
+        "Age": 40,
+        "T25": 68.7
+    },
+    {
+        "Age": 41,
+        "T25": 69.4
+    },
+    {
+        "Age": 42,
+        "T25": 70.2
+    },
+    {
+        "Age": 43,
+        "T25": 71.05
+    },
+    {
+        "Age": 44,
+        "T25": 71.95
+    },
+    {
+        "Age": 45,
+        "T25": 72.95
+    }
+];
+    
+    // Converting the array to an easier-to-use object for quick lookup
+    const baseRates = rawRates.reduce((acc, item) => {
+        acc[item.Age] = item.T25;
+        return acc;
+    }, {});
+
+    const addbRatePer1000 = 1.0; 
+
+    function calculatePremium() {
+        document.getElementById("error-message").textContent = "";
+        document.getElementById("results").classList.add("d-none");
+
+        const age = parseInt(document.getElementById("age").value);
+        const sumAssured = parseFloat(document.getElementById("sum-assured").value);
+        const addbSelected = document.getElementById("addb-rider").checked;
+        
+        // Validation specific to Plan 721
+        if (isNaN(age) || isNaN(sumAssured)) {
+            document.getElementById("error-message").textContent = "Please fill all required fields.";
+            return;
+        }
+        if (age < 13 || age > 45) {
+            document.getElementById("error-message").textContent = "Entry Age must be between 13 and 45 years.";
+            return;
+        }
+        if (sumAssured < 200000) {
+            document.getElementById("error-message").textContent = "Minimum Sum Assured is ₹2,00,000.";
+            return;
+        }
+
+        // --- THE STANDARD LIC CALCULATION FLOW ---
+        const tabularRate = baseRates[age];
+        if (!tabularRate) {
+            document.getElementById("error-message").textContent = "Premium rate for the selected Age is not available.";
+            return;
+        }
+
+        const annualTabularPremium = (tabularRate * sumAssured) / 1000;
+
+        // Sum Assured Rebate - using the rates you specified
+        let saRebateRate = 0;
+        if (sumAssured >= 2500000)      { saRebateRate = 2.85; } 
+        else if (sumAssured >= 1000000) { saRebateRate = 2.85; } 
+        else if (sumAssured >= 500000)  { saRebateRate = 2.85 }
+        const annualSaRebateAmount = (saRebateRate * sumAssured) / 1000;
+        
+        const annualPremiumAfterSaRebate = annualTabularPremium - annualSaRebateAmount;
+        let annualAddbPremium = addbSelected ? (addbRatePer1000 * sumAssured) / 1000 : 0;
+if (sumAssured < 500000) annualAddbPremium = addbSelected ? (1.15 * sumAssured) / 1000 : 0;
+        // OFFICIAL Modal Factors which are universal for all plans
+        const modes = {
+            yearly:      { name: "Yearly",        factor: 1.0,    modeRebatePercent: 0.02 },
+            "half-yearly": { name: "Half-Yearly",   factor: 0.4949,  modeRebatePercent: 0 },
+            quarterly:   { name: "Quarterly",     factor: 0.2500,  modeRebatePercent: 0 },
+            monthly:     { name: "Monthly (NACH)",factor: 0.08333, modeRebatePercent: 0 }
+        };
+
+        let outputHTML = `<p class="plan-details text-center"><b>Policy Term:</b> 20 Years | <b>Premium Paying Term:</b> 15 Years</p>`;
+
+        for (const modeKey in modes) {
+            const mode = modes[modeKey];
+            let premiumBeforeTax = 0;
+
+            if (mode.modeRebatePercent > 0) {
+                // Logic for YEARLY mode with its unique rebate
+                const modeRebateAmount = annualTabularPremium * mode.modeRebatePercent;
+                premiumBeforeTax = annualTabularPremium - annualSaRebateAmount - modeRebateAmount + annualAddbPremium;
+            } else {
+                // Standard logic for HLY, QLY, MLY which have MODAL LOADING
+                const loadedBasePremium = annualPremiumAfterSaRebate * mode.factor;
+                const loadedRiderPremium = annualAddbPremium * mode.factor;
+                premiumBeforeTax = loadedBasePremium + loadedRiderPremium;
+            }
+
+            const gst1stYear = premiumBeforeTax * 0.045;
+            const finalPremium1stYear = premiumBeforeTax + gst1stYear;
+            const gst2ndYear = premiumBeforeTax * 0.0225;
+            const finalPremium2ndYear = premiumBeforeTax + gst2ndYear;
+            
+            const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+            outputHTML += `
+              <div class="result-box mb-3 p-3">
+                <strong class="text-success">${mode.name.toUpperCase()} PREMIUM</strong><hr class="my-2">
+                <div><b>1st Year:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium1stYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst1stYear)})</small></div>
+                <div class="mt-2"><b>2nd Year Onwards:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium2ndYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst2ndYear)})</small></div>
+              </div>
+            `;
+        }
+        document.getElementById("premium-results").innerHTML = outputHTML;
+        document.getElementById("results").classList.remove("d-none");
+    }
+</script>
+
+</body>
+</html>
