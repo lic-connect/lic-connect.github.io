@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC Plan 748 Premium Calculator</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
+    .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); max-width: 700px; margin:auto; }
+    h1 { text-align:center; }
+    label { font-weight:bold; margin-top:10px; display:block; }
+    input { width:100%; padding:10px; margin-bottom:10px; }
+    button { width:100%; padding:15px; background:#27ae60; color:#fff; font-size:16px; border:none; cursor:pointer; }
+    button:hover { background:#219150; }
+    table { width:100%; margin-top:20px; border-collapse:collapse; }
+    th, td { border:1px solid #ccc; padding:10px; text-align:center; }
+    th { background:#e8f5e9; }
+  </style>
+</head>
+<body>
+ <div class="container">
+    <h1>LIC Plan 748 Bima Shree Premium Calculator</h1>
+<label for="age">Age</label>
+    <input type="number" id="age" value="30" min="8" max="59" />
+<label for="term">Policy Term</label>
+    <input type="number" id="term" value="20" min="16" max="25" onchange="updatePPT()" />
+
+    <label for="sumAssured">Sum Assured</label>
+    <input type="number" id="sumAssured" value="2500000" step="10000" min="200000" />
+
+    <label for="ppt">Premium Paying Term</label>
+    <input type="text" id="ppt" disabled />
+
+    <button onclick="calculate()">Calculate Premium</button>
+
+    <div id="results"></div>
+  </div>
+
+<script>
+    function updatePPT() {
+      const term = parseInt(document.getElementById("term").value);
+      let ppt = "";
+      if (term === 14) {
+        ppt = 10;
+      } else if (term === 16) {
+        ppt = 12;
+      } else if (term === 18) {
+        ppt = 14;
+      } else if (term===20) {
+      ppt = 16;
+      } else if (term===24) {
+      ppt = 20;
+      } else if (term===28) {
+      ppt = 24;
+      }
+else {
+        ppt = ""; // blank if no rule defined
+      }
+      document.getElementById("ppt").value = ppt ? ppt + " Years" : "";
+    }
+  </script>
+<script>
+const premiumRates = {
+    "8": {
+        "14": 110.3,
+        "16": 92.65,
+        "18": 79.8,
+        "20": 70.9,
+        "24": 55.5,
+        "28": 45.05
+    },
+    "9": {
+        "14": 110.4,
+        "16": 92.75,
+        "18": 79.9,
+        "20": 71,
+        "24": 55.6,
+        "28": 45.15
+    },
+    "10": {
+        "14": 110.45,
+        "16": 92.85,
+        "18": 79.95,
+        "20": 71.1,
+        "24": 55.7,
+        "28": 45.2
+    },
+    "11": {
+        "14": 110.55,
+        "16": 92.95,
+        "18": 80.05,
+        "20": 71.15,
+        "24": 55.75,
+        "28": 45.3
+    },
+    "12": {
+        "14": 110.65,
+        "16": 93,
+        "18": 80.15,
+        "20": 71.25,
+        "24": 55.85,
+        "28": 45.4
+    },
+    "13": {
+        "14": 110.75,
+        "16": 93.1,
+        "18": 80.2,
+        "20": 71.3,
+        "24": 55.9,
+        "28": 45.45
+    },
+    "14": {
+        "14": 110.8,
+        "16": 93.15,
+        "18": 80.25,
+        "20": 71.4,
+        "24": 56,
+        "28": 45.55
+    },
+    "15": {
+        "14": 110.85,
+        "16": 93.2,
+        "18": 80.3,
+        "20": 71.45,
+        "24": 56.05,
+        "28": 45.6
+    },
+    "16": {
+        "14": 110.9,
+        "16": 93.25,
+        "18": 80.35,
+        "20": 71.5,
+        "24": 56.1,
+        "28": 45.65
+    },
+    "17": {
+        "14": 110.95,
+        "16": 93.3,
+        "18": 80.4,
+        "20": 71.5,
+        "24": 56.15,
+        "28": 45.7
+    },
+    "18": {
+        "14": 110.95,
+        "16": 93.3,
+        "18": 80.45,
+        "20": 71.55,
+        "24": 56.2,
+        "28": 45.75
+    },
+    "19": {
+        "14": 111,
+        "16": 93.35,
+        "18": 80.45,
+        "20": 71.6,
+        "24": 56.2,
+        "28": 45.85
+    },
+    "20": {
+        "14": 111,
+        "16": 93.35,
+        "18": 80.5,
+        "20": 71.6,
+        "24": 56.25,
+        "28": 45.9
+    },
+    "21": {
+        "14": 111.05,
+        "16": 93.4,
+        "18": 80.5,
+        "20": 71.65,
+        "24": 56.3,
+        "28": 45.95
+    },
+    "22": {
+        "14": 111.05,
+        "16": 93.4,
+        "18": 80.55,
+        "20": 71.7,
+        "24": 56.4,
+        "28": 46.05
+    },
+    "23": {
+        "14": 111.05,
+        "16": 93.45,
+        "18": 80.6,
+        "20": 71.75,
+        "24": 56.45,
+        "28": 46.15
+    },
+    "24": {
+        "14": 111.1,
+        "16": 93.5,
+        "18": 80.65,
+        "20": 71.8,
+        "24": 56.55,
+        "28": 46.3
+    },
+    "25": {
+        "14": 111.15,
+        "16": 93.55,
+        "18": 80.7,
+        "20": 71.85,
+        "24": 56.65,
+        "28": 46.4
+    },
+    "26": {
+        "14": 111.2,
+        "16": 93.6,
+        "18": 80.75,
+        "20": 71.95,
+        "24": 56.75,
+        "28": 46.6
+    },
+    "27": {
+        "14": 111.25,
+        "16": 93.65,
+        "18": 80.85,
+        "T20": 72.05,
+        "24": 56.9,
+        "28": 46.75
+    },
+    "28": {
+        "14": 111.3,
+        "16": 93.75,
+        "18": 80.95,
+        "20": 72.2,
+        "24": 57.05,
+        "28": 46.95
+    },
+    "29": {
+        "14": 111.4,
+        "16": 93.85,
+        "18": 81.05,
+        "20": 72.3,
+        "24": 57.25,
+        "28": 47.2
+    },
+    "30": {
+        "14": 111.5,
+        "16": 93.95,
+        "18": 81.2,
+        "20": 72.5,
+        "24": 57.45,
+        "28": 46.95
+    },
+    "31": {
+        "14": 111.6,
+        "16": 94.1,
+        "18": 81.35,
+        "20": 72.7,
+        "24": 57.7,
+        "28": 47.75
+    },
+    "32": {
+        "14": 111.75,
+        "16": 94.25,
+        "18": 81.55,
+        "20": 72.9,
+        "24": 57.95,
+        "28": 48.1
+    },
+    "33": {
+        "14": 111.9,
+        "16": 94.45,
+        "18": 81.75,
+        "20": 73.15,
+        "24": 58.25,
+        "28": 48.45
+    },
+    "34": {
+        "14": 112.1,
+        "16": 94.64,
+        "18": 82,
+        "20": 73.4,
+        "24": 58.6,
+        "28": 48.8
+    },
+    "35": {
+        "14": 112.3,
+        "16": 94.9,
+        "18": 82.25,
+        "20": 73.75,
+        "24": 58.95,
+        "28": 49.25
+    },
+    "36": {
+        "14": 112.55,
+        "16": 95.15,
+        "18": 82.6,
+        "20": 74.1,
+        "24": 59.35,
+        "28": 49.7
+    },
+    "37": {
+        "14": 112.85,
+        "16": 95.5,
+        "18": 82.95,
+        "20": 74.45,
+        "24": 59.8,
+        "28": 50.2
+    },
+    "38": {
+        "14": 113.15,
+        "16": 95.85,
+        "18": 83.3,
+        "20": 74.9,
+        "24": 60.3,
+        "28": 50.8
+    },
+    "39": {
+        "14": 113.5,
+        "16": 96.2,
+        "18": 83.75,
+        "20": 75.35,
+        "24": 60.8,
+        "28": 51.4
+    },
+    "40": {
+        "14": 113.9,
+        "16": 96.65,
+        "18": 84.2,
+        "20": 75.9,
+        "24": 61.4,
+        "28": 52.05
+    },
+    "41": {
+        "14": 114.35,
+        "16": 97.15,
+        "18": 84.75,
+        "20": 76.45,
+        "24": 62.05,
+        "28": 52.8
+    },
+    "42": {
+        "14": 114.85,
+        "16": 97.7,
+        "18": 85.3,
+        "20": 77.05,
+        "24": 62.7
+    },
+    "43": {
+        "14": 115.4,
+        "16": 98.25,
+        "18": 85.9,
+        "20": 77.7,
+        "24": 63.45
+    },
+    "44": {
+        "14": 116.05,
+        "16": 98.9,
+        "18": 86.6,
+        "20": 78.45,
+        "24": 64.3
+    },
+    "45": {
+        "14": 116.7,
+        "16": 99.6,
+        "18": 87.3,
+        "20": 79.25,
+        "24": 65.2
+    },
+    "46": {
+        "14": 117.45,
+        "16": 100.35,
+        "18": 88.1,
+        "20": 80.1
+    },
+    "47": {
+        "14": 118.2,
+        "16": 101.2,
+        "18": 89,
+        "20": 81.05
+    },
+    "48": {
+        "14": 119.1,
+        "16": 102.05,
+        "18": 89.9,
+        "20": 82.05
+    },
+    "49": {
+        "14": 120,
+        "16": 103,
+        "18": 90.9,
+        "20": 83.1
+    },
+    "50": {
+        "14": 121,
+        "16": 104.05,
+        "18": 91.95
+    },
+    "51": {
+        "14": 122,
+        "16": 105.1,
+        "18": 93.1
+    },
+    "52": {
+        "14": 123.1,
+        "16": 106.25
+    },
+    "53": {
+        "14": 124.25,
+        "16": 107.45
+    },
+    "54": {
+        "14": 125.45
+    },
+    "55": {
+        "14": 126.75
+    }
+};
+
+const modeRebate = { yly: 0.02, hly: 0, qly: 0, mly: 0 };
+  const modalFactors = { yly:1, hly:0.50522, qly:0.25522, mly:0.085075 };
+const gstFirst = 1.045;
+const gstSecond = 1.0225;
+
+function formatINR(val) {
+  return "₹" + Math.round(val).toLocaleString("en-IN");
+}
+
+function calculate() {
+  const sa = parseInt(document.getElementById("sumAssured").value);
+  const age = parseInt(document.getElementById("age").value);
+  const term = parseInt(document.getElementById("term").value);
+  
+  
+  if (age < 8) {
+  alert("Minimum entry age is 8 years.");
+  return;
+}
+if (age > 55) {
+  alert("Maximum entry age is 55 years.");
+  return;
+}
+if (age + term > 69) {
+  alert("Maximum maturity age cannot exceed 69 years.");
+  return;
+}
+if (sa < 1000000) {
+  alert("Minimum Sum Assured is ₹10,00,000.");
+  return;
+  }
+  
+let ppt = "";
+      if (term === 14) {
+        ppt = 10;
+      } else if (term === 16) {
+        ppt = 12;
+      } else if (term === 18) {
+        ppt = 14;
+      } else if (term===20) {
+      ppt = 16;
+      } else if (term===24) {
+      ppt = 20;
+      } else if (term===28) {
+      ppt = 24;
+      }
+else {
+        ppt = ""; // blank if no rule defined
+      }
+document.getElementById("ppt").value = ppt ? ppt + " Years" : "";
+
+
+  const rate = premiumRates[age]?.[term];
+  if (!rate) {
+    document.getElementById("results").innerHTML = `No rate for this age/term`;
+    return;
+  }
+
+  // 1. Base premium
+  let basePrem = (sa/1000) * rate;
+
+
+// 2. SA rebate (depending on term)
+let saRebateRate = 0;
+
+if (term === 14) {
+if (sa >= 10000000) saRebateRate = 0.005; // for 1 crore and above
+else if (sa >= 7500000) saRebateRate = 0.005; // 50 lakhs to less than 1 crore  
+else if (sa >= 5000000) saRebateRate = 0.005; // 50 lakhs to less than 1 crore  
+else if (sa >= 2000000) saRebateRate = 0.003;
+else if (sa >= 1000000) saRebateRate = 0.000;
+}
+else if (term === 16) {
+if (sa >= 10000000) saRebateRate = 0.005; // for 1 crore and above
+else if (sa >= 5000000) saRebateRate = 0.005; // 50 lakhs to less than 1 crore  
+else if (sa >= 2000000) saRebateRate = 0.003;
+else if (sa >= 1000000) saRebateRate = 0.00;
+}
+
+
+else if (term === 18) {
+if (sa >= 10000000) saRebateRate = 0.005; // for 1 crore and above
+else if (sa >= 5000000) saRebateRate = 0.005; // 50 lakhs to less than 1 crore  
+else if (sa >= 2000000) saRebateRate = 0.003;
+else if (sa >= 1000000) saRebateRate = 0.00;
+}
+
+
+else if (term === 20) {
+if (sa >= 10000000) saRebateRate = 0.005;  // for 1 crore and above
+else if (sa >= 5000000) saRebateRate = 0.005; // 50 lakhs to less than 1 crore  
+else if (sa >= 2000000) saRebateRate = 0.003;
+else if (sa >= 1000000) saRebateRate = 0.00;
+}
+
+
+else if (term === 24) {
+if (sa >= 10000000) saRebateRate = 0.005;  // for 1 crore and above
+else if (sa >= 5000000) saRebateRate = 0.005; // 50 lakhs to less than 1 crore  
+else if (sa >= 2000000) saRebateRate = 0.003;
+else if (sa >= 1000000) saRebateRate = 0.00;
+}
+
+
+else if (term === 28) {
+if (sa >= 10000000) saRebateRate = 0.005;  // for 1 crore and above
+else if (sa >= 5000000) saRebateRate = 0.005; // 50 lakhs to less than 1 crore  
+else if (sa >= 2000000) saRebateRate = 0.003;
+else if (sa >= 1000000) saRebateRate = 0.00;
+}
+
+  let saRebate = (sa/1000) * saRebateRate;
+  let afterSaRebate = basePrem - saRebate;
+
+// Correction for low SA under 5 lakhs, different by term
+
+
+
+  // 3. Mode rebate (2% on yearly)
+  let yearlyPrem = afterSaRebate - (afterSaRebate * 0.02);
+
+  // determine ADDB based on Sum Assured
+let addbSaRate = 1.0; // default
+if (sa >= 1000000 && sa < 2000000) {
+  addbSaRate = 1.15;
+} else if (sa >= 2000000 && sa < 5000000) {
+  addbSaRate = 1.113
+} else if (sa >= 5000000 && sa < 7500000) {
+  addbSaRate = 1.085;
+} else if (sa >= 7500000 && sa < 10000000) {
+  addbSaRate = 1.185;
+  } else if (sa >= 10000000 && sa < 20000000) {
+  addbSaRate = 1.085;
+  }
+
+
+
+// combine the two rates
+// you can multiply if that makes sense, or just pick the higher, for example:
+const addbRatePer1000 = addbSaRate;
+
+// finally apply to get the rider premium
+const annualAddbPremium = (addbRatePer1000 * sa) / 1000;
+let netAnnual = yearlyPrem + annualAddbPremium;
+
+  // 5. Modal + GST
+ const modalFactors = { yly:1, hly:0.50500, qly:0.25500, mly:0.085000 };
+  const gstFirst = 1.045;
+  const gstSecond = 1.0225;
+
+  const result = {};
+  for (let m of ["yly","hly","qly","mly"]) {
+    let modalPrem = netAnnual * modalFactors[m];
+    result[m] = {
+      first: "₹" + Math.round(modalPrem * gstFirst).toLocaleString("en-IN"),
+      second: "₹" + Math.round(modalPrem * gstSecond).toLocaleString("en-IN")
+    }
+  }
+
+  document.getElementById("results").innerHTML = `
+  <h2>Premium Summary</h2>
+  <table>
+    <tr><th>Mode</th><th>1st Year (incl GST)</th><th>2nd Year (incl GST)</th></tr>
+    <tr><td>Yearly</td><td>${result.yly.first}</td><td>${result.yly.second}</td></tr>
+    <tr><td>Half-Yearly</td><td>${result.hly.first}</td><td>${result.hly.second}</td></tr>
+    <tr><td>Quarterly</td><td>${result.qly.first}</td><td>${result.qly.second}</td></tr>
+    <tr><td>Monthly</td><td>${result.mly.first}</td><td>${result.mly.second}</td></tr>
+  </table>`;
+}
+</script>
+
+<div style="margin-top: 20px; font-size: 0.9em; color: #555;">
+  <strong>Disclaimer:</strong> The premium amounts calculated here are for indicative purposes only. Actual premiums may vary based on LIC’s official rates, underwriting guidelines, and policy terms. Please consult an authorized LIC agent or branch for the exact premium payable.
+</div>
+</body>
+</html>
+
+
+
+</body>
+</html>
