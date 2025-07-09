@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Bima Ratna (Plan 764) Premium Calculator</title>
+    <style>
+        :root {
+            --primary-color: #003366; /* LIC Blue */
+            --secondary-color: #f0ad4e; /* LIC Yellow/Gold */
+            --light-gray: #f4f4f4;
+            --dark-gray: #333;
+            --error-red: #d9534f;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .calculator-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+        h1 + p {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        
+        input[type="number"] {
+           -moz-appearance: textfield;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+           -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .btn-calculate {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-calculate:hover {
+            background-color: #e69524;
+        }
+
+        #error-message {
+            color: var(--error-red);
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        #results {
+            margin-top: 30px;
+            display: none;
+            border-top: 2px solid var(--primary-color);
+            padding-top: 20px;
+        }
+
+        #results h2 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .results-table th, .results-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .results-table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.9em;
+        }
+
+        .results-table tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+
+        .summary {
+            background-color: #e7f3fe;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .summary-item span:first-child { font-weight: bold; }
+
+        .disclaimer {
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-container">
+        <h1>LIC Bima Ratna</h1>
+        <p>Plan No. 764 Premium Calculator</p>
+
+        <form id="premium-form">
+            <div class="form-group">
+                <label for="age">Age (Years)</label>
+                <input type="number" id="age" min="0" max="65" required>
+            </div>
+            <div class="form-group">
+                <label for="sum-assured">Sum Assured (Minimum 5,00,000)</label>
+                <input type="number" id="sum-assured" value="500000" min="500000" step="10000" required>
+            </div>
+            <div class="form-group">
+                <label for="policy-term">Policy Term / Premium Paying Term (PPT)</label>
+                <select id="policy-term" required>
+                    <option value="15" data-ppt="11">15 Years / 11 Years</option>
+                    <option value="20" data-ppt="16">20 Years / 16 Years</option>
+                    <option value="25" data-ppt="21">25 Years / 21 Years</option>
+                </select>
+            </div>
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="addb-rider">
+                <label for="addb-rider">Include Accidental Death & Disability Benefit (ADDB) Rider?</label>
+            </div>
+            
+            <button type="button" class="btn-calculate" id="calculate-btn">Calculate Premium</button>
+        </form>
+
+        <div id="error-message"></div>
+        
+        <div id="results">
+            <div class="summary" id="summary-details"></div>
+
+            <div id="regular-premium-result">
+                <h2>Mode-wise Regular Premium (BSMDT Rule)</h2>
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>Mode</th>
+                            <th>1st Year Premium (with 4.5% GST)</th>
+                            <th>2nd Year Onwards Premium (with 2.25% GST)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-body">
+                        <!-- Results will be populated here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="disclaimer">
+                This is an illustrative calculation. Premiums are rounded to the nearest rupee. GST is calculated at 4.5% for the first year and 2.25% thereafter, as per current regulations for life insurance. Please contact an LIC agent for an official quote.
+            </p>
+        </div>
+    </div>
+
+    <script>
+    // ####################################################################################
+    // ## REGULAR PREMIUM RATES - PLEASE FILL THIS WITH OFFICIAL BIMA RATNA RATES        ##
+    // ####################################################################################
+    const regularPremiumRates = [
+    {
+        "Age": 0,
+        "T15": 0.0,
+        "T20": 74.15,
+        "T25": 55.2
+    },
+    {
+        "Age": 1,
+        "T15": 0.0,
+        "T20": 74.15,
+        "T25": 55.2
+    },
+    {
+        "Age": 2,
+        "T15": 0.0,
+        "T20": 74.15,
+        "T25": 55.2
+    },
+    {
+        "Age": 3,
+        "T15": 0.0,
+        "T20": 74.15,
+        "T25": 55.2
+    },
+    {
+        "Age": 4,
+        "T15": 0.0,
+        "T20": 74.15,
+        "T25": 55.2
+    },
+    {
+        "Age": 5,
+        "T15": 107.75,
+        "T20": 74.15,
+        "T25": 55.25
+    },
+    {
+        "Age": 6,
+        "T15": 107.75,
+        "T20": 74.2,
+        "T25": 55.3
+    },
+    {
+        "Age": 7,
+        "T15": 107.85,
+        "T20": 74.3,
+        "T25": 55.4
+    },
+    {
+        "Age": 8,
+        "T15": 107.95,
+        "T20": 74.4,
+        "T25": 55.5
+    },
+    {
+        "Age": 9,
+        "T15": 108.05,
+        "T20": 74.5,
+        "T25": 55.6
+    },
+    {
+        "Age": 10,
+        "T15": 108.15,
+        "T20": 74.6,
+        "T25": 55.65
+    },
+    {
+        "Age": 11,
+        "T15": 108.2,
+        "T20": 74.65,
+        "T25": 55.75
+    },
+    {
+        "Age": 12,
+        "T15": 108.3,
+        "T20": 74.75,
+        "T25": 55.8
+    },
+    {
+        "Age": 13,
+        "T15": 108.4,
+        "T20": 74.8,
+        "T25": 55.9
+    },
+    {
+        "Age": 14,
+        "T15": 108.45,
+        "T20": 74.85,
+        "T25": 55.95
+    },
+    {
+        "Age": 15,
+        "T15": 108.5,
+        "T20": 74.9,
+        "T25": 56.0
+    },
+    {
+        "Age": 16,
+        "T15": 108.55,
+        "T20": 74.95,
+        "T25": 56.06
+    },
+    {
+        "Age": 17,
+        "T15": 108.6,
+        "T20": 75.0,
+        "T25": 56.1
+    },
+    {
+        "Age": 18,
+        "T15": 108.6,
+        "T20": 75.0,
+        "T25": 56.1
+    },
+    {
+        "Age": 19,
+        "T15": 108.6,
+        "T20": 75.05,
+        "T25": 56.15
+    },
+    {
+        "Age": 20,
+        "T15": 108.65,
+        "T20": 75.05,
+        "T25": 56.2
+    },
+    {
+        "Age": 21,
+        "T15": 108.65,
+        "T20": 75.1,
+        "T25": 56.25
+    },
+    {
+        "Age": 22,
+        "T15": 108.65,
+        "T20": 75.1,
+        "T25": 56.3
+    },
+    {
+        "Age": 23,
+        "T15": 108.7,
+        "T20": 75.15,
+        "T25": 56.35
+    },
+    {
+        "Age": 24,
+        "T15": 108.7,
+        "T20": 75.2,
+        "T25": 56.4
+    },
+    {
+        "Age": 25,
+        "T15": 108.75,
+        "T20": 75.25,
+        "T25": 56.5
+    },
+    {
+        "Age": 26,
+        "T15": 108.75,
+        "T20": 75.3,
+        "T25": 56.6
+    },
+    {
+        "Age": 27,
+        "T15": 108.8,
+        "T20": 75.4,
+        "T25": 56.7
+    },
+    {
+        "Age": 28,
+        "T15": 108.9,
+        "T20": 75.5,
+        "T25": 56.85
+    },
+    {
+        "Age": 29,
+        "T15": 108.95,
+        "T20": 75.6,
+        "T25": 57.0
+    },
+    {
+        "Age": 30,
+        "T15": 109.05,
+        "T20": 75.7,
+        "T25": 57.2
+    },
+    {
+        "Age": 31,
+        "T15": 109.15,
+        "T20": 75.85,
+        "T25": 57.4
+    },
+    {
+        "Age": 32,
+        "T15": 109.25,
+        "T20": 76.05,
+        "T25": 57.65
+    },
+    {
+        "Age": 33,
+        "T15": 109.4,
+        "T20": 76.25,
+        "T25": 57.9
+    },
+    {
+        "Age": 34,
+        "T15": 109.55,
+        "T20": 76.45,
+        "T25": 58.2
+    },
+    {
+        "Age": 35,
+        "T15": 109.75,
+        "T20": 76.7,
+        "T25": 58.55
+    },
+    {
+        "Age": 36,
+        "T15": 109.95,
+        "T20": 77.0,
+        "T25": 58.9
+    },
+    {
+        "Age": 37,
+        "T15": 110.15,
+        "T20": 77.3,
+        "T25": 59.3
+    },
+    {
+        "Age": 38,
+        "T15": 110.45,
+        "T20": 77.65,
+        "T25": 59.75
+    },
+    {
+        "Age": 39,
+        "T15": 110.75,
+        "T20": 78.05,
+        "T25": 60.25
+    },
+    {
+        "Age": 40,
+        "T15": 111.05,
+        "T20": 78.45,
+        "T25": 60.75
+    },
+    {
+        "Age": 41,
+        "T15": 111.45,
+        "T20": 78.95,
+        "T25": 61.35
+    },
+    {
+        "Age": 42,
+        "T15": 111.85,
+        "T20": 79.5,
+        "T25": 62.0
+    },
+    {
+        "Age": 43,
+        "T15": 112.35,
+        "T20": 80.05,
+        "T25": 62.7
+    },
+    {
+        "Age": 44,
+        "T15": 112.85,
+        "T20": 80.7,
+        "T25": 63.45
+    },
+    {
+        "Age": 45,
+        "T15": 113.45,
+        "T20": 81.4,
+        "T25": 64.3
+    },
+    {
+        "Age": 46,
+        "T15": 114.05,
+        "T20": 82.15,
+        "T25": 0.0
+    },
+    {
+        "Age": 47,
+        "T15": 114.75,
+        "T20": 83.0,
+        "T25": 0.0
+    },
+    {
+        "Age": 48,
+        "T15": 115.5,
+        "T20": 83.9,
+        "T25": 0.0
+    },
+    {
+        "Age": 49,
+        "T15": 116.3,
+        "T20": 84.85,
+        "T25": 0.0
+    },
+    {
+        "Age": 50,
+        "T15": 117.2,
+        "T20": 85.85,
+        "T25": 0.0
+    },
+    {
+        "Age": 51,
+        "T15": 118.1,
+        "T20": 0.0,
+        "T25": 0.0
+    },
+    {
+        "Age": 52,
+        "T15": 119.1,
+        "T20": 0.0,
+        "T25": 0.0
+    },
+    {
+        "Age": 53,
+        "T15": 120.1,
+        "T20": 0.0,
+        "T25": 0.0
+    },
+    {
+        "Age": 54,
+        "T15": 121.15,
+        "T20": 0.0,
+        "T25": 0.0
+    },
+    {
+        "Age": 55,
+        "T15": 122.3,
+        "T20": 0.0,
+        "T25": 0.0
+    }
+];
+    
+
+    document.getElementById('calculate-btn').addEventListener('click', calculateRegularPremiums);
+
+    function getRate(age, term, rateArray) {
+        const ageData = rateArray.find(item => item.Age === age);
+        if (!ageData) return null;
+        
+        const rate = ageData[`T${term}`];
+        return (rate && rate > 0) ? rate : null;
+    }
+
+    function calculateRegularPremiums() {
+        // --- 1. GET INPUTS & VALIDATE ---
+        const age = parseInt(document.getElementById('age').value, 10);
+        const sa = parseInt(document.getElementById('sum-assured').value, 10);
+        const termElement = document.getElementById('policy-term');
+        const term = parseInt(termElement.value, 10);
+        const ppt = parseInt(termElement.options[termElement.selectedIndex].dataset.ppt, 10);
+        const isAddb = document.getElementById('addb-rider').checked;
+        
+        const resultsDiv = document.getElementById('results');
+        const errorDiv = document.getElementById('error-message');
+        resultsDiv.style.display = 'none';
+        errorDiv.style.display = 'none';
+
+        if (isNaN(age) || age < 0) {
+            showError("Please enter a valid Age.");
+            return;
+        }
+        if (sa < 500000) {
+            showError("Minimum Sum Assured is ₹5,00,000.");
+            return;
+        }
+
+        const minEntryAge = (term === 15) ? 5 : 0; // 0 for 90 days
+        if (age < minEntryAge) {
+            showError(`Minimum entry age for a ${term}-year term is ${minEntryAge === 0 ? '90 days' : minEntryAge + ' years'}.`);
+            return;
+        }
+        const maturityAge = age + term;
+        if (maturityAge > 70) {
+            showError(`Maximum maturity age is 70. With your age (${age}) and selected term (${term}), the maturity age would be ${maturityAge}.`);
+            return;
+        }
+        
+        // --- 2. BSMDT CALCULATION ---
+        const regularRate = getRate(age, term, regularPremiumRates);
+        if (!regularRate) {
+            showError(`Regular premium rate not available for Age ${age} and Term ${term}. Please fill the rate chart.`);
+            return;
+        }
+        
+        // B: Basic Premium
+        const basicAnnualPremium = (regularRate / 1000) * sa;
+        
+        // S: Sum Assured Rebate
+        let saRebateRate = 0;
+if (sa >= 25000000 && sa < 40000000) saRebateRate = 2.126;
+     else if (sa >= 15000000 && sa < 25000000) saRebateRate = 1.913;
+      else  if (sa >= 1000000 && sa < 1500000) saRebateRate = 0.715;
+        else if (sa >= 1500000 && sa < 2000000) saRebateRate = 1.020;
+        else if (sa >= 2000000) saRebateRate = 1.276;
+        const saRebateAmount = (saRebateRate / 1000) * sa;
+        const annualTabularPremium = basicAnnualPremium - saRebateAmount;
+
+        // D: ADDB Rider Premium
+        const addbAnnualPremium = isAddb ? (1.25 / 1000) * sa : 0;
+        
+        // M & T: Mode Rebate, Final Premium & Tax
+      // --- Mode Rebate, Final Premium & Tax ---
+const regularPremiums = {};
+
+// Modal Loading Factors
+const modalFactors = {
+    yearly: 1.00,    // with 2% rebate
+    halfly: 0.4952,    // includes 1% rebate
+    quarterly: 0.2501, // no rebate
+    monthly: 0.08337,  // no rebate
+};
+
+// Final Premiums before tax using modal factors
+const ylyBase = (annualTabularPremium * 0.98) + (addbAnnualPremium);  // 2% rebate
+const hlyBase = (annualTabularPremium * modalFactors.halfly) + (addbAnnualPremium * modalFactors.halfly);
+const qlyBase = (annualTabularPremium * modalFactors.quarterly) + (addbAnnualPremium * modalFactors.quarterly);
+const mlyBase = (annualTabularPremium * modalFactors.monthly) + (addbAnnualPremium * modalFactors.monthly);
+
+// Add GST
+regularPremiums.yearly = {
+    firstYear: Math.round(ylyBase * 1.045),
+    secondYear: Math.round(ylyBase * 1.0225)
+};
+regularPremiums.halfly = {
+    firstYear: Math.round(hlyBase * 1.045),
+    secondYear: Math.round(hlyBase * 1.0225)
+};
+regularPremiums.quarterly = {
+    firstYear: Math.round(qlyBase * 1.045),
+    secondYear: Math.round(qlyBase * 1.0225)
+};
+regularPremiums.monthly = {
+    firstYear: Math.round(mlyBase * 1.045),
+    secondYear: Math.round(mlyBase * 1.0225)
+};
+
+
+        
+        // --- 3. DISPLAY ALL RESULTS ---
+        displayResults(regularPremiums, { age, sa, term, ppt, isAddb });
+    }
+
+    function displayResults(regularPremiums, summary) {
+        const resultsDiv = document.getElementById('results');
+        const summaryDiv = document.getElementById('summary-details');
+        const resultsBody = document.getElementById('results-body');
+
+        // Populate Summary
+        summaryDiv.innerHTML = `
+            <div class="summary-item"><span>Age:</span> <span>${summary.age} Years</span></div>
+            <div class="summary-item"><span>Sum Assured:</span> <span>₹ ${summary.sa.toLocaleString('en-IN')}</span></div>
+            <div class="summary-item"><span>Policy Term:</span> <span>${summary.term} Years</span></div>
+            <div class="summary-item"><span>Premium Term (PPT):</span> <span>${summary.ppt} Years</span></div>
+            <div class="summary-item"><span>ADDB Rider:</span> <span>${summary.isAddb ? 'Yes' : 'No'}</span></div>
+        `;
+
+        // Populate Regular Premium Table
+        resultsBody.innerHTML = `
+            <tr>
+                <td>Yearly</td>
+                <td>₹ ${regularPremiums.yearly.firstYear.toLocaleString('en-IN')}</td>
+                <td>₹ ${regularPremiums.yearly.secondYear.toLocaleString('en-IN')}</td>
+            </tr>
+            <tr>
+                <td>Half-Yearly</td>
+                <td>₹ ${regularPremiums.halfly.firstYear.toLocaleString('en-IN')}</td>
+                <td>₹ ${regularPremiums.halfly.secondYear.toLocaleString('en-IN')}</td>
+            </tr>
+            <tr>
+                <td>Quarterly</td>
+                <td>₹ ${regularPremiums.quarterly.firstYear.toLocaleString('en-IN')}</td>
+                <td>₹ ${regularPremiums.quarterly.secondYear.toLocaleString('en-IN')}</td>
+            </tr>
+            <tr>
+                <td>Monthly (NACH)</td>
+                <td>₹ ${regularPremiums.monthly.firstYear.toLocaleString('en-IN')}</td>
+                <td>₹ ${regularPremiums.monthly.secondYear.toLocaleString('en-IN')}</td>
+            </tr>
+        `;
+        
+        resultsDiv.style.display = 'block';
+    }
+
+    function showError(message) {
+        const errorDiv = document.getElementById('error-message');
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+    }
+
+    </script>
+</body>
+</html>
