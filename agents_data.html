@@ -2,58 +2,140 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <title>Agents Data - LIC CONNECT</title>
   <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/1/1e/LIC_India_Logo.svg" type="image/svg+xml" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #ffffff url('background.jpeg') no-repeat center center fixed;
-      background-size: cover;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #004d00;
-    }
-    .fetch-box {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    input[type="text"] {
-      padding: 8px;
-      width: 300px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      padding: 10px 20px;
-      margin-left: 10px;
-      background: linear-gradient(to bottom right, #00cc44, #009933);
-      color: black;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
-      cursor: pointer;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: rgba(255, 255, 255, 0.95);
-    }
-    th, td {
-      border: 1px solid #aaa;
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #ccffcc;
-    }
-    .table-container {
-      overflow-x: auto;
-    }
+   /* === Root Variables for an "Emerald Dashboard" Theme === */
+:root {
+    --primary-color: #004d40;      /* Deep Forest Green */
+    --secondary-color: #00796b;    /* Lighter Teal */
+    --accent-color: #ffc107;      /* Gold */
+    --text-color: #ffffff;
+    --card-bg: #ffffff;
+    --card-text-color: #333;
+}
+
+/* === General Body and Font Styling === */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: var(--primary-color);
+    background-image: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background-attachment: fixed;
+    color: var(--text-color);
+    margin: 0;
+    padding: 40px 20px;
+}
+
+h1 {
+    text-align: center;
+    font-weight: 700;
+    color: #fff;
+    font-size: 3rem;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+/* === Search Box Styling === */
+.fetch-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 0;
+    background: rgba(0,0,0,0.1);
+    padding: 20px;
+    border-radius: 50px;
+    max-width: 550px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input[type="text"] {
+    padding: 15px 25px;
+    width: 100%;
+    max-width: 350px;
+    border-radius: 50px 0 0 50px;
+    border: 2px solid var(--accent-color);
+    border-right: none;
+    font-size: 1rem;
+    background: transparent;
+    color: var(--text-color);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+input[type="text"]:focus {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+button {
+    padding: 15px 30px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1rem;
+    border: 2px solid var(--accent-color);
+    border-radius: 0 50px 50px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 0; /* Override default margin */
+}
+
+button:hover {
+    background: #ffd60a;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+}
+
+/* === Modern Table Styling === */
+.table-container {
+    overflow-x: auto;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: none;
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    color: var(--card-text-color);
+}
+
+th {
+    background-color: transparent;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
   </style>
 </head>
 <body>
