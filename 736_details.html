@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC's Jeevan Labh (736)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --primary-color: #004d40; --accent-color: #ffc107; --bg-color: #e0f2f1; --text-color: #37474f; }
+        body { font-family: 'Lato', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.8; margin: 0; }
+        .container { max-width: 1100px; margin: 40px auto; background: white; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { padding: 50px 30px; background: var(--primary-color); color: white; text-align: center; }
+        .header h1 { font-family: 'Merriweather', serif; font-size: 3.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
+        .main-content { padding: 50px 30px; }
+        .section-title { text-align: center; font-family: 'Merriweather', serif; font-size: 2.5rem; margin-bottom: 40px; color: var(--primary-color); position: relative; }
+        .section-title::after { content: ''; width: 60px; height: 3px; background: var(--accent-color); position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%); }
+        .ppt-section { text-align: center; margin-bottom: 50px; }
+        .ppt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .ppt-card { background: #f5f5f5; padding: 20px; border-radius: 8px; border-top: 4px solid var(--accent-color); }
+        .ppt-card h3 { color: var(--primary-color); font-size: 1.2rem; }
+        .ppt-card .term { font-size: 1.5rem; font-weight: 700; }
+        .benefits-section { display: flex; gap: 30px; flex-wrap: wrap; }
+        .benefit-card { flex: 1; min-width: 300px; padding: 30px; border-radius: 10px; border-left: 6px solid var(--accent-color); background: #f9f9f9; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .benefit-card h3 { font-family: 'Merriweather', serif; font-size: 1.6rem; color: var(--primary-color); margin-bottom: 15px; display: flex; align-items: center; }
+        .benefit-card h3 .icon { margin-right: 15px; color: var(--accent-color); }
+        .benefit-card ul { list-style: none; padding-left: 0; }
+        .benefit-card li { margin-bottom: 10px; position: relative; padding-left: 20px; }
+        .benefit-card li::before { content: '✓'; position: absolute; left: 0; color: var(--primary-color); font-weight: bold; }
+        .footer { background: var(--primary-color); color: white; text-align: center; padding: 25px; }
+        .footer a { color: var(--accent-color); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Jeevan Labh (Plan 736)</h1>
+            <p>A smart limited premium endowment plan that provides you with long-term insurance cover while you pay premiums for a shorter period.</p>
+        </header>
+        <main class="main-content">
+            <div class="ppt-section">
+                <h2 class="section-title">Pay Less, Get More</h2>
+                <p style="max-width: 700px; margin: -30px auto 40px;">Jeevan Labh's key advantage is its limited premium payment structure. Choose your policy term and benefit from a shorter payment commitment.</p>
+                <div class="ppt-grid">
+                    <div class="ppt-card"><h3>Pay for 10 Years</h3><p class="term">Get Cover for 16 Years</p></div>
+                    <div class="ppt-card"><h3>Pay for 15 Years</h3><p class="term">Get Cover for 21 Years</p></div>
+                    <div class="ppt-card"><h3>Pay for 16 Years</h3><p class="term">Get Cover for 25 Years</p></div>
+                </div>
+            </div>
+            <h2 class="section-title">Comprehensive Benefits</h2>
+            <div class="benefits-section">
+                <div class="benefit-card">
+                    <h3><span class="icon"><i class="fas fa-gift"></i></span>On Maturity</h3>
+                    <p>On surviving the full policy term, you receive a lump sum payout to fulfill your financial goals, which includes:</p>
+                    <ul>
+                        <li>The full Basic Sum Assured.</li>
+                        <li>All accumulated Simple Reversionary Bonuses.</li>
+                        <li>A Final Additional Bonus, if declared.</li>
+                    </ul>
+                </div>
+                <div class="benefit-card">
+                     <h3><span class="icon"><i class="fas fa-shield-heart"></i></span>On Death</h3>
+                    <p>In case of an unfortunate event, the death benefit paid to the nominee is the highest of:</p>
+                    <ul>
+                        <li>Basic Sum Assured + Bonuses.</li>
+                        <li>7 times the annual premium + Bonuses.</li>
+                        <li>105% of all premiums paid to date.</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+        <footer class="footer"><p>Loan and Surrender Value are available after 2 full years' premium payment. For details, <a href="#">contact us</a>.</p></footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC's Micro Bachat (751)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --primary-color: #2a9d8f; --accent-color: #f4a261; --bg-color: #e9f5f3; --text-color: #264653; }
+        body { font-family: 'Lato', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.8; margin: 0; }
+        .container { max-width: 1100px; margin: 40px auto; background: white; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { padding: 50px 30px; background: var(--primary-color); color: white; text-align: center; }
+        .header h1 { font-family: 'Merriweather', serif; font-size: 3.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
+        .main-content { padding: 50px 30px; }
+        .section-title { text-align: center; font-family: 'Merriweather', serif; font-size: 2.5rem; margin-bottom: 40px; color: var(--primary-color); position: relative; }
+        .section-title::after { content: ''; width: 60px; height: 3px; background: var(--accent-color); position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%); }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-bottom: 50px; }
+        .feature-box { border: 1px solid #ddd; padding: 20px; border-radius: 8px; text-align: center; }
+        .feature-box .icon { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; }
+        .feature-box h3 { font-size: 1.1rem; color: var(--text-color); margin-bottom: 5px; font-weight: 700; }
+        .feature-box p { font-size: 1rem; color: #555; }
+        .benefits-section { display: flex; gap: 30px; flex-wrap: wrap; }
+        .benefit-card { flex: 1; min-width: 300px; padding: 30px; border-radius: 10px; border-left: 6px solid var(--accent-color); background: #f9f9f9; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .benefit-card h3 { font-family: 'Merriweather', serif; font-size: 1.6rem; color: var(--primary-color); margin-bottom: 15px; }
+        .unique-feature { background-color: #fef5ea; border: 1px solid var(--accent-color); border-radius: 8px; padding: 25px; text-align: center; margin-top: 30px; }
+        .unique-feature h4 { font-family: 'Merriweather', serif; color: var(--primary-color); font-size: 1.4rem; }
+        .unique-feature p { font-size: 1.1rem; }
+        .footer { background: var(--primary-color); color: white; text-align: center; padding: 25px; }
+        .footer a { color: var(--accent-color); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Micro Bachat</h1>
+            <p>A traditional micro-insurance plan that makes savings and protection accessible to everyone, one small step at a time.</p>
+        </header>
+        <main class="main-content">
+            <h2 class="section-title">Plan at a Glance</h2>
+            <div class="features-grid">
+                <div class="feature-box"><div class="icon"><i class="fas fa-piggy-bank"></i></div><h3>Type</h3><p>Micro-Savings</p></div>
+                <div class="feature-box"><div class="icon"><i class="fas fa-calendar-alt"></i></div><h3>Policy Term</h3><p>10 to 15 Years</p></div>
+                <div class="feature-box"><div class="icon"><i class="fas fa-user-check"></i></div><h3>Entry Age</h3><p>18 to 55 Years</p></div>
+                <div class="feature-box"><div class="icon"><i class="fas fa-coins"></i></div><h3>Sum Assured</h3><p>Up to ₹2,00,000</p></div>
+            </div>
+            <div class="unique-feature">
+                <h4><i class="fas fa-gift"></i> The Bachat Benefit: Loyalty Addition</h4>
+                <p>On maturity, or on death after 5 policy years, you receive Loyalty Additions as a reward for staying invested.</p>
+            </div>
+            <h2 class="section-title" style="margin-top: 50px;">Benefit Structure</h2>
+            <div class="benefits-section">
+                <div class="benefit-card">
+                    <h3>On Maturity</h3>
+                    <p>On surviving the policy term, you receive the Basic Sum Assured along with any accrued Loyalty Additions.</p>
+                </div>
+                <div class="benefit-card">
+                     <h3>On Death</h3>
+                    <p>In case of an unfortunate event, the nominee receives the "Sum Assured on Death", which is the highest of the Basic Sum Assured, 7 times the annual premium, or 105% of all premiums paid.</p>
+                </div>
+            </div>
+        </main>
+        <footer class="footer"><p>Loan facility available after 3 full years' premium payment. Surrender available after 1 year.</p></footer>
+    </div>
+</body>
+</html>

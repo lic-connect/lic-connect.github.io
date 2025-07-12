@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC's New Endowment Plan (714)</title>
+    
+    <!-- Google Fonts for stylish typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #0c3b2e; /* Deep Forest Green */
+            --secondary-color: #6d6875; /* Muted Purple-Gray */
+            --accent-color: #ffc107; /* Bright Gold */
+            --text-color: #333;
+            --light-text-color: #f4f4f4;
+            --bg-color: #fdfaf6; /* Creamy White */
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            background-image: linear-gradient(145deg, #ffffff, #eef3f3);
+            color: var(--text-color);
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), #1b4d3e);
+            color: var(--light-text-color);
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .plan-badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-section .summary {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .content-section {
+            padding: 40px;
+        }
+
+        h2.section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        h2.section-title::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background: var(--accent-color);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -10px;
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .feature-item {
+            background: #f9f9f9;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.07);
+        }
+
+        .feature-item .icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .feature-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .feature-item p {
+            font-size: 1rem;
+            color: #555;
+        }
+        
+        .benefits-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .benefit-card {
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            color: var(--light-text-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .benefit-card.survival {
+            background: linear-gradient(135deg, #ffc107, #ffab40);
+        }
+        
+        .benefit-card.death {
+            background: linear-gradient(135deg, #6d6875, #4e4452);
+        }
+        
+        .benefit-card .benefit-icon {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 100px;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+        
+        .benefit-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .benefit-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .benefit-card li {
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        
+        .benefit-card li::before {
+            content: '\f00c'; /* Font Awesome check icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--light-text-color);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f1f1f1;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .footer a {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 { font-size: 2.5rem; }
+            .benefits-section { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="hero-section">
+            <div class="plan-badge">Table No. 714</div>
+            <h1>New Endowment Plan</h1>
+            <p class="summary">A classic with-profits endowment plan offering a perfect blend of protection and savings, ensuring financial security for you and your family.</p>
+        </header>
+
+        <main class="content-section">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="icon"><i class="fas fa-calendar-alt"></i></div>
+                    <h3>Policy Term</h3>
+                    <p>12 to 35 years</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon"><i class="fas fa-user-clock"></i></div>
+                    <h3>Entry Age</h3>
+                    <p>8 to 50 years</p>
+                </div>
+                 <div class="feature-item">
+                    <div class="icon"><i class="fas fa-user-shield"></i></div>
+                    <h3>Maturity Age</h3>
+                    <p>Up to 75 years</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon"><i class="fas fa-rupee-sign"></i></div>
+                    <h3>Sum Assured</h3>
+                    <p>Minimum ₹2,00,000</p>
+                </div>
+                 <div class="feature-item">
+                    <div class="icon"><i class="fas fa-hand-holding-dollar"></i></div>
+                    <h3>Premium Modes</h3>
+                    <p>Yearly, Half-yearly, Quarterly, Monthly</p>
+                </div>
+                 <div class="feature-item">
+                    <div class="icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Rider Benefit</h3>
+                    <p>Accidental Death & Disability Rider available</p>
+                </div>
+            </div>
+
+            <h2 class="section-title">Policy Benefits</h2>
+            <div class="benefits-section">
+                <div class="benefit-card survival">
+                    <i class="fas fa-sun benefit-icon"></i>
+                    <h3>On Survival (Maturity)</h3>
+                    <p>At the end of the policy term, you receive a handsome lump sum consisting of:</p>
+                    <ul>
+                        <li>Basic Sum Assured</li>
+                        <li>Vested Simple Reversionary Bonuses</li>
+                        <li>Final Additional Bonus (if any)</li>
+                    </ul>
+                </div>
+                <div class="benefit-card death">
+                    <i class="fas fa-umbrella benefit-icon"></i>
+                    <h3>On Death</h3>
+                    <p>In case of an unfortunate event, your nominee will receive the higher of:</p>
+                     <ul>
+                        <li>Sum Assured on Death + Bonuses</li>
+                        <li>7 times of Annualized Premium</li>
+                        <li>105% of all Premiums Paid</li>
+                    </ul>
+                </div>
+            </div>
+            
+             <h2 class="section-title">Additional Advantages</h2>
+             <div class="features-grid">
+                <div class="feature-item">
+                    <div class="icon"><i class="fas fa-handshake"></i></div>
+                    <h3>Loan Facility</h3>
+                    <p>Available after payment of premiums for 2 full years.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <h3>Tax Benefits</h3>
+                    <p>Premiums paid are eligible for tax rebate under Sec 80C. Maturity is tax-free under Sec 10(10D).</p>
+                </div>
+                 <div class="feature-item">
+                    <div class="icon"><i class="fas fa-file-contract"></i></div>
+                    <h3>Surrender Value</h3>
+                    <p>The policy acquires a surrender value after 2 full years' premiums have been paid.</p>
+                </div>
+            </div>
+
+        </main>
+        
+        <footer class="footer">
+            <p>Proposal Form 300/340/360 shall be used for this plan.</p>
+           
+        </footer>
+    </div>
+
+</body>
+</html>

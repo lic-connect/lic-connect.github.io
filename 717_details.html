@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC's Single Premium Endowment (717)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #343a40; /* Dark Charcoal */
+            --accent-color: #28a745; /* Strong Green */
+            --bg-color: #ffffff;
+            --text-color: #495057;
+        }
+        body { font-family: 'Montserrat', sans-serif; background-color: #f4f7f6; color: var(--text-color); line-height: 1.7; margin: 0; }
+        .container { max-width: 960px; margin: 50px auto; }
+        .plan-card { background: var(--bg-color); border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); display: flex; flex-wrap: wrap; }
+        .card-sidebar { flex-basis: 300px; background: var(--primary-color); color: white; padding: 40px; border-radius: 10px 0 0 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .card-sidebar .icon { font-size: 4rem; margin-bottom: 20px; color: var(--accent-color); }
+        .card-sidebar h1 { font-family: 'Oswald', sans-serif; font-size: 2rem; text-transform: uppercase; letter-spacing: 1px; }
+        .card-sidebar .plan-id { font-size: 1rem; background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 5px; display: inline-block; margin-top: 10px; }
+        .card-content { flex: 1; padding: 40px; }
+        .card-content h2 { font-family: 'Oswald', sans-serif; font-size: 1.8rem; border-bottom: 3px solid var(--accent-color); padding-bottom: 10px; margin-bottom: 20px; }
+        .key-info { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+        .info-item { background: #f8f9fa; padding: 15px; border-radius: 5px; }
+        .info-item strong { display: block; color: var(--primary-color); font-size: 0.9rem; margin-bottom: 5px; }
+        .info-item span { font-size: 1.1rem; font-weight: 700; }
+        .alert-box { margin-top: 30px; padding: 15px; background: #e9ffef; border-left: 5px solid var(--accent-color); }
+        .alert-box h4 { color: var(--accent-color); margin-bottom: 5px; }
+        .footer { text-align: center; margin-top: 30px; color: #777; font-size: 0.9rem; }
+        @media (max-width: 768px) {
+            .plan-card { flex-direction: column; }
+            .card-sidebar { flex-basis: auto; border-radius: 10px 10px 0 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="plan-card">
+            <div class="card-sidebar">
+                <div class="icon"><i class="fas fa-star"></i></div>
+                <h1>Single Premium Endowment</h1>
+                <span class="plan-id">Plan 717</span>
+            </div>
+            <div class="card-content">
+                <h2>One-Time Investment for a Secure Future.</h2>
+                <p>This is a with-profits endowment plan where you pay the premium only once at the beginning of the policy, securing a lump sum for the future with the benefit of life cover.</p>
+                <div class="key-info">
+                    <div class="info-item"><strong>Premium Mode</strong><span>Single Payment Only</span></div>
+                    <div class="info-item"><strong>Policy Term</strong><span>10 to 25 Years</span></div>
+                    <div class="info-item"><strong>Entry Age</strong><span>30 days to 65 Years</span></div>
+                    <div class="info-item"><strong>Sum Assured</strong><span>Min. ₹1,00,000</span></div>
+                </div>
+                <div class="alert-box">
+                    <h4>Benefit Payouts</h4>
+                    <p><strong>On Survival:</strong> At maturity, receive the Sum Assured + Vested Bonuses + Final Additional Bonus (if any).</p>
+                    <p><strong>On Death:</strong> After risk commencement, the nominee receives Sum Assured + Vested Bonuses + Final Additional Bonus (if any).</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Loan and Surrender Value available. For more details, contact your advisor.</p>
+        </div>
+    </div>
+</body>
+</html>

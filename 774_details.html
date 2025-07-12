@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC's Amritbaal (774)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Zilla+Slab:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --primary-color: #ff6b6b; --secondary-color: #ffd166; --accent-color: #4ecdc4; --text-color: #3d405b; --bg-color: #fefae0; }
+        body { font-family: 'Roboto', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .hero { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; padding: 80px 30px; text-align: center; }
+        .hero .plan-number { font-size: 1.2rem; display: inline-block; padding: 5px 15px; border: 1px solid white; border-radius: 20px; color: white; margin-bottom: 15px; }
+        .hero h1 { font-family: 'Zilla Slab', serif; font-size: 3.8rem; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .hero p { font-size: 1.2rem; max-width: 700px; margin: 15px auto 0; opacity: 0.9; }
+        .main-content { padding: 50px 20px; }
+        .section-title { text-align: center; font-family: 'Zilla Slab', serif; font-size: 2.8rem; margin-bottom: 50px; color: var(--primary-color); }
+        .key-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 60px; }
+        .feature-card { background: #fff; padding: 25px; text-align: center; border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        .feature-card .icon { font-size: 3rem; color: var(--accent-color); margin-bottom: 15px; }
+        .feature-card h3 { font-size: 1.3rem; margin-bottom: 5px; color: var(--primary-color); }
+        .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .benefit-box { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); border-top: 5px solid var(--accent-color); }
+        .benefit-box h3 { font-family: 'Zilla Slab', serif; color: var(--primary-color); font-size: 1.8rem; margin-bottom: 15px; }
+        .footer { background: #3d405b; color: #fefae0; text-align: center; padding: 20px; font-size: 0.9rem; }
+        .footer a { color: var(--secondary-color); text-decoration: none; font-weight: bold; }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .benefits-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <div class="plan-number">Table No. 774</div>
+            <h1>Amritbaal</h1>
+            <p>A specially designed savings plan to build an adequate corpus for your child's higher education and future needs.</p>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="container">
+            <h2 class="section-title">Key Specifications</h2>
+            <div class="key-features">
+                <div class="feature-card"><div class="icon"><i class="fas fa-child-reaching"></i></div><h3>Entry Age</h3><p>0 to 13 Years</p></div>
+                <div class="feature-card"><div class="icon"><i class="fas fa-user-graduate"></i></div><h3>Maturity Age</h3><p>18 to 25 Years</p></div>
+                <div class="feature-card"><div class="icon"><i class="fas fa-star"></i></div><h3>Premium Options</h3><p>Limited or Single Pay</p></div>
+                <div class="feature-card"><div class="icon"><i class="fas fa-coins"></i></div><h3>Sum Assured</h3><p>Min. ₹2,00,000</p></div>
+            </div>
+            
+            <h2 class="section-title">Core Benefits</h2>
+            <div class="benefits-grid">
+                <div class="benefit-box">
+                    <h3><i class="fas fa-gift"></i> On Survival & Maturity</h3>
+                    <p>On reaching the maturity date, a guaranteed lump sum is paid to fund your child's dreams, consisting of:</p>
+                    <ul>
+                        <li>The full Basic Sum Assured.</li>
+                        <li>All accrued Guaranteed Additions.</li>
+                    </ul>
+                </div>
+                <div class="benefit-box">
+                    <h3><i class="fas fa-shield-heart"></i> On Death</h3>
+                    <p>The plan provides a strong financial safety net. The benefit paid is the "Sum Assured on Death" plus any accrued Guaranteed Additions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer"><p>Loan and Surrender facilities are available. For more details, visit <a href="#">www.LicAllinOneCalc.com</a>.</p></footer>
+</body>
+</html>
