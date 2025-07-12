@@ -1,431 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LIC CONNECT</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
-  <style>
-  	
-  .post-footer-image {
-  width: 100%;
-  height: 100vh; /* Full viewport height */
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>LIC CONNECT - Dashboard</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/1/1e/LIC_India_Logo.svg" type="image/svg+xml" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
 
-.post-footer-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* ensures image scales nicely */
-  display: block;
-}
-  	
-  .logo-container {
-  text-align: center;
-  margin-top: 20px;
-  perspective: 1000px; /* adds depth for 3D effect */
-}
+    <!-- Google Fonts & Font Awesome for a stylish look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-.logo-container img {
-  width: 100px;
-  animation: fullSwing 10s ease-in-out infinite;
-  transform-style: preserve-3d;
-}
+    <style>
+        /* === "LUSH GRADIENT" - FINAL & CORRECTED VERSION === */
+        :root {
+            --primary-color: #00b09b;     /* Main Gradient Green */
+            --secondary-color: #96c93d;   /* Lime Green */
+            --card-bg: #ffffff;
+            --text-color-dark: #2c3e50;
+            --text-color-light: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
 
-@keyframes fullSwing {
-  0%   { transform: rotateY(0deg); }
-  25%  { transform: rotateY(360deg); }
-  50%  { transform: rotateY(0deg); }
-  75%  { transform: rotateY(-360deg); }
-  100% { transform: rotateY(0deg); }
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-color-dark);
+            overflow-x: hidden;
+        }
 
-  
-    /* General Body and Background Styling */
-    body {
-      margin: 0;
-  padding: 0;
-  background-color: white; /* Pure white background */
-  font-family: Impact, sans-serif;
-  font-weight: bold;
-  color: black; /* Change text to black for readability */
-}
+        .page-wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
 
-    /* Full-page overlay to ensure text is readable against the background */
-    .page-overlay {
-  background-color: transparent;
-  min-height: 100vh;
-  padding: 20px;
-  box-sizing: border-box;
-}
+        /* --- LEFT COLUMN: Brand & Logo (Corrected Layout) --- */
+        .brand-column {
+            flex-basis: 40%;
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* This centers the content vertically */
+            align-items: center;
+            text-align: center;
+            color: var(--text-color-light);
+            padding: 50px 40px;
+        }
 
-    /* Main Container for alignment and max-width */
-    .container {
-      max-width: 950px;
-      margin: 0 auto;
-    }
+        .brand-column h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 4.5rem;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            margin: 20px 0 10px 0;
+            line-height: 1.1;
+        }
 
-    /* Header Styling */
-    header {
-      text-align: center;
-      margin-bottom: 25px;
-      padding-bottom: 20px;
-    }
+        .brand-column .tagline {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            opacity: 0.9;
+            margin: 0;
+        }
 
-    #welcomeMsg {
-      font-size: 20px;
-      font-weight: normal;
-      margin: 0;
-      color:black;
-    }
+        .logo-container {
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
 
-    h1 {
-      font-size: 48px;
-      margin: 5px 0 15px 0;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-    }
-    
-    /* --- Running Text (Marquee) Styling --- */
-      /* --- Running Text (Marquee) Styling --- */
-   /* .marquee-container {
-     background-color: rgba(0, 0, 0, 0.7);
-      padding: 12px 0;
-      border-radius: 8px;
-     overflow: hidden;
-     white-space: nowrap;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-     margin-bottom: 40px;
-    }*/
-    
-    /*.marquee-container p {
-     margin: 0;
-      display: inline-block;
-      padding-left: 100%;
-      animation: marquee 40s linear infinite; /* Slower animation for readability */
-      font-size: 16px;
-      font-weight: 500;
-      color: black;
-    }*/
+        .logo-container img {
+            width: 110px;
+            height: 110px;
+            border-radius: 12px;
+            border: 3px solid #fff;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            animation: fullSwing 10s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
 
-   /* @keyframes marquee {
-      0%   { transform: translate(0, 0); }
-      100% { transform: translate(-100%, 0); }
-    }*/
-#newsTicker {
-  background: rgba(255,255,255,0.85);
-  padding: 10px;
-  border-radius: 8px;
-  color: #003366;
-  overflow: hidden;
-  position: relative;
-  margin-bottom: 20px;
-  height: 28px;
-}
-#newsText {
-  position: absolute;
-  white-space: nowrap;
-  will-change: transform;
-  font-size: 16px;
-}
+        @keyframes fullSwing {
+          0%   { transform: rotateY(0deg); }
+          50%  { transform: rotateY(360deg); }
+          100% { transform: rotateY(0deg); }
+        }
+        
+        /* --- RIGHT COLUMN: Content & Buttons --- */
+        .content-column {
+            flex-grow: 1;
+            padding: 40px;
+            background-color: #f9fbfd;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
 
+        .content-main {
+            flex-grow: 1;
+            text-align: center;
+        }
+        
+        #welcomeMsg, #logoutMsg {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 auto 30px auto;
+            color: var(--primary-color);
+            background: #eaf6f6;
+            padding: 10px 25px;
+            border-radius: 8px;
+            display: inline-block;
+        }
 
-    /* Two-Column Layout for Buttons */
-    .button-container {
-      display: flex;
-      justify-content: space-between;
-      gap: 40px;
-    }
+        #logoutMsg {
+            color: #c0392b;
+            background: #fdeded;
+            border: 1px solid #f5b7b1;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
 
-    .column {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 48%;
-    }
+        #logoutMsg:not(:empty) {
+            visibility: visible;
+            opacity: 1;
+        }
 
-    /* --- The 3D Button Style --- */
-    .dashboard-button {
-      display: block;
-      background: linear-gradient(to bottom, #4d4d4d, #1a1a1a);
-      color: white;
-      padding: 18px 25px;
-      font-size: 18px;
-      font-weight: bold;
-      font-family: Impact, sans-serif;
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 15px;
-      box-shadow: 
-        0 8px 25px rgba(0, 0, 0, 0.6),
-        inset 0 -4px 7px rgba(255, 255, 255, 0.25);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
+        #newsTicker {
+            background: #eaf6f6;
+            padding: 12px;
+            border-radius: 8px;
+            color: var(--primary-color);
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 30px;
+            height: 28px;
+            border: 1px solid #d4e9e7;
+        }
 
-    .dashboard-button:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 
-        0 14px 35px rgba(0, 0, 0, 0.7),
-        inset 0 -4px 7px rgba(255, 255, 255, 0.35);
-    }
-    
-    .button-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  flex-shrink: 0;
-}
-    
-    /* --- Dropdown Container for "Types of calculators" --- */
-    .dropdown {
-      position: relative;
-    }
-    
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #333;
-      min-width: 100%; /* Makes dropdown same width as button */
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
-      z-index: 1;
-      border-radius: 10px;
-      padding: 10px 0;
-      margin-top: 5px;
-      box-sizing: border-box;
-    }
-    
-    .dropdown-content a {
-      color: white;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      font-size: 16px;
-      text-align: left;
-    }
-    
-    .dropdown-content a:hover {
-      background-color: #555;
-    }
+        #newsText {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 1rem;
+        }
 
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-    
-    /* --- The dropdown button IS a dashboard-button --- */
-    .dropdown .dashboard-button {
-      width: 100%;
-      box-sizing: border-box; /* Ensures padding doesn't break width */
-    }
+        #newsText a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
 
-    /* Logout Section Styling */
-    .logout-section {
-      text-align: center;
-      margin-top: 50px;
-    }
+        .button-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
 
-    .logout-button {
-      padding: 12px 25px;
-      font-size: 16px;
-      background-color: #d9534f;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.2s ease;
-    }
-    
-    .logout-button:hover {
-      background-color: #c9302c;
-    }
+        .dashboard-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            color: var(--text-color-dark);
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            min-height: 60px; /* Forces all buttons to have the same height */
+        }
 
-    #logoutMsg {
-      margin-top: 15px;
-      font-size: 18px;
-      color: #66ff66; /* Brighter green for dark background */
-      font-weight: bold;
-    }
+        .dashboard-button:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 176, 155, 0.3);
+        }
 
-    /* Footer Styling */
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-    }
+        .button-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+        }
 
-    footer a {
-      color: #ffc107; /* A gold color for links stands out well */
-      text-decoration: none;
-      margin: 0 10px;
-      font-size: 14px;
-    }
+        .dropdown {
+            position: relative;
+        }
 
-    footer a:hover {
-      text-decoration: underline;
-    }
-    
-a {
-  font-family: Impact, sans-serif;
-  font-weight: bold;
-}
-.dashboard-button {
-  font-family: 'Anton', sans-serif;
-  font-weight: normal; /* Anton is bold by default */
-}
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--card-bg);
+            min-width: 100%;
+            box-shadow: 0 8px 16px var(--shadow-color);
+            z-index: 10;
+            border-radius: 10px;
+            padding: 10px 0;
+            margin-top: 5px;
+        }
 
-a {
-  font-family: 'Anton', sans-serif;
-  font-weight: normal;
-}
-  </style>
+        .dropdown-content a {
+            color: var(--text-color-dark);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 1rem;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .logout-section {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .logout-button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background-color: #c0392b;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        footer a {
+            color: #000000; /* Black color for footer links */
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: 600;
+        }
+        footer a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-  <div class="page-overlay">
-    <div class="container">
-      <header>
-        <h2 id="welcomeMsg"></h2>
+  
+  <div class="page-wrapper">
+    <!-- LEFT BRANDING COLUMN -->
+    <div class="brand-column">
+        <div class="logo-container">
+            <img src="licnew.jpg" alt="LIC Logo">
+        </div>
         <h1>LIC CONNECT</h1>
-      </header>
-      <div class="logo-container">
-  <img src="licnew.jpg" alt="LIC Logo">
-</div>
+        <p class="tagline">Peace of mind, all the time</p>
+    </div>
 
-            <div id="newsTicker" style="overflow:hidden; white-space:nowrap; position: relative; height: 30px; border: 1px solid #ddd; padding: 5px;">
-  <div id="newsText" style="position: absolute; white-space: nowrap; will-change: transform;">Loading news...</div>
-</div>
+    <!-- RIGHT CONTENT COLUMN -->
+    <div class="content-column">
+      <div class="content-main">
+        
+        <div id="welcomeMsg"></div>
+        
+        <div id="newsTicker">
+          <div id="newsText">Loading news...</div>
+        </div>
 
-<div style="text-align: center; margin: 30px 0;">
-  <a href="voice.html" class="dashboard-button">
-    <img src="voice.png" class="button-icon" alt="Voice Icon"> Voice Assistant
-  </a>
-</div>
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="voice.html" class="dashboard-button">
+            <img src="icons/voice.png" class="button-icon" alt="Voice Icon"> Voice Assistant
+          </a>
+        </div>
 
+        <main class="button-container">
+          <!-- Left Column of Buttons -->
+          <div class="column">
+            <a href="customer_data.html" class="dashboard-button"><img src="icons/customerData.png" class="button-icon" alt=""> Customer Data</a>
+            <a href="agents_data.html" class="dashboard-button"><img src="icons/agentsData.png" class="button-icon" alt=""> Agents Data</a>
+            <a href="commissionenquiry.html" class="dashboard-button"><img src="icons/agentsCorner1.png" class="button-icon" alt=""> Agents Corner</a>
+            <a href="agents_module.html" class="dashboard-button"><img src="icons/agentsModule.png" class="button-icon" alt=""> Agents Module</a>
+            <a href="automatic_fetch.html" class="dashboard-button"><img src="icons/automaticFetch.png" class="button-icon" alt=""> Automatic Fetch</a>
+            <a href="branches.html" class="dashboard-button"><img src="icons/branchLocator.png" class="button-icon" alt=""> LIC Branch Locator</a>
+            <a href="customer_corner.html" class="dashboard-button"><img src="icons/customersCorner.png" class="button-icon" alt=""> Customers Corner</a>
+            <a href="types_of_forms.html" class="dashboard-button"><img src="icons/forms.png" class="button-icon" alt=""> Types of Forms</a>
+          </div>
 
+          <!-- Right Column of Buttons -->
+          <div class="column">
+            <div class="dropdown">
+              <a class="dashboard-button"><img src="icons/calculator.png" class="button-icon" alt=""> Types of Calculators</a>
+              <div class="dropdown-content">
+                <a href="maturity/maturityindex.html">Maturity Calculator</a>
+                <a href="revival/revivalindex.html">Revival Calculator</a>
+                <a href="surrender/surrender.html">Surrender Calculator</a>
+                <a href="SBcalculator.html">Survival Benefit Calculator</a> 
+                <a href="714_BSMDT.html">714-New Endowment Premium Calculator</a>
+                <a href="715_BSMDT.html">715-Jeevan Anand Premium Calculator</a>
+                <a href="717_BSMDT.html">717-Single premium endowment Premium Calculator</a>
+                <a href="720_BSMDT.html">720-Money back 20 years Premium Calculator</a>
+                <a href="721_BSMDT.html">721-Money back 25 years Premium Calculator</a>
+                <a href="732_BSMDT.html">732-Children's Money back Premium Calculator</a>
+                <a href="733_BSMDT.html">733-Jeevan Lakshya Premium Calculator</a>
+                <a href="734_BSMDT.html">734-Jeevan Tarun Premium Calculator</a>
+                <a href="736_BSMDT.html">736-Jeevan Labh Premium Calculator</a>
+                <a href="748_BSMDT.html">748-Bima shree Premium Calculator</a>
+                <a href="751_BSMDT.html">751-Micro bachat Premium Calculator</a>
+                <a href="760_BSMDT.html">760-Bima jyoti Premium Calculator</a>
+                <a href="764_BSMDT.html">764-Bima Ratna Premium Calculator</a>
+                <a href="768_BSMDT.html">768-Jeevan Azad Premium Calculator</a>
+                <a href="774_BSMDT.html">774-Jeevan Amritbaal Premium Calculator</a>
+                <a href="857_BSMDT.html">857-Jeevan Akshaya Premium Calculator</a>
+                <a href="859_BSMDT.html">859-Saral jeevan bima Premium Calculator</a>
+                <a href="862_BSMDT.html">862-Saral pension Premium Calculator</a>
+                <a href="879_BSMDT.html">879-Smart pension Premium Calculator</a>
+                <a href="911_BSMDT.html">911-Nav jeevan shree single Premium Calculator</a>
+                <a href="912_BSMDT.html">912-Nav jeevan shree regular Premium Calculator</a>
+                <a href="955_BSMDT.html">955-New Jeevan Amar Premium Calculator</a>
+              </div>
+            </div>
+            <a href="lic_process.html" class="dashboard-button"><img src="icons/process.png" class="button-icon" alt=""> Types of Processes</a>
+            <a href="irrnew.html" class="dashboard-button"><img src="icons/IRR.png" class="button-icon" alt=""> IRR Calculation</a>
+            <a href="plan_features.html" class="dashboard-button"><img src="icons/planFeatures.png" class="button-icon" alt=""> Plan Features</a>
+            <a href="plancomparison.html" class="dashboard-button"><img src="icons/planComparison.png" class="button-icon" alt=""> Plan Comparison Tool</a>
+            <a href="needs_budget.html" class="dashboard-button"><img src="icons/needs.png" class="button-icon" alt=""> Plans as per Need</a>
+            <a href="prospectscorner.html" class="dashboard-button"><img src="icons/prospectsCorner.png" class="button-icon" alt=""> Prospects Corner</a>
+            <a href="terminologies.html" class="dashboard-button"><img src="icons/glossary.png" class="button-icon" alt=""> Glossary</a>
+          </div>
+        </main>
 
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="agents_commission.html" class="dashboard-button">
+            <img src="icons/commission.png" class="button-icon" alt=""> Agents Commission 
+          </a>
+        </div>
 
-      <main class="button-container">
-  <!-- Left Column -->
-  <div class="column">
-    <a href="customer_data.html" class="dashboard-button">
-      <img src="icons/customerData.png" class="button-icon" alt=""> Customer Data
-    </a>
-    <a href="agents_data.html" class="dashboard-button">
-      <img src="icons/agentsData.png" class="button-icon" alt=""> Agents Data
-    </a>
-    <a href="commissionenquiry.html" class="dashboard-button">
-      <img src="icons/agentsCorner1.png" class="button-icon" alt=""> Agents Corner
-    </a>
-    <a href="agents_module.html" class="dashboard-button">
-      <img src="icons/agentsModule.png" class="button-icon" alt=""> Agents Module
-    </a>
-    <a href="automatic_fetch.html" class="dashboard-button">
-      <img src="icons/automaticFetch.png" class="button-icon" alt=""> Automatic Fetch
-    </a>
-    <a href="branches.html" class="dashboard-button">
-      <img src="icons/branchLocator.png" class="button-icon" alt=""> LIC Branch Locator
-    </a>
-    <a href="customer_corner.html" class="dashboard-button">
-      <img src="icons/customersCorner.png" class="button-icon" alt=""> Customers Corner
-    </a>
-    <a href="types_of_forms.html" class="dashboard-button">
-      <img src="icons/forms.png" class="button-icon" alt=""> Types of Forms
-    </a>
-  </div>
-
-  <!-- Right Column -->
-  <div class="column">
-    <div class="dropdown">
-  <a class="dashboard-button">
-    <img src="icons/calculator.png" class="button-icon" alt="">
-    Types of Calculators
-  </a>
-  <div class="dropdown-content">
-    <a href="maturity/maturityindex.html">Maturity Calculator</a>
-    <a href="revival/revivalindex.html">Revival Calculator</a>
-    <a href="surrender/surrender.html">Surrender Calculator</a>
-    <a href="SBcalculator.html">Survival Benefit Calculator</a> 
-    <a href="714_BSMDT.html">714-New Endowment Premium Calculator</a>
-   <a href="715_BSMDT.html">715-Jeevan Anand Premium Calculator</a>
-   <a href="717_BSMDT.html">717-Single premium endowment Premium Calculator</a>
-   <a href="720_BSMDT.html">720-Money back 20 years Premium Calculator</a>
-   <a href="721_BSMDT.html">721-Money back 25 years Premium Calculator</a>
-   <a href="732_BSMDT.html">732-Children's Money back Premium Calculator</a>
-  <a href="733_BSMDT.html">733-Jeevan Lakshya Premium Calculator</a>
-  <a href="734_BSMDT.html">734-Jeevan Tarun Premium Calculator</a>
-  <a href="736_BSMDT.html">736-Jeevan Labh Premium Calculator</a>
-  <a href="748_BSMDT.html">748-Bima shree Premium Calculator</a>
-  <a href="751_BSMDT.html">751-Micro bachat Premium Calculator</a>
-  <a href="760_BSMDT.html">760-Bima jyoti Premium Calculator</a>
-  <a href="764_BSMDT.html">764-Bima Ratna Premium Calculator</a>
-  <a href="768_BSMDT.html">768-Jeevan Azad Premium Calculator</a>
-  <a href="774_BSMDT.html">774-Jeevan Amritbaal Premium Calculator</a>
-  <a href="857_BSMDT.html">857-Jeevan Akshaya Premium Calculator</a>
-  <a href="859_BSMDT.html">859-Saral jeevan bima Premium Calculator</a>
-  <a href="862_BSMDT.html">862-Saral pension Premium Calculator</a>
- <a href="879_BSMDT.html">879-Smart pension Premium Calculator</a>
- <a href="911_BSMDT.html">911-Nav jeevan shree single Premium Calculator</a>
- <a href="912_BSMDT.html">912-Nav jeevan shree regular Premium Calculator</a>
- <a href="955_BSMDT.html">955-New Jeevan Amar Premium Calculator</a>
-
-  </div>
-</div>
-
-    <a href="lic_process.html" class="dashboard-button">
-      <img src="icons/process.png" class="button-icon" alt=""> Types of Processes
-    </a>
-    <a href="irrnew.html" class="dashboard-button">
-      <img src="icons/IRR.png" class="button-icon" alt=""> IRR Calculation
-    </a>
-    <a href="plan_features.html" class="dashboard-button">
-      <img src="icons/planFeatures.png" class="button-icon" alt=""> Plan Features
-    </a>
-    <a href="plancomparison.html" class="dashboard-button">
-      <img src="icons/planComparison.png" class="button-icon" alt=""> Plan Comparison Tool
-    </a>
-    <a href="needs_budget.html" class="dashboard-button">
-      <img src="icons/needs.png" class="button-icon" alt=""> Plans as per Need
-    </a>
-    <a href="prospectscorner.html" class="dashboard-button">
-      <img src="icons/prospectsCorner.png" class="button-icon" alt=""> Prospects Corner
-    </a>
-    <a href="terminologies.html" class="dashboard-button">
-      <img src="icons/glossary.png" class="button-icon" alt=""> Glossary
-    </a>
-  </div>
-</main>
-<!-- Centered Commission Button -->
-<div style="text-align: center; margin: 30px 0;">
-    <a href="agents_commission.html" class="dashboard-button">
-      <img src="icons/commission.png" class="button-icon" alt=""> Agents Commission 
-    </a>
-</div>
-
-
-
-
-
-      <div class="logout-section">
-        <button onclick="handleLogout()" class="logout-button">Logout</button>
-        <p id="logoutMsg"></p>
-      </div>
-
+        <div class="logout-section">
+          <button onclick="handleLogout()" class="logout-button">Logout</button>
+          <p id="logoutMsg"></p>
+        </div>
+      </div> <!-- End of content-main -->
+      
       <footer>
         <a href="about.html" target="_blank" rel="noopener noreferrer">About</a> |
         <a href="contact.html" target="_blank">Contact Us</a> |
         <a href="privacy_policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a> |
         <a href="disclaimer.html" target="_blank" rel="noopener noreferrer">Disclaimer</a>
       </footer>
-    </div>
-  </div>
-  
-  <div class="post-footer-image">
-  <img src="lic3.png" alt="LIC Promo Image">
-</div>
+
+    </div> <!-- End of content-column -->
+  </div> <!-- End of page-wrapper -->
 
   <script>
     // --- SUPABASE CLIENT INITIALIZATION ---
@@ -434,30 +376,17 @@ a {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
     );
 
-    // --- FUNCTION TO FETCH NEWS FOR MARQUEE ---
-        // --- SIMPLE & WORKING FUNCTION ---
-     
     // --- PAGE LOAD LOGIC ---
     window.addEventListener("DOMContentLoaded", async () => {
-      // Fetch the marquee news as soon as the page structure is ready
-     // fetchMarqueeMessage();
+      fetchGNews();
 
-      // Handle user authentication
       const { data: { session } } = await supabase.auth.getSession();
-
       if (!session || !session.user) {
         window.location.href = "signup.html";
         return;
       }
-
       const userId = session.user.id;
-
-      const { data: profile, error } = await supabase
-        .from("profiles")
-        .select("full_name")
-        .eq("id", userId)
-        .single();
-
+      const { data: profile } = await supabase.from("profiles").select("full_name").eq("id", userId).single();
       const name = profile?.full_name || session.user.user_metadata?.full_name || session.user.email || "User";
       document.getElementById("welcomeMsg").textContent = `Welcome, ${name}`;
     });
@@ -467,68 +396,46 @@ a {
       const { data: { session } } = await supabase.auth.getSession();
       const user = session?.user;
       const name = user?.user_metadata?.full_name || user?.email || "User";
-
       await supabase.auth.signOut();
-
       document.getElementById("logoutMsg").textContent = `Bye Bye, ${name}!`;
       document.getElementById("welcomeMsg").textContent = "";
+      setTimeout(() => { window.location.href = "signup.html"; }, 1500);
+    }
 
-      setTimeout(() => {
-        window.location.href = "signup.html";
-      }, 1500);
+    // --- NEWS TICKER SCRIPT ---
+    const apiKey = '8a0ba6734a5022587c68aa4adcac6b33';
+    const query = 'life insurance India';
+    const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&country=in&token=${apiKey}&max=10`;
+    let newsList = [];
+    let index = 0;
+    async function fetchGNews() {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.articles && data.articles.length > 0) {
+          newsList = data.articles.map(article => ({ title: article.title, url: article.url }));
+          startNewsTicker();
+        } else {
+          document.getElementById("newsText").textContent = "No news found.";
+        }
+      } catch (error) {
+        console.error("Error fetching GNews:", error);
+        document.getElementById("newsText").textContent = "Error loading news.";
+      }
+    }
+    
+    function startNewsTicker() {
+        const newsText = document.getElementById("newsText");
+        if (!newsList.length) return;
+        function displayNextNews() {
+            const currentNews = newsList[index];
+            newsText.innerHTML = `<a href="${currentNews.url}" target="_blank">${currentNews.title}</a>`;
+            index = (index + 1) % newsList.length;
+        }
+        displayNextNews();
+        setInterval(displayNextNews, 8000);
     }
   </script>
-<script>
-const apiKey = '8a0ba6734a5022587c68aa4adcac6b33';
-const query = 'life insurance India';
-const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&country=in&token=${apiKey}&max=10`;
-
-let newsList = [];
-let index = 0;
-
-async function fetchGNews() {
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (data.articles && data.articles.length > 0) {
-      newsList = data.articles.map(article => ({
-        title: article.title,
-        url: article.url
-      }));
-      rotateNews();
-    } else {
-      document.getElementById("newsText").textContent = "No news found.";
-    }
-  } catch (error) {
-    console.error("Error fetching GNews:", error);
-    document.getElementById("newsText").textContent = "Error loading news.";
-  }
-}
-
-function rotateNews() {
-  const newsText = document.getElementById("newsText");
-  setInterval(() => {
-    const currentNews = newsList[index];
-    newsText.style.transform = 'translateX(100%)';
- newsText.innerHTML = `<a href="${currentNews.url}" target="_blank" style="color: black; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${currentNews.title}</a>`;
-
-    requestAnimationFrame(() => {
-      newsText.style.transition = 'none';
-      newsText.style.transform = 'translateX(100%)';
-      requestAnimationFrame(() => {
-        newsText.style.transition = 'transform 12s linear'; // slower scroll
-        newsText.style.transform = 'translateX(-100%)';
-      });
-    });
-    index = (index + 1) % newsList.length;
-  }, 12000); // interval should match transition duration
-}
-
-fetchGNews();
-</script>
-
-
 
 </body>
 </html>
