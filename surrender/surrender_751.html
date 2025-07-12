@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIC Plan 751 - Surrender Value Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+      background-color: #f4f6f9;
+    }
+    h2 {
+      background: #003366;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="number"], input[type="date"], input[readonly] {
+      padding: 8px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+    button {
+      background-color: #0066cc;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #004999;
+    }
+    .output {
+      margin-top: 30px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h2>LIC Micro Bachat (751) - Surrender Value Calculator</h2>
+
+  <div class="form-group">
+    <label for="doc">Date of Commencement:</label>
+    <input type="date" id="doc">
+  </div>
+  <div class="form-group">
+    <label>Sum Assured (SA):</label>
+    <input type="number" id="sa">
+  </div>
+  <div class="form-group">
+    <label>Policy Term:</label>
+    <input type="number" id="term">
+  </div>
+  <div class="form-group">
+    <label>PPT (Premium Paying Term):</label>
+    <input type="number" id="ppt">
+  </div>
+  <div class="form-group">
+    <label>Age at Entry:</label>
+    <input type="number" id="age">
+  </div>
+  <div class="form-group">
+    <label>LA Rate (per 1000 SA):</label>
+    <input type="number" id="laRate">
+  </div>
+  <div class="form-group">
+    <label>Annual Premium:</label>
+    <input type="number" id="annualPremium">
+  </div>
+
+  <div class="form-group">
+    <label>Policy Year (auto):</label>
+    <input type="number" id="policyYear" readonly>
+  </div>
+  <div class="form-group">
+    <label>Total Premium Paid (auto):</label>
+    <input type="number" id="totalPremiumPaid" readonly>
+  </div>
+  <div class="form-group">
+    <label>Accrued Loyalty Addition (auto):</label>
+    <input type="text" id="accruedLA" readonly>
+  </div>
+
+  <button onclick="calculateSV()">Calculate Surrender Value</button>
+
+  <div class="output" id="result"></div>
+
+  <script>
+    const gsv_data =[
+    {
+        "T10": 0.0,
+        "T11": 0.0,
+        "T12": 0.0,
+        "T13": 0.0,
+        "T14": 0.0,
+        "T15": 0.0,
+        "Term": 1
+    },
+    {
+        "T10": 0.3,
+        "T11": 0.3,
+        "T12": 0.3,
+        "T13": 0.3,
+        "T14": 0.3,
+        "T15": 0.3,
+        "Term": 2
+    },
+    {
+        "T10": 0.35,
+        "T11": 0.35,
+        "T12": 0.35,
+        "T13": 0.35,
+        "T14": 0.35,
+        "T15": 0.35,
+        "Term": 3
+    },
+    {
+        "T10": 0.5,
+        "T11": 0.5,
+        "T12": 0.5,
+        "T13": 0.5,
+        "T14": 0.5,
+        "T15": 0.5,
+        "Term": 4
+    },
+    {
+        "T10": 0.5,
+        "T11": 0.5,
+        "T12": 0.5,
+        "T13": 0.5,
+        "T14": 0.5,
+        "T15": 0.5,
+        "Term": 5
+    },
+    {
+        "T10": 0.5,
+        "T11": 0.5,
+        "T12": 0.5,
+        "T13": 0.5,
+        "T14": 0.5,
+        "T15": 0.5,
+        "Term": 6
+    },
+    {
+        "T10": 0.5,
+        "T11": 0.5,
+        "T12": 0.5,
+        "T13": 0.5,
+        "T14": 0.5,
+        "T15": 0.5,
+        "Term": 7
+    },
+    {
+        "T10": 0.65,
+        "T11": 0.6,
+        "T12": 0.575,
+        "T13": 0.56,
+        "T14": 0.55,
+        "T15": 0.5429,
+        "Term": 8
+    },
+    {
+        "T10": 0.9,
+        "T11": 0.7,
+        "T12": 0.65,
+        "T13": 0.62,
+        "T14": 0.6,
+        "T15": 0.5857,
+        "Term": 9
+    },
+    {
+        "T10": 0.9,
+        "T11": 0.9,
+        "T12": 0.725,
+        "T13": 0.68,
+        "T14": 0.65,
+        "T15": 0.6286,
+        "Term": 10
+    },
+    {
+        "T10": null,
+        "T11": 0.9,
+        "T12": 0.9,
+        "T13": 0.74,
+        "T14": 0.7,
+        "T15": 0.6714,
+        "Term": 11
+    },
+    {
+        "T10": null,
+        "T11": null,
+        "T12": 0.9,
+        "T13": 0.9,
+        "T14": 0.75,
+        "T15": 0.7143,
+        "Term": 12
+    },
+    {
+        "T10": null,
+        "T11": null,
+        "T12": null,
+        "T13": 0.9,
+        "T14": 0.9,
+        "T15": 0.7571,
+        "Term": 13
+    },
+    {
+        "T10": null,
+        "T11": null,
+        "T12": null,
+        "T13": null,
+        "T14": 0.9,
+        "T15": 0.9,
+        "Term": 14
+    },
+    {
+        "T10": null,
+        "T11": null,
+        "T12": null,
+        "T13": null,
+        "T14": null,
+        "T15": 0.9,
+        "Term": 15
+    }
+]; // Paste your GSV data here
+    const ssv_data = [
+    {
+        "T10": 0.5165,
+        "T11": 0.4806,
+        "T12": 0.4474,
+        "T13": 0.4165,
+        "T14": 0.3881,
+        "T15": 0.3618,
+        "Term": 1.0
+    },
+    {
+        "T10": 0.5555,
+        "T11": 0.5168,
+        "T12": 0.4809,
+        "T13": 0.4476,
+        "T14": 0.417,
+        "T15": 0.3885,
+        "Term": 2.0
+    },
+    {
+        "T10": 0.5976,
+        "T11": 0.5558,
+        "T12": 0.5171,
+        "T13": 0.4812,
+        "T14": 0.4481,
+        "T15": 0.4175,
+        "Term": 3.0
+    },
+    {
+        "T10": 0.6429,
+        "T11": 0.5977,
+        "T12": 0.556,
+        "T13": 0.5174,
+        "T14": 0.4816,
+        "T15": 0.4485,
+        "Term": 4.0
+    },
+    {
+        "T10": 0.6917,
+        "T11": 0.6431,
+        "T12": 0.598,
+        "T13": 0.5562,
+        "T14": 0.5177,
+        "T15": 0.482,
+        "Term": 5.0
+    },
+    {
+        "T10": 0.7444,
+        "T11": 0.6918,
+        "T12": 0.6432,
+        "T13": 0.5982,
+        "T14": 0.5566,
+        "T15": 0.5181,
+        "Term": 6.0
+    },
+    {
+        "T10": 0.8012,
+        "T11": 0.7445,
+        "T12": 0.6919,
+        "T13": 0.6434,
+        "T14": 0.5985,
+        "T15": 0.5569,
+        "Term": 7.0
+    },
+    {
+        "T10": 0.8625,
+        "T11": 0.8013,
+        "T12": 0.7446,
+        "T13": 0.6921,
+        "T14": 0.6436,
+        "T15": 0.5988,
+        "Term": 8.0
+    },
+    {
+        "T10": 0.9286,
+        "T11": 0.8625,
+        "T12": 0.8013,
+        "T13": 0.7446,
+        "T14": 0.6923,
+        "T15": 0.6439,
+        "Term": 9.0
+    },
+    {
+        "T10": 0.0,
+        "T11": 0.9286,
+        "T12": 0.8625,
+        "T13": 0.8013,
+        "T14": 0.7448,
+        "T15": 0.6925,
+        "Term": 10.0
+    },
+    {
+        "T10": 0.0,
+        "T11": 0.0,
+        "T12": 0.9286,
+        "T13": 0.8625,
+        "T14": 0.8014,
+        "T15": 0.7449,
+        "Term": 11.0
+    },
+    {
+        "T10": 0.0,
+        "T11": 0.0,
+        "T12": 0.0,
+        "T13": 0.9286,
+        "T14": 0.8626,
+        "T15": 0.8015,
+        "Term": 12.0
+    },
+    {
+        "T10": 0.0,
+        "T11": 0.0,
+        "T12": 0.0,
+        "T13": 0.0,
+        "T14": 0.9286,
+        "T15": 0.8626,
+        "Term": 13.0
+    },
+    {
+        "T10": 0.0,
+        "T11": 0.0,
+        "T12": 0.0,
+        "T13": 0.0,
+        "T14": 0.0,
+        "T15": 0.9286,
+        "Term": 14.0
+    },
+    {
+        "T10": 0.0,
+        "T11": 0.0,
+        "T12": 0.0,
+        "T13": 0.0,
+        "T14": 0.0,
+        "T15": 0.0,
+        "Term": 15.0
+    }
+];// Paste your SSV data here
+
+    const laGsvPercent = 0.30;
+    const laSsvPercent = 0.30;
+
+    const inputs = ['doc', 'sa', 'term', 'ppt', 'age', 'laRate', 'annualPremium'];
+    inputs.forEach(id => document.getElementById(id).addEventListener('input', updateAutoFields));
+
+    function updateAutoFields() {
+      const docVal = document.getElementById("doc").value;
+      const sa = parseFloat(document.getElementById("sa").value) || 0;
+      const laRate = parseFloat(document.getElementById("laRate").value) || 0;
+      const annualPremium = parseFloat(document.getElementById("annualPremium").value) || 0;
+      const ppt = parseInt(document.getElementById("ppt").value) || 0;
+
+      if (docVal) {
+        const doc = new Date(docVal);
+        const now = new Date();
+        const diff = now.getTime() - doc.getTime();
+        const policyYear = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+        document.getElementById("policyYear").value = policyYear;
+
+        const premiumsPaid = Math.min(policyYear, ppt);
+        document.getElementById("totalPremiumPaid").value = premiumsPaid * annualPremium;
+
+        const accruedLA = (sa / 1000) * laRate;
+        document.getElementById("accruedLA").value = `₹ ${accruedLA.toFixed(2)}`;
+      }
+    }
+
+    function getFactor(data, policyYear, term) {
+      const termKey = "T" + term;
+      const entry = data.find(item => Math.round(item.Term) === Math.round(policyYear));
+      if (!entry || entry[termKey] == null) return 0;
+      return parseFloat(entry[termKey]);
+    }
+
+    function calculateSV() {
+      const sa = parseFloat(document.getElementById("sa").value);
+      const term = parseInt(document.getElementById("term").value);
+      const ppt = parseInt(document.getElementById("ppt").value);
+      const policyYear = parseInt(document.getElementById("policyYear").value);
+      const laRate = parseFloat(document.getElementById("laRate").value);
+      const totalPremiumPaid = parseFloat(document.getElementById("totalPremiumPaid").value);
+
+      const gsvFactor = getFactor(gsv_data, policyYear, term);
+      const gsvBase = totalPremiumPaid * gsvFactor;
+      const laGsv = ((sa / 1000) * laRate * laGsvPercent);
+      const totalGsv = gsvBase + laGsv;
+
+      const ssvFactor = getFactor(ssv_data, policyYear, term);
+      const paidUpValue = (sa * Math.min(policyYear, ppt)) / ppt;
+      const ssvBase = paidUpValue * ssvFactor;
+      const laSsv = ((sa / 1000) * laRate * laSsvPercent);
+      const totalSsv = ssvBase + laSsv;
+
+      const finalSV = Math.max(totalGsv, totalSsv);
+
+      document.getElementById("result").innerHTML = `
+        <h3>Results:</h3>
+        <p><strong>Total Loyalty Addition:</strong> ₹ ${(sa / 1000 * laRate).toFixed(2)}</p>
+        <p><strong>GSV:</strong> ₹ ${totalGsv.toFixed(2)}</p>
+        <p><strong>SSV:</strong> ₹ ${totalSsv.toFixed(2)}</p>
+        <h2>Total Surrender Value: ₹ ${finalSV.toFixed(2)}</h2>
+      `;
+    }
+  </script>
+</body>
+</html>

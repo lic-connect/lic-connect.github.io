@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC Surrender Value Calculator - 25 Year Money Back (721)</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; padding: 20px; }
+    .container { background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); width: 100%; max-width: 600px; }
+    h2 { text-align: center; color: #003366; margin-top: 0; border-bottom: 2px solid #ffd700; padding-bottom: 10px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 20px; margin-bottom: 20px; }
+    .grid .full-width { grid-column: 1 / -1; }
+    label { font-weight: 500; color: #333; display: block; margin-bottom: 5px; }
+    input, select { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+    input:read-only, input:disabled { background-color: #e9ecef; cursor: not-allowed; }
+    button { width: 100%; padding: 12px; background-color: #003366; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+    button:hover { background-color: #0055a4; }
+    .output { margin-top: 25px; padding: 20px; border-top: 2px solid #003366; background-color: #f9f9f9; border-radius: 5px; }
+    .output h3 { text-align: center; margin: 0; font-size: 24px; color: #003366; }
+    .output-details { font-size: 14px; color: #555; text-align: center; margin-top: 10px; }
+    .error-message { color: #D8000C; background-color: #FFD2D2; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; display: none; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Surrender Value Calculator (Plan 721)</h2>
+    <div id="error-message" class="error-message"></div>
+    <form id="sv-form">
+        <div class="grid">
+            <!-- MANUAL INPUTS -->
+            <div class="full-width">
+                <label for="doc">Date of Commencement</label>
+                <input type="date" id="doc" required>
+            </div>
+            <div>
+                <label>Policy Term</label>
+                <input type="number" id="policyTerm" value="25" readonly>
+            </div>
+             <div>
+                <label>Premium Paying Term</label>
+                <input type="number" id="ppt" value="20" readonly>
+            </div>
+            <div>
+                <label for="ageAtEntry">Age at Entry (13-45)</label>
+                <input type="number" id="ageAtEntry" placeholder="e.g., 30" min="13" max="45" required>
+            </div>
+            <div>
+                <label for="sa">Sum Assured</label>
+                <input type="number" id="sa" placeholder="e.g., 500000" required>
+            </div>
+            <div class="full-width">
+                <label for="annualPremium">Annual Premium</label>
+                <input type="number" id="annualPremium" placeholder="e.g., 25000" required>
+            </div>
+            <div class="full-width">
+                <label for="bonusRate">Assumed Bonus Rate (per 1000)</label>
+                <input type="number" id="bonusRate" step="0.1" placeholder="e.g., 42" required>
+            </div>
+
+            <!-- AUTO-POPULATED FIELDS -->
+            <div class="full-width" style="border-top: 1px dashed #ccc; padding-top: 15px; margin-top: 10px;">
+                <label>Current Policy Year</label>
+                <input type="number" id="policyYear-auto" disabled>
+            </div>
+            <div>
+                <label>Total Bonus Accrued</label>
+                <input type="text" id="totalBonus-auto" disabled>
+            </div>
+            <div>
+                <label>Survival Benefits Paid</label>
+                <input type="text" id="sbPaid-auto" disabled>
+            </div>
+            <div class="full-width">
+                <label>Total Premiums Paid</label>
+                <input type="text" id="premiumsPaid-auto" disabled>
+            </div>
+        </div>
+
+        <button type="submit">Calculate Surrender Value</button>
+    </form>
+
+    <div class="output" id="result"></div>
+</div>
+
+<script>
+    // ====================================================================
+    // --- PASTE YOUR JSON DATA ARRAYS IN THESE SECTIONS ---
+    // If a plan doesn't have a factor (e.g., no GA), you can leave the array empty.
+    // ====================================================================
+    const gsv_p_data = [
+    {
+        "T25": 0.0,
+        "Term": 1
+    },
+    {
+        "T25": 0.3,
+        "Term": 2
+    },
+    {
+        "T25": 0.35,
+        "Term": 3
+    },
+    {
+        "T25": 0.5,
+        "Term": 4
+    },
+    {
+        "T25": 0.5,
+        "Term": 5
+    },
+    {
+        "T25": 0.5,
+        "Term": 6
+    },
+    {
+        "T25": 0.5,
+        "Term": 7
+    },
+    {
+        "T25": 0.5176,
+        "Term": 8
+    },
+    {
+        "T25": 0.5353,
+        "Term": 9
+    },
+    {
+        "T25": 0.5529,
+        "Term": 10
+    },
+    {
+        "T25": 0.5706,
+        "Term": 11
+    },
+    {
+        "T25": 0.5882,
+        "Term": 12
+    },
+    {
+        "T25": 0.6059,
+        "Term": 13
+    },
+    {
+        "T25": 0.6235,
+        "Term": 14
+    },
+    {
+        "T25": 0.6412,
+        "Term": 15
+    },
+    {
+        "T25": 0.6588,
+        "Term": 16
+    },
+    {
+        "T25": 0.6765,
+        "Term": 17
+    },
+    {
+        "T25": 0.6941,
+        "Term": 18
+    },
+    {
+        "T25": 0.7118,
+        "Term": 19
+    },
+    {
+        "T25": 0.7294,
+        "Term": 20
+    },
+    {
+        "T25": 0.7471,
+        "Term": 21
+    },
+    {
+        "T25": 0.7647,
+        "Term": 22
+    },
+    {
+        "T25": 0.7824,
+        "Term": 23
+    },
+    {
+        "T25": 0.9,
+        "Term": 24
+    },
+    {
+        "T25": 0.9,
+        "Term": 25
+    }
+];
+    const gsv_b_data = [
+    {
+        "T25": 0.0,
+        "Term": 1
+    },
+    {
+        "T25": 0.0,
+        "Term": 2
+    },
+    {
+        "T25": 0.1528,
+        "Term": 3
+    },
+    {
+        "T25": 0.1542,
+        "Term": 4
+    },
+    {
+        "T25": 0.1555,
+        "Term": 5
+    },
+    {
+        "T25": 0.1572,
+        "Term": 6
+    },
+    {
+        "T25": 0.1593,
+        "Term": 7
+    },
+    {
+        "T25": 0.1622,
+        "Term": 8
+    },
+    {
+        "T25": 0.1658,
+        "Term": 9
+    },
+    {
+        "T25": 0.1703,
+        "Term": 10
+    },
+    {
+        "T25": 0.1758,
+        "Term": 11
+    },
+    {
+        "T25": 0.1758,
+        "Term": 12
+    },
+    {
+        "T25": 0.1766,
+        "Term": 13
+    },
+    {
+        "T25": 0.1785,
+        "Term": 14
+    },
+    {
+        "T25": 0.1816,
+        "Term": 15
+    },
+    {
+        "T25": 0.186,
+        "Term": 16
+    },
+    {
+        "T25": 0.1918,
+        "Term": 17
+    },
+    {
+        "T25": 0.1993,
+        "Term": 18
+    },
+    {
+        "T25": 0.2085,
+        "Term": 19
+    },
+    {
+        "T25": 0.2199,
+        "Term": 20
+    },
+    {
+        "T25": 0.2338,
+        "Term": 21
+    },
+    {
+        "T25": 0.2505,
+        "Term": 22
+    },
+    {
+        "T25": 0.2706,
+        "Term": 23
+    },
+    {
+        "T25": 0.3,
+        "Term": 24
+    },
+    {
+        "T25": 0.35,
+        "Term": 25
+    }
+];
+    const gsv_ga_data = []; // Not applicable for this plan
+    const ssv_f1_data = [
+    {
+        "T25": 0.0356,
+        "Term": 1
+    },
+    {
+        "T25": 0.037,
+        "Term": 2
+    },
+    {
+        "T25": 0.0384,
+        "Term": 3
+    },
+    {
+        "T25": 0.0398,
+        "Term": 4
+    },
+    {
+        "T25": 0.0413,
+        "Term": 5
+    },
+    {
+        "T25": 0.0427,
+        "Term": 6
+    },
+    {
+        "T25": 0.044,
+        "Term": 7
+    },
+    {
+        "T25": 0.0454,
+        "Term": 8
+    },
+    {
+        "T25": 0.0466,
+        "Term": 9
+    },
+    {
+        "T25": 0.0477,
+        "Term": 10
+    },
+    {
+        "T25": 0.0487,
+        "Term": 11
+    },
+    {
+        "T25": 0.0495,
+        "Term": 12
+    },
+    {
+        "T25": 0.0499,
+        "Term": 13
+    },
+    {
+        "T25": 0.0501,
+        "Term": 14
+    },
+    {
+        "T25": 0.0498,
+        "Term": 15
+    },
+    {
+        "T25": 0.049,
+        "Term": 16
+    },
+    {
+        "T25": 0.0476,
+        "Term": 17
+    },
+    {
+        "T25": 0.0454,
+        "Term": 18
+    },
+    {
+        "T25": 0.0424,
+        "Term": 19
+    },
+    {
+        "T25": 0.0384,
+        "Term": 20
+    },
+    {
+        "T25": 0.0334,
+        "Term": 21
+    },
+    {
+        "T25": 0.0271,
+        "Term": 22
+    },
+    {
+        "T25": 0.0196,
+        "Term": 23
+    },
+    {
+        "T25": 0.0106,
+        "Term": 24
+    },
+    {
+        "T25": 0.0106,
+        "Term": 25
+    }
+];
+    const ssv_f2_data = [
+    {
+        "T25": 0.1506,
+        "Term": 1
+    },
+    {
+        "T25": 0.1624,
+        "Term": 2
+    },
+    {
+        "T25": 0.1751,
+        "Term": 3
+    },
+    {
+        "T25": 0.1889,
+        "Term": 4
+    },
+    {
+        "T25": 0.2038,
+        "Term": 5
+    },
+    {
+        "T25": 0.2199,
+        "Term": 6
+    },
+    {
+        "T25": 0.2372,
+        "Term": 7
+    },
+    {
+        "T25": 0.256,
+        "Term": 8
+    },
+    {
+        "T25": 0.2764,
+        "Term": 9
+    },
+    {
+        "T25": 0.2984,
+        "Term": 10
+    },
+    {
+        "T25": 0.3223,
+        "Term": 11
+    },
+    {
+        "T25": 0.3481,
+        "Term": 12
+    },
+    {
+        "T25": 0.3762,
+        "Term": 13
+    },
+    {
+        "T25": 0.4067,
+        "Term": 14
+    },
+    {
+        "T25": 0.4399,
+        "Term": 15
+    },
+    {
+        "T25": 0.4761,
+        "Term": 16
+    },
+    {
+        "T25": 0.5155,
+        "Term": 17
+    },
+    {
+        "T25": 0.5586,
+        "Term": 18
+    },
+    {
+        "T25": 0.6056,
+        "Term": 19
+    },
+    {
+        "T25": 0.6572,
+        "Term": 20
+    },
+    {
+        "T25": 0.7136,
+        "Term": 21
+    },
+    {
+        "T25": 0.7755,
+        "Term": 22
+    },
+    {
+        "T25": 0.8434,
+        "Term": 23
+    },
+    {
+        "T25": 0.918,
+        "Term": 24
+    },
+    {
+        "T25": 0.918,
+        "Term": 25
+    }
+];
+    const ssv_f3_data = []; // Not applicable for this plan
+
+    // =========================================================
+    // --- SCRIPT LOGIC for 25-Year Money Back (721) ---
+    // =========================================================
+    
+    const formatCurrency = (num) => `₹ ${num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    
+    const triggerInputs = ['doc', 'sa', 'annualPremium', 'bonusRate'];
+    triggerInputs.forEach(id => {
+        document.getElementById(id).addEventListener('input', updateAutoFields);
+    });
+
+    function updateAutoFields() {
+        const doc = document.getElementById("doc").value;
+        const sa = parseFloat(document.getElementById("sa").value) || 0;
+        const annualPremium = parseFloat(document.getElementById("annualPremium").value) || 0;
+        const bonusRate = parseFloat(document.getElementById("bonusRate").value) || 0;
+        const ppt = 20;
+
+        if (!doc) return;
+
+        const startDate = new Date(doc);
+        const now = new Date();
+        const diff = now.getTime() - startDate.getTime();
+        const policyYear = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+        document.getElementById('policyYear-auto').value = policyYear;
+        
+        const premiumsPaidYears = Math.min(policyYear, ppt);
+        const totalPremiumsPaid = annualPremium * premiumsPaidYears;
+        document.getElementById('premiumsPaid-auto').value = formatCurrency(totalPremiumsPaid);
+
+        const totalBonus = (bonusRate * sa / 1000) * policyYear;
+        document.getElementById('totalBonus-auto').value = formatCurrency(totalBonus);
+        
+        // --- Survival Benefit Calculation for Plan 721 ---
+        let sbPaid = 0;
+        if (policyYear >= 5) { sbPaid += 0.15 * sa; }
+        if (policyYear >= 10) { sbPaid += 0.15 * sa; }
+        if (policyYear >= 15) { sbPaid += 0.15 * sa; }
+        if (policyYear >= 20) { sbPaid += 0.15 * sa; }
+        document.getElementById('sbPaid-auto').value = formatCurrency(sbPaid);
+    }
+    
+    document.getElementById('sv-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        calculateSurrenderValue();
+    });
+
+    function calculateSurrenderValue() {
+        const resultDiv = document.getElementById("result");
+        
+        const policyTerm = 25; // Fixed
+        const ppt = 20; // Fixed
+        const sa = parseFloat(document.getElementById("sa").value);
+        const doc = document.getElementById("doc").value;
+        const ageAtEntry = parseInt(document.getElementById("ageAtEntry").value);
+        
+        if (!validateInputs(ageAtEntry, doc, sa)) return;
+
+        const policyYear = parseInt(document.getElementById('policyYear-auto').value);
+        const annualPremium = parseFloat(document.getElementById("annualPremium").value);
+        const bonusRate = parseFloat(document.getElementById("bonusRate").value) || 0;
+        
+        if (policyYear < 2) {
+            displayError("Policy cannot be surrendered before 2 full years of premium payment.");
+            return;
+        }
+
+        const premiumsPaidYears = Math.min(policyYear, ppt);
+        const totalPremiumsPaid = annualPremium * premiumsPaidYears;
+        const totalBonus = (bonusRate * sa / 1000) * policyYear;
+
+        // Recalculate Survival Benefits Paid
+        let survivalBenefitsPaid = 0;
+        if (policyYear >= 5) survivalBenefitsPaid += 0.15 * sa;
+        if (policyYear >= 10) survivalBenefitsPaid += 0.15 * sa;
+        if (policyYear >= 15) survivalBenefitsPaid += 0.15 * sa;
+        if (policyYear >= 20) survivalBenefitsPaid += 0.15 * sa;
+
+        // --- 1. Calculate GSV ---
+        const netPremiumsPaidForGSV = totalPremiumsPaid - survivalBenefitsPaid;
+        const gsvFactorP = getFactor(gsv_p_data, policyYear, policyTerm);
+        const gsvFactorB = getFactor(gsv_b_data, policyYear, policyTerm);
+        const gsv = (gsvFactorP * netPremiumsPaidForGSV) + (gsvFactorB * totalBonus);
+
+        // --- 2. Calculate SSV ---
+        const paidUpSA = (premiumsPaidYears / ppt) * (sa - survivalBenefitsPaid);
+        const f1 = getFactor(ssv_f1_data, policyYear, policyTerm);
+        const f2 = getFactor(ssv_f2_data, policyYear, policyTerm);
+        const ssv = (f1 * paidUpSA) + (f2 * totalBonus);
+
+        // --- 3. Final Surrender Value ---
+        const surrenderValue = Math.max(gsv, ssv);
+
+        resultDiv.innerHTML = `
+            <h3>Total Surrender Value is:</h3>
+            <h3 style="font-size: 28px;">${formatCurrency(surrenderValue)}</h3>
+            <div class="output-details">
+                (This is the higher of GSV & SSV)<br>
+                GSV Calculated: ${formatCurrency(gsv)} | SSV Calculated: ${formatCurrency(ssv)}
+            </div>
+        `;
+    }
+
+    function validateInputs(age, doc, sa) {
+        const errorDiv = document.getElementById("error-message");
+        errorDiv.style.display = 'none';
+
+        if (!doc || isNaN(age) || isNaN(sa)) {
+            displayError("Please fill all required fields correctly.");
+            return false;
+        }
+        if (age < 13 || age > 45) {
+            displayError("Entry Age must be between 13 and 45 years.");
+            return false;
+        }
+        return true;
+    }
+
+    function displayError(message) {
+        const errorDiv = document.getElementById("error-message");
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+    }
+
+    function getFactor(data, policyYear, term) {
+        if (!data || data.length === 0) return 0;
+        const row = data.find(item => item.Term === policyYear);
+        if (!row) return 0;
+        const factor = row[`T${term}`];
+        return factor !== null && factor !== undefined ? parseFloat(factor) : 0;
+    }
+    
+    updateAutoFields();
+</script>
+
+</body>
+</html>

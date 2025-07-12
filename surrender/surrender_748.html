@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC Surrender Value Calculator - Bima Shree (748)</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; padding: 20px; }
+    .container { background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); width: 100%; max-width: 600px; }
+    h2 { text-align: center; color: #003366; margin-top: 0; border-bottom: 2px solid #ffd700; padding-bottom: 10px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 20px; margin-bottom: 20px; }
+    .grid .full-width { grid-column: 1 / -1; }
+    label { font-weight: 500; color: #333; display: block; margin-bottom: 5px; }
+    input, select { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+    input:read-only, input:disabled { background-color: #e9ecef; cursor: not-allowed; }
+    button { width: 100%; padding: 12px; background-color: #003366; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+    button:hover { background-color: #0055a4; }
+    .output { margin-top: 25px; padding: 20px; border-top: 2px solid #003366; background-color: #f9f9f9; border-radius: 5px; }
+    .output h3 { text-align: center; margin: 0; font-size: 24px; color: #003366; }
+    .output-details { font-size: 14px; color: #555; text-align: center; margin-top: 10px; }
+    .error-message { color: #D8000C; background-color: #FFD2D2; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; display: none; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Surrender Value Calculator (Bima Shree - 748)</h2>
+    <div id="error-message" class="error-message"></div>
+    <form id="sv-form">
+        <div class="grid">
+            <!-- MANUAL INPUTS -->
+            <div class="full-width">
+                <label for="doc">Date of Commencement</label>
+                <input type="date" id="doc" required>
+            </div>
+            <div>
+                <label for="term-ppt">Term / PPT</label>
+                <select id="term-ppt" required>
+                    <option value="14,10">14 / 10</option>
+                    <option value="16,12">16 / 12</option>
+                    <option value="18,14">18 / 14</option>
+                    <option value="20,16" selected>20 / 16</option>
+                    <option value="24,20">24 / 20</option>
+                    <option value="28,24">28 / 24</option>
+                </select>
+            </div>
+            <div>
+                <label for="ageAtEntry">Age at Entry</label>
+                <input type="number" id="ageAtEntry" placeholder="e.g., 30" required>
+            </div>
+            <div>
+                <label for="sa">Sum Assured</label>
+                <input type="number" id="sa" placeholder="e.g., 1000000" required>
+            </div>
+             <div>
+                <label for="annualPremium">Annual Premium</label>
+                <input type="number" id="annualPremium" placeholder="e.g., 55000" required>
+            </div>
+            <div class="full-width">
+                <label for="bonusRate">Assumed Bonus Rate (per 1000) (for SSV-F2)</label>
+                <input type="number" id="bonusRate" step="0.1" placeholder="e.g., 45" value="0" required>
+            </div>
+
+            <!-- AUTO-POPULATED FIELDS -->
+            <div class="full-width" style="border-top: 1px dashed #ccc; padding-top: 15px; margin-top: 10px;">
+                <label>Current Policy Year</label>
+                <input type="number" id="policyYear-auto" disabled>
+            </div>
+            <div>
+                <label>Total GA Accrued</label>
+                <input type="text" id="totalGa-auto" disabled>
+            </div>
+             <div>
+                <label>Survival Benefits Paid</label>
+                <input type="text" id="sbPaid-auto" disabled>
+            </div>
+             <div class="full-width">
+                <label>Total Premiums Paid</label>
+                <input type="text" id="premiumsPaid-auto" disabled>
+            </div>
+        </div>
+
+        <button type="submit">Calculate Surrender Value</button>
+    </form>
+
+    <div class="output" id="result"></div>
+</div>
+
+<script>
+    // ====================================================================
+    // --- PASTE YOUR JSON DATA ARRAYS IN THESE SECTIONS ---
+    // ====================================================================
+    const gsv_p_data = [
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.0,
+        "Term": 1
+    },
+    {
+        "T14": 0.3,
+        "T16": 0.3,
+        "T18": 0.3,
+        "T20": 0.3,
+        "T24": 0.3,
+        "T28": 0.3,
+        "Term": 2
+    },
+    {
+        "T14": 0.35,
+        "T16": 0.35,
+        "T18": 0.35,
+        "T20": 0.35,
+        "T24": 0.35,
+        "T28": 0.35,
+        "Term": 3
+    },
+    {
+        "T14": 0.5,
+        "T16": 0.5,
+        "T18": 0.5,
+        "T20": 0.5,
+        "T24": 0.5,
+        "T28": 0.5,
+        "Term": 4
+    },
+    {
+        "T14": 0.5,
+        "T16": 0.5,
+        "T18": 0.5,
+        "T20": 0.5,
+        "T24": 0.5,
+        "T28": 0.5,
+        "Term": 5
+    },
+    {
+        "T14": 0.5,
+        "T16": 0.5,
+        "T18": 0.5,
+        "T20": 0.5,
+        "T24": 0.5,
+        "T28": 0.5,
+        "Term": 6
+    },
+    {
+        "T14": 0.5,
+        "T16": 0.5,
+        "T18": 0.5,
+        "T20": 0.5,
+        "T24": 0.5,
+        "T28": 0.5,
+        "Term": 7
+    },
+    {
+        "T14": 0.55,
+        "T16": 0.5375,
+        "T18": 0.53,
+        "T20": 0.525,
+        "T24": 0.5188,
+        "T28": 0.515,
+        "Term": 8
+    },
+    {
+        "T14": 0.6,
+        "T16": 0.575,
+        "T18": 0.56,
+        "T20": 0.55,
+        "T24": 0.5375,
+        "T28": 0.53,
+        "Term": 9
+    },
+    {
+        "T14": 0.65,
+        "T16": 0.6125,
+        "T18": 0.59,
+        "T20": 0.575,
+        "T24": 0.5563,
+        "T28": 0.545,
+        "Term": 10
+    },
+    {
+        "T14": 0.7,
+        "T16": 0.65,
+        "T18": 0.62,
+        "T20": 0.6,
+        "T24": 0.575,
+        "T28": 0.56,
+        "Term": 11
+    },
+    {
+        "T14": 0.75,
+        "T16": 0.6875,
+        "T18": 0.65,
+        "T20": 0.625,
+        "T24": 0.5938,
+        "T28": 0.575,
+        "Term": 12
+    },
+    {
+        "T14": 0.9,
+        "T16": 0.725,
+        "T18": 0.68,
+        "T20": 0.65,
+        "T24": 0.6125,
+        "T28": 0.59,
+        "Term": 13
+    },
+    {
+        "T14": 0.9,
+        "T16": 0.7625,
+        "T18": 0.71,
+        "T20": 0.675,
+        "T24": 0.6313,
+        "T28": 0.605,
+        "Term": 14
+    },
+    {
+        "T14": 1.0,
+        "T16": 0.9,
+        "T18": 0.74,
+        "T20": 0.7,
+        "T24": 0.65,
+        "T28": 0.62,
+        "Term": 15
+    },
+    {
+        "T14": null,
+        "T16": 0.9,
+        "T18": 0.77,
+        "T20": 0.725,
+        "T24": 0.6688,
+        "T28": 0.635,
+        "Term": 16
+    },
+    {
+        "T14": null,
+        "T16": 1.0,
+        "T18": 0.9,
+        "T20": 0.75,
+        "T24": 0.6875,
+        "T28": 0.65,
+        "Term": 17
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": 0.9,
+        "T20": 0.775,
+        "T24": 0.7063,
+        "T28": 0.665,
+        "Term": 18
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": 1.0,
+        "T20": 0.9,
+        "T24": 0.725,
+        "T28": 0.68,
+        "Term": 19
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": 0.9,
+        "T24": 0.7438,
+        "T28": 0.695,
+        "Term": 20
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": 1.0,
+        "T24": 0.7625,
+        "T28": 0.71,
+        "Term": 21
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": 0.7813,
+        "T28": 0.725,
+        "Term": 22
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": 0.9,
+        "T28": 0.74,
+        "Term": 23
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": 0.9,
+        "T28": 0.755,
+        "Term": 24
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": 1.0,
+        "T28": 0.77,
+        "Term": 25
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": null,
+        "T28": 0.785,
+        "Term": 26
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": null,
+        "T28": 0.9,
+        "Term": 27
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": null,
+        "T28": 0.9,
+        "Term": 28
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": null,
+        "T28": 1.0,
+        "Term": 29
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": null,
+        "T28": null,
+        "Term": 30
+    }
+];
+    const gsv_ga_data = [
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.0,
+        "Term": 1
+    },
+    {
+        "T14": 0.0885,
+        "T16": 0.0858,
+        "T18": 0.0803,
+        "T20": 0.0722,
+        "T24": 0.0642,
+        "T28": 0.0513,
+        "Term": 2
+    },
+    {
+        "T14": 0.1785,
+        "T16": 0.1758,
+        "T18": 0.1703,
+        "T20": 0.1622,
+        "T24": 0.1542,
+        "T28": 0.1413,
+        "Term": 3
+    },
+    {
+        "T14": 0.1816,
+        "T16": 0.1766,
+        "T18": 0.1758,
+        "T20": 0.1658,
+        "T24": 0.1555,
+        "T28": 0.1494,
+        "Term": 4
+    },
+    {
+        "T14": 0.186,
+        "T16": 0.1785,
+        "T18": 0.1758,
+        "T20": 0.1703,
+        "T24": 0.1572,
+        "T28": 0.1513,
+        "Term": 5
+    },
+    {
+        "T14": 0.1918,
+        "T16": 0.1816,
+        "T18": 0.1766,
+        "T20": 0.1758,
+        "T24": 0.1593,
+        "T28": 0.1528,
+        "Term": 6
+    },
+    {
+        "T14": 0.1993,
+        "T16": 0.186,
+        "T18": 0.1785,
+        "T20": 0.1758,
+        "T24": 0.1622,
+        "T28": 0.1542,
+        "Term": 7
+    },
+    {
+        "T14": 0.2085,
+        "T16": 0.1918,
+        "T18": 0.1816,
+        "T20": 0.1766,
+        "T24": 0.1658,
+        "T28": 0.1555,
+        "Term": 8
+    },
+    {
+        "T14": 0.2199,
+        "T16": 0.1993,
+        "T18": 0.186,
+        "T20": 0.1785,
+        "T24": 0.1703,
+        "T28": 0.1572,
+        "Term": 9
+    },
+    {
+        "T14": 0.2338,
+        "T16": 0.2085,
+        "T18": 0.1918,
+        "T20": 0.1816,
+        "T24": 0.1758,
+        "T28": 0.1593,
+        "Term": 10
+    },
+    {
+        "T14": 0.2505,
+        "T16": 0.2199,
+        "T18": 0.1993,
+        "T20": 0.186,
+        "T24": 0.1758,
+        "T28": 0.1622,
+        "Term": 11
+    },
+    {
+        "T14": 0.2706,
+        "T16": 0.2338,
+        "T18": 0.2085,
+        "T20": 0.1918,
+        "T24": 0.1766,
+        "T28": 0.1658,
+        "Term": 12
+    },
+    {
+        "T14": 0.3,
+        "T16": 0.2505,
+        "T18": 0.2199,
+        "T20": 0.1993,
+        "T24": 0.1785,
+        "T28": 0.1703,
+        "Term": 13
+    },
+    {
+        "T14": 0.35,
+        "T16": 0.2706,
+        "T18": 0.2338,
+        "T20": 0.2085,
+        "T24": 0.1816,
+        "T28": 0.1758,
+        "Term": 14
+    },
+    {
+        "T14": null,
+        "T16": 0.3,
+        "T18": 0.2505,
+        "T20": 0.2199,
+        "T24": 0.186,
+        "T28": 0.1758,
+        "Term": 15
+    },
+    {
+        "T14": null,
+        "T16": 0.35,
+        "T18": 0.2706,
+        "T20": 0.2338,
+        "T24": 0.1918,
+        "T28": 0.1766,
+        "Term": 16
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": 0.3,
+        "T20": 0.2505,
+        "T24": 0.1993,
+        "T28": 0.1785,
+        "Term": 17
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": 0.35,
+        "T20": 0.2706,
+        "T24": 0.2085,
+        "T28": 0.1816,
+        "Term": 18
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": 0.3,
+        "T24": 0.2199,
+        "T28": 0.186,
+        "Term": 19
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": 0.35,
+        "T24": 0.2338,
+        "T28": 0.1918,
+        "Term": 20
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": 0.2505,
+        "T28": 0.1993,
+        "Term": 21
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": 0.2706,
+        "T28": 0.2085,
+        "Term": 22
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": 0.3,
+        "T28": 0.2199,
+        "Term": 23
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": 0.35,
+        "T28": 0.2338,
+        "Term": 24
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": null,
+        "T28": 0.2505,
+        "Term": 25
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": null,
+        "T28": 0.2706,
+        "Term": 26
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": null,
+        "T28": 0.3,
+        "Term": 27
+    },
+    {
+        "T14": null,
+        "T16": null,
+        "T18": null,
+        "T20": null,
+        "T24": null,
+        "T28": 0.35,
+        "Term": 28
+    }
+];
+    
+    const ssv_f1_data = [
+    {
+        "T14": 0.0171,
+        "T16": 0.0201,
+        "T18": 0.0234,
+        "T20": 0.0268,
+        "T24": 0.0339,
+        "T28": 0.0407,
+        "Term": 1
+    },
+    {
+        "T14": 0.017,
+        "T16": 0.0203,
+        "T18": 0.0238,
+        "T20": 0.0275,
+        "T24": 0.0351,
+        "T28": 0.0425,
+        "Term": 2
+    },
+    {
+        "T14": 0.0169,
+        "T16": 0.0204,
+        "T18": 0.0242,
+        "T20": 0.0282,
+        "T24": 0.0364,
+        "T28": 0.0443,
+        "Term": 3
+    },
+    {
+        "T14": 0.0166,
+        "T16": 0.0204,
+        "T18": 0.0245,
+        "T20": 0.0288,
+        "T24": 0.0377,
+        "T28": 0.0462,
+        "Term": 4
+    },
+    {
+        "T14": 0.0162,
+        "T16": 0.0203,
+        "T18": 0.0247,
+        "T20": 0.0293,
+        "T24": 0.0389,
+        "T28": 0.0481,
+        "Term": 5
+    },
+    {
+        "T14": 0.0156,
+        "T16": 0.02,
+        "T18": 0.0248,
+        "T20": 0.0298,
+        "T24": 0.0401,
+        "T28": 0.0501,
+        "Term": 6
+    },
+    {
+        "T14": 0.0148,
+        "T16": 0.0196,
+        "T18": 0.0248,
+        "T20": 0.0302,
+        "T24": 0.0413,
+        "T28": 0.052,
+        "Term": 7
+    },
+    {
+        "T14": 0.0138,
+        "T16": 0.019,
+        "T18": 0.0245,
+        "T20": 0.0304,
+        "T24": 0.0424,
+        "T28": 0.054,
+        "Term": 8
+    },
+    {
+        "T14": 0.0126,
+        "T16": 0.0181,
+        "T18": 0.0241,
+        "T20": 0.0304,
+        "T24": 0.0434,
+        "T28": 0.0559,
+        "Term": 9
+    },
+    {
+        "T14": 0.011,
+        "T16": 0.017,
+        "T18": 0.0235,
+        "T20": 0.0303,
+        "T24": 0.0443,
+        "T28": 0.0578,
+        "Term": 10
+    },
+    {
+        "T14": 0.009,
+        "T16": 0.0155,
+        "T18": 0.0225,
+        "T20": 0.0299,
+        "T24": 0.045,
+        "T28": 0.0595,
+        "Term": 11
+    },
+    {
+        "T14": 0.0066,
+        "T16": 0.0136,
+        "T18": 0.0212,
+        "T20": 0.0291,
+        "T24": 0.0454,
+        "T28": 0.0612,
+        "Term": 12
+    },
+    {
+        "T14": 0.0036,
+        "T16": 0.0112,
+        "T18": 0.0194,
+        "T20": 0.028,
+        "T24": 0.0456,
+        "T28": 0.0626,
+        "Term": 13
+    },
+    {
+        "T14": 0,
+        "T16": 0.0082,
+        "T18": 0.017,
+        "T20": 0.0263,
+        "T24": 0.0454,
+        "T28": 0.0638,
+        "Term": 14
+    },
+    {
+        "T14": 0,
+        "T16": 0.0045,
+        "T18": 0.0141,
+        "T20": 0.0241,
+        "T24": 0.0447,
+        "T28": 0.0646,
+        "Term": 15
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0.0103,
+        "T20": 0.0212,
+        "T24": 0.0435,
+        "T28": 0.065,
+        "Term": 16
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0.0057,
+        "T20": 0.0174,
+        "T24": 0.0416,
+        "T28": 0.0649,
+        "Term": 17
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0,
+        "T20": 0.0127,
+        "T24": 0.0389,
+        "T28": 0.0642,
+        "Term": 18
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0,
+        "T20": 0.007,
+        "T24": 0.0354,
+        "T28": 0.0627,
+        "Term": 19
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0,
+        "T20": 0.0,
+        "T24": 0.0308,
+        "T28": 0.0605,
+        "Term": 20
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0,
+        "T20": 0.0,
+        "T24": 0.0251,
+        "T28": 0.0574,
+        "Term": 21
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0,
+        "T20": 0.0,
+        "T24": 0.0182,
+        "T28": 0.0532,
+        "Term": 22
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0,
+        "T20": 0.0,
+        "T24": 0.0099,
+        "T28": 0.048,
+        "Term": 23
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.0415,
+        "Term": 24
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.0336,
+        "Term": 25
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.0242,
+        "Term": 26
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.0131,
+        "Term": 27
+    },
+    {
+        "T14": 0,
+        "T16": 0,
+        "T18": 0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.0,
+        "Term": 28
+    }
+];
+    const ssv_f2_data = [
+    {
+        "T14": 0.3702,
+        "T16": 0.3163,
+        "T18": 0.2696,
+        "T20": 0.2291,
+        "T24": 0.164,
+        "T28": 0.1159,
+        "Term": 1
+    },
+    {
+        "T14": 0.3992,
+        "T16": 0.3411,
+        "T18": 0.2907,
+        "T20": 0.2471,
+        "T24": 0.1769,
+        "T28": 0.125,
+        "Term": 2
+    },
+    {
+        "T14": 0.4306,
+        "T16": 0.3679,
+        "T18": 0.3135,
+        "T20": 0.2665,
+        "T24": 0.1908,
+        "T28": 0.1348,
+        "Term": 3
+    },
+    {
+        "T14": 0.4644,
+        "T16": 0.3968,
+        "T18": 0.3382,
+        "T20": 0.2875,
+        "T24": 0.2058,
+        "T28": 0.1454,
+        "Term": 4
+    },
+    {
+        "T14": 0.501,
+        "T16": 0.428,
+        "T18": 0.3648,
+        "T20": 0.3101,
+        "T24": 0.222,
+        "T28": 0.1568,
+        "Term": 5
+    },
+    {
+        "T14": 0.5405,
+        "T16": 0.4618,
+        "T18": 0.3936,
+        "T20": 0.3346,
+        "T24": 0.2395,
+        "T28": 0.1692,
+        "Term": 6
+    },
+    {
+        "T14": 0.5833,
+        "T16": 0.4983,
+        "T18": 0.4247,
+        "T20": 0.361,
+        "T24": 0.2584,
+        "T28": 0.1825,
+        "Term": 7
+    },
+    {
+        "T14": 0.6295,
+        "T16": 0.5378,
+        "T18": 0.4584,
+        "T20": 0.3896,
+        "T24": 0.2789,
+        "T28": 0.197,
+        "Term": 8
+    },
+    {
+        "T14": 0.6795,
+        "T16": 0.5805,
+        "T18": 0.4948,
+        "T20": 0.4206,
+        "T24": 0.3011,
+        "T28": 0.2127,
+        "Term": 9
+    },
+    {
+        "T14": 0.7337,
+        "T16": 0.6268,
+        "T18": 0.5342,
+        "T20": 0.4541,
+        "T24": 0.3251,
+        "T28": 0.2296,
+        "Term": 10
+    },
+    {
+        "T14": 0.7923,
+        "T16": 0.6769,
+        "T18": 0.577,
+        "T20": 0.4904,
+        "T24": 0.3511,
+        "T28": 0.248,
+        "Term": 11
+    },
+    {
+        "T14": 0.8559,
+        "T16": 0.7313,
+        "T18": 0.6233,
+        "T20": 0.5298,
+        "T24": 0.3793,
+        "T28": 0.2679,
+        "Term": 12
+    },
+    {
+        "T14": 0.925,
+        "T16": 0.7902,
+        "T18": 0.6736,
+        "T20": 0.5725,
+        "T24": 0.4098,
+        "T28": 0.2895,
+        "Term": 13
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.8543,
+        "T18": 0.7282,
+        "T20": 0.6189,
+        "T24": 0.4431,
+        "T28": 0.313,
+        "Term": 14
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.9241,
+        "T18": 0.7876,
+        "T20": 0.6695,
+        "T24": 0.4792,
+        "T28": 0.3385,
+        "Term": 15
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.8523,
+        "T20": 0.7245,
+        "T24": 0.5186,
+        "T28": 0.3663,
+        "Term": 16
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.9229,
+        "T20": 0.7845,
+        "T24": 0.5616,
+        "T28": 0.3967,
+        "Term": 17
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.85,
+        "T24": 0.6085,
+        "T28": 0.4298,
+        "Term": 18
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.9216,
+        "T24": 0.6598,
+        "T28": 0.466,
+        "Term": 19
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T24": 0.7159,
+        "T28": 0.5056,
+        "Term": 20
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T24": 0.7773,
+        "T28": 0.5491,
+        "Term": 21
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T24": 0.8448,
+        "T28": 0.5967,
+        "Term": 22
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T24": 0.9187,
+        "T28": 0.6489,
+        "Term": 23
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.7063,
+        "Term": 24
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.7694,
+        "Term": 25
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.8389,
+        "Term": 26
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.9155,
+        "Term": 27
+    },
+    {
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T24": 0.0,
+        "T28": 0.0,
+        "Term": 28
+    }
+];
+    const ssv_f3_data = [
+    {
+        "T10": 0.5046,
+        "T12": 0.4325,
+        "T14": 0.3702,
+        "T16": 0.3163,
+        "T18": 0.2696,
+        "T20": 0.2291,
+        "T22": 0.1942,
+        "T24": 0.164,
+        "T26": 0.1381,
+        "Term": 1
+    },
+    {
+        "T10": 0.5442,
+        "T12": 0.4664,
+        "T14": 0.3992,
+        "T16": 0.3411,
+        "T18": 0.2907,
+        "T20": 0.2471,
+        "T22": 0.2094,
+        "T24": 0.1769,
+        "T26": 0.1489,
+        "Term": 2
+    },
+    {
+        "T10": 0.5869,
+        "T12": 0.5031,
+        "T14": 0.4306,
+        "T16": 0.3679,
+        "T18": 0.3135,
+        "T20": 0.2665,
+        "T22": 0.2259,
+        "T24": 0.1908,
+        "T26": 0.1606,
+        "Term": 3
+    },
+    {
+        "T10": 0.6331,
+        "T12": 0.5426,
+        "T14": 0.4644,
+        "T16": 0.3968,
+        "T18": 0.3382,
+        "T20": 0.2875,
+        "T22": 0.2436,
+        "T24": 0.2058,
+        "T26": 0.1733,
+        "Term": 4
+    },
+    {
+        "T10": 0.6829,
+        "T12": 0.5853,
+        "T14": 0.501,
+        "T16": 0.428,
+        "T18": 0.3648,
+        "T20": 0.3101,
+        "T22": 0.2628,
+        "T24": 0.222,
+        "T26": 0.1869,
+        "Term": 5
+    },
+    {
+        "T10": 0.7368,
+        "T12": 0.6315,
+        "T14": 0.5405,
+        "T16": 0.4618,
+        "T18": 0.3936,
+        "T20": 0.3346,
+        "T22": 0.2835,
+        "T24": 0.2395,
+        "T26": 0.2017,
+        "Term": 6
+    },
+    {
+        "T10": 0.795,
+        "T12": 0.6815,
+        "T14": 0.5833,
+        "T16": 0.4983,
+        "T18": 0.4247,
+        "T20": 0.361,
+        "T22": 0.3059,
+        "T24": 0.2584,
+        "T26": 0.2176,
+        "Term": 7
+    },
+    {
+        "T10": 0.858,
+        "T12": 0.7355,
+        "T14": 0.6295,
+        "T16": 0.5378,
+        "T18": 0.4584,
+        "T20": 0.3896,
+        "T22": 0.3302,
+        "T24": 0.2789,
+        "T26": 0.2348,
+        "Term": 8
+    },
+    {
+        "T10": 0.9262,
+        "T12": 0.7939,
+        "T14": 0.6795,
+        "T16": 0.5805,
+        "T18": 0.4948,
+        "T20": 0.4206,
+        "T22": 0.3564,
+        "T24": 0.3011,
+        "T26": 0.2535,
+        "Term": 9
+    },
+    {
+        "T10": 1.0,
+        "T12": 0.8571,
+        "T14": 0.7337,
+        "T16": 0.6268,
+        "T18": 0.5342,
+        "T20": 0.4541,
+        "T22": 0.3848,
+        "T24": 0.3251,
+        "T26": 0.2737,
+        "Term": 10
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.9257,
+        "T14": 0.7923,
+        "T16": 0.6769,
+        "T18": 0.577,
+        "T20": 0.4904,
+        "T22": 0.4156,
+        "T24": 0.3511,
+        "T26": 0.2956,
+        "Term": 11
+    },
+    {
+        "T10": 0.0,
+        "T12": 1.0,
+        "T14": 0.8559,
+        "T16": 0.7313,
+        "T18": 0.6233,
+        "T20": 0.5298,
+        "T22": 0.449,
+        "T24": 0.3793,
+        "T26": 0.3193,
+        "Term": 12
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.925,
+        "T16": 0.7902,
+        "T18": 0.6736,
+        "T20": 0.5725,
+        "T22": 0.4852,
+        "T24": 0.4098,
+        "T26": 0.3451,
+        "Term": 13
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 1.0,
+        "T16": 0.8543,
+        "T18": 0.7282,
+        "T20": 0.6189,
+        "T22": 0.5245,
+        "T24": 0.4431,
+        "T26": 0.3731,
+        "Term": 14
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.9241,
+        "T18": 0.7876,
+        "T20": 0.6695,
+        "T22": 0.5673,
+        "T24": 0.4792,
+        "T26": 0.4035,
+        "Term": 15
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 1.0,
+        "T18": 0.8523,
+        "T20": 0.7245,
+        "T22": 0.6139,
+        "T24": 0.5186,
+        "T26": 0.4367,
+        "Term": 16
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.9229,
+        "T20": 0.7845,
+        "T22": 0.6648,
+        "T24": 0.5616,
+        "T26": 0.4728,
+        "Term": 17
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 1.0,
+        "T20": 0.85,
+        "T22": 0.7203,
+        "T24": 0.6085,
+        "T26": 0.5123,
+        "Term": 18
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.9216,
+        "T22": 0.781,
+        "T24": 0.6598,
+        "T26": 0.5555,
+        "Term": 19
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 1.0,
+        "T22": 0.8474,
+        "T24": 0.7159,
+        "T26": 0.6027,
+        "Term": 20
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T22": 0.9202,
+        "T24": 0.7773,
+        "T26": 0.6545,
+        "Term": 21
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T22": 1.0,
+        "T24": 0.8448,
+        "T26": 0.7112,
+        "Term": 22
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T22": 0.0,
+        "T24": 0.9187,
+        "T26": 0.7735,
+        "Term": 23
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T22": 0.0,
+        "T24": 1.0,
+        "T26": 0.842,
+        "Term": 24
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T22": 0.0,
+        "T24": 0.0,
+        "T26": 0.9172,
+        "Term": 25
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T22": 0.0,
+        "T24": 0.0,
+        "T26": 1.0,
+        "Term": 26
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T22": 0.0,
+        "T24": 0.0,
+        "T26": 0.0,
+        "Term": 27
+    },
+    {
+        "T10": 0.0,
+        "T12": 0.0,
+        "T14": 0.0,
+        "T16": 0.0,
+        "T18": 0.0,
+        "T20": 0.0,
+        "T22": 0.0,
+        "T24": 0.0,
+        "T26": 0.0,
+        "Term": 28
+    }
+];
+
+    // =========================================================
+    // --- SCRIPT LOGIC for BIMA SHREE (748) ---
+    // =========================================================
+    
+    const formatCurrency = (num) => `₹ ${num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    
+    const triggerInputs = ['doc', 'term-ppt', 'sa', 'annualPremium', 'bonusRate'];
+    triggerInputs.forEach(id => document.getElementById(id).addEventListener('input', updateAutoFields));
+
+    function updateAutoFields() {
+        const doc = document.getElementById("doc").value;
+        const sa = parseFloat(document.getElementById("sa").value) || 0;
+        const annualPremium = parseFloat(document.getElementById("annualPremium").value) || 0;
+        const [policyTerm, ppt] = document.getElementById("term-ppt").value.split(',').map(Number);
+        
+        if (!doc) return;
+
+        const startDate = new Date(doc);
+        const now = new Date();
+        const diff = now.getTime() - startDate.getTime();
+        const policyYear = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+        document.getElementById('policyYear-auto').value = policyYear;
+        
+        const premiumsPaidYears = Math.min(policyYear, ppt);
+        const totalPremiumsPaid = annualPremium * premiumsPaidYears;
+        document.getElementById('premiumsPaid-auto').value = formatCurrency(totalPremiumsPaid);
+
+        const first5YearsGA = (sa / 1000) * 50 * Math.min(premiumsPaidYears, 5);
+        const remainingYears = Math.max(0, premiumsPaidYears - 5);
+        const nextYearsGA = (sa / 1000) * 55 * remainingYears;
+        const totalGa = first5YearsGA + nextYearsGA;
+        document.getElementById('totalGa-auto').value = formatCurrency(totalGa);
+
+        const survivalBenefitsPaid = calculateSurvivalBenefits(policyYear, policyTerm, sa);
+        document.getElementById('sbPaid-auto').value = formatCurrency(survivalBenefitsPaid);
+    }
+
+    function calculateSurvivalBenefits(policyYear, term, sa) {
+        let sbPaid = 0;
+        const sbSchedules = {
+            14: { years: [10, 12], rate: 0.30 }, 16: { years: [12, 14], rate: 0.35 },
+            18: { years: [14, 16], rate: 0.40 }, 20: { years: [16, 18], rate: 0.45 },
+            24: { years: [20, 22], rate: 0.45 }, 28: { years: [24, 26], rate: 0.45 }
+        };
+        const schedule = sbSchedules[term];
+        if (schedule) {
+            schedule.years.forEach(year => { if (policyYear >= year) sbPaid += schedule.rate * sa; });
+        }
+        return sbPaid;
+    }
+    
+    document.getElementById('sv-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        calculateSurrenderValue();
+    });
+
+    function calculateSurrenderValue() {
+        const resultDiv = document.getElementById("result");
+        
+        const [policyTerm, ppt] = document.getElementById("term-ppt").value.split(',').map(Number);
+        const sa = parseFloat(document.getElementById("sa").value);
+        const doc = document.getElementById("doc").value;
+        const ageAtEntry = parseInt(document.getElementById("ageAtEntry").value);
+        
+        if (!validateInputs(ageAtEntry, policyTerm, doc, sa)) return;
+
+        const policyYear = parseInt(document.getElementById('policyYear-auto').value);
+        const annualPremium = parseFloat(document.getElementById("annualPremium").value);
+        const bonusRate = parseFloat(document.getElementById("bonusRate").value) || 0;
+        
+        if (policyYear < 2) {
+            displayError("Policy cannot be surrendered before 2 full years of premium payment.");
+            return;
+        }
+
+        const premiumsPaidYears = Math.min(policyYear, ppt);
+        const totalPremiumsPaid = annualPremium * premiumsPaidYears;
+        
+        const first5YearsGA = (sa / 1000) * 50 * Math.min(premiumsPaidYears, 5);
+        const remainingYears = Math.max(0, premiumsPaidYears - 5);
+        const nextYearsGA = (sa / 1000) * 55 * remainingYears;
+        const totalGa = first5YearsGA + nextYearsGA;
+
+        const totalBonus = (bonusRate * sa / 1000) * policyYear; // Calculate bonus even if rate is 0
+        
+        const survivalBenefitsPaid = calculateSurvivalBenefits(policyYear, policyTerm, sa);
+
+        // --- 1. Calculate GSV ---
+        const netPremiumsPaidForGSV = totalPremiumsPaid - survivalBenefitsPaid;
+        const gsvFactorP = getFactor(gsv_p_data, policyYear, policyTerm);
+        const gsvFactorGA = getFactor(gsv_ga_data, policyYear, policyTerm);
+        const gsv = (gsvFactorP * netPremiumsPaidForGSV) + (gsvFactorGA * totalGa);
+
+        // --- 2. Calculate SSV ---
+        const paidUpSA = (premiumsPaidYears / ppt) * (sa - survivalBenefitsPaid);
+        const f1 = getFactor(ssv_f1_data, policyYear, policyTerm);
+        const f2 = getFactor(ssv_f2_data, policyYear, policyTerm);
+        const f3 = getFactor(ssv_f3_data, policyYear, policyTerm);
+        const ssv = (f1 * paidUpSA) + (f2 * totalBonus) + (f3 * totalGa);
+
+        // --- 3. Final Surrender Value ---
+        const surrenderValue = Math.max(gsv, ssv);
+
+        resultDiv.innerHTML = `
+            <h3>Total Surrender Value is:</h3>
+            <h3 style="font-size: 28px;">${formatCurrency(surrenderValue)}</h3>
+            <div class="output-details">
+                (This is the higher of GSV & SSV)<br>
+                GSV Calculated: ${formatCurrency(gsv)} | SSV Calculated: ${formatCurrency(ssv)}
+            </div>
+        `;
+    }
+
+    function validateInputs(age, term, doc, sa) {
+        const errorDiv = document.getElementById("error-message");
+        errorDiv.style.display = 'none';
+
+        if (!doc || isNaN(age) || isNaN(sa)) {
+            displayError("Please fill all required fields correctly.");
+            return false;
+        }
+        
+        const termAgeLimits = { 14: 55, 16: 53, 18: 51, 20: 49, 24: 45, 28: 41 };
+        if (age > termAgeLimits[term]) {
+            displayError(`For a ${term}-year term, maximum entry age is ${termAgeLimits[term]}.`);
+            return false;
+        }
+        if (age + term > 69) {
+            displayError(`Maturity Age (${age + term}) cannot exceed 69 years.`);
+            return false;
+        }
+        if (sa < 1000000) {
+            displayError("Minimum Sum Assured for Bima Shree is ₹10,00,000.");
+            return false;
+        }
+        return true;
+    }
+
+    function displayError(message) {
+        const errorDiv = document.getElementById("error-message");
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+    }
+
+    function getFactor(data, policyYear, term) {
+        if (!data || data.length === 0) return 0;
+        const row = data.find(item => item.Term === policyYear);
+        if (!row) return 0;
+        const factor = row[`T${term}`];
+        return factor !== null && factor !== undefined ? parseFloat(factor) : 0;
+    }
+    
+    updateAutoFields();
+</script>
+
+</body>
+</html>

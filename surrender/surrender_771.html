@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC Surrender Value Calculator - Jeevan Utsav (771)</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; padding: 20px; }
+    .container { background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); width: 100%; max-width: 600px; }
+    h2 { text-align: center; color: #003366; margin-top: 0; border-bottom: 2px solid #ffd700; padding-bottom: 10px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px 20px; margin-bottom: 20px; }
+    .grid .full-width { grid-column: 1 / -1; }
+    label { font-weight: 500; color: #333; display: block; margin-bottom: 5px; }
+    input, select { width: 100%; padding: 9px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+    input:read-only, input:disabled { background-color: #e9ecef; cursor: not-allowed; }
+    button { width: 100%; padding: 12px; background-color: #003366; color: white; border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+    button:hover { background-color: #0055a4; }
+    .output { margin-top: 25px; padding: 20px; border-top: 2px solid #003366; background-color: #f9f9f9; border-radius: 5px; }
+    .output h3 { text-align: center; margin: 0; font-size: 24px; color: #003366; }
+    .output-details { font-size: 14px; color: #555; text-align: center; margin-top: 10px; }
+    .error-message { color: #D8000C; background-color: #FFD2D2; padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; display: none; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Surrender Value Calculator (Jeevan Utsav - 771)</h2>
+    <div id="error-message" class="error-message"></div>
+    <form id="sv-form">
+        <div class="grid">
+            <!-- MANUAL INPUTS -->
+            <div class="full-width">
+                <label for="doc">Date of Commencement</label>
+                <input type="date" id="doc" required>
+            </div>
+             <div>
+                <label for="ppt">Premium Paying Term (5-16)</label>
+                <input type="number" id="ppt" placeholder="5 to 16" min="5" max="16" required>
+            </div>
+            <div>
+                <label for="ageAtEntry">Age at Entry</label>
+                <input type="number" id="ageAtEntry" placeholder="e.g., 30" required>
+            </div>
+            <div>
+                <label for="sa">Sum Assured</label>
+                <input type="number" id="sa" placeholder="e.g., 500000" required>
+            </div>
+             <div>
+                <label for="annualPremium">Annual Premium</label>
+                <input type="number" id="annualPremium" placeholder="e.g., 55000" required>
+            </div>
+            <div class="full-width">
+                <label for="gaRate">Guaranteed Additions Rate (per 1000)</label>
+                <input type="number" id="gaRate" value="40" readonly>
+            </div>
+
+            <!-- AUTO-POPULATED FIELDS -->
+            <div class="full-width" style="border-top: 1px dashed #ccc; padding-top: 15px; margin-top: 10px;">
+                <label>Policy Term (Maturity at 100)</label>
+                <input type="text" id="policyTerm-auto" disabled>
+            </div>
+            <div>
+                <label>Current Policy Year</label>
+                <input type="number" id="policyYear-auto" disabled>
+            </div>
+             <div>
+                <label>Total Premiums Paid</label>
+                <input type="text" id="premiumsPaid-auto" disabled>
+            </div>
+             <div>
+                <label>Total GA Accrued</label>
+                <input type="text" id="totalGa-auto" disabled>
+            </div>
+             <div>
+                <label>Survival Benefits Paid</label>
+                <input type="text" id="sbPaid-auto" disabled>
+            </div>
+        </div>
+
+        <button type="submit">Calculate Surrender Value</button>
+    </form>
+
+    <div class="output" id="result"></div>
+</div>
+
+<script>
+    // ====================================================================
+    // --- PASTE YOUR JSON DATA ARRAYS IN THESE SECTIONS ---
+    // If a plan doesn't have a factor (e.g., no Bonus), you can leave the array empty.
+    // ====================================================================
+
+    const gsv_p_data = [];
+    const gsv_b_data = []; // Not applicable for Jeevan Utsav
+    const gsv_ga_data = [];
+    
+    const ssv_f1_data = [];
+    const ssv_f2_data = []; // Not applicable for Jeevan Utsav
+    const ssv_f3_data = [];
+
+    // =========================================================
+    // --- SCRIPT LOGIC for JEEVAN UTSAV (771) ---
+    // =========================================================
+    
+    const formatCurrency = (num) => `₹ ${num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    
+    const triggerInputs = ['doc', 'ageAtEntry', 'sa', 'annualPremium', 'ppt'];
+    triggerInputs.forEach(id => {
+        document.getElementById(id).addEventListener('input', updateAutoFields);
+    });
+
+    function updateAutoFields() {
+        const doc = document.getElementById("doc").value;
+        const ageAtEntry = parseInt(document.getElementById("ageAtEntry").value) || 0;
+        const sa = parseFloat(document.getElementById("sa").value) || 0;
+        const annualPremium = parseFloat(document.getElementById("annualPremium").value) || 0;
+        const gaRate = parseFloat(document.getElementById("gaRate").value) || 0;
+        const ppt = parseInt(document.getElementById("ppt").value);
+
+        if (!doc || isNaN(ageAtEntry)) return;
+        
+        const policyTerm = 100 - ageAtEntry;
+        document.getElementById('policyTerm-auto').value = `${policyTerm} Years`;
+
+        const startDate = new Date(doc);
+        const now = new Date();
+        const diff = now.getTime() - startDate.getTime();
+        const policyYear = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+        document.getElementById('policyYear-auto').value = policyYear;
+        
+        const premiumsPaidYears = Math.min(policyYear, ppt);
+        const totalPremiumsPaid = annualPremium * premiumsPaidYears;
+        document.getElementById('premiumsPaid-auto').value = formatCurrency(totalPremiumsPaid);
+
+        const totalGa = (gaRate * sa / 1000) * premiumsPaidYears; // GA accrues only during PPT
+        document.getElementById('totalGa-auto').value = formatCurrency(totalGa);
+
+        // --- Survival Benefit (Annual Income) Calculation for Plan 771 ---
+        const incomeStartYear = { 5: 11, 6: 11, 7: 11, 8: 11, 9: 12, 10: 13, 11: 14, 12: 15, 13: 16, 14: 17, 15: 18, 16: 19 }[ppt] || 0;
+        let survivalBenefitsPaid = 0;
+        if (policyYear >= incomeStartYear) {
+            const sbYears = policyYear - (incomeStartYear - 1);
+            survivalBenefitsPaid = sbYears * (sa * 0.10);
+        }
+        document.getElementById('sbPaid-auto').value = formatCurrency(survivalBenefitsPaid);
+    }
+    
+    document.getElementById('sv-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        calculateSurrenderValue();
+    });
+
+    function calculateSurrenderValue() {
+        const resultDiv = document.getElementById("result");
+        
+        const ageAtEntry = parseInt(document.getElementById("ageAtEntry").value);
+        const sa = parseFloat(document.getElementById("sa").value);
+        const doc = document.getElementById("doc").value;
+        const ppt = parseInt(document.getElementById("ppt").value);
+        const policyTerm = 100 - ageAtEntry;
+
+        if (!validateInputs(ageAtEntry, ppt, doc, sa)) return;
+
+        const policyYear = parseInt(document.getElementById('policyYear-auto').value);
+        const annualPremium = parseFloat(document.getElementById("annualPremium").value);
+        const gaRate = parseFloat(document.getElementById("gaRate").value);
+        const currentAge = ageAtEntry + policyYear;
+
+        if (policyYear < 2) {
+            displayError("Policy cannot be surrendered before 2 full years of premium payment.");
+            return;
+        }
+
+        const premiumsPaidYears = Math.min(policyYear, ppt);
+        const totalPremiumsPaid = annualPremium * premiumsPaidYears;
+        const totalGa = (gaRate * sa / 1000) * premiumsPaidYears;
+        const totalBonus = 0; // This plan has GA, not bonus
+
+        const incomeStartYear = { 5: 11, 6: 11, 7: 11, 8: 11, 9: 12, 10: 13, 11: 14, 12: 15, 13: 16, 14: 17, 15: 18, 16: 19 }[ppt] || 0;
+        let survivalBenefitsPaid = 0;
+        if (policyYear >= incomeStartYear) {
+            survivalBenefitsPaid = (policyYear - (incomeStartYear - 1)) * (sa * 0.10);
+        }
+
+        // --- 1. Calculate GSV (Guaranteed Surrender Value) ---
+        const gsvFactorP = getFactor(gsv_p_data, policyYear, policyTerm);
+        const gsvFactorGA = getFactor(gsv_ga_data, policyYear, policyTerm);
+        const gsv = (gsvFactorP * totalPremiumsPaid) + (gsvFactorGA * totalGa);
+
+        // --- 2. Calculate SSV (Special Surrender Value) ---
+        const paidUpSA = (premiumsPaidYears / ppt) * sa;
+        const f1 = getFactor(ssv_f1_data, policyYear, policyTerm);
+        const f3 = getFactorByAge(ssv_f3_data, currentAge);
+        const ssv = (f1 * paidUpSA) + (f3 * totalGa);
+
+        // --- 3. Determine Final Surrender Value ---
+        const surrenderValue = Math.max(gsv, ssv);
+
+        // --- 4. Display the Final Output ---
+        resultDiv.innerHTML = `
+            <h3>Total Surrender Value is:</h3>
+            <h3 style="font-size: 28px;">${formatCurrency(surrenderValue)}</h3>
+            <div class="output-details">
+                (This is the higher of GSV & SSV)<br>
+                GSV Calculated: ${formatCurrency(gsv)} | SSV Calculated: ${formatCurrency(ssv)}
+            </div>
+        `;
+    }
+
+    function validateInputs(age, ppt, doc, sa) {
+        const errorDiv = document.getElementById("error-message");
+        errorDiv.style.display = 'none';
+
+        if (!doc || isNaN(age) || isNaN(ppt) || isNaN(sa)) {
+            displayError("Please fill all manual input fields correctly.");
+            return false;
+        }
+        if (age > 65) {
+            displayError("Maximum Entry Age is 65 years.");
+            return false;
+        }
+         if (sa < 500000) {
+            displayError("Minimum Sum Assured is 5,00,000.");
+            return false;
+        }
+        return true;
+    }
+
+    function displayError(message) {
+        const errorDiv = document.getElementById("error-message");
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+    }
+
+    function getFactor(data, policyYear, term) {
+        if (!data || data.length === 0) return 0;
+        const row = data.find(item => item.Term === policyYear);
+        if (!row) return 0;
+        const factor = row[`T${term}`];
+        return factor !== null && factor !== undefined ? parseFloat(factor) : 0;
+    }
+
+    function getFactorByAge(data, age) {
+        if (!data || data.length === 0) return 0;
+        const row = data.find(item => item.Age === age);
+        if (!row) return 0;
+        return row.F3 || 0;
+    }
+    
+    updateAutoFields();
+</script>
+
+</body>
+</html>

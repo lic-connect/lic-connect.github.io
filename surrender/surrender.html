@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Calculator Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #1a237e; /* Indigo Night */
+            --secondary-color: #3f51b5; /* Indigo Day */
+            --accent-color: #fdd835; /* Vivid Yellow */
+            --glow-color: rgba(253, 216, 53, 0.7);
+            --text-color: #e8eaf6;
+            --bg-image: linear-gradient(135deg, #000000 0%, #1a237e 50%, #3949ab 100%);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-image);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .portal-container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            animation: floatIn 1s ease-out;
+        }
+        
+        @keyframes floatIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .portal-header .icon {
+            font-size: 4rem;
+            color: var(--accent-color);
+            text-shadow: 0 0 15px var(--glow-color);
+            margin-bottom: 15px;
+        }
+
+        .portal-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .portal-header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-align: left;
+        }
+
+        #planSelector {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 2px solid var(--accent-color);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fdd835' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.5em;
+        }
+        
+        #planSelector:focus { outline: none; box-shadow: 0 0 15px var(--glow-color); }
+        #planSelector option { background-color: var(--primary-color); }
+
+        #goToCalculatorBtn {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-color);
+            background: var(--accent-color);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 30px;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 20px -5px var(--glow-color);
+        }
+
+        #goToCalculatorBtn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px -5px var(--glow-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="portal-container">
+        <div class="portal-header">
+            <div class="icon"><i class="fas fa-rocket"></i></div>
+            <h1>LIC Calculator Portal</h1>
+            <p>Select your plan to launch the specific surrender value calculator.</p>
+        </div>
+        
+        <div class="input-group">
+            <label for="planSelector">Choose Your Plan:</label>
+            <select id="planSelector">
+                <option value="">-- Select a Plan to Proceed --</option>
+            </select>
+        </div>
+
+        <button id="goToCalculatorBtn">Go to Calculator <i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // =========================================================================
+        //  STEP 1: UPDATE THIS LIST WITH YOUR EXACT FILE NAMES
+        //  The 'key' is the plan number, the 'value' is the HTML file link.
+        // =================================M========================================
+        const planLinks = {
+            '714': { name: "New Endowment Plan", category: 'Endowment Plans', link: 'surrender_714.html' },
+            '715': { name: "New Jeevan Anand", category: 'Endowment Plans', link: 'surrender_715.html' },
+            '736': { name: "Jeevan Labh", category: 'Endowment Plans', link: 'surrender_736.html' },
+            '733': { name: "Jeevan Lakshya", category: 'Endowment Plans', link: 'surrender_733.html' },
+            '774': { name: "Amritbaal", category: 'Endowment Plans', link: 'surrender_774.html' },
+            '760': { name: "Bima Jyoti", category: 'Endowment Plans', link: 'surrender_760.html' },
+            '768': { name: "Jeevan Azad", category: 'Endowment Plans', link: 'surrender_768.html' },
+            '912': { name: "Nav Jeevan Shree", category: 'Endowment Plans', link: 'surrender_912.html' },
+            
+            '745': { name: "Jeevan Umang", category: '🌳 Whole Life Plans', link: 'surrender_745.html' },
+            '771': { name: "Jeevan Utsav", category: '🌳 Whole Life Plans', link: 'surrender_771.html' },
+
+            '720': { name: "New Money Back Plan-20 Years", category: '💰 Money Back Plans', link: 'surrender_720.html' },
+            '721': { name: "New Money Back Plan-25 Years", category: '💰 Money Back Plans', link: 'surrender_721.html' },
+            '732': { name: "New Children's Money Back Plan", category: '💰 Money Back Plans', link: 'surrender_732.html' },
+            '748': { name: "Bima Shree", category: '💰 Money Back Plans', link: 'surrender_748.html' },
+            '764': { name: "Bima Ratna", category: '💰 Money Back Plans', link: 'surrender_764.html' },
+
+            // Add your 16th plan here, for example:
+            // '859': { name: "Saral Jeevan Bima", category: '🧾 Term Assurance Plans', link: 'plan-859-calculator.html' },
+        };
+        // =========================================================================
+
+        const planSelector = document.getElementById('planSelector');
+        const goToCalculatorBtn = document.getElementById('goToCalculatorBtn');
+
+        // Function to populate the dropdown from the planLinks object
+        function populateSelector() {
+            const categories = {};
+            for (const planId in planLinks) {
+                const plan = planLinks[planId];
+                if (!categories[plan.category]) {
+                    categories[plan.category] = [];
+                }
+                categories[plan.category].push({ id: planId, name: plan.name });
+            }
+            
+            for (const categoryName in categories) {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = `--- ${categoryName} ---`;
+                categories[categoryName].forEach(plan => {
+                    const option = document.createElement('option');
+                    option.value = plan.id;
+                    option.textContent = `${plan.id} - ${plan.name}`;
+                    optgroup.appendChild(option);
+                });
+                planSelector.appendChild(optgroup);
+            }
+        }
+
+        // Event listener for the button
+        goToCalculatorBtn.addEventListener('click', () => {
+            const selectedPlanId = planSelector.value;
+
+            if (!selectedPlanId) {
+                alert('Please select a plan from the dropdown list first.');
+                return;
+            }
+
+            const destinationLink = planLinks[selectedPlanId].link;
+
+            if (destinationLink) {
+                // Redirect the user to the selected calculator page
+                window.location.href = destinationLink;
+            } else {
+                alert('Error: Could not find the link for the selected plan.');
+            }
+        });
+
+        // Initial setup
+        populateSelector();
+    });
+    </script>
+</body>
+</html>

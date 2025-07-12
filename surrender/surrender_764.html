@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LIC Bima Ratna (764) - Surrender Value Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            padding: 40px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h2 {
+            background-color: #1a237e;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        input[readonly] {
+            background-color: #eaeaea;
+        }
+
+        button {
+            background-color: #0066cc;
+            color: white;
+            padding: 12px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #004999;
+        }
+
+        .output {
+            background-color: white;
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .output h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #1a237e;
+        }
+    </style>
+</head>
+<body>
+
+  <h2>LIC Bima Ratna (764) - Surrender Value Calculator</h2>
+
+  <div class="form-group">
+    <label for="doc">Date of Commencement:</label>
+    <input type="date" id="doc" oninput="updateAutoFields()" required>
+  </div>
+
+  <div class="form-group">
+    <label for="sa">Sum Assured (₹):</label>
+    <input type="number" id="sa" min="500000" step="25000" oninput="updateAutoFields()" required>
+  </div>
+
+  <div class="form-group">
+    <label for="term">Policy Term (Years):</label>
+    <select id="term" onchange="autoPopulatePPT()" required>
+      <option value="15">15</option>
+      <option value="20">20</option>
+      <option value="25">25</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="ppt">Premium Payment Term (PPT) (Auto):</label>
+    <input type="number" id="ppt" readonly required>
+  </div>
+
+  <div class="form-group">
+    <label for="mode">Mode of Payment:</label>
+    <select id="mode" onchange="updateAutoFields()" required>
+      <option value="1">Yearly</option>
+      <option value="2">Half-Yearly</option>
+      <option value="4">Quarterly</option>
+      <option value="12">Monthly</option>
+    </select>
+  </div>
+
+   <div class="form-group">
+    <label for="age">Age at Entry (Years):</label>
+    <input type="number" id="age" min="0" max="65" required>
+  </div>
+
+  <div class="form-group">
+    <label for="gaRate">GA Rate (per 1000 SA):</label>
+    <input type="number" id="gaRate" value="50" oninput="updateAutoFields()" required>
+  </div>
+
+  <div class="form-group">
+    <label for="annualPremium">Annual Premium (₹):</label>
+    <input type="number" id="annualPremium" oninput="updateAutoFields()" required>
+  </div>
+
+  <div class="form-group">
+    <label for="policyYear">Policy Year (Auto):</label>
+    <input type="number" id="policyYear" readonly>
+  </div>
+
+  <div class="form-group">
+    <label for="totalPremiumPaid">Total Premium Paid (Auto) (₹):</label>
+    <input type="number" id="totalPremiumPaid" readonly>
+  </div>
+
+  <div class="form-group">
+    <label for="accruedGA">Accrued Guaranteed Addition (Auto) (₹):</label>
+    <input type="text" id="accruedGA" readonly>
+  </div>
+
+ //<button onclick="calculateSV()">Calculate Surrender Value</button>
+
+  <div class="output" id="result"></div>
+
+  <script>
+    // ====================================================================
+    // --- PASTE YOUR JSON DATA ARRAYS IN THESE SECTIONS ---
+    // ====================================================================
+
+     // --- PASTE GSV-P DATA HERE ---
+   const gsvPFactors =[
+    {
+        "T15": "0.0000",
+        "T20": 0.0,
+        "T25": 0.0,
+        "Term": 1
+    },
+    {
+        "T15": "0.3000",
+        "T20": 0.3,
+        "T25": 0.3,
+        "Term": 2
+    },
+    {
+        "T15": "0.3500",
+        "T20": 0.35,
+        "T25": 0.35,
+        "Term": 3
+    },
+    {
+        "T15": "0.5000",
+        "T20": 0.5,
+        "T25": 0.5,
+        "Term": 4
+    },
+    {
+        "T15": "0.5000",
+        "T20": 0.5,
+        "T25": 0.5,
+        "Term": 5
+    },
+    {
+        "T15": "0.5000",
+        "T20": 0.5,
+        "T25": 0.5,
+        "Term": 6
+    },
+    {
+        "T15": "0.5000",
+        "T20": 0.5,
+        "T25": 0.5,
+        "Term": 7
+    },
+    {
+        "T15": "0.5429",
+        "T20": 0.525,
+        "T25": 0.5176,
+        "Term": 8
+    },
+    {
+        "T15": "0.5857",
+        "T20": 0.55,
+        "T25": 0.5353,
+        "Term": 9
+    },
+    {
+        "T15": "0.6286",
+        "T20": 0.575,
+        "T25": 0.5529,
+        "Term": 10
+    },
+    {
+        "T15": "0.6714",
+        "T20": 0.6,
+        "T25": 0.5706,
+        "Term": 11
+    },
+    {
+        "T15": "0.7143",
+        "T20": 0.625,
+        "T25": 0.5882,
+        "Term": 12
+    },
+    {
+        "T15": "0.7571",
+        "T20": 0.65,
+        "T25": 0.6059,
+        "Term": 13
+    },
+    {
+        "T15": "0.9000",
+        "T20": 0.675,
+        "T25": 0.6235,
+        "Term": 14
+    },
+    {
+        "T15": "0.9000",
+        "T20": 0.7,
+        "T25": 0.6412,
+        "Term": 15
+    },
+    {
+        "T15": null,
+        "T20": 0.725,
+        "T25": 0.6588,
+        "Term": 16
+    },
+    {
+        "T15": null,
+        "T20": 0.75,
+        "T25": 0.6765,
+        "Term": 17
+    },
+    {
+        "T15": null,
+        "T20": 0.775,
+        "T25": 0.6941,
+        "Term": 18
+    },
+    {
+        "T15": null,
+        "T20": 0.9,
+        "T25": 0.7118,
+        "Term": 19
+    },
+    {
+        "T15": null,
+        "T20": 0.9,
+        "T25": 0.7294,
+        "Term": 20
+    },
+    {
+        "T15": null,
+        "T20": null,
+        "T25": 0.7471,
+        "Term": 21
+    },
+    {
+        "T15": null,
+        "T20": null,
+        "T25": 0.7647,
+        "Term": 22
+    },
+    {
+        "T15": null,
+        "T20": null,
+        "T25": 0.7824,
+        "Term": 23
+    },
+    {
+        "T15": null,
+        "T20": null,
+        "T25": 0.9,
+        "Term": 24
+    },
+    {
+        "T15": null,
+        "T20": null,
+        "T25": 0.9,
+        "Term": 25
+    }
+];
+
+    // --- PASTE GSV-bonus DATA HERE ---
+const gsvGAFactors  =[
+    {
+        "T15": "0.0000",
+        "T20": 0.0,
+        "T25": 0.0,
+        "Term": 1
+    },
+    {
+        "T15": "0.0000",
+        "T20": 0.0,
+        "T25": 0.0,
+        "Term": 2
+    },
+    {
+        "T15": "0.1766",
+        "T20": 0.1622,
+        "T25": 0.1528,
+        "Term": 3
+    },
+    {
+        "T15": "0.1785",
+        "T20": 0.1658,
+        "T25": 0.1542,
+        "Term": 4
+    },
+    {
+        "T15": "0.1816",
+        "T20": 0.1703,
+        "T25": 0.1555,
+        "Term": 5
+    },
+    {
+        "T15": "0.1860",
+        "T20": 0.1758,
+        "T25": 0.1572,
+        "Term": 6
+    },
+    {
+        "T15": "0.1918",
+        "T20": 0.1758,
+        "T25": 0.1593,
+        "Term": 7
+    },
+    {
+        "T15": "0.1993",
+        "T20": 0.1766,
+        "T25": 0.1622,
+        "Term": 8
+    },
+    {
+        "T15": "0.2085",
+        "T20": 0.1785,
+        "T25": 0.1658,
+        "Term": 9
+    },
+    {
+        "T15": "0.2199",
+        "T20": 0.1816,
+        "T25": 0.1703,
+        "Term": 10
+    },
+    {
+        "T15": "0.2338",
+        "T20": 0.186,
+        "T25": 0.1758,
+        "Term": 11
+    },
+    {
+        "T15": "0.2505",
+        "T20": 0.1918,
+        "T25": 0.1758,
+        "Term": 12
+    },
+    {
+        "T15": "0.2706",
+        "T20": 0.1993,
+        "T25": 0.1766,
+        "Term": 13
+    },
+    {
+        "T15": "0.3000",
+        "T20": 0.2085,
+        "T25": 0.1785,
+        "Term": 14
+    },
+    {
+        "T15": "0.3500",
+        "T20": 0.2199,
+        "T25": 0.1816,
+        "Term": 15
+    },
+    {
+        "T15": null,
+        "T20": 0.2338,
+        "T25": 0.186,
+        "Term": 16
+    },
+    {
+        "T15": null,
+        "T20": 0.2505,
+        "T25": 0.1918,
+        "Term": 17
+    },
+    {
+        "T15": null,
+        "T20": 0.2706,
+        "T25": 0.1993,
+        "Term": 18
+    },
+    {
+        "T15": null,
+        "T20": 0.3,
+        "T25": 0.2085,
+        "Term": 19
+    },
+    {
+        "T15": null,
+        "T20": 0.35,
+        "T25": 0.2199,
+        "Term": 20
+    },
+    {
+        "T15": null,
+        "T20": null,
+        "T25": 0.2338,
+        "Term": 21
+    },
+    {
+        "T15": null,
+        "T20": null,
+        "T25": 0.2505,
+        "Term": 22
+    },
+    {
+        "T15": null,
+        "T20": null,
+        "T25": 0.2706,
+        "Term": 23
+    },
+    {
+        "T15": null,
+        "T20": null,
+        "T25": 0.3,
+        "Term": 24
+    },
+    {
+        "T15": null,
+        "T20": null,
+        "T25": 0.35,
+        "Term": 25
+    }
+];
+ 
+
+     // --- PASTE GSV-b DATA HERE ---
+//const gsvBonusFactors
+   //= [
+       // Your GSV-GA data goes here
+    //];
+
+    // --- PASTE SSV-F1 DATA HERE ---
+    const ssvF1Rates = [
+    {
+        "T15": 0.0186,
+        "T20": 0.0268,
+        "T25": 0.0356,
+        "Term": 1
+    },
+    {
+        "T15": 0.0186,
+        "T20": 0.0275,
+        "T25": 0.037,
+        "Term": 2
+    },
+    {
+        "T15": 0.0186,
+        "T20": 0.0282,
+        "T25": 0.0384,
+        "Term": 3
+    },
+    {
+        "T15": 0.0185,
+        "T20": 0.0288,
+        "T25": 0.0398,
+        "Term": 4
+    },
+    {
+        "T15": 0.0182,
+        "T20": 0.0293,
+        "T25": 0.0413,
+        "Term": 5
+    },
+    {
+        "T15": 0.0178,
+        "T20": 0.0298,
+        "T25": 0.0427,
+        "Term": 6
+    },
+    {
+        "T15": 0.0172,
+        "T20": 0.0302,
+        "T25": 0.044,
+        "Term": 7
+    },
+    {
+        "T15": 0.0164,
+        "T20": 0.0304,
+        "T25": 0.0454,
+        "Term": 8
+    },
+    {
+        "T15": 0.0153,
+        "T20": 0.0304,
+        "T25": 0.0466,
+        "Term": 9
+    },
+    {
+        "T15": 0.0139,
+        "T20": 0.0303,
+        "T25": 0.0477,
+        "Term": 10
+    },
+    {
+        "T15": 0.0122,
+        "T20": 0.0299,
+        "T25": 0.0487,
+        "Term": 11
+    },
+    {
+        "T15": 0.01,
+        "T20": 0.0291,
+        "T25": 0.0495,
+        "Term": 12
+    },
+    {
+        "T15": 0.0074,
+        "T20": 0.028,
+        "T25": 0.0499,
+        "Term": 13
+    },
+    {
+        "T15": 0.004,
+        "T20": 0.0263,
+        "T25": 0.0501,
+        "Term": 14
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0241,
+        "T25": 0.0498,
+        "Term": 15
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0212,
+        "T25": 0.049,
+        "Term": 16
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0174,
+        "T25": 0.0476,
+        "Term": 17
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0127,
+        "T25": 0.0454,
+        "Term": 18
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.007,
+        "T25": 0.0424,
+        "Term": 19
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0,
+        "T25": 0.0384,
+        "Term": 20
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0,
+        "T25": 0.0334,
+        "Term": 21
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0,
+        "T25": 0.0271,
+        "Term": 22
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0,
+        "T25": 0.0196,
+        "Term": 23
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0,
+        "T25": 0.0106,
+        "Term": 24
+    }
+];
+
+    // --- PASTE SSV-F2 DATA HERE ---
+    const ssvF2Rates =[
+    {
+        "T15": 0.3423,
+        "T20": 0.2291,
+        "T25": 0.1506,
+        "Term": 1
+    },
+    {
+        "T15": 0.3691,
+        "T20": 0.2471,
+        "T25": 0.1624,
+        "Term": 2
+    },
+    {
+        "T15": 0.3981,
+        "T20": 0.2665,
+        "T25": 0.1751,
+        "Term": 3
+    },
+    {
+        "T15": 0.4294,
+        "T20": 0.2875,
+        "T25": 0.1889,
+        "Term": 4
+    },
+    {
+        "T15": 0.4632,
+        "T20": 0.3101,
+        "T25": 0.2038,
+        "Term": 5
+    },
+    {
+        "T15": 0.4998,
+        "T20": 0.3346,
+        "T25": 0.2199,
+        "Term": 6
+    },
+    {
+        "T15": 0.5393,
+        "T20": 0.361,
+        "T25": 0.2372,
+        "Term": 7
+    },
+    {
+        "T15": 0.582,
+        "T20": 0.3896,
+        "T25": 0.256,
+        "Term": 8
+    },
+    {
+        "T15": 0.6282,
+        "T20": 0.4206,
+        "T25": 0.2764,
+        "Term": 9
+    },
+    {
+        "T15": 0.6783,
+        "T20": 0.4541,
+        "T25": 0.2984,
+        "Term": 10
+    },
+    {
+        "T15": 0.7325,
+        "T20": 0.4904,
+        "T25": 0.3223,
+        "Term": 11
+    },
+    {
+        "T15": 0.7914,
+        "T20": 0.5298,
+        "T25": 0.3481,
+        "Term": 12
+    },
+    {
+        "T15": 0.8552,
+        "T20": 0.5725,
+        "T25": 0.3762,
+        "Term": 13
+    },
+    {
+        "T15": 0.9245,
+        "T20": 0.6189,
+        "T25": 0.4067,
+        "Term": 14
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.6695,
+        "T25": 0.4399,
+        "Term": 15
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.7245,
+        "T25": 0.4761,
+        "Term": 16
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.7845,
+        "T25": 0.5155,
+        "Term": 17
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.85,
+        "T25": 0.5586,
+        "Term": 18
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.9216,
+        "T25": 0.6056,
+        "Term": 19
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0,
+        "T25": 0.6572,
+        "Term": 20
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0,
+        "T25": 0.7136,
+        "Term": 21
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0,
+        "T25": 0.7755,
+        "Term": 22
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0,
+        "T25": 0.8434,
+        "Term": 23
+    },
+    {
+        "T15": 0.0,
+        "T20": 0.0,
+        "T25": 0.918,
+        "Term": 24
+    }
+];
+
+    // =========================================================
+    // --- SCRIPT LOGIC for BIMA RATNA (764) ---
+    // =========================================================
+
+    const formatCurrency = (num) => `₹ ${num.toLocaleString('en-IN', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}`;
+
+    // Auto-populate PPT = Term - 5 (as per product summary)
+    function autoPopulatePPT() {
+      const term = parseInt(document.getElementById('term').value);
+      document.getElementById('ppt').value = term - 5;
+      updateAutoFields();
+    }
+
+    // Update fields that depend on DOC, Mode, Premium etc.
+    function updateAutoFields() {
+      const docVal = document.getElementById("doc").value;
+      const sa = parseFloat(document.getElementById("sa").value) || 0;
+      const gaRate = parseFloat(document.getElementById("gaRate").value) || 0;
+      const premium = parseFloat(document.getElementById("annualPremium").value) || 0;
+      const mode = parseInt(document.getElementById("mode").value) || 1; // Default to Yearly if not selected
+      const term = parseInt(document.getElementById("term").value) || 0; // Get term if not a number its 0
+
+      if (docVal) {
+        const doc = new Date(docVal);
+        const now = new Date();
+         let policyYear = now.getFullYear() - doc.getFullYear();
+
+          //Check if the current date hasnt passed the anni of the policy doc year
+           const anniversaryThisYear = new Date(now.getFullYear(), doc.getMonth(), doc.getDate());
+            if (now < anniversaryThisYear) policyYear--;
+            policyYear = Math.max(policyYear,0); //Force postitive values
+             document.getElementById("policyYear").value = policyYear;
+
+        const ppt = parseInt(document.getElementById("ppt").value);
+
+        const premiumsPaidYears = Math.min(policyYear,ppt);
+        const totalPremiumPaid = premiumsPaidYears * (premium/mode);
+
+        document.getElementById("totalPremiumPaid").value = totalPremiumPaid.toFixed(2);
+
+          const totalGA = (sa / 1000) * gaRate * policyYear;
+             document.getElementById("accruedGA").value = `₹ ${totalGA.toFixed(2)}`;
+
+      } else {
+        document.getElementById("policyYear").value = "";
+        document.getElementById("totalPremiumPaid").value = "";
+        document.getElementById("accruedGA").value = "";
+      }
+    }
+
+    function calculateSV() {
+      const sa = parseFloat(document.getElementById("sa").value);
+      const term = parseInt(document.getElementById("term").value);
+      const ppt = parseInt(document.getElementById("ppt").value);
+       const gaRate = parseFloat(document.getElementById("gaRate").value);
+
+      const policyYear = parseInt(document.getElementById("policyYear").value);
+      const totalPremiumPaid = parseFloat(document.getElementById("totalPremiumPaid").value);
+
+      if (
+        isNaN(sa) || isNaN(term) || isNaN(ppt) || isNaN(policyYear) ||
+        isNaN(totalPremiumPaid) || policyYear <= 0
+      ) {
+        alert("Please fill in all inputs correctly.");
+        return;
+      }
+
+      //Calculate Guaranteed values
+      const gaAmount = (sa / 1000) * gaRate * policyYear;
+
+       //Get All the value of GvSP, SvSP,
+
+      const gsvP = gsvPFactors[policyYear][`T${term}`] ?? 0; // 0 if not there then default
+         const gsvGA = gsvGAFactors[policyYear][`T${term}`] ?? 0;
+        const totalGSV = (totalPremiumPaid * gsvP) + (gaAmount * gsvGA);
+
+           const ssvF1 = ssvF1Rates[policyYear][`T${term}`] ?? 0;
+           const ssvF2 = ssvF2Rates[policyYear][`T${term}`] ?? 0;
+
+     const premiumsPaid = Math.min(policyYear, ppt);
+      const paidUpValue = (sa * premiumsPaid) / term;
+
+         const ssvBase = paidUpValue * ssvF1;
+           const ssvGA = gaAmount * ssvF2;
+           const totalSSV = ssvBase + ssvGA;
+
+      const finalSV = Math.max(totalGSV, totalSSV);
+const resultDiv = document.getElementById("result");
+
+      // Display results
+       resultDiv.innerHTML = `
+            <h3>Total Surrender Value is:</h3>
+            <div class="output-details">
+                Total GA: ${formatCurrency(gaAmount)}<br>
+                GSV: ${formatCurrency(totalGSV)}<br>
+                SSV: ${formatCurrency(totalSSV)}<br><br>
+                Total Surrender Value (Max of GSV and SSV):
+            </div>
+            <h3 style="font-size: 28px;">${formatCurrency(finalSV)}</h3>
+        `;
+
+    }
+
+    // Initialize PPT field on page load
+    window.onload = autoPopulatePPT;
+
+ document.getElementById('sv-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        calculateSV();
+    });
+
+  </script>
+</body>
+</html>

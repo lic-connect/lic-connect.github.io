@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surrender Value Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+    }
+    input, select, button {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Surrender Value Calculator</h1>
+
+    <label for="doc">Date of Commencement:</label>
+    <input type="date" id="doc" oninput="updateAutoFields()"><br>
+
+    <label for="term">Term:</label>
+    <select id="term" onchange="autoPopulatePPT(); updateAutoFields();">
+      <option value="14">14</option>
+      <option value="16">16</option>
+      <option value="18">18</option>
+      <option value="20">20</option>
+      <option value="24">24</option>
+      <option value="28">28</option>
+    </select><br>
+
+    <label for="ppt">PPT:</label>
+    <input type="number" id="ppt" readonly><br>
+
+    <label for="sa">Sum Assured:</label>
+    <input type="number" id="sa" oninput="updateAutoFields()"><br>
+
+    <label for="gaRate">GA Rate:</label>
+    <input type="number" id="gaRate" oninput="updateAutoFields()"><br>
+
+    <label for="annualPremium">Annual Premium:</label>
+    <input type="number" id="annualPremium" oninput="updateAutoFields()"><br>
+
+    <label for="mode">Mode:</label>
+    <select id="mode" onchange="updateAutoFields()">
+      <option value="1">Yearly</option>
+      <option value="2">Half-Yearly</option>
+      <option value="4">Quarterly</option>
+      <option value="12">Monthly</option>
+    </select><br>
+
+    <label for="age">Age:</label>
+    <input type="number" id="age"><br>
+
+    <label>Policy Year:</label>
+    <input type="number" id="policyYear" readonly><br>
+
+    <label>Total Premium Paid:</label>
+    <input type="number" id="totalPremiumPaid" readonly><br>
+
+    <label>Accrued GA:</label>
+    <input type="text" id="accruedGA" readonly><br>
+
+    <button onclick="calculateSV()">Calculate Surrender Value</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Paste your JSON data here
+    const gsvPFactors = [
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.0,
+        "T20": 0.0,
+        "Year": 1
+    },
+    {
+        "T15": 0.3,
+        "T16": 0.3,
+        "T17": 0.3,
+        "T18": 0.3,
+        "T19": 0.3,
+        "T20": 0.3,
+        "Year": 2
+    },
+    {
+        "T15": 0.35,
+        "T16": 0.35,
+        "T17": 0.35,
+        "T18": 0.35,
+        "T19": 0.35,
+        "T20": 0.35,
+        "Year": 3
+    },
+    {
+        "T15": 0.5,
+        "T16": 0.5,
+        "T17": 0.5,
+        "T18": 0.5,
+        "T19": 0.5,
+        "T20": 0.5,
+        "Year": 4
+    },
+    {
+        "T15": 0.5,
+        "T16": 0.5,
+        "T17": 0.5,
+        "T18": 0.5,
+        "T19": 0.5,
+        "T20": 0.5,
+        "Year": 5
+    },
+    {
+        "T15": 0.5,
+        "T16": 0.5,
+        "T17": 0.5,
+        "T18": 0.5,
+        "T19": 0.5,
+        "T20": 0.5,
+        "Year": 6
+    },
+    {
+        "T15": 0.5,
+        "T16": 0.5,
+        "T17": 0.5,
+        "T18": 0.5,
+        "T19": 0.5,
+        "T20": 0.5,
+        "Year": 7
+    },
+    {
+        "T15": 0.5429,
+        "T16": 0.5375,
+        "T17": 0.5333,
+        "T18": 0.53,
+        "T19": 0.5273,
+        "T20": 0.525,
+        "Year": 8
+    },
+    {
+        "T15": 0.5857,
+        "T16": 0.575,
+        "T17": 0.5667,
+        "T18": 0.56,
+        "T19": 0.5545,
+        "T20": 0.55,
+        "Year": 9
+    },
+    {
+        "T15": 0.6286,
+        "T16": 0.6125,
+        "T17": 0.6,
+        "T18": 0.59,
+        "T19": 0.5818,
+        "T20": 0.575,
+        "Year": 10
+    },
+    {
+        "T15": 0.6714,
+        "T16": 0.65,
+        "T17": 0.6333,
+        "T18": 0.62,
+        "T19": 0.6091,
+        "T20": 0.6,
+        "Year": 11
+    },
+    {
+        "T15": 0.7143,
+        "T16": 0.6875,
+        "T17": 0.6667,
+        "T18": 0.65,
+        "T19": 0.6364,
+        "T20": 0.625,
+        "Year": 12
+    },
+    {
+        "T15": 0.7571,
+        "T16": 0.725,
+        "T17": 0.7,
+        "T18": 0.68,
+        "T19": 0.6636,
+        "T20": 0.65,
+        "Year": 13
+    },
+    {
+        "T15": 0.9,
+        "T16": 0.7625,
+        "T17": 0.7333,
+        "T18": 0.71,
+        "T19": 0.6909,
+        "T20": 0.675,
+        "Year": 14
+    },
+    {
+        "T15": 0.9,
+        "T16": 0.9,
+        "T17": 0.7667,
+        "T18": 0.74,
+        "T19": 0.7182,
+        "T20": 0.7,
+        "Year": 15
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.9,
+        "T17": 0.9,
+        "T18": 0.77,
+        "T19": 0.7455,
+        "T20": 0.725,
+        "Year": 16
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.9,
+        "T18": 0.9,
+        "T19": 0.7727,
+        "T20": 0.75,
+        "Year": 17
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.9,
+        "T19": 0.9,
+        "T20": 0.775,
+        "Year": 18
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.9,
+        "T20": 0.9,
+        "Year": 19
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.0,
+        "T20": 0.9,
+        "Year": 20
+    }
+]; // Your GSV-P data goes here
+    const gsvGAFactors = [
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.0,
+        "T20": 0.0,
+        "Year": 1
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.0,
+        "T20": 0.0,
+        "Year": 2
+    },
+    {
+        "T15": 0.1766,
+        "T16": 0.1758,
+        "T17": 0.1758,
+        "T18": 0.1703,
+        "T19": 0.1658,
+        "T20": 0.1622,
+        "Year": 3
+    },
+    {
+        "T15": 0.1785,
+        "T16": 0.1766,
+        "T17": 0.1758,
+        "T18": 0.1758,
+        "T19": 0.1703,
+        "T20": 0.1658,
+        "Year": 4
+    },
+    {
+        "T15": 0.1816,
+        "T16": 0.1785,
+        "T17": 0.1766,
+        "T18": 0.1758,
+        "T19": 0.1758,
+        "T20": 0.1703,
+        "Year": 5
+    },
+    {
+        "T15": 0.186,
+        "T16": 0.1816,
+        "T17": 0.1785,
+        "T18": 0.1766,
+        "T19": 0.1758,
+        "T20": 0.1758,
+        "Year": 6
+    },
+    {
+        "T15": 0.1918,
+        "T16": 0.186,
+        "T17": 0.1816,
+        "T18": 0.1785,
+        "T19": 0.1766,
+        "T20": 0.1758,
+        "Year": 7
+    },
+    {
+        "T15": 0.1993,
+        "T16": 0.1918,
+        "T17": 0.186,
+        "T18": 0.1816,
+        "T19": 0.1785,
+        "T20": 0.1766,
+        "Year": 8
+    },
+    {
+        "T15": 0.2085,
+        "T16": 0.1993,
+        "T17": 0.1918,
+        "T18": 0.186,
+        "T19": 0.1816,
+        "T20": 0.1785,
+        "Year": 9
+    },
+    {
+        "T15": 0.2199,
+        "T16": 0.2085,
+        "T17": 0.1993,
+        "T18": 0.1918,
+        "T19": 0.186,
+        "T20": 0.1816,
+        "Year": 10
+    },
+    {
+        "T15": 0.2338,
+        "T16": 0.2199,
+        "T17": 0.2085,
+        "T18": 0.1993,
+        "T19": 0.1918,
+        "T20": 0.186,
+        "Year": 11
+    },
+    {
+        "T15": 0.2505,
+        "T16": 0.2338,
+        "T17": 0.2199,
+        "T18": 0.2085,
+        "T19": 0.1993,
+        "T20": 0.1918,
+        "Year": 12
+    },
+    {
+        "T15": 0.2706,
+        "T16": 0.2505,
+        "T17": 0.2338,
+        "T18": 0.2199,
+        "T19": 0.2085,
+        "T20": 0.1993,
+        "Year": 13
+    },
+    {
+        "T15": 0.3,
+        "T16": 0.2706,
+        "T17": 0.2505,
+        "T18": 0.2338,
+        "T19": 0.2199,
+        "T20": 0.2085,
+        "Year": 14
+    },
+    {
+        "T15": 0.35,
+        "T16": 0.3,
+        "T17": 0.2706,
+        "T18": 0.2505,
+        "T19": 0.2338,
+        "T20": 0.2199,
+        "Year": 15
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.35,
+        "T17": 0.3,
+        "T18": 0.2706,
+        "T19": 0.2505,
+        "T20": 0.2338,
+        "Year": 16
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.35,
+        "T18": 0.3,
+        "T19": 0.2706,
+        "T20": 0.2505,
+        "Year": 17
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.35,
+        "T19": 0.3,
+        "T20": 0.2706,
+        "Year": 18
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.35,
+        "T20": 0.3,
+        "Year": 19
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.0,
+        "T20": 0.35,
+        "Year": 20
+    }
+]; // Your GSV-GA data goes here
+    const ssvF1Rates = [
+    {
+        "T15": 0.0186,
+        "T16": 0.0201,
+        "T17": 0.0217,
+        "T18": 0.0234,
+        "T19": 0.0251,
+        "T20": 0.0268,
+        "Term": 1
+    },
+    {
+        "T15": 0.0186,
+        "T16": 0.0203,
+        "T17": 0.022,
+        "T18": 0.0238,
+        "T19": 0.0256,
+        "T20": 0.0275,
+        "Term": 2
+    },
+    {
+        "T15": 0.0186,
+        "T16": 0.0204,
+        "T17": 0.0223,
+        "T18": 0.0242,
+        "T19": 0.0262,
+        "T20": 0.0282,
+        "Term": 3
+    },
+    {
+        "T15": 0.0185,
+        "T16": 0.0204,
+        "T17": 0.0224,
+        "T18": 0.0245,
+        "T19": 0.0266,
+        "T20": 0.0288,
+        "Term": 4
+    },
+    {
+        "T15": 0.0182,
+        "T16": 0.0203,
+        "T17": 0.0225,
+        "T18": 0.0247,
+        "T19": 0.027,
+        "T20": 0.0293,
+        "Term": 5
+    },
+    {
+        "T15": 0.0178,
+        "T16": 0.02,
+        "T17": 0.0224,
+        "T18": 0.0248,
+        "T19": 0.0273,
+        "T20": 0.0298,
+        "Term": 6
+    },
+    {
+        "T15": 0.0172,
+        "T16": 0.0196,
+        "T17": 0.0221,
+        "T18": 0.0248,
+        "T19": 0.0274,
+        "T20": 0.0302,
+        "Term": 7
+    },
+    {
+        "T15": 0.0164,
+        "T16": 0.019,
+        "T17": 0.0217,
+        "T18": 0.0245,
+        "T19": 0.0274,
+        "T20": 0.0304,
+        "Term": 8
+    },
+    {
+        "T15": 0.0153,
+        "T16": 0.0181,
+        "T17": 0.0211,
+        "T18": 0.0241,
+        "T19": 0.0273,
+        "T20": 0.0304,
+        "Term": 9
+    },
+    {
+        "T15": 0.0139,
+        "T16": 0.017,
+        "T17": 0.0202,
+        "T18": 0.0235,
+        "T19": 0.0268,
+        "T20": 0.0303,
+        "Term": 10
+    },
+    {
+        "T15": 0.0122,
+        "T16": 0.0155,
+        "T17": 0.019,
+        "T18": 0.0225,
+        "T19": 0.0261,
+        "T20": 0.0299,
+        "Term": 11
+    },
+    {
+        "T15": 0.01,
+        "T16": 0.0136,
+        "T17": 0.0173,
+        "T18": 0.0212,
+        "T19": 0.0251,
+        "T20": 0.0291,
+        "Term": 12
+    },
+    {
+        "T15": 0.0074,
+        "T16": 0.0112,
+        "T17": 0.0152,
+        "T18": 0.0194,
+        "T19": 0.0236,
+        "T20": 0.028,
+        "Term": 13
+    },
+    {
+        "T15": 0.004,
+        "T16": 0.0082,
+        "T17": 0.0126,
+        "T18": 0.017,
+        "T19": 0.0216,
+        "T20": 0.0263,
+        "Term": 14
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0045,
+        "T17": 0.0092,
+        "T18": 0.0141,
+        "T19": 0.019,
+        "T20": 0.0241,
+        "Term": 15
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0051,
+        "T18": 0.0103,
+        "T19": 0.0157,
+        "T20": 0.0212,
+        "Term": 16
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0057,
+        "T19": 0.0115,
+        "T20": 0.0174,
+        "Term": 17
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.0063,
+        "T20": 0.0127,
+        "Term": 18
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.0,
+        "T20": 0.007,
+        "Term": 19
+    }
+]; // Your SSV-F1 data goes here
+    const ssvF2Rates = [
+    {
+        "T15": 0.3423,
+        "T16": 0.3163,
+        "T17": 0.2921,
+        "T18": 0.2696,
+        "T19": 0.2486,
+        "T20": 0.2291,
+        "Term": 1
+    },
+    {
+        "T15": 0.3691,
+        "T16": 0.3411,
+        "T17": 0.315,
+        "T18": 0.2907,
+        "T19": 0.2681,
+        "T20": 0.2471,
+        "Term": 2
+    },
+    {
+        "T15": 0.3981,
+        "T16": 0.3679,
+        "T17": 0.3397,
+        "T18": 0.3135,
+        "T19": 0.2892,
+        "T20": 0.2665,
+        "Term": 3
+    },
+    {
+        "T15": 0.4294,
+        "T16": 0.3968,
+        "T17": 0.3664,
+        "T18": 0.3382,
+        "T19": 0.3119,
+        "T20": 0.2875,
+        "Term": 4
+    },
+    {
+        "T15": 0.4632,
+        "T16": 0.428,
+        "T17": 0.3953,
+        "T18": 0.3648,
+        "T19": 0.3365,
+        "T20": 0.3101,
+        "Term": 5
+    },
+    {
+        "T15": 0.4998,
+        "T16": 0.4618,
+        "T17": 0.4265,
+        "T18": 0.3936,
+        "T19": 0.363,
+        "T20": 0.3346,
+        "Term": 6
+    },
+    {
+        "T15": 0.5393,
+        "T16": 0.4983,
+        "T17": 0.4602,
+        "T18": 0.4247,
+        "T19": 0.3917,
+        "T20": 0.361,
+        "Term": 7
+    },
+    {
+        "T15": 0.582,
+        "T16": 0.5378,
+        "T17": 0.4967,
+        "T18": 0.4584,
+        "T19": 0.4228,
+        "T20": 0.3896,
+        "Term": 8
+    },
+    {
+        "T15": 0.6282,
+        "T16": 0.5805,
+        "T17": 0.5361,
+        "T18": 0.4948,
+        "T19": 0.4564,
+        "T20": 0.4206,
+        "Term": 9
+    },
+    {
+        "T15": 0.6783,
+        "T16": 0.6268,
+        "T17": 0.5789,
+        "T18": 0.5342,
+        "T19": 0.4927,
+        "T20": 0.4541,
+        "Term": 10
+    },
+    {
+        "T15": 0.7325,
+        "T16": 0.6769,
+        "T17": 0.6251,
+        "T18": 0.577,
+        "T19": 0.5321,
+        "T20": 0.4904,
+        "Term": 11
+    },
+    {
+        "T15": 0.7914,
+        "T16": 0.7313,
+        "T17": 0.6753,
+        "T18": 0.6233,
+        "T19": 0.5748,
+        "T20": 0.5298,
+        "Term": 12
+    },
+    {
+        "T15": 0.8552,
+        "T16": 0.7902,
+        "T17": 0.7298,
+        "T18": 0.6736,
+        "T19": 0.6212,
+        "T20": 0.5725,
+        "Term": 13
+    },
+    {
+        "T15": 0.9245,
+        "T16": 0.8543,
+        "T17": 0.789,
+        "T18": 0.7282,
+        "T19": 0.6716,
+        "T20": 0.6189,
+        "Term": 14
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.9241,
+        "T17": 0.8534,
+        "T18": 0.7876,
+        "T19": 0.7264,
+        "T20": 0.6695,
+        "Term": 15
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.9235,
+        "T18": 0.8523,
+        "T19": 0.7861,
+        "T20": 0.7245,
+        "Term": 16
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.9229,
+        "T19": 0.8512,
+        "T20": 0.7845,
+        "Term": 17
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.9223,
+        "T20": 0.85,
+        "Term": 18
+    },
+    {
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.0,
+        "T20": 0.9216,
+        "Term": 19
+    }
+]; // Your SSV-F2 data goes here
+
+    // Auto-populate PPT = Term - 5 (as per product summary)
+    function autoPopulatePPT() {
+      const term = parseInt(document.getElementById('term').value);
+      document.getElementById('ppt').value = term - 5;
+      updateAutoFields();
+    }
+
+    // Update fields that depend on DOC, Mode, Premium etc.
+    function updateAutoFields() {
+      const docVal = document.getElementById("doc").value;
+      const sa = parseFloat(document.getElementById("sa").value) || 0;
+      const gaRate = parseFloat(document.getElementById("gaRate").value) || 0;
+      const premium = parseFloat(document.getElementById("annualPremium").value) || 0;
+      const mode = parseInt(document.getElementById("mode").value) || 1; // Default to Yearly if not selected
+      const term = parseInt(document.getElementById("term").value) || 0;
+
+      if (docVal) {
+        const doc = new Date(docVal);
+        const now = new Date();
+        let policyYear = now.getFullYear() - doc.getFullYear();
+
+       const anniversaryThisYear = new Date(now.getFullYear(), doc.getMonth(), doc.getDate());
+        if (now < anniversaryThisYear) policyYear--;
+
+        policyYear = Math.max(policyYear, 0); // Ensure policy year is not negative
+
+        document.getElementById("policyYear").value = policyYear;
+        const ppt = parseInt(document.getElementById("ppt").value);
+
+        const premiumsPaid = Math.min(policyYear, ppt);
+        const totalPremiumPaid = premiumsPaid * (premium / mode);
+        document.getElementById("totalPremiumPaid").value = totalPremiumPaid.toFixed(2);
+         const totalGA = (sa / 1000) * gaRate * policyYear;
+        document.getElementById("accruedGA").value = `₹ ${totalGA.toFixed(2)}`;
+      } else {
+        document.getElementById("policyYear").value = "";
+        document.getElementById("totalPremiumPaid").value = "";
+        document.getElementById("accruedGA").value = "";
+      }
+    }
+
+    // Attach updateAutoFields to inputs
+    //['doc', 'sa', 'gaRate', 'annualPremium', 'term', 'mode'].forEach(id => {
+    //  document.getElementById(id).addEventListener('input', updateAutoFields);
+    //});
+
+    function calculateSV() {
+      const sa = parseFloat(document.getElementById("sa").value) || 0;
+      const term = parseInt(document.getElementById("term").value) || 0;
+      const ppt = parseInt(document.getElementById("ppt").value) || 0;
+      const policyYear = parseInt(document.getElementById("policyYear").value) || 0;
+      const totalPremiumPaid = parseFloat(document.getElementById("totalPremiumPaid").value) || 0;
+      const gaRate = parseFloat(document.getElementById("gaRate").value) || 0;
+
+      if (
+        isNaN(sa) || isNaN(term) || isNaN(ppt) || isNaN(policyYear) ||
+        isNaN(totalPremiumPaid) || isNaN(gaRate) || policyYear <= 0
+      ) {
+        alert("Please fill in all inputs correctly.");
+        return;
+      }
+
+      const gaAmount = (sa / 1000) * gaRate * policyYear;
+
+      const gsvP = gsvPFactors[policyYear] && gsvPFactors[policyYear][`T${term}`] ? gsvPFactors[policyYear][`T${term}`] : 0;
+      const gsvGA = gsvGAFactors[policyYear] && gsvGAFactors[policyYear][`T${term}`] ? gsvGAFactors[policyYear][`T${term}`] : 0;
+      const totalGSV = (totalPremiumPaid * gsvP) + (gaAmount * gsvGA);
+
+      const ssvF1 = ssvF1Rates[policyYear] && ssvF1Rates[policyYear][`T${term}`] ? ssvF1Rates[policyYear][`T${term}`] : 0;
+      const ssvF2 = ssvF2Rates[policyYear] && ssvF2Rates[policyYear][`T${term}`] ? ssvF2Rates[policyYear][`T${term}`] : 0;
+
+      const premiumsPaid = Math.min(policyYear, ppt);
+      const paidUpValue = (sa * premiumsPaid) / term;
+
+      const ssvBase = paidUpValue * ssvF1;
+      const ssvGA = gaAmount * ssvF2;
+      const totalSSV = ssvBase + ssvGA;
+
+      const finalSV = Math.max(totalGSV, totalSSV);
+
+      // Display results
+      document.getElementById("result").innerHTML = `
+        <h3>Results</h3>
+        <p><strong>Total Guaranteed Addition (GA):</strong> ₹ ${gaAmount.toFixed(2)}</p>
+        <p><strong>Guaranteed Surrender Value (GSV):</strong> ₹ ${totalGSV.toFixed(2)}</p>
+        <p><strong>Special Surrender Value (SSV):</strong> ₹ ${totalSSV.toFixed(2)}</p>
+        <h2>Total Surrender Value: ₹ ${finalSV.toFixed(2)}</h2>
+      `;
+    }
+
+    // Initialize PPT field on page load
+    window.onload = autoPopulatePPT;
+
+  </script>
+</body>
+</html>
