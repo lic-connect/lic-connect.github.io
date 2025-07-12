@@ -3,155 +3,278 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!-- Add these to your <head> section -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <title>Policyholder original Form</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #ffffff url('https://images.unsplash.com/photo-1604480134146-550d92b91b4d') no-repeat center center fixed;
-      background-size: cover;
-      padding: 20px;
-    }
-    .container {
-      background-color: rgba(255,255,255,0.95);
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 600px;
-      margin: auto;
-    }
-    h1 {
-      text-align: center;
-    }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-      font-weight: bold;
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-    }
-    th, td {
-      padding: 8px;
-      border: 1px solid #ddd;
-    }
-    th {
-      background-color: #f4f4f4;
-    }
-  </style>
-</head>
-<body>
+/* === Root Variables for a "Sunset City" Theme === */
+:root {
+    --primary-color: #6a3093; /* Deep Purple */
+    --secondary-color: #a044ff; /* Vibrant Violet */
+    --accent-color: #f83600; /* Fiery Orange */
+    --text-color: #f0f0f0;
+    --input-border: rgba(255, 255, 255, 0.4);
+    --input-focus-border: var(--accent-color);
+    --card-bg: rgba(26, 26, 42, 0.6);
+    --card-border: rgba(255, 255, 255, 0.2);
+}
+
+/* === General Body and Font Styling === */
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--primary-color);
+    background-image: linear-gradient(135deg, #6a3093 0%, #a044ff 100%);
+    color: var(--text-color);
+    margin: 0;
+    padding: 40px 20px;
+}
+
+/* === Main Container Styling === */
+.container {
+    background-color: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    max-width: 1200px;
+    width: 100%;
+    margin: auto;
+    border: 1px solid var(--card-border);
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Oswald', 'Impact', sans-serif;
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px var(--accent-color);
+}
+
+/* === Main Form Grid Layout === */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.form-section {
+    padding: 20px;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    background: rgba(0,0,0,0.1);
+}
+
+.form-section h2 {
+    font-family: 'Oswald', sans-serif;
+    color: var(--accent-color);
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--card-border);
+    padding-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px 10px;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 2px solid var(--input-border);
+    border-radius: 0;
+    background: transparent;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-bottom-color: var(--input-focus-border);
+}
+
+input[readonly] {
+    background-color: rgba(0,0,0,0.2);
+    border-bottom-style: dashed;
+    cursor: not-allowed;
+}
+
+/* === Buttons Styling === */
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-top: 30px;
+}
+
+button {
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    background: var(--secondary-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background: var(--accent-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(248, 54, 0, 0.4);
+}
+
+/* --- Lookup Section --- */
+.lookup-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+#lookup_policy_number { margin: 0; }
+.lookup-section button { margin: 0; width: auto; }
+
+/* === Data Table Styling === */
+table {
+    width: 100%;
+    margin-top: 40px;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+thead {
+    background-color: var(--secondary-color);
+}
+th, td {
+    padding: 12px;
+    border: 1px solid var(--primary-color);
+    text-align: left;
+}
+th {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+tbody tr:nth-child(even) {
+    background-color: rgba(0,0,0,0.1);
+}
+tbody tr:hover {
+    background-color: rgba(0, 198, 255, 0.1);
+}
+</style>
+    <body>
   <div class="container">
-  <h1>Policyholder original Form</h1>
+    <h1>Policyholder Data Hub</h1>
 
-  <label for="name">Name:</label>
-  <input type="text" id="name">
+    <div class="form-grid">
+      <!-- Section 1: Personal & Basic Policy Info -->
+      <div class="form-section">
+        <h2>Personal & Plan Details</h2>
+        <label for="name">Name:</label>
+        <input type="text" id="name">
+        <label for="policy_number">Policy Number:</label>
+        <input type="text" id="policy_number">
+        <label for="plan_no">Plan No:</label>
+        <input type="text" id="plan_no">
+        <label for="policy_name">Policy Name:</label>
+        <input type="text" id="policy_name" readonly>
+        <label for="date_of_birth">DOB:</label>
+        <input type="date" id="date_of_birth">
+        <label for="age">Age:</label>
+        <input type="number" id="age" readonly>
+      </div>
 
-  <label for="policy_number">Policy Number:</label>
-  <input type="text" id="policy_number">
+      <!-- Section 2: Contact & Policy Specs -->
+      <div class="form-section">
+        <h2>Contact & Policy Specs</h2>
+        <label for="address">Address:</label>
+        <input type="text" id="address">
+        <label for="mobile_number">Mobile Number:</label>
+        <input type="text" id="mobile_number">
+        <label for="email">Email:</label>
+        <input type="email" id="email">
+        <label for="policy_term">Policy Term:</label>
+        <input type="number" id="policy_term">
+        <label for="ppt">PPT:</label>
+        <input type="number" id="ppt" readonly>
+        <label for="sum_assured">Sum Assured:</label>
+        <input type="number" id="sum_assured">
+        <label for="premium">Premium:</label>
+        <input type="number" id="premium">
+        <label for="mode_of_premium">Mode:</label>
+        <select id="mode_of_premium">
+            <option value="">Select Mode</option>
+            <option value="YLY">Yly</option>
+            <option value="HLY">Hly</option>
+            <option value="QLY">Qly</option>
+            <option value="MLY">Mly</option>
+        </select>
+        <label for="date_of_commencement">DOC:</label>
+        <input type="date" id="date_of_commencement">
+        <label for="maturity_date">Maturity Date:</label>
+        <input type="date" id="maturity_date" readonly>
+      </div>
 
-  <label for="plan_no">Plan No:</label>
-  <input type="text" id="plan_no">
-
-  <label for="policy_name">Policy Name:</label>
-  <input type="text" id="policy_name" readonly>
-
-  <label for="date_of_birth">DOB:</label>
-  <input type="date" id="date_of_birth">
-
-  <label for="age">Age:</label>
-  <input type="number" id="age" readonly>
-
-  <label for="address">Address:</label>
-  <input type="text" id="address">
-
-  <label for="mobile_number">Mobile Number:</label>
-  <input type="text" id="mobile_number">
-
-  <label for="email">Email:</label>
-  <input type="email" id="email">
-
-  <label for="policy_term">Policy Term:</label>
-  <input type="number" id="policy_term">
-
-  <label for="ppt">PPT:</label>
-  <input type="number" id="ppt" readonly>
-
-  <label for="sum_assured">Sum Assured:</label>
-  <input type="number" id="sum_assured">
-
-  <label for="premium">Premium:</label>
-  <input type="number" id="premium">
-
-  <label for="mode_of_premium">Mode:</label>
-  <select id="mode_of_premium">
-    <option value="">Select Mode</option>
-    <option value="YLY">Yly</option>
-    <option value="HLY">Hly</option>
-    <option value="QLY">Qly</option>
-    <option value="MLY">Mly</option>
-  </select>
-
-  <label for="date_of_commencement">DOC:</label>
-  <input type="date" id="date_of_commencement">
-
-  <label for="maturity_date">Maturity Date:</label>
-  <input type="date" id="maturity_date" readonly>
-
-  <label for="maturity_amount">Maturity Amount:</label>
-  <input type="number" id="maturity_amount" readonly>
-
-  <label for="death_benefit">Death Benefit:</label>
-  <input type="number" id="death_benefit" readonly>
-
-  <label for="bonus">Bonus:</label>
-  <input type="number" id="bonus" readonly>
-
-  <label for="fab">FAB:</label>
-  <input type="number" id="fab" readonly>
-
-  <label for="sb_details">SB:</label>
-  <input type="text" id="sb_details" readonly>
-
-  <label for="loan_details">Loan:</label>
-  <input type="text" id="loan_details">
-
-  <label for="revival_details">Revival:</label>
-  <input type="text" id="revival_details">
-
-  <label for="surrender_value">Surrender:</label>
-  <input type="number" id="surrender_value" readonly>
-
-  <label for="paid_up_value">Paid-up:</label>
-  <input type="number" id="paid_up_value">
-
-  <label for="remarks">Remarks:</label>
-  <input type="text" id="remarks">
-
-  <button onclick="insertData()">Insert</button>
-  <button onclick="updateData()">Update</button>
-  <button onclick="deleteData()">Delete</button>
-  <button onclick="fetchData()">Fetch</button>
-
-  <input type="text" id="lookup_policy_number" placeholder="Enter Policy Number for Lookup">
-  <button onclick="lookupPolicy()">Lookup</button>
-  <button onclick="clearLookup()">Clear</button>
-
-  <table>
-    <thead><tr><th colspan="25">Policyholder Data</th></tr></thead>
-    <tbody id="dataBody"></tbody>
-  </table>
-</div>
-
+      <!-- Section 3: Benefits & Status -->
+      <div class="form-section">
+        <h2>Benefits & Status</h2>
+        <label for="maturity_amount">Maturity Amount:</label>
+        <input type="number" id="maturity_amount" readonly>
+        <label for="death_benefit">Death Benefit:</label>
+        <input type="number" id="death_benefit" readonly>
+        <label for="bonus">Bonus:</label>
+        <input type="number" id="bonus" readonly>
+        <label for="fab">FAB:</label>
+        <input type="number" id="fab" readonly>
+        <label for="sb_details">SB:</label>
+        <input type="text" id="sb_details" readonly>
+        <label for="loan_details">Loan:</label>
+        <input type="text" id="loan_details">
+        <label for="revival_details">Revival:</label>
+        <input type="text" id="revival_details">
+        <label for="surrender_value">Surrender:</label>
+        <input type="text" id="surrender_value" readonly>
+        <label for="paid_up_value">Paid-up:</label>
+        <input type="number" id="paid_up_value">
+        <label for="remarks">Remarks:</label>
+        <input type="text" id="remarks">
+      </div>
+    </div>
     
+    <div class="actions-grid">
+      <button onclick="insertData()">Insert</button>
+      <button onclick="updateData()">Update</button>
+      <button onclick="deleteData()">Delete</button>
+      <button onclick="fetchData()">Fetch Current</button>
+    </div>
+
+    <div class="lookup-section">
+      <input type="text" id="lookup_policy_number" placeholder="Enter Policy Number for Lookup">
+      <button onclick="lookupPolicy()">Lookup</button>
+      <button onclick="clearLookup()">Clear</button>
+    </div>
+
+    <table>
+      <thead><tr><th colspan="26">Policyholder Data</th></tr></thead>
+      <tbody id="dataBody"></tbody>
+    </table>
+  </div>
+  
   
   <script>
   document.getElementById('date_of_birth').addEventListener('change', function () {
@@ -174,42 +297,16 @@
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
     );
 
-        // --- FINAL AND CORRECT getFieldValues FUNCTION ---
     function getFieldValues() {
-      const allFieldIds = [
-        'name','policy_number','plan_no','policy_name','date_of_birth','age',
-        'address','mobile_number','email',
-        'policy_term','ppt','sum_assured','premium','mode_of_premium','date_of_commencement',
-        'maturity_date','maturity_amount','death_benefit','bonus','fab','sb_details',
-        'loan_details','revival_details','surrender_value','paid_up_value','remarks'
-      ];
-
-      // This list defines which columns are NUMBERS in your Supabase table.
-      const numericFieldIds = [
-        'age', 'policy_term', 'ppt', 'sum_assured', 'premium', 
-        'maturity_amount', 'death_benefit', 'bonus', 'fab', 
-        'paid_up_value', 'surrender_value'
-      ];
-
+      const fields = [
+  'name','policy_number','plan_no','policy_name','date_of_birth','age',
+  'address','mobile_number','email',
+  'policy_term','ppt','sum_assured','premium','mode_of_premium','date_of_commencement',
+  'maturity_date','maturity_amount','death_benefit','bonus','fab','sb_details',
+  'loan_details','revival_details','surrender_value','paid_up_value','remarks'
+];
       const values = {};
-      
-      allFieldIds.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) {
-          const value = element.value;
-
-          // Check if this field should be a number
-          if (numericFieldIds.includes(id)) {
-            // If the value is an empty string ('') or not a valid number, send null.
-            // Otherwise, convert it to a number.
-            values[id] = (value === '' || isNaN(parseFloat(value))) ? null : parseFloat(value);
-          } else {
-            // For text fields (like sb_details, loan_details, revival_details),
-            // send the value, or null if it's empty.
-            values[id] = value || null;
-          }
-        }
-      });
+      fields.forEach(id => values[id] = document.getElementById(id).value);
       return values;
     }
 
@@ -407,18 +504,14 @@
     const docInput = document.getElementById('date_of_commencement');
 
     if (saInput && sbField && planInput && docInput) {
-            // --- CORRECTED updateSB FUNCTION ---
       function updateSB() { 
         const planNo = planInput.value.trim(); 
-        const sa = parseFloat(saInput.value) || 0; // Use || 0 to prevent NaN
+        const sa = parseFloat(saInput.value); 
         const doc = docInput.value; 
-
-        // Stricter check: only run if all required values are present
         if (!planNo || !sa || !sbPlans[planNo] || !doc) { 
-          sbField.value = ''; // Ensure the field is cleared if inputs are missing
+          sbField.value = ''; 
           return; 
         } 
-        
         const sbInfo = sbPlans[planNo]; 
         const messages = sbInfo.percents.map((percent, idx) => { 
           const sbAmount = Math.round((sa * percent) / 100); 
@@ -427,6 +520,7 @@
         }); 
         sbField.value = messages.join("; "); 
       }
+
       saInput.addEventListener('input', updateSB); 
       planInput.addEventListener('input', updateSB); 
       docInput.addEventListener('change', updateSB);
@@ -859,7 +953,7 @@ function autoCalculateBenefits() {
     if (ppt !== "") pptField.value = ppt;
   }
 
-  document.getElementById('policy_term').addEventListener('input', autoFillPPT);
+  document.getElementById('policy_term').addEventListener('change', autoFillPPT);
   document.getElementById('plan_no').addEventListener('input', autoFillPPT);
   document.getElementById('date_of_birth').addEventListener('change', autoFillPPT); // for Jeevan Tarun
 </script>
@@ -886,41 +980,29 @@ function autoCalculateBenefits() {
     MLY: 12
   };
 
-    // --- CORRECTED updateSV FUNCTION ---
   function updateSV() {
     const planNo = planInput.value.trim();
-    const premium = parseFloat(premiumInput.value) || 0; // Use || 0
+    const premium = parseFloat(premiumInput.value);
     const mode = modeInput.value.toUpperCase();
     const doc = docInput.value;
 
-    // Stricter check: run only if all values are present
-    if (!planNo || !premium || !doc || !modeMultiplier[mode] || !svFactors[planNo]) {
-      svField.value = ''; // Clear the field if inputs are missing
+    if (!planNo || isNaN(premium) || !doc || !modeMultiplier[mode] || !svFactors[planNo]) {
+      svField.value = '';
       return;
     }
 
     const annualPremium = premium * modeMultiplier[mode];
     const docDate = new Date(doc);
     const today = new Date();
-    // Ensure completedYears isn't negative if DOC is in the future
-    const completedYears = Math.max(0, Math.floor((today - docDate) / (1000 * 60 * 60 * 24 * 365.25)));
-    
-    // Check if the completedYears is within the bounds of our svFactors array
-    if (completedYears >= svFactors[planNo].length) {
-      svField.value = 'Calculation factor not available for this duration.';
-      return;
-    }
-    
+    const completedYears = Math.floor((today - docDate) / (1000 * 60 * 60 * 24 * 365.25));
     const factor = svFactors[planNo][completedYears] || 0;
 
     if (factor > 0) {
       const totalPremiumPaid = annualPremium * completedYears;
       const sv = Math.round(totalPremiumPaid * factor);
-      // Put the final numeric value here, NOT a sentence.
-      // We will also change the input type to 'number' in the HTML.
-      svField.value = sv; 
+      svField.value = `Eligible. SV is ₹${sv}`;
     } else {
-      svField.value = '0'; // Not eligible yet, but the value is 0.
+      svField.value = 'Not eligible for surrender (less than 2 years)';
     }
   }
 

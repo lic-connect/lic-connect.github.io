@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About LIC-Connect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a0e67; /* Deep Violet */
+            --secondary-color: #8e2de2; /* Bright Purple */
+            --accent-color: #f7b733;  /* Golden Yellow */
+            --text-color-dark: #333;
+            --text-color-light: #f5f5f5;
+            --bg-color: #f4f6f9;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color-dark);
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-color-light);
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+        .header .icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        .header h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 3rem;
+            margin: 0;
+        }
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 50px auto;
+            color: #555;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--accent-color);
+        }
+        .feature-card .card-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        .feature-card h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="icon"><i class="fas fa-gem"></i></div>
+            <h1>About LIC-Connect</h1>
+        </header>
+
+        <p class="intro-text">
+            LIC-Connect is a dynamic web platform designed to streamline and enhance the experience of life insurance policyholders, agents, and prospects. Built with modern web technologies and integrated with Supabase, this application serves as a one-stop solution for tracking, managing, and understanding life insurance-related services with a focus on the Life Insurance Corporation of India (LIC).
+        </p>
+
+        <div class="content-grid">
+            <div class="feature-card">
+                <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+                <h2>Our Aim</h2>
+                <p>Our aim is to provide users with a reliable interface to access premium calculators, policy benefits, maturity and surrender value estimators, and other useful tools. LIC-Connect empowers users to make informed financial decisions by offering clear, real-time insights based on their policy data. The platform is especially useful for LIC agents to manage their leads and clients effectively.</p>
+            </div>
+            <div class="feature-card">
+                <div class="card-icon"><i class="fas fa-shield-halved"></i></div>
+                <h2>Our Beliefs</h2>
+                <p>We believe in transparency, ease of use, and data security. LIC-Connect is not affiliated with LIC but is independently created to assist users in understanding and managing their LIC policies better.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -3,84 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Add these inside your <head> tag -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <title>Contact Us</title>
   <style>
-    body {
-      background-color: white;
-      color: green;
-      font-family: Arial, sans-serif;
-      padding: 40px;
-    }
+   /* === Root Variables for a Vibrant Green & Gold Theme === */
+:root {
+    --primary-bg: #004d40;      /* Deep Forest Green */
+    --accent-color: #ffd700;    /* Gold */
+    --text-color: #ffffff;
+    --input-bg: rgba(255, 255, 255, 0.1);
+    --input-border: rgba(255, 215, 0, 0.4);
+    --input-focus-border: var(--accent-color);
+}
 
-    h1 {
-      text-align: center;
-    }
+/* === General Body and Font Styling === */
+body {
+    font-family: 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    background-color: var(--primary-bg);
+    padding: 40px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
-    form {
-      max-width: 500px;
-      margin: auto;
-    }
+/* === Main Form Container Styling === */
+form {
+    max-width: 500px;
+    margin: auto;
+    background: linear-gradient(145deg, #005a4b, #003e2e);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
 
-    label {
-      display: block;
-      margin-top: 20px;
-      font-weight: bold;
-    }
+h1 {
+    text-align: center;
+    color: var(--accent-color);
+    font-family: 'Georgia', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 35px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
 
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid green;
-      border-radius: 8px;
-      box-sizing: border-box;
-      font-size: 16px;
-      margin-top: 8px;
-    }
+label {
+    display: block;
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.9;
+}
 
-    textarea {
-      height: 120px;
-      resize: vertical;
-    }
+/* === Stylish Input Fields === */
+input, textarea {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin-top: 8px;
+    background: var(--input-bg);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
 
-    button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 14px;
-      font-size: 18px;
-      color: white;
-      background: linear-gradient(to bottom, #2ecc71, #27ae60);
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      box-shadow: 0 6px #1e8449, 0 8px 20px rgba(0,0,0,0.2);
-      transition: all 0.2s ease;
-      cursor: pointer;
-    }
+input::placeholder, textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
 
-    button:active {
-      box-shadow: 0 3px #1e8449;
-      transform: translateY(3px);
-    }
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--input-focus-border);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+/* === Flamboyant Button Style === */
+button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 16px;
+    font-size: 1.2rem;
+    color: var(--primary-bg);
+    background: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background: #ffc400;
+    box-shadow: 0 7px 20px rgba(0,0,0,0.4);
+    transform: translateY(-2px);
+}
+
+button:active {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    transform: translateY(1px);
+}
   </style>
 </head>
 <body>
-  <h1>Contact Us</h1>
+ <h1>Get In Touch</h1>
   <form id="contactForm">
-    <label for="fullname">Full Name</label>
-    <input type="text" id="fullname" name="fullname" required />
 
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" required />
+    <div class="input-wrapper">
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required />
+      <i class="icon fas fa-user"></i>
+    </div>
 
-    <label for="mobile">Mobile Number</label>
-    <input type="tel" id="mobile" name="mobile" required pattern="[0-9]{10}" />
+    <div class="input-wrapper">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email address" required />
+       <i class="icon fas fa-envelope"></i>
+    </div>
 
-    <label for="message">Message</label>
-    <textarea id="message" name="message" required></textarea>
+    <div class="input-wrapper">
+      <label for="mobile">Mobile Number</label>
+      <input type="tel" id="mobile" name="mobile" placeholder="Enter your 10-digit mobile number" required pattern="[0-9]{10}" />
+       <i class="icon fas fa-phone"></i>
+    </div>
 
-    <button type="submit">Submit</button>
+    <div class="input-wrapper">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+       <i class="icon fas fa-pen"></i>
+    </div>
+
+    <button type="submit">Send Message</button>
   </form>
-
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 

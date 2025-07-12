@@ -4,156 +4,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Add these to your <head> section -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>LIC BRANCH LOCATOR</title>
     <style>
         /* --- General Body and Font Styles --- */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #ffffff;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+       /* --- Root Variables for a High-Tech Theme --- */
+:root {
+    --primary-color: #0d1b2a; /* Deep Space Blue */
+    --secondary-color: #1b263b; /* Darker Blue */
+    --accent-color: #00e5ff; /* Bright Cyan */
+    --glow-color: rgba(0, 229, 255, 0.6);
+    --text-color: #e0f7fa;
+    --dark-bg: rgba(13, 27, 42, 0.85);
+}
 
-        /* --- Main Container --- */
-        .container {
-            width: 100%;
-            max-width: 800px;
-            text-align: center;
-        }
+/* --- General Body and Font Styles --- */
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 40px 20px;
+    background-image: linear-gradient(160deg, var(--primary-color) 0%, #000000 100%);
+}
 
-        h1 {
-            color: #d9232d; /* LIC Red */
-            text-shadow: 1px 1px 2px #ccc;
-            margin-bottom: 30px;
-        }
+/* --- Main Container & Header --- */
+.container {
+    width: 100%;
+    max-width: 850px;
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
 
-        /* --- Search Controls --- */
-        .search-controls {
-            margin-bottom: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-        }
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color);
+    margin-bottom: 50px;
+}
 
-        .radio-group {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            font-size: 1.1em;
-        }
+/* --- Search Controls Wrapper --- */
+.search-controls {
+    background: var(--dark-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
 
-        .radio-group label {
-            cursor: pointer;
-        }
-        
-        .radio-group input[type="radio"] {
-            accent-color: #d9232d;
-            width: 18px;
-            height: 18px;
-        }
+/* --- Stylish Radio Toggles --- */
+.radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 50px;
+    padding: 8px;
+    background: rgba(0,0,0,0.2);
+}
 
-        /* --- 3D Bevel, Gradient, and Shadow Styling --- */
-        .input-3d, .button-3d {
-            padding: 15px 25px;
-            font-size: 18px;
-            font-weight: bold;
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-            border: none;
-            border-radius: 15px; /* Softer corners */
-            cursor: pointer;
-            transition: all 0.15s ease-in-out;
-            
-            /* Greyish-Black Gradient */
-            background: linear-gradient(145deg, #5c5c5c, #3a3a3a);
-            
-            /* Intense Bevel Effect */
-            border-top: 3px solid rgba(255, 255, 255, 0.25);
-            border-left: 3px solid rgba(255, 255, 255, 0.25);
-            border-bottom: 3px solid rgba(0, 0, 0, 0.35);
-            border-right: 3px solid rgba(0, 0, 0, 0.35);
+.radio-group label {
+    flex: 1;
+    padding: 12px 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    position: relative;
+    color: rgba(255, 255, 255, 0.7);
+}
 
-            /* Intense Shadow Effect */
-            box-shadow: 8px 8px 16px #b3b3b3, -8px -8px 16px #ffffff;
-        }
+.radio-group input[type="radio"] {
+    display: none; /* Hide the original radio button */
+}
 
-        .input-3d {
-            width: 80%;
-            max-width: 400px;
-            text-align: center;
-            outline: none; /* Remove default focus outline */
-        }
-        
-        .input-3d::placeholder {
-            color: #bbb;
-            opacity: 1;
-        }
+.radio-group input[type="radio"]:checked + label {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    box-shadow: 0 0 15px var(--glow-color);
+}
 
-        .button-3d:active, .input-3d:focus {
-            /* Inset effect on click/focus to complete the 3D feel */
-            box-shadow: inset 8px 8px 16px #2e2e2e, inset -8px -8px 16px #686868;
-            transform: translateY(2px); /* Slight push down effect */
-        }
-        
-        /* --- Results Container & Cards --- */
-        #results-container {
-            margin-top: 40px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        
-        .branch-card {
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: left;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
+/* --- Search Bar and Button --- */
+.search-bar {
+    display: flex;
+    gap: 15px;
+}
 
-        .branch-card h3 {
-            margin-top: 0;
-            color: #d9232d;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
+#search-input {
+    flex-grow: 1;
+    padding: 18px 25px;
+    font-size: 1rem;
+    color: #fff;
+    border: 1px solid var(--accent-color);
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    outline: none;
+}
 
-        .branch-card p {
-            margin: 5px 0;
-            line-height: 1.5;
-        }
-        
-        .branch-card strong {
-            color: #555;
-        }
+#search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+}
 
-        #message {
-            font-size: 1.2em;
-            color: #777;
-        }
+#search-input:focus {
+    box-shadow: 0 0 15px var(--glow-color);
+    background-color: rgba(0,0,0,0.5);
+}
 
-        /* --- Responsive Design --- */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.8em;
-            }
-            .input-3d, .button-3d {
-                padding: 12px 20px;
-                font-size: 16px;
-                width: 90%;
-            }
-            .radio-group {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
+#find-button {
+    padding: 18px 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--primary-color);
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+#find-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--glow-color);
+}
+
+/* --- Results Container & Cards --- */
+#results-container {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.branch-card {
+    background: var(--dark-bg);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    opacity: 0;
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.branch-card h3 {
+    margin-top: 0;
+    color: var(--accent-color);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+.branch-card p {
+    margin: 8px 0;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.branch-card strong {
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+#message {
+    font-size: 1.2em;
+    color: var(--accent-color);
+    margin-top: 30px;
+    font-weight: 600;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 600px) {
+    body {
+        padding: 20px 10px;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    .radio-group {
+        flex-direction: column;
+        border: none;
+        background: none;
+        gap: 10px;
+    }
+    .search-bar {
+        flex-direction: column;
+    }
+    .search-controls {
+        padding: 20px;
+    }
+}
     </style>
 </head>
 <body>
@@ -161,17 +225,28 @@
     <div class="container">
         <h1>LIC BRANCH LOCATOR</h1>
 
+        <!-- The main container for all search elements -->
         <div class="search-controls">
+            
+            <!-- 1. The radio button group is now INSIDE search-controls -->
             <div class="radio-group" id="search-type">
-                <label><input type="radio" name="searchType" value="branchCode" checked> Branch Code</label>
-                <label><input type="radio" name="searchType" value="city"> City</label>
-                <label><input type="radio" name="searchType" value="pincode"> Pincode</label>
+                <input type="radio" id="radioBranchCode" name="searchType" value="branchCode" checked>
+                <label for="radioBranchCode"><i class="fas fa-hashtag"></i> Branch Code</label>
+                
+                <input type="radio" id="radioCity" name="searchType" value="city">
+                <label for="radioCity"><i class="fas fa-city"></i> City</label>
+                
+                <input type="radio" id="radioPincode" name="searchType" value="pincode">
+                <label for="radioPincode"><i class="fas fa-map-marker-alt"></i> Pincode</label>
             </div>
 
-            <input type="text" id="search-input" class="input-3d" placeholder="Enter search term...">
-            
-            <button id="find-button" class="button-3d">FIND</button>
-        </div>
+            <!-- 2. This is the new container for the input and button -->
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Enter search term...">
+                <button id="find-button">FIND</button>
+            </div>
+
+        </div> <!-- end of search-controls -->
 
         <div id="results-container">
             <!-- Search results will be displayed here -->
@@ -179,6 +254,12 @@
         <p id="message"></p>
 
     </div>
+
+   
+</body>
+
+
+
 
     <script>
         // Embedding JSON data directly into the script
