@@ -1,77 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Plan Features - LIC CONNECT</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff url('happy-family.jpg') no-repeat center center fixed;
-      background-size: cover;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #004d00;
-      text-shadow: 1px 1px #ccc;
-    }
-    .plan-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 30px;
-    }
-    .plan-button {
-      padding: 12px 20px;
-      background: linear-gradient(to bottom right, #00cc44, #009933);
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.4);
-      transition: background 0.3s;
-    }
-    .plan-button:hover {
-      background: linear-gradient(to bottom right, #009933, #007f29);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>LIC Plan Matrix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Google Fonts for a modern, stylish look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #0d1b2a; /* Deep Space Blue */
+            --secondary-color: #1b263b; /* Darker Blue */
+            --accent-color: #00f5d4; /* Neon Teal */
+            --glow-color: rgba(0, 245, 212, 0.6);
+            --text-color: #e0e1dd;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--primary-color);
+            /* This will use your image as a background layer */
+            background-image: 
+                linear-gradient(rgba(13, 27, 42, 0.85), rgba(13, 27, 42, 0.95)),
+                url('happy-family.jpg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+            color: var(--text-color);
+        }
+
+        .portal-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(27, 38, 59, 0.6);
+            border: 1px solid rgba(0, 245, 212, 0.2);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.7);
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .portal-header .icon {
+            font-size: 4rem;
+            color: var(--accent-color);
+            text-shadow: 0 0 20px var(--glow-color);
+            margin-bottom: 15px;
+        }
+
+        .portal-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .portal-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 50px;
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 20px;
+        }
+
+        .plan-card {
+            background: linear-gradient(145deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: 1px solid rgba(0, 245, 212, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: all 0.3s ease-out;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 120px;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            background: var(--accent-color);
+            color: var(--primary-color);
+            box-shadow: 0 0 30px var(--glow-color);
+            border-color: var(--accent-color);
+        }
+
+        .plan-card .plan-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .plan-card .plan-name {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        /* The JS function remains the same, as it's perfect. */
+    </style>
 </head>
 <body>
 
-  <h1>Current LIC Plans</h1>
+  <div class="portal-container">
+    <header class="portal-header">
+        <div class="icon"><i class="fas fa-th-large"></i></div>
+        <h1>LIC Plan Matrix</h1>
+        <p>Select a plan to explore its features and benefits.</p>
+    </header>
 
-  <div class="plan-list">
-    <button class="plan-button" onclick="openPlan('714_details')">Plan 714</button>
-    <button class="plan-button" onclick="openPlan('715_details')">Plan 715</button>
-    <button class="plan-button" onclick="openPlan('717_details')">Plan 717</button>
-    <button class="plan-button" onclick="openPlan('720_details')">Plan 720</button>
-    <button class="plan-button" onclick="openPlan('721_details')">Plan 721</button>
-    <button class="plan-button" onclick="openPlan('732_details')">Plan 732</button>
-    <button class="plan-button" onclick="openPlan('733_details')">Plan 733</button>
-    <button class="plan-button" onclick="openPlan('734_details')">Plan 734</button>
-    <button class="plan-button" onclick="openPlan('736_details')">Plan 736</button>
-    <button class="plan-button" onclick="openPlan('745_details')">Plan 745</button>
-    <button class="plan-button" onclick="openPlan('748_details')">Plan 748</button>
-    <button class="plan-button" onclick="openPlan('751_details')">Plan 751</button>
-    <button class="plan-button" onclick="openPlan('758_details')">Plan 758</button>
-    <button class="plan-button" onclick="openPlan('760_details')">Plan 760</button>
-    <button class="plan-button" onclick="openPlan('768_details')">Plan 768</button>
-    <button class="plan-button" onclick="openPlan('771_details')">Plan 771</button>
-    <button class="plan-button" onclick="openPlan('774_details')">Plan 774</button>
-    <button class="plan-button" onclick="openPlan('857_details')">Plan 857</button>
-    <button class="plan-button" onclick="openPlan('859_details')">Plan 859</button>
-    <button class="plan-button" onclick="openPlan('862_details')">Plan 862</button>
-    <button class="plan-button" onclick="openPlan('875_details')">Plan 875</button>
-    <button class="plan-button" onclick="openPlan('877_details')">Plan 877</button>
-    <button class="plan-button" onclick="openPlan('879_details')">Plan 879</button>
-    <button class="plan-button" onclick="openPlan('955_details')">Plan 955</button>
+    <div class="plan-grid">
+      <!-- I've added plan names for better user experience -->
+      <button class="plan-card" onclick="openPlan('714_details')">
+        <span class="plan-number">714</span>
+        <span class="plan-name">New Endowment</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('715_details')">
+        <span class="plan-number">715</span>
+        <span class="plan-name">Jeevan Anand</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('717_details')">
+        <span class="plan-number">717</span>
+        <span class="plan-name">Single Premium</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('720_details')">
+        <span class="plan-number">720</span>
+        <span class="plan-name">Money Back 20Y</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('721_details')">
+        <span class="plan-number">721</span>
+        <span class="plan-name">Money Back 25Y</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('732_details')">
+        <span class="plan-number">732</span>
+        <span class="plan-name">Child Money Back</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('733_details')">
+        <span class="plan-number">733</span>
+        <span class="plan-name">Jeevan Lakshya</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('734_details')">
+        <span class="plan-number">734</span>
+        <span class="plan-name">Jeevan Tarun</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('736_details')">
+        <span class="plan-number">736</span>
+        <span class="plan-name">Jeevan Labh</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('745_details')">
+        <span class="plan-number">745</span>
+        <span class="plan-name">Jeevan Umang</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('748_details')">
+        <span class="plan-number">748</span>
+        <span class="plan-name">Bima Shree</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('751_details')">
+        <span class="plan-number">751</span>
+        <span class="plan-name">Micro Bachat</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('758_details')">
+        <span class="plan-number">758</span>
+        <span class="plan-name">Jeevan Shanti</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('760_details')">
+        <span class="plan-number">760</span>
+        <span class="plan-name">Bima Jyoti</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('768_details')">
+        <span class="plan-number">768</span>
+        <span class="plan-name">Jeevan Azad</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('771_details')">
+        <span class="plan-number">771</span>
+        <span class="plan-name">Jeevan Utsav</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('774_details')">
+        <span class="plan-number">774</span>
+        <span class="plan-name">Amritbaal</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('857_details')">
+        <span class="plan-number">857</span>
+        <span class="plan-name">Jeevan Akshay</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('859_details')">
+        <span class="plan-number">859</span>
+        <span class="plan-name">Saral Jeevan</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('862_details')">
+        <span class="plan-number">862</span>
+        <span class="plan-name">Saral Pension</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('875_details')">
+        <span class="plan-number">875</span>
+        <span class="plan-name">Yuva Term</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('877_details')">
+        <span class="plan-number">877</span>
+        <span class="plan-name">Yuva Credit Life</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('879_details')">
+        <span class="plan-number">879</span>
+        <span class="plan-name">Smart Pension</span>
+      </button>
+      <button class="plan-card" onclick="openPlan('955_details')">
+        <span class="plan-number">955</span>
+        <span class="plan-name">Jeevan Amar</span>
+      </button>
+    </div>
   </div>
 
   <script>
     function openPlan(planNo) {
+      // This function works perfectly, no changes needed.
+      // It will open files like '714_details.html' in a new tab.
       window.open(planNo + '.html', '_blank');
     }
   </script>
