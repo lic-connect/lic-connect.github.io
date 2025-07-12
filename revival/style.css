@@ -1,0 +1,203 @@
+:root {
+    --primary-color: #004d40; /* Deep Teal */
+    --secondary-color: #00796b; /* Lighter Teal */
+    --accent-color: #ffab40; /* Amber */
+    --text-color: #333;
+    --bg-color: #f4f6f7;
+    --container-bg: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: var(--container-bg);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--accent-color), #ff7043);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.form-section {
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 25px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.form-section:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.form-section h2, .revival-section h3 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+}
+
+.revival-section h3 {
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.2);
+}
+
+input[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+#calculateBtn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(45deg, var(--accent-color), #ff7043);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.3s;
+    margin-top: 20px;
+}
+
+#calculateBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 171, 64, 0.4);
+}
+
+#calculateBtn i {
+    margin-right: 10px;
+}
+
+.revival-section {
+    display: none;
+    padding: 20px;
+    border: 1px dashed var(--secondary-color);
+    border-radius: 8px;
+    margin-top: 20px;
+    background-color: #e8f5e9; /* Light Green background */
+}
+
+#result-container {
+    display: none;
+    margin-top: 40px;
+    padding: 30px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+#result-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+#result-container p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+#revivalAmountOutput {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin: 10px 0;
+    letter-spacing: 1px;
+}
+
+.formula-title {
+    margin-top: 20px !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem !important;
+    letter-spacing: 1px;
+    opacity: 0.8 !important;
+}
+
+#formulaDisplay {
+    font-family: monospace;
+    font-size: 1rem !important;
+    background-color: rgba(0,0,0,0.2);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    header h1 {
+        font-size: 2.2rem;
+    }
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Plan Revival Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>LIC Revival Calculator</h1>
+            <p>Calculate the revival amount for your lapsed LIC policies with ease.</p>
+        </header>
+
+        <form id="revivalForm">
+            <!-- ===== STEP 1: PLAN SELECTION ===== -->
+            <div class="form-section">
+                <h2><i class="fas fa-file-signature"></i> Policy Details</h2>
+                <div class="input-group">
+                    <label for="planName">Plan Name</label>
+                    <select id="planName" required>
+                        <option value="">-- Select a Plan --</option>
+                        <optgroup label="🌳 Endowment Plans">
+                            <option value="LIC's New Endowment Plan" data-plan-no="714">LIC's New Endowment Plan</option>
+                            <option value="LIC's New Jeevan Anand" data-plan-no="715">LIC's New Jeevan Anand</option>
+                            <option value="LIC's Jeevan Lakshya" data-plan-no="733">LIC's Jeevan Lakshya</option>
+                            <option value="LIC's Jeevan Labh" data-plan-no="736">LIC's Jeevan Labh</option>
+                            <option value="LIC's Amritbaal" data-plan-no="774">LIC's Amritbaal</option>
+                            <option value="LIC's Bima Jyoti" data-plan-no="760">LIC's Bima Jyoti</option>
+                            <option value="LIC's Jeevan Azad" data-plan-no="768">LIC's Jeevan Azad</option>
+                            <option value="LIC’s Nav Jeevan Shree" data-plan-no="912">LIC’s Nav Jeevan Shree</option>
+                        </optgroup>
+                        <optgroup label="🌳 Whole Life Plans">
+                            <option value="LIC's Jeevan Umang" data-plan-no="745">LIC's Jeevan Umang</option>
+                            <option value="LIC's Jeevan Utsav" data-plan-no="771">LIC's Jeevan Utsav</option>
+                        </optgroup>
+                         <optgroup label="💰 Money Back Plans">
+                            <option value="LIC’s Bima Shree" data-plan-no="748">LIC’s Bima Shree</option>
+                            <option value="LIC's New Money Back Plan-20 Years" data-plan-no="720">LIC's New Money Back Plan-20 Years</option>
+                            <option value="LIC's New Money Back Plan-25 Years" data-plan-no="721">LIC's New Money Back Plan-25 Years</option>
+                            <option value="LIC's New Children's Money Back Plan" data-plan-no="732">LIC's New Children's Money Back Plan</option>
+                            <option value="LIC's Bima Ratna" data-plan-no="764">LIC's Bima Ratna</option>
+                        </optgroup>
+                        <optgroup label="🧾 Term Assurance Plans">
+                            <option value="LIC’s Digi Credit Life" data-plan-no="878">LIC’s Digi Credit Life</option>
+                            <option value="LIC’s Yuva Credit Life" data-plan-no="877">LIC’s Yuva Credit Life</option>
+                            <option value="LIC’s Yuva Term" data-plan-no="875">LIC’s Yuva Term</option>
+                            <option value="LIC's New Tech-Term" data-plan-no="954">LIC's New Tech-Term</option>
+                            <option value="LIC's New Jeevan Amar" data-plan-no="955">LIC's New Jeevan Amar</option>
+                            <option value="LIC's Saral Jeevan Bima" data-plan-no="859">LIC's Saral Jeevan Bima</option>
+                        </optgroup>
+                        <optgroup label="📈 Unit Linked Plans">
+                            <option value="LIC's Index Plus" data-plan-no="873">LIC's Index Plus</option>
+                            <option value="LIC's Nivesh Plus" data-plan-no="749">LIC's Nivesh Plus</option>
+                            <option value="LIC's SIIP" data-plan-no="752">LIC's SIIP</option>
+                            <option value="LIC's New Endowment Plus" data-plan-no="735">LIC's New Endowment Plus</option>
+                        </optgroup>
+                        <optgroup label="🧓 Pension Plans">
+                            <option value="LIC's Jeevan Akshay-VII" data-plan-no="857">LIC's Jeevan Akshay-VII</option>
+                            <option value="LIC’s New Jeevan Shanti" data-plan-no="758">LIC’s New Jeevan Shanti</option>
+                            <option value="LIC's Saral Pension" data-plan-no="862">LIC's Saral Pension</option>
+                            <option value="LIC’s Smart Pension" data-plan-no="879">LIC’s Smart Pension</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="planNo">Plan Number</label>
+                    <input type="text" id="planNo" placeholder="Auto-populated" readonly>
+                </div>
+            </div>
+
+            <!-- ===== STEP 2: REVIVAL TYPE ===== -->
+            <div class="form-section">
+                <h2><i class="fas fa-sync-alt"></i> Revival Type</h2>
+                <div class="input-group">
+                    <label for="revivalType">Select Revival Type</label>
+                    <select id="revivalType" required>
+                        <option value="">-- Select a Type --</option>
+                        <option value="ordinary">Ordinary Revival</option>
+                        <option value="special">Special Revival</option>
+                        <option value="sb_cum">SB Cum Revival</option>
+                        <option value="loan_cum">Loan Cum Revival</option>
+                        <option value="instalment_cum">Instalment Cum Revival</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- ===== DYNAMIC INPUT SECTIONS ===== -->
+            <div id="dynamic-inputs">
+                <!-- Ordinary Revival Inputs -->
+                <div id="ordinary-inputs" class="revival-section">
+                    <h3>Ordinary Revival Details</h3>
+                    <div class="input-group"><label for="ord_unpaid_premium">Total Unpaid Premium (₹)</label><input type="number" id="ord_unpaid_premium" placeholder="e.g., 25000"></div>
+                    <div class="input-group"><label for="ord_interest_rate">Interest Rate (%)</label><input type="number" id="ord_interest_rate" value="9.5" step="0.1"></div>
+                    <div class="input-group"><label for="ord_years_lapsed">Number of Years Lapsed</label><input type="number" id="ord_years_lapsed" placeholder="e.g., 2.5" step="0.1"></div>
+                    <div class="input-group"><label for="ord_date_lapse">Date of Lapse</label><input type="date" id="ord_date_lapse"></div>
+                    <div class="input-group"><label for="ord_date_revival">Date of Revival</label><input type="date" id="ord_date_revival"></div>
+                </div>
+
+                <!-- Special Revival Inputs -->
+                <div id="special-inputs" class="revival-section">
+                    <h3>Special Revival Details</h3>
+                    <div class="input-group"><label for="spl_unpaid_premium">Total Unpaid Premium (₹)</label><input type="number" id="spl_unpaid_premium" placeholder="e.g., 50000"></div>
+                    <div class="input-group"><label for="spl_interest_rate">Interest Rate (%)</label><input type="number" id="spl_interest_rate" value="9.5" step="0.1"></div>
+                    <div class="input-group"><label for="spl_years_lapsed">Number of Years Lapsed</label><input type="number" id="spl_years_lapsed" placeholder="e.g., 3" step="0.1"></div>
+                    <div class="input-group"><label for="spl_penalty">Penalty Amount (₹100-500)</label><input type="number" id="spl_penalty" placeholder="e.g., 250"></div>
+                    <div class="input-group"><label for="spl_date_lapse">Date of Lapse</label><input type="date" id="spl_date_lapse"></div>
+                    <div class="input-group"><label for="spl_date_revival">Date of Revival</label><input type="date" id="spl_date_revival"></div>
+                </div>
+
+                <!-- SB Cum Revival Inputs -->
+                <div id="sb_cum-inputs" class="revival-section">
+                    <h3>SB Cum Revival Details</h3>
+                    <div class="input-group"><label for="sb_outstanding_amount">Outstanding SB Amount (₹)</label><input type="number" id="sb_outstanding_amount" placeholder="e.g., 100000"></div>
+                    <div class="input-group"><label for="sb_interest_rate">Interest Rate (%)</label><input type="number" id="sb_interest_rate" value="9.5" step="0.1"></div>
+                    <div class="input-group"><label for="sb_years_lapsed">Number of Years Lapsed</label><input type="number" id="sb_years_lapsed" placeholder="e.g., 1.5" step="0.1"></div>
+                    <div class="input-group"><label for="sb_penalty">Penalty Amount (₹)</label><input type="number" id="sb_penalty" placeholder="e.g., 300"></div>
+                    <div class="input-group"><label for="sb_term_remaining">Policy Term Remaining (Years)</label><input type="number" id="sb_term_remaining" placeholder="e.g., 15"></div>
+                    <div class="input-group"><label for="sb_date_due">Date of SB Due</label><input type="date" id="sb_date_due"></div>
+                    <div class="input-group"><label for="sb_date_revival">Date of Revival</label><input type="date" id="sb_date_revival"></div>
+                </div>
+                
+                <!-- Loan Cum Revival Inputs -->
+                <div id="loan_cum-inputs" class="revival-section">
+                    <h3>Loan Cum Revival Details</h3>
+                    <div class="input-group"><label for="loan_outstanding_amount">Outstanding Loan Amount (₹)</label><input type="number" id="loan_outstanding_amount" placeholder="e.g., 200000"></div>
+                    <div class="input-group"><label for="loan_interest_rate">Interest on Loan (%)</label><input type="number" id="loan_interest_rate" value="8.0" step="0.1"></div>
+                    <div class="input-group"><label for="loan_duration">Loan Duration (Years)</label><input type="number" id="loan_duration" placeholder="e.g., 2" step="0.1"></div>
+                    <div class="input-group"><label for="loan_penalty">Penalty Charges (₹)</label><input type="number" id="loan_penalty" placeholder="e.g., 500"></div>
+                    <div class="input-group"><label for="loan_unpaid_premiums_no">No. of Unpaid Premiums</label><input type="number" id="loan_unpaid_premiums_no" placeholder="e.g., 4"></div>
+                    <div class="input-group"><label for="loan_premium_amount">Amount of Each Premium (₹)</label><input type="number" id="loan_premium_amount" placeholder="e.g., 12000"></div>
+                    <div class="input-group"><label for="loan_date">Date of Loan</label><input type="date" id="loan_date"></div>
+                    <div class="input-group"><label for="loan_date_revival">Date of Revival</label><input type="date" id="loan_date_revival"></div>
+                </div>
+
+                <!-- Instalment Cum Revival Inputs -->
+                <div id="instalment_cum-inputs" class="revival-section">
+                    <h3>Instalment Cum Revival Details</h3>
+                    <div class="input-group"><label for="inst_unpaid_no">No. of Unpaid Instalments</label><input type="number" id="inst_unpaid_no" placeholder="e.g., 6"></div>
+                    <div class="input-group"><label for="inst_amount">Amount of Each Instalment (₹)</label><input type="number" id="inst_amount" placeholder="e.g., 5000"></div>
+                    <div class="input-group"><label for="inst_penalty">Penalty Charges (₹)</label><input type="number" id="inst_penalty" placeholder="e.g., 600 (2-5% of unpaid)"></div>
+                    <div class="input-group"><label for="inst_penalty_interest">Interest on Penalty (%)</label><input type="number" id="inst_penalty_interest" value="8.0" step="0.1"></div>
+                    <div class="input-group"><label for="inst_premium_interest">Interest on Unpaid Premiums (%)</label><input type="number" id="inst_premium_interest" value="8.0" step="0.1"></div>
+                    <div class="input-group"><label for="inst_date_last_paid">Date of Last Paid Instalment</label><input type="date" id="inst_date_last_paid"></div>
+                    <div class="input-group"><label for="inst_date_revival">Date of Revival</label><input type="date" id="inst_date_revival"></div>
+                </div>
+            </div>
+
+            <button type="button" id="calculateBtn"><i class="fas fa-calculator"></i> Calculate Revival Amount</button>
+        </form>
+
+        <div id="result-container">
+            <h2><i class="fas fa-rupee-sign"></i> Calculation Result</h2>
+            <p>Total Revival Amount:</p>
+            <h3 id="revivalAmountOutput">₹ 0.00</h3>
+            <p class="formula-title">Formula Used:</p>
+            <p id="formulaDisplay">-</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
