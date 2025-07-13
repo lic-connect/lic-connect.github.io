@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Loan Process</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --primary-color: #D4AF37; /* Gold */
+            --card-bg: #1f1f1f;
+            --text-color: #cccccc;
+            --heading-color: #ffffff;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4.5rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            text-shadow: 0 0 2px #000, 0 0 5px #000, 0 0 10px #000, 2px 2px 2px rgba(0,0,0,0.5);
+        }
+        .form-no {
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+        .step-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .step-card h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6rem;
+            color: var(--heading-color);
+            margin: 0 0 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        .step-card h2 .icon {
+            font-size: 1.2em;
+            margin-right: 15px;
+            color: var(--primary-color);
+        }
+        .step-card p, .step-card li { margin: 8px 0; line-height: 1.7; }
+        .step-card ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LIC Loan</h1>
+        <p class="form-no">(FORM NO 5196)</p>
+        
+        <div class="step-card"><h2 class="icon-title"><i class="icon fas fa-check-circle"></i>Eligibility</h2><p>Ensure your policy qualifies for a loan. Most traditional endowment, money-back, and whole-life policies are eligible. The loan amount is typically up to 85-90% of the policy's surrender value.</p></div>
+        <div class="step-card"><h2 class="icon-title"><i class="icon fas fa-folder"></i>Prepare Necessary Documents</h2><ul><li><strong>Original Policy Document:</strong> This is the primary collateral.</li><li><strong>Loan Application Form (No. 5196).</strong></li><li><strong>ID & Address Proof:</strong> Aadhaar, PAN, Voter ID, etc.</li><li><strong>Cancelled Cheque:</strong> For direct NEFT transfer of the loan amount.</li></ul></div>
+        <div class="step-card"><h2 class="icon-title"><i class="icon fas fa-pen-nib"></i>Fill Out the Loan Application Form</h2><p>Fill in your personal details, policy number, and the desired loan amount. Provide your bank details for the transfer and attach all necessary documents. Sign the form where required.</p></div>
+        <div class="step-card"><h2 class="icon-title"><i class="icon fas fa-building"></i>Visit the Nearest LIC Branch</h2><p>Submit the filled application form and documents to your servicing branch. An official will verify the documents and provide an acknowledgment receipt.</p></div>
+        <div class="step-card"><h2 class="icon-title"><i class="icon fas fa-file-signature"></i>Loan Agreement and Terms</h2><p>Once approved, you may need to sign a loan agreement. The interest rate, usually lower than personal loans, will be communicated by LIC. Interest must be paid regularly to prevent it from being added to the principal loan amount.</p></div>
+        <div class="step-card"><h2 class="icon-title"><i class="icon fas fa-rupee-sign"></i>Receiving the Loan Amount</h2><p>The approved loan amount will be credited directly to your bank account via NEFT or issued as a cheque.</p></div>
+    </div>
+</body>
+</html>

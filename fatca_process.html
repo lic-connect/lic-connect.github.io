@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FATCA/CRS Self-Certification</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #ecf0f1;
+            --text-color: #34495e;
+            --header-bg: #ffffff;
+        }
+        body { font-family: 'Lato', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 40px 20px; }
+        .container { max-width: 850px; margin: 0 auto; background: var(--header-bg); border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .header { padding: 30px; text-align: center; border-bottom: 5px solid var(--accent-color); }
+        .header h1 { font-family: 'Oswald', sans-serif; color: var(--primary-color); font-size: 2.5rem; margin: 0; text-transform: uppercase; }
+        .header p { font-size: 1rem; margin: 5px 0 0 0; color: #7f8c8d; }
+        .form-content { padding: 30px; }
+        .form-section { margin-bottom: 30px; }
+        .form-section h2 { font-family: 'Oswald', sans-serif; color: var(--accent-color); font-size: 1.5rem; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px; }
+        .form-section p { line-height: 1.7; margin-bottom: 15px; }
+        .form-section ul { list-style: none; padding-left: 0; }
+        .form-section li { background: #f9f9f9; border-left: 3px solid var(--accent-color); margin-bottom: 8px; padding: 10px 15px; }
+        .form-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .form-table th, .form-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .form-table th { background-color: #f2f2f2; font-weight: 700; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Self-Certification Form (FATCA/CRS)</h1>
+            <p>(Relating to Section 285BA of the Income-tax Act, 1961)</p>
+        </header>
+        <div class="form-content">
+            <div class="form-section">
+                <h2>Mandatory Information</h2>
+                <p>All information must be provided by the Policyholder, Annuitant, Beneficiary, or other relevant parties.</p>
+                <ul>
+                    <li>Customer ID / Policy Number</li>
+                    <li>Name and Role (e.g., Policy Holder)</li>
+                    <li>Residence for Tax Purposes outside India: YES / NO</li>
+                </ul>
+            </div>
+            <div class="form-section">
+                <h2>Declaration for Non-Residence</h2>
+                <p>If you are NOT a tax resident outside India, you must certify this, sign, and date the form. You undertake to inform LIC of any changes immediately.</p>
+            </div>
+            <div class="form-section">
+                <h2>Declaration for Foreign Tax Residency</h2>
+                <p>If you ARE a tax resident in a jurisdiction outside India, you must mandatorily provide the following details:</p>
+                <table class="form-table">
+                    <thead><tr><th>Country of Tax Residency</th><th>Address</th><th>Tax ID Number (TIN)</th></tr></thead>
+                    <tbody><tr><td> </td><td> </td><td> </td></tr></tbody>
+                </table>
+            </div>
+            <div class="form-section">
+                <h2>Declaration & Undertakings</h2>
+                <p>By signing, you certify that all information is true and correct, and you agree to comply with all relevant laws for reporting. You authorize LIC to collect, store, and process this information as required for legal compliance.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

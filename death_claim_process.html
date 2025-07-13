@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Death Claim Process</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #1a233a;
+            --primary-color: #4e73df;
+            --card-bg: #2a334e;
+            --text-color: #d1d5db;
+            --heading-color: #ffffff;
+            --accent-color: #8c9eff;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px #3c56a8, 4px 4px 0px #2a3d7a, 6px 6px 15px rgba(0,0,0,0.5);
+        }
+        .process-stepper { position: relative; }
+        .process-stepper::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: rgba(78, 115, 223, 0.3);
+            border-radius: 2px;
+        }
+        .step {
+            position: relative;
+            padding-left: 70px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.6s ease-out forwards;
+        }
+        .step-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 52px;
+            height: 52px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            border: 3px solid var(--bg-color);
+            box-shadow: 0 0 15px rgba(78, 115, 223, 0.4);
+        }
+        .step h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--heading-color);
+            margin: 0 0 10px 0;
+        }
+        .step p { margin: 5px 0; line-height: 1.7; }
+        .step ul { padding-left: 20px; margin-top: 10px; }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        /* Staggered Animations */
+        .step:nth-child(1) { animation-delay: 0.1s; } .step:nth-child(2) { animation-delay: 0.2s; }
+        .step:nth-child(3) { animation-delay: 0.3s; } .step:nth-child(4) { animation-delay: 0.4s; }
+        .step:nth-child(5) { animation-delay: 0.5s; } .step:nth-child(6) { animation-delay: 0.6s; }
+        .step:nth-child(7) { animation-delay: 0.7s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Death Claim Process</h1>
+        <div class="process-stepper">
+            <div class="step"><div class="step-icon"><i class="fas fa-bullhorn"></i></div><h2>Inform LIC About the Death</h2><p>As soon as possible, the nominee or legal heir must inform the nearest LIC branch office about the death. This can be done in person or by calling customer service.</p></div>
+            <div class="step"><div class="step-icon"><i class="fas fa-folder-open"></i></div><h2>Collect Necessary Documents</h2><ul><li><strong>Death Certificate:</strong> From the municipal authority.</li><li><strong>Original Policy Document:</strong> The original policy bond.</li><li><strong>Claimant's Statement (Form 3783):</strong> The main death claim form.</li><li><strong>NEFT Mandate Form:</strong> For direct bank transfer, with a cancelled cheque or passbook copy.</li><li><strong>Proof of Identity & Address:</strong> Claimant's Aadhaar, PAN, Voter ID, etc.</li><li><strong>Proof of Age of Deceased:</strong> If not previously verified.</li><li><strong>Medical/Hospital/Employer Certificates (Form 3815/3816):</strong> Depending on the cause of death (illness or accident).</li><li><strong>Police FIR & Post-Mortem Report:</strong> Required for accidental or unnatural deaths.</li></ul></div>
+            <div class="step"><div class="step-icon"><i class="fas fa-pen-alt"></i></div><h2>Fill Out the Death Claim Form (No. 3783)</h2><p>The nominee must fill in personal details, policy number, cause and date of death. Attach all required documents and sign the form. Attestation by a competent authority may be required.</p></div>
+            <div class="step"><div class="step-icon"><i class="fas fa-building"></i></div><h2>Visit the Nearest LIC Branch</h2><p>Submit all documents at the policy's servicing branch or any nearby branch. An official will verify the documents and provide an acknowledgment receipt.</p></div>
+            <div class="step"><div class="step-icon"><i class="fas fa-search"></i></div><h2>Investigation (If Required)</h2><p>LIC may conduct a thorough investigation if the death occurs within three years of policy issuance or if the cause is suspicious. This may extend the processing time.</p></div>
+            <div class="step"><div class="step-icon"><i class="fas fa-hand-holding-usd"></i></div><h2>Receive the Death Claim Amount</h2><p>The claim amount will be credited directly to the claimant's bank account via NEFT. LIC will send a letter confirming the settlement.</p></div>
+            <div class="step"><div class="step-icon"><i class="fas fa-file-invoice-dollar"></i></div><h2>Tax Implications</h2><p>Typically, the death benefit received is tax-free under Section 10(10D) of the Income Tax Act. It is always advisable to consult a tax advisor for clarity.</p></div>
+        </div>
+    </div>
+</body>
+</html>

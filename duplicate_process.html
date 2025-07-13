@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duplicate Policy Form Process</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #d9232d; /* LIC Red */
+            --bg-color: #f1f1f1;
+            --text-color: #333;
+            --card-bg: #fff;
+        }
+        body { font-family: 'Lato', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 40px 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 2px #ccc;
+        }
+        .form-no { text-align: center; font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: #555; margin-bottom: 40px; }
+        .step-grid { display: flex; flex-direction: column; gap: 20px; }
+        .step {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .step:hover { transform: scale(1.02); }
+        .step-number {
+            background-color: var(--primary-color);
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
+        }
+        .step-content { padding: 20px; }
+        .step-content h2 { font-family: 'Oswald', sans-serif; font-size: 1.5rem; margin: 0 0 10px 0; color: var(--primary-color); }
+        .step-content p { margin: 0; line-height: 1.7; }
+        .step-content ul { padding-left: 20px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Duplicate Policy Form</h1>
+        <p class="form-no">(Form No. 3756 & 3815)</p>
+        <div class="step-grid">
+            <div class="step"><div class="step-number">1</div><div class="step-content"><h2>Report the Loss</h2><p>It is advisable to file a First Information Report (FIR) at the nearest police station to report the loss of the policy bond.</p></div></div>
+            <div class="step"><div class="step-number">2</div><div class="step-content"><h2>Prepare Documents</h2><ul><li><strong>Indemnity Bond (Form 3756):</strong> A legal document indemnifying LIC against future claims on the lost bond. Must be on non-judicial stamp paper.</li><li><strong>Declaration of Loss (Form 3815):</strong> A form declaring the circumstances of the loss.</li><li><strong>ID & Address Proof:</strong> Your Aadhaar, PAN, etc.</li><li><strong>Original Premium Receipts:</strong> If available.</li></ul></div></div>
+            <div class="step"><div class="step-number">3</div><div class="step-content"><h2>Submit at Branch</h2><p>Visit your servicing LIC branch and submit all the required documents. Ensure you get an acknowledgment receipt.</p></div></div>
+            <div class="step"><div class="step-number">4</div><div class="step-content"><h2>Processing & Issuance</h2><p>LIC will verify the documents. In some cases, a newspaper advertisement may be required. The process may take a few weeks, after which a duplicate policy bond will be issued.</p></div></div>
+        </div>
+    </div>
+</body>
+</html>

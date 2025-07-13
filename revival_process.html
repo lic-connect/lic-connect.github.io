@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Revival Process</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f4fbf7;
+            --primary-color: #27ae60;
+            --secondary-color: #2ecc71;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --heading-color: #16a085;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        .form-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .form-header {
+            background-color: var(--heading-color);
+            color: #fff;
+            padding: 20px;
+        }
+        .form-header h2 {
+            font-family: 'Oswald', sans-serif;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        .form-header p { margin: 5px 0 0 0; opacity: 0.9; }
+        .form-content {
+            padding: 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .form-content h3 {
+            grid-column: 1 / -1;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+        }
+        .form-content ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .form-content li {
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+        .form-content li::before {
+            content: '\f138'; /* right-arrow */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Policy Revival Process</h1>
+        <div class="form-grid">
+            <div class="form-card">
+                <div class="form-header"><h2>A. Revival Application Form (No. 680)</h2><p>For regular lapsed policies.</p></div>
+                <div class="form-content">
+                    <div><h3>Personal & Policy Details</h3><ul><li>Policy Number, Name, DOB, Address</li><li>Date of Lapse, Sum Assured</li></ul></div>
+                    <div><h3>Revival & Health Details</h3><ul><li>Revival Mode (Regular, Limited, etc.)</li><li>Health and Lifestyle Declaration</li></ul></div>
+                </div>
+            </div>
+            <div class="form-card">
+                <div class="form-header"><h2>B. Single Premium Revival (Form No. 700)</h2><p>For reviving single premium policies.</p></div>
+                <div class="form-content">
+                    <div><h3>Personal & Policy Details</h3><ul><li>Policy Number, Name, DOB, Address</li><li>Date of Lapse, Sum Assured</li></ul></div>
+                    <div><h3>Revival Details</h3><ul><li>Specify revival is for a single premium policy.</li><li>Provide payment and health details.</li></ul></div>
+                </div>
+            </div>
+            <div class="form-card">
+                <div class="form-header"><h2>C. Limited Premium Revival (Form No. 720)</h2><p>For reviving limited premium payment policies.</p></div>
+                <div class="form-content">
+                    <div><h3>Personal & Policy Details</h3><ul><li>Policy Number, Name, DOB, Address</li><li>Date of Lapse, Sum Assured, Premium Details</li></ul></div>
+                    <div><h3>Revival & Health Details</h3><ul><li>Specify revival is for a limited premium policy.</li><li>Describe payment plan and disclose health changes.</li></ul></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

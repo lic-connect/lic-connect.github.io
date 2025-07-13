@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Surrender Process</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a1a1a;
+            --accent-color: #e74c3c;
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --card-bg: #ffffff;
+        }
+        body { font-family: 'Lato', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 40px 20px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .form-no { text-align: center; font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: var(--accent-color); margin-bottom: 50px; }
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .process-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-bottom: 5px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .process-card:hover {
+            transform: translateY(-5px);
+            border-bottom-color: var(--accent-color);
+        }
+        .process-card .icon {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+        .process-card h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+        }
+        .process-card p { line-height: 1.6; margin: 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Policy Surrender</h1>
+        <p class="form-no">(Form No. 5074)</p>
+        <div class="process-grid">
+            <div class="process-card"><div class="icon"><i class="fas fa-file-alt"></i></div><h2>Gather Documents</h2><p>You will need the Original Policy Bond, Surrender Form 5074, ID Proof, and a cancelled cheque for bank details.</p></div>
+            <div class="process-card"><div class="icon"><i class="fas fa-highlighter"></i></div><h2>Fill Up Form 5074</h2><p>Enter your personal details, policy number, and bank account information. Sign the form, getting it notarized or witnessed if required.</p></div>
+            <div class="process-card"><div class="icon"><i class="fas fa-building"></i></div><h2>Submit at Branch</h2><p>Visit your servicing LIC branch, submit all the documents, and ensure you get an acknowledgment receipt for your records.</p></div>
+            <div class="process-card"><div class="icon"><i class="fas fa-check"></i></div><h2>Verification & Payout</h2><p>LIC will verify the documents and process the claim. The surrender value is typically credited to your account in 7-10 working days.</p></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maturity Claim Process</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff5e62; /* Coral */
+            --secondary-color: #ff9966; /* Orange */
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --heading-color: #d9480f;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #fffaf0;
+            background-image: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4.5rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px var(--primary-color), 4px 4px 0px rgba(0,0,0,0.1);
+        }
+        .form-no { text-align: center; font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: #fff; margin-bottom: 40px; }
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        .process-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            color: var(--text-color);
+            border-bottom: 5px solid var(--heading-color);
+        }
+        .process-card h2 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--heading-color);
+            font-size: 1.6rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        .process-card h2 .icon { margin-right: 15px; }
+        .process-card p, .process-card li { margin: 8px 0; line-height: 1.7; }
+        .process-card ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Maturity Claim</h1>
+        <p class="form-no">(Form No. 3825)</p>
+        <div class="process-grid">
+            <div class="process-card"><h2><i class="icon fas fa-calendar-day"></i>Check Maturity Date</h2><p>Refer to your policy bond to confirm the date. LIC usually sends a pre-maturity intimation letter 2-3 months in advance.</p></div>
+            <div class="process-card"><h2><i class="icon fas fa-file-archive"></i>Gather Documents</h2><ul><li>Original Policy Bond</li><li>Discharge Form (Form No. 3825)</li><li>ID Proof (Aadhaar, PAN, etc.)</li><li>Cancelled Cheque or Bank Passbook Copy</li></ul></div>
+            <div class="process-card"><h2><i class="icon fas fa-marker"></i>Fill the Discharge Form</h2><p>Enter your personal details, policy number, and bank account details for NEFT transfer. Sign the form, and get it witnessed if required.</p></div>
+            <div class="process-card"><h2><i class="icon fas fa-paper-plane"></i>Submit Documents</h2><p>Visit your servicing LIC branch in person or send the documents by registered post. Always get an acknowledgment receipt.</p></div>
+            <div class="process-card"><h2><i class="icon fas fa-hourglass-half"></i>Processing & Verification</h2><p>LIC will verify the documents. The process typically takes 7-10 working days for a straightforward claim. You will be notified upon approval.</p></div>
+            <div class="process-card"><h2><i class="icon fas fa-hand-holding-usd"></i>Receive Funds</h2><p>The maturity amount, including sum assured and any accrued bonuses, will be credited directly to your bank account via NEFT.</p></div>
+        </div>
+    </div>
+</body>
+</html>

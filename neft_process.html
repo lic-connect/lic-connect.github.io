@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEFT Mandate Form Process</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #002B4D;
+            --accent-color: #00C6B5;
+            --text-color: #E2E8F0;
+            --heading-color: #FFFFFF;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px var(--accent-color), 4px 4px 10px rgba(0,0,0,0.5);
+        }
+        .form-no { text-align: center; font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: var(--accent-color); margin-bottom: 50px; }
+        .content-box {
+            background: rgba(0,0,0,0.2);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(0, 198, 181, 0.2);
+        }
+        .step { margin-bottom: 25px; }
+        .step h2 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            border-bottom: 2px solid rgba(0, 198, 181, 0.3);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .step h2 .icon { margin-right: 15px; font-size: 1.2em; }
+        .step p, .step ul { line-height: 1.7; }
+        .step ul { list-style-type: none; padding-left: 0; }
+        .step li { background: rgba(0,0,0,0.2); margin-bottom: 8px; padding: 10px 15px; border-radius: 8px; border-left: 3px solid var(--accent-color); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NEFT Mandate Form</h1>
+        <p class="form-no">(FORM NO 5202)</p>
+        <div class="content-box">
+            <div class="step"><h2><i class="icon fas fa-download"></i>1. Obtain the Form</h2><p>Download Form No. 5202 from the official LIC website or collect a physical copy from any LIC branch office.</p></div>
+            <div class="step"><h2><i class="icon fas fa-user-edit"></i>2. Fill Personal & Bank Details</h2><ul><li>**Personal Info:** Fill in your full name, policy number(s), email, and mobile number.</li><li>**Bank Info:** Provide the account holder's name, account number, account type (Savings/Current), bank name, branch address, and the 11-character IFSC code.</li></ul></div>
+            <div class="step"><h2><i class="icon fas fa-paperclip"></i>3. Attach Necessary Documents</h2><p>Attach a cancelled cheque with your name pre-printed on it. If unavailable, a photocopy of the first page of your bank passbook showing all details is acceptable.</p></div>
+            <div class="step"><h2><i class="icon fas fa-signature"></i>4. Declaration and Signature</h2><p>Sign the form in the designated space. Ensure the signature matches the one on LIC's records. Mention the date and place.</p></div>
+            <div class="step"><h2><i class="icon fas fa-location-arrow"></i>5. Submit the Form</h2><p>Submit the filled and signed form with documents to your nearest LIC branch. Request an acknowledgment receipt as proof of submission.</p></div>
+        </div>
+    </div>
+</body>
+</html>
