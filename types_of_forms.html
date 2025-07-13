@@ -2,74 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+<!-- Add these to your <head> tag -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <title>Types of Forms - LIC CONNECT</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff url('background.jpeg') no-repeat center center fixed;
-      background-size: cover;
-      margin: 0;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #003366;
-      text-shadow: 1px 1px #ccc;
-    }
-    .form-list {
-      max-width: 800px;
-      margin: 40px auto;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 2px 2px 12px rgba(0,0,0,0.3);
-    }
-    .form-list h2 {
-      color: #006600;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      margin: 12px 0;
-    }
-    a {
-      text-decoration: none;
-      color: #004d99;
-      font-weight: bold;
-      transition: color 0.3s;
-    }
-    a:hover {
-      color: #cc0000;
-    }
+    /* === "CYBER GRID" THEME === */
+:root {
+    --primary-bg: #0d122b;      /* Deep Space Blue */
+    --accent-blue: #00c6ff;      /* Bright Cyan */
+    --accent-green: #00f2a7;    /* Electric Green */
+    --text-color: #e5e7eb;
+    --card-bg: rgba(31, 41, 55, 0.5);
+    --card-border: rgba(0, 242, 167, 0.2);
+    --glow-color: rgba(0, 198, 255, 0.5);
+}
+
+/* === General Body and Animated Grid Background === */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    margin: 0;
+    padding: 40px 20px;
+    min-height: 100vh;
+    background-image: 
+        linear-gradient(var(--card-border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--card-border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: panGrid 20s linear infinite;
+}
+
+@keyframes panGrid {
+    0% { background-position: 0 0; }
+    100% { background-position: 40px 40px; }
+}
+
+/* === Main Container === */
+.container {
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+}
+
+/* === 3D Title Styling === */
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 900;
+    color: var(--accent-blue);
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    position: relative;
+    text-shadow: 
+        0 0 10px var(--glow-color),
+        0 0 20px var(--glow-color);
+    -webkit-text-stroke: 1px var(--accent-green);
+}
+h1::before {
+    content: 'TYPES OF FORMS';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: transparent;
+    z-index: -1;
+    -webkit-text-stroke: 8px rgba(0,0,0,0.3);
+}
+
+/* === Link Card Styling === */
+.form-list {
+    max-width: 100%;
+    margin: 40px auto;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    
+    /* Using a CSS Grid for perfect alignment */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.form-list a {
+    background: var(--card-bg);
+    backdrop-filter: blur(5px);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    border: 1px solid var(--card-border);
+    padding: 20px 25px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.form-list a:hover {
+    transform: perspective(1000px) rotateX(10deg) translateY(-10px) scale(1.05);
+    border-color: var(--accent-green);
+    box-shadow: 0 15px 35px rgba(0, 242, 167, 0.2);
+    color: var(--accent-green);
+}
+
+/* Icon styling */
+.form-list a i {
+    font-size: 1.6rem;
+    margin-right: 20px;
+    color: var(--accent-blue);
+    width: 35px;
+    text-align: center;
+    transition: color 0.3s ease;
+}
+
+.form-list a:hover i {
+    color: var(--accent-green);
+}
+
+/* Removing default list styles if they exist */
+ul, li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
   </style>
 </head>
 <body>
 
   <h1>LIC Forms</h1>
 
-  <div class="form-list">
-    <h2>Click a form to view</h2>
+<div class="form-list">
+    <!-- The <h2> is optional with the new design, but you can keep it if you like -->
+    <!-- <h2>Click a form to view</h2> -->
     <ul>
-      <li><a href="Surrender 5074.pdf" target="_blank">Surrender 5074</a></li>
-      <li><a href="SB 5180.pdf" target="_blank">SB 5180</a></li>
-      <li><a href="revival 680.pdf" target="_blank">Revival 680</a></li>
-      <li><a href="revival 700.pdf" target="_blank">Revival 700</a></li>
-      <li><a href="revival 720.pdf" target="_blank">Revival 720</a></li>
-      <li><a href="NEFT-mandate-Form.pdf" target="_blank">NEFT Mandate Form</a></li>
-      <li><a href="Maturity claim 3825.pdf" target="_blank">Maturity Claim 3825</a></li>
-      <li><a href="LIC Loan Form 5196.pdf" target="_blank">LIC Loan Form 5196</a></li>
-      <li><a href="Form 360.pdf" target="_blank">Form 360</a></li>
-      <li><a href="Form 340.pdf" target="_blank">Form 340</a></li>
-      <li><a href="Form 300.pdf" target="_blank">Form 300</a></li>
-      <li><a href="fatca self certification.pdf" target="_blank">FATCA Self Certification</a></li>
-      <li><a href="duplicate 3756.pdf" target="_blank">Duplicate Policy 3756</a></li>
-      <li><a href="death claim 3783.pdf" target="_blank">Death Claim 3783</a></li>
+        <li><a href="Surrender 5074.pdf" target="_blank"><i class="fas fa-hand-scissors"></i> Surrender 5074</a></li>
+        <li><a href="SB 5180.pdf" target="_blank"><i class="fas fa-gift"></i> SB 5180</a></li>
+        <li><a href="revival 680.pdf" target="_blank"><i class="fas fa-sync-alt"></i> Revival 680 (Regular)</a></li>
+        <li><a href="revival 700.pdf" target="_blank"><i class="fas fa-sync-alt"></i> Revival 700 (Single)</a></li>
+        <li><a href="revival 720.pdf" target="_blank"><i class="fas fa-sync-alt"></i> Revival 720 (Limited)</a></li>
+        <li><a href="NEFT-mandate-Form.pdf" target="_blank"><i class="fas fa-university"></i> NEFT Mandate Form</a></li>
+        <li><a href="Maturity claim 3825.pdf" target="_blank"><i class="fas fa-trophy"></i> Maturity Claim 3825</a></li>
+        <li><a href="LIC Loan Form 5196.pdf" target="_blank"><i class="fas fa-landmark"></i> LIC Loan Form 5196</a></li>
+        <li><a href="Form 360.pdf" target="_blank"><i class="fas fa-file-medical"></i> Form 360 (Non-Medical)</a></li>
+        <li><a href="Form 340.pdf" target="_blank"><i class="fas fa-child"></i> Form 340 (Child's Proposal)</a></li>
+        <li><a href="Form 300.pdf" target="_blank"><i class="fas fa-file-signature"></i> Form 300 (Proposal)</a></li>
+        <li><a href="fatca self certification.pdf" target="_blank"><i class="fas fa-globe"></i> FATCA Self Certification</a></li>
+        <li><a href="duplicate 3756.pdf" target="_blank"><i class="fas fa-copy"></i> Duplicate Policy 3756</a></li>
+        <li><a href="death claim 3783.pdf" target="_blank"><i class="fas fa-heart-broken"></i> Death Claim 3783</a></li>
     </ul>
-  </div>
+</div>
 
 </body>
 </html>
