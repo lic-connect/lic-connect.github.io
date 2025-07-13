@@ -2,67 +2,131 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+<!-- Add these to your <head> tag -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <title>LIC Process Types</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: url('background.jpeg') no-repeat center center fixed;
-      background-size: cover;
-      font-family: Arial, sans-serif;
-      color: white;
-    }
+   /* === "DIGITAL MATRIX" THEME === */
+:root {
+    --primary-bg: #0d0d0d;      /* Pure Black */
+    --accent-green: #00ff87;    /* Vibrant Mint Green */
+    --accent-blue: #00c6ff;      /* Bright Blue */
+    --text-color: #e5e5e5;
+    --card-bg: rgba(26, 26, 26, 0.7);
+    --card-border: rgba(0, 255, 135, 0.2);
+    --glow-color: rgba(0, 255, 135, 0.5);
+}
 
-    .overlay {
-      background-color: rgba(0, 0, 0, 0.6);
-      min-height: 100vh;
-      padding: 30px;
-      text-align: center;
-    }
+/* === General Body and Animated Background === */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--text-color);
+    margin: 0;
+    padding: 40px 20px;
+    overflow-x: hidden; /* Prevent horizontal scroll from glowing elements */
+}
 
-    h1 {
-      font-size: 30px;
-      margin-bottom: 30px;
-    }
+/* Optional: Digital Rain Background Effect */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image:
+        linear-gradient(0deg, transparent 0%, var(--primary-bg) 100%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 100 100"><text x="10" y="30" font-family="monospace" font-size="16" fill="rgba(0, 255, 135, 0.1)">101</text></svg>');
+    animation: rain 0.5s linear infinite;
+    z-index: -1;
+}
+@keyframes rain { to { background-position: 0 30px; } }
 
-    .process-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-    }
+.overlay {
+    background-color: transparent; /* Overlay is not needed with this design */
+    min-height: auto;
+    padding: 0;
+    text-align: center;
+}
 
-    .process-list a {
-      font-size: 18px;
-      padding: 10px 20px;
-      background-color: #ffc107;
-      color: black;
-      text-decoration: none;
-      border-radius: 6px;
-      width: 250px;
-      text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    }
+/* === 3D Title Styling === */
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--accent-green);
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    position: relative;
+    -webkit-text-stroke: 1px var(--accent-blue);
+    text-shadow: 
+        0px 0px 15px var(--glow-color),
+        -2px 2px 0px #004d40, /* Darker green for depth */
+        -4px 4px 0px #00332b,
+        -6px 6px 0px #0d0d0d;
+}
 
-    .process-list a:hover {
-      background-color: #ff9800;
-    }
+/* === Link Card Styling === */
+.process-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.process-list a {
+    background: var(--card-bg);
+    backdrop-filter: blur(5px);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 12px;
+    width: auto; /* Let the grid handle width */
+    text-align: left;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--card-border);
+    padding: 20px 25px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.process-list a:hover {
+    transform: translateY(-5px) scale(1.03);
+    border-color: var(--accent-green);
+    box-shadow: 0 0 25px var(--glow-color);
+    color: var(--accent-green);
+}
+
+/* Icon styling */
+.process-list a i {
+    font-size: 1.5rem;
+    margin-right: 20px;
+    color: var(--accent-blue);
+    width: 30px; /* Fixed width for alignment */
+    text-align: center;
+}
   </style>
 </head>
 <body>
   <div class="overlay">
     <h1>LIC Process Types</h1>
-    <div class="process-list">
-      <a href="surrender.pdf" target="_blank">Surrender Process</a>
-      <a href="SB.pdf" target="_blank">Survival Benefit (SB) Process</a>
-      <a href="Revival.pdf" target="_blank">Revival Process</a>
-      <a href="NEFT.pdf" target="_blank">NEFT Registration</a>
-      <a href="Maturity.pdf" target="_blank">Maturity Claim Process</a>
-      <a href="Loan.pdf" target="_blank">Loan Process</a>
-      <a href="Fatca.pdf" target="_blank">FATCA Self Declaration</a>
-      <a href="Duplicate.pdf" target="_blank">Duplicate Policy Process</a>
-      <a href="Death claim.pdf" target="_blank">Death Claim Process</a>
-    </div>
+  <div class="process-list">
+    <a href="surrender.pdf" target="_blank"><i class="fas fa-hand-scissors"></i> Surrender Process</a>
+    <a href="SB.pdf" target="_blank"><i class="fas fa-gift"></i> Survival Benefit (SB) Process</a>
+    <a href="Revival.pdf" target="_blank"><i class="fas fa-sync-alt"></i> Revival Process</a>
+    <a href="NEFT.pdf" target="_blank"><i class="fas fa-university"></i> NEFT Registration</a>
+    <a href="Maturity.pdf" target="_blank"><i class="fas fa-trophy"></i> Maturity Claim Process</a>
+    <a href="Loan.pdf" target="_blank"><i class="fas fa-landmark"></i> Loan Process</a>
+    <a href="Fatca.pdf" target="_blank"><i class="fas fa-globe"></i> FATCA Self Declaration</a>
+    <a href="Duplicate.pdf" target="_blank"><i class="fas fa-copy"></i> Duplicate Policy Process</a>
+    <a href="Death claim.pdf" target="_blank"><i class="fas fa-heart-broken"></i> Death Claim Process</a>
+</div>
   </div>
 </body>
 </html>
