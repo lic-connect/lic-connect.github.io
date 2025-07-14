@@ -8,171 +8,234 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <style>
-        /* Your Provided Styles */
-        body {
-            background-color: #ffffff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px 5%;
-        }
+      /*
+    ============================================
+    VIBRANT & FLAMBOYANT - CYBERPUNK/RETROWAVE THEME
+    ============================================
+*/
 
-        h1 {
-            font-size: 36px;
-            color: #333333;
-            margin-bottom: 5px;
-        }
+/* Import futuristic fonts from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap');
 
-        h2 {
-            font-size: 28px;
-            color: #444444;
-            margin-top: 40px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
+/* --- Keyframe Animations for a Dynamic Feel --- */
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
-        p {
-            font-size: 18px;
-            color: #666666;
-        }
+@keyframes text-glow {
+    0% { text-shadow: 0 0 5px #ff00c1, 0 0 10px #ff00c1, 0 0 15px #ff00c1, 0 0 20px #00c2ff, 0 0 25px #00c2ff; }
+    50% { text-shadow: 0 0 10px #ff00c1, 0 0 15px #ff00c1, 0 0 20px #00c2ff, 0 0 25px #00c2ff, 0 0 30px #9c1dff; }
+    100% { text-shadow: 0 0 5px #ff00c1, 0 0 10px #ff00c1, 0 0 15px #ff00c1, 0 0 20px #00c2ff, 0 0 25px #00c2ff; }
+}
 
-        .dashboard-button {
-            background: linear-gradient(to bottom, #333333, #808080); /* black to grey gradient */
-            color: white;
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            border: none;
-            border-radius: 20px;
-            box-shadow: 
-                inset 0 -3px 8px rgba(255, 255, 255, 0.4), /* Top light for bevel effect */
-                0 6px 15px rgba(0, 0, 0, 0.6); /* Bottom shadow for 3D effect */
-            width: 240px;
-            height: 70px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-        }
+/* --- Core Body & Typography --- */
+body {
+    background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000);
+    background-size: 400% 400%;
+    animation: gradient-animation 20s ease infinite;
+    font-family: 'Poppins', sans-serif;
+    color: #e0e0e0;
+    text-align: center;
+    padding: 40px 5%;
+    overflow-x: hidden; /* Prevent horizontal scroll from glowing elements */
+}
 
-        .dashboard-button:hover {
-            box-shadow:
-                inset 0 -3px 8px rgba(255, 255, 255, 0.6), /* Lightens top bevel on hover */
-                0 8px 20px rgba(0, 0, 0, 0.8); /* Stronger shadow for deeper 3D effect */
-            transform: translateY(-2px); /* Lifts the button on hover */
-        }
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    text-transform: uppercase;
+    /* Neon Text Effect */
+    background: linear-gradient(90deg, #ff00c1, #00fff2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: text-glow 4s infinite alternate;
+    margin-bottom: 10px;
+}
 
-        /* Custom Styles for Form and Layout */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: left;
-            background-color: #f9f9f9;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    color: #00c2ff;
+    margin-top: 50px;
+    padding-bottom: 15px;
+    border: none;
+    border-bottom: 2px solid;
+    border-image: linear-gradient(to right, transparent, #00c2ff, transparent) 1;
+    text-shadow: 0 0 8px rgba(0, 194, 255, 0.7);
+}
 
-        .canvassed-info {
-            border-bottom: 2px solid #eee;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .canvassed-info p {
-            margin: 5px 0;
-            font-size: 16px;
-        }
+p {
+    font-size: 18px;
+    font-weight: 300;
+    color: #cccccc;
+    line-height: 1.6;
+}
 
-        .form-group {
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-        }
+/* --- Glassmorphism Container --- */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    /* The Glass Effect */
+    background: rgba(22, 16, 51, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    padding: 40px;
+}
 
-        .form-group label {
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-        }
+.canvassed-info {
+    border-bottom: 1px solid rgba(255, 0, 193, 0.3);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            width: 100%;
-            box-sizing: border-box; /* Important for padding */
-        }
-        
-        .form-group-radio {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+.canvassed-info p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+.canvassed-info p strong {
+    color: #00c2ff; /* Highlight key info */
+}
 
-        .form-group-radio label {
-            font-weight: normal;
-            margin-bottom: 0;
-        }
-        
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
+/* --- Flamboyant Forms --- */
+.form-group {
+    margin-bottom: 20px;
+}
 
-        #search-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        
-        #search-container input[type="text"], 
-        #search-container input[type="date"] {
-             flex-grow: 1;
-             padding: 10px;
-             font-size: 16px;
-             border: 1px solid #ccc;
-             border-radius: 5px;
-        }
-        
-        #search-options {
-            display: flex;
-            gap: 15px;
-        }
-        
-        #results-container {
-            margin-top: 30px;
-            overflow-x: auto; /* For responsive tables */
-        }
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #00c2ff;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 4px rgba(0, 194, 255, 0.5);
+}
 
-        #results-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        #results-table th, #results-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-        
-        #results-table th {
-            background-color: #f2f2f2;
-            color: #333;
-            font-weight: bold;
-        }
-        
-        #results-table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+.form-group input,
+.form-group select,
+.form-group textarea {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #ff00c1;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-size: 16px;
+    color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
 
-        #downloadButton {
-            display: none; /* Hidden by default */
-        }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #00fff2;
+    box-shadow: 0 0 15px rgba(0, 255, 242, 0.5), 0 0 5px rgba(255, 0, 193, 0.5) inset;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* --- The Eye-Catcher Button --- */
+.dashboard-button {
+    background: linear-gradient(45deg, #f900a8, #00c2ff, #9c1dff);
+    background-size: 200% 200%;
+    color: white;
+    padding: 18px 35px;
+    font-size: 18px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 50px; /* Pill shape */
+    box-shadow: 0 0 20px rgba(255, 0, 193, 0.6), 0 0 30px rgba(0, 194, 255, 0.4);
+    width: 260px;
+    height: 70px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    margin-top: 20px;
+}
+
+.dashboard-button:hover,
+#downloadButton:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 0 30px rgba(255, 0, 193, 1), 0 0 45px rgba(0, 194, 255, 0.8);
+    background-position: right center; /* Animate gradient on hover */
+}
+
+/* --- Futuristic Table Design --- */
+#search-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 194, 255, 0.3);
+}
+
+#results-container {
+    margin-top: 30px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#results-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-style: hidden; /* Hide default borders */
+}
+
+#results-table th, #results-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 0, 193, 0.3);
+}
+
+#results-table th {
+    color: #ff00c1;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#results-table tr {
+    transition: background-color 0.3s ease;
+}
+
+#results-table tr:last-child td {
+    border-bottom: none;
+}
+
+#results-table tr:hover {
+    background-color: rgba(0, 194, 255, 0.15);
+}
+
+/* Ensure other buttons like download match the style */
+#downloadButton {
+    display: none; /* Keep this behavior */
+    /* Use same styling as .dashboard-button but can be smaller */
+    padding: 12px 25px;
+    width: auto;
+    height: auto;
+    font-size: 16px;
+}
     </style>
 </head>
 <body>
