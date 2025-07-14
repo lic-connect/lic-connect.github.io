@@ -5,68 +5,161 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Agents Module</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 30px;
-      background-color: #f5f7fa;
-      color: #333;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 40px;
-      color: #004080;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: white;
-      padding: 25px 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    }
-    .section {
-      margin-bottom: 30px;
-    }
-    .section h2 {
-      border-bottom: 2px solid #004080;
-      padding-bottom: 8px;
-      margin-bottom: 15px;
-      color: #004080;
-      font-size: 1.25rem;
-    }
-    .row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      font-size: 1.1rem;
-    }
-    .row label {
-      font-weight: 600;
-      color: #555;
-      flex: 1;
-    }
-    .row .value,
-    .row input {
-      font-weight: 700;
-      color: #000;
-      width: 150px;
-      padding: 6px 8px;
-      font-size: 1.05rem;
-      text-align: right;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-    .row .value {
-      border: none;
-      background: transparent;
-      cursor: default;
-    }
-    /* Percentage style */
-    .percentage .value {
-      color: #007a00;
-    }
+    /*
+    ========================================
+    CRYSTAL & AURORA - A Dazzling Redesign
+    ========================================
+*/
+
+/* Import elegant and modern fonts from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600;700&family=Poppins:wght@400;500&display=swap');
+
+/* --- Keyframe animation for the dynamic background --- */
+@keyframes aurora-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- Base Styles & The Aurora Background --- */
+body {
+    font-family: 'Poppins', sans-serif;
+    padding: 50px 30px;
+    color: #e0e6f0;
+    /* The magic background */
+    background: linear-gradient(-45deg, #0c0a1a, #1b163d, #006a71, #4a1c40);
+    background-size: 300% 300%;
+    animation: aurora-flow 18s ease infinite;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 50px;
+    /* Radiant text effect */
+    color: #ffffff;
+    text-shadow: 
+        0 0 5px rgba(255, 255, 255, 0.8),
+        0 0 15px rgba(0, 255, 234, 0.6),
+        0 0 30px rgba(181, 0, 255, 0.4);
+}
+
+/* --- The Crystalline Container --- */
+.container {
+    max-width: 600px;
+    margin: auto;
+    /* Glassmorphism: The frosted glass effect */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); /* For Safari */
+    
+    padding: 35px 40px;
+    border-radius: 15px; /* A softer radius */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    
+    /* Flamboyant glowing edge and shadow */
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(0, 255, 234, 0.3); /* The cyan glow */
+
+    /* The Dazzling Shape: A custom cut-corner "gem" shape */
+    clip-path: polygon(0 25px, 25px 0, calc(100% - 25px) 0, 100% 25px, 100% calc(100% - 25px), calc(100% - 25px) 100%, 25px 100%, 0 calc(100% - 25px));
+}
+
+/* --- Section Styling --- */
+.section {
+    margin-bottom: 35px;
+}
+
+.section h2 {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #66fbfd; /* Bright cyan */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(102, 251, 253, 0.7);
+
+    /* A gradient underline instead of a solid border */
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: linear-gradient(to right, #66fbfd, #b500ff);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-image: linear-gradient(to right, #66fbfd, #b500ff) 1;
+    border-image-slice: 1;
+}
+
+/* --- Row and Value/Input Styling --- */
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 5px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    transition: background-color 0.3s ease;
+}
+.row:last-child {
+    border-bottom: none;
+}
+.row:hover {
+    background-color: rgba(102, 251, 253, 0.1);
+}
+
+.row label {
+    font-weight: 500;
+    color: #c0d0ff; /* Soft lavender-white */
+    flex: 1;
+}
+
+.row .value,
+.row input {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    width: 150px;
+    padding: 8px 10px;
+    font-size: 1.1rem;
+    text-align: right;
+    box-sizing: border-box;
+    
+    /* Transparent input styling */
+    background: transparent;
+    border: none; /* remove all borders initially */
+    border-bottom: 2px solid rgba(102, 251, 253, 0.4);
+    border-radius: 0;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.row input:focus {
+    outline: none;
+    border-bottom-color: #ff55e1; /* Magenta on focus */
+    box-shadow: 0 5px 15px -5px rgba(255, 85, 225, 0.5); /* Glowing effect */
+}
+
+/* --- Specific Value Styling for Emphasis --- */
+.row .value {
+    cursor: default;
+    border-bottom: none;
+    font-weight: 700;
+    color: #66fbfd; /* Bright Cyan for calculated values */
+    text-shadow: 0 0 8px rgba(102, 251, 253, 0.5);
+}
+
+/* Special color for percentages to make them pop */
+.percentage .value {
+    color: #4dffaf; /* Vibrant Mint Green */
+    text-shadow: 0 0 8px rgba(77, 255, 175, 0.5);
+}
   </style>
 </head>
 <body>
