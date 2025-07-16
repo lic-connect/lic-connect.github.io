@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Plan Comparator: The Royal Chamber</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-grad-start: #141e30;
+            --bg-grad-end: #243b55;
+            --accent-gold: #e6b800;
+            --text-primary: #f0e6d2;
+            --text-secondary: #a7a9be;
+            --panel-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(230, 184, 0, 0.3);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--bg-grad-start), var(--bg-grad-end));
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Animated Background */
+        #star-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--accent-gold);
+            text-shadow: 0 0 10px rgba(230, 184, 0, 0.5);
+        }
+
+        .split-screen {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 30px;
+        }
+
+        /* Input Panel Styling */
+        .input-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(5px);
+        }
+        .input-panel h2 {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--accent-gold);
+        }
+        .plan-selector {
+            margin-bottom: 30px;
+            opacity: 1;
+            transition: opacity 0.3s;
+        }
+        .plan-selector.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .plan-selector h3 {
+            margin-bottom: 15px;
+        }
+        .custom-select {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .custom-select select {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: var(--bg-grad-start);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 8px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .custom-select::after {
+            content: '\f078';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: var(--accent-gold);
+            pointer-events: none;
+        }
+        
+        #error-message {
+            color: #ff6b6b;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 20px;
+            height: 20px;
+        }
+
+        /* Output Panel Styling */
+        .output-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(5px);
+        }
+        .output-placeholder {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+        .output-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--accent-gold);
+            opacity: 0.5;
+        }
+        
+        .output-grid {
+            display: none; /* Hidden by default */
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);} }
+        
+        .plan-output h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            text-align: center;
+            min-height: 60px;
+        }
+        
+        .output-item {
+            margin-bottom: 15px;
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .output-item h4 {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        .output-item p {
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .special-feature {
+            background: rgba(230, 184, 0, 0.1);
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .split-screen {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5rem; }
+            .output-grid { grid-template-columns: 1fr; }
+            .plan-output:first-child { margin-bottom: 30px; }
+            .plan-output h3 { min-height: auto; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="star-field"></canvas>
+    
+    <div class="container">
+        <header class="header">
+            <h1>The Royal Comparison Chamber</h1>
+        </header>
+
+        <div class="split-screen">
+            <div class="input-panel">
+                <h2>Compare Plans</h2>
+                <!-- Plan 1 Selector -->
+                <div class="plan-selector" id="plan1-selector">
+                    <h3>Plan 1</h3>
+                    <div class="custom-select">
+                        <select id="plan1-group">
+                            <option value="">Select a Group</option>
+                            <option value="endowment">Endowment Plans</option>
+                            <option value="moneyBack">Money Back Plans</option>
+                            <option value="wholeLife">Whole Life Plans</option>
+                            <option value="childrens">Children's Plans</option>
+                            <option value="term">Term Insurance</option>
+                            <option value="annuity">Annuity Plans</option>
+                            <option value="single">Single Premium</option>
+                        </select>
+                    </div>
+                    <div class="custom-select">
+                        <select id="plan1-plan" disabled>
+                            <option value="">Select a Plan</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Plan 2 Selector -->
+                <div class="plan-selector disabled" id="plan2-selector">
+                    <h3>Plan 2</h3>
+                     <div class="custom-select">
+                        <select id="plan2-group">
+                            <option value="">Select a Group</option>
+                             <option value="endowment">Endowment Plans</option>
+                            <option value="moneyBack">Money Back Plans</option>
+                            <option value="wholeLife">Whole Life Plans</option>
+                            <option value="childrens">Children's Plans</option>
+                            <option value="term">Term Insurance</option>
+                            <option value="annuity">Annuity Plans</option>
+                            <option value="single">Single Premium</option>
+                        </select>
+                    </div>
+                    <div class="custom-select">
+                        <select id="plan2-plan" disabled>
+                             <option value="">Select a Plan</option>
+                        </select>
+                    </div>
+                </div>
+                 <div id="error-message"></div>
+            </div>
+
+            <div class="output-panel">
+                <div class="output-placeholder" id="output-placeholder">
+                    <i class="fas fa-balance-scale"></i>
+                    <p>Select plans from the left to begin comparison.</p>
+                </div>
+                <div class="output-grid" id="output-grid">
+                    <!-- Plan 1 Output -->
+                    <div class="plan-output" id="plan1-output">
+                        <h3 id="plan1-name"></h3>
+<button id="plan1-premium-btn" onclick="openCalculator(1)" style="background: #e6b800; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">View Premium</button>
+
+
+                        <div class="output-item"><h4>Premium Mode</h4><p id="plan1-premium"></p></div>
+                        <div class="output-item"><h4>Age Range</h4><p id="plan1-age"></p></div>
+                        <div class="output-item"><h4>Sum Assured Range</h4><p id="plan1-sa"></p></div>
+                        <div class="output-item"><h4>Policy Term</h4><p id="plan1-term"></p></div>
+                        <div class="output-item"><h4>Premium Paying Term (PPT)</h4><p id="plan1-ppt"></p></div>
+                        <div class="output-item"><h4>Survival Benefit</h4><p id="plan1-sb"></p></div>
+                        <div class="output-item"><h4>Maturity Benefit</h4><p id="plan1-maturity"></p></div>
+                        <div class="output-item"><h4>Death Benefit</h4><p id="plan1-death"></p></div>
+                        <div class="output-item special-feature"><h4>Unique Selling Point (USP)</h4><p id="plan1-usp"></p></div>
+                        <div class="output-item special-feature"><h4>Main Advantage</h4><p id="plan1-advantage"></p></div>
+                    </div>
+                    <!-- Plan 2 Output -->
+                    <div class="plan-output" id="plan2-output">
+                        <h3 id="plan2-name"></h3>
+<button id="plan2-premium-btn" onclick="openCalculator(2)" style="background: #e6b800; color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-bottom: 20px;">View Premium</button>
+
+
+                         <div class="output-item"><h4>Premium Mode</h4><p id="plan2-premium"></p></div>
+                        <div class="output-item"><h4>Age Range</h4><p id="plan2-age"></p></div>
+                        <div class="output-item"><h4>Sum Assured Range</h4><p id="plan2-sa"></p></div>
+                        <div class="output-item"><h4>Policy Term</h4><p id="plan2-term"></p></div>
+                        <div class="output-item"><h4>Premium Paying Term (PPT)</h4><p id="plan2-ppt"></p></div>
+                        <div class="output-item"><h4>Survival Benefit</h4><p id="plan2-sb"></p></div>
+                        <div class="output-item"><h4>Maturity Benefit</h4><p id="plan2-maturity"></p></div>
+                        <div class="output-item"><h4>Death Benefit</h4><p id="plan2-death"></p></div>
+                        <div class="output-item special-feature"><h4>Unique Selling Point (USP)</h4><p id="plan2-usp"></p></div>
+                        <div class="output-item special-feature"><h4>Main Advantage</h4><p id="plan2-advantage"></p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Modal -->
+<div id="calculatorModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center;">
+  <div style="background:white; width:90%; height:90%; position:relative; border-radius:10px; overflow:hidden;">
+    <button onclick="closeCalculator()" style="position:absolute; top:10px; right:20px; background:#e60073; color:white; border:none; padding:8px 15px; border-radius:5px; font-size:16px; z-index:100;">✖ Close</button>
+    <iframe id="calcFrame" src="" style="width:100%; height:100%; border:none;"></iframe>
+  </div>
+</div>
+
+
+<script>
+// --- Data Structure ---
+const allPlanData = {
+    // Endowment Plans
+    '714': { name: 'New Endowment (714)', summary: 'A regular premium, non-linked, with profits Endowment Plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '12 to 35 years', minAge: '8', maxAge: '50', minSA: '2,00,000', maxSA: 'No Limit', ppt: 'Same as Policy Term', deathBenefit: 'Higher of (Sum Assured + Vested Bonus + FAB), 7 times Annualized Premium, or 105% of all Premiums paid.', maturityBenefit: 'Basic Sum Assured + Vested Bonus + FAB if any.', survivalBenefit: 'Not Applicable', usp: 'Classic, straightforward savings and protection.', advantage: 'A simple, reliable plan for long-term goal planning with bonus facilities.' },
+    '715': { name: 'Jeevan Anand (715)', summary: 'A participating non-linked plan which offers an attractive combination of protection and savings.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '15 to 35 years', minAge: '18', maxAge: '50', minSA: '2,00,000', maxSA: 'No Limit', ppt: 'Same as Policy Term', deathBenefit: 'During term: Higher of (125% of BSA or 7 times AP) + Bonuses. After term: Basic Sum Assured.', maturityBenefit: 'Basic Sum Assured + Vested Bonuses + FAB if any.', survivalBenefit: 'Not Applicable', usp: 'Endowment + Whole Life. Get maturity amount and life cover continues till death.', advantage: 'Provides a lump sum at the end of the term, while the risk cover continues for the entire life.' },
+    '733': { name: 'Jeevan Lakshya (733)', summary: 'A limited premium With-Profits Endowment Assurance plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '13 to 25 Years', minAge: '18', maxAge: '50', minSA: '2,00,000', maxSA: 'No Limit', ppt: 'Term - 3 Years', deathBenefit: 'On death, provides 10% of SA as annual income till maturity, and then 110% of SA + Bonuses.', maturityBenefit: 'Basic Sum Assured + Vested Bonus + FAB if any.', survivalBenefit: 'Not Applicable', usp: 'Provides annual income for family on death of policyholder.', advantage: 'Ensures family receives a regular income to replace lost earnings, plus a lump sum later.' },
+    '736': { name: 'Jeevan Labh (736)', summary: 'A limited premium paying, non-linked, with-profits Endowment plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '16, 21, 25 Years', minAge: '8', maxAge: '59', minSA: '2,00,000', maxSA: 'No Limit', ppt: '10, 15, 16 Years respectively', deathBenefit: 'Higher of (Sum Assured), 7 times Annualized Premium, or 105% of all Premiums paid.', maturityBenefit: 'Basic Sum Assured + Reversionary Bonus + Final Additional Bonus.', survivalBenefit: 'Not Applicable', usp: 'Limited premium for a longer term cover.', advantage: 'Pay for a shorter duration but enjoy the benefits of life cover and bonuses for the full policy term.' },
+    '768': { name: 'Jeevan Azad (768)', summary: 'A Non-Participating, Limited Premium Endowment plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '15 to 20 Years', minAge: '90 days', maxAge: '50', minSA: '2,00,000', maxSA: '5,00,000', ppt: 'Term - 8 Years', deathBenefit: 'Higher of Basic Sum Assured or 7 times of Annualized Premium. Min 105% of premiums paid.', maturityBenefit: 'Basic Sum Assured.', survivalBenefit: 'Not Applicable', usp: 'Guaranteed lump sum benefit with short premium commitment.', advantage: 'A simple plan with guaranteed returns, ideal for those seeking certainty without bonus fluctuations.' },
+    '751': { name: 'Micro Bachat (751)', summary: 'A participating micro-insurance plan for protection and savings.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '10 to 15 Years', minAge: '18', maxAge: '55', minSA: '1,00,000', maxSA: '2,00,000', ppt: 'Same as Policy Term', deathBenefit: 'Higher of Basic Sum Assured, 7 times AP, or 105% of premiums paid + Loyalty Addition.', maturityBenefit: 'Basic Sum Assured + Loyalty Addition, if any.', survivalBenefit: 'Not Applicable', usp: 'Affordable insurance for low-income groups.', advantage: 'Provides essential life cover and savings with a small premium, including a loan facility.' },
+    '912': { name: 'Nav Jeevan Shree (Regular)', summary: 'A Non-Par, Non-Linked, Limited Payment Savings Endowment Plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '10 to 20 Years', minAge: '90 days', maxAge: '60', minSA: '5,00,000', maxSA: 'No Limit', ppt: '6, 8, 10, 12 Years', deathBenefit: 'Option-1: Higher of 7xAP or BSA. Option-2: Higher of 10xAP or BSA. + Guaranteed Additions.', maturityBenefit: 'Basic Sum Assured + Guaranteed Additions.', survivalBenefit: 'Not Applicable', usp: 'Guaranteed Additions for secure, predictable growth.', advantage: 'A high sum assured plan offering guaranteed returns, suitable for individuals seeking secure wealth creation.' },
+    '760': { name: 'Bima Jyoti (760)', summary: 'A Non-participating, Limited Premium, Life Insurance Savings Plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '15 to 20 Years', minAge: '90 days', maxAge: '60', minSA: '1,25,000', maxSA: 'No Limit', ppt: 'Term - 5 Years', deathBenefit: '125% of BSA or 7 times AP + Guaranteed Additions.', maturityBenefit: 'Basic Sum Assured + Guaranteed Additions.', survivalBenefit: 'Not Applicable', usp: 'Guaranteed Additions of Rs. 50 per 1000 SA each year.', advantage: 'Offers a completely guaranteed return and maturity amount, making financial planning precise.' },
+    
+    // Money Back
+    '720': { name: '20-Year Money Back (720)', summary: 'A limited premium payment, with-profits Money Back Plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '20 Years', minAge: '13', maxAge: '50', minSA: '2,00,000', maxSA: 'No Limit', ppt: '15 Years', deathBenefit: 'Higher of 125% of BSA or 7 times AP + Bonuses.', maturityBenefit: '40% of Basic Sum Assured + Vested Bonus + FAB.', survivalBenefit: '20% of Basic SA at the end of 5th, 10th, and 15th year.', usp: 'Regular liquidity to meet intermittent financial needs.', advantage: 'Provides periodic payouts during the policy term, which can be used for planned expenses like child\'s education fees.' },
+    '721': { name: '25-Year Money Back (721)', summary: 'A limited premium payment, with-profits Money Back Plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '25 Years', minAge: '13', maxAge: '45', minSA: '2,00,000', maxSA: 'No Limit', ppt: '20 Years', deathBenefit: 'Higher of 125% of BSA or 7 times AP + Bonuses.', maturityBenefit: '40% of Basic Sum Assured + Vested Bonus + FAB.', survivalBenefit: '15% of Basic SA at the end of 5th, 10th, 15th, and 20th year.', usp: 'Longer term plan with more frequent payouts.', advantage: 'Offers sustained liquidity over a longer period with four survival benefit payouts before maturity.' },
+    '748': { name: 'Bima Shree (748)', summary: 'A limited premium payment money back plan for High Net-worth Individuals.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '14 to 28 Years', minAge: '8', maxAge: '55', minSA: '10,00,000', maxSA: 'No Limit', ppt: 'Term - 4 Years', deathBenefit: '125% of BSA or 7 times AP + Guaranteed Additions + Loyalty Addition.', maturityBenefit: 'Remaining % of BSA + GA + LA.', survivalBenefit: 'Periodic payouts of 30-45% of BSA depending on the term.', usp: 'High-value money back plan with guaranteed additions.', advantage: 'Tailored for HNIs, providing substantial periodic liquidity along with a robust life cover.' },
+    '764': { name: 'Bima Ratna (764)', summary: 'A limited premium, non-participating, savings Money Back Plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(NACH)', term: '15, 20, 25 Years', minAge: '90 days', maxAge: '55', minSA: '5,00,000', maxSA: 'No Limit', ppt: '11, 16, 21 Years', deathBenefit: '125% of BSA or 7 times AP. Min 105% of premiums.', maturityBenefit: '50% of Basic Sum Assured + Accrued Guaranteed Additions.', survivalBenefit: '25% of Basic SA at the end of the 13th & 14th year (for 15yr term), and similar for other terms.', usp: 'Guaranteed additions and money back payouts.', advantage: 'Combines the certainty of guaranteed returns with the liquidity of a money back plan.' },
+
+    // Whole Life
+    '745': { name: 'Jeevan Umang (745)', summary: 'A non-linked, with-profits whole life assurance plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '100 - age at entry', minAge: '90 days', maxAge: '55', minSA: '2,00,000', maxSA: 'No Limit', ppt: '15, 20, 25, 30 Years', deathBenefit: 'Higher of Basic SA, 7 times AP, or 105% of premiums + Bonuses.', maturityBenefit: 'On survival to age 100, Sum Assured + Bonuses.', survivalBenefit: '8% of Basic Sum Assured annually after PPT until maturity.', usp: 'Lifelong tax-free pension + Insurance cover.', advantage: 'Provides a guaranteed, tax-free annual income post premium payment term, acting as a pension, with life cover up to age 100.' },
+    '771': { name: 'Jeevan Utsav (771)', summary: 'A non-linked, guaranteed benefit, whole life assurance plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '100 - age at entry', minAge: '90 days', maxAge: '65', minSA: '5,00,000', maxSA: 'No Limit', ppt: '5 to 16 Years', deathBenefit: 'Basic Sum Assured + GA, or 7 times AP, or 105% of premiums.', maturityBenefit: 'On survival to 100, SA + Accrued GA.', survivalBenefit: '10% of sum assured every year for life, starting from a specified year.', usp: 'Guaranteed lifelong income with very short premium commitment.', advantage: 'Offers a fixed, guaranteed lifelong income with the flexibility of a very short premium paying term (as low as 5 years).' },
+
+    // Single Premium
+    '717': { name: 'Single Premium Endowment (717)', summary: 'A single premium, non-linked, with-profits Endowment Plan.', premiumMode: 'Single Premium', term: '10 to 25 Years', minAge: '90 days', maxAge: '65', minSA: '1,00,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Sum Assured + Vested Bonus + FAB.', maturityBenefit: 'Sum Assured + Vested Bonus + FAB.', survivalBenefit: 'Not Applicable', usp: 'One-time investment for long-term savings.', advantage: 'Eliminates the hassle of regular premium payments while providing a lump sum for future goals.' },
+    '911': { name: 'Nav Jeevan Shree (Single)', summary: 'A Non-Par, Single Premium Savings Endowment Plan.', premiumMode: 'Single Premium', term: '5 to 20 Years', minAge: '90 days', maxAge: '60', minSA: '1,00,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Option-1: 1.25x Single Premium or BSA. Option-2: 10x Single Premium. + Guaranteed Additions.', maturityBenefit: 'Basic Sum Assured + Guaranteed Additions.', survivalBenefit: 'Not Applicable', usp: 'Guaranteed additions on a single premium.', advantage: 'A simple, secure one-time investment with guaranteed returns, ideal for lump-sum investors.' },
+
+    // Annuity
+    '758': { name: 'Jeevan Shanti (758)', summary: 'A non-linked, non-participating, single premium deferred annuity plan.', premiumMode: 'Single Premium', term: 'Whole Life', minAge: '30', maxAge: '79', minSA: '1,50,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Higher of (Purchase Price + Accrued Additions - Annuity Payouts) or 105% of Purchase Price.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Annuity starts after deferment period (1-12 yrs).', usp: 'Flexible deferred annuity with multiple options.', advantage: 'Allows you to plan for retirement by paying a lump sum now and starting to receive a pension at a later date of your choice.' },
+    '857': { name: 'Jeevan Akshay VII (857)', summary: 'An immediate annuity plan with various payout options.', premiumMode: 'Single Premium', term: 'Whole Life', minAge: '25', maxAge: '100', minSA: '1,00,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Varies by option; can include return of purchase price.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Immediate annuity for life.', usp: 'Wide range of immediate annuity options.', advantage: 'Offers immense flexibility with 10 different options to choose from, allowing you to customize your immediate pension as per your needs.' },
+    '862': { name: 'Saral Pension (862)', summary: 'A standard, single premium individual immediate annuity plan.', premiumMode: 'Single Premium', term: 'Whole Life', minAge: '40', maxAge: '80', minSA: 'Based on min. annuity', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Option 1: None. Option 2: 100% of Purchase Price returned.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Level annuity for life.', usp: 'Simple, standard immediate pension plan.', advantage: 'Extremely easy to understand with only two standard options, making the decision process simple for retirees.' },
+    '879': { name: 'Smart Pension (879)', summary: 'A Non-Participating, Individual/group Immediate annuity Single Premium Plan.', premiumMode: 'Single Premium', term: 'Whole Life', minAge: '18', maxAge: '100', minSA: '1,00,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Varies by many options; can include return of balance purchase price.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Immediate annuity with many options like increasing rate and partial withdrawal.', usp: 'Extensive and complex annuity options, including liquidity.', advantage: 'Offers unique liquidity options allowing partial withdrawal of the purchase price, which is rare in annuity plans.' },
+
+    // Term Insurance
+    '859': { name: 'Saral Jeevan Bima (859)', summary: 'A Non-Linked, Without Profits, Pure Risk Cover Plan.', premiumMode: 'Single, Regular, Limited Pay', term: '5 to 40 Years', minAge: '18', maxAge: '65', minSA: '5,00,000', maxSA: '25,00,000', ppt: 'Same as term or limited', deathBenefit: 'Sum Assured on Death is paid.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'Standardized, simple term insurance.', advantage: 'A no-frills, easy-to-understand term plan with standard features as mandated by IRDAI, making it accessible for everyone.' },
+    '955': { name: 'New Jeevan Amar (955)', summary: 'A Non-Linked, pure protection plan with two death benefit options.', premiumMode: 'Single, Regular, Limited Pay', term: '10 to 40 Years', minAge: '18', maxAge: '65', minSA: '25,00,000', maxSA: 'No Limit', ppt: 'Same as term or limited', deathBenefit: 'Option 1: Level Sum Assured. Option 2: Increasing Sum Assured.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'Option for Increasing Sum Assured.', advantage: 'Allows your life cover to grow over time, helping to combat inflation and increased responsibilities.' },
+    '875': { name: 'Yuva Term (875)', summary: 'A pure risk plan targeted at younger individuals.', premiumMode: 'Single, Regular, Limited Pay', term: '15 to 40 Years', minAge: '18', maxAge: '45', minSA: '50,00,000', maxSA: '5 Crore+', ppt: 'Same as term or limited', deathBenefit: 'Offers Level or Increasing Sum Assured options.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'High sum assured for young professionals.', advantage: 'Specifically designed to offer very high life cover at competitive rates for the younger demographic.' },
+    '877': { name: 'Yuva Credit Life (877)', summary: 'A pure risk plan to cover loan liabilities.', premiumMode: 'Single, Limited Pay', term: '5 to 30 Years', minAge: '18', maxAge: '45', minSA: '50,00,000', maxSA: '5 Crore+', ppt: '5, 10, 15 years or Single', deathBenefit: 'Risk cover reduces as per a pre-defined schedule, mimicking a loan balance.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'Decreasing term cover for loan protection.', advantage: 'A perfect tool to cover a large housing or business loan, where the insurance amount decreases as the loan is repaid.' },
+
+    // Childrens Plans
+    '732': { name: 'Children\'s Money Back (732)', summary: 'A non-linked, with-profits, regular premium money back plan for children.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: 'Matures at age 25', minAge: '0', maxAge: '12', minSA: '2,00,000', maxSA: 'No Limit', ppt: '25 - Age at entry', deathBenefit: 'Higher of 7 times AP or Basic SA + Bonuses.', maturityBenefit: '40% of MSA + Vested Bonus + FAB.', survivalBenefit: '20% of MSA at ages 18, 20, and 22.', usp: 'Money-back payouts timed for educational milestones.', advantage: 'Provides money at crucial ages (18, 20, 22) for college admissions and other related expenses.' },
+    '734': { name: 'Jeevan Tarun (734)', summary: 'A limited premium plan designed to meet the educational needs of children.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: 'Matures at age 25', minAge: '0', maxAge: '12', minSA: '2,00,000', maxSA: 'No Limit', ppt: '20 - Age at entry', deathBenefit: 'Higher of 7 times AP or 125% of SA + Bonuses.', maturityBenefit: 'Depends on option chosen (25% to 100% of SA) + Bonuses.', survivalBenefit: '4 flexible options to receive a percentage of SA annually from age 20 to 24.', usp: 'Flexible survival benefit options.', advantage: 'Gives the parent the power to choose how they want to receive the money for their child\'s education, offering great flexibility.' },
+    '774': { name: 'Amritbaal (774)', summary: 'A Non-Participating, Savings, Life Insurance Plan for children.', premiumMode: 'Single or Limited Pay', term: 'Min 5 yrs (Single), Min 10 yrs (Ltd)', minAge: '0', maxAge: '13', minSA: '2,00,000', maxSA: 'No Limit', ppt: 'Single, 5, 6, 7 Years', deathBenefit: 'Sum Assured on Death + Guaranteed Additions.', maturityBenefit: 'Basic Sum Assured + Guaranteed Additions.', survivalBenefit: 'Not Applicable', usp: 'Guaranteed additions for a secure child-centric corpus.', advantage: 'Offers completely guaranteed returns, making it a safe and predictable tool for planning a child\'s future financial needs.' }
+};
+
+const planGroups = {
+    endowment: ['714', '715', '733', '736', '768', '751', '912', '760'],
+    moneyBack: ['720', '721', '748', '764'],
+    wholeLife: ['745', '771'],
+    childrens: ['732', '734', '774'],
+    term: ['859', '955', '875', '877'],
+    annuity: ['758', '857', '862', '879'],
+    single: ['717', '911']
+};
+
+
+// --- JavaScript Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    // DOM Elements
+    const plan1GroupSelect = document.getElementById('plan1-group');
+    const plan1PlanSelect = document.getElementById('plan1-plan');
+    const plan2GroupSelect = document.getElementById('plan2-group');
+    const plan2PlanSelect = document.getElementById('plan2-plan');
+    const plan2SelectorDiv = document.getElementById('plan2-selector');
+    const outputGrid = document.getElementById('output-grid');
+    const outputPlaceholder = document.getElementById('output-placeholder');
+    const errorMessageDiv = document.getElementById('error-message');
+
+    // --- Event Listeners ---
+    plan1GroupSelect.addEventListener('change', handlePlan1GroupChange);
+    plan1PlanSelect.addEventListener('change', handlePlan1PlanChange);
+    plan2GroupSelect.addEventListener('change', handlePlan2GroupChange);
+    plan2PlanSelect.addEventListener('change', () => displayPlanData(2, plan2PlanSelect.value));
+
+    // --- Handler Functions ---
+    function handlePlan1GroupChange() {
+        const selectedGroup = plan1GroupSelect.value;
+        clearPlan(2);
+        
+        if (selectedGroup) {
+            populatePlanDropdown(plan1PlanSelect, selectedGroup);
+            plan1PlanSelect.disabled = false;
+            
+            plan2SelectorDiv.classList.remove('disabled');
+            plan2GroupSelect.disabled = false;
+            updatePlan2Groups(selectedGroup);
+            
+            clearPlan(1);
+            plan2PlanSelect.innerHTML = '<option value="">Select a Plan</option>';
+            plan2PlanSelect.disabled = true;
+        } else {
+            resetAll();
+        }
+    }
+
+    function handlePlan1PlanChange() {
+        const selectedPlan = plan1PlanSelect.value;
+        if (selectedPlan) {
+            displayPlanData(1, selectedPlan);
+            updatePlan2Plans();
+        } else {
+            clearPlan(1);
+        }
+    }
+    
+    function handlePlan2GroupChange() {
+        const selectedGroup = plan2GroupSelect.value;
+        if (plan1GroupSelect.value === "") {
+            showError("Please select a group for Plan 1 first.");
+            plan2GroupSelect.value = "";
+            return;
+        }
+        if (selectedGroup) {
+            populatePlanDropdown(plan2PlanSelect, selectedGroup);
+            updatePlan2Plans();
+            plan2PlanSelect.disabled = false;
+            clearPlan(2);
+        } else {
+            plan2PlanSelect.innerHTML = '<option value="">Select a Plan</option>';
+            plan2PlanSelect.disabled = false;
+            clearPlan(2);
+        }
+    }
+
+    // --- Helper Functions ---
+    function populatePlanDropdown(selectElement, groupKey) {
+        selectElement.innerHTML = '<option value="">Select a Plan</option>';
+        if (planGroups[groupKey]) {
+            planGroups[groupKey].forEach(planId => {
+                const option = document.createElement('option');
+                option.value = planId;
+                option.textContent = allPlanData[planId].name;
+                selectElement.appendChild(option);
+            });
+        }
+    }
+
+    function updatePlan2Groups(plan1Group) {
+        Array.from(plan2GroupSelect.options).forEach(option => {
+            if (option.value && option.value !== plan1Group) {
+                option.disabled = true;
+            } else {
+                option.disabled = false;
+            }
+        });
+        plan2GroupSelect.value = plan1Group;
+    }
+
+    function updatePlan2Plans() {
+        const plan1Selection = plan1PlanSelect.value;
+        const plan2Selection = plan2PlanSelect.value;
+        Array.from(plan2PlanSelect.options).forEach(option => {
+            if (option.value && option.value === plan1Selection) {
+                option.disabled = true;
+            } else {
+                option.disabled = false;
+            }
+        });
+        if (plan2Selection === plan1Selection) {
+            plan2PlanSelect.value = "";
+            clearPlan(2);
+        }
+    }
+
+    function displayPlanData(planNum, planId) {
+        if (!planId) {
+            clearPlan(planNum);
+            return;
+        }
+        outputPlaceholder.style.display = 'none';
+        outputGrid.style.display = 'grid';
+
+        const plan = allPlanData[planId];
+        document.getElementById(`plan${planNum}-name`).textContent = plan.name;
+        document.getElementById(`plan${planNum}-premium`).textContent = plan.premiumMode;
+        document.getElementById(`plan${planNum}-age`).textContent = `${plan.minAge} to ${plan.maxAge} years`;
+        document.getElementById(`plan${planNum}-sa`).textContent = `Min: ₹${plan.minSA}, Max: ₹${plan.maxSA}`;
+        document.getElementById(`plan${planNum}-term`).textContent = plan.term;
+        document.getElementById(`plan${planNum}-ppt`).textContent = plan.ppt;
+        document.getElementById(`plan${planNum}-sb`).textContent = plan.survivalBenefit;
+        document.getElementById(`plan${planNum}-maturity`).textContent = plan.maturityBenefit;
+        document.getElementById(`plan${planNum}-death`).textContent = plan.deathBenefit;
+        document.getElementById(`plan${planNum}-usp`).textContent = plan.usp;
+        document.getElementById(`plan${planNum}-advantage`).textContent = plan.advantage;
+    }
+
+    function clearPlan(planNum) {
+        document.getElementById(`plan${planNum}-name`).textContent = '';
+        document.getElementById(`plan${planNum}-premium`).textContent = '-';
+        document.getElementById(`plan${planNum}-age`).textContent = '-';
+        document.getElementById(`plan${planNum}-sa`).textContent = '-';
+        document.getElementById(`plan${planNum}-term`).textContent = '-';
+        document.getElementById(`plan${planNum}-ppt`).textContent = '-';
+        document.getElementById(`plan${planNum}-sb`).textContent = '-';
+        document.getElementById(`plan${planNum}-maturity`).textContent = '-';
+        document.getElementById(`plan${planNum}-death`).textContent = '-';
+        document.getElementById(`plan${planNum}-usp`).textContent = '-';
+        document.getElementById(`plan${planNum}-advantage`).textContent = '-';
+        
+        if (!plan1PlanSelect.value && !plan2PlanSelect.value) {
+             outputGrid.style.display = 'none';
+             outputPlaceholder.style.display = 'flex';
+        }
+    }
+    
+    function resetAll() {
+        plan1PlanSelect.innerHTML = '<option value="">Select a Plan</option>';
+        plan1PlanSelect.disabled = true;
+        plan2SelectorDiv.classList.add('disabled');
+        plan2GroupSelect.disabled = true;
+        plan2PlanSelect.innerHTML = '<option value="">Select a Plan</option>';
+        plan2PlanSelect.disabled = true;
+        clearPlan(1);
+        clearPlan(2);
+    }
+
+    function showError(message) {
+        errorMessageDiv.textContent = message;
+        setTimeout(() => {
+            errorMessageDiv.textContent = '';
+        }, 3000);
+    }
+    
+    // Background Animation
+    const canvas = document.getElementById('star-field');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let stars = [];
+    for (let i = 0; i < 100; i++) {
+        stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 1.5,
+            vx: Math.floor(Math.random() * 50) - 25,
+            vy: Math.floor(Math.random() * 50) - 25
+        });
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.globalCompositeOperation = "lighter";
+        for (let i = 0, x = stars.length; i < x; i++) {
+            let s = stars[i];
+            ctx.fillStyle = "#fff";
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.radius, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+    }
+    
+    function update() {
+        for (let i = 0, x = stars.length; i < x; i++) {
+            let s = stars[i];
+            s.x += s.vx / 60;
+            s.y += s.vy / 60;
+            if (s.x < 0 || s.x > canvas.width) s.vx = -s.vx;
+            if (s.y < 0 || s.y > canvas.height) s.vy = -s.vy;
+        }
+    }
+    
+    function tick() {
+        draw();
+        update();
+        requestAnimationFrame(tick);
+    }
+    tick();
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+});
+
+function openCalculator(planNum) {
+  const planId = document.getElementById(`plan${planNum}-plan`).value;
+  if (!planId) {
+    alert("Please select a plan first.");
+    return;
+  }
+
+  const modal = document.getElementById("calculatorModal");
+  const iframe = document.getElementById("calcFrame");
+
+  iframe.src = `${planId}_BSMDT.html`; // <-- This line is updated for root folder
+  modal.style.display = "flex";
+}
+
+
+function closeCalculator() {
+  const modal = document.getElementById("calculatorModal");
+  const iframe = document.getElementById("calcFrame");
+
+  iframe.src = "";
+  modal.style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
