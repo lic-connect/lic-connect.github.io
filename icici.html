@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICICI Prudential Life Insurance - Plan Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #101820;
+            --bg-light-trans: rgba(242, 242, 242, 0.05);
+            --primary-accent: #00f2fe;
+            --secondary-accent: #ff00c1;
+            --text-primary: #F2F2F2;
+            --text-secondary: #a7a9be;
+            --glow-shadow: 0 0 15px rgba(0, 242, 254, 0.3), 0 0 5px rgba(0, 242, 254, 0.5);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 50px auto;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-header h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Tabs Navigation */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .tab-link {
+            padding: 12px 25px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 50px;
+            background: var(--bg-light-trans);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-link:hover {
+            background: var(--primary-accent);
+            color: var(--bg-dark);
+            box-shadow: var(--glow-shadow);
+        }
+
+        .tab-link.active {
+            background: var(--primary-accent);
+            color: var(--bg-dark);
+            box-shadow: var(--glow-shadow);
+        }
+
+        /* Tab Content */
+        .tab-pane {
+            display: none;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category-header {
+            margin-bottom: 30px;
+        }
+        
+        .category-header h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            border-bottom: 2px solid var(--primary-accent);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        /* Plan Cards Grid */
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .plan-card {
+            background: var(--bg-light-trans);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-accent);
+        }
+
+        .plan-card h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6rem;
+            color: var(--primary-accent);
+            margin-bottom: 20px;
+        }
+        
+        .plan-card .quick-info {
+            list-style: none;
+            color: var(--text-secondary);
+        }
+
+        .plan-card .quick-info li {
+            margin-bottom: 10px;
+        }
+
+        .plan-card .quick-info i {
+            margin-right: 10px;
+            color: var(--primary-accent);
+            width: 20px;
+        }
+
+        /* Modal (Popup) Styling - Glassmorphism */
+        .modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            z-index: 1000;
+        }
+
+        .modal-container.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(36, 59, 85, 0.5);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+        
+        .modal-container.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--primary-accent);
+            transform: rotate(90deg);
+        }
+        
+        .modal-header h2 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.2rem;
+            color: var(--primary-accent);
+            margin-bottom: 20px;
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .modal-feature {
+            background: var(--bg-light-trans);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .modal-feature h4 {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 400;
+            margin-bottom: 5px;
+        }
+
+        .modal-feature p {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .modal-benefit h3 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--primary-accent);
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2.5rem; }
+            .modal-grid { grid-template-columns: 1fr; }
+            .modal-content { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>ICICI PRUDENTIAL</h1>
+            <p>Life Insurance Plan Showcase</p>
+        </header>
+
+        <ul class="tabs">
+            <li class="tab-link active" data-tab="endowment">Endowment Plans</li>
+            <li class="tab-link" data-tab="whole-life">Whole Life Plans</li>
+            <li class="tab-link" data-tab="money-back">Money Back Plans</li>
+            <li class="tab-link" data-tab="children">Children's Plans</li>
+            <li class="tab-link" data-tab="annuity">Annuity Plans</li>
+            <li class="tab-link" data-tab="term">Term Insurance</li>
+        </ul>
+
+        <!-- Endowment Plans Content -->
+        <div id="endowment" class="tab-pane active">
+            <div class="category-header"><h2>Endowment Plans</h2></div>
+            <div class="plan-grid">
+                <!-- Plan Card 1 -->
+                <div class="plan-card" data-plan-name="ICICI Pru Assured Savings Insurance Plan" data-sum-assured="Min: ₹1,00,000; Max: No Limit" data-age="Min: 3 years; Max: 60 years" data-term="Min: 10 years; Max: 30 years" data-ppt="Limited Pay: 5, 7, 10 years" data-sb="Not Applicable" data-maturity="Guaranteed Maturity Benefit (GMB) which is the sum of all premiums paid, plus accrued Guaranteed Additions (GAs). GAs accrue annually and are paid at maturity." data-death="Sum Assured on Death plus accrued GAs. The Sum Assured on Death is the higher of (10 times Annualized Premium, 105% of Total Premiums Paid, or the GMB).">
+                    <h3>ICICI Pru Assured Savings Insurance Plan</h3>
+                    <ul class="quick-info">
+                        <li><i class="fas fa-bullseye"></i>Guaranteed Additions for wealth growth.</li>
+                        <li><i class="fas fa-user-shield"></i>Life cover to protect your family.</li>
+                    </ul>
+                </div>
+                <!-- Plan Card 2 -->
+                <div class="plan-card" data-plan-name="ICICI Pru Savings Suraksha" data-sum-assured="Min: ₹1,00,000; Max: No Limit" data-age="Min: 0 years; Max: 60 years" data-term="Min: 10 years; Max: 30 years" data-ppt="Regular or Limited Pay" data-sb="Not Applicable" data-maturity="Sum Assured + Vested Reversionary Bonuses + Terminal Bonus, if any." data-death="Sum Assured on Death + Vested Bonuses + Interim Bonus + Terminal Bonus, if any. Sum Assured on Death is the higher of Sum Assured or 10 times Annualized Premium.">
+                    <h3>ICICI Pru Savings Suraksha</h3>
+                    <ul class="quick-info">
+                        <li><i class="fas fa-hand-sparkles"></i>Bonus potential to enhance savings.</li>
+                        <li><i class="fas fa-sliders-h"></i>Flexible premium payment options.</li>
+                    </ul>
+                </div>
+                <!-- Plan Card 3 -->
+                <div class="plan-card" data-plan-name="ICICI Pru Future Perfect" data-sum-assured="Min: ₹1,00,000; Max: No Limit" data-age="Min: 3 years; Max: 55 years" data-term="Min: 10 years; Max: 25 years" data-ppt="Limited Pay: 7, 10, 15 years" data-sb="Not Applicable" data-maturity="Guaranteed Maturity Benefit (GMB) + Vested Reversionary Bonuses + Terminal Bonus, if any." data-death="Higher of (Sum Assured + GMB + Vested Bonuses) or 105% of total premiums paid.">
+                    <h3>ICICI Pru Future Perfect</h3>
+                    <ul class="quick-info">
+                        <li><i class="fas fa-check-double"></i>Guaranteed benefits for financial security.</li>
+                        <li><i class="fas fa-chart-line"></i>Bonus additions for wealth accumulation.</li>
+                    </ul>
+                </div>
+                 <!-- Plan Card 4 -->
+                 <div class="plan-card" data-plan-name="ICICI Pru GIFT - Lumpsum (Endowment Option)" data-sum-assured="Based on the premium and policy term chosen" data-age="Min: 0 years; Max: 60 years" data-term="Min: 5 years; Max: 15 years" data-ppt="Single Premium only" data-sb="Not Applicable" data-maturity="Guaranteed Sum Assured on Maturity." data-death="Sum Assured on Death, which is the higher of 1.25 times the Single Premium or the Sum Assured.">
+                    <h3>ICICI Pru GIFT - Lumpsum</h3>
+                    <ul class="quick-info">
+                        <li><i class="fas fa-gift"></i>One-time premium for long-term goals.</li>
+                        <li><i class="fas fa-lock"></i>Guaranteed lump sum maturity benefit.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Whole Life Plans Content -->
+        <div id="whole-life" class="tab-pane">
+            <div class="category-header"><h2>Whole Life Plans</h2></div>
+            <div class="plan-grid">
+                 <div class="plan-card" data-plan-name="ICICI Pru iProtect Smart (Whole Life)" data-sum-assured="Min: ₹50,00,000; Max: No Limit" data-age="Min: 18 years; Max: 65 years" data-term="Whole Life (up to 99 years)" data-ppt="Regular or Limited Pay" data-sb="Not Applicable" data-maturity="Not Applicable. Pure protection plan." data-death="The chosen Sum Assured is paid to the nominee upon the death of the life insured.">
+                    <h3>ICICI Pru iProtect Smart (Whole Life)</h3>
+                    <ul class="quick-info">
+                        <li><i class="fas fa-infinity"></i>Lifelong protection up to age 99.</li>
+                        <li><i class="fas-fa-shield-alt"></i>Comprehensive cover against uncertainties.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Money Back Plans Content -->
+        <div id="money-back" class="tab-pane">
+            <div class="category-header"><h2>Money Back Plans</h2></div>
+             <div class="plan-grid">
+                 <div class="plan-card" data-plan-name="ICICI Pru Cash Advantage" data-sum-assured="Min: ₹1,00,000; Max: No Limit" data-age="Min: 0 years; Max: 60 years" data-term="Equal to PPT + 10 years" data-ppt="5, 7, 10 years" data-sb="Provides Guaranteed Cash Benefits (GCB) equal to 1% of the GMB every month for 10 years, starting after the PPT ends." data-maturity="Guaranteed Maturity Benefit (GMB) + Vested Reversionary Bonuses + Terminal Bonus, if any." data-death="Higher of (Sum Assured + GMB) or 105% of premiums paid, plus any accrued bonuses.">
+                    <h3>ICICI Pru Cash Advantage</h3>
+                    <ul class="quick-info">
+                        <li><i class="fas fa-money-bill-wave"></i>Guaranteed regular monthly income.</li>
+                        <li><i class="fas fa-plus-circle"></i>Lump sum at maturity with bonuses.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Children's Plans Content -->
+        <div id="children" class="tab-pane">
+            <div class="category-header"><h2>Children's Plans</h2></div>
+             <div class="plan-grid">
+                 <div class="plan-card" data-plan-name="ICICI Pru Smart Kid Solution" data-sum-assured="Min: 10x Annual Premium; Max: Varies" data-age="Parent: 20-54 years; Child: 0-17 years" data-term="10 to 25 years" data-ppt="Regular or Limited Pay" data-sb="Not Applicable" data-maturity="The total Fund Value is paid at maturity." data-death="(On death of parent): A lump sum is paid. Additionally, the company pays all future premiums (Smart Benefit), and the child receives the fund value at maturity as planned.">
+                    <h3>ICICI Pru Smart Kid Solution</h3>
+                    <ul class="quick-info">
+                        <li><i class="fas fa-graduation-cap"></i>Market-linked returns for education goals.</li>
+                        <li><i class="fas fa-umbrella"></i>Smart Benefit ensures goals are met.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Annuity Plans Content -->
+        <div id="annuity" class="tab-pane">
+            <div class="category-header"><h2>Annuity Plans</h2></div>
+             <div class="plan-grid">
+                 <div class="plan-card" data-plan-name="ICICI Pru Guaranteed Pension Plan" data-sum-assured="Based on premium" data-age="Min: 30 years; Max: 70 years" data-term="Deferment: 5-15 years" data-ppt="Single or Limited Pay" data-sb="Not Applicable" data-maturity="(Vesting Benefit): The accumulated corpus (total premiums + guaranteed additions) is used to purchase an annuity for a lifelong regular income." data-death="A guaranteed death benefit of at least 105% of all premiums paid is returned to the nominee.">
+                    <h3>ICICI Pru Guaranteed Pension Plan</h3>
+                    <ul class="quick-info">
+                        <li><i class="fas fa-cogs"></i>Build a retirement corpus with guarantees.</li>
+                        <li><i class="fas fa-redo-alt"></i>Lifelong income post-retirement.</li>
+                    </ul>
+                </div>
+                 <div class="plan-card" data-plan-name="ICICI Pru Saral Pension" data-sum-assured="Based on min. annuity of ₹1,000/month" data-age="Min: 40 years; Max: 80 years" data-term="Whole Life" data-ppt="Single Premium only" data-sb="Provides a regular annuity payout for life." data-maturity="Not Applicable" data-death="Option 1 (Life Annuity): No death benefit. Option 2 (Life Annuity with 100% Return of Purchase Price): The initial single premium is paid to the nominee.">
+                    <h3>ICICI Pru Saral Pension</h3>
+                    <ul class="quick-info">
+                        <li><i class="fas fa-stream"></i>Simple, standard plan for immediate pension.</li>
+                        <li><i class="fas fa-undo"></i>Option to return purchase price to family.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Term Insurance Content -->
+        <div id="term" class="tab-pane">
+            <div class="category-header"><h2>Term Insurance Plans</h2></div>
+             <div class="plan-grid">
+                 <div class="plan-card" data-plan-name="ICICI Pru iProtect Smart" data-sum-assured="Min: ₹50,00,000; Max: No Limit" data-age="Min: 18 years; Max: 65 years" data-term="Up to age 85 (or 99 for whole life)" data-ppt="Single, Regular, or Limited Pay" data-sb="Not Applicable" data-maturity="None, unless Return of Premium option is chosen." data-death="Sum Assured is paid to the nominee. Payout options include Lump Sum, Regular Income, or a combination.">
+                    <h3>ICICI Pru iProtect Smart</h3>
+                    <ul class="quick-info">
+                        <li><i class="fas fa-heart-pulse"></i>Comprehensive protection with health riders.</li>
+                        <li><i class="fas fa-tasks"></i>Multiple payout options for flexibility.</li>
+                    </ul>
+                </div>
+                 <div class="plan-card" data-plan-name="ICICI Pru Saral Jeevan Bima" data-sum-assured="Min: ₹5,00,000; Max: ₹25,00,000" data-age="Min: 18 years; Max: 65 years" data-term="Min: 5 years; Max: 40 years" data-ppt="Single, Regular, or Limited Pay" data-sb="Not Applicable" data-maturity="Not Applicable" data-death="Sum Assured is paid to the nominee as a lump sum.">
+                    <h3>ICICI Pru Saral Jeevan Bima</h3>
+                    <ul class="quick-info">
+                        <li><i class="fas fa-file-alt"></i>Standard, simple, and affordable term cover.</li>
+                        <li><i class="fas fa-universal-access"></i>Accessible protection for everyone.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="plan-modal" class="modal-container">
+        <div class="modal-content">
+            <span class="modal-close">×</span>
+            <div class="modal-header">
+                <h2 id="modal-plan-name"></h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-grid">
+                    <div class="modal-feature"><h4>Sum Assured</h4><p id="modal-sum-assured"></p></div>
+                    <div class="modal-feature"><h4>Age at Entry</h4><p id="modal-age"></p></div>
+                    <div class="modal-feature"><h4>Policy Term</h4><p id="modal-term"></p></div>
+                    <div class="modal-feature"><h4>Premium Paying Term</h4><p id="modal-ppt"></p></div>
+                </div>
+                <div class="modal-benefit">
+                    <h3><i class="fas fa-hand-holding-usd"></i> Survival Benefit</h3>
+                    <p id="modal-sb"></p>
+                </div>
+                <div class="modal-benefit">
+                    <h3><i class="fas fa-trophy"></i> Maturity Benefit</h3>
+                    <p id="modal-maturity"></p>
+                </div>
+                <div class="modal-benefit">
+                    <h3><i class="fas fa-umbrella-beach"></i> Death Benefit</h3>
+                    <p id="modal-death"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab-link');
+            const panes = document.querySelectorAll('.tab-pane');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = document.getElementById(tab.dataset.tab);
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panes.forEach(p => p.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    target.classList.add('active');
+                });
+            });
+            
+            // Modal Logic
+            const modal = document.getElementById('plan-modal');
+            const closeBtn = document.querySelector('.modal-close');
+            const planCards = document.querySelectorAll('.plan-card');
+
+            planCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const data = card.dataset;
+                    
+                    document.getElementById('modal-plan-name').textContent = data.planName;
+                    document.getElementById('modal-sum-assured').textContent = data.sumAssured;
+                    document.getElementById('modal-age').textContent = data.age;
+                    document.getElementById('modal-term').textContent = data.term;
+                    document.getElementById('modal-ppt').textContent = data.ppt;
+                    document.getElementById('modal-sb').textContent = data.sb;
+                    document.getElementById('modal-maturity').textContent = data.maturity;
+                    document.getElementById('modal-death').textContent = data.death;
+                    
+                    modal.classList.add('show');
+                });
+            });
+            
+            function closeModal() {
+                 modal.classList.remove('show');
+            }
+
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if(e.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndiaFirst Life Insurance - Plan Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f9f9f9;
+            --primary-blue: #003b71;
+            --text-dark: #111827;
+            --text-light: #6b7280;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 4rem;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 5px;
+        }
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+        .filter-btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 10px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+        .filter-btn.active {
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        /* Plan Grid */
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        
+        .plan-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.5s ease-out;
+        }
+        
+        .plan-card.filtered-out {
+            transform: scale(0.9);
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin:0;
+            border: none;
+            overflow: hidden;
+        }
+
+        .plan-card h3 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.6rem;
+            margin: 0 0 10px 0;
+        }
+        .plan-card .category-tag {
+            display: inline-block;
+            background-color: #eef2ff;
+            color: #4338ca;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .plan-card .summary {
+            color: var(--text-light);
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+        
+        .details-btn {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .details-btn:hover {
+            background-color: #002c54;
+        }
+        
+        /* Modal Lightbox */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(17, 24, 39, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.4s ease;
+            z-index: 1000;
+        }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+        .modal-overlay.show .modal-content { transform: translateY(0); }
+
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 15px;
+            font-size: 1.5rem;
+            color: #9ca3af;
+            cursor: pointer;
+        }
+        
+        .modal-header h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2.2rem;
+            margin: 0 0 25px 0;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .info-item h4 {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin: 0 0 5px 0;
+        }
+        .info-item p { margin: 0; font-weight: 600; }
+        .benefit-section { margin-top: 20px; }
+        .benefit-section h4 { font-weight: 600; color: var(--primary-blue); }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header"><h1>IndiaFirst Life Insurance</h1></header>
+
+    <div class="filter-controls">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="endowment">Endowment</button>
+        <button class="filter-btn" data-filter="whole-life">Whole Life</button>
+        <button class="filter-btn" data-filter="money-back">Money Back</button>
+        <button class="filter-btn" data-filter="children">Children's</button>
+        <button class="filter-btn" data-filter="annuity">Annuity</button>
+        <button class="filter-btn" data-filter="term">Term</button>
+    </div>
+
+    <div class="plan-grid" id="plan-grid">
+        <!-- Plan cards will be injected by JavaScript -->
+    </div>
+</div>
+
+<div class="modal-overlay" id="plan-modal">
+    <div class="modal-content">
+        <span class="modal-close">×</span>
+        <div class="modal-header"><h2 id="modal-name"></h2></div>
+        <div class="info-grid">
+            <div class="info-item"><h4>Sum Assured</h4><p id="modal-sa"></p></div>
+            <div class="info-item"><h4>Age at Entry</h4><p id="modal-age"></p></div>
+            <div class="info-item"><h4>Policy Term</h4><p id="modal-term"></p></div>
+            <div class="info-item"><h4>Premium Term</h4><p id="modal-ppt"></p></div>
+        </div>
+        <div class="benefit-section"><h4>Survival Benefit</h4><p id="modal-sb"></p></div>
+        <div class="benefit-section"><h4>Maturity Benefit</h4><p id="modal-maturity"></p></div>
+        <div class="benefit-section"><h4>Death Benefit</h4><p id="modal-death"></p></div>
+    </div>
+</div>
+
+<script>
+const plansData = [
+    { category: 'endowment', name: "IndiaFirst Maha Jeevan Plan", summary: "A traditional participating plan with flexible premium payment options.", sa: "Min: ₹2,00,000", age: "0-60 yrs", term: "10-25 yrs", ppt: "Regular or Limited Pay", sb: "Not Applicable", maturity: "Sum Assured on Maturity + Vested Simple Reversionary Bonuses + Terminal Bonus, if any.", death: "Sum Assured on Death + Vested Bonuses. Sum Assured on Death is the higher of (10 times Annualized Premium or the Sum Assured on Maturity). Benefit is at least 105% of premiums paid." },
+    { category: 'endowment', name: "IndiaFirst Smart Save Plan", summary: "A unit-linked, non-participating endowment plan for wealth creation.", sa: "ULIP (7x Annual Premium min)", age: "0-60 yrs", term: "10-25 yrs", ppt: "Limited or Regular Pay", sb: "Not Applicable", maturity: "The total Fund Value is paid at maturity.", death: "Higher of the (Sum Assured minus partial withdrawals, Fund Value, or 105% of total premiums paid) is given to the nominee." },
+    { category: 'whole-life', name: "IndiaFirst Life Long Guaranteed Income Plan", summary: "Provides a regular guaranteed income and life cover for whole of life.", sa: "Based on premium", age: "18-60 yrs", term: "Up to age 99", ppt: "Limited Pay", sb: "Yes. A guaranteed annual income is paid from the end of the PPT until age 99.", maturity: "On survival to age 99, the policyholder receives a lump sum equal to the total premiums paid.", death: "Sum Assured on Death is paid to the nominee. Any survival benefits already paid are not deducted." },
+    { category: 'money-back', name: "IndiaFirst Life Cash Back Plan", summary: "A savings plan that offers periodic payouts to meet your needs.", sa: "Based on premium", age: "18-55 yrs", term: "9, 12, or 15 yrs", ppt: "5, 6, or 7 yrs", sb: "Yes. A guaranteed annual income is paid during the 'Income Period' which starts after the PPT.", maturity: "The final guaranteed income installment is the maturity benefit.", death: "Sum Assured on Death, which is 10 times the annual premium, is paid to the nominee." },
+    { category: 'money-back', name: "IndiaFirst Mahajeevan Plus Plan", summary: "A comprehensive money-back endowment plan for liquidity.", sa: "Min: ₹1,50,000", age: "13-55 yrs", term: "16 or 20 yrs", ppt: "8 or 10 yrs", sb: "Yes. Provides guaranteed annual payouts from the end of the PPT until the policy matures.", maturity: "Final guaranteed payout + Vested Bonuses + Terminal Bonus, if any.", death: "Sum Assured + Vested bonuses is paid. Any survival benefits already paid are not deducted." },
+    { category: 'children', name: "IndiaFirst Happy India Plan", summary: "A flexible plan that can be used to secure your child's future milestones.", sa: "Min: ₹1,50,000", age: "18-50 yrs", term: "10, 15, or 20 yrs", ppt: "Regular Pay", sb: "Can be structured with a money-back option.", maturity: "Sum Assured + Vested bonuses is paid, which can be used to fund a child's future.", death: "Sum Assured + Vested bonuses is paid to the nominee. A waiver of premium rider can be added to ensure the policy continues on the death of the parent." },
+    { category: 'annuity', name: "IndiaFirst Life Guaranteed Annuity Plan", summary: "An immediate annuity plan with multiple payout options.", sa: "Based on purchase price", age: "40-80 yrs", term: "Whole Life", ppt: "Single Premium", sb: "The regular annuity payout itself is the benefit.", maturity: "Not Applicable", death: "Depends on the annuity option chosen. Key options include Life Annuity with Return of Purchase Price and various Joint Life options." },
+    { category: 'annuity', name: "IndiaFirst Life Saral Pension Plan", summary: "A standard immediate annuity plan with simple, fixed options.", sa: "Based on annuity", age: "40-80 yrs", term: "Whole Life", ppt: "Single Premium", sb: "A level annuity is paid for life.", maturity: "Not Applicable", death: "Option 1 (Life Annuity): No death benefit. Option 2 (Life Annuity with 100% Return of Purchase Price): The single premium is returned to the nominee." },
+    { category: 'term', name: "IndiaFirst Life Plan", summary: "A pure protection term insurance plan with a return of premium option.", sa: "Min: ₹25,00,000", age: "18-60 yrs", term: "5-40 yrs", ppt: "Regular Pay", sb: "Not Applicable", maturity: "None, unless 'Return of Premium' is chosen.", death: "The Sum Assured is paid to the nominee." },
+    { category: 'term', name: "IndiaFirst Life Guaranteed Protection Plan", summary: "A versatile term plan with options for increasing cover.", sa: "Min: ₹25,00,000", age: "18-65 yrs", term: "Up to age 85", ppt: "Regular or Limited", sb: "Not Applicable", maturity: "None, unless 'Return of Premium' is chosen.", death: "The Sum Assured is paid. The plan offers options for increasing cover and life stage-based increments." },
+    { category: 'term', name: "IndiaFirst Life Saral Jeevan Bima Yojana", summary: "The standard, simple term insurance plan as mandated by IRDAI.", sa: "Min: ₹5L; Max: ₹25L", age: "18-65 yrs", term: "5-40 yrs", ppt: "Regular, Ltd, Single", sb: "Not Applicable", maturity: "Not Applicable", death: "The Sum Assured is paid to the nominee as a lump sum." }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('plan-grid');
+    const modal = document.getElementById('plan-modal');
+    const modalCloseBtn = modal.querySelector('.modal-close');
+
+    // Populate the grid
+    plansData.forEach(plan => {
+        const card = document.createElement('div');
+        card.className = 'plan-card';
+        card.dataset.category = plan.category;
+        
+        card.innerHTML = `
+            <div>
+                <span class="category-tag">${plan.category.replace('-', ' ').toUpperCase()}</span>
+                <h3>${plan.name}</h3>
+                <p class="summary">${plan.summary}</p>
+            </div>
+            <button class="details-btn">View Details</button>
+        `;
+
+        card.querySelector('.details-btn').addEventListener('click', () => {
+            document.getElementById('modal-name').textContent = plan.name;
+            document.getElementById('modal-sa').textContent = plan.sa;
+            document.getElementById('modal-age').textContent = plan.age;
+            document.getElementById('modal-term').textContent = plan.term;
+            document.getElementById('modal-ppt').textContent = plan.ppt;
+            document.getElementById('modal-sb').textContent = plan.sb;
+            document.getElementById('modal-maturity').textContent = plan.maturity;
+            document.getElementById('modal-death').textContent = plan.death;
+            modal.classList.add('show');
+        });
+        
+        grid.appendChild(card);
+    });
+
+    const planCards = grid.querySelectorAll('.plan-card');
+
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            const filter = button.dataset.filter;
+            planCards.forEach(card => {
+                if (filter === 'all' || card.dataset.category === filter) {
+                    card.classList.remove('filtered-out');
+                } else {
+                    card.classList.add('filtered-out');
+                }
+            });
+        });
+    });
+    
+    // Modal close functionality
+    const closeModal = () => modal.classList.remove('show');
+    modalCloseBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if(e.target === modal) closeModal();
+    });
+
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDFC Life - Plan Explorer</title>
+    
+    <!-- Google Fonts for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- Global Styles & Resets --- */
+        :root {
+            --primary-bg: #f4f7f9;
+            --sidebar-bg: #ffffff;
+            --header-bg-start: #1e3c72;
+            --header-bg-end: #2a5298;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --accent-color: #00a896;
+            --border-color: #e0e6ed;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Header --- */
+        .page-header {
+            background: linear-gradient(90deg, var(--header-bg-start), var(--header-bg-end));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* --- Sidebar (Left Panel) --- */
+        .sidebar {
+            flex: 0 0 400px;
+            background-color: var(--sidebar-bg);
+            padding: 1.5rem;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            color: var(--header-bg-start);
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        .nav-list {
+            list-style-type: none;
+        }
+
+        .nav-list li {
+            padding: 0.9rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            font-weight: 400;
+            border-left: 4px solid transparent;
+        }
+        
+        .nav-list li:hover {
+            background-color: var(--primary-bg);
+            border-left-color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .nav-list li.active {
+            background-color: #e6f6f5;
+            border-left-color: var(--accent-color);
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .nav-list li i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        /* --- Content Display (Right Panel) --- */
+        .content-display {
+            flex: 1;
+            padding: 2.5rem;
+            overflow-y: auto;
+            background-color: #fbfdff;
+        }
+
+        .content-placeholder, .plan-details {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .content-placeholder i {
+            font-size: 5rem;
+            color: var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .content-placeholder h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        /* --- Plan Details Enhancement --- */
+        .plan-details {
+            background-color: var(--sidebar-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+
+        .plan-details h3 {
+            font-size: 1.8rem;
+            color: var(--header-bg-start);
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-summary {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .details-grid li {
+            background-color: var(--primary-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .details-grid strong {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .details-grid i {
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+        
+        .benefit-section {
+            margin-top: 2rem;
+        }
+        
+        .benefit-section h4 {
+            font-size: 1.3rem;
+            color: var(--header-bg-start);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .benefit-section p {
+            font-size: 1rem;
+        }
+
+        /* --- Footer --- */
+        .page-footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #e9ecef;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .container { flex-direction: column; }
+            .sidebar { flex: 0 0 auto; max-height: 40vh; border-right: none; border-bottom: 1px solid var(--border-color); }
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2rem; }
+            .sidebar { padding: 1rem; flex: 0 0 300px; }
+            .content-display { padding: 1.5rem; }
+            .plan-details { padding: 1.5rem; }
+            .plan-details h3 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <h1>HDFC Life Insurance</h1>
+        <p>Your Fantastic Guide to HDFC Life Plans</p>
+    </header>
+
+    <main class="container">
+        <aside class="sidebar" id="sidebar"></aside>
+        <section class="content-display" id="content-display"></section>
+    </main>
+    
+    <footer class="page-footer">
+        <p>Design by AI | All plan information provided by user.</p>
+    </footer>
+
+    <script>
+        const companyName = "HDFC Life Insurance Co. Ltd.";
+        
+        const insuranceData = {
+            [companyName]: {
+                "Endowment Plans": [
+                    { name: "HDFC Life ClassicAssure Plus", description: "A participating endowment plan that provides insurance coverage and savings.", sumAssured: "Min: ₹1,50,000, Max: No Limit", age: "Min: 8 years, Max: 60 years", policyTerm: "10 to 25 years", ppt: "7, 10, 15 years", maturityBenefit: "Sum Assured on Maturity + Accrued Reversionary Bonuses + Terminal Bonus, if any.", deathBenefit: "Higher of (Sum Assured on Death, 105% of premiums paid). Sum Assured on Death is higher of (Sum Assured on Maturity, 10 times Annualized Premium)." },
+                    { name: "HDFC Life Super Savings Plan", description: "A regular premium endowment plan with flexible policy terms.", sumAssured: "Varies per plan", age: "Min: 30 days, Max: 60 years", policyTerm: "15 to 30 years", ppt: "Regular Pay (same as policy term)", maturityBenefit: "Sum Assured + Accrued Bonuses.", deathBenefit: "Sum Assured on Death + Vested Bonuses + Terminal Bonus, if any." },
+                    { name: "HDFC Life Sanchay", description: "A non-participating endowment plan offering guaranteed benefits.", sumAssured: "Based on premium", age: "Min: 5 years, Max: 60 years", policyTerm: "15 to 25 years", ppt: "5, 8, 10 years", maturityBenefit: "Guaranteed Maturity Benefit, which is the Sum Assured on Maturity.", deathBenefit: "Guaranteed Death Benefit, which is the higher of Sum Assured or 105% of premiums paid." },
+                    { name: "HDFC Life Super Income Plan", description: "An endowment plan that provides regular income.", sumAssured: "Min: ₹1,00,000", age: "Min: 30 days, Max: 59 years", policyTerm: "16 to 27 years", ppt: "8, 10, 12 years", maturityBenefit: "Regular payouts as a percentage of the Sum Assured, plus bonuses at the end of the term.", deathBenefit: "Higher of (Sum Assured + vested bonuses) or 105% of premiums paid." },
+                    { name: "HDFC Life YoungStar Udaan", description: "A participating endowment plan designed for children's future needs.", sumAssured: "Min: ₹1,00,000", age: "Min: 30 days (child), Max: 12 years (child)", policyTerm: "15 to 25 years", ppt: "7, 10 years or Regular Pay", maturityBenefit: "Last money back payout + Accrued Bonuses.", deathBenefit: "Lump sum payout and future premiums are waived. The planned payouts continue as scheduled." },
+                    { name: "HDFC Life Sampoorn Samridhi Plus", description: "A limited premium endowment plan with an option to extend life coverage to 100 years.", sumAssured: "Min: ₹75,000", age: "Min: 30 days, Max: 60 years", policyTerm: "15 to 40 years", ppt: "Limited Pay (5 years less than policy term)", maturityBenefit: "Guaranteed Additions + Accrued Bonuses + Sum Assured on Maturity.", deathBenefit: "Higher of (Sum Assured on Death, 105% of premiums paid)." },
+                    { name: "HDFC Life Uday", description: "An endowment plan with low and affordable premium options.", sumAssured: "Min: ₹30,000", age: "Min: 18 years, Max: 55 years", policyTerm: "10, 12, 15 years", ppt: "5, 6, 7.5 years", maturityBenefit: "Guaranteed Sum Assured on Maturity.", deathBenefit: "Higher of Sum Assured or 105% of premiums paid." },
+                    { name: "HDFC Life Sanchay Plus", description: "Offers guaranteed benefits as a lump sum or regular income.", sumAssured: "Based on premium", age: "Min: 5 years, Max: 60 years", policyTerm: "10 to 20 years", ppt: "5, 6, 7, 8, 10, 12 years", maturityBenefit: "Guaranteed Sum Assured on Maturity or Guaranteed Income for a fixed term, as per option chosen.", deathBenefit: "Sum Assured on Death, which is highest of (10 times annualized premium, 105% of total premiums paid, Sum Assured)." },
+                    { name: "HDFC Life Sanchay Fixed Maturity Plan", description: "Provides guaranteed returns in the form of a lump sum benefit.", sumAssured: "Based on premium", age: "Min: 3 years, Max: 65 years", policyTerm: "5 to 40 years", ppt: "Single, Limited, Regular Pay", maturityBenefit: "Guaranteed Sum Assured on Maturity.", deathBenefit: "Higher of Sum Assured or 1.25 times Single Premium or 10 times Annualized Premium." }
+                ],
+                "Whole Life Plans": [
+                    { name: "HDFC Life Sanchay Plus", description: "The 'Life Long Income' option provides guaranteed income up to age 99.", sumAssured: "Based on premium", age: "Min: 50 years, Max: 60 years", policyTerm: "Coverage up to 99 years", ppt: "5, 6, 10, 12 years", maturityBenefit: "Return of Total Premiums Paid at the end of the payout period.", deathBenefit: "Sum Assured on Death, payable to the nominee." },
+                    { name: "HDFC Life Sampoorn Samridhi Plus", description: "Offers an 'Endowment with Whole Life Cover' option extending coverage to age 100.", sumAssured: "Min: ₹75,000", age: "Min: 30 days, Max: 60 years", policyTerm: "Coverage up to 100 years", ppt: "Limited Pay (Policy term - 5 years)", maturityBenefit: "Not applicable in Whole Life option; survival benefits may be paid.", deathBenefit: "Sum Assured on Death + Accrued Bonuses." }
+                ],
+                "Money Back Plans": [
+                    { name: "HDFC Life Super Income Plan", description: "A non-linked, participating money-back plan that offers guaranteed income.", sumAssured: "Min: ₹1,00,000", age: "Min: 30 days, Max: 59 years", policyTerm: "16 to 27 years", ppt: "8, 10, 12 years", maturityBenefit: "The plan provides regular income (survival benefits) for a payout period of 8, 10 or 12 years. At the end, vested bonuses are paid.", deathBenefit: "Higher of Sum Assured on Death or 105% of premiums paid." },
+                    { name: "HDFC Life Sanchay Plus", description: "The 'Guaranteed Income' option functions like a money-back plan.", sumAssured: "Based on premium", age: "Min: 5 years, Max: 60 years", policyTerm: "Varies", ppt: "5, 6, 7, 8, 10, 12 years", maturityBenefit: "Provides a guaranteed income for a fixed period (e.g., 10, 12 years) after the policy term.", deathBenefit: "Sum Assured on Death." },
+                    { name: "HDFC Life New Money Back Plan", description: "A participating plan providing survival benefits at the end of every four years.", sumAssured: "Min: ₹2,00,000", age: "Min: 13 years, Max: 45 years", policyTerm: "20 years", ppt: "20 years", maturityBenefit: "Final survival benefit installment + Vested bonuses.", deathBenefit: "Sum Assured on Death + Vested Bonuses." }
+                ],
+                "Children's Plans": [
+                    { name: "HDFC Life YoungStar Udaan", description: "A participating plan to fund a child's education and other needs.", sumAssured: "Min: ₹1,00,000", age: "Min: 30 days (child), Max: 12 years (child)", policyTerm: "15 to 25 years", ppt: "7, 10 years or Regular Pay", maturityBenefit: "Provides periodic money-back payouts during the last 5 years of the policy, with a final payout at maturity along with bonuses.", deathBenefit: "A lump sum is paid immediately. All future premiums are waived by the company, and the planned money-back payouts continue as scheduled for the child." }
+                ],
+                "Term Insurance Plans": [
+                    { name: "HDFC Life Click 2 Protect Super", description: "A comprehensive term plan with multiple cover options.", sumAssured: "Min: ₹50,00,000, Max: No Limit", age: "Min: 18 years, Max: 65 years", policyTerm: "5 to 40 years, or up to age 85", ppt: "Single, Regular, Limited Pay", maturityBenefit: "No maturity benefit, unless 'Return of Premium' option is chosen, in which case all premiums paid are returned.", deathBenefit: "The Sum Assured is paid to the nominee. Payout can be lump sum, monthly income, or a combination." },
+                    { name: "HDFC Life Saral Jeevan Bima", description: "A standardized, simple term insurance plan as per IRDAI guidelines.", sumAssured: "Min: ₹5,00,000, Max: ₹25,00,000", age: "Min: 18 years, Max: 65 years", policyTerm: "5 to 40 years", ppt: "Regular, Limited (5, 10 years), Single Pay", maturityBenefit: "None. This is a pure protection plan.", deathBenefit: "Sum Assured is paid to the nominee as a lump sum." },
+                    { name: "HDFC Life Click 2 Protect Life", description: "A term plan that provides comprehensive financial protection at an affordable cost.", sumAssured: "Min: ₹25,00,000, Max: No Limit", age: "Min: 18 years, Max: 65 years", policyTerm: "10 to 40 years, or up to age 85", ppt: "Single, Regular, Limited Pay", maturityBenefit: "None. It's a pure risk cover plan.", deathBenefit: "Sum Assured is paid to the nominee. Options for increasing cover and income payout are available." }
+                ],
+                "Annuity Plans": [
+                    { name: "HDFC Life New Immediate Annuity Plan", description: "A plan that provides a regular income for life in exchange for a single premium.", sumAssured: "Based on annuity amount", age: "Min: 30 years, Max: 85 years", policyTerm: "Whole Life", ppt: "Single Premium", maturityBenefit: "Not applicable. Provides lifelong income.", deathBenefit: "Depends on the annuity option chosen. 'Return of Purchase Price' option returns the initial premium to the nominee." },
+                    { name: "HDFC Life Systematic Pension Plan", description: "A deferred annuity plan to build a retirement corpus.", sumAssured: "Varies", age: "Min: 45 years, Max: 75 years", policyTerm: "5 to 15 years (deferment period)", ppt: "Single, Regular Pay", maturityBenefit: "The accumulated corpus can be used to purchase an annuity for regular income.", deathBenefit: "Higher of (Total premiums paid + 6% p.a. interest) or 105% of total premiums paid." },
+                    { name: "HDFC Life Saral Pension", description: "A standardized immediate annuity plan with simple features.", sumAssured: "Based on annuity amount", age: "Min: 40 years, Max: 80 years", policyTerm: "Whole Life", ppt: "Single Premium", maturityBenefit: "Not applicable.", deathBenefit: "Option 1 (Life Annuity): None. Option 2 (Life Annuity with Return of 100% Purchase Price): The initial premium is returned to the nominee." },
+                    { name: "HDFC Life Systematic Retirement Plan", description: "This plan focuses on delivering a regular income stream after retirement.", sumAssured: "Based on premium", age: "Min: 45 years, Max: 75 years", policyTerm: "5 to 15 years (deferment period)", ppt: "Single, 5 to 15 years", maturityBenefit: "Guaranteed income for a chosen period (e.g., 15, 20, 25, 30 years) after the deferment period.", deathBenefit: "At least 105% of the total premiums paid is returned to the nominee." },
+                    { name: "HDFC Life Guaranteed Pension Plan", description: "A deferred annuity plan offering guaranteed returns.", sumAssured: "Varies", age: "Min: 30 years, Max: 65 years", policyTerm: "5 to 20 years (deferment period)", ppt: "Single, Limited Pay", maturityBenefit: "The accumulated corpus (with guaranteed additions) is used to buy an annuity from HDFC Life for lifelong income.", deathBenefit: "Higher of (Total premiums paid with guaranteed interest) or 105% of total premiums paid." }
+                ]
+            }
+        };
+
+        const sidebar = document.getElementById('sidebar');
+        const contentDisplay = document.getElementById('content-display');
+
+        const categoryIcons = {
+            "Endowment Plans": "fa-solid fa-piggy-bank", "Whole Life Plans": "fa-solid fa-house-chimney-user", "Money Back Plans": "fa-solid fa-hand-holding-dollar", "Children's Plans": "fa-solid fa-child-reaching", "Term Insurance Plans": "fa-solid fa-shield-halved", "Annuity Plans": "fa-solid fa-chart-line"
+        };
+        
+        function displayCategories(company) {
+            sidebar.innerHTML = `<div class="sidebar-header"><h2>${company}</h2></div><ul class="nav-list" id="main-list"></ul>`;
+            
+            const list = document.getElementById('main-list');
+            const companyPlans = insuranceData[company];
+            Object.keys(companyPlans).forEach(categoryName => {
+                const li = document.createElement('li');
+                const iconClass = categoryIcons[categoryName] || 'fa-solid fa-file-alt';
+                const planCount = companyPlans[categoryName] ? companyPlans[categoryName].length : 0;
+                li.innerHTML = `<i class="${iconClass}"></i>${categoryName} <span>(${planCount})</span>`;
+                
+                if (planCount > 0) {
+                   li.addEventListener('click', (e) => {
+                       document.querySelectorAll('#main-list li').forEach(item => item.classList.remove('active'));
+                       e.currentTarget.classList.add('active');
+                       displayPlans(company, categoryName);
+                   });
+                } else {
+                    li.style.cursor = 'not-allowed';
+                    li.style.opacity = '0.6';
+                }
+                list.appendChild(li);
+            });
+            contentDisplay.innerHTML = `<div class="content-placeholder"><i class="fas fa-layer-group"></i><h2>Plan Categories</h2><p>Welcome! Select a plan category from the left to view the available plans for HDFC Life.</p></div>`;
+        }
+
+        function displayPlans(company, categoryName) {
+            sidebar.innerHTML = `
+                <a class="back-button" id="back-to-cat"><i class="fas fa-arrow-left"></i> Back to Categories</a>
+                <div class="sidebar-header"><h2>${categoryName}</h2><p style="color: #666;">from ${company}</p></div>
+                <ul class="nav-list" id="main-list"></ul>`;
+                
+            sidebar.querySelector('#back-to-cat').addEventListener('click', () => displayCategories(company));
+            
+            const list = document.getElementById('main-list');
+            const plans = insuranceData[company][categoryName];
+            plans.forEach((plan, index) => {
+                const li = document.createElement('li');
+                li.textContent = plan.name;
+                li.addEventListener('click', (e) => {
+                    document.querySelectorAll('#main-list li').forEach(item => item.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    displayPlanDetails(company, categoryName, index);
+                });
+                list.appendChild(li);
+            });
+            contentDisplay.innerHTML = `<div class="content-placeholder"><i class="fas fa-clipboard-list"></i><h2>Available Plans</h2><p>Select a specific plan from the list to see its features.</p></div>`;
+        }
+
+        function displayPlanDetails(company, categoryName, planIndex) {
+            const plan = insuranceData[company][categoryName][planIndex];
+            contentDisplay.innerHTML = `
+                <div class="plan-details">
+                    <h3>${plan.name}</h3>
+                    <p class="plan-summary">${plan.description}</p>
+                    <ul class="details-grid">
+                        <li><strong><i class="fas fa-coins"></i> Sum Assured:</strong> <span>${plan.sumAssured}</span></li>
+                        <li><strong><i class="fas fa-user-clock"></i> Age at Entry:</strong> <span>${plan.age}</span></li>
+                        <li><strong><i class="fas fa-calendar-alt"></i> Policy Term:</strong> <span>${plan.policyTerm}</span></li>
+                        <li><strong><i class="fas fa-file-invoice-dollar"></i> Premium Paying Term:</strong> <span>${plan.ppt}</span></li>
+                    </ul>
+                    <div class="benefit-section"><h4>Maturity Benefit</h4><p>${plan.maturityBenefit}</p></div>
+                    <div class="benefit-section"><h4>Death Benefit</h4><p>${plan.deathBenefit}</p></div>
+                </div>`;
+        }
+
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Directly load the categories for the only company available
+            displayCategories(companyName);
+        });
+    </script>
+</body>
+</html>

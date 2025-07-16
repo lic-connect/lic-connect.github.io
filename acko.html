@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acko Life Insurance - Simply Insured</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f9fafb;
+            --grad-start: #6d28d9;
+            --grad-end: #4f46e5;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            height: 85vh;
+            max-height: 800px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            background: linear-gradient(160deg, var(--grad-start), var(--grad-end));
+            color: white;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-header h2 {
+            font-weight: 800;
+            font-size: 2rem;
+            margin: 0 0 10px 0;
+        }
+        .sidebar-header p {
+            margin: 0 0 30px 0;
+            opacity: 0.8;
+        }
+
+        .plan-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: auto;
+        }
+        .plan-nav-item {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+        .plan-nav-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        .plan-nav-item.active {
+            background-color: white;
+            color: var(--grad-start);
+            font-weight: 600;
+        }
+        .plan-nav-item h3 {
+            font-size: 1.1rem;
+            margin: 0 0 4px 0;
+        }
+        .plan-nav-item .category {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .important-note {
+            margin-top: auto;
+            background-color: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        /* Content Display Area */
+        .content-area {
+            padding: 40px;
+            overflow-y: auto;
+        }
+        .plan-content {
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 0 30px 0;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .detail-card {
+            background: var(--bg-color);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .detail-card h4 {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin: 0 0 5px 0;
+        }
+        .detail-card p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--grad-start);
+        }
+        
+        .benefit-section {
+            margin-top: 20px;
+        }
+        .benefit-section h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .benefit-section p {
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Acko Life</h2>
+            <p>Plan Explorer</p>
+        </div>
+        <ul class="plan-nav" id="plan-nav">
+            <!-- Plan navigation items will be injected by JavaScript -->
+        </ul>
+        <div class="important-note">
+            <strong>Note:</strong> As a digital-first insurer, Acko's portfolio is streamlined. The plans listed are their primary offerings.
+        </div>
+    </aside>
+
+    <main class="content-area" id="content-area">
+        <!-- Plan content will be dynamically updated here -->
+        <div class="plan-content">
+            <div class="content-header">
+                <h1>Welcome to Acko Life</h1>
+            </div>
+            <p>Select a plan from the left menu to view its details. Acko focuses on simple, transparent, and easy-to-understand insurance products that you can manage right from your phone.</p>
+        </div>
+    </main>
+</div>
+
+<script>
+const plansData = [
+    { category: 'Annuity', name: "Acko Life Saral Pension", sa: "Based on annuity", age: "40-80 yrs", term: "Whole Life", ppt: "Single Premium", sb: "A level annuity is paid for life.", maturity: "Not Applicable", death: "Option 1 (Life Annuity): No death benefit. Option 2 (Life Annuity with 100% Return of Purchase Price): The single premium is returned to the nominee." },
+    { category: 'Term Insurance', name: "Acko Life Flexi Term Plan", sa: "Min: ₹25,00,000", age: "18-65 yrs", term: "Up to age 75", ppt: "Regular or Limited", sb: "Not Applicable", maturity: "None. This is a pure protection plan.", death: "The Sum Assured is paid to the nominee. The plan is designed for a quick digital purchase process. Riders like critical illness and accidental death benefit are available." },
+    { category: 'Term Insurance', name: "Acko Life Saral Jeevan Bima", sa: "₹5 Lakh - ₹25 Lakh", age: "18-65 yrs", term: "5-40 yrs", ppt: "Regular, Ltd, Single", sb: "Not Applicable", maturity: "Not Applicable", death: "The Sum Assured is paid to the nominee as a lump sum." }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const navList = document.getElementById('plan-nav');
+    const contentArea = document.getElementById('content-area');
+
+    // Populate navigation
+    plansData.forEach((plan, index) => {
+        const li = document.createElement('li');
+        li.className = 'plan-nav-item';
+        if (index === 0) {
+            li.classList.add('active'); // Set first item as active
+        }
+        li.dataset.index = index;
+        li.innerHTML = `
+            <h3>${plan.name}</h3>
+            <span class="category">${plan.category}</span>
+        `;
+        navList.appendChild(li);
+    });
+
+    const navItems = document.querySelectorAll('.plan-nav-item');
+
+    function displayPlan(index) {
+        const plan = plansData[index];
+        contentArea.innerHTML = `
+            <div class="plan-content">
+                <div class="content-header">
+                    <h1>${plan.name}</h1>
+                </div>
+                <div class="details-grid">
+                    <div class="detail-card"><h4>Sum Assured</h4><p>${plan.sa}</p></div>
+                    <div class="detail-card"><h4>Age at Entry</h4><p>${plan.age}</p></div>
+                    <div class="detail-card"><h4>Policy Term</h4><p>${plan.term}</p></div>
+                    <div class="detail-card"><h4>Premium Term</h4><p>${plan.ppt}</p></div>
+                </div>
+                <div class="benefit-section">
+                    <h3>Survival Benefit</h3>
+                    <p>${plan.sb}</p>
+                </div>
+                <div class="benefit-section">
+                    <h3>Maturity Benefit</h3>
+                    <p>${plan.maturity}</p>
+                </div>
+                <div class="benefit-section">
+                    <h3>Death Benefit</h3>
+                    <p>${plan.death}</p>
+                </div>
+            </div>
+        `;
+    }
+
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            navItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            displayPlan(item.dataset.index);
+        });
+    });
+
+    // Initial display
+    displayPlan(0);
+});
+</script>
+
+</body>
+</html>

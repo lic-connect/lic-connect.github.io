@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axis Max Life - Plan Explorer</title>
+    
+    <!-- Google Fonts for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- Global Styles & Resets --- */
+        :root {
+            --primary-bg: #f4f7f9;
+            --sidebar-bg: #ffffff;
+            --header-bg-start: #1e3c72;
+            --header-bg-end: #2a5298;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --accent-color: #00a896;
+            --border-color: #e0e6ed;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Header --- */
+        .page-header {
+            background: linear-gradient(90deg, var(--header-bg-start), var(--header-bg-end));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* --- Sidebar (Left Panel) --- */
+        .sidebar {
+            flex: 0 0 400px;
+            background-color: var(--sidebar-bg);
+            padding: 1.5rem;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            color: var(--header-bg-start);
+        }
+        
+        .back-button {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        .nav-list {
+            list-style-type: none;
+        }
+
+        .nav-list li {
+            padding: 0.9rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            font-weight: 400;
+            border-left: 4px solid transparent;
+        }
+        
+        .nav-list li:hover {
+            background-color: var(--primary-bg);
+            border-left-color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .nav-list li.active {
+            background-color: #e6f6f5;
+            border-left-color: var(--accent-color);
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        .nav-list li i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        /* --- Content Display (Right Panel) --- */
+        .content-display {
+            flex: 1;
+            padding: 2.5rem;
+            overflow-y: auto;
+            background-color: #fbfdff;
+        }
+
+        .content-placeholder, .plan-details {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .content-placeholder i {
+            font-size: 5rem;
+            color: var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .content-placeholder h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        /* --- Plan Details Enhancement --- */
+        .plan-details {
+            background-color: var(--sidebar-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px var(--shadow-color);
+        }
+
+        .plan-details h3 {
+            font-size: 1.8rem;
+            color: var(--header-bg-start);
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-summary {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .details-grid li {
+            background-color: var(--primary-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .details-grid strong {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .details-grid i {
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+        
+        .benefit-section {
+            margin-top: 2rem;
+        }
+        
+        .benefit-section h4 {
+            font-size: 1.3rem;
+            color: var(--header-bg-start);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .benefit-section p {
+            font-size: 1rem;
+        }
+
+        /* --- Footer --- */
+        .page-footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: #e9ecef;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .container { flex-direction: column; }
+            .sidebar { flex: 0 0 auto; max-height: 40vh; border-right: none; border-bottom: 1px solid var(--border-color); }
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2rem; }
+            .sidebar { padding: 1rem; flex: 0 0 300px; }
+            .content-display { padding: 1.5rem; }
+            .plan-details { padding: 1.5rem; }
+            .plan-details h3 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="page-header">
+        <h1>Axis Max Life Insurance</h1>
+        <p>Your Fantastic Guide to Axis Max Life Plans</p>
+    </header>
+
+    <main class="container">
+        <aside class="sidebar" id="sidebar"></aside>
+        <section class="content-display" id="content-display"></section>
+    </main>
+    
+    <footer class="page-footer">
+        <p>Design by AI | All plan information provided by user.</p>
+    </footer>
+
+    <script>
+        const companyName = "Axis Max Life Insurance Co. Ltd.";
+        
+        const insuranceData = {
+            [companyName]: {
+                "Endowment Plans": [
+                    { name: "Max Life Future Secure II", description: "A participating money-back plan designed to secure your future with periodic payouts.", sumAssured: "Min: ₹2,00,000, Max: No Limit", age: "Min: 91 days, Max: 50 years", policyTerm: "20 or 25 years", ppt: "10 or 12 years", maturityBenefit: "Sum Assured on Maturity + any accrued Simple Reversionary Bonuses + Terminal Bonus, if declared.", deathBenefit: "Guaranteed Death Benefit (higher of Sum Assured or 105% of premiums) + accrued bonuses. With Payor Waiver Benefit, future premiums are waived on death of policy-paying parent." },
+                    { name: "Max Life Life Perfect Partner Super", description: "A participating endowment plan offering a blend of savings and protection.", sumAssured: "Min: ₹2,00,000, Max: No Limit", age: "Min: 91 days, Max: 50 years", policyTerm: "15 to 30 years", ppt: "7, 10, 15, 20 years", maturityBenefit: "Sum Assured + Vested Reversionary Bonuses + Terminal Bonus, if any.", deathBenefit: "Sum Assured on Death, which is the higher of (Sum Assured, 10 times Annualized Premium, 105% of all premiums paid)." },
+                    { name: "Max Life Whole Life Super Insurance Plan", description: "A savings-oriented policy that provides coverage until the age of 100.", sumAssured: "Min: ₹1,00,000, Max: No Limit", age: "Min: 30 days, Max: 65 years", policyTerm: "Whole Life (100 minus entry age)", ppt: "10, 15, 20 years", maturityBenefit: "On survival to age 100, Sum Assured + Accrued Bonuses are paid.", deathBenefit: "Higher of (Sum Assured + accrued bonuses) or 105% of premiums paid until death." },
+                    { name: "Max Life Assured Wealth Plan", description: "A non-linked, non-participating plan with guaranteed returns.", sumAssured: "Based on Premium", age: "Min: 30 days, Max: 60 years", policyTerm: "12 to 20 years", ppt: "5, 6, 8, 10, 12 years", maturityBenefit: "Guaranteed Sum Assured on Maturity.", deathBenefit: "Guaranteed Death Benefit, which is the highest of (10 times Annualized Premium, 105% of premiums paid, Sum Assured)." },
+                    { name: "Max Life- Life Gain Premier", description: "A traditional participating endowment insurance plan.", sumAssured: "Min: ₹1,00,000, Max: No Limit", age: "Min: 91 days, Max: 55 years", policyTerm: "15 to 25 years", ppt: "Regular Pay", maturityBenefit: "Sum Assured + Vested Bonuses + Terminal Bonus, if any.", deathBenefit: "Sum Assured on Death + accrued bonuses." },
+                    { name: "Axis Max Life Smart Wealth Income Plan", description: "A non-participating, non-linked savings life insurance plan.", sumAssured: "Based on Premium", age: "Min: 91 days, Max: 60 years", policyTerm: "Varies by option", ppt: "6, 8, 10, 12 years", maturityBenefit: "Provides guaranteed income for a specified period as per the chosen plan option.", deathBenefit: "Higher of (Sum Assured on Death, 105% of Total Premiums Paid)." }
+                ],
+                "Whole Life Plans": [
+                    { name: "Max Life Whole Life Super", description: "A traditional participating plan offering protection up to age 100.", sumAssured: "Min: ₹1,00,000, Max: No Limit", age: "Min: 30 days, Max: 65 years", policyTerm: "Whole Life (100 minus entry age)", ppt: "10, 15, 20 years", maturityBenefit: "On survival to age 100, the Sum Assured along with any accrued bonuses is paid.", deathBenefit: "Higher of (Sum Assured plus accrued bonuses) or 105% of all premiums paid till the date of death." }
+                ],
+                "Money Back Plans": [
+                    { name: "Max Life Monthly Income Advantage Plan", description: "A participating plan providing a monthly income for 10 years and a lump sum at maturity.", sumAssured: "Min: ₹2,00,000, Max: No Limit", age: "Min: 18 years, Max: 55 years", policyTerm: "20 to 25 years", ppt: "10, 12, 15 years", maturityBenefit: "Guaranteed monthly income for 10 years post PPT, plus a terminal bonus at the end of the policy term.", deathBenefit: "Guaranteed Death Benefit (at least 105% of premiums paid) + accrued bonuses." },
+                    { name: "Max Life Guaranteed Income Plan", description: "A non-participating plan that offers guaranteed income payouts.", sumAssured: "Based on Premium", age: "Min: 18 years, Max: 60 years", policyTerm: "Varies by option", ppt: "Single, 5 to 12 years", maturityBenefit: "Provides a guaranteed income for a fixed period of 10, 15, or 30 years after the premium paying term.", deathBenefit: "Guaranteed Death Benefit, which is the higher of 105% of premiums paid or the Sum Assured." }
+                ],
+                "Children's Plans": [
+                    { name: "Max Life Future Genius Education Plan", description: "A non-linked participating plan providing funds at key educational milestones.", sumAssured: "Min: ₹2,00,000, Max: No Limit", age: "Min: 21 (parent), Max: 45 (parent); Child: 0-13 years", policyTerm: "13 to 25 years", ppt: "8 years", maturityBenefit: "Provides 4 guaranteed annual money-backs in the last 4 years of the policy, plus any accrued bonuses at maturity.", deathBenefit: "A lump sum is paid to the family. All future premiums are waived by the company and the scheduled money-backs are paid to the child as planned." },
+                    { name: "Max Life Shiksha Plus Super", description: "A unit-linked insurance plan (ULIP) designed to fund a child's higher education.", sumAssured: "Min: 10x Annual Premium, Max: 20x Annual Premium", age: "Min: 21 (parent), Max: 50 (parent); Child: 0-15 years", policyTerm: "15 to 25 years", ppt: "5 years or Regular Pay", maturityBenefit: "The total Fund Value is paid at maturity.", deathBenefit: "A lump sum benefit is paid. Additionally, the company funds the future premiums, and the fund value is paid at maturity as originally planned (Family Income Benefit)." }
+                ],
+                "Term Insurance Plans": [
+                    { name: "Max Life Smart Secure Plus Plan", description: "A pure risk plan with multiple variants for death benefit and return of premium option.", sumAssured: "Min: ₹25,00,000, Max: No Limit", age: "Min: 18 years, Max: 65 years", policyTerm: "5 to 67 years (up to age 85)", ppt: "Single, Regular, Limited Pay", maturityBenefit: "None, unless Return of Premium variant is chosen, where 100% of total premiums paid is returned.", deathBenefit: "Sum Assured is paid as per the chosen payout option (lump sum, income, or combination)." },
+                    { name: "Max Life Saral Jeevan Bima", description: "A standard term insurance plan with simple features.", sumAssured: "Min: ₹5,00,000, Max: ₹25,00,000", age: "Min: 18 years, Max: 65 years", policyTerm: "5 to 40 years", ppt: "Regular, Limited (5, 10 years), Single Pay", maturityBenefit: "None. It is a pure term insurance plan.", deathBenefit: "Sum Assured is paid to the nominee." },
+                    { name: "Max Life Online Term Plan Plus", description: "An online term plan providing a large cover at a low premium.", sumAssured: "Min: ₹25,00,000, Max: No Limit", age: "Min: 18 years, Max: 60 years", policyTerm: "10 to 50 years", ppt: "Regular, or Pay till 60", maturityBenefit: "None. This is a pure protection plan.", deathBenefit: "Sum Assured is paid to the nominee. Options for increasing cover and monthly income are available." }
+                ],
+                "Annuity Plans": [
+                    { name: "Max Life Saral Pension", description: "A single premium, non-linked, individual immediate annuity plan.", sumAssured: "Based on Annuity", age: "Min: 40 years, Max: 80 years", policyTerm: "Whole Life", ppt: "Single Premium", maturityBenefit: "Not applicable. Provides lifelong income.", deathBenefit: "If Joint Life with Return of Purchase Price option is chosen, 100% of the purchase price is returned to the nominee on the death of the last survivor." },
+                    { name: "Max Life Smart Guaranteed Pension Plan", description: "This plan guarantees a regular income for life for both individuals and groups.", sumAssured: "Based on Annuity", age: "Min: 0 years, Max: 85 years", policyTerm: "Whole Life", ppt: "Single Premium", maturityBenefit: "Not applicable. This is an immediate annuity plan.", deathBenefit: "Depends on the annuity option chosen. 'Return of Purchase Price' option is available." },
+                    { name: "Max Life Guaranteed Lifetime Income Plan", description: "A deferred annuity plan designed to build a retirement corpus with guaranteed returns.", sumAssured: "Based on Premium", age: "Min: 30 years, Max: 65 years", policyTerm: "5 to 10 years (deferment period)", ppt: "Single, 5, 6, 8, 10, 12 years", maturityBenefit: "The vesting benefit (corpus) is used to purchase an immediate annuity, providing income for life.", deathBenefit: "A guaranteed death benefit of at least 105% of total premiums paid is given to the nominee." }
+                ]
+            }
+        };
+
+        const sidebar = document.getElementById('sidebar');
+        const contentDisplay = document.getElementById('content-display');
+
+        const categoryIcons = {
+            "Endowment Plans": "fa-solid fa-piggy-bank", "Whole Life Plans": "fa-solid fa-house-chimney-user", "Money Back Plans": "fa-solid fa-hand-holding-dollar", "Children's Plans": "fa-solid fa-child-reaching", "Term Insurance Plans": "fa-solid fa-shield-halved", "Annuity Plans": "fa-solid fa-chart-line"
+        };
+        
+        function displayCategories(company) {
+            sidebar.innerHTML = `
+                <div class="sidebar-header"><h2>${company}</h2></div>
+                <ul class="nav-list" id="main-list"></ul>`;
+            
+            const list = document.getElementById('main-list');
+            const companyPlans = insuranceData[company];
+            Object.keys(companyPlans).forEach(categoryName => {
+                const li = document.createElement('li');
+                const iconClass = categoryIcons[categoryName] || 'fa-solid fa-file-alt';
+                const planCount = companyPlans[categoryName] ? companyPlans[categoryName].length : 0;
+                li.innerHTML = `<i class="${iconClass}"></i>${categoryName} <span>(${planCount})</span>`;
+                
+                if (planCount > 0) {
+                   li.addEventListener('click', (e) => {
+                       document.querySelectorAll('#main-list li').forEach(item => item.classList.remove('active'));
+                       e.currentTarget.classList.add('active');
+                       displayPlans(company, categoryName);
+                   });
+                } else {
+                    li.style.cursor = 'not-allowed';
+                    li.style.opacity = '0.6';
+                }
+                list.appendChild(li);
+            });
+            contentDisplay.innerHTML = `<div class="content-placeholder"><i class="fas fa-layer-group"></i><h2>Plan Categories</h2><p>Welcome! Select a plan category from the left to view the available plans for Axis Max Life.</p></div>`;
+        }
+
+        function displayPlans(company, categoryName) {
+            sidebar.innerHTML = `
+                <a class="back-button" id="back-to-cat"><i class="fas fa-arrow-left"></i> Back to Categories</a>
+                <div class="sidebar-header"><h2>${categoryName}</h2><p style="color: #666;">from ${company}</p></div>
+                <ul class="nav-list" id="main-list"></ul>`;
+                
+            sidebar.querySelector('#back-to-cat').addEventListener('click', () => displayCategories(company));
+            
+            const list = document.getElementById('main-list');
+            const plans = insuranceData[company][categoryName];
+            plans.forEach((plan, index) => {
+                const li = document.createElement('li');
+                li.textContent = plan.name;
+                li.addEventListener('click', (e) => {
+                    document.querySelectorAll('#main-list li').forEach(item => item.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    displayPlanDetails(company, categoryName, index);
+                });
+                list.appendChild(li);
+            });
+            contentDisplay.innerHTML = `<div class="content-placeholder"><i class="fas fa-clipboard-list"></i><h2>Available Plans</h2><p>Select a specific plan from the list to see its features.</p></div>`;
+        }
+
+        function displayPlanDetails(company, categoryName, planIndex) {
+            const plan = insuranceData[company][categoryName][planIndex];
+            contentDisplay.innerHTML = `
+                <div class="plan-details">
+                    <h3>${plan.name}</h3>
+                    <p class="plan-summary">${plan.description}</p>
+                    <ul class="details-grid">
+                        <li><strong><i class="fas fa-coins"></i> Sum Assured:</strong> <span>${plan.sumAssured}</span></li>
+                        <li><strong><i class="fas fa-user-clock"></i> Age at Entry:</strong> <span>${plan.age}</span></li>
+                        <li><strong><i class="fas fa-calendar-alt"></i> Policy Term:</strong> <span>${plan.policyTerm}</span></li>
+                        <li><strong><i class="fas fa-file-invoice-dollar"></i> Premium Paying Term:</strong> <span>${plan.ppt}</span></li>
+                    </ul>
+                    <div class="benefit-section"><h4>Maturity Benefit</h4><p>${plan.maturityBenefit}</p></div>
+                    <div class="benefit-section"><h4>Death Benefit</h4><p>${plan.deathBenefit}</p></div>
+                </div>`;
+        }
+
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Directly load the categories for the only company available
+            displayCategories(companyName);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandhan Life Insurance - The Bond of Trust</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-warm-white: #faf8f5;
+            --primary-maroon: #8c1d40;
+            --accent-light: #f4e8e1;
+            --text-dark: #3a2e39;
+            --text-light: #6a6a6a;
+            --border-color: #e6e0d8;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-warm-white);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1300px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 50px;
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            position: sticky;
+            top: 50px;
+            height: fit-content;
+        }
+        .sidebar-header {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-maroon);
+            margin-bottom: 20px;
+        }
+        .sidebar-note {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            background-color: var(--accent-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar-nav a {
+            display: block;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background-color: var(--primary-maroon);
+            color: white;
+            padding-left: 25px;
+        }
+
+        /* Main Content */
+        .main-content .header {
+            margin-bottom: 50px;
+        }
+        .main-content h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3.5rem;
+            margin: 0;
+        }
+
+        .category-section {
+            margin-bottom: 50px;
+        }
+        .category-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+        
+        /* Fold-out Card */
+        .plan-folder {
+            perspective: 1500px;
+            margin-bottom: 25px;
+        }
+        .plan-folder-front {
+            background: white;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transform-origin: left;
+            transition: transform 0.6s ease;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .plan-folder.open .plan-folder-front {
+            transform: rotateY(-180deg);
+        }
+
+        .plan-folder-front h3 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        .plan-folder-front .icon {
+            font-size: 1.5rem;
+            color: var(--primary-maroon);
+        }
+        
+        .plan-folder-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-light);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            z-index: 5;
+            padding: 25px;
+            opacity: 0;
+            transition: opacity 0.3s ease 0.3s;
+        }
+
+        .plan-folder.open .plan-folder-back {
+            opacity: 1;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        .detail-item h4 {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin: 0 0 5px 0;
+        }
+        .detail-item p {
+            font-weight: 600;
+            margin: 0;
+        }
+        .benefit-section { margin-top: 15px; }
+        .benefit-section h4 {
+            color: var(--primary-maroon);
+            margin: 15px 0 5px 0;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <aside class="sidebar">
+        <h2 class="sidebar-header">Bandhan Life</h2>
+        <div class="sidebar-note">
+            <strong>Note:</strong> Formerly Aegon Life. This portfolio reflects their key integrated offerings.
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="#endowment" class="nav-link">Endowment Plans</a></li>
+            <li><a href="#annuity" class="nav-link">Annuity Plans</a></li>
+            <li><a href="#term" class="nav-link">Term Insurance</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <header class="header"><h1>Plan Collection</h1></header>
+
+        <!-- Endowment Section -->
+        <section id="endowment" class="category-section">
+            <h2 class="category-title">Endowment Plans</h2>
+            <!-- Plan Folder 1 -->
+            <div class="plan-folder">
+                <div class="plan-folder-back">
+                    <div class="details-grid">
+                        <div class="detail-item"><h4>Sum Assured</h4><p>Min: ₹2,00,000</p></div>
+                        <div class="detail-item"><h4>Age at Entry</h4><p>0-60 yrs</p></div>
+                        <div class="detail-item"><h4>Policy Term</h4><p>10-30 yrs</p></div>
+                        <div class="detail-item"><h4>Premium Term</h4><p>Single, Regular, Ltd</p></div>
+                    </div>
+                    <div class="benefit-section">
+                        <h4>Maturity Benefit</h4><p>Basic Sum Assured + Vested Simple Reversionary Bonuses + Terminal Bonus, if any.</p>
+                        <h4>Death Benefit</h4><p>Sum Assured on Death + Vested Bonuses. Sum Assured on Death is the higher of Basic SA or 10x Annual Premium. Min 105% of premiums paid.</p>
+                    </div>
+                </div>
+                <div class="plan-folder-front">
+                    <h3>Premier Endowment Insurance Plan</h3>
+                    <div class="icon"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+            <!-- Plan Folder 2 -->
+            <div class="plan-folder">
+                <div class="plan-folder-back">
+                     <div class="details-grid">
+                        <div class="detail-item"><h4>Sum Assured</h4><p>Based on premium</p></div>
+                        <div class="detail-item"><h4>Age at Entry</h4><p>8-55 yrs</p></div>
+                        <div class="detail-item"><h4>Policy Term</h4><p>10, 15, 20 yrs</p></div>
+                        <div class="detail-item"><h4>Premium Term</h4><p>5, 7, 10 yrs</p></div>
+                    </div>
+                    <div class="benefit-section">
+                        <h4>Maturity Benefit</h4><p>A Guaranteed Sum Assured on Maturity is paid as a lump sum.</p>
+                        <h4>Death Benefit</h4><p>Sum Assured on Death, which is the higher of 10 times the annualized premium or 105% of all premiums paid.</p>
+                    </div>
+                </div>
+                <div class="plan-folder-front">
+                    <h3>POS Guaranteed Return Insurance Plan</h3>
+                    <div class="icon"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Annuity Section -->
+        <section id="annuity" class="category-section">
+             <h2 class="category-title">Annuity Plans</h2>
+            <div class="plan-folder">
+                 <div class="plan-folder-back">
+                     <div class="details-grid">
+                        <div class="detail-item"><h4>Sum Assured</h4><p>Based on annuity</p></div>
+                        <div class="detail-item"><h4>Age at Entry</h4><p>40-80 yrs</p></div>
+                        <div class="detail-item"><h4>Policy Term</h4><p>Whole Life</p></div>
+                        <div class="detail-item"><h4>Premium Term</h4><p>Single Premium</p></div>
+                    </div>
+                    <div class="benefit-section">
+                        <h4>Benefit</h4><p>A level annuity is paid for life.</p>
+                        <h4>Death Benefit</h4><p>Option 1: None. Option 2: 100% Return of Purchase Price to nominee.</p>
+                    </div>
+                </div>
+                <div class="plan-folder-front">
+                    <h3>Bandhan Life Saral Pension</h3>
+                    <div class="icon"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Term Section -->
+        <section id="term" class="category-section">
+            <h2 class="category-title">Term Insurance</h2>
+            <!-- ... Term plan folders would go here ... -->
+        </section>
+
+    </main>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Accordion for Plan Folders
+    const planFolders = document.querySelectorAll('.plan-folder');
+    planFolders.forEach(folder => {
+        const front = folder.querySelector('.plan-folder-front');
+        front.addEventListener('click', () => {
+            // Close all others
+            planFolders.forEach(f => {
+                if(f !== folder) f.classList.remove('open');
+            });
+            // Toggle clicked one
+            folder.classList.toggle('open');
+        });
+    });
+
+    // Active link scrolling
+    const sections = document.querySelectorAll('.category-section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 150) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>

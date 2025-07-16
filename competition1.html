@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India's Life Insurance Galaxy</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+        :root {
+            --bg-color: #0f0c29;
+            --container-bg: #1a1a3a;
+            --sidebar-bg: #10102c;
+            --font-color: #ffffff;
+            --header-font: 'Orbitron', sans-serif;
+            --body-font: 'Poppins', sans-serif;
+            --glow-color-1: #ff00ff;
+            --glow-color-2: #00ffff;
+            --glow-color-3: #f9ff00;
+            --border-color: rgba(0, 255, 255, 0.3);
+        }
+
+        body {
+            background: var(--bg-color);
+            background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+            color: var(--font-color);
+            font-family: var(--body-font);
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .main-header {
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 2px solid var(--border-color);
+            animation: fadeInDown 1s ease-out;
+            flex-shrink: 0;
+        }
+
+        .main-header h1 {
+            font-family: var(--header-font);
+            font-size: 2.5em;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px var(--glow-color-1), 0 0 20px var(--glow-color-1);
+        }
+
+        .split-screen-container {
+            display: flex;
+            flex-grow: 1;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* Left Sidebar - Company List */
+        .company-sidebar {
+            flex: 0 0 320px;
+            background: var(--sidebar-bg);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+            padding: 20px;
+            overflow-y: auto;
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        .company-sidebar h2 {
+            font-family: var(--header-font);
+            text-align: center;
+            color: var(--glow-color-3);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .company-list button {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: var(--container-bg);
+            color: var(--font-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: left;
+            font-family: var(--body-font);
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+
+        .company-list button:hover {
+            background-color: #302b63;
+            transform: translateX(5px);
+            box-shadow: 0 0 10px var(--glow-color-2);
+        }
+        
+        .company-list button.active {
+            background: linear-gradient(45deg, var(--glow-color-1), var(--glow-color-2));
+            font-weight: bold;
+            box-shadow: 0 0 15px var(--glow-color-1);
+        }
+
+        /* Right Panel - Details Dashboard */
+        .details-panel {
+            flex-grow: 1;
+            background: var(--container-bg);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
+            padding: 30px;
+            animation: fadeInRight 1s ease-out;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #company-name-display {
+            font-family: var(--header-font);
+            font-size: 2.2em;
+            text-align: center;
+            color: var(--glow-color-3);
+            text-shadow: 0 0 8px var(--glow-color-3);
+            margin: 0 0 30px 0;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            flex-grow: 1;
+        }
+
+        .dashboard-button {
+            background-color: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .dashboard-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+        }
+        
+        .button-label {
+            font-family: var(--header-font);
+            font-size: 1.1em;
+            color: var(--glow-color-2);
+            margin-bottom: 8px;
+        }
+        
+        .button-value {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--font-color);
+            display: none; /* Initially hidden */
+            animation: popIn 0.5s ease;
+        }
+        
+        .full-width-button {
+            grid-column: 1 / -1;
+        }
+        
+        /* INSERT THIS CODE SNIPPET */
+
+.agent-cta-button {
+    grid-column: 1 / -1; /* This makes the button span the full width of the grid */
+    background: linear-gradient(45deg, var(--glow-color-1), var(--glow-color-2));
+    color: var(--font-color);
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: var(--header-font);
+    font-weight: 700;
+    margin-top: 10px; /* Adds some space above it */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: block;
+    cursor: pointer;
+}
+
+.agent-cta-button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px var(--glow-color-2);
+}
+
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <h1>India's Life Insurance Galaxy</h1>
+    </header>
+
+    <div class="split-screen-container">
+        <!-- Left Sidebar -->
+        <aside class="company-sidebar">
+            <h2>Select Insurer</h2>
+            <div class="company-list" id="companyList">
+                <!-- Company buttons will be injected here by JavaScript -->
+            </div>
+        </aside>
+
+        <!-- Right Panel -->
+        <main class="details-panel">
+            <h2 id="company-name-display">Select a Company to View Details</h2>
+            <div class="details-grid" id="detailsGrid">
+                <!-- Dashboard buttons will be injected here -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const companyData = {
+            "LIC": {
+                name: "Life Insurance Corporation of India (LIC)",
+                details: {
+                    "Market Share": "~70% by policy holders, 37% in individual business, 71% in group business and 57% as per FYPI",
+                    "Claim Ratio": "98.52%",
+                    "No of Policy Holders": "About 35 Crores",
+                    "No of Agents": "~1.3 Million",
+                    "No of Branches": "4,900+",
+                    "Year of Establishment": "1956",
+                    "Avg Claims Settled (Yly)": "~2.5 Crore",
+                    "Chairman Name": "Siddhartha Mohanty",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "~30+",
+                    "BSE Sensex Share Price": "₹987.95",
+                    "Market Capitalisation": "₹6.25 lakh crore"
+                }
+            },
+            "HDFC Life": {
+                name: "HDFC Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "~11.1%",
+                    "Claim Ratio": "99.39%",
+                    "No of Policy Holders": "~5 Crore",
+                    "No of Agents": "~1.1 Lakh",
+                    "No of Branches": "467",
+                    "Year of Establishment": "2000",
+                    "Avg Claims Settled (Yly)": "~3.9 Lakh",
+                    "Chairman Name": "vibha padalkar",
+                    "Avg Claims Rejected (Yly)": "~1,500",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "~40+",
+                    "BSE Sensex Share Price": "₹582.90",
+                    "Market Capitalisation": "₹1.25 lakh crore"
+                }
+            },
+            "Max Life": {
+                name: "Axis Max Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "~9.8%",
+                    "Claim Ratio": "99.65%",
+                    "No of Policy Holders": "N/A",
+                    "No of Agents": "N/A",
+                    "No of Branches": "~477",
+                    "Year of Establishment": "2000",
+                    "Avg Claims Settled (Yly)": "~19,000",
+                    "Chairman Name": "Rajiv anand",
+                    "Avg Claims Rejected (Yly)": "0.35%",
+                    "Head Office Address": "Delhi",
+                    "Total Life Insurance Plans": "~35+",
+                    "BSE Sensex Share Price": "₹965 (Max Financial)",
+                    "Market Capitalisation": "₹33,000 crore (Max Financial)"
+                }
+            },
+             "ICICI Prudential": {
+                name: "ICICI Prudential Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "6.83%",
+                    "Claim Ratio": "99.35%",
+                    "No of Policy Holders": "9 crores",
+                    "No of Agents": "~2.1 Lakh",
+                    "No of Branches": "567",
+                    "Year of Establishment": "2000",
+                    "Avg Claims Settled (Yly)": "~1.9 Lakh",
+                    "Chairman Name": "Sandeep batra",
+                    "Avg Claims Rejected (Yly)": "~0.65%",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "~45+",
+                    "BSE Sensex Share Price": "₹586",
+                    "Market Capitalisation": "₹84,500 crore"
+                }
+            },
+            "Kotak Life": {
+                name: "Kotak Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "N/A",
+                    "Claim Ratio": "98.82%",
+                    "No of Policy Holders": "4.5 crores",
+                    "No of Agents": "60000",
+                    "No of Branches": "250+",
+                    "Year of Establishment": "2001",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Uday Kotak",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "30+",
+                    "BSE Sensex Share Price": "₹1,680 (Kotak Bank)",
+                    "Market Capitalisation": "₹3.3 lakh crore (Kotak Bank)"
+                }
+            },
+            "Aditya Birla Sun Life": {
+                name: "Aditya Birla Sun Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "N/A",
+                    "Claim Ratio": "98.65%",
+                    "No of Policy Holders": "N/A",
+                    "No of Agents": "~93,000",
+                    "No of Branches": "425",
+                    "Year of Establishment": "2000",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Kumar Mangalam Birla",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "30+",
+                    "BSE Sensex Share Price": "₹237 (AB Capital)",
+                    "Market Capitalisation": "₹60,000 crore (AB Capital)"
+                }
+            },
+            "TATA AIA": {
+                name: "TATA AIA Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "N/A",
+                    "Claim Ratio": "99.01%",
+                    "No of Policy Holders": "N/A",
+                    "No of Agents": "5600",
+                    "No of Branches": "400+",
+                    "Year of Establishment": "2001",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "saurabh agrawal",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "40+",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+            "SBI Life": {
+                name: "SBI Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "10.81%",
+                    "Claim Ratio": "99.20%",
+                    "No of Policy Holders": "22 lacs",
+                    "No of Agents": "~1.7 Lakh",
+                    "No of Branches": "1062",
+                    "Year of Establishment": "2001",
+                    "Avg Claims Settled (Yly)": "~2.4 Lakh",
+                    "Chairman Name": "Sreenivasulu setty",
+                    "Avg Claims Rejected (Yly)": "~0.80%",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "30+",
+                    "BSE Sensex Share Price": "₹1,450",
+                    "Market Capitalisation": "₹1.45 lakh crore"
+                }
+            },
+            "Bajaj Allianz": {
+                name: "Bajaj Allianz Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "3.72%",
+                    "Claim Ratio": "99.04%",
+                    "No of Policy Holders": "3.75 crores",
+                    "No of Agents": "1.57 lacs",
+                    "No of Branches": "596",
+                    "Year of Establishment": "2001",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Sanjiv Bajaj",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Pune",
+                    "Total Life Insurance Plans": "25+",
+                    "BSE Sensex Share Price": "₹1,600 (Bajaj Finserv)",
+                    "Market Capitalisation": "₹2.5 lakh crore (Bajaj Finserv)"
+                }
+            },
+            "PNB MetLife": {
+                name: "PNB MetLife India Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "~0.9%",
+                    "Claim Ratio": "99.57%",
+                    "No of Policy Holders": "N/A",
+                    "No of Agents": "36,659",
+                    "No of Branches": "20,000+ (Bank Branches)",
+                    "Year of Establishment": "2001",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Sameer bansal",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+            "Reliance Nippon": {
+                name: "Reliance Nippon Life Insurance Company",
+                details: {
+                    "Market Share": "N/A",
+                    "Claim Ratio": "98.9%",
+                    "No of Policy Holders": "10 Million+",
+                    "No of Agents": "~69,000",
+                    "No of Branches": "713",
+                    "Year of Establishment": "2001",
+                    "Avg Claims Settled (Yly)": "~5.4 Lakh",
+                    "Chairman Name": "Anil Ambani",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "N/A"
+                }
+            },
+            "Aviva Life": {
+                name: "Aviva Life Insurance Company India Ltd.",
+                details: {
+                    "Market Share": "N/A",
+                    "Claim Ratio": "98.39%",
+                    "No of Policy Holders": "11000",
+                    "No of Agents": "5600",
+                    "No of Branches": "195+",
+                    "Year of Establishment": "2002",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Asit Rath (CEO & MD)",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Haryana",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+            "Sahara India Life": {
+                name: "Sahara India Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "N/A (Business Transferred)",
+                    "Claim Ratio": "N/A",
+                    "No of Policy Holders": "2 lacs",
+                    "No of Agents": "N/A",
+                    "No of Branches": "N/A",
+                    "Year of Establishment": "2004",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "O.P. Shrivastav",
+                    "Avg Claims Rejected (Yly)": "1.4%",
+                    "Head Office Address": "Lucknow",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "N/A",
+                    "Market Capitalisation": "N/A"
+                }
+            },
+            "Shriram Life": {
+                name: "Shriram Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "N/A",
+                    "Claim Ratio": "98.31%",
+                    "No of Policy Holders": "N/A",
+                    "No of Agents": "N/A",
+                    "No of Branches": "N/A",
+                    "Year of Establishment": "2005",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Thyagrajan",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Hyderabad",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "₹2,780 (Shriram Finance)",
+                    "Market Capitalisation": "₹1 lakh crore (Shriram Finance)"
+                }
+            },
+            "Bharti AXA Life": {
+                name: "Bharti AXA Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "N/A",
+                    "Claim Ratio": "99.07%",
+                    "No of Policy Holders": "N/A",
+                    "No of Agents": "N/A",
+                    "No of Branches": "250+",
+                    "Year of Establishment": "2008",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Parag raja",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+            "Future Generali": {
+                name: "Future Generali India Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "0.36%",
+                    "Claim Ratio": "98.08%",
+                    "No of Policy Holders": "9 lacs",
+                    "No of Agents": "N/A",
+                    "No of Branches": "N/A",
+                    "Year of Establishment": "2007",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Alok rungta",
+                    "Avg Claims Rejected (Yly)": "1.9%",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+             "Ageas Federal": {
+                name: "Ageas Federal Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "0.41%",
+                    "Claim Ratio": "95.07%",
+                    "No of Policy Holders": "N/A",
+                    "No of Agents": "N/A",
+                    "No of Branches": "N/A",
+                    "Year of Establishment": "2008",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Vighnesh Shahane (MD & CEO)",
+                    "Avg Claims Rejected (Yly)": "4.9%",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+            "Canara HSBC": {
+                name: "Canara HSBC Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "N/A",
+                    "Claim Ratio": "99.1%",
+                    "No of Policy Holders": "70 lacs",
+                    "No of Agents": "N/A",
+                    "No of Branches": "10,000+ (Bank Branches)",
+                    "Year of Establishment": "2008",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Anuj mathur",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Gurugram",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+            "Bandhan Life": {
+                name: "Bandhan Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "0.5 to 0.8%",
+                    "Claim Ratio": "99.37% (as Aegon)",
+                    "No of Policy Holders": "10 to 30 lacs",
+                    "No of Agents": "N/A",
+                    "No of Branches": "N/A",
+                    "Year of Establishment": "2008",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Satishwar balakrishnan",
+                    "Avg Claims Rejected (Yly)": "2 to 4%",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+            "Pramerica Life": {
+                name: "Pramerica Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "0.71",
+                    "Claim Ratio": "99.18%",
+                    "No of Policy Holders": "2.24 crores",
+                    "No of Agents": "16500",
+                    "No of Branches": "137",
+                    "Year of Establishment": "2008",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Pankaj gupta",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Gurugram",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+            "Star Union Dai-ichi": {
+                name: "Star Union Dai-ichi Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "0.8%",
+                    "Claim Ratio": "96%",
+                    "No of Policy Holders": "1.5 crores",
+                    "No of Agents": "3500",
+                    "No of Branches": "78",
+                    "Year of Establishment": "2009",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Abhay tewari",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Navi Mumbai",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+            "IndiaFirst Life": {
+                name: "IndiaFirst Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "0.7%",
+                    "Claim Ratio": "97%",
+                    "No of Policy Holders": "1.5 crores",
+                    "No of Agents": "1880",
+                    "No of Branches": "28",
+                    "Year of Establishment": "2009",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Debadatta chand",
+                    "Avg Claims Rejected (Yly)": "3%",
+                    "Head Office Address": "Hyderabad",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "2985 crores"
+                }
+            },
+            "Edelweiss Life": {
+                name: "Edelweiss Life Insurance Co. Ltd.",
+                details: {
+                    "Market Share": "0.23%",
+                    "Claim Ratio": "99.23%",
+                    "No of Policy Holders": "N/A",
+                    "No of Agents": "85491",
+                    "No of Branches": "103",
+                    "Year of Establishment": "2009",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "Rashesh shah",
+                    "Avg Claims Rejected (Yly)": "0.77%",
+                    "Head Office Address": "Mumbai",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "10760 crores"
+                }
+            },
+            "Credit Access Life": {
+                name: "Credit Access Life Insurance Ltd.",
+                details: {
+                    "Market Share": "New Company",
+                    "Claim Ratio": "N/A",
+                    "No of Policy Holders": "N/A",
+                    "No of Agents": "N/A",
+                    "No of Branches": "N/A",
+                    "Year of Establishment": "2023",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "N/A",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Bengaluru",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+            "Acko Life": {
+                name: "Acko Life Insurance Ltd.",
+                details: {
+                    "Market Share": "New Company",
+                    "Claim Ratio": "N/A",
+                    "No of Policy Holders": "N/A",
+                    "No of Agents": "N/A",
+                    "No of Branches": "N/A",
+                    "Year of Establishment": "2023",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "N/A",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Bengaluru",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            },
+            "Go Digit Life": {
+                name: "Go Digit Life Insurance Ltd.",
+                details: {
+                    "Market Share": "New Company",
+                    "Claim Ratio": "N/A",
+                    "No of Policy Holders": "N/A",
+                    "No of Agents": "N/A",
+                    "No of Branches": "N/A",
+                    "Year of Establishment": "2023",
+                    "Avg Claims Settled (Yly)": "N/A",
+                    "Chairman Name": "N/A",
+                    "Avg Claims Rejected (Yly)": "N/A",
+                    "Head Office Address": "Pune",
+                    "Total Life Insurance Plans": "N/A",
+                    "BSE Sensex Share Price": "Not Listed",
+                    "Market Capitalisation": "Not Listed"
+                }
+            }
+        };
+
+        const companyListEl = document.getElementById('companyList');
+        const companyNameDisplayEl = document.getElementById('company-name-display');
+        const detailsGridEl = document.getElementById('detailsGrid');
+
+        // Populate company list
+        Object.keys(companyData).forEach(key => {
+            const button = document.createElement('button');
+            button.textContent = companyData[key].name;
+            button.dataset.key = key;
+            companyListEl.appendChild(button);
+        });
+
+        // Event listener for company list
+        companyListEl.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                const key = e.target.dataset.key;
+                
+                // Update active button style
+                const allButtons = companyListEl.querySelectorAll('button');
+                allButtons.forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+
+                displayCompanyDetails(key);
+            }
+        });
+
+        function displayCompanyDetails(key) {
+            const company = companyData[key];
+            companyNameDisplayEl.textContent = company.name;
+            detailsGridEl.innerHTML = ''; // Clear previous details
+
+            const details = company.details;
+            const detailKeys = [
+                "Market Share", "Claim Ratio", "No of Policy Holders", "No of Agents", "No of Branches", "Year of Establishment",
+                "Avg Claims Settled (Yly)", "Chairman Name", "Avg Claims Rejected (Yly)", "Head Office Address", "Total Life Insurance Plans",
+                "BSE Sensex Share Price"
+            ];
+
+            detailKeys.forEach(label => {
+                const value = details[label] || 'N/A';
+                const button = document.createElement('div');
+                button.className = 'dashboard-button';
+                button.innerHTML = `
+                    <div class="button-label">${label}</div>
+                    <div class="button-value">${value}</div>
+                `;
+                detailsGridEl.appendChild(button);
+            });
+            
+            // Add the last button as full-width
+            const lastLabel = "Market Capitalisation";
+            const lastValue = details[lastLabel] || 'N/A';
+            const lastButton = document.createElement('div');
+            lastButton.className = 'dashboard-button full-width-button';
+            lastButton.innerHTML = `
+                <div class="button-label">${lastLabel}</div>
+                <div class="button-value">${lastValue}</div>
+            `;
+            detailsGridEl.appendChild(lastButton);
+
+        
+        
+        // FIND THIS LINE (it's near the end of the function)
+//detailsGridEl.appendChild(lastButton);
+
+// INSERT THIS CODE SNIPPET RIGHT AFTER IT
+
+// Add the "Become An Agent" button
+const agentButton = document.createElement('a');
+agentButton.className = 'agent-cta-button';
+agentButton.textContent = 'Become An Agent';
+agentButton.href = '#'; // Placeholder link - this can be changed for each company
+agentButton.target = '_blank'; // Opens the link in a new tab
+detailsGridEl.appendChild(agentButton);
+
+}
+        
+        // Event listener for dashboard buttons
+        detailsGridEl.addEventListener('click', (e) => {
+            const button = e.target.closest('.dashboard-button');
+            if (button) {
+                const valueEl = button.querySelector('.button-value');
+                // Toggle visibility of the value
+                if (valueEl.style.display === 'block') {
+                    valueEl.style.display = 'none';
+                } else {
+                    valueEl.style.display = 'block';
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

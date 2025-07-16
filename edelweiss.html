@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edelweiss Life Insurance - The Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --primary-accent: #007a4d; /* A sophisticated green */
+            --text-dark: #111111;
+            --text-light: #767676;
+            --border-color: #f0f0f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 60px 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 4rem;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .filter-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .filter-btn {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 5px 0;
+            position: relative;
+        }
+        .filter-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-accent);
+            transition: width 0.3s ease;
+        }
+        .filter-btn:hover::after, .filter-btn.active::after {
+            width: 100%;
+        }
+        .filter-btn.active {
+            color: var(--text-dark);
+        }
+        
+        /* Plan List */
+        .plan-list-item {
+            border-bottom: 1px solid var(--border-color);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .plan-list-item.hide {
+            opacity: 0;
+            transform: scale(0.98);
+            max-height: 0;
+            overflow: hidden;
+            border: none;
+            margin: 0;
+        }
+
+        .plan-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 10px;
+            cursor: pointer;
+        }
+        .plan-summary h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            margin: 0;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+        .plan-list-item.open .plan-summary h2 {
+            color: var(--primary-accent);
+        }
+
+        .plan-summary .toggle-icon {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .plan-list-item.open .toggle-icon {
+            transform: rotate(45deg);
+        }
+        
+        .plan-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding: 0 10px;
+        }
+        
+        .plan-list-item.open .plan-details {
+            padding-bottom: 30px;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .detail-item h4 {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        .detail-item p { font-weight: 600; margin: 0; }
+        
+        .benefit-section { margin-top: 20px; }
+        .benefit-section h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header"><h1>Edelweiss Life</h1></header>
+
+    <div class="filter-controls">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="endowment">Endowment</button>
+        <button class="filter-btn" data-filter="whole-life">Whole Life</button>
+        <button class="filter-btn" data-filter="money-back">Money Back</button>
+        <button class="filter-btn" data-filter="children">Children's</button>
+        <button class="filter-btn" data-filter="annuity">Annuity</button>
+        <button class="filter-btn" data-filter="term">Term</button>
+    </div>
+
+    <div class="plan-list" id="plan-list">
+        <!-- Plan items will be injected by JavaScript -->
+    </div>
+</div>
+
+<script>
+const plansData = [
+    { category: 'endowment', name: "Edelweiss Life - Premier Guaranteed Income", sa: "Based on premium", age: "0-60 yrs", term: "10-30 yrs", ppt: "Limited Pay", sb: "Yes, if 'Income' option is chosen.", maturity: "If 'Lump Sum' option is chosen, a Guaranteed Sum Assured on Maturity is paid. If 'Income' option is chosen, the final income installment is the maturity benefit.", death: "Sum Assured on Death is paid, which is the higher of (10 times Annualized Premium, 105% of Premiums Paid, or the Sum Assured)." },
+    { category: 'endowment', name: "Edelweiss Life - Guaranteed Income Plan", sa: "Based on premium", age: "3-60 yrs", term: "10, 15, or 20 yrs", ppt: "5, 8, or 10 yrs", sb: "Not Applicable", maturity: "A guaranteed lump sum is paid, which can be up to 200% of the total premiums paid, depending on the term.", death: "Higher of the Sum Assured or 105% of all premiums paid." },
+    { category: 'endowment', name: "Edelweiss Life - Single Pay Endowment Assurance Plan", sa: "Min: ₹75,000", age: "8-55 yrs", term: "10-20 yrs", ppt: "Single Premium", sb: "Not Applicable", maturity: "Sum Assured + Vested Simple Reversionary Bonuses + Terminal Bonus, if any.", death: "Sum Assured + Vested bonuses." },
+    { category: 'whole-life', name: "Edelweiss Life - Total Protect Plus (Whole Life)", sa: "Min: ₹25,00,000", age: "18-65 yrs", term: "Up to age 100", ppt: "Regular or Limited", sb: "Not Applicable", maturity: "Not Applicable. This is a pure protection plan.", death: "The Sum Assured is paid to the nominee upon the death of the life insured." },
+    { category: 'money-back', name: "Edelweiss Life - Cashflow Protection Plus", sa: "Min: ₹2,40,000", age: "18-50 yrs", term: "20-30 yrs", ppt: "10, 12, or 15 yrs", sb: "Yes. Provides guaranteed annual money-back payouts after the end of the PPT.", maturity: "A lump sum equivalent to 100% of the Sum Assured + Non-guaranteed cash bonuses, if any.", death: "Sum Assured + Vested bonuses is paid, regardless of any money-backs already disbursed." },
+    { category: 'children', name: "Edelweiss Life - EduSave", sa: "ULIP (10x Annual Premium min)", age: "Parent: 21-45; Child: 0-14", term: "Matures at 18 or 21", ppt: "Regular or Limited", sb: "Systematic withdrawals can be planned.", maturity: "The total Fund Value is paid at maturity.", death: "(On parent's death): In-built waiver of premium benefit. A lump sum is paid immediately. The company funds all future premiums, and the fund value continues to grow until maturity for the child." },
+    { category: 'annuity', name: "Edelweiss Life - Immediate Annuity Plan", sa: "Min purchase: ₹2,00,000", age: "45-80 yrs", term: "Whole Life", ppt: "Single Premium", sb: "The regular annuity payout itself is the benefit.", maturity: "Not Applicable", death: "Depends on the annuity option chosen. Key options include Life Annuity with Return of Purchase Price and various Joint Life options." },
+    { category: 'annuity', name: "Edelweiss Life - Saral Pension", sa: "Based on annuity", age: "40-80 yrs", term: "Whole Life", ppt: "Single Premium", sb: "A level annuity is paid for life.", maturity: "Not Applicable", death: "Option 1 (Life Annuity): No death benefit. Option 2 (Life Annuity with 100% Return of Purchase Price): The single premium is returned to the nominee." },
+    { category: 'term', name: "Edelweiss Life - Zindagi Protect", sa: "Min: ₹50,00,000", age: "18-65 yrs", term: "Up to age 85", ppt: "Single, Reg, Ltd", sb: "Not Applicable", maturity: "None, unless 'Return of Premium' is selected.", death: "Sum Assured is paid. A unique feature is the 'Better Half Benefit,' where after the insured's death, a life cover starts for their spouse without any future premiums." },
+    { category: 'term', name: "Edelweiss Life - Total Protect Plus", sa: "Min: ₹25,00,000", age: "18-65 yrs", term: "Up to age 100", ppt: "Regular or Limited", sb: "Not Applicable", maturity: "Not Applicable", death: "Sum Assured is paid. This plan is known for its comprehensive optional critical illness benefit, covering up to 64 illnesses." },
+    { category: 'term', name: "Edelweiss Life - Saral Jeevan Bima", sa: "Min: ₹5L; Max: ₹25L", age: "18-65 yrs", term: "5-40 yrs", ppt: "Regular, Ltd, Single", sb: "Not Applicable", maturity: "Not Applicable", death: "The Sum Assured is paid to the nominee as a lump sum." }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const planList = document.getElementById('plan-list');
+
+    // Populate the list
+    plansData.forEach(plan => {
+        const item = document.createElement('div');
+        item.className = 'plan-list-item';
+        item.dataset.category = plan.category;
+
+        item.innerHTML = `
+            <div class="plan-summary">
+                <h2>${plan.name}</h2>
+                <div class="toggle-icon"><i class="fas fa-plus"></i></div>
+            </div>
+            <div class="plan-details">
+                <div class="details-grid">
+                    <div class="detail-item"><h4>Sum Assured</h4><p>${plan.sa}</p></div>
+                    <div class="detail-item"><h4>Age at Entry</h4><p>${plan.age}</p></div>
+                    <div class="detail-item"><h4>Policy Term</h4><p>${plan.term}</p></div>
+                    <div class="detail-item"><h4>Premium Term</h4><p>${plan.ppt}</p></div>
+                </div>
+                <div class="benefit-section">
+                    <h3>Survival Benefit</h3><p>${plan.sb}</p>
+                </div>
+                 <div class="benefit-section">
+                    <h3>Maturity Benefit</h3><p>${plan.maturity}</p>
+                </div>
+                <div class="benefit-section">
+                    <h3>Death Benefit</h3><p>${plan.death}</p>
+                </div>
+            </div>
+        `;
+        planList.appendChild(item);
+    });
+
+    const planItems = planList.querySelectorAll('.plan-list-item');
+
+    // Accordion functionality
+    planItems.forEach(item => {
+        const header = item.querySelector('.plan-summary');
+        const details = item.querySelector('.plan-details');
+
+        header.addEventListener('click', () => {
+            const wasOpen = item.classList.contains('open');
+             // Close all others
+            planItems.forEach(i => {
+                i.classList.remove('open');
+                i.querySelector('.plan-details').style.maxHeight = null;
+            });
+            // Toggle clicked one
+            if (!wasOpen) {
+                item.classList.add('open');
+                details.style.maxHeight = details.scrollHeight + 'px';
+            }
+        });
+    });
+
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const filter = button.dataset.filter;
+            planItems.forEach(item => {
+                item.classList.remove('open'); // Close all on filter
+                item.querySelector('.plan-details').style.maxHeight = null;
+                
+                if (filter === 'all' || item.dataset.category === filter) {
+                    item.classList.remove('hide');
+                } else {
+                    item.classList.add('hide');
+                }
+            });
+        });
+    });
+});
+</script>
+
+</body>
+</html>

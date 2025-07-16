@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviva Life Insurance - The Plan Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-dark: #212529;
+            --text-light: #6c757d;
+            --primary-blue: #0033a0;
+            --accent-yellow: #ffc425;
+            --card-bg: #ffffff;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero {
+            background-color: var(--primary-blue);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .hero h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 3.5rem;
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 60px auto;
+        }
+
+        .category-section {
+            margin-bottom: 80px;
+        }
+        .category-title {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent-yellow);
+            display: inline-block;
+        }
+
+        /* Horizontal Slider for Plans */
+        .plan-slider {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            padding: 10px;
+            padding-bottom: 30px; /* space for scrollbar */
+            scroll-snap-type: x mandatory;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        .plan-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .plan-card {
+            flex: 0 0 320px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .plan-card-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px 12px 0 0;
+        }
+        .plan-card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .plan-card-content h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            margin: 0 0 10px 0;
+        }
+        .plan-card-content .summary {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .discover-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            align-self: flex-start;
+        }
+        .discover-btn:hover {
+            background-color: #002269;
+        }
+
+        /* Details Overlay */
+        .details-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1002;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .details-overlay.show { opacity: 1; visibility: visible; }
+        
+        .details-content {
+            background: white;
+            width: 100%;
+            max-height: 90vh;
+            border-radius: 20px 20px 0 0;
+            padding: 40px;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.4s ease-out;
+            position: relative;
+        }
+        .details-overlay.show .details-content { transform: translateY(0); }
+
+        .details-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            font-size: 1.8rem;
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .details-close:hover { color: var(--text-dark); }
+        
+        .details-header h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            margin: 0 0 30px 0;
+            color: var(--primary-blue);
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .detail-box {
+            background: var(--bg-color);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .detail-box h4 {
+            color: var(--text-light);
+            margin: 0 0 5px 0;
+        }
+        .detail-box p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>Aviva Life Insurance</h1>
+</div>
+
+<div class="container">
+    <!-- Endowment Section -->
+    <section class="category-section" id="endowment">
+        <h2 class="category-title">Endowment Plans</h2>
+        <div class="plan-slider">
+            <!-- Endowment Plan Cards -->
+            <div class="plan-card" data-plan='{"name": "Aviva New Family Income Builder", "summary": "Build a regular income stream for your family\'s future.", "sa": "Based on income chosen", "age": "18-50 yrs", "term": "Provides income for 12 years", "ppt": "12 years", "sb": "Yes, regular annual income paid for 12 years after PPT.", "maturity": "The final installment of the regular income is the maturity benefit.", "death": "An immediate lump sum is paid. Additionally, all future planned income benefits are paid to the nominee as scheduled."}'>
+                <div class="plan-card-image" style="background-image: url('https://images.unsplash.com/photo-1561414927-6d86591d0c4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkybXwwfDF8c2VhcmNofDE0fHxmaW5hbmNlJTIwZ3Jvd3RofGVufDB8fHx8MTcwODM0OTg3Mnww&ixlib=rb-4.0.3&q=80&w=400');"></div>
+                <div class="plan-card-content">
+                    <h3>Aviva New Family Income Builder</h3>
+                    <p class="summary">Build a regular income stream for your family's future.</p>
+                    <button class="discover-btn">Discover Plan</button>
+                </div>
+            </div>
+             <div class="plan-card" data-plan='{"name": "Aviva Sampoorna Suraksha", "summary": "A traditional plan for comprehensive protection and savings.", "sa": "Min: ₹1,00,000", "age": "18-50 yrs", "term": "10-30 yrs", "ppt": "Regular Pay", "sb": "Not Applicable", "maturity": "Sum Assured + Vested Simple Reversionary Bonuses + Terminal Bonus, if any.", "death": "Sum Assured on Death + Vested Bonuses. Sum Assured on Death is the higher of (Sum Assured or 10 times Annualized Premium)."}'>
+                <div class="plan-card-image" style="background-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkybXwwfDF8c2VhcmNofDR8fHByb3RlY3Rpb258ZW58MHx8fHwxNzA4MzUwMTcxfDA&ixlib=rb-4.0.3&q=80&w=400');"></div>
+                <div class="plan-card-content">
+                    <h3>Aviva Sampoorna Suraksha</h3>
+                    <p class="summary">A traditional plan for comprehensive protection and savings.</p>
+                    <button class="discover-btn">Discover Plan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Money Back Section -->
+    <section class="category-section" id="money-back">
+        <h2 class="category-title">Money Back Plans</h2>
+        <div class="plan-slider">
+             <div class="plan-card" data-plan='{"name": "Aviva Dhan Samruddhi", "summary": "Get guaranteed cash payouts at regular intervals to meet life\'s goals.", "sa": "Min: ₹1,00,000", "age": "3-50 yrs", "term": "10, 15, 20 yrs", "ppt": "Regular Pay", "sb": "Yes. e.g., for 20-yr term, 20% of SA is paid at end of 5th, 10th, and 15th years.", "maturity": "For a 20-year term, 140% of the Sum Assured + Vested Bonuses + Terminal Bonus, if any, is paid.", "death": "Sum Assured on Death + Vested bonuses. Any survival benefits already paid are not deducted."}'>
+                <div class="plan-card-image" style="background-image: url('https://images.unsplash.com/photo-1620714223084-86c9df242504?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNTkybXwwfDF8c2VhcmNofDJ8fG1vbmV5JTIwYmFja3xlbnwwfHx8fDE3MDgzNTAzNDF8MA&ixlib=rb-4.0.3&q=80&w=400');"></div>
+                <div class="plan-card-content">
+                    <h3>Aviva Dhan Samruddhi</h3>
+                    <p class="summary">Get guaranteed cash payouts at regular intervals to meet life's goals.</p>
+                    <button class="discover-btn">Discover Plan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ... Other sections (Children, Annuity, Term) would follow the same structure ... -->
+</div>
+
+<!-- Details Overlay HTML -->
+<div class="details-overlay" id="details-overlay">
+    <div class="details-content">
+        <span class="details-close">×</span>
+        <div class="details-header"><h2 id="details-name"></h2></div>
+        <div class="details-grid">
+            <div class="detail-box"><h4>Sum Assured</h4><p id="details-sa"></p></div>
+            <div class="detail-box"><h4>Age at Entry</h4><p id="details-age"></p></div>
+            <div class="detail-box"><h4>Policy Term</h4><p id="details-term"></p></div>
+            <div class="detail-box"><h4>Premium Term</h4><p id="details-ppt"></p></div>
+        </div>
+        <div class="detail-box"><h4>Survival Benefit</h4><p id="details-sb"></p></div>
+        <div class="detail-box"><h4>Maturity Benefit</h4><p id="details-maturity"></p></div>
+        <div class="detail-box"><h4>Death Benefit</h4><p id="details-death"></p></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const planCards = document.querySelectorAll('.plan-card');
+    const overlay = document.getElementById('details-overlay');
+    const closeBtn = overlay.querySelector('.details-close');
+
+    function openOverlay(planData) {
+        const plan = JSON.parse(planData);
+        document.getElementById('details-name').textContent = plan.name;
+        document.getElementById('details-sa').textContent = plan.sa;
+        document.getElementById('details-age').textContent = plan.age;
+        document.getElementById('details-term').textContent = plan.term;
+        document.getElementById('details-ppt').textContent = plan.ppt;
+        document.getElementById('details-sb').textContent = plan.sb;
+        document.getElementById('details-maturity').textContent = plan.maturity;
+        document.getElementById('details-death').textContent = plan.death;
+        overlay.classList.add('show');
+    }
+
+    function closeOverlay() {
+        overlay.classList.remove('show');
+    }
+
+    planCards.forEach(card => {
+        card.querySelector('.discover-btn').addEventListener('click', () => {
+            openOverlay(card.dataset.plan);
+        });
+    });
+
+    closeBtn.addEventListener('click', closeOverlay);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closeOverlay();
+        }
+    });
+});
+</script>
+
+</body>
+</html>

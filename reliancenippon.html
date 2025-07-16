@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reliance Nippon Life - Plan Spectrum</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #eef1f5;
+            --text-dark: #1e212b;
+            --text-light: #5f6474;
+            --colors: #ff6b6b, #f06595, #cc5de8, #845ef7, #5c7cfa, #339af0, #22b8cf, #20c997, #51cf66, #94d82d, #fcc419, #ff922b;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.5rem;
+            letter-spacing: 2px;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        .control-btn {
+            background-color: #fff;
+            border: 2px solid #dbe0e8;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+        .control-btn:hover {
+            border-color: var(--text-dark);
+        }
+        .control-btn.active {
+            background-color: var(--text-dark);
+            color: white;
+            border-color: var(--text-dark);
+        }
+
+        /* Plan Grid - Mosaic */
+        .plan-mosaic {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .plan-card {
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            min-height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+        .plan-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .plan-card .learn-more {
+            position: absolute;
+            bottom: -50px;
+            left: 30px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: bottom 0.3s ease-in-out;
+            font-weight: 700;
+        }
+        .plan-card:hover .learn-more {
+            bottom: 30px;
+        }
+        
+        /* Dynamic coloring */
+        .plan-card:nth-child(12n + 1) { background: #ff6b6b; }
+        .plan-card:nth-child(12n + 2) { background: #f06595; }
+        .plan-card:nth-child(12n + 3) { background: #cc5de8; }
+        .plan-card:nth-child(12n + 4) { background: #845ef7; }
+        .plan-card:nth-child(12n + 5) { background: #5c7cfa; }
+        .plan-card:nth-child(12n + 6) { background: #339af0; }
+        .plan-card:nth-child(12n + 7) { background: #22b8cf; }
+        .plan-card:nth-child(12n + 8) { background: #20c997; }
+        .plan-card:nth-child(12n + 9) { background: #51cf66; }
+        .plan-card:nth-child(12n + 10) { background: #94d82d; }
+        .plan-card:nth-child(12n + 11) { background: #fcc419; }
+        .plan-card:nth-child(12n + 12) { background: #ff922b; }
+
+        .plan-card .category {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+        .plan-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1.1;
+        }
+        
+        .plan-card.filtered {
+            transform: scale(0);
+            width: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+            opacity: 0;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease;
+            z-index: 1001;
+        }
+        .lightbox.show { opacity: 1; visibility: visible; }
+        
+        .lightbox-content {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+        .lightbox.show .lightbox-content { transform: scale(1); }
+
+        .lightbox-close {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 2rem;
+            color: #aaa;
+            cursor: pointer;
+        }
+        .lightbox-header h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            margin: 0 0 20px 0;
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .feature-box {
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .feature-box h4 {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+        .benefit-box { margin-top: 20px; }
+        .benefit-box h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+        <h1>Reliance Nippon Life</h1>
+    </header>
+
+    <div class="filter-controls">
+        <button class="control-btn active" data-filter="all">All</button>
+        <button class="control-btn" data-filter="endowment">Endowment</button>
+        <button class="control-btn" data-filter="whole-life">Whole Life</button>
+        <button class="control-btn" data-filter="money-back">Money Back</button>
+        <button class="control-btn" data-filter="children">Children's</button>
+        <button class="control-btn" data-filter="annuity">Annuity</button>
+        <button class="control-btn" data-filter="term">Term</button>
+    </div>
+
+    <div class="plan-mosaic" id="plan-mosaic">
+        <!-- Plan cards are injected by JS -->
+    </div>
+</div>
+
+<div class="lightbox" id="plan-lightbox">
+    <div class="lightbox-content">
+        <span class="lightbox-close">×</span>
+        <div class="lightbox-header"><h2 id="lightbox-name"></h2></div>
+        <div class="details-grid">
+            <div class="feature-box"><h4>Sum Assured</h4><p id="lightbox-sa"></p></div>
+            <div class="feature-box"><h4>Age at Entry</h4><p id="lightbox-age"></p></div>
+            <div class="feature-box"><h4>Policy Term</h4><p id="lightbox-term"></p></div>
+            <div class="feature-box"><h4>Premium Term</h4><p id="lightbox-ppt"></p></div>
+        </div>
+        <div class="benefit-box"><h4>Survival Benefit</h4><p id="lightbox-sb"></p></div>
+        <div class="benefit-box"><h4>Maturity Benefit</h4><p id="lightbox-maturity"></p></div>
+        <div class="benefit-box"><h4>Death Benefit</h4><p id="lightbox-death"></p></div>
+    </div>
+</div>
+
+<script>
+const plansData = [
+    { category: 'endowment', name: "Reliance Nippon Life Bluechip Savings Insurance Plan", sa: "Min: ₹1,00,000", age: "8-60 yrs", term: "10-25 yrs", ppt: "7 or 10 yrs", sb: "Not Applicable", maturity: "Guaranteed Sum Assured on Maturity + Guaranteed Loyalty Additions + Vested Reversionary Bonuses.", death: "Sum Assured on Death, which is the higher of (10 times Annualized Premium or the Basic Sum Assured). Total benefit will be at least 105% of premiums paid." },
+    { category: 'endowment', name: "Reliance Nippon Life Fixed Savings Plan", sa: "Based on premium", age: "8-60 yrs", term: "10, 15, 20 yrs", ppt: "5, 7, 10 yrs", sb: "Not Applicable", maturity: "Guaranteed Sum Assured on Maturity, which is a multiple of the annual premium.", death: "Sum Assured on Death, which is the highest of (10 times Annualized Premium, 105% of Premiums Paid, or the Guaranteed Sum Assured on Maturity)." },
+    { category: 'whole-life', name: "Reliance Nippon Life Lifelong Savings Plan", sa: "Min: ₹1,50,000", age: "18-55 yrs", term: "Up to 85/100", ppt: "Limited: 10, 15, 20 yrs", sb: "Provides an annual cash dividend (if declared) from the end of the 6th policy year onwards.", maturity: "On survival to maturity age (85 or 100), the Sum Assured + Accrued Cash Dividends (if not withdrawn) + Terminal Bonus, if any, is paid.", death: "Sum Assured on Death + Accrued Cash Dividends + Interim Dividend + Terminal Bonus, if any. Death benefit is at least 105% of premiums paid." },
+    { category: 'money-back', name: "Reliance Nippon Life Guaranteed Money Back Plan", sa: "Min: ₹1,00,000", age: "7-55 yrs", term: "10, 15, 20 yrs", ppt: "5, 7, 10 yrs", sb: "Guaranteed money back payouts are made in the last 5 years of the policy term.", maturity: "Final money back installment + Guaranteed Loyalty Addition.", death: "Sum Assured on Death is paid, which is the higher of (10 times Annualized Premium or Basic Sum Assured). Any money backs already paid are not deducted." },
+    { category: 'money-back', name: "Reliance Nippon Life Super Money Back Plan", sa: "Min: ₹1,00,000", age: "18-50 yrs", term: "10, 15, 20 yrs", ppt: "5, 7, 10 yrs", sb: "Provides a guaranteed monthly income that increases every year during the payout period. Also provides periodic lump sums.", maturity: "The final monthly income installment is the maturity benefit.", death: "A lump sum death benefit is paid to the nominee." },
+    { category: 'children', name: "Reliance Nippon Life Child's Gift Plan", sa: "Min: ₹1,00,000", age: "Parent: 20-50; Child: 0-14", term: "10-25 yrs", ppt: "Same as policy term", sb: "Option to receive money-back payouts during the policy term.", maturity: "Basic Sum Assured + Vested bonuses + Terminal Bonus, if any.", death: "(On death of parent): In-built Payor Benefit. Future premiums are waived by the company, and the policy continues. The maturity benefit is paid as planned." },
+    { category: 'annuity', name: "Reliance Nippon Life Immediate Annuity Plan", sa: "Based on annuity", age: "45-80 yrs", term: "Whole Life", ppt: "Single Premium", sb: "The regular annuity payout itself is the benefit.", maturity: "Not Applicable", death: "Depends on the annuity option chosen. Key options include Life Annuity with Return of Purchase Price and Joint Life options." },
+    { category: 'annuity', name: "Reliance Nippon Life Smart Pension Plan", sa: "ULIP", age: "18-65 yrs", term: "10-30 yrs", ppt: "Single or Regular Pay", sb: "Not Applicable", maturity: "(Vesting Benefit): The total Fund Value is available at vesting, which can be used to purchase an annuity for a regular pension.", death: "Higher of the Fund Value or 105% of the total premiums paid is given to the nominee." },
+    { category: 'term', name: "Reliance Nippon Life Protection Plus", sa: "Min: ₹25,00,000", age: "18-65 yrs", term: "10-50 yrs", ppt: "Regular Pay", sb: "Not Applicable", maturity: "Not Applicable", death: "Sum Assured is paid to the nominee." },
+    { category: 'term', name: "Reliance Nippon Life Digi-Term Insurance Plan", sa: "Min: ₹25,00,000", age: "18-65 yrs", term: "Up to age 85", ppt: "Regular or Limited Pay", sb: "Not Applicable", maturity: "None, unless 'Return of Premium' is chosen.", death: "The Sum Assured is paid to the nominee. Payout options include lump sum and monthly income." },
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const mosaic = document.getElementById('plan-mosaic');
+    const filterControls = document.querySelectorAll('.control-btn');
+    const lightbox = document.getElementById('plan-lightbox');
+    const lightboxClose = document.querySelector('.lightbox-close');
+
+    // Populate the mosaic
+    plansData.forEach(plan => {
+        const card = document.createElement('div');
+        card.className = 'plan-card';
+        card.dataset.category = plan.category;
+        
+        card.innerHTML = `
+            <span class="category">${plan.category.replace('-', ' ')}</span>
+            <h3>${plan.name}</h3>
+            <div class="learn-more">Learn More <i class="fas fa-arrow-right"></i></div>
+        `;
+        
+        card.addEventListener('click', () => {
+            document.getElementById('lightbox-name').textContent = plan.name;
+            document.getElementById('lightbox-sa').textContent = plan.sa;
+            document.getElementById('lightbox-age').textContent = plan.age;
+            document.getElementById('lightbox-term').textContent = plan.term;
+            document.getElementById('lightbox-ppt').textContent = plan.ppt;
+            document.getElementById('lightbox-sb').textContent = plan.sb;
+            document.getElementById('lightbox-maturity').textContent = plan.maturity;
+            document.getElementById('lightbox-death').textContent = plan.death;
+            lightbox.classList.add('show');
+        });
+
+        mosaic.appendChild(card);
+    });
+
+    const planCards = mosaic.querySelectorAll('.plan-card');
+    
+    // Filter functionality
+    filterControls.forEach(button => {
+        button.addEventListener('click', () => {
+            filterControls.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const filter = button.dataset.filter;
+            planCards.forEach(card => {
+                card.style.transition = 'all 0.3s ease';
+                if (filter === 'all' || card.dataset.category === filter) {
+                    card.classList.remove('filtered');
+                } else {
+                    card.classList.add('filtered');
+                }
+            });
+        });
+    });
+
+    // Lightbox close functionality
+    const closeLightbox = () => lightbox.classList.remove('show');
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go Digit Life Insurance - Plan Central</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #232323;
+            --accent-yellow: #ffd60a;
+            --card-bg: #2e2e2e;
+            --text-white: #f5f5f5;
+            --text-muted: #a3a3a3;
+            --shadow-light: rgba(255, 255, 255, 0.05);
+            --shadow-dark: rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 3.5rem;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+        .header h1 span {
+            color: var(--accent-yellow);
+        }
+        
+        /* Category Selector */
+        .category-selector {
+            display: flex;
+            gap: 15px;
+            background-color: var(--card-bg);
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
+            margin-bottom: 50px;
+        }
+        .category-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .category-btn.active {
+            background-color: var(--accent-yellow);
+            color: var(--bg-dark);
+            box-shadow: 2px 2px 5px var(--shadow-dark), -2px -2px 5px var(--shadow-light);
+        }
+        
+        /* Card Deck Viewer */
+        .plan-viewer {
+            width: 100%;
+            position: relative;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-deck {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            height: 100%;
+        }
+
+        .plan-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+            padding: 30px;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .plan-card.active { transform: translateX(0) scale(1); opacity: 1; z-index: 10; }
+        .plan-card.next { transform: translateX(5%) scale(0.95); opacity: 0.7; z-index: 9; }
+        .plan-card.prev { transform: translateX(-5%) scale(0.95); opacity: 0.7; z-index: 9; }
+        .plan-card.hidden { transform: scale(0.9); opacity: 0; z-index: 1; }
+
+        .plan-card h2 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2rem;
+            color: var(--accent-yellow);
+            margin: 0 0 20px 0;
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .detail-item {
+            background-color: var(--bg-dark);
+            padding: 12px;
+            border-radius: 10px;
+        }
+        .detail-item h4 {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin: 0 0 5px 0;
+        }
+        .detail-item p { margin: 0; font-weight: 700; }
+        .benefit-section { margin-top: auto; }
+        .benefit-section h4 { color: var(--accent-yellow); }
+        .benefit-section p { font-size: 0.9rem; color: var(--text-muted); }
+
+        /* Navigation Arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--card-bg);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: grid;
+            place-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+            transition: all 0.2s ease;
+        }
+        .nav-arrow:active {
+            box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+        }
+        .prev-arrow { left: -25px; }
+        .next-arrow { right: -25px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+        <h1>GO <span>DIGIT</span> LIFE</h1>
+    </header>
+
+    <div class="category-selector">
+        <button class="category-btn active" data-category="endowment">Endowment</button>
+        <button class="category-btn" data-category="annuity">Annuity</button>
+        <button class="category-btn" data-category="term">Term</button>
+    </div>
+
+    <div class="plan-viewer">
+        <div class="card-deck" id="card-deck">
+            <!-- Cards will be injected by JavaScript -->
+        </div>
+        <div class="nav-arrow prev-arrow" id="prev-btn"><i class="fas fa-chevron-left"></i></div>
+        <div class="nav-arrow next-arrow" id="next-btn"><i class="fas fa-chevron-right"></i></div>
+    </div>
+</div>
+
+
+<script>
+const allPlans = {
+    endowment: [ { name: "Go Digit ICON", sa: "Based on premium", age: "0-60 yrs", term: "10-25 yrs", ppt: "Limited Pay", sb: "Income option may be available", maturity: "A Guaranteed Sum Assured on Maturity is paid as a lump sum.", death: "Sum Assured on Death is paid, which is the higher of (10 times Annualized Premium, 105% of all Premiums Paid, or the Guaranteed Sum Assured on Maturity)." } ],
+    annuity: [ { name: "Go Digit Saral Pension", sa: "Based on annuity", age: "40-80 yrs", term: "Whole Life", ppt: "Single Premium", sb: "A level annuity is paid for life.", maturity: "Not Applicable", death: "As per standard IRDAI norms. Option 1 (Life Annuity): No death benefit. Option 2 (Life Annuity with 100% Return of Purchase Price): The single premium is returned to the nominee." } ],
+    term: [
+        { name: "Go Digit Life Protect Plan", sa: "Min: ₹25,00,000", age: "18-65 yrs", term: "Up to age 85", ppt: "Regular or Limited", sb: "Not Applicable", maturity: "None, unless a 'Return of Premium' option is selected.", death: "The Sum Assured is paid to the nominee. The plan is customizable with options for lump sum or income payouts and riders for critical illness and accidental death." },
+        { name: "Go Digit Saral Jeevan Bima", sa: "₹5L - ₹25L", age: "18-65 yrs", term: "5-40 yrs", ppt: "Regular, Ltd, Single", sb: "Not Applicable", maturity: "Not Applicable", death: "The Sum Assured is paid to the nominee as a lump sum." }
+    ],
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const cardDeck = document.getElementById('card-deck');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    let currentCategory = 'endowment';
+    let currentIndex = 0;
+
+    function createCard(plan) {
+        const card = document.createElement('div');
+        card.className = 'plan-card';
+        card.innerHTML = `
+            <h2>${plan.name}</h2>
+            <div class="details-grid">
+                <div class="detail-item"><h4>Sum Assured</h4><p>${plan.sa}</p></div>
+                <div class="detail-item"><h4>Age at Entry</h4><p>${plan.age}</p></div>
+                <div class="detail-item"><h4>Policy Term</h4><p>${plan.term}</p></div>
+                <div class="detail-item"><h4>Premium Term</h4><p>${plan.ppt}</p></div>
+            </div>
+            <div class="benefit-section">
+                <h4>Maturity Benefit</h4><p>${plan.maturity}</p>
+                <h4>Death Benefit</h4><p>${plan.death}</p>
+            </div>
+        `;
+        return card;
+    }
+
+    function updateDeck() {
+        const plans = allPlans[currentCategory];
+        const cards = cardDeck.children;
+
+        for (let i = 0; i < cards.length; i++) {
+            cards[i].classList.remove('active', 'next', 'prev', 'hidden');
+            if (i === currentIndex) {
+                cards[i].classList.add('active');
+            } else if (i === (currentIndex + 1) % plans.length) {
+                cards[i].classList.add('next');
+            } else if (i === (currentIndex - 1 + plans.length) % plans.length) {
+                 cards[i].classList.add('prev');
+            } else {
+                cards[i].classList.add('hidden');
+            }
+        }
+    }
+
+    function loadCategory(category) {
+        currentCategory = category;
+        currentIndex = 0;
+        cardDeck.innerHTML = '';
+        const plans = allPlans[category];
+        if (plans) {
+            plans.forEach(plan => {
+                cardDeck.appendChild(createCard(plan));
+            });
+            updateDeck();
+        }
+    }
+
+    categoryButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            categoryButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadCategory(btn.dataset.category);
+        });
+    });
+
+    nextBtn.addEventListener('click', () => {
+        const plans = allPlans[currentCategory];
+        currentIndex = (currentIndex + 1) % plans.length;
+        updateDeck();
+    });
+
+    prevBtn.addEventListener('click', () => {
+        const plans = allPlans[currentCategory];
+        currentIndex = (currentIndex - 1 + plans.length) % plans.length;
+        updateDeck();
+    });
+
+    // Initial Load
+    loadCategory('endowment');
+});
+</script>
+
+</body>
+</html>

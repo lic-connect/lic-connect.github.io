@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharti AXA Life Insurance - Plan Matrix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f4f6f9;
+            --primary-blue: #0d214d;
+            --accent-cyan: #00e5ff;
+            --text-dark: #222;
+            --text-light: #667;
+            --card-bg: #ffffff;
+            --border-color: #e1e8f0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1300px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-family: 'Teko', sans-serif;
+            font-size: 4.5rem;
+            color: var(--primary-blue);
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1;
+        }
+
+        /* Hexagon Filter Navigation */
+        .hex-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+            gap: 10px;
+        }
+        .hex-btn {
+            position: relative;
+            width: 150px;
+            height: 173.2px; /* width * sqrt(3)/2 * 2 */
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .hex-btn:hover, .hex-btn.active {
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        .hex-btn:hover i, .hex-btn.active i {
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px var(--accent-cyan);
+        }
+        .hex-btn i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+        .hex-btn span { font-weight: 600; }
+
+        /* Plan Grid */
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            perspective: 1200px;
+        }
+        
+        .flip-card {
+            background-color: transparent;
+            height: 320px;
+            transition: transform 0.4s ease;
+        }
+        .flip-card.hide {
+            transform: scale(0);
+            width: 0;
+            height: 0;
+            margin:0; padding:0;
+            opacity: 0;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            background-color: var(--card-bg);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .card-header h3 {
+            font-family: 'Teko', sans-serif;
+            font-size: 2rem;
+            line-height: 1.1;
+            margin: 0;
+            color: var(--primary-blue);
+        }
+        
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card-content p { color: var(--text-light); }
+        .card-content button {
+            background: none; border: 2px solid var(--primary-blue);
+            color: var(--primary-blue); padding: 10px 15px;
+            border-radius: 5px; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; align-self: flex-start;
+        }
+        .card-content button:hover { background: var(--primary-blue); color: white; }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+            padding: 25px;
+            overflow-y: auto;
+        }
+        .flip-card-back h4 {
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+            margin: 15px 0 5px 0;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header"><h1>Bharti AXA Life Insurance</h1></header>
+
+    <div class="hex-nav">
+        <div class="hex-btn active" data-filter="all"><i class="fas fa-th-large"></i><span>All Plans</span></div>
+        <div class="hex-btn" data-filter="endowment"><i class="fas fa-archive"></i><span>Endowment</span></div>
+        <div class="hex-btn" data-filter="money-back"><i class="fas fa-undo-alt"></i><span>Money Back</span></div>
+        <div class="hex-btn" data-filter="children"><i class="fas fa-baby"></i><span>Children's</span></div>
+        <div class="hex-btn" data-filter="annuity"><i class="fas fa-chart-pie"></i><span>Annuity</span></div>
+        <div class="hex-btn" data-filter="term"><i class="fas fa-shield-alt"></i><span>Term</span></div>
+    </div>
+
+    <div class="plan-grid" id="plan-grid">
+        <!-- Plan cards are injected by JS -->
+    </div>
+</div>
+
+
+<script>
+const plansData = [
+    { category: 'endowment', name: "Bharti AXA Life Guaranteed Wealth Pro", summary: "A plan to help you save for the future while protecting your family.", sa: "Based on premium", age: "0-60 yrs", term: "10-20 yrs", ppt: "Limited Pay", sb: "Yes, under 'Income' option", maturity: "Guaranteed lump sum or final income payout, based on option.", death: "Sum Assured on Death, higher of 10x Annualized Premium or GMB. Min 105% of premiums." },
+    { category: 'endowment', name: "Bharti AXA Life Super Endowment Plan", summary: "A non-linked savings plan combining financial security with a maturity benefit.", sa: "Min: ₹1,00,000", age: "0-60 yrs", term: "10-30 yrs", ppt: "Regular or Limited", sb: "Not Applicable", maturity: "Sum Assured on Maturity.", death: "Sum Assured on Death is paid to the nominee." },
+    { category: 'endowment', name: "Bharti AXA Life Samriddhi", summary: "A participating endowment plan with non-guaranteed bonuses.", sa: "Min: ₹1,00,000", age: "8-55 yrs", term: "10-35 yrs", ppt: "Regular Pay", sb: "Not Applicable", maturity: "Basic Sum Assured + Vested Simple Reversionary Bonuses + Terminal Bonus, if any.", death: "Sum Assured on Death + Vested Bonuses. Sum Assured on Death is higher of Basic SA or 11x Annual Premium." },
+    { category: 'money-back', name: "Bharti AXA Life Secure Income Plan", summary: "Offers guaranteed monthly income along with sum assured and additions.", sa: "Based on premium", age: "8-55 yrs", term: "15, 20, 25 yrs", ppt: "8, 10, 12 yrs", sb: "Yes, guaranteed annual income during 'Income Period'.", maturity: "The final income installment + a percentage of the Sum Assured is paid at maturity.", death: "A lump sum death benefit (at least 105% of premiums paid) is paid, and the nominee can also choose to receive all future planned income payouts." },
+    { category: 'money-back', name: "Bharti AXA Life Dhan Varsha", summary: "A participating savings plan with money-back benefits.", sa: "Min: ₹50,000", age: "8-60 yrs", term: "10 or 15 yrs", ppt: "5 or 7 yrs", sb: "Yes, guaranteed survival benefits are paid annually from the end of the PPT.", maturity: "The final survival benefit installment + Vested Bonuses + Terminal Bonus, if any.", death: "Sum Assured on Death + Vested Bonuses. Any survival benefits already paid are not deducted." },
+    { category: 'children', name: "Bharti AXA Life Shining Stars", summary: "A flexible child insurance policy that helps build a corpus for future needs.", sa: "Based on premium", age: "Parent: 21-55; Child: 0-15", term: "10-25 yrs", ppt: "Regular or Limited", sb: "Flexible; can be structured for money-back payouts.", maturity: "Sum Assured + Vested Bonuses + Terminal Bonus, if any.", death: "(On death of parent): In-built waiver of premium benefit. All future premiums are waived, and the policy continues." },
+    { category: 'annuity', name: "Bharti AXA Life Saral Pension", summary: "A standard immediate annuity plan with simple features.", sa: "Based on annuity", age: "40-80 yrs", term: "Whole Life", ppt: "Single Premium", sb: "A level annuity is paid for life.", maturity: "Not Applicable", death: "Option 1 (Life Annuity): No death benefit. Option 2 (Life Annuity with 100% Return of Purchase Price): The single premium is returned to the nominee." },
+    { category: 'term', name: "Bharti AXA Life Flexi Term Pro", summary: "A pure protection plan with multiple death benefit payout options.", sa: "Min: ₹25,00,000", age: "18-65 yrs", term: "Up to age 99", ppt: "Single, Regular, Limited", sb: "Not Applicable", maturity: "None, unless 'Return of Premium' option is selected.", death: "Sum Assured is paid. The plan offers high flexibility with options for lump sum, monthly income, or a combination of both." },
+    { category: 'term', name: "Bharti AXA Life Saral Jeevan Bima", summary: "The standard, simple term insurance plan as per IRDAI guidelines.", sa: "Min: ₹5L; Max: ₹25L", age: "18-65 yrs", term: "5-40 yrs", ppt: "Regular, Limited, Single", sb: "Not Applicable", maturity: "Not Applicable", death: "The Sum Assured is paid to the nominee as a lump sum." },
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('plan-grid');
+
+    plansData.forEach(plan => {
+        const cardContainer = document.createElement('div');
+        cardContainer.className = 'flip-card';
+        cardContainer.dataset.category = plan.category;
+        
+        cardContainer.innerHTML = `
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-header"><h3>${plan.name}</h3></div>
+                    <div class="card-content">
+                        <p>${plan.summary}</p>
+                        <button class="flip-btn">Flip for Details</button>
+                    </div>
+                </div>
+                <div class="flip-card-back">
+                    <button class="flip-btn back-btn">×</button>
+                    <h4>Sum Assured:</h4><p>${plan.sa}</p>
+                    <h4>Age at Entry:</h4><p>${plan.age}</p>
+                    <h4>Policy Term:</h4><p>${plan.term}</p>
+                    <h4>Premium Term:</h4><p>${plan.ppt}</p>
+                    <h4>Maturity Benefit:</h4><p>${plan.maturity}</p>
+                    <h4>Death Benefit:</h4><p>${plan.death}</p>
+                </div>
+            </div>
+        `;
+        grid.appendChild(cardContainer);
+    });
+
+    // Flip functionality
+    grid.querySelectorAll('.flip-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            button.closest('.flip-card').classList.toggle('flipped');
+        });
+    });
+
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.hex-btn');
+    const planCards = document.querySelectorAll('.flip-card');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            const filter = button.dataset.filter;
+            planCards.forEach(card => {
+                if (filter === 'all' || card.dataset.category === filter) {
+                    card.classList.remove('hide');
+                } else {
+                    card.classList.add('hide');
+                }
+            });
+        });
+    });
+});
+</script>
+
+</body>
+</html>

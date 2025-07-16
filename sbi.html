@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBI Life Insurance - A World of Security</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&family=Karla:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f9f9f7;
+            --primary-green: #2d6a4f;
+            --secondary-green: #40916c;
+            --accent-color: #b7e4c7;
+            --text-dark: #1b4332;
+            --text-light: #52796f;
+            --card-bg: #ffffff;
+            --border-color: #d8e2dc;
+        }
+
+        body {
+            font-family: 'Karla', sans-serif;
+            background-color: var(--bg-color);
+            background-image: url('https://www.transparenttextures.com/patterns/subtle-leaves.png');
+            color: var(--text-dark);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .main-container {
+            display: flex;
+            width: 95%;
+            max-width: 1600px;
+            margin: auto;
+            background: var(--card-bg);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            min-height: 80vh;
+            overflow: hidden;
+        }
+
+        /* Vertical Tabs Navigation */
+        .sidebar {
+            flex: 0 0 280px;
+            background: linear-gradient(180deg, var(--primary-green), var(--secondary-green));
+            padding: 30px;
+            color: white;
+            animation: slideInLeft 0.8s ease-out;
+        }
+        
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .sidebar-header h2 {
+            font-family: 'Lora', serif;
+            font-size: 2.2rem;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .nav-tabs {
+            list-style: none;
+        }
+        .nav-tab {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, padding-left 0.3s;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-left: 4px solid transparent;
+        }
+        .nav-tab:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        .nav-tab.active {
+            background-color: var(--card-bg);
+            color: var(--primary-green);
+            border-left-color: #ffb703;
+            padding-left: 25px;
+        }
+        .nav-tab i {
+            margin-right: 12px;
+            width: 22px;
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+        .tab-pane.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+        
+        .category-header {
+            margin-bottom: 30px;
+        }
+        .category-header h1 {
+            font-family: 'Lora', serif;
+            font-size: 2.8rem;
+            color: var(--primary-green);
+        }
+
+        /* Plan Cards */
+        .plan-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .plan-card {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: box-shadow 0.3s, transform 0.3s;
+            cursor: pointer;
+        }
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+        .plan-card-header {
+            background: var(--bg-light-blue);
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .plan-card-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            color: var(--text-dark);
+        }
+
+        .plan-card-summary {
+            padding: 20px;
+            color: var(--text-light);
+        }
+
+        /* Plan Details Flyout Panel */
+        .details-panel-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .details-panel-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .details-panel-container.open .details-panel-overlay {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .details-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 500px;
+            height: 100%;
+            background: var(--card-bg);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            padding: 40px;
+            overflow-y: auto;
+            pointer-events: all;
+        }
+
+        .details-panel-container.open .details-panel {
+            transform: translateX(0);
+        }
+
+        .details-panel .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .details-panel h2 {
+            font-family: 'Lora', serif;
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 30px;
+        }
+
+        .detail-item { margin-bottom: 20px; }
+        .detail-item h4 {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .detail-item p {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>SBI Life Plans</h2>
+        </div>
+        <ul class="nav-tabs">
+            <li class="nav-tab active" data-tab="endowment"><i class="fas fa-leaf"></i> Endowment</li>
+            <li class="nav-tab" data-tab="whole-life"><i class="fas fa-tree"></i> Whole Life</li>
+            <li class="nav-tab" data-tab="money-back"><i class="fas fa-hand-holding-water"></i> Money Back</li>
+            <li class="nav-tab" data-tab="children"><i class="fas fa-seedling"></i> Children's</li>
+            <li class="nav-tab" data-tab="annuity"><i class="fas fa-sun"></i> Annuity</li>
+            <li class="nav-tab" data-tab="term"><i class="fas fa-shield-alt"></i> Term Insurance</li>
+        </ul>
+    </aside>
+
+    <main class="content-area">
+        <!-- Endowment Plans Pane -->
+        <div class="tab-pane active" id="endowment">
+            <div class="category-header"><h1>Endowment Plans</h1></div>
+            <div class="plan-cards-container">
+                <div class="plan-card" data-plan-name="SBI Life - Shubh Nivesh" data-sa="Min: ₹75,000" data-age="18-60 yrs" data-term="5-30 yrs" data-ppt="Single or Regular Pay" data-sb="Not Applicable" data-maturity="Basic Sum Assured + Vested Simple Reversionary Bonuses + Terminal bonus, if any." data-death="For Regular Premium, higher of (Basic Sum Assured, or 10 times Annualized Premium) + Vested Bonuses. For Single Premium, higher of (Basic Sum Assured or 1.25 times Single Premium) + Vested Bonuses. The total benefit will not be less than 105% of premiums paid.">
+                    <div class="plan-card-header"><h3>SBI Life - Shubh Nivesh</h3></div>
+                    <div class="plan-card-summary"><p>A traditional savings plan with bonus facilities and flexible premium options.</p></div>
+                </div>
+                <div class="plan-card" data-plan-name="SBI Life - Smart Bachat" data-sa="Min: ₹1,00,000" data-age="0-60 yrs" data-term="10-25 yrs" data-ppt="Limited Pay" data-sb="Available under Option B" data-maturity="Option A (Lump Sum): Basic Sum Assured + Bonuses. Option B (Income): Final installment + Bonuses." data-death="Sum Assured on Death + Vested Bonuses. Sum Assured on Death is the higher of Basic Sum Assured or 10 times Annualized Premium.">
+                    <div class="plan-card-header"><h3>SBI Life - Smart Bachat</h3></div>
+                    <div class="plan-card-summary"><p>A participating savings plan with two benefit options: lump sum or regular income.</p></div>
+                </div>
+                 <div class="plan-card" data-plan-name="SBI Life - Smart Humsafar" data-sa="Min: ₹1,00,000" data-age="18-46 yrs (both)" data-term="10-30 yrs" data-ppt="Regular Pay" data-sb="Not Applicable" data-maturity="Basic Sum Assured + Vested Simple Reversionary Bonuses, paid if at least one life survives till maturity." data-death="(On first death): Sum Assured on Death is paid, and all future premiums are waived. The policy continues for the surviving spouse. On the subsequent death of the second life, the Basic Sum Assured + Vested Bonuses are paid.">
+                    <div class="plan-card-header"><h3>SBI Life - Smart Humsafar</h3></div>
+                    <div class="plan-card-summary"><p>A unique joint life plan that provides savings and protection for couples under a single policy.</p></div>
+                </div>
+            </div>
+        </div>
+        <!-- Other Panes... -->
+        <div class="tab-pane" id="whole-life">
+             <div class="category-header"><h1>Whole Life Plans</h1></div>
+             <div class="plan-cards-container">
+                 <div class="plan-card" data-plan-name="SBI Life - Shubh Nivesh (Whole Life)" data-sa="Min: ₹75,000" data-age="18-50 yrs" data-term="Up to 100 yrs" data-ppt="Single or Regular" data-sb="Not Applicable" data-maturity="On survival to age 100, the Basic Sum Assured + Vested Bonuses + Terminal bonus, if any, is paid." data-death="During the chosen policy term, the standard death benefit applies. After the term, upon death before age 100, the Basic Sum Assured is paid to the nominee.">
+                    <div class="plan-card-header"><h3>SBI Life - Shubh Nivesh (Whole Life)</h3></div>
+                    <div class="plan-card-summary"><p>Extend your endowment cover for lifelong protection up to age 100.</p></div>
+                </div>
+             </div>
+        </div>
+        <!-- ... Other panes would be here ... -->
+    </main>
+</div>
+
+<!-- Details Flyout Panel -->
+<div class="details-panel-container" id="details-panel-container">
+    <div class="details-panel-overlay"></div>
+    <div class="details-panel">
+        <div class="close-btn"><i class="fas fa-times"></i></div>
+        <h2 id="panel-plan-name"></h2>
+        <div class="detail-item"><h4>Sum Assured</h4><p id="panel-sa"></p></div>
+        <div class="detail-item"><h4>Age at Entry</h4><p id="panel-age"></p></div>
+        <div class="detail-item"><h4>Policy Term</h4><p id="panel-term"></p></div>
+        <div class="detail-item"><h4>Premium Paying Term</h4><p id="panel-ppt"></p></div>
+        <div class="detail-item"><h4>Survival Benefit</h4><p id="panel-sb"></p></div>
+        <div class="detail-item"><h4>Maturity Benefit</h4><p id="panel-maturity"></p></div>
+        <div class="detail-item"><h4>Death Benefit</h4><p id="panel-death"></p></div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Tab Navigation
+    const tabs = document.querySelectorAll('.nav-tab');
+    const panes = document.querySelectorAll('.tab-pane');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            panes.forEach(p => p.classList.remove('active'));
+
+            tab.classList.add('active');
+            const targetPane = document.getElementById(tab.dataset.tab);
+            targetPane.classList.add('active');
+        });
+    });
+
+    // Details Panel Flyout
+    const panelContainer = document.getElementById('details-panel-container');
+    const planCards = document.querySelectorAll('.plan-card');
+    const closeBtn = panelContainer.querySelector('.close-btn');
+    const overlay = panelContainer.querySelector('.details-panel-overlay');
+
+    const openPanel = (data) => {
+        document.getElementById('panel-plan-name').textContent = data.planName;
+        document.getElementById('panel-sa').textContent = data.sa;
+        document.getElementById('panel-age').textContent = data.age;
+        document.getElementById('panel-term').textContent = data.term;
+        document.getElementById('panel-ppt').textContent = data.ppt;
+        document.getElementById('panel-sb').textContent = data.sb;
+        document.getElementById('panel-maturity').textContent = data.maturity;
+        document.getElementById('panel-death').textContent = data.death;
+        panelContainer.classList.add('open');
+    };
+
+    const closePanel = () => {
+        panelContainer.classList.remove('open');
+    };
+
+    planCards.forEach(card => {
+        card.addEventListener('click', () => {
+            openPanel(card.dataset);
+        });
+    });
+
+    closeBtn.addEventListener('click', closePanel);
+    overlay.addEventListener('click', closePanel);
+});
+</script>
+
+</body>
+</html>

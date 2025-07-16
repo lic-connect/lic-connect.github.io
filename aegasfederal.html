@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ageas Federal Life - The Blueprint for Security</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --blueprint-bg: #0b2240;
+            --blueprint-line: rgba(0, 191, 255, 0.2);
+            --text-cyan: #00bfff;
+            --text-white: #ffffff;
+            --highlight-yellow: #ffee00;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--blueprint-bg);
+            background-image:
+                linear-gradient(var(--blueprint-line) 1px, transparent 1px),
+                linear-gradient(to right, var(--blueprint-line) 1px, var(--blueprint-bg) 1px);
+            background-size: 30px 30px;
+            color: var(--text-white);
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .header h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--text-cyan);
+            text-transform: uppercase;
+        }
+        .header p {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 1.5rem;
+            color: var(--highlight-yellow);
+        }
+        
+        .category-section {
+            margin-bottom: 60px;
+        }
+        .category-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            border-bottom: 2px solid var(--blueprint-line);
+            padding-bottom: 10px;
+            margin-bottom: 40px;
+        }
+
+        /* Plan Wrapper for Interaction */
+        .plan-wrapper {
+            position: relative;
+            margin-bottom: 30px;
+            min-height: 200px; /* Adjust based on card height */
+        }
+        
+        .plan-details-blueprint {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed var(--blueprint-line);
+            border-radius: 8px;
+            padding: 30px;
+            display: grid;
+            grid-template-areas:
+                "title title"
+                "grid grid"
+                "sb maturity"
+                "death death";
+            gap: 20px;
+        }
+
+        .plan-details-blueprint .title { grid-area: title; font-size: 1.8rem; color: var(--highlight-yellow); }
+        .details-grid { grid-area: grid; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .detail-box { text-align: center; }
+        .detail-box h4 { font-size: 0.9rem; color: var(--text-cyan); opacity: 0.7; }
+        .detail-box p { font-size: 1.1rem; font-weight: 600; margin: 0; }
+        .benefit-section { padding: 15px; border-top: 1px solid var(--blueprint-line); }
+        .benefit-section h4 { color: var(--text-cyan); }
+        #sb { grid-area: sb; } #maturity { grid-area: maturity; } #death { grid-area: death; }
+
+        .plan-card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 30px;
+            color: var(--text-dark);
+            transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .plan-wrapper.revealed .plan-card-overlay {
+            transform: translateX(105%);
+            opacity: 0;
+        }
+
+        .plan-card-overlay h3 {
+            font-size: 2rem;
+            margin: 0 0 10px 0;
+        }
+        .plan-card-overlay p {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        .reveal-btn {
+            font-family: 'Architects Daughter', cursive;
+            font-size: 1.2rem;
+            color: var(--text-cyan);
+            font-weight: bold;
+        }
+        .reveal-btn i {
+            margin-left: 10px;
+            transition: transform 0.3s;
+        }
+        .plan-card-overlay:hover .reveal-btn i {
+            transform: translateX(10px);
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+        <h1>Ageas Federal Life</h1>
+        <p>The Blueprint for Your Security</p>
+    </header>
+
+    <!-- Endowment Section -->
+    <section id="endowment" class="category-section">
+        <h2 class="category-title">Endowment Plans</h2>
+        <div class="plan-wrapper">
+            <div class="plan-details-blueprint">
+                <h3 class="title">Guaranteed Savings Plan</h3>
+                <div class="details-grid">
+                    <div class="detail-box"><h4>Sum Assured</h4><p>Based on premium</p></div>
+                    <div class="detail-box"><h4>Age at Entry</h4><p>0-60 yrs</p></div>
+                    <div class="detail-box"><h4>Policy Term</h4><p>10-20 yrs</p></div>
+                    <div class="detail-box"><h4>Premium Term</h4><p>Limited Pay</p></div>
+                </div>
+                <div class="benefit-section" id="maturity"><h4>Maturity Benefit</h4><p>A Guaranteed Sum Assured on Maturity is paid as a lump sum.</p></div>
+                <div class="benefit-section" id="death"><h4>Death Benefit</h4><p>Sum Assured on Death, which is the higher of (10 times Annualized Premium or the Guaranteed Sum Assured on Maturity). The total benefit will be at least 105% of all premiums paid.</p></div>
+            </div>
+            <div class="plan-card-overlay">
+                <h3>Ageas Federal Life Guaranteed Savings Plan</h3>
+                <p>A simple savings plan offering guaranteed returns for your future goals.</p>
+                <span class="reveal-btn">Reveal Blueprint <i class="fas fa-arrow-right"></i></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Whole Life Section -->
+    <section id="whole-life" class="category-section">
+        <h2 class="category-title">Whole Life Plans</h2>
+         <div class="plan-wrapper">
+            <div class="plan-details-blueprint">
+                <h3 class="title">Lifesurance Whole Life Savings</h3>
+                <div class="details-grid">
+                    <div class="detail-box"><h4>Sum Assured</h4><p>Min: ₹50,000</p></div>
+                    <div class="detail-box"><h4>Age at Entry</h4><p>18-55 yrs</p></div>
+                    <div class="detail-box"><h4>Policy Term</h4><p>Up to age 100</p></div>
+                    <div class="detail-box"><h4>Premium Term</h4><p>Regular Pay</p></div>
+                </div>
+                 <div class="benefit-section" id="maturity"><h4>Maturity Benefit</h4><p>On survival to age 100, the Sum Assured + Accrued Reversionary Bonuses + Terminal Bonus, if any, is paid.</p></div>
+                <div class="benefit-section" id="death"><h4>Death Benefit</h4><p>Sum Assured + Vested bonuses + Terminal bonus, if any, is paid to the nominee.</p></div>
+            </div>
+            <div class="plan-card-overlay">
+                <h3>Ageas Federal Life Lifesurance Whole Life Savings Insurance Plan</h3>
+                <p>A traditional plan providing savings and protection for your entire lifetime.</p>
+                <span class="reveal-btn">Reveal Blueprint <i class="fas fa-arrow-right"></i></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ... Other sections would follow this structure ... -->
+
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const planWrappers = document.querySelectorAll('.plan-wrapper');
+
+    planWrappers.forEach(wrapper => {
+        const overlay = wrapper.querySelector('.plan-card-overlay');
+        overlay.addEventListener('click', () => {
+            wrapper.classList.add('revealed');
+        });
+    });
+});
+</script>
+
+</body>
+</html>

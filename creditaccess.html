@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Access Life Insurance - Simple & Secure</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --primary-blue: #0ea5e9;
+            --accent-yellow: #facc15;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+        
+        .important-note {
+            background-color: #fefce8;
+            border: 1px solid #fde047;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .important-note p {
+            margin: 0;
+            color: #713f12;
+        }
+
+        .category-section {
+            margin-bottom: 50px;
+        }
+        .category-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .plan-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .plan-summary {
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .plan-summary h3 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        .plan-summary .note {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        .plan-summary .toggle-icon {
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            transition: transform 0.3s;
+        }
+        .plan-card.open .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .plan-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding: 0 25px;
+        }
+        
+        .plan-card.open .plan-details {
+            padding-bottom: 25px;
+        }
+
+        .details-wrapper {
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .info-item .icon {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            background-color: #e0f2fe;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+        .info-item h4 {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin: 0 0 2px 0;
+        }
+        .info-item p { margin: 0; font-weight: 600; }
+
+        .benefit-section {
+            margin-top: 20px;
+        }
+        .benefit-section h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .benefit-section p {
+            background-color: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+        <h1>Credit Access Life Insurance</h1>
+    </header>
+
+    <div class="important-note">
+        <p><strong>Important Note:</strong> As a new insurer (2023) focused on the microfinance sector, the product portfolio is specialized and primarily consists of simple, accessible plans. A wide range of traditional retail products is not yet available.</p>
+    </div>
+
+    <!-- Term Insurance Section -->
+    <section class="category-section">
+        <h2 class="category-title">Term Insurance Plans</h2>
+        <!-- Plan Card 1 -->
+        <div class="plan-card">
+            <div class="plan-summary">
+                <div>
+                    <h3>Credit Life Insurance</h3>
+                    <span class="note">Core Group Term Plan</span>
+                </div>
+                <div class="toggle-icon"><i class="fas fa-chevron-down"></i></div>
+            </div>
+            <div class="plan-details">
+                <div class="details-wrapper">
+                    <div class="info-grid">
+                        <div class="info-item"><div class="icon"><i class="fas fa-coins"></i></div><div><h4>Sum Assured</h4><p>Equal to loan amount</p></div></div>
+                        <div class="info-item"><div class="icon"><i class="fas fa-user-clock"></i></div><div><h4>Age at Entry</h4><p>18-60 yrs (Varies)</p></div></div>
+                        <div class="info-item"><div class="icon"><i class="fas fa-calendar-alt"></i></div><div><h4>Policy Term</h4><p>Equal to loan tenure</p></div></div>
+                        <div class="info-item"><div class="icon"><i class="fas fa-file-invoice-dollar"></i></div><div><h4>Premium Term</h4><p>Single Premium</p></div></div>
+                    </div>
+                    <div class="benefit-section">
+                        <h4>Death Benefit</h4>
+                        <p>The outstanding loan amount is paid directly to the lending institution, relieving the family of the debt burden. Any excess amount is paid to the nominee.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Plan Card 2 -->
+        <div class="plan-card">
+            <div class="plan-summary">
+                <div>
+                    <h3>Saral Jeevan Bima</h3>
+                     <span class="note">Standard Term Plan</span>
+                </div>
+                <div class="toggle-icon"><i class="fas fa-chevron-down"></i></div>
+            </div>
+            <div class="plan-details">
+                <div class="details-wrapper">
+                    <div class="info-grid">
+                        <div class="info-item"><div class="icon"><i class="fas fa-coins"></i></div><div><h4>Sum Assured</h4><p>₹5 Lakh - ₹25 Lakh</p></div></div>
+                        <div class="info-item"><div class="icon"><i class="fas fa-user-clock"></i></div><div><h4>Age at Entry</h4><p>18-65 yrs</p></div></div>
+                        <div class="info-item"><div class="icon"><i class="fas fa-calendar-alt"></i></div><div><h4>Policy Term</h4><p>5-40 yrs</p></div></div>
+                        <div class="info-item"><div class="icon"><i class="fas fa-file-invoice-dollar"></i></div><div><h4>Premium Term</h4><p>Regular, Ltd, Single</p></div></div>
+                    </div>
+                     <div class="benefit-section">
+                        <h4>Death Benefit</h4>
+                        <p>The Sum Assured is paid to the nominee as a lump sum.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Annuity Section -->
+    <section class="category-section">
+        <h2 class="category-title">Annuity Plans</h2>
+        <!-- Plan Card 3 -->
+        <div class="plan-card">
+            <div class="plan-summary">
+                <div>
+                    <h3>Saral Pension Plan</h3>
+                    <span class="note">Standard Annuity Plan</span>
+                </div>
+                <div class="toggle-icon"><i class="fas fa-chevron-down"></i></div>
+            </div>
+             <div class="plan-details">
+                <div class="details-wrapper">
+                    <div class="info-grid">
+                        <div class="info-item"><div class="icon"><i class="fas fa-coins"></i></div><div><h4>Sum Assured</h4><p>Based on annuity</p></div></div>
+                        <div class="info-item"><div class="icon"><i class="fas fa-user-clock"></i></div><div><h4>Age at Entry</h4><p>40-80 yrs</p></div></div>
+                        <div class="info-item"><div class="icon"><i class="fas fa-calendar-alt"></i></div><div><h4>Policy Term</h4><p>Whole Life</p></div></div>
+                        <div class="info-item"><div class="icon"><i class="fas fa-file-invoice-dollar"></i></div><div><h4>Premium Term</h4><p>Single Premium</p></div></div>
+                    </div>
+                     <div class="benefit-section">
+                        <h4>Benefit</h4>
+                        <p>A level annuity is paid for life.</p>
+                    </div>
+                     <div class="benefit-section">
+                        <h4>Death Benefit</h4>
+                        <p>Option 1 (Life Annuity): No death benefit. Option 2 (Life Annuity with 100% Return of Purchase Price): The single premium is returned to the nominee.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const planCards = document.querySelectorAll('.plan-card');
+
+    planCards.forEach(card => {
+        const header = card.querySelector('.plan-summary');
+        const detailsPanel = card.querySelector('.plan-details');
+
+        header.addEventListener('click', () => {
+            const wasOpen = card.classList.contains('open');
+            
+            // Close all cards first
+            planCards.forEach(c => {
+                c.classList.remove('open');
+                c.querySelector('.plan-details').style.maxHeight = null;
+            });
+            
+            // If the clicked card was not already open, open it
+            if (!wasOpen) {
+                card.classList.add('open');
+                detailsPanel.style.maxHeight = detailsPanel.scrollHeight + 'px';
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pramerica Life Insurance - Your Plan Directory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f4f5f7;
+            --text-dark: #171717;
+            --text-light: #696969;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --endowment-color: #ef4444;
+            --whole-life-color: #f97316;
+            --money-back-color: #eab308;
+            --children-color: #84cc16;
+            --annuity-color: #22c55e;
+            --term-color: #14b8a6;
+        }
+
+        body {
+            font-family: 'Source Serif 4', serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .header h1 {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+        }
+
+        /* Filter Controls */
+        .filter-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        .filter-btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .filter-btn.active {
+            background-color: var(--text-dark);
+            color: white;
+            border-color: var(--text-dark);
+        }
+
+        /* Plan Grid */
+        .plan-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .plan-item {
+            transition: all 0.5s ease;
+        }
+        .plan-item.hide {
+            transform: scale(0.95);
+            opacity: 0;
+            height: 0;
+            margin:0; padding:0;
+            overflow: hidden;
+        }
+
+        .plan-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            padding: 25px;
+            cursor: pointer;
+            border-left: 5px solid; /* color set by data attribute */
+        }
+        
+        .plan-card h3 {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 1.6rem;
+            margin: 0;
+        }
+        
+        .plan-details-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, margin-top 0.5s ease-out;
+            margin-top: 0;
+        }
+
+        .plan-item.open .plan-details-panel {
+            margin-top: 20px;
+        }
+        
+        .details-content {
+            background-color: #fafafa;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .detail-item h4 {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+        .detail-item p { margin: 0; font-weight: 600; }
+
+        .benefit-section h4 {
+            margin-top: 20px; margin-bottom: 10px;
+            font-family: 'Public Sans', sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header"><h1>Pramerica Life Insurance</h1></header>
+
+    <div class="filter-nav">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="endowment">Endowment</button>
+        <button class="filter-btn" data-filter="whole-life">Whole Life</button>
+        <button class="filter-btn" data-filter="money-back">Money Back</button>
+        <button class="filter-btn" data-filter="children">Children's</button>
+        <button class="filter-btn" data-filter="annuity">Annuity</button>
+        <button class="filter-btn" data-filter="term">Term</button>
+    </div>
+
+    <div class="plan-grid" id="plan-grid">
+        <!-- Plan items will be injected by JavaScript -->
+    </div>
+</div>
+
+<script>
+const plansData = [
+    { category: 'endowment', color: 'var(--endowment-color)', name: "Pramerica Life Secure Savings Plan", sa: "Based on premium", age: "0-60 yrs", term: "10-30 yrs", ppt: "Limited Pay", sb: "Not Applicable", maturity: "A Guaranteed Maturity Benefit is paid as a lump sum.", death: "Sum Assured on Death, which is the higher of (10 times Annualized Premium, 105% of all Premiums Paid, or the Guaranteed Maturity Benefit)." },
+    { category: 'endowment', color: 'var(--endowment-color)', name: "Pramerica Life Magnum Assure", sa: "Min: ₹1,50,000", age: "8-55 yrs", term: "10-25 yrs", ppt: "5 or 10 yrs", sb: "Not Applicable", maturity: "Guaranteed Sum Assured on Maturity.", death: "Sum Assured on Death, which is the higher of Basic Sum Assured or 10 times the annual premium." },
+    { category: 'whole-life', color: 'var(--whole-life-color)', name: "Pramerica Life Aajeevan Samriddhi", sa: "Min: ₹1,00,000", age: "18-55 yrs", term: "Up to age 99", ppt: "Limited Pay", sb: "Not Applicable", maturity: "On survival to age 99, the Sum Assured + Vested Reversionary Bonuses + Terminal Bonus, if any, is paid.", death: "Sum Assured on Death + Vested bonuses. The total benefit will be at least 105% of all premiums paid." },
+    { category: 'money-back', color: 'var(--money-back-color)', name: "Pramerica Life Smart Cash Protect", sa: "Min: ₹2,00,000", age: "18-50 yrs", term: "15-25 yrs", ppt: "10 or 15 yrs", sb: "Yes. A percentage of the Sum Assured is paid as a cash benefit annually after the end of the PPT until the policy matures.", maturity: "Full Sum Assured + Vested Simple Reversionary Bonuses + Terminal Bonus, if any.", death: "Sum Assured on Death + Vested bonuses. Any survival benefits already paid are not deducted from this amount." },
+    { category: 'money-back', color: 'var(--money-back-color)', name: "Pramerica Life Flexi Cash", sa: "Min: ₹1,50,000", age: "3-55 yrs", term: "15-25 yrs", ppt: "7, 10, 12 yrs", sb: "Yes. Provides guaranteed annual payouts from the end of the PPT until one year before maturity.", maturity: "Final guaranteed payout + Guaranteed Maturity Booster (a lump sum).", death: "Sum Assured on Death is paid to the nominee. Any survival benefits already paid are not deducted." },
+    { category: 'children', color: 'var(--children-color)', name: "Pramerica Life Rakshak Gold", sa: "Min: ₹2,00,000", age: "Parent: 21-50; Child: 0-15", term: "Matures at 18, 21, or 25", ppt: "Regular Pay", sb: "Provides guaranteed annual payouts during the last four years of the policy to align with educational needs.", maturity: "The final installment of the guaranteed payout is the maturity benefit.", death: "(On death of parent): This plan can be combined with a Payor Waiver of Premium rider. If so, upon the parent's death, future premiums are waived, and the child receives all planned payouts as scheduled." },
+    { category: 'annuity', color: 'var(--annuity-color)', name: "Pramerica Life Saral Pension", sa: "Based on annuity", age: "40-80 yrs", term: "Whole Life", ppt: "Single Premium", sb: "A level annuity is paid for life.", maturity: "Not Applicable", death: "Option 1 (Life Annuity): No death benefit. Option 2 (Life Annuity with 100% Return of Purchase Price): The single premium is returned to the nominee." },
+    { category: 'annuity', color: 'var(--annuity-color)', name: "Pramerica Life Nextgen Pension Plan", sa: "ULIP", age: "18-65 yrs", term: "10-30 yrs", ppt: "Single or Regular", sb: "Not Applicable", maturity: "(Vesting Benefit): The total Fund Value is available at vesting, which can be used to purchase an annuity for a regular pension.", death: "Higher of the Fund Value or 105% of the total premiums paid is given to the nominee." },
+    { category: 'term', color: 'var(--term-color)', name: "Pramerica Life U-Protect", sa: "Min: ₹25,00,000", age: "18-65 yrs", term: "10-40 yrs", ppt: "Regular or Limited", sb: "Not Applicable", maturity: "Not Applicable", death: "The Sum Assured is paid to the nominee as a lump sum." },
+    { category: 'term', color: 'var(--term-color)', name: "Pramerica Life Saral Jeevan Bima", sa: "Min: ₹5L; Max: ₹25L", age: "18-65 yrs", term: "5-40 yrs", ppt: "Regular, Ltd, Single", sb: "Not Applicable", maturity: "Not Applicable", death: "The Sum Assured is paid to the nominee as a lump sum." }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('plan-grid');
+
+    plansData.forEach(plan => {
+        const item = document.createElement('div');
+        item.className = 'plan-item';
+        item.dataset.category = plan.category;
+        
+        item.innerHTML = `
+            <div class="plan-card" style="border-left-color: ${plan.color};">
+                <h3>${plan.name}</h3>
+            </div>
+            <div class="plan-details-panel">
+                <div class="details-content">
+                    <div class="details-grid">
+                        <div class="detail-item"><h4>Sum Assured</h4><p>${plan.sa}</p></div>
+                        <div class="detail-item"><h4>Age at Entry</h4><p>${plan.age}</p></div>
+                        <div class="detail-item"><h4>Policy Term</h4><p>${plan.term}</p></div>
+                        <div class="detail-item"><h4>Premium Term</h4><p>${plan.ppt}</p></div>
+                    </div>
+                    <div class="benefit-section">
+                        <h4>Survival Benefit</h4><p>${plan.sb}</p>
+                    </div>
+                    <div class="benefit-section">
+                        <h4>Maturity Benefit</h4><p>${plan.maturity}</p>
+                    </div>
+                    <div class="benefit-section">
+                        <h4>Death Benefit</h4><p>${plan.death}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        grid.appendChild(item);
+    });
+
+    const planItems = grid.querySelectorAll('.plan-item');
+
+    planItems.forEach(item => {
+        const card = item.querySelector('.plan-card');
+        const panel = item.querySelector('.plan-details-panel');
+
+        card.addEventListener('click', () => {
+            const wasOpen = item.classList.contains('open');
+            // Close all others
+            planItems.forEach(i => {
+                i.classList.remove('open');
+                i.querySelector('.plan-details-panel').style.maxHeight = null;
+            });
+            // Toggle clicked one
+            if (!wasOpen) {
+                item.classList.add('open');
+                panel.style.maxHeight = panel.scrollHeight + 'px';
+            }
+        });
+    });
+
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const filter = button.dataset.filter;
+            planItems.forEach(item => {
+                item.classList.remove('open');
+                item.querySelector('.plan-details-panel').style.maxHeight = null;
+
+                if (filter === 'all' || item.dataset.category === filter) {
+                    item.classList.remove('hide');
+                } else {
+                    item.classList.add('hide');
+                }
+            });
+        });
+    });
+
+});
+</script>
+
+</body>
+</html>

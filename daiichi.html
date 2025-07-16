@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Union Dai-ichi Life - A Universe of Plans</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Exo+2:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-space: #0b0c1d;
+            --primary-glow: #a955ff;
+            --secondary-glow: #00d4ff;
+            --text-white: #e8e9f3;
+            --text-muted: #8c8d9a;
+            --border-color: rgba(169, 85, 255, 0.3);
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: var(--bg-space);
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            color: var(--text-white);
+            margin: 0;
+            padding: 50px 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-white);
+            text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--secondary-glow);
+        }
+
+        /* Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+        
+        .plan-universe {
+            position: relative;
+        }
+        .category-constellation {
+            margin-bottom: 50px;
+        }
+        .category-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-glow);
+            margin-bottom: 30px;
+        }
+        .star-field {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .star-point {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-grow: 1;
+        }
+        .star-point:hover, .star-point.active {
+            background: var(--primary-glow);
+            color: var(--bg-space);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+        .star-point h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Details Info Panel */
+        .info-panel {
+            position: sticky;
+            top: 50px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 30px;
+            height: fit-content;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .info-panel.visible {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .info-panel h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--secondary-glow);
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+
+        .detail-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .detail-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .detail-list strong {
+            color: var(--text-muted);
+            display: block;
+            font-size: 0.8rem;
+        }
+        
+        .benefit-box h4 {
+            color: var(--secondary-glow);
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .benefit-box p {
+            margin: 0;
+            color: var(--text-white);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header"><h1>Star Union Dai-ichi Life</h1></header>
+    
+    <div class="main-layout">
+        <div class="plan-universe">
+            <!-- Endowment Constellation -->
+            <section class="category-constellation">
+                <h2 class="category-title">Endowment Plans</h2>
+                <div class="star-field">
+                    <div class="star-point" data-plan='{"name":"SUD Life Aadarsh","sa":"Min: ₹1,00,000","age":"8-55 yrs","term":"10-25 yrs","ppt":"Regular Pay","sb":"Not Applicable","maturity":"Sum Assured + Vested Simple Reversionary Bonuses + Terminal Bonus, if any.","death":"Sum Assured on Death + Vested Bonuses. Sum Assured on Death is the higher of (Sum Assured, 10 times Annualized Premium, or 105% of premiums paid)."}'>
+                        <h3>SUD Life Aadarsh</h3>
+                    </div>
+                    <div class="star-point" data-plan='{"name":"SUD Life Samriddhi","sa":"Based on premium","age":"8-50 yrs","term":"15 yrs (Fixed)","ppt":"7 years","sb":"Not Applicable","maturity":"Guaranteed Sum Assured on Maturity + Guaranteed Additions.","death":"Sum Assured on Death, which is the higher of 10 times the annualized premium or 105% of all premiums paid."}'>
+                        <h3>SUD Life Samriddhi</h3>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Whole Life Constellation -->
+            <section class="category-constellation">
+                <h2 class="category-title">Whole Life Plans</h2>
+                 <div class="star-field">
+                    <div class="star-point" data-plan='{"name":"SUD Life Century Royale","sa":"Min: ₹2,50,000","age":"18-55 yrs","term":"Up to age 100","ppt":"Limited: 10, 15, 20 yrs","sb":"Not Applicable","maturity":"On survival to age 100, the Sum Assured + Vested Reversionary Bonuses + Terminal Bonus, if any, is paid.","death":"Sum Assured on Death + Vested bonuses. The total benefit will be at least 105% of all premiums paid."}'>
+                        <h3>SUD Life Century Royale</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ... Other constellations would follow ... -->
+
+        </div>
+        
+        <aside class="info-panel" id="info-panel">
+            <h2 id="panel-name">Select a Star</h2>
+            <ul class="detail-list">
+                <li><strong>Sum Assured:</strong> <span id="panel-sa"></span></li>
+                <li><strong>Age at Entry:</strong> <span id="panel-age"></span></li>
+                <li><strong>Policy Term:</strong> <span id="panel-term"></span></li>
+                <li><strong>Premium Term:</strong> <span id="panel-ppt"></span></li>
+            </ul>
+            <div class="benefit-box"><h4>Survival Benefit</h4><p id="panel-sb"></p></div>
+            <div class="benefit-box"><h4>Maturity Benefit</h4><p id="panel-maturity"></p></div>
+            <div class="benefit-box"><h4>Death Benefit</h4><p id="panel-death"></p></div>
+        </aside>
+    </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const starPoints = document.querySelectorAll('.star-point');
+    const infoPanel = document.getElementById('info-panel');
+
+    starPoints.forEach(star => {
+        star.addEventListener('click', () => {
+            // Manage active state
+            starPoints.forEach(s => s.classList.remove('active'));
+            star.classList.add('active');
+            
+            // Parse data and populate panel
+            const planData = JSON.parse(star.dataset.plan);
+            
+            document.getElementById('panel-name').textContent = planData.name;
+            document.getElementById('panel-sa').textContent = planData.sa;
+            document.getElementById('panel-age').textContent = planData.age;
+            document.getElementById('panel-term').textContent = planData.term;
+            document.getElementById('panel-ppt').textContent = planData.ppt;
+            document.getElementById('panel-sb').textContent = planData.sb;
+            document.getElementById('panel-maturity').textContent = planData.maturity;
+            document.getElementById('panel-death').textContent = planData.death;
+
+            // Make panel visible
+            infoPanel.classList.add('visible');
+        });
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TATA AIA Life Insurance - Plan Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --primary-blue: #005f9e;
+            --secondary-blue: #00a9e0;
+            --text-dark: #222;
+            --text-light: #555;
+            --border-color: #e0e7ef;
+            --bg-light-blue: #f0f8ff;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-color);
+            background-image:
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(to right, var(--border-color) 1px, var(--bg-color) 1px);
+            background-size: 20px 20px;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1300px;
+            margin: 50px auto;
+            background: var(--bg-color);
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 95, 158, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 3.5rem;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Category Carousel */
+        .category-carousel-wrapper {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .category-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+            padding-bottom: 15px; /* space for scrollbar */
+        }
+        
+        .category-carousel::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        .category-card {
+            flex: 0 0 auto;
+            width: 220px;
+            padding: 20px;
+            margin-right: 20px;
+            border-radius: 10px;
+            background: var(--bg-light-blue);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 95, 158, 0.1);
+            border-color: var(--secondary-blue);
+        }
+        
+        .category-card.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .category-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary-blue);
+            transition: color 0.3s;
+        }
+        
+        .category-card.active i {
+            color: white;
+        }
+
+        .category-card h3 {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+        
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .prev-arrow { left: -20px; }
+        .next-arrow { right: -20px; }
+
+
+        /* Plan Display Area */
+        .plan-display-area {
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+
+        .plan-item {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background: #fff;
+        }
+        
+        .plan-summary {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .plan-summary h3 {
+            font-size: 1.4rem;
+            margin: 0;
+        }
+        
+        .plan-summary .toggle-icon {
+            font-size: 1.2rem;
+            color: var(--secondary-blue);
+            transition: transform 0.4s ease;
+        }
+
+        .plan-item.open .plan-summary .toggle-icon {
+            transform: rotate(135deg);
+        }
+        
+        .plan-details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding: 0 20px;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .details-grid .feature {
+            background: var(--bg-light-blue);
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .details-grid .feature h4 {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .benefit-section {
+            margin-top: 20px;
+            padding-bottom: 20px;
+        }
+        .benefit-section h4 {
+            font-family: 'Exo 2', sans-serif;
+            color: var(--primary-blue);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+        <h1>TATA AIA Life Insurance</h1>
+    </header>
+
+    <div class="category-carousel-wrapper">
+        <button class="nav-arrow prev-arrow"><i class="fas fa-chevron-left"></i></button>
+        <div class="category-carousel">
+            <div class="category-card active" data-category="endowment">
+                <i class="fas fa-archive"></i>
+                <h3>Endowment</h3>
+            </div>
+            <div class="category-card" data-category="whole-life">
+                <i class="fas fa-landmark"></i>
+                <h3>Whole Life</h3>
+            </div>
+            <div class="category-card" data-category="money-back">
+                <i class="fas fa-undo-alt"></i>
+                <h3>Money Back</h3>
+            </div>
+            <div class="category-card" data-category="children">
+                <i class="fas fa-baby"></i>
+                <h3>Children's</h3>
+            </div>
+            <div class="category-card" data-category="annuity">
+                <i class="fas fa-chart-line"></i>
+                <h3>Annuity</h3>
+            </div>
+            <div class="category-card" data-category="term">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Term Insurance</h3>
+            </div>
+        </div>
+        <button class="nav-arrow next-arrow"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    
+    <div class="plan-display-area" id="plan-display-area">
+        <!-- Plans will be dynamically inserted here by JavaScript -->
+    </div>
+</div>
+
+<script>
+const allPlans = {
+    endowment: [
+        { name: "Tata AIA Guaranteed Return Insurance Plan", maturity: "A Guaranteed Sum Assured on Maturity is paid as a lump sum.", death: "Sum Assured on Death is paid, which is the highest of (Basic Sum Assured, 10 times Annualized Premium, or 105% of Total Premiums Paid).", sa: "Based on premium", age: "3-65 yrs", term: "10-40 yrs", ppt: "Single, Limited, Regular", sb: "Not Applicable" },
+        { name: "Tata AIA Value Income Plan", maturity: "If lump sum option is chosen, Basic Sum Assured + Vested Simple Reversionary Bonuses + Terminal bonus, if any, is paid. If income option is chosen, the last income installment is paid.", death: "Sum Assured on Death + Vested Bonuses + Terminal Bonus, if any. The total benefit will be at least 105% of premiums paid.", sa: "Min: ₹1,00,000", age: "0-65 yrs", term: "10-20 yrs", ppt: "Single, Limited Pay", sb: "Yes, if income option is chosen" },
+    ],
+    "whole-life": [
+        { name: "Tata AIA Guaranteed Return Insurance Plan (Whole Life)", maturity: "On survival to age 100, the last survival benefit is paid.", death: "Sum Assured on Death is paid to the nominee. An option to receive 'Return of Purchase Price' (total premiums paid) is also available.", sa: "Based on premium", age: "45-65 yrs", term: "Up to age 100", ppt: "Limited Pay", sb: "Guaranteed income until age 100" },
+    ],
+    "money-back": [
+         { name: "Tata AIA Life Insurance Money Back Plus", maturity: "Final survival benefit installment (e.g., 40% of Basic SA for a 20-year term) + Vested Simple Reversionary Bonuses + Terminal bonus, if any.", death: "Sum Assured on Death + Vested Bonuses. Any survival benefits already paid are not deducted from this amount.", sa: "Min: ₹2,00,000", age: "0-55 yrs", term: "16 or 20 yrs", ppt: "8 or 10 yrs", sb: "20% of SA at regular intervals" },
+    ],
+    children: [
+        { name: "Tata AIA Super Achiever Plan", maturity: "Final guaranteed payout at maturity.", death: "(On death of parent): In-built Payor Accelerator Benefit. A lump sum (Sum Assured) is paid immediately. The policy continues without any future premiums, and the child receives all the planned survival and maturity benefits as scheduled.", sa: "Min: ₹1,50,000", age: "Parent: 25-50; Child: 0-12 yrs", term: "Matures at child's age 21", ppt: "Single, Limited Pay", sb: "Guaranteed annual payouts in last 4 yrs" },
+    ],
+    annuity: [
+        { name: "TATA AIA Smart Annuity Plan", maturity: "Not Applicable", death: "Depends on the option chosen. Options include Life Annuity with Return of Purchase Price and Joint Life Survivor Annuity with Return of Purchase Price.", sa: "Based on min. annuity", age: "45-85 yrs", term: "Whole Life", ppt: "Single Premium", sb: "Lifelong annuity" },
+        { name: "TATA AIA Saral Pension Plan", maturity: "Not Applicable", death: "Option 1 (Life Annuity): No death benefit. Option 2 (Life Annuity with 100% Return of Purchase Price): The single premium is paid to the nominee.", sa: "Based on min. annuity", age: "40-80 yrs", term: "Whole Life", ppt: "Single Premium", sb: "Level annuity for life" },
+    ],
+    term: [
+        { name: "Tata AIA Sampoorna Raksha Supreme", maturity: "None, unless 'Return of Premium' option is selected.", death: "The Sum Assured is paid to the nominee. Payout can be customized as a lump sum, regular income, or a mix of both.", sa: "Min: ₹50,00,000", age: "18-65 yrs", term: "Up to age 100", ppt: "Single, Regular, Limited", sb: "Not Applicable" },
+        { name: "Tata AIA Maha Raksha Supreme", maturity: "Not Applicable", death: "Sum Assured is paid to the nominee. It features an in-built Payor Accelerator Benefit, which pays a portion of the benefit on diagnosis of a specified severe illness.", sa: "Min: ₹50,00,000", age: "18-60 yrs", term: "10-40 yrs", ppt: "Regular, Single Pay", sb: "Not Applicable" },
+        { name: "Tata AIA Saral Jeevan Bima", maturity: "Not Applicable", death: "Sum Assured is paid to the nominee as a lump sum.", sa: "Min: ₹5,00,000; Max: ₹25,00,000", age: "18-65 yrs", term: "5-40 yrs", ppt: "Regular, Limited, Single", sb: "Not Applicable" },
+    ]
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const categoryCards = document.querySelectorAll('.category-card');
+    const planDisplayArea = document.getElementById('plan-display-area');
+
+    function renderPlans(category) {
+        planDisplayArea.innerHTML = '';
+        const plans = allPlans[category] || [];
+        
+        if (plans.length === 0) {
+            planDisplayArea.innerHTML = `<p style="text-align:center; color: #777;">No plans available in this category.</p>`;
+            return;
+        }
+
+        plans.forEach(plan => {
+            const planEl = document.createElement('div');
+            planEl.className = 'plan-item';
+            planEl.innerHTML = `
+                <div class="plan-summary">
+                    <h3>${plan.name}</h3>
+                    <div class="toggle-icon"><i class="fas fa-plus"></i></div>
+                </div>
+                <div class="plan-details-content">
+                    <div class="details-grid">
+                        <div class="feature"><h4>Sum Assured</h4><p>${plan.sa}</p></div>
+                        <div class="feature"><h4>Age at Entry</h4><p>${plan.age}</p></div>
+                        <div class="feature"><h4>Policy Term</h4><p>${plan.term}</p></div>
+                        <div class="feature"><h4>Premium Term</h4><p>${plan.ppt}</p></div>
+                    </div>
+                    <div class="benefit-section">
+                        <h4>Survival Benefit</h4><p>${plan.sb}</p>
+                    </div>
+                    <div class="benefit-section">
+                        <h4>Maturity Benefit</h4><p>${plan.maturity}</p>
+                    </div>
+                    <div class="benefit-section">
+                        <h4>Death Benefit</h4><p>${plan.death}</p>
+                    </div>
+                </div>
+            `;
+            planDisplayArea.appendChild(planEl);
+        });
+        
+        // Add click listeners to newly created plan items
+        planDisplayArea.querySelectorAll('.plan-summary').forEach(summary => {
+            summary.addEventListener('click', () => {
+                const planItem = summary.parentElement;
+                planItem.classList.toggle('open');
+                const content = summary.nextElementSibling;
+                if (planItem.classList.contains('open')) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    content.style.padding = '20px';
+                } else {
+                    content.style.maxHeight = null;
+                    content.style.padding = '0 20px';
+                }
+            });
+        });
+    }
+
+    categoryCards.forEach(card => {
+        card.addEventListener('click', () => {
+            categoryCards.forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+            renderPlans(card.dataset.category);
+        });
+    });
+
+    // Carousel navigation
+    const carousel = document.querySelector('.category-carousel');
+    const prevBtn = document.querySelector('.prev-arrow');
+    const nextBtn = document.querySelector('.next-arrow');
+
+    prevBtn.addEventListener('click', () => {
+        carousel.scrollBy({ left: -240, behavior: 'smooth' });
+    });
+    nextBtn.addEventListener('click', () => {
+        carousel.scrollBy({ left: 240, behavior: 'smooth' });
+    });
+
+    // Initial render
+    renderPlans('endowment');
+});
+</script>
+
+</body>
+</html>

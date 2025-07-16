@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Generali India - Plan Directory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f7f7f7;
+            --primary-red: #d92d20;
+            --text-dark: #121212;
+            --text-light: #555;
+            --card-bg: #ffffff;
+            --border-color: #e5e5e5;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 50px auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 50px;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: sticky;
+            top: 50px;
+            height: fit-content;
+        }
+        .sidebar h2 {
+            font-family: 'Anton', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-red);
+            letter-spacing: 1px;
+        }
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar-nav a {
+            display: block;
+            padding: 12px 0;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            transition: color 0.3s;
+        }
+        .sidebar-nav a:hover {
+            color: var(--primary-red);
+        }
+
+        /* Main Content */
+        .main-content h1 {
+            font-family: 'Anton', sans-serif;
+            font-size: 4rem;
+            letter-spacing: 1.5px;
+            margin: 0 0 40px 0;
+        }
+
+        .category-section {
+            margin-bottom: 60px;
+        }
+        .category-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-red);
+            margin-bottom: 30px;
+        }
+
+        /* Timeline Card Layout */
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+            border-left: 3px solid var(--border-color);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -61.5px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 3px solid var(--primary-red);
+        }
+        
+        .plan-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .plan-header {
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .plan-header h3 {
+            font-size: 1.6rem;
+            margin: 0;
+        }
+        .plan-header .toggle-icon {
+            font-size: 1.5rem;
+            color: var(--primary-red);
+            transition: transform 0.4s ease;
+        }
+        .timeline-item.open .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .plan-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding: 0 25px;
+        }
+        .details-wrapper {
+            border-top: 1px solid var(--border-color);
+            padding: 25px 0;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .detail-box {
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .detail-box h4 {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin: 0 0 5px 0;
+            font-weight: 400;
+        }
+        .detail-box p {
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .benefit-section h4 {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: var(--primary-red);
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <aside class="sidebar">
+        <h2>Plan Categories</h2>
+        <ul class="sidebar-nav">
+            <li><a href="#endowment">Endowment Plans</a></li>
+            <li><a href="#money-back">Money Back Plans</a></li>
+            <li><a href="#childrens">Children's Plans</a></li>
+            <li><a href="#annuity">Annuity Plans</a></li>
+            <li><a href="#term">Term Insurance</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <h1>Future Generali India</h1>
+
+        <!-- Endowment Section -->
+        <section id="endowment" class="category-section">
+            <h2 class="category-title">Endowment Plans</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="plan-card">
+                        <div class="plan-header">
+                            <h3>New Assured Wealth Plan</h3>
+                            <div class="toggle-icon"><i class="fas fa-chevron-down"></i></div>
+                        </div>
+                        <div class="plan-details">
+                            <div class="details-wrapper">
+                                <div class="details-grid">
+                                    <div class="detail-box"><h4>Sum Assured</h4><p>Based on premium</p></div>
+                                    <div class="detail-box"><h4>Age at Entry</h4><p>0-60 yrs</p></div>
+                                    <div class="detail-box"><h4>Policy Term</h4><p>10-30 yrs</p></div>
+                                    <div class="detail-box"><h4>Premium Term</h4><p>Limited Pay</p></div>
+                                </div>
+                                <div class="benefit-section"><h4>Maturity Benefit</h4><p>Guaranteed Sum Assured on Maturity + Accrued Guaranteed Additions.</p></div>
+                                <div class="benefit-section"><h4>Death Benefit</h4><p>Sum Assured on Death, which is the higher of (10 times Annualized Premium, 105% of Premiums Paid, or the Guaranteed Sum Assured on Maturity).</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Money Back Section -->
+        <section id="money-back" class="category-section">
+            <h2 class="category-title">Money Back Plans</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                     <div class="plan-card">
+                        <div class="plan-header">
+                            <h3>Assured Money Back Plan</h3>
+                            <div class="toggle-icon"><i class="fas fa-chevron-down"></i></div>
+                        </div>
+                        <div class="plan-details">
+                            <div class="details-wrapper">
+                                <div class="details-grid">
+                                    <div class="detail-box"><h4>Sum Assured</h4><p>Min: ₹1,00,000</p></div>
+                                    <div class="detail-box"><h4>Age at Entry</h4><p>6-55 yrs</p></div>
+                                    <div class="detail-box"><h4>Policy Term</h4><p>15 or 20 yrs</p></div>
+                                    <div class="detail-box"><h4>Premium Term</h4><p>Regular Pay</p></div>
+                                </div>
+                                <div class="benefit-section"><h4>Survival Benefit</h4><p>Yes. A percentage of the Sum Assured is paid back at regular intervals. For a 20-year term, payouts are made at the end of the 5th, 10th, and 15th policy years.</p></div>
+                                <div class="benefit-section"><h4>Maturity Benefit</h4><p>Final survival benefit installment + Guaranteed Additions, if any.</p></div>
+                                <div class="benefit-section"><h4>Death Benefit</h4><p>Sum Assured on Death. This is paid in full regardless of any survival benefits already disbursed. The death benefit will be at least 105% of premiums paid.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ... other money back plans ... -->
+            </div>
+        </section>
+        
+        <!-- ... Other sections would follow this structure ... -->
+
+    </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+
+    timelineItems.forEach(item => {
+        const header = item.querySelector('.plan-header');
+        const details = item.querySelector('.plan-details');
+
+        header.addEventListener('click', () => {
+            const wasOpen = item.classList.contains('open');
+            
+            // Close all other items in the same timeline
+            const timeline = item.closest('.timeline');
+            timeline.querySelectorAll('.timeline-item').forEach(i => {
+                i.classList.remove('open');
+                i.querySelector('.plan-details').style.maxHeight = null;
+            });
+            
+            // Toggle the clicked item
+            if (!wasOpen) {
+                item.classList.add('open');
+                details.style.maxHeight = details.scrollHeight + 'px';
+            }
+        });
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.sidebar-nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            const offsetTop = targetElement.offsetTop - 30; // offset
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        });
+    });
+});
+</script>
+
+</body>
+</html>
