@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale:1.0">
+    <title>LIC Plan Combinations - Dazzling Future</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0; /* Subtle background for contrast */
+            color: #333;
+            overflow: hidden; /* Hide scrollbars, use internal scrolling */
+        }
+
+        /* --- KEYFRAMES for ANIMATIONS --- */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden; /* Prevents scrolling on the main container */
+        }
+
+        /* --- LEFT SIDE (Titles) --- */
+        .left-side {
+            width: 30%;
+            background: linear-gradient(45deg, #FF4081, #E040FB, #673AB7); /* Vibrant Gradient */
+            background-size: 200% 200%;
+            animation: gradientAnimation 15s ease infinite;
+            color: white;
+            padding: 20px;
+            box-shadow: 5px 0px 15px rgba(0, 0, 0, 0.2);
+            position: relative;  /* For the glowing effect */
+            overflow-y: auto;  /* Enables scrolling within the left side */
+            height: 100vh; /* Make sure it fills the vertical space */
+        }
+
+        .left-side::-webkit-scrollbar { /* Hide scrollbar for Chrome, Safari and Opera */
+            display: none;
+        }
+
+        .left-side {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+        }
+
+
+        .left-side::before { /* Glowing effect */
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #FF4081, #E040FB, #673AB7, #3F51B5);
+            background-size: 400% 400%;
+            animation: gradientAnimation 10s ease infinite;
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0.8;
+        }
+
+        .title-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1.1em;
+        }
+
+        .title-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        /* --- RIGHT SIDE (Content) --- */
+        .right-side {
+            width: 70%;
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.1);
+            overflow-y: auto; /* Scrollable content */
+            height: 100vh; /* Make sure it fills the vertical space */
+        }
+
+        .right-side::-webkit-scrollbar { /* Hide scrollbar for Chrome, Safari and Opera */
+            display: none;
+        }
+
+        .right-side {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+        }
+
+
+        /* --- CONTENT STYLING --- */
+        .content {
+            animation: fadeIn 0.5s ease;
+        }
+
+        h2 {
+            color: #E91E63;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid #E91E63;
+            padding-bottom: 5px;
+        }
+
+        h4 {
+            color: #9C27B0;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .combo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+
+        .combo-table th, .combo-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .combo-table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .combo-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .combo-table tr:hover {
+            background-color: #eee;
+        }
+
+        h5 {
+            color: #009688;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-side {
+                width: 100%;
+                height: auto;
+                overflow-y: scroll; /* Enable scrolling on the left side */
+            }
+
+            .right-side {
+                width: 100%;
+                height: auto;
+                overflow-y: scroll; /* Enable scrolling on the right side */
+            }
+        }
+
+        /* --- More Dazzle (Optional) --- */
+        .flashing {
+            animation: flash 1s steps(5, start) infinite;
+        }
+
+        @keyframes flash {
+            to {
+                visibility: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="left-side">
+            <h2>LIC Plan Combinations</h2>
+            <div id="title-list">
+                <!-- Titles will be dynamically added here -->
+            </div>
+        </div>
+        <div class="right-side">
+            <div id="content-area">
+                <!-- Content will be dynamically added here -->
+                <h1> Welcome to LIC Plan Combinations. Explore the Dazzling Future of Your Investments! </h1>
+                <p> Click on a plan combination on the left to see its details!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const planData = {
+            childFuture: { title: "The Ultimate Child's Future Plan (Education & Marriage)", html: `<p>This combination is designed to provide funds for a child's key milestones, like higher education and marriage, while ensuring the plan continues even if the parent is no longer around.</p><h4>Financial Goal:</h4><p>To create a guaranteed corpus for a child's future and ensure financial support for the family in case of the parent's untimely demise.</p><h4>Plan Combination:</h4><ul><li><strong>Jeevan Lakshya (Plan 733):</strong> The core of the plan. It's an endowment plan with a unique death benefit.</li><li><strong>Jeevan Tarun (Plan 734):</strong> A specialized children's money-back plan to provide staggered funds during college years.</li></ul><h4>How It Works:</h4><p>Jeevan Lakshya acts as the main funding vehicle and safety net. If the parent passes away, future premiums are waived, the family receives an annual payout (10% of Sum Assured) until the maturity date, and the nominee still receives the full maturity amount at the end of the term. Jeevan Tarun is timed to provide money-back payments during the crucial college years (ages 20-24) to handle fees and other expenses.</p><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Kumar, age 30. | <strong>Child:</strong> A 1-year-old daughter. | <strong>Goal:</strong> Funds for her graduation (age 20-24) and a lump sum for her Master's/Marriage (age 25).</p><table class="combo-table"><tr><th>Plan Details</th><th>Jeevan Lakshya (733)</th><th>Jeevan Tarun (734)</th></tr><tr><td>Parent's Age</td><td>30</td><td>30</td></tr><tr><td>Child's Age</td><td>1</td><td>1</td></tr><tr><td>Policy Term</td><td>24 Years (Matures when child is 25)</td><td>24 Years (Matures when child is 25)</td></tr><tr><td>Premium Paying Term</td><td>21 Years</td><td>19 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹20,00,000</td><td>₹10,00,000 (with Option 4)</td></tr></table><h5>Scenario 1: Mr. Kumar Survives the Term</h5><ul><li><strong>During College (Child's age 20-24):</strong> From the Jeevan Tarun policy, the family receives ₹1,50,000 (15% of ₹10 Lakh SA) every year for 5 years.</li><li><strong>At Maturity (Child's age 25):</strong><ul><li>From Jeevan Lakshya: Approx. ₹41,60,000 (₹20L SA + Vested Bonus + FAB).</li><li>From Jeevan Tarun: Approx. ₹5,00,000 (25% of ₹10L SA + Vested Bonus + FAB).</li><li>Total Maturity Corpus at Age 25: <strong>~ ₹46.6 Lakhs</strong></li></ul></li></ul><h5>Scenario 2: Mr. Kumar passes away after 5 years</h5><ul><li>Immediate Benefit: The family receives the death benefit from both plans.</li><li><strong>Jeevan Lakshya's Magic:</strong><ul><li>All future premiums are waived.</li><li>The family starts receiving ₹2,00,000 every year (10% of SA) until the policy matures.</li><li>At the original maturity date (when the child turns 25), the nominee receives the full maturity amount of <strong>~ ₹41.6 Lakhs</strong>.</li></ul></li><li>Jeevan Tarun: The death benefit is paid out, providing immediate liquidity.</li></ul><p><strong>Key Advantage:</strong> This combination provides unparalleled security. The child's future is financially secured no matter what.</p>` },
+            pensionLegacy: { title: "The Ultimate Tax-Free Pension & Legacy Plan", html: `<p>This combination is for professionals who want to create a guaranteed, tax-free income stream for life post-retirement, and leave a massive legacy for their family.</p><h4>Plan Combination:</h4><ul><li>Jeevan Umang (Plan 745): The pension engine.</li><li>Jeevan Labh (Plan 736): The retirement booster.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Ms. Gupta, age 40. | <strong>Goal:</strong> Retire at 60 with a large corpus and a lifelong income.</p><table class="combo-table"><tr><th>Plan Details</th><th>Jeevan Umang (745)</th><th>Jeevan Labh (Plan 736)</th></tr><tr><td>Client's Age</td><td>40</td><td>40</td></tr><tr><td>Policy Term</td><td>60 Years (100 - 40)</td><td>20 Years (Matures at age 60)</td></tr><tr><td>Premium Paying Term</td><td>20 Years (Stops at age 60)</td><td>15 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹25,00,000</td><td>₹20,00,000</td></tr></table><h5>Scenario: Ms. Gupta at age 60</h5><ul><li><strong>Lump Sum Boost:</strong> The Jeevan Labh policy matures. She receives approximately ₹42,00,000 tax-free.</li><li><strong>Pension Starts:</strong> The Jeevan Umang policy starts paying her ₹2,00,000 every year, tax-free and guaranteed for life.</li><li><strong>Legacy:</strong> When Ms. Gupta passes away (at any age after 60), her nominee will receive a massive death benefit from the Jeevan Umang policy, which could be well over ₹1 Crore.</li></ul><p><strong>Key Advantage:</strong> This combination creates a perfect retirement solution: a large lump sum for immediate needs and a worry-free, guaranteed income stream for life, all while creating a huge tax-free estate for her children.</p>` },
+            crorepati: { title: 'The "Crorepati" Plan (Maximum Protection + High Savings)', html: `<p>This combination is ideal for young earners who want maximum life cover for their family at a low cost, while aggressively saving for long-term wealth creation.</p><h4>Plan Combination:</h4><ul><li>New Jeevan Amar (Plan 955): A pure term insurance plan.</li><li>Jeevan Labh (Plan 736): A high-bonus-earning endowment plan.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Singh, age 25. | <strong>Goal:</strong> Secure his family with a ₹1 Crore cover and build wealth for his future.</p><table class="combo-table"><tr><th>Plan Details</th><th>New Jeevan Amar (955)</th><th>Jeevan Labh (Plan 736)</th></tr><tr><td>Client's Age</td><td>25</td><td>25</td></tr><tr><td>Policy Term</td><td>35 Years (Cover till age 60)</td><td>25 Years (Matures at age 50)</td></tr><tr><td>Premium Paying Term</td><td>35 Years (Regular Pay)</td><td>16 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹1,00,00,000</td><td>₹25,00,000</td></tr></table><h5>Scenario 1: Mr. Singh Survives the Term</h5><p>At Age 50: His Jeevan Labh policy matures. He receives a huge tax-free corpus of approximately <strong>₹66,00,000</strong>. His New Jeevan Amar policy continues to provide the ₹1 Crore risk cover until he turns 60.</p><h5>Scenario 2: Mr. Singh passes away during the policy term (e.g., at age 40)</h5><p>His nominee receives: ₹1,00,00,000 tax-free from New Jeevan Amar, and the death benefit from Jeevan Labh (approx. ₹40,00,000+). Total Payout to Family: <strong>~ ₹1.4 Crore</strong>.</p>` },
+            hniPower: { title: "The HNI's Legacy & Liquidity Powerhouse", html: `<p>This is a premium combination designed for High Net-worth Individuals (HNIs) who want guaranteed periodic cash flows for lifestyle or business needs, coupled with a massive legacy creation for the next generation.</p><h4>Plan Combination:</h4><ul><li>Bima Shree (Plan 748): The HNI money-back engine.</li><li>New Jeevan Amar (Plan 955): The low-cost legacy multiplier.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Sharma, age 40. | <strong>Goal:</strong> Receive large payouts at age 56 and 58, and leave a legacy of over ₹3 Crores.</p><table class="combo-table"><tr><th>Plan Details</th><th>Bima Shree (748)</th><th>New Jeevan Amar (955)</th></tr><tr><td>Client's Age</td><td>40</td><td>40</td></tr><tr><td>Policy Term</td><td>20 Years (Matures at age 60)</td><td>30 Years (Cover till age 70)</td></tr><tr><td>Premium Paying Term</td><td>16 Years</td><td>30 Years (Regular Pay)</td></tr><tr><td>Basic Sum Assured</td><td>₹50,00,000</td><td>₹2,50,00,000 (₹2.5 Crore)</td></tr></table><h5>Scenario 1: Mr. Sharma Survives</h5><ul><li>At Age 56 & 58: He receives Survival Benefits of <strong>₹22,50,000</strong> each, tax-free.</li><li>At Age 60: Bima Shree matures for approx. <strong>₹45,00,000</strong>.</li></ul><h5>Scenario 2: Mr. Sharma passes away at age 50</h5><p>Total Legacy Left for Family: <strong>~ ₹3.4 Crores</strong> (₹2.5 Cr from Jeevan Amar + ~₹90 Lakhs from Bima Shree).</p>`},
+            milestone: { title: 'The "Guaranteed Milestones" Ladder', html: `<p>This combination is perfect for the meticulous planner who wants absolute certainty. It uses plans with guaranteed additions to create a "ladder" of payouts, timed perfectly to fund specific, non-negotiable life goals.</p><h4>Plan Combination:</h4><ul><li>Bima Jyoti (Plan 760) - Policy 1</li><li>Bima Jyoti (Plan 760) - Policy 2</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Ms. Desai, age 30. | <strong>Goals:</strong> ~₹10L at age 45, ~₹20L at age 50.</p><table class="combo-table"><tr><th>Plan Details</th><th>Bima Jyoti (Policy 1)</th><th>Bima Jyoti (Policy 2)</th></tr><tr><td>Client's Age</td><td>30</td><td>30</td></tr><tr><td>Policy Term</td><td>15 Years</td><td>20 Years</td></tr><tr><td>Premium Paying Term</td><td>10 Years</td><td>15 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹6,00,000</td><td>₹10,00,000</td></tr></table><h5>Payouts:</h5><ul><li>At Age 45 (Policy 1 Matures): Receives a guaranteed payout of <strong>₹10,50,000</strong>.</li><li>At Age 50 (Policy 2 Matures): Receives a guaranteed payout of <strong>₹20,00,000</strong>.</li></ul>`},
+            growthGratification: { title: "The Young Professional's 'Growth & Gratification' Plan", html: `<p>This is designed for young earners in their 20s. It balances the need for long-term wealth creation with the desire for periodic gratification.</p><h4>Plan Combination:</h4><ul><li>25 Year Money Back (Plan 721): The "Gratification" plan.</li><li>New Endowment (Plan 714): The "Growth" plan.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Rao, age 25. | <strong>Goal:</strong> Get regular payouts and build a large corpus by age 55.</p><table class="combo-table"><tr><th>Plan Details</th><th>25 Year Money Back (721)</th><th>New Endowment (714)</th></tr><tr><td>Client's Age</td><td>25</td><td>25</td></tr><tr><td>Policy Term</td><td>25 Years</td><td>30 Years</td></tr><tr><td>Premium Paying Term</td><td>20 Years</td><td>30 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹10,00,000</td><td>₹20,00,000</td></tr></table><h5>Cash Flows:</h5><p>Receives <strong>₹1,50,000</strong> at ages 30, 35, 40, and 45. Receives maturity of ~<strong>₹11,00,000</strong> at age 50 from the Money Back plan. Receives a final large maturity of ~<strong>₹58,00,000</strong> at age 55 from the Endowment plan.</p>`},
+            tripleIncome: { title: "The 'Triple-Action' Income & Corpus Combination", html: `<p>This solution is built with three distinct policies, purchased at the same time, each performing a unique role.</p><h4>Plan Combination:</h4><ul><li>Immediate Pension: Jeevan Akshay VII (Plan 857)</li><li>Periodic Survival Benefits: 25 Year Money Back (Plan 721)</li><li>Single Premium Lump Sum: Single Premium Endowment (Plan 717)</li></ul><h4>Illustrative Example:</h4><p>Let's assume the client is Mr. Roy, age 40.</p><table class="combo-table"><tr><th>Component</th><th>Plan Name</th><th>Role</th><th>Premium</th></tr><tr><td>Policy 1</td><td>Jeevan Akshay VII (857)</td><td>Provides immediate, guaranteed pension for 20 years.</td><td>Single Premium (One-time)</td></tr><tr><td>Policy 2</td><td>25 Year Money Back (721)</td><td>Provides survival benefits every 5 years.</td><td>Limited Premium (Pay for 20 years)</td></tr><tr><td>Policy 3</td><td>Single Premium Endowment (717)</td><td>Builds a large, single lump sum corpus.</td><td>Single Premium (One-time)</td></tr></table><h5>Timeline of Your Cash Flows:</h5><p><strong>Phase 1 (Years 1 to 20):</strong> Receives an annual pension from Policy 1, plus large lump sums every 5 years from Policy 2.</p><p><strong>Phase 2 (Year 25):</strong> The two long-term plans mature together, delivering a massive lump sum.</p>`},
+            lifelongSecurity: { title: "Daughter's Lifelong Financial Security", html: `<p>A powerful three-policy combination to provide for a daughter's education, marriage, and lifelong financial independence.</p><h4>Plan Combination:</h4><ul><li>Jeevan Tarun (Plan 734): The Education Fund.</li><li>Jeevan Lakshya (Plan 733): The Marriage Corpus & Safety Net.</li><li>Jeevan Umang (Plan 745): The Lifelong Pension.</li></ul><h4>Illustrative Example:</h4><p>Client: Mr. Gupta, age 30. Daughter: Anjali, age 1.</p><table class="combo-table"><tr><th>Role</th><th>Plan Name</th><th>Life Assured</th><th>Sum Assured</th></tr><tr><td>Education Fund</td><td>Jeevan Tarun (734)</td><td>Daughter</td><td>₹15,00,000</td></tr><tr><td>Marriage Corpus</td><td>Jeevan Lakshya (Plan 733)</td><td>Parent</td><td>₹25,00,000</td></tr><tr><td>Lifelong Pension</td><td>Jeevan Umang (745)</td><td>Daughter</td><td>₹10,00,000</td></tr></table><h5>Benefits for Anjali:</h5><ul><li><strong>Age 20-24:</strong> Receives <strong>₹2,25,000</strong> every year for college.</li><li><strong>Age 25:</strong> Receives a massive lump sum of ~<strong>₹53,00,000</strong> for marriage/settlement.</li><li><strong>From Age 31 For Life:</strong> Receives a guaranteed, tax-free pension of <strong>₹80,000</strong> every year.</li></ul><p><strong>Key Advantage:</strong> The Jeevan Lakshya plan ensures all goals are met even if the parent passes away prematurely. The plan is self-completing.</p>` },
+            futureSecureChild: { title: "Secure Your Child's Future with Guaranteed Payouts", html: `<p>This combination aims to provide guaranteed payouts at key stages of a child's life, along with a life cover for added security.</p><h4>Plan Combination:</h4><ul><li><strong>Children's Money Back Plan (732):</strong> For payouts at ages 18, 20, and 22, with maturity at age 25.</li><li><strong>Jeevan Azad (768):</strong> Limited premium endowment for guaranteed maturity benefit.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Sharma, age 35. | <strong>Child:</strong> 2 years old. | <strong>Goal:</strong> Secure payouts for education and marriage.</p><table class="combo-table"><tr><th>Plan Details</th><th>Children's Money Back (732)</th><th>Jeevan Azad (768)</th></tr><tr><td>Child's Age</td><td>2</td><td>2</td></tr><tr><td>Policy Term</td><td>23 years (Matures at 25)</td><td>16 years (Limited premium)</td></tr><tr><td>Premium Paying Term</td><td>Regular (until child is 25)</td><td>8 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹5,00,000</td><td>₹3,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Child receives 20% of ₹5 Lakh at ages 18, 20, and 22, and 40% + bonuses at age 25 from the Money Back plan.</li><li>Jeevan Azad matures, providing a lump sum.</li></ul><p><strong>Key Advantage:</strong> Combines regular payouts with a guaranteed lump sum, providing comprehensive financial security for the child's future.</p>` },
+            assuredIncomeandProtection: { title: "Assured Income and Whole Life Protection Combination", html: `<p>This combination focuses on providing a steady income stream along with whole life insurance cover for long-term financial security.</p><h4>Plan Combination:</h4><ul><li><strong>20 Year Money Back Plan (720):</strong> Provides payouts every 5 years and maturity benefit.</li><li><strong>Jeevan Anand (715):</strong> Whole life insurance with lump sum at the end of the term and life cover thereafter.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Verma, age 35. | <strong>Goal:</strong> Regular income and life cover for his family.</p><table class="combo-table"><tr><th>Plan Details</th><th>20 Year Money Back (720)</th><th>Jeevan Anand (715)</th></tr><tr><td>Client's Age</td><td>35</td><td>35</td></tr><tr><td>Policy Term</td><td>20 Years</td><td>35 Years</td></tr><tr><td>Premium Paying Term</td><td>15 Years</td><td>35 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹5,00,000</td><td>₹5,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Mr. Verma receives 20% of Sum Assured every 5 years from Money Back, and maturity bonus at the end of 20 years.</li><li>Life cover continues for the whole life and bonus payment to family member after death of policy holder.</li></ul><p><strong>Key Advantage:</strong> Creates a consistent income stream while providing lifelong insurance protection.</p>` },
+            microSavingsandProtection: { title: "Micro Savings with Life Protection for Low-Income Groups", html: `<p>This combination offers small savings opportunities with essential life cover, suitable for individuals with limited incomes.</p><h4>Plan Combination:</h4><ul><li><strong>Micro Bachat (751):</strong> Provides a lump sum on maturity and life cover.</li><li><strong>Saral Jeevan Bima (859):</strong> Pure term insurance for additional life cover at a low cost.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Das, age 30. | <strong>Goal:</strong> Affordable savings and life insurance for his family.</p><table class="combo-table"><tr><th>Plan Details</th><th>Micro Bachat (751)</th><th>Saral Jeevan Bima (859)</th></tr><tr><td>Client's Age</td><td>30</td><td>30</td></tr><tr><td>Policy Term</td><td>15 Years</td><td>30 Years</td></tr><tr><td>Premium Paying Term</td><td>Regular (15 Years)</td><td>Regular (30 Years)</td></tr><tr><td>Basic Sum Assured</td><td>₹2,00,000</td><td>₹5,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Mr. Das saves through Micro Bachat, receiving a lump sum at maturity.</li><li>Saral Jeevan Bima provides an additional life cover of ₹5 Lakh at an affordable premium.</li></ul><p><strong>Key Advantage:</strong> Combines savings and insurance in an accessible and affordable way.</p>` },
+            guaranteedIncomeandLifetimeCover: { title: "Guaranteed Income and Lifetime Cover: A Secure Future", html: `<p>This combination aims to provide guaranteed regular income after a certain age, combined with the security of lifelong insurance coverage.</p><h4>Plan Combination:</h4><ul><li><strong>Jeevan Utsav (771):</strong> Guaranteed additions, survival benefits, and lifelong cover.</li><li><strong>Saral Pension (862):</strong> Immediate annuity plan providing regular income.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Nair, age 55. | <strong>Goal:</strong> A guaranteed income stream and life cover for his spouse.</p><table class="combo-table"><tr><th>Plan Details</th><th>Jeevan Utsav (771)</th><th>Saral Pension (862)</th></tr><tr><td>Client's Age</td><td>55</td><td>55</td></tr><tr><td>Policy Term</td><td>Whole Life</td><td>Immediate Annuity</td></tr><tr><td>Premium Paying Term</td><td>10 Years</td><td>Single Premium</td></tr><tr><td>Basic Sum Assured</td><td>₹5,00,000</td><td>N/A</td></tr><tr><td>Purchase Price</td><td>N/A</td><td>₹10,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Mr. Nair receives a guaranteed income from Saral Pension immediately.</li><li>Jeevan Utsav provides life cover, guaranteed additions, and survival benefits (after a certain age), offering double benefit.</li></ul><p><strong>Key Advantage:</strong> Guaranteed income combined with life cover provides security. The income and additions can continue throughout policy term.</p>` },
+            childFuturePlanner: { title: "A Comprehensive Plan for Your Child's Future", html: `<p>A well tailored plan to protect your child future by guaranteeing savings and insurance</p><h4>Plan Combination:</h4><ul><li><strong>Amritbaal (774):</strong> Long Term savings for the family.</li><li><strong>Yuva Credit Life (877):</strong> Protection during the loan period.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. and Mrs. Iyer, age 35. | <strong>Child:</strong> Newborn. | <strong>Goal:</strong>  Savings for the future and protection from Debt.</p><table class="combo-table"><tr><th>Plan Details</th><th>Amritbaal (774)</th><th>Yuva Credit Life (877)</th></tr><tr><td>Client's Age</td><td>35</td><td>35</td></tr><tr><td>Investment Amount</td><td>₹8,00,000</td><td>₹2,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Savings for a safe future for your child.</li><li>Life protection from Debt.</li></ul><p><strong>Key Advantage:</strong> Provides life coverage and helps in savings.</p>` },
+            secureLoanSolution: { title: "A plan designed for safety from debt", html: `<p>Provides guarantee from Loan and provides a safety net in case of death</p><h4>Plan Combination:</h4><ul><li><strong>Yuva Credit Life (877):</strong> Protection from Debt.</li><li><strong>Saral Jeevan Bima (859):</strong> protection and savings</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. and Mrs. Patel, age 44. | <strong>Child:</strong> Newborn. | <strong>Goal:</strong>  Security from debt and life protection.</p><table class="combo-table"><tr><th>Plan Details</th><th>Yuva Credit Life (877)</th><th>Saral Jeevan Bima (859)</th></tr><tr><td>Client's Age</td><td>44</td><td>44</td></tr><tr><td>Investment Amount</td><td>₹8,00,000</td><td>₹2,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Protection from Debt.</li><li>A safety net from savings and insurance for family.</li></ul><p><strong>Key Advantage:</strong> Provides guarantee from Loan and provides a safety net in case of death.</p>` },
+            wealthPlusSavings: { title: "A combination to generate wealth", html: `<p>Designed to help with wealth generation and increase savings through investments</p><h4>Plan Combination:</h4><ul><li><strong>Nav Jeevan Shree Single Premium (911):</strong> Savings and investments.</li><li><strong>Yuva Term (875):</strong> Life insurance</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. and Mrs. Kapoor, age 44. | <strong>Child:</strong> Newborn. | <strong>Goal:</strong>  Wealth Generation and protection.</p><table class="combo-table"><tr><th>Plan Details</th><th>Nav Jeevan Shree Single Premium (911)</th><th>Yuva Term (875)</th></tr><tr><td>Client's Age</td><td>44</td><td>44</td></tr><tr><td>Investment Amount</td><td>₹9,00,000</td><td>₹1,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Wealth Generation from secure sources.</li><li>Safeguard you from any risk.</li></ul><p><strong>Key Advantage:</strong> Provides with savings for investments and life insurance cover for savings.</p>` },
+             SecureFutureCombination: { title: "A smart way to secure your future", html: `<p>Providing guarantee with savings and added benefits.</p><h4>Plan Combination:</h4><ul><li><strong>Bima Ratna (764):</strong> Returns with MoneyBack benefits.</li><li><strong>Nav Jeevan Shree (912):</strong> Savings and returns.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. and Mrs. Kapoor, age 40. | <strong>Child:</strong> Newborn. | <strong>Goal:</strong> Guarantees savings and money returns.</p><table class="combo-table"><tr><th>Plan Details</th><th>Bima Ratna (764)</th><th>Nav Jeevan Shree (912)</th></tr><tr><td>Client's Age</td><td>40</td><td>40</td></tr><tr><td>Investment Amount</td><td>₹6,00,000</td><td>₹4,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Money returns at Maturity.</li><li>Savings for secure plan.</li></ul><p><strong>Key Advantage:</strong> Provides Money Back benefits with added savings.</p>` }
+        };
+
+        const titleList = document.getElementById('title-list');
+        const contentArea = document.getElementById('content-area');
+
+        // Function to display content
+        function displayContent(planKey) {
+            const plan = planData[planKey];
+            if (plan) {
+                contentArea.innerHTML = `<h2>${plan.title}</h2><div class="content">${plan.html}</div>`;
+            } else {
+                contentArea.innerHTML = '<h2>Content Not Found</h2><p>Invalid plan selection.</p>';
+            }
+        }
+
+        // Function to create title items
+        function createTitleItem(planKey, plan) {
+            const titleItem = document.createElement('div');
+            titleItem.classList.add('title-item');
+            titleItem.textContent = plan.title;
+            titleItem.addEventListener('click', () => displayContent(planKey));
+            return titleItem;
+        }
+
+        // Populate title list
+        for (const key in planData) {
+            if (planData.hasOwnProperty(key)) {
+                const titleItem = createTitleItem(key, planData[key]);
+                titleList.appendChild(titleItem);
+            }
+        }
+
+        // Optionally, display the first plan's content on page load
+        const firstPlanKey = Object.keys(planData)[0];
+        displayContent(firstPlanKey);  // Show first plan initially
+
+    </script>
+</body>
+</html>
