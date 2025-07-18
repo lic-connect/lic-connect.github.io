@@ -341,7 +341,7 @@
         return;
       }
       const rate = annuityData[`T${secondAnnuitantAge}`];
-      yearlyAnnuity = (premium / 1000) * rate;
+      yearlyAnnuity = (premium / 1000) * (rate + rebate);
     } else {
       let singlejsonData = [];
       try {
@@ -357,7 +357,7 @@
         document.getElementById("result").textContent = "The selected plan is not available.";
         return;
       }
-      yearlyAnnuity = (premium / 1000) * rate;
+      yearlyAnnuity = (premium / 1000) * (rate + rebate);
     }
 
     // NO GST deduction here on annuity payout:
