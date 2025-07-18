@@ -104,14 +104,18 @@ function calculatePremium() {
     // --- Main Single Premium Calculation ---
     const baseSinglePremium = (sa / 1000) * tabularRate;
 
-    // Standard SA Rebate for Single Premium Plans
-    let saRebateAmount = 0;
-    if (sa >= 300000) {
-        saRebateAmount = (sa / 1000) * 40 // 30 per thousand for SA >= 2 Lacs
-    } else if (sa >= 200000) {
-        saRebateAmount = (sa / 1000) * 18; // 18 per thousand for SA >= 1 Lac
-    }
-    
+
+  // Standard SA Rebate for Single Premium Plans
+let saRebateAmount = 0;
+// NOTE: Conditions must be checked from highest to lowest SA to work correctly.
+if (sa >= 200000) {
+    // Correct rate is 30 per 1000 for SA of 2 Lakhs and above
+    saRebateAmount = (sa / 1000) * 40;
+} else if (sa >= 100000) {
+    // Correct rate is 18 per 1000 for SA from 1 Lakh to 1,99,999
+    saRebateAmount = (sa / 1000) * 0;
+}
+// For SA below 1,00,000, no rebate is applied, and saRebateAmount remains 0.
     
     const premiumAfterRebate = baseSinglePremium - saRebateAmount;
 
