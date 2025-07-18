@@ -7728,25 +7728,42 @@ function calculateAnnuity() {
                                 </thead>
                                 <tbody>`;
 
-    for (const mode of modes) {
+        for (const mode of modes) {
         
-        const fullRebateTable = {
+        // --- PROVISION FOR SEPARATE REBATE TABLES ---
+
+        // 1. ADD YOUR SINGLE LIFE REBATE RATES HERE
+        const singleLifeRebateTable = {
+            yearly:      { tier1: 0.80, tier2: 1.45, tier3: 1.80 }, // <-- Replace 0.0 with your rates
+            half_yearly: { tier1: 0.75, tier2: 1.40, tier3: 1.75 },
+            quarterly:   { tier1: 0.70, tier2: 1.35, tier3: 1.70 },
+            monthly:     { tier1: 0.65, tier2: 1.30, tier3: 1.65 }
+        };
+
+        // 2. This is the existing Joint Life table (previously named fullRebateTable)
+        const jointLifeRebateTable = {
             yearly:      { tier1: 1.60, tier2: 2.10, tier3: 3.10 },
             half_yearly: { tier1: 1.50, tier2: 2.00, tier3: 2.95 },
             quarterly:   { tier1: 1.45, tier2: 1.95, tier3: 2.95 },
             monthly:     { tier1: 1.40, tier2: 1.45, tier3: 2.90 }
         };
 
-        // --- Rule 2: Rebate is applied for BOTH Single and Joint Life ---
-        let annualRebateRate = 0;
-if (totalPurchasePrice >= 2500000) {
-    annualRebateRate = fullRebateTable[mode.key].tier3;
-} else if (totalPurchasePrice >= 1000000) {
-    annualRebateRate = fullRebateTable[mode.key].tier2;
-} else if (totalPurchasePrice >= 500000) {
-    annualRebateRate = fullRebateTable[mode.key].tier1;
-}
+        // 3. The code now selects the correct table based on the annuity type
+        const activeRebateTable = annuityType === 'single' ? singleLifeRebateTable : jointLifeRebateTable;
 
+        let annualRebateRate = 0;
+        if (totalPurchasePrice >= 2500000) {
+            annualRebateRate = activeRebateTable[mode.key].tier3;
+        } else if (totalPurchasePrice >= 1000000) {
+            annualRebateRate = activeRebateTable[mode.key].tier2;
+        } else if (totalPurchasePrice >= 500000) {
+            annualRebateRate = activeRebateTable[mode.key].tier1;
+        }
+        // --- END OF REBATE LOGIC ---
+
+
+        
+            
         let periodicAnnuityRate = 0;
         try {
             if (annuityType === 'single') {

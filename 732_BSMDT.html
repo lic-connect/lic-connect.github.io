@@ -57,7 +57,7 @@ const premiumRates = {
     12: { 25: 96.95 }
 };
 
-const modalFactors = { yly:1, hly:0.50537, qly:0.25536, mly:0.085120 };
+const modalFactors = { yly:1, hly:0.50535, qly:0.25535, mly:0.085120 };
 const modeRebate = { yly:0.02, hly:0, qly:0, mly:0 };
 const gstFirst = 1.045;
 const gstSecond = 1.0225;
@@ -88,8 +88,8 @@ const ppt = 25 - age;      // premium paying term
   // 2. Sum Assured rebate on premium
   let saRebateRate = 0;
   if (sa >= 5000000) saRebateRate = 4.0815;
- else if (sa >= 1000000) saRebateRate = 4.00;
-  else if (sa >= 500000) saRebateRate = 2.5;  
+ else if (sa >= 1000000) saRebateRate = 4.08;
+  else if (sa >= 500000) saRebateRate = 2.55;  
   
   let saRebate = (sa/1000) * saRebateRate;
   let afterSaRebate = basePrem - saRebate;
