@@ -105,10 +105,11 @@ function calculate() {
 
   // 2. SA rebate
   let saRebateRate = 0;
-  if (sa >= 10000000) saRebateRate = 3.90;
-  if (sa >= 2000000) saRebateRate = 4.13;
-  else if (sa >= 1000000) saRebateRate = 4.13;
-  else if (sa >= 500000) saRebateRate = 2.60;
+  if (sa >= 10000000) saRebateRate = 4.134;
+ else if (sa >= 5000000) saRebateRate = 4.137;
+ else if (sa >= 2000000) saRebateRate = 4.130;
+  else if (sa >= 1000000) saRebateRate = 4.130;
+  else if (sa >= 500000) saRebateRate = 2.600;
   let saRebate = (sa/1000) * saRebateRate;
   let afterSaRebate = basePrem - saRebate;
 
@@ -120,7 +121,7 @@ function calculate() {
   let dabPremium = 0;
   if (isDab) {
     const dabSa = Math.min(sa, 10000000);
-    dabPremium = (dabSa / 1000) * 1.0;
+    dabPremium = (dabSa / 1000) * 1.00;
   }
 
   let netAnnual = yearlyPrem + dabPremium;
@@ -153,5 +154,4 @@ function calculate() {
 </body>
 </html>
 
-</body>
-</html>
+
