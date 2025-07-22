@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC New Jeevan Anand (Plan 715) Premium Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f8ff; }
+        .container { max-width: 800px; margin-top: 30px; }
+        .card { border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+        .card-header { background-color: #004b8d; color: white; font-weight: bold; }
+        #results-summary { margin-top: 20px; padding: 15px; background: #f0f8ff; border: 1px solid #b0e0e6; border-radius: 5px; }
+        #results-summary p { margin: 8px 0; font-size: 1.1em; display: flex; justify-content: space-between; }
+        #results-summary p span:first-child { font-weight: bold; }
+        hr { border: 0; border-top: 1px solid #ccc; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h4>LIC Plan 715 Premium Calculator</h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="age" class="form-label">Age (18-50)</label>
+                        <input type="number" class="form-control" id="age" value="30" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="term" class="form-label">Policy Term (15-35)</label>
+                        <input type="number" class="form-control" id="term" value="25" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="sumAssured" class="form-label">Sum Assured (Min. ₹2,00,000)</label>
+                        <input type="number" class="form-control" id="sumAssured" value="1000000" step="5000" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="ppt" class="form-label">Premium Paying Term</label>
+                        <input type="text" class="form-control" id="ppt" readonly>
+                    </div>
+                    <!-- Rider Checkboxes -->
+                    <div class="col-md-6">
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input" type="checkbox" id="addADDB" checked>
+                            <label class="form-check-label" for="addADDB">Include Accidental Benefit Rider (ADDB)</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check form-switch mt-2">
+                            <input class="form-check-input" type="checkbox" id="addTermRider">
+                            <label class="form-check-label" for="addTermRider">Include Term Assurance Rider</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-primary btn-lg w-100" onclick="calculate()">Calculate Premium</button>
+                </div>
+            </div>
+
+            <div id="results" class="card-body p-4 pt-0">
+                <!-- Calculation results will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+<script>
+// Data for Base Premium (Plan 715)
+const premiumRates = {
+    18:{T15:82.3,T16:76.8,T17:71.95,T18:67.6,T19:63.75,T20:60.3,T21:57.2,T22:54.4,T23:51.8,T24:49.45,T25:47.3,T26:45.35,T27:43.81,T28:41.85,T29:40.3,T30:38.85,T31:37.5,T32:36.25,T33:35.05,T34:34,T35:32.95},19:{T15:82.55,T16:77,T17:72.15,T18:67.8,T19:63.95,T20:60.5,T21:57.4,T22:54.55,T23:52,T24:49.65,T25:47.5,T26:45.5,T27:43.7,T28:42,T29:40.45,T30:39,T31:37.65,T32:36.4,T33:35.2,T34:34.15,T35:33.1},20:{T15:82.8,T16:77.25,T17:72.35,T18:68.05,T19:64.15,T20:60.7,T21:57.6,T22:54.75,T23:52.15,T24:49.8,T25:47.65,T26:45.7,T27:43.85,T28:42.15,T29:40.6,T30:39.15,T31:37.8,T32:36.55,T33:35.35,T34:34.3,T35:33.25},21:{T15:83.05,T16:77.5,T17:72.6,T18:68.25,T19:64.4,T20:60.9,T21:57.8,T22:54.95,T23:52.35,T24:50,T25:47.85,T26:45.85,T27:44,T28:42.35,T29:40.75,T30:39.3,T31:37.95,T32:36.7,T33:35.55,T34:34.45,T35:33.4},22:{T15:83.3,T16:77.75,T17:72.85,T18:68.5,T19:64.6,T20:61.15,T21:58,T22:55.15,T23:52.55,T24:50.2,T25:48.05,T26:46.05,T27:44.2,T28:42.5,T29:40.95,T30:39.5,T31:38.15,T32:36.85,T33:35.7,T34:34.6,T35:33.59},23:{T15:83.6,T16:78,T17:73.1,T18:68.75,T19:64.85,T20:61.35,T21:58.2,T22:55.35,T23:52.8,T24:50.4,T25:48.25,T26:46.25,T27:44.4,T28:42.7,T29:41.1,T30:39.65,T31:38.3,T32:37.05,T33:35.85,T34:34.8,T35:33.75},24:{T15:83.9,T16:78.3,T17:73.35,T18:69,T19:65.1,T20:61.6,T21:58.45,T22:55.6,T23:53,T24:50.65,T25:48.45,T26:46.45,T27:44.6,T28:42.9,T29:41.3,T30:39.85,T31:38.5,T32:37.25,T33:36.05,T34:34.95,T35:33.95},25:{T15:84.2,T16:78.6,T17:73.65,T18:69.3,T19:65.4,T20:61.85,T21:58.7,T22:55.85,T23:53.25,T24:50.85,T25:48.7,T26:46.65,T27:44.8,T28:43.1,T29:41.55,T30:40.05,T31:38.7,T32:37.45,T33:36.25,T34:35.2,T35:34.15},26:{T15:84.55,T16:78.9,T17:73.96,T18:69.6,T19:65.65,T20:62.15,T21:59,T22:56.1,T23:53.5,T24:51.1,T25:48.9,T26:46.9,T27:45.05,T28:43.35,T29:41.75,T30:40.3,T31:38.95,T32:37.65,T33:36.5,T34:35.4,T35:34.4},27:{T15:84.9,T16:79.25,T17:74.3,T18:69.9,T19:66,T20:62.45,T21:59.25,T22:56.4,T23:53.75,T24:51.4,T25:49.2,T26:47.15,T27:45.3,T28:43.6,T29:42,T30:40.55,T31:39.2,T32:37.9,T33:36.75,T34:35.65,T35:34.65},28:{T15:85.3,T16:79.65,T17:74.65,T18:70.25,T19:66.3,T20:62.75,T21:59.45,T22:56.7,T23:54.05,T24:51.65,T25:49.45,T26:47.45,T27:45.55,T28:43.85,T29:42.25,T30:40.8,T31:39.45,T32:38.2,T33:37,T34:35.95,T35:35.1},29:{T15:85.7,T16:80.05,T17:75.05,T18:70.6,T19:66.65,T20:63.1,T21:59.9,T22:57,T23:54.35,T24:51.95,T25:49.6,T26:47.7,T27:45.85,T28:44.15,T29:42.55,T30:41.1,T31:39.75,T32:38.45,T33:37.3,T34:36.25,T35:35.2},30:{T15:86.15,T16:80.45,T17:75.45,T18:71,T19:67,T20:63.45,T21:60.25,T22:57.35,T23:54.7,T24:52.25,T25:50.05,T26:48.05,T27:46.15,T28:44.45,T29:42.85,T30:41.4,T31:40.05,T32:38.8,T33:37.6,T34:36.55,T35:35.55},31:{T15:86.6,T16:80.9,T17:75.85,T18:71.4,T19:67.4,T20:63.85,T21:60.6,T22:57.7,T23:55.05,T24:52.6,T25:50.4,T26:48.35,T27:46.5,T28:44.75,T29:43.2,T30:41.7,T31:40.34,T32:39.1,T33:37.92,T34:36.9,T35:35.9},32:{T15:87.1,T16:81.35,T17:76.3,T18:71.8,T19:67.8,T20:64.2,T21:61,T22:58.05,T23:55.4,T24:52.95,T25:50.75,T26:48.7,T27:46.85,T28:45.15,T29:43.55,T30:42.1,T31:40.75,T32:39.5,T33:38.35,T34:37.25,T35:36.25},33:{T15:87.6,T16:81.8,T17:76.75,T18:72.25,T19:68.25,T20:64.65,T21:61.4,T22:58.45,T23:55.8,T24:53.35,T25:51.15,T26:49.1,T27:47.2,T28:45.5,T29:43.9,T30:42.45,T31:41.1,T32:39.85,T33:38.7,T34:37.65,T35:36.65},34:{T15:88.15,T16:82.35,T17:77.25,T18:72.7,T19:68.7,T20:65.1,T21:61.8,T22:58.85,T23:56.2,T24:53.75,T25:51.55,T26:49.5,T27:47.65,T28:45.9,T29:44.35,T30:42.9,T31:41.55,T32:40.3,T33:39.15,T34:38.1,T35:37.1},35:{T15:88.7,T16:82.85,T17:77.75,T18:73.2,T19:69.15,T20:65.55,T21:62.25,T22:59.3,T23:56.65,T24:54.2,T25:51.95,T26:49.95,T27:48.05,T28:46.35,T29:44.8,T30:43.3,T31:42,T32:40.75,T33:39.6,T34:38.55,T35:37.55},36:{T15:89.25,T16:83.4,T17:78.3,T18:73.7,T19:69.65,T20:66.05,T21:62.75,T22:59.8,T23:57.1,T24:54.65,T25:52.45,T26:50.4,T27:48.55,T28:46.8,T29:45.25,T30:43.8,T31:42.45,T32:41.2,T33:40.1,T34:39.05,T35:38.05},37:{T15:89.9,T16:84,T17:78.85,T18:74.25,T19:70.2,T20:66.55,T21:63.25,T22:60.3,T23:57.6,T24:55.15,T25:52.95,T26:50.9,T27:49.05,T28:47.35,T29:45.75,T30:44.3,T31:42.95,T32:41.75,T33:40.6,T34:39.55,T35:38.6},38:{T15:90.5,T16:84.6,T17:79.45,T18:74.85,T19:70.75,T20:67.1,T21:63.8,T22:60.85,T23:58.15,T24:55.7,T25:53.45,T26:51.45,T27:49.55,T28:47.85,T29:46.3,T30:44.85,T31:43.5,T32:42.3,T33:41.15,T34:40.1,T35:39.05},39:{T15:91.2,T16:85.25,T17:80.05,T18:75.45,T19:71.35,T20:67.7,T21:64.4,T22:61.4,T23:58.7,T24:56.25,T25:54.05,T26:52,T27:50.15,T28:48.45,T29:46.85,T30:45.45,T31:44.1,T32:42.85,T33:41.75,T34:40.7,T35:39.75},40:{T15:91.9,T16:85.95,T17:80.7,T18:76.1,T19:72,T20:68.3,T21:65,T22:62.05,T23:59.35,T24:56.9,T25:54.65,T26:52.6,T27:50.75,T28:49.05,T29:47.5,T30:46.05,T31:44.7,T32:43.5,T33:42.4,T34:41.35,T35:40.4},41:{T15:92.65,T16:86.65,T17:81.4,T18:76.8,T19:72.65,T20:68.95,T21:65.65,T22:62.7,T23:60,T24:57.55,T25:55.3,T26:53.25,T27:51.4,T28:49.7,T29:48.15,T30:46.7,T31:45.4,T32:44.15,T33:43.05,T34:42},42:{T15:93.45,T16:87.45,T17:82.15,T18:77.5,T19:73.4,T20:69.7,T21:66.35,T22:63.4,T23:60.7,T24:58.25,T25:56,T26:53.95,T27:52.1,T28:50.4,T29:48.85,T30:47.4,T31:46.1,T32:44.9,T33:43.75},43:{T15:94.25,T16:88.25,T17:82.95,T18:78.3,T19:74.15,T20:70.45,T21:67.1,T22:64.15,T23:61.45,T24:58.95,T25:56.75,T26:54.7,T27:52.85,T28:51.15,T29:49.6,T30:48.15,T31:46.85,T32:45.65},44:{T15:95.15,T16:89.1,T17:83.8,T18:79.1,T19:74.95,T20:71.25,T21:67.9,T22:64.9,T23:62.2,T24:59.75,T25:57.5,T26:55.5,T27:53.65,T28:51.95,T29:50.35,T30:48.95,T31:47.65},45:{T15:96.1,T16:90,T17:84.7,T18:80,T19:75.85,T20:72.1,T21:68.75,T22:65.75,T23:63.05,T24:60.6,T25:58.35,T26:56.3,T27:54.45,T28:52.75,T29:51.2,T30:49.8},46:{T15:97.1,T16:91,T17:85.65,T18:80.95,T19:76.75,T20:73,T21:69.65,T22:66.65,T23:63.95,T24:61.45,T25:59.25,T26:57.2,T27:55.35,T28:53.65,T29:52.1},47:{T15:98.15,T16:92,T17:86.65,T18:81.9,T19:77.7,T20:73.95,T21:70.6,T22:67.76,T23:64.85,T24:62.4,T25:60.15,T26:58.1,T27:56.25,T28:54.6},48:{T15:99.25,T16:93.1,T17:87.7,T18:82.95,T19:78.75,T20:74.95,T21:71.6,T22:68.6,T23:65.85,T24:63.35,T25:61.15,T26:59.1,T27:57.25},49:{T15:100.4,T16:94.2,T17:88.8,T18:84,T19:79.8,T20:76,T21:72.65,T22:69.6,T23:66.85,T24:64.4,T25:62.15,T26:60.15},50:{T15:101.6,T16:95.35,T17:89.95,T18:85.15,T19:80.9,T20:77.1,T21:73.7,T22:70.7,T23:67.95,T24:65.45,T25:63.25}
+};
+// Data for Term Rider Premium (Plan 715)
+const termRiderRates = {
+    18:{T15:1.83,T16:1.83,T17:1.83,T18:1.83,T19:1.83,T20:1.83,T21:1.83,T22:1.83,T23:1.83,T24:1.83,T25:1.83,T26:1.83,T27:1.83,T28:1.86,T29:1.89,T30:1.93,T31:1.97,T32:2.01,T33:2.06,T34:2.11,T35:2.16},19:{T15:1.84,T16:1.84,T17:1.84,T18:1.84,T19:1.84,T20:1.84,T21:1.84,T22:1.84,T23:1.84,T24:1.84,T25:1.84,T26:1.85,T27:1.88,T28:1.92,T29:1.96,T30:2,T31:2.04,T32:2.09,T33:2.15,T34:2.2,T35:2.26},20:{T15:1.85,T16:1.85,T17:1.85,T18:1.85,T19:1.85,T20:1.85,T21:1.85,T22:1.85,T23:1.85,T24:1.85,T25:1.87,T26:1.91,T27:1.94,T28:1.98,T29:2.03,T30:2.08,T31:2.13,T32:2.19,T33:2.25,T34:2.31,T35:2.38},21:{T15:1.85,T16:1.85,T17:1.85,T18:1.85,T19:1.85,T20:1.85,T21:1.85,T22:1.85,T23:1.86,T24:1.9,T25:1.93,T26:1.97,T27:2.01,T28:2.06,T29:2.11,T30:2.17,T31:2.23,T32:2.29,T33:2.36,T34:2.43,T35:2.5},22:{T15:1.85,T16:1.85,T17:1.85,T18:1.85,T19:1.85,T20:1.85,T21:1.85,T22:1.88,T23:1.92,T24:1.96,T25:2,T26:2.05,T27:2.1,T28:2.15,T29:2.21,T30:2.27,T31:2.34,T32:2.41,T33:2.48,T34:2.56,T35:2.64},23:{T15:1.85,T16:1.85,T17:1.85,T18:1.85,T19:1.85,T20:1.88,T21:1.91,T22:1.95,T23:1.99,T24:2.03,T25:2.08,T26:2.13,T27:2.19,T28:2.25,T29:2.32,T30:2.39,T31:2.47,T32:2.54,T33:2.63,T34:2.71,T35:2.8},24:{T15:1.85,T16:1.85,T17:1.85,T18:1.87,T19:1.9,T20:1.94,T21:1.98,T22:2.02,T23:2.07,T24:2.12,T25:2.18,T26:2.24,T27:2.3,T28:2.37,T29:2.45,T30:2.53,T31:2.61,T32:2.7,T33:2.79,T34:2.88,T35:2.97},25:{T15:1.86,T16:1.87,T17:1.9,T18:1.93,T19:1.97,T20:2.01,T21:2.06,T22:2.11,T23:2.16,T24:2.22,T25:2.29,T26:2.36,T27:2.43,T28:2.51,T29:2.59,T30:2.68,T31:2.78,T32:2.87,T33:2.97,T34:3.06,T35:3.16},26:{T15:1.9,T16:1.93,T17:1.97,T18:2.01,T19:2.05,T20:2.1,T21:2.15,T22:2.21,T23:2.27,T24:2.34,T25:2.42,T26:2.5,T27:2.58,T28:2.67,T29:2.76,T30:2.86,T31:2.96,T32:3.06,T33:3.17,T34:3.27,T35:3.37},27:{T15:1.97,T16:2.01,T17:2.05,T18:2.1,T19:2.15,T20:2.21,T21:2.27,T22:2.33,T23:2.4,T24:2.48,T25:2.57,T26:2.66,T27:2.75,T28:2.85,T29:2.95,T30:3.06,T31:3.17,T32:3.28,T33:3.39,T34:3.5,T35:3.61},28:{T15:2.06,T16:2.1,T17:2.15,T18:2.2,T19:2.26,T20:2.33,T21:2.4,T22:2.47,T23:2.56,T24:2.64,T25:2.74,T26:2.84,T27:2.95,T28:3.05,T29:3.17,T30:3.28,T31:3.4,T32:3.51,T33:3.63,T34:3.75,T35:3.86},29:{T15:2.16,T16:2.21,T17:2.26,T18:2.33,T19:2.39,T20:2.47,T21:2.55,T22:2.64,T23:2.73,T24:2.83,T25:2.94,T26:3.05,T27:3.16,T28:3.28,T29:3.4,T30:3.53,T31:3.65,T32:3.77,T33:3.89,T34:4.02,T35:4.14},30:{T15:2.27,T16:2.33,T17:2.4,T18:2.47,T19:2.55,T20:2.63,T21:2.73,T22:2.83,T23:2.93,T24:3.04,T25:3.16,T26:3.28,T27:3.41,T28:3.54,T29:3.67,T30:3.8,T31:3.93,T32:4.06,T33:4.19,T34:4.32,T35:4.45},31:{T15:2.41,T16:2.48,T17:2.55,T18:2.63,T19:2.72,T20:2.82,T21:2.93,T22:3.04,T23:3.16,T24:3.28,T25:3.41,T26:3.55,T27:3.68,T28:3.82,T29:3.95,T30:4.09,T31:4.23,T32:4.37,T33:4.5,T34:4.64,T35:4.78},32:{T15:2.56,T16:2.64,T17:2.73,T18:2.83,T19:2.93,T20:3.04,T21:3.16,T22:3.29,T23:3.42,T24:3.55,T25:3.69,T26:3.84,T27:3.98,T28:4.13,T29:4.27,T30:4.42,T31:4.56,T32:4.71,T33:4.85,T34:5,T35:5.14},33:{T15:2.74,T16:2.83,T17:2.94,T18:3.04,T19:3.16,T20:3.29,T21:3.42,T22:3.56,T23:3.71,T24:3.85,T25:4.01,T26:4.16,T27:4.31,T28:4.46,T29:4.62,T30:4.77,T31:4.92,T32:5.07,T33:5.23,T34:5.38,T35:5.54},34:{T15:2.95,T16:3.06,T17:3.17,T18:3.3,T19:3.43,T20:3.57,T21:3.72,T22:3.87,T23:4.03,T24:4.19,T25:4.35,T26:4.51,T27:4.67,T28:4.83,T29:4.99,T30:5.15,T31:5.31,T32:5.48,T33:5.64,T34:5.8,T35:5.97},35:{T15:3.19,T16:3.31,T17:3.44,T18:3.58,T19:3.73,T20:3.89,T21:4.05,T22:4.21,T23:4.38,T24:4.55,T25:4.72,T26:4.89,T27:5.06,T28:5.23,T29:5.4,T30:5.57,T31:5.74,T32:5.91,T33:6.09,T34:6.26,T35:6.44},36:{T15:3.46,T16:3.6,T17:3.75,T18:3.9,T19:4.07,T20:4.24,T21:4.41,T22:4.59,T23:4.77,T24:4.95,T25:5.13,T26:5.31,T27:5.49,T28:5.67,T29:5.85,T30:6.02,T31:6.21,T32:6.39,T33:6.57,T34:6.76,T35:6.95},37:{T15:3.77,T16:3.92,T17:4.09,T18:4.26,T19:4.45,T20:4.63,T21:4.82,T22:5.01,T23:5.2,T24:5.39,T25:5.57,T26:5.76,T27:5.95,T28:6.14,T29:6.33,T30:6.52,T31:6.71,T32:6.91,T33:7.1,T34:7.3,T35:7.5},38:{T15:4.12,T16:4.29,T17:4.48,T18:4.67,T19:4.86,T20:5.06,T21:5.26,T22:5.46,T23:5.66,T24:5.86,T25:6.06,T26:6.26,T27:6.45,T28:6.65,T29:6.85,T30:7.06,T31:7.26,T32:7.47,T33:7.68,T34:7.89,T35:8.11},39:{T15:4.52,T16:4.71,T17:4.91,T18:5.12,T19:5.32,T20:5.53,T21:5.74,T22:5.95,T23:6.16,T24:6.37,T25:6.58,T26:6.79,T27:7,T28:7.21,T29:7.42,T30:7.64,T31:7.86,T32:8.08,T33:8.3,T34:8.53,T35:8.76},40:{T15:4.96,T16:5.17,T17:5.39,T18:5.61,T19:5.83,T20:6.05,T21:6.27,T22:6.49,T23:6.71,T24:6.93,T25:7.15,T26:7.37,T27:7.59,T28:7.82,T29:8.04,T30:8.27,T31:8.51,T32:8.74,T33:8.98,T34:9.23,T35:9.47},41:{T15:5.46,T16:5.69,T17:5.92,T18:6.15,T19:6.38,T20:6.61,T21:6.84,T22:7.07,T23:7.3,T24:7.54,T25:7.77,T26:8,T27:8.24,T28:8.48,T29:8.72,T30:8.97,T31:9.21,T32:9.47,T33:9.72,T34:9.98},42:{T15:5.99,T16:6.23,T17:6.48,T18:6.72,T19:6.96,T20:7.21,T21:7.45,T22:7.69,T23:7.93,T24:8.18,T25:8.42,T26:8.67,T27:8.92,T28:9.18,T29:9.44,T30:9.7,T31:9.97,T32:10.24,T33:10.51},43:{T15:6.57,T16:6.83,T17:7.08,T18:7.34,T19:7.59,T20:7.85,T21:8.1,T22:8.36,T23:8.61,T24:8.87,T25:9.13,T26:9.4,T27:9.67,T28:9.94,T29:10.22,T30:10.5,T31:10.79,T32:11.07},44:{T15:7.21,T16:7.48,T17:7.74,T18:8.01,T19:8.27,T20:8.54,T21:8.81,T22:9.08,T23:9.35,T24:9.62,T25:9.9,T26:10.19,T27:10.47,T28:10.77,T29:11.07,T30:11.37,T31:11.67},45:{T15:7.9,T16:8.18,T17:8.45,T18:8.73,T19:9.01,T20:9.29,T21:9.57,T22:9.85,T23:10.14,T24:10.44,T25:10.74,T26:11.04,T27:11.35,T28:11.66,T29:11.98,T30:12.31},46:{T15:8.64,T16:8.93,T17:9.22,T18:9.51,T19:9.8,T20:10.09,T21:10.39,T22:10.69,T23:11,T24:11.32,T25:11.64,T26:11.97,T27:12.3,T28:12.64,T29:12.98},47:{T15:9.44,T16:9.74,T17:10.04,T18:10.34,T19:10.65,T20:10.96,T21:11.28,T22:11.6,T23:11.93,T24:12.27,T25:12.62,T26:12.97,T27:13.32,T28:13.68},48:{T15:10.29,T16:10.6,T17:10.92,T18:11.24,T19:11.56,T20:11.89,T21:12.23,T22:12.58,T23:12.94,T24:13.3,T25:13.67,T26:14.05,T27:14.43},49:{T15:11.19,T16:11.52,T17:11.85,T18:12.19,T19:12.54,T20:12.9,T21:13.26,T22:13.63,T23:14.02,T24:14.41,T25:14.81,T26:15.21},50:{T15:12.15,T16:12.5,T17:12.85,T18:13.21,T19:13.59,T20:13.97,T21:14.36,T22:14.76,T23:15.18,T24:15.6,T25:16.03}
+};
+
+const gstFirstYear = 1.045; // 4.5%
+const gstSecondYear = 1.0225; // 2.25%
+
+function formatINR(val) {
+    if (isNaN(val) || val === null) return "₹ 0";
+    return "₹" + Math.round(val).toLocaleString("en-IN");
+}
+
+function showError(message) {
+    const resultsDiv = document.getElementById("results");
+    if(resultsDiv) {
+        resultsDiv.innerHTML = `<div class="alert alert-danger mt-3">${message}</div>`;
+    }
+}
+
+function calculate() {
+    const sa = parseInt(document.getElementById("sumAssured").value);
+    const age = parseInt(document.getElementById("age").value);
+    const term = parseInt(document.getElementById("term").value);
+    const addADDB = document.getElementById("addADDB").checked;
+    const addTermRider = document.getElementById("addTermRider").checked;
+    
+    const resultsDiv = document.getElementById("results");
+    document.getElementById("ppt").value = term + " Years";
+
+    // --- Base Rate Lookup ---
+    const baseRate = premiumRates[age]?.[`T${term}`];
+    if (!baseRate) {
+        showError(`Base premium rate not found for Age ${age} and Term ${term}.`);
+        return;
+    }
+
+    // --- STEP 1: Calculate Tabular Premiums ---
+    let baseTabularPrem = (sa / 1000) * baseRate;
+    let termRiderTabularPrem = 0;
+    if (addTermRider) {
+        const riderRate = termRiderRates[age]?.[`T${term}`];
+        if (!riderRate) {
+            showError(`Term Rider rate not found for Age ${age} and Term ${term}.`);
+            return;
+        }
+        termRiderTabularPrem = (sa / 1000) * riderRate;
+    }
+
+    // --- STEP 2: Combine rebatable premiums and apply rebates ---
+    let combinedRebatablePrem = baseTabularPrem + termRiderTabularPrem;
+    
+    let saRebateRate = 0;
+    if (sa >= 1000000) saRebateRate = 4.00;
+    else if (sa >= 500000) saRebateRate = 2.50;
+    const saRebate = (sa / 1000) * saRebateRate;
+    
+    // For Plan 715, Mode rebate is different (2% YLY, 1% HLY) and applied to tabular premium
+    // Let's calculate the yearly premium first as the base for other modes
+    const yearlyRebateAmount = combinedRebatablePrem * 0.02;
+    const yearlyPremAfterRebates = combinedRebatablePrem - saRebate - yearlyRebateAmount;
+
+    // --- STEP 3: Calculate non-rebatable ADDB premium ---
+    let addbPrem = 0;
+    if (addADDB) {
+        const dabSa = Math.min(sa, 10000000); // ADDB SA is capped
+        addbPrem = (dabSa / 1000) * 1.0;
+    }
+    
+    // --- STEP 4: Calculate final premiums for all modes ---
+    const modalFactors = { yly: 1, hly: 0.500, qly: 0.2500, mly: 0.0833 };
+    const finalPremiums = {};
+
+    for (let mode in modalFactors) {
+        let modeRebateAmount = 0;
+        if (mode === 'yly') modeRebateAmount = combinedRebatablePrem * 0.02;
+        if (mode === 'hly') modeRebateAmount = combinedRebatablePrem * 0.01;
+
+        const baseAndTRAfterRebates = combinedRebatablePrem - saRebate - modeRebateAmount;
+        
+        // ADDB premium is not rebatable but is taxable
+        const totalTaxablePremium = baseAndTRAfterRebates + addbPrem;
+
+        // Apply modal factor and then GST
+        const modalPremium = totalTaxablePremium * modalFactors[mode];
+        
+        finalPremiums[mode] = {
+            first: formatINR(modalPremium * gstFirstYear),
+            second: formatINR(modalPremium * gstSecondYear)
+        };
+    }
+
+    // --- STEP 5: Display the results ---
+    const basePremFinal = (baseTabularPrem / combinedRebatablePrem) * yearlyPremAfterRebates;
+    const termRiderPremFinal = (termRiderTabularPrem / combinedRebatablePrem) * yearlyPremAfterRebates;
+    
+    resultsDiv.innerHTML = `
+        <div id="results-summary">
+          <h2>Premium Breakdown (Yearly, before GST)</h2>
+          <p><span>Base Premium (after rebates):</span> <span>${formatINR(basePremFinal)}</span></p>
+          <p><span>Term Rider Premium (after rebates):</span> <span>${formatINR(termRiderPremFinal)}</span></p>
+          <p><span>ADDB Rider Premium:</span> <span>${formatINR(addbPrem)}</span></p>
+          <hr>
+          <p><span>Total Annual Premium:</span> <span>${formatINR(yearlyPremAfterRebates + addbPrem)}</span></p>
+        </div>
+        <div class="card-header mt-3">Final Premiums (Including GST)</div>
+        <table class="table table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>Mode</th>
+                    <th>1st Year Premium</th>
+                    <th>2nd Year Onwards</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Yearly</td><td>${finalPremiums.yly.first}</td><td>${finalPremiums.yly.second}</td></tr>
+                <tr><td>Half-Yearly</td><td>${finalPremiums.hly.first}</td><td>${finalPremiums.hly.second}</td></tr>
+                <tr><td>Quarterly</td><td>${finalPremiums.qly.first}</td><td>${finalPremiums.qly.second}</td></tr>
+                <tr><td>Monthly</td><td>${finalPremiums.mly.first}</td><td>${finalPremiums.mly.second}</td></tr>
+            </tbody>
+        </table>`;
+}
+</script>
+
+</body>
+</html>

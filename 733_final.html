@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC Jeevan Lakshya (Plan 733) Premium Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f0f2f5; font-family: 'Segoe UI', Roboto, sans-serif; }
+    .container { max-width: 800px; margin: 40px auto; }
+    .card { border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+    .card-header { background-color: #0c2f5a; color: white; font-weight: bold; }
+    .table thead th { background-color: #495057; color: white; text-align:center; }
+    .table td { vertical-align: middle; text-align: center; }
+    .table .mode-col { text-align: left; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+        <div class="card-header text-center"><h4>LIC Jeevan Lakshya (Plan 733) Premium Calculator</h4></div>
+        <div class="card-body p-4">
+            <!-- Base Inputs -->
+            <div class="row g-3">
+                <div class="col-md-4"><label for="age" class="form-label">Age</label><input type="number" class="form-control" id="age" value="35"></div>
+                <div class="col-md-4"><label for="term" class="form-label">Term</label><input type="number" class="form-control" id="term" value="25"></div>
+                <div class="col-md-4"><label for="bsa" class="form-label">Base SA (BSA)</label><input type="number" class="form-control" id="bsa" value="400000"></div>
+                <div class="col-12">
+                    <label for="ppt" class="form-label">Premium Paying Term</label>
+                    <input type="text" class="form-control" id="ppt" readonly />
+                </div>
+            </div>
+            <!-- Rider Inputs -->
+            <div class="row g-3 mt-3">
+                <div class="col-md-4"><div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="addADDB" checked><label class="form-check-label" for="addADDB">ADDB Rider</label></div></div>
+                <div class="col-md-4"><div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="addTermRider" onchange="toggleTermRiderInput()" checked><label class="form-check-label" for="addTermRider">Term Rider</label></div></div>
+                <div class="col-md-4" id="termRiderInputDiv"><input type="number" class="form-control" id="trsa" placeholder="TRSA" value="400000"></div>
+            </div>
+
+            <div class="text-center mt-4"><button type="button" class="btn btn-primary btn-lg w-100" onclick="calculate()">Calculate Premium</button></div>
+            <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+        </div>
+        <div id="results" class="card-body p-4 pt-0" style="display: none;"></div>
+    </div>
+</div>
+
+<script>
+    // Data Store
+    const premiumRates={18:{13:103.1,14:93.25,15:85.05,16:78.15,17:72.25,18:68.2,19:63.7,20:59.7,21:56.3,22:53.25,23:50.55,24:48.1,25:45.85},19:{13:103.15,14:93.25,15:85.05,16:78.15,17:72.3,18:68.25,19:63.7,20:59.75,21:56.35,22:53.3,23:50.55,24:48.1,25:45.9},20:{13:103.15,14:93.25,15:85.05,16:78.2,17:72.3,18:68.25,19:63.75,20:59.75,21:56.35,22:53.3,23:50.6,24:48.15,25:45.95},21:{13:103.15,14:93.25,15:85.1,16:78.2,17:72.3,18:68.3,19:63.75,20:59.8,21:56.4,22:53.35,23:50.65,24:48.2,25:46},22:{13:103.15,14:93.3,15:85.1,16:78.2,17:72.35,18:68.3,19:63.8,20:59.8,21:56.4,22:53.4,23:50.7,24:48.25,25:46.05},23:{13:103.15,14:93.3,15:85.1,16:78.25,17:72.35,18:68.35,19:63.8,20:59.85,21:56.45,22:53.45,23:50.75,24:48.3,25:46.1},24:{13:103.2,14:93.3,15:85.15,16:78.25,17:72.4,18:68.35,19:63.85,20:59.9,21:56.5,22:53.5,23:50.8,24:48.35,25:46.15},25:{13:103.2,14:93.35,15:85.15,16:78.3,17:72.45,18:68.4,19:63.9,20:59.95,21:56.55,22:53.55,23:50.85,24:48.45,25:46.25},26:{13:103.25,14:93.35,15:85.2,16:78.35,17:72.5,18:68.45,19:63.95,20:60,21:56.65,22:53.65,23:50.95,24:48.55,25:46.35},27:{13:103.3,14:93.4,15:85.25,16:78.4,17:72.55,18:68.55,19:64.05,20:60.1,21:56.75,22:53.75,23:51.05,24:48.65,25:46.5},28:{13:103.35,14:93.5,15:85.3,16:78.45,17:72.6,18:68.65,19:64.15,20:60.2,21:56.85,22:53.85,23:51.2,24:48.8,25:46.65},29:{13:103.4,14:93.55,15:85.4,16:78.55,17:72.7,18:68.75,19:64.25,20:60.35,21:57,22:54,23:51.35,24:49,25:46.85},30:{13:103.5,14:93.65,15:85.5,16:78.65,17:72.85,18:68.85,19:64.4,20:60.5,21:57.15,22:54.2,23:51.55,24:49.2,25:47.05},31:{13:103.6,14:93.75,15:85.6,16:78.8,17:72.95,18:69,19:64.55,20:60.65,21:57.3,22:54.35,23:51.75,24:49.4,25:47.3},32:{13:103.7,14:93.85,15:85.75,16:78.9,17:73.1,18:69.2,19:64.75,20:60.85,21:57.55,22:54.6,23:52,24:49.65,25:47.55},33:{13:103.85,14:94,15:85.9,16:79.1,17:73.3,18:69.35,19:64.95,20:61.05,21:57.75,22:54.85,23:52.25,24:49.95,25:47.9},34:{13:104,14:94.2,15:86.1,16:79.3,17:73.5,18:69.6,19:65.2,20:61.35,21:58.05,22:55.15,23:52.6,24:50.3,25:48.25},35:{13:104.15,14:94.35,15:86.3,16:79.5,17:73.75,18:69.85,19:65.45,20:61.6,21:58.35,22:55.5,23:52.95,24:50.65,25:48.65},36:{13:104.35,14:94.6,15:86.5,16:79.75,17:74,18:70.15,19:65.75,20:61.95,21:58.7,22:55.85,23:53.35,24:51.1,25:49.1},37:{13:104.6,14:94.8,15:86.75,16:80,17:74.3,18:70.45,19:66.1,20:62.35,21:59.1,22:56.3,23:53.8,24:51.55,25:49.55},38:{13:104.85,14:95.1,15:87.05,16:80.35,17:74.65,18:70.85,19:66.5,20:62.75,21:59.55,22:56.75,23:54.3,24:52.1,25:50.1},39:{13:105.15,14:95.4,15:87.4,16:80.7,17:75.05,18:71.3,19:67,20:63.25,21:60.1,22:57.3,23:54.85,24:52.65,25:50.75},40:{13:105.5,14:95.8,15:87.8,16:81.15,17:75.5,18:71.75,19:67.5,20:63.75,21:60.65,22:57.9,23:55.45,24:53.3,25:51.4},41:{13:105.85,14:96.2,15:88.25,16:81.6,17:76,18:72.3,19:68.05,20:64.35,21:61.25,22:58.55,23:56.15,24:54.05},42:{13:106.3,14:96.65,15:88.75,16:82.15,17:76.55,18:72.9,19:68.7,20:65.05,21:61.95,22:59.25,23:56.9},43:{13:106.8,14:97.2,15:89.3,16:82.75,17:77.2,18:73.6,19:69.4,20:65.8,21:62.75},44:{13:107.4,14:97.8,15:89.95,16:83.4,17:77.9,18:74.35,19:70.2,20:66.6,21:63.6},45:{13:108.05,14:98.5,15:90.65,16:84.15,17:78.65,18:75.15,19:71.05,20:67.5},46:{13:108.75,14:99.25,15:91.45,16:85,17:79.55,18:76.1,19:72},47:{13:109.55,14:100.1,15:92.35,16:85.9,17:80.45,18:77.05},48:{13:110.45,14:101,15:93.3,16:86.85,17:81.5},49:{13:111.4,14:102,15:94.3,16:87.95},50:{13:112.4,14:103.05,15:95.4}};
+    const termRiderRates=[{"Age":18,"T13":1.76,"T14":1.71,"T15":1.68,"T16":1.66,"T17":1.64,"T18":1.65,"T19":1.64,"T20":1.64,"T21":1.64,"T22":1.64,"T23":1.65,"T24":1.66,"T25":1.68},{"Age":19,"T13":1.79,"T14":1.75,"T15":1.72,"T16":1.69,"T17":1.68,"T18":1.69,"T19":1.69,"T20":1.68,"T21":1.69,"T22":1.69,"T23":1.7,"T24":1.72,"T25":1.74},{"Age":20,"T13":1.82,"T14":1.78,"T15":1.75,"T16":1.73,"T17":1.71,"T18":1.73,"T19":1.73,"T20":1.73,"T21":1.73,"T22":1.74,"T23":1.76,"T24":1.78,"T25":1.8},{"Age":21,"T13":1.85,"T14":1.81,"T15":1.78,"T16":1.76,"T17":1.75,"T18":1.77,"T19":1.77,"T20":1.78,"T21":1.78,"T22":1.8,"T23":1.82,"T24":1.84,"T25":1.87},{"Age":22,"T13":1.88,"T14":1.84,"T15":1.82,"T16":1.8,"T17":1.79,"T18":1.82,"T19":1.82,"T20":1.83,"T21":1.84,"T22":1.86,"T23":1.88,"T24":1.91,"T25":1.95},{"Age":23,"T13":1.91,"T14":1.88,"T15":1.86,"T16":1.84,"T17":1.84,"T18":1.87,"T19":1.87,"T20":1.89,"T21":1.91,"T22":1.93,"T23":1.96,"T24":1.99,"T25":2.03},{"Age":24,"T13":1.95,"T14":1.92,"T15":1.9,"T16":1.89,"T17":1.89,"T18":1.93,"T19":1.94,"T20":1.96,"T21":1.98,"T22":2.01,"T23":2.05,"T24":2.09,"T25":2.14},{"Age":25,"T13":2,"T14":1.97,"T15":1.96,"T16":1.95,"T17":1.95,"T18":1.99,"T19":2.01,"T20":2.04,"T21":2.07,"T22":2.1,"T23":2.15,"T24":2.2,"T25":2.25},{"Age":26,"T13":2.05,"T14":2.03,"T15":2.02,"T16":2.02,"T17":2.03,"T18":2.07,"T19":2.1,"T20":2.13,"T21":2.17,"T22":2.21,"T23":2.26,"T24":2.32,"T25":2.39},{"Age":27,"T13":2.12,"T14":2.1,"T15":2.09,"T16":2.1,"T17":2.11,"T18":2.17,"T19":2.2,"T20":2.24,"T21":2.29,"T22":2.34,"T23":2.4,"T24":2.47,"T25":2.54},{"Age":28,"T13":2.19,"T14":2.18,"T15":2.18,"T16":2.19,"T17":2.22,"T18":2.28,"T19":2.32,"T20":2.37,"T21":2.42,"T22":2.49,"T23":2.56,"T24":2.63,"T25":2.71},{"Age":29,"T13":2.29,"T14":2.28,"T15":2.29,"T16":2.3,"T17":2.33,"T18":2.41,"T19":2.46,"T20":2.52,"T21":2.58,"T22":2.65,"T23":2.73,"T24":2.82,"T25":2.91},{"Age":30,"T13":2.4,"T14":2.39,"T15":2.41,"T16":2.44,"T17":2.47,"T18":2.56,"T19":2.62,"T20":2.69,"T21":2.76,"T22":2.85,"T23":2.94,"T24":3.03,"T25":3.13},{"Age":31,"T13":2.52,"T14":2.53,"T15":2.55,"T16":2.59,"T17":2.64,"T18":2.74,"T19":2.81,"T20":2.89,"T21":2.97,"T22":3.07,"T23":3.16,"T24":3.27,"T25":3.37},{"Age":32,"T13":2.67,"T14":2.69,"T15":2.72,"T16":2.77,"T17":2.83,"T18":2.94,"T19":3.02,"T20":3.11,"T21":3.21,"T22":3.31,"T23":3.42,"T24":3.53,"T25":3.64},{"Age":33,"T13":2.85,"T14":2.87,"T15":2.91,"T16":2.97,"T17":3.04,"T18":3.17,"T19":3.26,"T20":3.36,"T21":3.47,"T22":3.58,"T23":3.7,"T24":3.82,"T25":3.94},{"Age":34,"T13":3.05,"T14":3.08,"T15":3.14,"T16":3.21,"T17":3.29,"T18":3.43,"T19":3.54,"T20":3.65,"T21":3.76,"T22":3.88,"T23":4.01,"T24":4.14,"T25":4.27},{"Age":35,"T13":3.28,"T14":3.33,"T15":3.39,"T16":3.47,"T17":3.57,"T18":3.73,"T19":3.84,"T20":3.96,"T21":4.09,"T22":4.22,"T23":4.35,"T24":4.48,"T25":4.62},{"Age":36,"T13":3.55,"T14":3.61,"T15":3.68,"T16":3.78,"T17":3.88,"T18":4.06,"T19":4.18,"T20":4.31,"T21":4.44,"T22":4.58,"T23":4.72,"T24":4.86,"T25":5.01},{"Age":37,"T13":3.86,"T14":3.93,"T15":4.01,"T16":4.12,"T17":4.23,"T18":4.43,"T19":4.56,"T20":4.69,"T21":4.83,"T22":4.98,"T23":5.13,"T24":5.28,"T25":5.43},{"Age":38,"T13":4.2,"T14":4.28,"T15":4.38,"T16":4.5,"T17":4.62,"T18":4.83,"T19":4.97,"T20":5.11,"T21":5.26,"T22":5.41,"T23":5.57,"T24":5.73,"T25":5.89},{"Age":39,"T13":4.6,"T14":4.69,"T15":4.8,"T16":4.92,"T17":5.05,"T18":5.27,"T19":5.42,"T20":5.57,"T21":5.72,"T22":5.88,"T23":6.05,"T24":6.21,"T25":6.39},{"Age":40,"T13":5.04,"T14":5.13,"T15":5.25,"T16":5.38,"T17":5.52,"T18":5.75,"T19":5.9,"T20":6.06,"T21":6.22,"T22":6.39,"T23":6.57,"T24":6.74,"T25":6.93},{"Age":41,"T13":5.52,"T14":5.63,"T15":5.75,"T16":5.88,"T17":6.03,"T18":6.27,"T19":6.43,"T20":6.6,"T21":6.77,"T22":6.95,"T23":7.13,"T24":7.32,"T25":null},{"Age":42,"T13":6.06,"T14":6.17,"T15":6.29,"T16":6.43,"T17":6.58,"T18":6.84,"T19":7,"T20":7.18,"T21":7.36,"T22":7.55,"T23":7.74,"T24":null,"T25":null},{"Age":43,"T13":6.65,"T14":6.75,"T15":6.88,"T16":7.02,"T17":7.18,"T18":7.45,"T19":7.62,"T20":7.8,"T21":8,"T22":8.19,"T23":null,"T24":null,"T25":null},{"Age":44,"T13":7.28,"T14":7.39,"T15":7.52,"T16":7.66,"T17":7.82,"T18":8.11,"T19":8.29,"T20":8.48,"T21":8.68,"T22":null,"T23":null,"T24":null,"T25":null},{"Age":45,"T13":7.97,"T14":8.07,"T15":8.2,"T16":8.35,"T17":8.51,"T18":8.82,"T19":9.01,"T20":9.21,"T21":null,"T22":null,"T23":null,"T24":null,"T25":null},{"Age":46,"T13":8.7,"T14":8.8,"T15":8.93,"T16":9.08,"T17":9.25,"T18":9.58,"T19":9.78,"T20":null,"T21":null,"T22":null,"T23":null,"T24":null,"T25":null},{"Age":47,"T13":9.48,"T14":9.58,"T15":9.71,"T16":9.86,"T17":10.04,"T18":10.4,"T19":null,"T20":null,"T21":null,"T22":null,"T23":null,"T24":null,"T25":null},{"Age":48,"T13":10.31,"T14":10.41,"T15":10.54,"T16":10.7,"T17":10.89,"T18":null,"T19":null,"T20":null,"T21":null,"T22":null,"T23":null,"T24":null,"T25":null},{"Age":49,"T13":11.19,"T14":11.29,"T15":11.42,"T16":11.59,"T17":null,"T18":null,"T19":null,"T20":null,"T21":null,"T22":null,"T23":null,"T24":null,"T25":null},{"Age":50,"T13":12.12,"T14":12.22,"T15":12.36,"T16":null,"T17":null,"T18":null,"T19":null,"T20":null,"T21":null,"T22":null,"T23":null,"T24":null,"T25":null}].reduce((acc, item) => { acc[item.Age] = item; return acc; }, {});
+    const addbTableRates={13:1.25,14:1.2,15:1.2,16:1.15,17:1.15,18:1.15,19:1.15,20:1.1,21:1.1,22:1.1,23:1.1,24:1.1,25:1.1};
+
+    // --- Helper Functions ---
+    const formatInr = (num) => `₹ ${Math.round(num).toLocaleString('en-IN')}`;
+    function toggleTermRiderInput() { document.getElementById('termRiderInputDiv').style.display = document.getElementById('addTermRider').checked ? 'flex' : 'none'; }
+    function showError(message) {
+        const errorDiv = document.getElementById("error-message");
+        errorDiv.textContent = message;
+        errorDiv.style.display = 'block';
+        document.getElementById("results").style.display = 'none';
+    }
+
+    // --- Main Calculation Function ---
+    function calculate() {
+        try {
+            const errorDiv = document.getElementById("error-message");
+            const resultsDiv = document.getElementById("results");
+            errorDiv.style.display = 'none';
+            resultsDiv.style.display = 'none';
+
+            // --- Get Inputs ---
+            const age = parseInt(document.getElementById("age").value);
+            const term = parseInt(document.getElementById("term").value);
+            const bsa = parseFloat(document.getElementById("bsa").value);
+            const addADDB = document.getElementById("addADDB").checked;
+            const addTermRider = document.getElementById("addTermRider").checked;
+            const trsa = addTermRider ? parseFloat(document.getElementById("trsa").value) : 0;
+            
+            // --- Hard-coded Logic Settings ---
+            const saRebateLogic = 'base_only';
+            const modeRebateLogic = 'combined';
+            const addbRateLogic = 'table';
+            const saRebateTiers = 'official';
+            const gstLogic = 'unified_4.5';
+
+            // --- Validation ---
+            if (isNaN(age) || isNaN(term) || isNaN(bsa) || (addTermRider && isNaN(trsa))) { showError("Please enter valid numbers for all required fields."); return; }
+            if (addTermRider && trsa > bsa) { showError("Term Rider SA cannot exceed Base SA."); return; }
+            if (!premiumRates[age]?.[term] || (addTermRider && !termRiderRates[age]?.[`T${term}`])) { showError(`The selected Age/Term combination is not available.`); return; }
+            
+            document.getElementById("ppt").value = (term - 3) + " Years";
+            
+            // --- Gross Premiums ---
+            const grossBase = (premiumRates[age][term] * bsa) / 1000;
+            const grossTermRider = addTermRider ? (termRiderRates[age][`T${term}`] * trsa) / 1000 : 0;
+            let grossAddb = 0;
+            if(addADDB){
+                const addbRate = addbTableRates[term] || 0;
+                grossAddb = (addbRate * Math.min(bsa, 10000000)) / 1000;
+            }
+
+            // --- SA Rebate (Base Only) ---
+            const getSaRebateRate = (sa) => {
+                if (sa >= 1000000) return 5.10; 
+                if (sa >= 500000) return 4.07; 
+                return 0;
+            };
+            const saRebateOnBase = (getSaRebateRate(bsa) * bsa) / 1000;
+            const adjustedBase = grossBase - saRebateOnBase;
+            
+            // --- Build Modal Table ---
+            const modes = { Yearly: { factor: 1, rebate: 0.02 }, "Half-Yearly": { factor: 0.500259, rebate: 0.01 }, Quarterly: { factor: 0.250259, rebate: 0 }, Monthly: { factor: 0.083459, rebate: 0 } };
+            let tableHTML = `<hr><h2 class="mt-3">Final Premiums (Including GST)</h2>
+                            <table class="table table-bordered">
+                                <thead><tr><th>Mode</th><th>1st Year Premium</th><th>2nd Year Onwards</th></tr></thead>
+                                <tbody>`;
+            
+            for (const [modeName, modeDetails] of Object.entries(modes)) {
+                // --- Mode Rebate (Combined Total) ---
+                const combined = adjustedBase + grossTermRider + grossAddb;
+                const netTotal = combined * (1 - modeDetails.rebate);
+                
+                // --- Modal Premium ---
+                const modalPremium = netTotal * modeDetails.factor;
+
+                // --- GST (Unified 4.5%) ---
+                const final1stYear = modalPremium * 1.045;
+                const final2ndYear = modalPremium * 1.0225;
+                
+                tableHTML += `<tr><td class="mode-col">${modeName}</td><td>${formatInr(final1stYear)}</td><td>${formatInr(final2ndYear)}</td></tr>`;
+            }
+            tableHTML += `</tbody></table>`;
+            results.innerHTML = tableHTML;
+            results.style.display = 'block';
+
+        } catch (e) {
+            showError("A calculation error occurred. Please check your inputs. " + e.message);
+        }
+    }
+
+    // Initial setup and event listeners
+    window.onload = () => {
+        toggleTermRiderInput();
+        calculate();
+    };
+    
+    ['age', 'term', 'bsa', 'addADDB', 'addTermRider', 'trsa'].forEach(id => {
+        document.getElementById(id).addEventListener('change', calculate);
+    });
+</script>
+</body>
+</html>
