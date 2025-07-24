@@ -6,11 +6,62 @@
   <title>LIC 20-Year Money Back Calculator (Plan 720)</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body { background-color: #f0f2f5; }
+    body { background-color: #f0f2f5; padding-bottom: 120px; /* Space for the fixed button */ }
     .calculator-container { max-width: 650px; margin: 40px auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
     .result-box { background-color: #eef2f7; border-left: 4px solid #198754; }
     h3 { color: #0c2f5a; }
     .plan-details { font-size: 0.9rem; color: #6c757d; }
+    
+     /* Container to hold and center the buttons */
+    .rider-button-container {
+        display: flex;          /* Aligns buttons in a row */
+        justify-content: center; /* Horizontally centers the buttons */
+        gap: 20px;              /* Creates space between the buttons */
+        margin-top: 20px;       /* Adds space above the buttons */
+    }
+     .actions-container {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+        width: 100%; /* Make the container take full width */
+    }
+    .actions-container button {
+        flex: 1; /* This is the key property to make them equal width */
+    }
+    
+    .rider-btn {
+        background: linear-gradient(145deg, #d9534f, #c9302c);
+        color: white;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        padding: 15px 30px;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(201, 48, 44, 0.4);
+        transition: all 0.3s ease;
+    }
+    .rider-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(201, 48, 44, 0.5);
+    }
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: none; align-items: center; justify-content: center; z-index: 2000;
+    }
+    .modal-content {
+        background: #fff; padding: 30px; border-radius: 10px;
+        width: 90%; max-width: 500px; text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative;
+    }
+    .modal-close-btn {
+        position: absolute; top: 10px; right: 15px;
+        font-size: 28px; font-weight: bold; color: #888; cursor: pointer;
+    }
+    #modal-title { margin-top: 0; color: #c9302c; }
+    #modal-body { font-size: 1.1em; color: #333; }
   </style>
 </head>
 <body>
@@ -38,104 +89,199 @@
   </div>
 
   <div id="error-message" class="text-danger fw-bold mt-3"></div>
-  <button type="button" class="btn btn-success w-100 mt-4 py-2" onclick="calculatePremium()">Calculate Premium</button>
+  <!-- START: New Button Container -->
+  <div class="actions-container">
+    <button type="button" class="btn btn-success w-100" onclick="calculatePremium()">Calculate Premium</button>
+    <button id="term-rider-btn" class="rider-btn">Know Your Term Rider Premium</button>
+  </div>
+  <!-- END: New Button Container -->
+
   <div id="results" class="mt-4 d-none"><hr><div id="premium-results"></div></div>
 </div>
 
-<script>
-    // Data setup from the JSON you provided
-    const rawRates = [ { "Age": 13, "T20": 80.75 }, { "Age": 14, "T20": 80.85 }, { "Age": 15, "T20": 80.9 }, { "Age": 16, "T20": 80.95 }, { "Age": 17, "T20": 81.0 }, { "Age": 18, "T20": 81.0 }, { "Age": 19, "T20": 81.05 }, { "Age": 20, "T20": 81.1 }, { "Age": 21, "T20": 81.15 }, { "Age": 22, "T20": 81.2 }, { "Age": 23, "T20": 81.25 }, { "Age": 24, "T20": 81.3 }, { "Age": 25, "T20": 81.4 }, { "Age": 26, "T20": 81.5 }, { "Age": 27, "T20": 81.6 }, { "Age": 28, "T20": 81.75 }, { "Age": 29, "T20": 81.9 }, { "Age": 30, "T20": 82.05 }, { "Age": 31, "T20": 82.3 }, { "Age": 32, "T20": 82.55 }, { "Age": 33, "T20": 82.8 }, { "Age": 34, "T20": 83.15 }, { "Age": 35, "T20": 83.5 }, { "Age": 36, "T20": 83.9 }, { "Age": 37, "T20": 84.35 }, { "Age": 38, "T20": 84.8 }, { "Age": 39, "T20": 85.35 }, { "Age": 40, "T20": 85.95 }, { "Age": 41, "T20": 86.55 }, { "Age": 42, "T20": 87.25 }, { "Age": 43, "T20": 88.0 }, { "Age": 44, "T20": 88.85 }, { "Age": 45, "T20": 89.75 }, { "Age": 46, "T20": 90.7 }, { "Age": 47, "T20": 91.7 }, { "Age": 48, "T20": 92.85 }, { "Age": 49, "T20": 94.0 }, { "Age": 50, "T20": 95.3 } ];
-    
-    // Converting the array to an easier-to-use object for quick lookup
-    const baseRates = rawRates.reduce((acc, item) => {
-        acc[item.Age] = item.T20;
-        return acc;
-    }, {});
+  <div id="results" class="mt-4 d-none"><hr><div id="premium-results"></div></div>
+</div>
 
+<!-- Button and Modal HTML -->
+
+<div id="premium-modal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="modal-close-btn">×</span>
+        <h2 id="modal-title"></h2>
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+
+<script>
+    const rawBaseRates = [ { "Age": 13, "T20": 80.75 }, { "Age": 14, "T20": 80.85 }, { "Age": 15, "T20": 80.9 }, { "Age": 16, "T20": 80.95 }, { "Age": 17, "T20": 81.0 }, { "Age": 18, "T20": 81.0 }, { "Age": 19, "T20": 81.05 }, { "Age": 20, "T20": 81.1 }, { "Age": 21, "T20": 81.15 }, { "Age": 22, "T20": 81.2 }, { "Age": 23, "T20": 81.25 }, { "Age": 24, "T20": 81.3 }, { "Age": 25, "T20": 81.4 }, { "Age": 26, "T20": 81.5 }, { "Age": 27, "T20": 81.6 }, { "Age": 28, "T20": 81.75 }, { "Age": 29, "T20": 81.9 }, { "Age": 30, "T20": 82.05 }, { "Age": 31, "T20": 82.3 }, { "Age": 32, "T20": 82.55 }, { "Age": 33, "T20": 82.8 }, { "Age": 34, "T20": 83.15 }, { "Age": 35, "T20": 83.5 }, { "Age": 36, "T20": 83.9 }, { "Age": 37, "T20": 84.35 }, { "Age": 38, "T20": 84.8 }, { "Age": 39, "T20": 85.35 }, { "Age": 40, "T20": 85.95 }, { "Age": 41, "T20": 86.55 }, { "Age": 42, "T20": 87.25 }, { "Age": 43, "T20": 88.0 }, { "Age": 44, "T20": 88.85 }, { "Age": 45, "T20": 89.75 }, { "Age": 46, "T20": 90.7 }, { "Age": 47, "T20": 91.7 }, { "Age": 48, "T20": 92.85 }, { "Age": 49, "T20": 94.0 }, { "Age": 50, "T20": 95.3 } ];
+    const rawTermRiderRates = [ { "Age": 18, "T20": 2 }, { "Age": 19, "T20": 2.04 }, { "Age": 20, "T20": 2.07 }, { "Age": 21, "T20": 2.11 }, { "Age": 22, "T20": 2.17 }, { "Age": 23, "T20": 2.23 }, { "Age": 24, "T20": 2.31 }, { "Age": 25, "T20": 2.39 }, { "Age": 26, "T20": 2.5 }, { "Age": 27, "T20": 2.62 }, { "Age": 28, "T20": 2.76 }, { "Age": 29, "T20": 2.93 }, { "Age": 30, "T20": 3.13 }, { "Age": 31, "T20": 3.35 }, { "Age": 32, "T20": 3.61 }, { "Age": 33, "T20": 3.9 }, { "Age": 34, "T20": 4.23 }, { "Age": 35, "T20": 4.6 }, { "Age": 36, "T20": 5.02 }, { "Age": 37, "T20": 5.47 }, { "Age": 38, "T20": 5.98 }, { "Age": 39, "T20": 6.53 }, { "Age": 40, "T20": 7.14 }, { "Age": 41, "T20": 7.79 }, { "Age": 42, "T20": 8.48 }, { "Age": 43, "T20": 9.22 }, { "Age": 44, "T20": 10.02 }, { "Age": 45, "T20": 10.89 }, { "Age": 46, "T20": 11.81 }, { "Age": 47, "T20": 12.81 }, { "Age": 48, "T20": 13.88 }, { "Age": 49, "T20": 15.02 }, { "Age": 50, "T20": 16.24 } ];
+    
+    // Function to convert rate arrays to easier-to-use objects
+    const convertRates = (raw) => raw.reduce((acc, item) => { acc[item.Age] = item.T20; return acc; }, {});
+    
+    const baseRates = convertRates(rawBaseRates);
+    const termRiderRates = convertRates(rawTermRiderRates);
     const addbRatePer1000 = 1.0; 
 
-    function calculatePremium() {
-        document.getElementById("error-message").textContent = "";
-        document.getElementById("results").classList.add("d-none");
+// --- START: Replace your existing calculatePremium function with this correct version ---
 
-        const age = parseInt(document.getElementById("age").value);
-        const sumAssured = parseFloat(document.getElementById("sum-assured").value);
-        const addbSelected = document.getElementById("addb-rider").checked;
+function calculatePremium() {
+    // 1. Clear previous results and errors
+    document.getElementById("error-message").textContent = "";
+    document.getElementById("results").classList.add("d-none");
+
+    // 2. Get all user inputs
+    const age = parseInt(document.getElementById("age").value);
+    const sumAssured = parseFloat(document.getElementById("sum-assured").value);
+    const addbSelected = document.getElementById("addb-rider").checked;
+    
+    // 3. Validate inputs
+    if (isNaN(age) || isNaN(sumAssured)) { 
+        document.getElementById("error-message").textContent = "Please fill all required fields."; 
+        return; 
+    }
+    if (age < 13 || age > 50) { 
+        document.getElementById("error-message").textContent = "Entry Age must be between 13 and 50 years."; 
+        return; 
+    }
+    if (sumAssured < 200000) { 
+        document.getElementById("error-message").textContent = "Minimum Sum Assured is ₹2,00,000."; 
+        return; 
+    }
+
+    // 4. Get the base premium rate and calculate base premium
+    const tabularRate = baseRates[age];
+    if (!tabularRate) { 
+        document.getElementById("error-message").textContent = "Premium rate for the selected Age is not available."; 
+        return; 
+    }
+    const annualTabularPremium = (tabularRate * sumAssured) / 1000;
+
+    // 5. Calculate Sum Assured Rebate based on ADDB selection
+    let saRebateRate = 0;
+    if (addbSelected) {
+        // --- Logic for when ADDB IS SELECTED ---
+        if (sumAssured >= 2500000) {
+            saRebateRate = 2.8;
+        } else if (sumAssured >= 1000000) {
+            saRebateRate = 2.8;
+        } else if (sumAssured >= 500000) {
+            saRebateRate = 2.8;
+        }
+    } else {
+        // --- Logic for when ADDB IS NOT SELECTED ---
+        if (sumAssured >= 2500000) {
+            saRebateRate = 3.0;
+        } else if (sumAssured >= 1000000) {
+            saRebateRate = 3.0;
+        } else if (sumAssured >= 500000) {
+            saRebateRate = 3.0;
+        }
+    }
+    
+    const annualSaRebateAmount = (saRebateRate * sumAssured) / 1000;
+    const annualPremiumAfterSaRebate = annualTabularPremium - annualSaRebateAmount;
+
+    // 6. Calculate ADDB Rider Premium
+    let annualAddbPremium = 0;
+    if (addbSelected) {
+        let currentAddbRate = 1.0; // Default rate
+        if (sumAssured < 500000) {
+             currentAddbRate = 1.2; // Special rate for SA below 5 Lakh
+        }
+        annualAddbPremium = (currentAddbRate * sumAssured) / 1000;
+    }
+
+    // 7. Define Modes and Calculate Final Premiums
+    const modes = {
+        yearly: { name: "Yearly", factor: 1.0, modeRebatePercent: 0.02 },
+        "half-yearly": { name: "Half-Yearly", factor: 0.4949, modeRebatePercent: 0 },
+        quarterly: { name: "Quarterly", factor: 0.2500, modeRebatePercent: 0 },
+        monthly: { name: "Monthly (NACH)", factor: 0.08333, modeRebatePercent: 0 }
+    };
+
+    let outputHTML = `<p class="plan-details text-center"><b>Policy Term:</b> 20 Years | <b>Premium Paying Term:</b> 15 Years</p>`;
+
+    for (const modeKey in modes) {
+        const mode = modes[modeKey];
+        let premiumBeforeTax = 0;
+
+        if (mode.modeRebatePercent > 0) {
+            const modeRebateAmount = annualTabularPremium * mode.modeRebatePercent;
+            premiumBeforeTax = annualTabularPremium - annualSaRebateAmount - modeRebateAmount + annualAddbPremium;
+        } else {
+            const loadedBasePremium = annualPremiumAfterSaRebate * mode.factor;
+            const loadedRiderPremium = annualAddbPremium * mode.factor;
+            premiumBeforeTax = loadedBasePremium + loadedRiderPremium;
+        }
+
+        const gst1stYear = premiumBeforeTax * 0.045;
+        const finalPremium1stYear = premiumBeforeTax + gst1stYear;
+        const gst2ndYear = premiumBeforeTax * 0.0225;
+        const finalPremium2ndYear = premiumBeforeTax + gst2ndYear;
         
-        // Validation specific to Plan 720
-        if (isNaN(age) || isNaN(sumAssured)) {
-            document.getElementById("error-message").textContent = "Please fill all required fields.";
-            return;
-        }
-        if (age < 13 || age > 50) {
-            document.getElementById("error-message").textContent = "Entry Age must be between 13 and 50 years.";
-            return;
-        }
-        if (sumAssured < 200000) {
-            document.getElementById("error-message").textContent = "Minimum Sum Assured is ₹2,00,000.";
-            return;
-        }
+        const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        outputHTML += `<div class="result-box mb-3 p-3"><strong class="text-success">${mode.name.toUpperCase()} PREMIUM</strong><hr class="my-2"><div><b>1st Year:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium1stYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst1stYear)})</small></div><div class="mt-2"><b>2nd Year Onwards:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium2ndYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst2ndYear)})</small></div></div>`;
+    }
+    
+    // 8. Display the final results
+    document.getElementById("premium-results").innerHTML = outputHTML;
+    document.getElementById("results").classList.remove("d-none");
+}
 
-        // --- THE STANDARD LIC CALCULATION FLOW ---
-        const tabularRate = baseRates[age];
-        if (!tabularRate) {
-            document.getElementById("error-message").textContent = "Premium rate for the selected Age is not available.";
-            return;
-        }
+// --- END: Replace your existing calculatePremium function with this ---
+    // --- RIDER AND MODAL LOGIC ---
+    const modal = document.getElementById('premium-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+    const closeModalBtn = document.querySelector('.modal-close-btn');
 
-        const annualTabularPremium = (tabularRate * sumAssured) / 1000;
+    function showModal(title, bodyHtml) {
+        modalTitle.innerHTML = title;
+        modalBody.innerHTML = bodyHtml;
+        modal.style.display = 'flex';
+    }
 
-        // Sum Assured Rebate - using the rates you specified
-        let saRebateRate = 0;
-        if (sumAssured >= 2500000)      { saRebateRate = 2.80; } 
-        else if (sumAssured >= 1000000) { saRebateRate = 2.80; } 
-        else if (sumAssured >= 500000)  { saRebateRate = 2.80; }
-        const annualSaRebateAmount = (saRebateRate * sumAssured) / 1000;
-        
-        const annualPremiumAfterSaRebate = annualTabularPremium - annualSaRebateAmount;
-        let annualAddbPremium = addbSelected ? (addbRatePer1000 * sumAssured) / 1000 : 0;
-if (sumAssured < 500000) annualAddbPremium = addbSelected ? (1.2 * sumAssured) / 1000 : 0;
-        // OFFICIAL Modal Factors which are universal for all plans
-        const modes = {
-            yearly:      { name: "Yearly",        factor: 1.0,    modeRebatePercent: 0.02 },
-            "half-yearly": { name: "Half-Yearly",   factor: 0.4949,  modeRebatePercent: 0 },
-            quarterly:   { name: "Quarterly",     factor: 0.2500,  modeRebatePercent: 0 },
-            monthly:     { name: "Monthly (NACH)",factor: 0.08333, modeRebatePercent: 0 }
-        };
+    function hideModal() {
+        modal.style.display = 'none';
+    }
 
-        let outputHTML = `<p class="plan-details text-center"><b>Policy Term:</b> 20 Years | <b>Premium Paying Term:</b> 15 Years</p>`;
+    closeModalBtn.addEventListener('click', hideModal);
+    window.addEventListener('click', (event) => { if (event.target === modal) hideModal(); });
 
-        for (const modeKey in modes) {
-            const mode = modes[modeKey];
-            let premiumBeforeTax = 0;
+    document.getElementById('term-rider-btn').addEventListener('click', () => {
+        const baseSa = parseFloat(document.getElementById("sum-assured").value);
+        const title = 'Term Rider Premium Calculator';
+        const bodyHtml = `
+            <label for="termRiderSA" style="display:block; margin-bottom:5px; font-weight:bold;">Enter Term Rider Sum Assured</label>
+            <p style="font-size:0.8em; color:#555; margin-top:0;">(Cannot exceed Base SA of ₹${baseSa.toLocaleString('en-IN')})</p>
+            <input type="number" id="termRiderSA" class="form-control mb-3" value="${baseSa}" />
+            <button onclick="calculateTermRiderFromModal()" class="btn btn-danger w-100">Calculate Rider Premium</button>
+        `;
+        showModal(title, bodyHtml);
+    });
 
-            if (mode.modeRebatePercent > 0) {
-                // Logic for YEARLY mode with its unique rebate
-                const modeRebateAmount = annualTabularPremium * mode.modeRebatePercent;
-                premiumBeforeTax = annualTabularPremium - annualSaRebateAmount - modeRebateAmount + annualAddbPremium;
-            } else {
-                // Standard logic for HLY, QLY, MLY which have MODAL LOADING
-                const loadedBasePremium = annualPremiumAfterSaRebate * mode.factor;
-                const loadedRiderPremium = annualAddbPremium * mode.factor;
-                premiumBeforeTax = loadedBasePremium + loadedRiderPremium;
-            }
+    function calculateTermRiderFromModal() {
+        const lifeAssuredAge = parseInt(document.getElementById("age").value);
+        const baseSumAssured = parseFloat(document.getElementById("sum-assured").value);
+        const termRiderSumAssured = parseFloat(document.getElementById('termRiderSA').value);
 
-            const gst1stYear = premiumBeforeTax * 0.045;
-            const finalPremium1stYear = premiumBeforeTax + gst1stYear;
-            const gst2ndYear = premiumBeforeTax * 0.0225;
-            const finalPremium2ndYear = premiumBeforeTax + gst2ndYear;
-            
-            const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
-            outputHTML += `
-              <div class="result-box mb-3 p-3">
-                <strong class="text-success">${mode.name.toUpperCase()} PREMIUM</strong><hr class="my-2">
-                <div><b>1st Year:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium1stYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst1stYear)})</small></div>
-                <div class="mt-2"><b>2nd Year Onwards:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium2ndYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst2ndYear)})</small></div>
-              </div>
-            `;
-        }
-        document.getElementById("premium-results").innerHTML = outputHTML;
-        document.getElementById("results").classList.remove("d-none");
+        if (isNaN(termRiderSumAssured) || termRiderSumAssured <= 0) { showModal('Error', '<p class="text-danger">Please enter a valid Term Rider Sum Assured.</p>'); return; }
+        if (termRiderSumAssured > baseSumAssured) { showModal('Validation Error', `<p class="text-danger">Rider Sum Assured cannot exceed the Base Sum Assured of ₹${baseSumAssured.toLocaleString('en-IN')}.</p>`); return; }
+
+        const termRiderRate = termRiderRates[lifeAssuredAge];
+        if (!termRiderRate) { showModal('Term Rider Premium', '<p class="text-danger">Term Rider is not available for this Age.</p>'); return; }
+
+        const termRiderPremium = (termRiderSumAssured / 1000) * termRiderRate;
+        const termRiderPremiumWithGst = termRiderPremium * 1.18; // 18% GST
+
+        const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        const resultHtml = `
+            <p style="font-size: 1.4em; font-weight: bold; color: #333;">Yearly Premium: ₹${formatInr(termRiderPremiumWithGst)}</p>
+            <small>(For Rider SA of ₹${formatInr(termRiderSumAssured)}, inclusive of 18% GST)</small>
+        `;
+        showModal('Standalone Term Rider Premium', resultHtml);
     }
 </script>
 
