@@ -2,155 +2,241 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>LIC Plan 733 Premium Calculator</title>
+  <title>LIC Plan 733 - Jeevan Lakshya Premium Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
+    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; padding-bottom: 120px; }
     .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); max-width: 700px; margin:auto; }
-    h1 { text-align:center; }
+    h1 { text-align:center; font-size: 1.8rem; }
     label { font-weight:bold; margin-top:10px; display:block; }
-    input { width:100%; padding:10px; margin-bottom:10px; }
-    button { width:100%; padding:15px; background:#27ae60; color:#fff; font-size:16px; border:none; cursor:pointer; }
+    input, select { width:100%; padding:10px; margin-bottom:10px; box-sizing: border-box; }
+    button { width:100%; padding:15px; background:#27ae60; color:#fff; font-size:16px; border:none; cursor:pointer; border-radius: 5px; }
     button:hover { background:#219150; }
     table { width:100%; margin-top:20px; border-collapse:collapse; }
     th, td { border:1px solid #ccc; padding:10px; text-align:center; }
     th { background:#e8f5e9; }
+
+    /* --- STYLES FOR RIDER BUTTONS AND MODAL --- */
+    .actions-container {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+    .actions-container button {
+        flex: 1; /* This makes both buttons equal width */
+    }
+    .rider-button-container {
+        position: fixed; bottom: 0; left: 50%;
+        transform: translateX(-50%); padding: 20px;
+        display: flex; gap: 15px; z-index: 1000;
+    }
+    .rider-btn {
+        font-family: Arial, sans-serif; font-size: 16px;
+        font-weight: bold; border: none; border-radius: 10px;
+        padding: 15px 30px; cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    #pwb-btn {
+        background: linear-gradient(145deg, #007bff, #0056b3); color: white;
+        box-shadow: 0 5px 15px rgba(0, 91, 179, 0.4);
+    }
+    #pwb-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 91, 179, 0.5); }
+    #term-rider-btn {
+        background: linear-gradient(145deg, #d9534f, #c9302c); color: white;
+        box-shadow: 0 5px 15px rgba(201, 48, 44, 0.4);
+    }
+    #term-rider-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(201, 48, 44, 0.5); }
+
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: none; align-items: center; justify-content: center; z-index: 2000;
+    }
+    .modal-content {
+        background: #fff; padding: 30px; border-radius: 10px;
+        width: 90%; max-width: 500px; text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative;
+    }
+    .modal-close-btn {
+        position: absolute; top: 10px; right: 15px;
+        font-size: 28px; font-weight: bold; color: #888; cursor: pointer;
+    }
+    #modal-title { margin-top: 0; }
+    #modal-body { font-size: 1.1em; color: #333; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>LIC Plan 733 Premium Calculator</h1>
+    <h1>LIC Jeevan Lakshya (Plan 733)</h1>
 
     <label for="age">Age</label>
-    <input type="number" id="age" value="30" min="18" max="50" />
+    <input type="number" class="form-control" id="age" value="30" min="18" max="50" />
 
     <label for="term">Policy Term</label>
-    <input type="number" id="term" value="20" min="13" max="25" />
+    <input type="number" class="form-control" id="term" value="20" min="13" max="25" />
 
     <label for="sumAssured">Sum Assured</label>
-    <input type="number" id="sumAssured" value="2500000" step="10000" />
+    <input type="number" class="form-control" id="sumAssured" value="2500000" step="10000" />
 
     <label for="ppt">Premium Paying Term</label>
-    <input type="text" id="ppt" disabled />
+    <input type="text" class="form-control" id="ppt" disabled />
+    
+    <div class="form-check mt-3">
+        <input class="form-check-input" type="checkbox" id="addb-rider">
+        <label class="form-check-label" for="addb-rider">
+            Include Accidental Death & Disability Benefit (ADDB) Rider
+        </label>
+    </div>
 
-    <button onclick="calculate()">Calculate Premium</button>
+      <!-- START: New Button Container -->
+    <div class="actions-container">
+        <button class="btn btn-success w-100" onclick="calculate()">Calculate Premium</button>
+        <button id="term-rider-btn" class="rider-btn">Know Your Term Rider Premium</button>
+    </div>
+    <!-- END: New Button Container -->
+    
+    <div id="results" class="mt-3"></div>
+  </div>
 
-    <div id="results"></div>
+  <!-- Buttons and Modal HTML -->
+  <div id="rider-modal" class="modal-overlay">
+      <div class="modal-content">
+          <span class="modal-close-btn">×</span>
+          <h2 id="modal-title"></h2>
+          <div id="modal-body"></div>
+      </div>
   </div>
 
 <script>
-const premiumRates = {
-  18:{13:103.1,14:93.25,15:85.05,16:78.15,17:72.25,18:68.2,19:63.7,20:59.7,21:56.3,22:53.25,23:50.55,24:48.1,25:45.85},
-  19:{13:103.15,14:93.25,15:85.05,16:78.15,17:72.3,18:68.25,19:63.7,20:59.75,21:56.35,22:53.3,23:50.55,24:48.1,25:45.9},
-  20:{13:103.15,14:93.25,15:85.05,16:78.2,17:75.56,18:68.25,19:63.75,20:59.75,21:56.35,22:53.3,23:50.6,24:48.15,25:45.95},
-  21:{13:103.15,14:93.25,15:85.1,16:78.2,17:72.3,18:68.3,19:63.75,20:59.8,21:56.4,22:53.35,23:50.65,24:48.2,25:46},
-  22:{13:103.15,14:93.3,15:85.1,16:78.2,17:72.35,18:68.3,19:63.8,20:59.8,21:56.4,22:53.4,23:50.7,24:48.25,25:46.05},
-  23:{13:103.15,14:93.3,15:85.1,16:78.25,17:75.61,18:68.35,19:63.8,20:59.85,21:56.45,22:53.45,23:50.75,24:48.3,25:46.1},
-  24:{13:103.2,14:93.3,15:85.15,16:78.25,17:72.4,18:68.35,19:63.85,20:59.9,21:56.5,22:53.5,23:50.8,24:48.2,25:46.15},
-  25:{13:103.2,14:93.35,15:85.15,16:78.3,17:72.45,18:68.4,19:63.9,20:59.95,21:56.55,22:53.55,23:50.85,24:48.45,25:46.25},
-  26:{13:103.25,14:93.35,15:85.2,16:78.35,17:72.5,18:68.45,19:63.95,20:60,21:56.65,22:53.65,23:50.95,24:48.55,25:46.35},
-  27:{13:103.3,14:93.4,15:85.25,16:78.4,17:72.55,18:68.55,19:64.05,20:60.1,21:56.75,22:53.75,23:51.05,24:48.65,25:46.5},
-  28:{13:103.35,14:93.5,15:85.3,16:78.45,17:72.6,18:68.65,19:64.15,20:60.2,21:56.85,22:53.85,23:51.2,24:48.8,25:46.65},
-  29:{13:103.4,14:93.55,15:85.4,16:78.55,17:72.7,18:68.75,19:64.25,20:60.35,21:57,22:54,23:51.35,24:49,25:46.85},
-  30:{13:103.5,14:93.65,15:85.5,16:78.65,17:72.85,18:68.85,19:64.4,20:60.5,21:57.15,22:54.2,23:51.55,24:49.2,25:47.05},
-  31:{13:103.6,14:93.75,15:85.6,16:78.8,17:72.95,18:69,19:64.55,20:60.65,21:57.3,22:54.35,23:51.75,24:49.4,25:47.3},
-  32:{13:103.7,14:93.85,15:85.75,16:78.9,17:73.1,18:69.2,19:64.75,20:60.85,21:57.55,22:54.6,23:52,24:49.65,25:47.55},
-  33:{13:103.85,14:94,15:85.9,16:79.1,17:73.3,18:69.35,19:64.95,20:61.05,21:57.75,22:54.85,23:52.25,24:49.95,25:47.9},
-  34:{13:104,14:94.2,15:86.1,16:79.3,17:73.5,18:69.6,19:65.2,20:61.35,21:58.05,22:55.15,23:52.6,24:50.3,25:48.25},
-  35:{13:104.15,14:94.35,15:86.3,16:79.5,17:73.75,18:69.85,19:65.45,20:61.6,21:58.35,22:55.5,23:52.95,24:50.65,25:48.65},
-  36:{13:104.35,14:94.6,15:86.5,16:79.75,17:74,18:70.15,19:65.75,20:61.95,21:58.7,22:55.85,23:53.35,24:51.1,25:49.1},
-  37:{13:104.6,14:94.8,15:86.75,16:80,17:74.3,18:70.45,19:66.1,20:62.35,21:59.1,22:56.3,23:53.8,24:51.55,25:49.55},
-  38:{13:104.85,14:95.1,15:87.05,16:80.35,17:74.65,18:70.85,19:66.5,20:65.57,21:59.55,22:56.75,23:54.3,24:52.1,25:50.1},
-  39:{13:105.15,14:95.4,15:87.4,16:80.7,17:75.05,18:71.3,19:67,20:63.25,21:60.1,22:57.3,23:54.85,24:52.65,25:50.75},
-  40:{13:105.5,14:95.8,15:87.8,16:81.15,17:75.5,18:71.75,19:67.5,20:63.75,21:60.65,22:57.9,23:55.45,24:53.3,25:51.4},
-  41:{13:105.85,14:96.2,15:88.25,16:81.6,17:76,18:72.3,19:68.05,20:64.35,21:61.25,22:58.55,23:56.15,24:54.05,25:null},
-  42:{13:106.3,14:96.65,15:88.75,16:82.15,17:76.55,18:72.9,19:68.7,20:65.05,21:61.95,22:59.25,23:56.9,24:null,25:null},
-  43:{13:106.8,14:97.2,15:89.3,16:82.75,17:77.2,18:73.6,19:69.4,20:65.8,21:62.75,22:null,23:null,24:null,25:null},
-  44:{13:107.4,14:97.8,15:89.95,16:83.4,17:77.9,18:74.35,19:70.2,20:66.6,21:63.6,22:null,23:null,24:null,25:null},
-  45:{13:108.05,14:98.5,15:90.65,16:84.15,17:78.65,18:75.15,19:71.05,20:67.5,21:null,22:null,23:null,24:null,25:null},
-  46:{13:108.75,14:99.25,15:91.45,16:85,17:79.55,18:76.1,19:72,20:null,21:null,22:null,23:null,24:null,25:null},
-  47:{13:109.55,14:100.1,15:92.35,16:85.9,17:80.45,18:77.05,19:null,20:null,21:null,22:null,23:null,24:null,25:null},
-  48:{13:110.45,14:101,15:93.3,16:86.85,17:81.5,18:null,19:null,20:null,21:null,22:null,23:null,24:null,25:null},
-  49:{13:111.4,14:102,15:94.3,16:87.95,17:null,18:null,19:null,20:null,21:null,22:null,23:null,24:null,25:null},
-  50:{13:112.4,14:103.05,15:95.4,16:null,17:null,18:null,19:null,20:null,21:null,22:null,23:null,24:null,25:null}
-};
-const addbRates = {
-  13:1.25,14:1.2,15:1.2,16:1.15,17:1.15,
-  18:1.15,19:1.15,20:1.1,21:1.1,22:1.1,
-  23:1.1,24:1.1,25:1.1
-};
+    // --- DATA SETUP ---
+    const premiumRates = { 18:{13:103.1,14:93.25,15:85.05,16:78.15,17:72.25,18:68.2,19:63.7,20:59.7,21:56.3,22:53.25,23:50.55,24:48.1,25:45.85}, 19:{13:103.15,14:93.25,15:85.05,16:78.15,17:72.3,18:68.25,19:63.7,20:59.75,21:56.35,22:53.3,23:50.55,24:48.1,25:45.9}, 20:{13:103.15,14:93.25,15:85.05,16:78.2,17:75.56,18:68.25,19:63.75,20:59.75,21:56.35,22:53.3,23:50.6,24:48.15,25:45.95}, 21:{13:103.15,14:93.25,15:85.1,16:78.2,17:72.3,18:68.3,19:63.75,20:59.8,21:56.4,22:53.35,23:50.65,24:48.2,25:46}, 22:{13:103.15,14:93.3,15:85.1,16:78.2,17:72.35,18:68.3,19:63.8,20:59.8,21:56.4,22:53.4,23:50.7,24:48.25,25:46.05}, 23:{13:103.15,14:93.3,15:85.1,16:78.25,17:75.61,18:68.35,19:63.8,20:59.85,21:56.45,22:53.45,23:50.75,24:48.3,25:46.1}, 24:{13:103.2,14:93.3,15:85.15,16:78.25,17:72.4,18:68.35,19:63.85,20:59.9,21:56.5,22:53.5,23:50.8,24:48.2,25:46.15}, 25:{13:103.2,14:93.35,15:85.15,16:78.3,17:72.45,18:68.4,19:63.9,20:59.95,21:56.55,22:53.55,23:50.85,24:48.45,25:46.25}, 26:{13:103.25,14:93.35,15:85.2,16:78.35,17:72.5,18:68.45,19:63.95,20:60,21:56.65,22:53.65,23:50.95,24:48.55,25:46.35}, 27:{13:103.3,14:93.4,15:85.25,16:78.4,17:72.55,18:68.55,19:64.05,20:60.1,21:56.75,22:53.75,23:51.05,24:48.65,25:46.5}, 28:{13:103.35,14:93.5,15:85.3,16:78.45,17:72.6,18:68.65,19:64.15,20:60.2,21:56.85,22:53.85,23:51.2,24:48.8,25:46.65}, 29:{13:103.4,14:93.55,15:85.4,16:78.55,17:72.7,18:68.75,19:64.25,20:60.35,21:57,22:54,23:51.35,24:49,25:46.85}, 30:{13:103.5,14:93.65,15:85.5,16:78.65,17:72.85,18:68.85,19:64.4,20:60.5,21:57.15,22:54.2,23:51.55,24:49.2,25:47.05}, 31:{13:103.6,14:93.75,15:85.6,16:78.8,17:72.95,18:69,19:64.55,20:60.65,21:57.3,22:54.35,23:51.75,24:49.4,25:47.3}, 32:{13:103.7,14:93.85,15:85.75,16:78.9,17:73.1,18:69.2,19:64.75,20:60.85,21:57.55,22:54.6,23:52,24:49.65,25:47.55}, 33:{13:103.85,14:94,15:85.9,16:79.1,17:73.3,18:69.35,19:64.95,20:61.05,21:57.75,22:54.85,23:52.25,24:49.95,25:47.9}, 34:{13:104,14:94.2,15:86.1,16:79.3,17:73.5,18:69.6,19:65.2,20:61.35,21:58.05,22:55.15,23:52.6,24:50.3,25:48.25}, 35:{13:104.15,14:94.35,15:86.3,16:79.5,17:73.75,18:69.85,19:65.45,20:61.6,21:58.35,22:55.5,23:52.95,24:50.65,25:48.65}, 36:{13:104.35,14:94.6,15:86.5,16:79.75,17:74,18:70.15,19:65.75,20:61.95,21:58.7,22:55.85,23:53.35,24:51.1,25:49.1}, 37:{13:104.6,14:94.8,15:86.75,16:80,17:74.3,18:70.45,19:66.1,20:62.35,21:59.1,22:56.3,23:53.8,24:51.55,25:49.55}, 38:{13:104.85,14:95.1,15:87.05,16:80.35,17:74.65,18:70.85,19:66.5,20:65.57,21:59.55,22:56.75,23:54.3,24:52.1,25:50.1}, 39:{13:105.15,14:95.4,15:87.4,16:80.7,17:75.05,18:71.3,19:67,20:63.25,21:60.1,22:57.3,23:54.85,24:52.65,25:50.75}, 40:{13:105.5,14:95.8,15:87.8,16:81.15,17:75.5,18:71.75,19:67.5,20:63.75,21:60.65,22:57.9,23:55.45,24:53.3,25:51.4}, 41:{13:105.85,14:96.2,15:88.25,16:81.6,17:76,18:72.3,19:68.05,20:64.35,21:61.25,22:58.55,23:56.15,24:54.05}, 42:{13:106.3,14:96.65,15:88.75,16:82.15,17:76.55,18:72.9,19:68.7,20:65.05,21:61.95,22:59.25,23:56.9}, 43:{13:106.8,14:97.2,15:89.3,16:82.75,17:77.2,18:73.6,19:69.4,20:65.8,21:62.75}, 44:{13:107.4,14:97.8,15:89.95,16:83.4,17:77.9,18:74.35,19:70.2,20:66.6,21:63.6}, 45:{13:108.05,14:98.5,15:90.65,16:84.15,17:78.65,18:75.15,19:71.05,20:67.5}, 46:{13:108.75,14:99.25,15:91.45,16:85,17:79.55,18:76.1,19:72}, 47:{13:109.55,14:100.1,15:92.35,16:85.9,17:80.45,18:77.05}, 48:{13:110.45,14:101,15:93.3,16:86.85,17:81.5}, 49:{13:111.4,14:102,15:94.3,16:87.95}, 50:{13:112.4,14:103.05,15:95.4} };
+    const rawTermRiderRates = [ { "Age": 18, "T13": 2, "T14": 1.95, "T15": 1.91, "T16": 1.88, "T17": 1.86, "T18": 1.87, "T19": 1.86, "T20": 1.85, "T21": 1.85, "T22": 1.85, "T23": 1.86, "T24": 1.87, "T25": 1.89 }, { "Age": 19, "T13": 2.02, "T14": 1.97, "T15": 1.93, "T16": 1.9, "T17": 1.88, "T18": 1.9, "T19": 1.89, "T20": 1.88, "T21": 1.88, "T22": 1.89, "T23": 1.9, "T24": 1.92, "T25": 1.94 }, { "Age": 20, "T13": 2.03, "T14": 1.98, "T15": 1.95, "T16": 1.92, "T17": 1.9, "T18": 1.92, "T19": 1.92, "T20": 1.92, "T21": 1.92, "T22": 1.93, "T23": 1.95, "T24": 1.97, "T25": 1.99 }, { "Age": 21, "T13": 2.05, "T14": 2, "T15": 1.97, "T16": 1.95, "T17": 1.93, "T18": 1.95, "T19": 1.95, "T20": 1.95, "T21": 1.97, "T22": 1.98, "T23": 2, "T24": 2.03, "T25": 2.05 }, { "Age": 22, "T13": 2.07, "T14": 2.02, "T15": 1.99, "T16": 1.98, "T17": 1.96, "T18": 1.99, "T19": 1.99, "T20": 2, "T21": 2.02, "T22": 2.04, "T23": 2.06, "T24": 2.09, "T25": 2.13 }, { "Age": 23, "T13": 2.09, "T14": 2.05, "T15": 2.03, "T16": 2.01, "T17": 2, "T18": 2.03, "T19": 2.04, "T20": 2.06, "T21": 2.08, "T22": 2.11, "T23": 2.14, "T24": 2.17, "T25": 2.21 }, { "Age": 24, "T13": 2.12, "T14": 2.09, "T15": 2.07, "T16": 2.05, "T17": 2.05, "T18": 2.09, "T19": 2.11, "T20": 2.13, "T21": 2.16, "T22": 2.19, "T23": 2.22, "T24": 2.27, "T25": 2.31 }, { "Age": 25, "T13": 2.17, "T14": 2.13, "T15": 2.12, "T16": 2.11, "T17": 2.12, "T18": 2.17, "T19": 2.19, "T20": 2.21, "T21": 2.24, "T22": 2.28, "T23": 2.32, "T24": 2.37, "T25": 2.43 }, { "Age": 26, "T13": 2.22, "T14": 2.19, "T15": 2.18, "T16": 2.18, "T17": 2.2, "T18": 2.25, "T19": 2.28, "T20": 2.31, "T21": 2.35, "T22": 2.39, "T23": 2.44, "T24": 2.5, "T25": 2.57 }, { "Age": 27, "T13": 2.28, "T14": 2.26, "T15": 2.26, "T16": 2.27, "T17": 2.29, "T18": 2.35, "T19": 2.38, "T20": 2.42, "T21": 2.47, "T22": 2.52, "T23": 2.58, "T24": 2.65, "T25": 2.73 }, { "Age": 28, "T13": 2.36, "T14": 2.35, "T15": 2.36, "T16": 2.37, "T17": 2.4, "T18": 2.47, "T19": 2.51, "T20": 2.55, "T21": 2.61, "T22": 2.67, "T23": 2.75, "T24": 2.82, "T25": 2.91 }, { "Age": 29, "T13": 2.47, "T14": 2.46, "T15": 2.47, "T16": 2.49, "T17": 2.53, "T18": 2.6, "T19": 2.65, "T20": 2.71, "T21": 2.78, "T22": 2.85, "T23": 2.93, "T24": 3.02, "T25": 3.12 }, { "Age": 30, "T13": 2.59, "T14": 2.59, "T15": 2.61, "T16": 2.63, "T17": 2.67, "T18": 2.76, "T19": 2.82, "T20": 2.89, "T21": 2.97, "T22": 3.05, "T23": 3.15, "T24": 3.25, "T25": 3.36 }, { "Age": 31, "T13": 2.73, "T14": 2.74, "T15": 2.76, "T16": 2.8, "T17": 2.84, "T18": 2.95, "T19": 3.02, "T20": 3.1, "T21": 3.19, "T22": 3.28, "T23": 3.39, "T24": 3.5, "T25": 3.62 }, { "Age": 32, "T13": 2.89, "T14": 2.91, "T15": 2.94, "T16": 2.98, "T17": 3.04, "T18": 3.16, "T19": 3.24, "T20": 3.33, "T21": 3.44, "T22": 3.55, "T23": 3.67, "T24": 3.79, "T25": 3.92 }, { "Age": 33, "T13": 3.08, "T14": 3.1, "T15": 3.14, "T16": 3.2, "T17": 3.27, "T18": 3.41, "T19": 3.5, "T20": 3.61, "T21": 3.72, "T22": 3.84, "T23": 3.97, "T24": 4.11, "T25": 4.25 }, { "Age": 34, "T13": 3.3, "T14": 3.33, "T15": 3.38, "T16": 3.45, "T17": 3.53, "T18": 3.68, "T19": 3.79, "T20": 3.91, "T21": 4.04, "T22": 4.18, "T23": 4.32, "T24": 4.46, "T25": 4.61 }, { "Age": 35, "T13": 3.54, "T14": 3.59, "T15": 3.65, "T16": 3.73, "T17": 3.83, "T18": 4, "T19": 4.12, "T20": 4.26, "T21": 4.4, "T22": 4.54, "T23": 4.69, "T24": 4.85, "T25": 5 }, { "Age": 36, "T13": 3.83, "T14": 3.88, "T15": 3.96, "T16": 4.06, "T17": 4.17, "T18": 4.36, "T19": 4.5, "T20": 4.64, "T21": 4.79, "T22": 4.95, "T23": 5.11, "T24": 5.27, "T25": 5.43 }, { "Age": 37, "T13": 4.15, "T14": 4.22, "T15": 4.31, "T16": 4.42, "T17": 4.55, "T18": 4.76, "T19": 4.91, "T20": 5.07, "T21": 5.23, "T22": 5.39, "T23": 5.56, "T24": 5.73, "T25": 5.9 }, { "Age": 38, "T13": 4.52, "T14": 4.6, "T15": 4.71, "T16": 4.84, "T17": 4.98, "T18": 5.21, "T19": 5.37, "T20": 5.54, "T21": 5.71, "T22": 5.88, "T23": 6.05, "T24": 6.23, "T25": 6.41 }, { "Age": 39, "T13": 4.95, "T14": 5.04, "T15": 5.16, "T16": 5.3, "T17": 5.46, "T18": 5.71, "T19": 5.88, "T20": 6.05, "T21": 6.23, "T22": 6.41, "T23": 6.59, "T24": 6.77, "T25": 6.96 }, { "Age": 40, "T13": 5.43, "T14": 5.54, "T15": 5.67, "T16": 5.82, "T17": 5.99, "T18": 6.25, "T19": 6.43, "T20": 6.61, "T21": 6.8, "T22": 6.98, "T23": 7.17, "T24": 7.36, "T25": 7.56 }, { "Age": 41, "T13": 5.97, "T14": 6.09, "T15": 6.24, "T16": 6.4, "T17": 6.57, "T18": 6.85, "T19": 7.03, "T20": 7.22, "T21": 7.41, "T22": 7.6, "T23": 7.8, "T24": 8 }, { "Age": 42, "T13": 6.55, "T14": 6.68, "T15": 6.84, "T16": 7, "T17": 7.18, "T18": 7.48, "T19": 7.67, "T20": 7.86, "T21": 8.06, "T22": 8.26, "T23": 8.46 }, { "Age": 43, "T13": 7.2, "T14": 7.34, "T15": 7.5, "T16": 7.67, "T17": 7.85, "T18": 8.17, "T19": 8.36, "T20": 8.56, "T21": 8.76, "T22": 8.97 }, { "Age": 44, "T13": 7.91, "T14": 8.05, "T15": 8.21, "T16": 8.39, "T17": 8.57, "T18": 8.9, "T19": 9.1, "T20": 9.3, "T21": 9.52 }, { "Age": 45, "T13": 8.69, "T14": 8.83, "T15": 8.99, "T16": 9.16, "T17": 9.35, "T18": 9.7, "T19": 9.9, "T20": 10.11 }, { "Age": 46, "T13": 9.54, "T14": 9.67, "T15": 9.83, "T16": 10, "T17": 10.19, "T18": 10.55, "T19": 10.76 }, { "Age": 47, "T13": 10.45, "T14": 10.57, "T15": 10.72, "T16": 10.89, "T17": 11.08, "T18": 11.47 }, { "Age": 48, "T13": 11.42, "T14": 11.53, "T15": 11.68, "T16": 11.85, "T17": 12.04 }, { "Age": 49, "T13": 12.45, "T14": 12.55, "T15": 12.69, "T16": 12.86 }, { "Age": 50, "T13": 13.53, "T14": 13.63, "T15": 13.77 } ];
+    const addbRates = { 13:1.25,14:1.2,15:1.2,16:1.15,17:1.15, 18:1.15,19:1.15,20:1.1,21:1.1,22:1.1, 23:1.1,24:1.1,25:1.1 };
+    
+    const termRiderRates = rawTermRiderRates.reduce((acc, item) => {
+        const rates = {};
+        for (const key in item) {
+            if (key !== 'Age') {
+                rates[key.replace('T', '')] = item[key];
+            }
+        }
+        acc[item.Age] = rates;
+        return acc;
+    }, {});
 
-const modeRebate = { yly: 0.02, hly: 0, qly: 0, mly: 0 };
-const modalFactors = { yly:1, hly:0.5054, qly:0.2554, mly:0.08515 };
-const gstFirst = 1.045;
-const gstSecond = 1.0225;
+    const formatINR = (val) => "₹ " + Math.round(val).toLocaleString("en-IN");
 
-function formatINR(val) {
-  return "₹" + Math.round(val).toLocaleString("en-IN");
-}
+    function calculate() {
+      const sa = parseInt(document.getElementById("sumAssured").value);
+      const age = parseInt(document.getElementById("age").value);
+      const term = parseInt(document.getElementById("term").value);
+      const addbSelected = document.getElementById("addb-rider").checked;
+      document.getElementById("ppt").value = (term - 3) + " Years";
 
-function calculate() {
-  const sa = parseInt(document.getElementById("sumAssured").value);
-  const age = parseInt(document.getElementById("age").value);
-  const term = parseInt(document.getElementById("term").value);
-  const ppt = term - 3;
-  document.getElementById("ppt").value = ppt + " Years";
+      const rate = premiumRates[age]?.[term];
+      if (!rate) { document.getElementById("results").innerHTML = `<p class="text-danger text-center">No rate for this age/term.</p>`; return; }
 
-  const rate = premiumRates[age]?.[term];
-  if (!rate) {
-    document.getElementById("results").innerHTML = `No rate for this age/term`;
-    return;
-  }
+           let basePrem = (sa/1000) * rate;
 
-  // 1. Base premium
-  let basePrem = (sa/1000) * rate;
+      // SA Rebate Calculation based on ADDB selection
+      let saRebateRate = 0;
+      if (addbSelected) {
+          // --- Rebate rates WHEN ADDB IS SELECTED (Your existing rates, corrected order) ---
+ if (sa >= 2500000) {
+              saRebateRate =5.1; // Example: New rate for 10 Lakhs and above
+          }         
+else if (sa >= 1000000) {
+              saRebateRate = 5.1;
+          } else if (sa >= 500000) {
+              saRebateRate = 4.1;
+          }
+      } else {
+          // --- <<< SET YOUR NEW REBATE RATES HERE WHEN ADDB IS NOT SELECTED >>> ---
+         
+ if (sa >= 2500000) {
+              saRebateRate =5.1; // Example: New rate for 10 Lakhs and above
+          }
+else if (sa >= 1000000) {
+              saRebateRate =5.1; // Example: New rate for 10 Lakhs and above
+          } else if (sa >= 500000) {
+              saRebateRate = 4.1; // Example: New rate for 5 Lakhs and above
+          }
+      }
 
-  // 2. SA rebate
-  let saRebateRate = 0;
-  if (sa >= 2000000) saRebateRate = 5.1;
-  else if (sa >= 1000000) saRebateRate = 5.1;
-  else if (sa >= 500000) saRebateRate = 4.1;
-  let saRebate = (sa/1000) * saRebateRate;
-  let afterSaRebate = basePrem - saRebate;
+      let saRebate = (sa/1000) * saRebateRate;
+      let afterSaRebate = basePrem - saRebate;
+      let yearlyPrem = afterSaRebate * (1 - 0.02);
+      let dab = addbSelected ? (Math.min(sa,10000000)/1000) * addbRates[term] : 0;
+      let netAnnual = yearlyPrem + dab;
 
-  // 3. Mode rebate (2% on yearly)
-  let yearlyPrem = afterSaRebate - (afterSaRebate * 0.02);
+      const modalFactors = { yly:1, hly:0.50532, qly:0.25532, mly:0.08511 };
+      const result = {};
+      for (let m in modalFactors) {
+        let modalPrem = netAnnual * modalFactors[m];
+        result[m] = { first: formatINR(modalPrem * 1.045), second: formatINR(modalPrem * 1.0225) };
+      }
 
-  // 4. DAB
-  let dab = (Math.min(sa,10000000)/1000) * addbRates[term];
-  let netAnnual = yearlyPrem + dab;
-
-  // 5. Modal + GST
-  const modalFactors = { yly:1, hly:0.50532, qly:0.25532, mly:0.08511 };
-  const gstFirst = 1.045;
-  const gstSecond = 1.0225;
-
-  const result = {};
-  for (let m of ["yly","hly","qly","mly"]) {
-    let modalPrem = netAnnual * modalFactors[m];
-    result[m] = {
-      first: "₹" + Math.round(modalPrem * gstFirst).toLocaleString("en-IN"),
-      second: "₹" + Math.round(modalPrem * gstSecond).toLocaleString("en-IN")
+      document.getElementById("results").innerHTML = `
+        <h2 class="text-center mt-4">Premium Summary</h2>
+        <table class="table table-bordered">
+            <thead class="table-light"><tr><th>Mode</th><th>1st Year (incl GST)</th><th>2nd Year (incl GST)</th></tr></thead>
+            <tbody>
+                <tr><td>Yearly</td><td>${result.yly.first}</td><td>${result.yly.second}</td></tr>
+                <tr><td>Half-Yearly</td><td>${result.hly.first}</td><td>${result.hly.second}</td></tr>
+                <tr><td>Quarterly</td><td>${result.qly.first}</td><td>${result.qly.second}</td></tr>
+                <tr><td>Monthly</td><td>${result.mly.first}</td><td>${result.mly.second}</td></tr>
+            </tbody>
+        </table>`;
     }
-  }
 
-  document.getElementById("results").innerHTML = `
-  <h2>Premium Summary</h2>
-  <table>
-    <tr><th>Mode</th><th>1st Year (incl GST)</th><th>2nd Year (incl GST)</th></tr>
-    <tr><td>Yearly</td><td>${result.yly.first}</td><td>${result.yly.second}</td></tr>
-    <tr><td>Half-Yearly</td><td>${result.hly.first}</td><td>${result.hly.second}</td></tr>
-    <tr><td>Quarterly</td><td>${result.qly.first}</td><td>${result.qly.second}</td></tr>
-    <tr><td>Monthly</td><td>${result.mly.first}</td><td>${result.mly.second}</td></tr>
-  </table>`;
-}
+    // --- RIDER AND MODAL LOGIC ---
+    const modal = document.getElementById('rider-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+    const closeModalBtn = document.querySelector('.modal-close-btn');
+
+    function showModal(title, bodyHtml) {
+        modalTitle.innerHTML = title;
+        modalBody.innerHTML = bodyHtml;
+        modal.style.display = 'flex';
+    }
+    function hideModal() { modal.style.display = 'none'; }
+    
+    closeModalBtn.addEventListener('click', hideModal);
+    window.addEventListener('click', (event) => { if (event.target === modal) hideModal(); });
+
+    document.getElementById('term-rider-btn').addEventListener('click', () => {
+        const baseSa = parseFloat(document.getElementById("sumAssured").value);
+        const bodyHtml = `
+            <label for="termRiderSA" class="form-label">Term Rider Sum Assured</label>
+            <p style="font-size:0.8em; color:#6c757d; margin-top:0;">(Cannot exceed Base SA of ${formatINR(baseSa)})</p>
+            <input type="number" id="termRiderSA" class="form-control mb-3" value="${baseSa}" />
+            <button onclick="calculateTermRiderFromModal()" class="btn btn-danger w-100">Calculate Rider Premium</button>
+        `;
+        showModal('Term Rider Premium', bodyHtml);
+    });
+
+    function calculateTermRiderFromModal() {
+        const age = parseInt(document.getElementById("age").value);
+        const term = parseInt(document.getElementById("term").value);
+        const baseSumAssured = parseFloat(document.getElementById("sumAssured").value);
+        const termRiderSumAssured = parseFloat(document.getElementById('termRiderSA').value);
+
+        if (isNaN(termRiderSumAssured) || termRiderSumAssured <= 0) { showModal('Error', '<p class="text-danger">Enter a valid Sum Assured.</p>'); return; }
+        if (termRiderSumAssured > baseSumAssured) { showModal('Validation Error', `<p class="text-danger">Rider SA cannot exceed Base SA of ${formatINR(baseSumAssured)}.</p>`); return; }
+
+        const termRiderRate = termRiderRates[age]?.[term];
+        if (!termRiderRate || termRiderRate === 0) { showModal('Term Rider Not Available', '<p class="text-danger">Term Rider is not available for this Age/Term.</p>'); return; }
+
+        const termRiderPremium = (termRiderSumAssured / 1000) * termRiderRate;
+        const termRiderPremiumWithGst = termRiderPremium * 1.18;
+        showModal('Standalone Term Rider Premium', `<p class="fs-4 fw-bold">${formatINR(termRiderPremiumWithGst)}</p><small>(Yearly Premium, inclusive of 18% GST)</small>`);
+    }
+
 </script>
 
-<div style="margin-top: 20px; font-size: 0.9em; color: #555;">
+<div style="margin-top: 20px; font-size: 0.9em; color: #555; text-align:center;">
   <strong>Disclaimer:</strong> The premium amounts calculated here are for indicative purposes only. Actual premiums may vary based on LIC’s official rates, underwriting guidelines, and policy terms. Please consult an authorized LIC agent or branch for the exact premium payable.
 </div>
-</body>
-</html>
-
-
 </body>
 </html>
