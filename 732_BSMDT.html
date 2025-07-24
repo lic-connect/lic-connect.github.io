@@ -1,61 +1,102 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>LIC Plan 732 Premium Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
+    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; padding-bottom: 120px; /* Space for the fixed button */ }
     .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); max-width: 700px; margin:auto; }
     h1 { text-align:center; }
     label { font-weight:bold; margin-top:10px; display:block; }
-    input[type="number"], input[type="text"] { width:100%; padding:10px; margin-bottom:10px; }
-    button { width:100%; padding:15px; background:#27ae60; color:#fff; font-size:16px; border:none; cursor:pointer; }
+    input[type="number"], input[type="text"] { width:100%; padding:10px; margin-bottom:10px; box-sizing: border-box; }
+    button { width:100%; padding:15px; background:#27ae60; color:#fff; font-size:16px; border:none; cursor:pointer; border-radius: 5px;}
     button:hover { background:#219150; }
     table { width:100%; margin-top:20px; border-collapse:collapse; }
     th, td { border:1px solid #ccc; padding:10px; text-align:center; }
     th { background:#e8f5e9; }
+    
+    /* --- STYLES FOR PWB BUTTON AND MODAL --- */
+     .actions-container {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+    .actions-container button {
+        flex: 1; /* This is the key property to make them equal width */
+    }
+    .pwb-btn {
+        background: linear-gradient(145deg, #007bff, #0056b3);
+        color: white; font-family: Arial, sans-serif; font-size: 16px;
+        font-weight: bold; border: none; border-radius: 10px;
+        padding: 15px 30px; cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0, 91, 179, 0.4);
+        transition: all 0.3s ease;
+    }
+    .pwb-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 91, 179, 0.5);
+    }
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: none; align-items: center; justify-content: center; z-index: 2000;
+    }
+    .modal-content {
+        background: #fff; padding: 30px; border-radius: 10px;
+        width: 90%; max-width: 500px; text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative;
+    }
+    .modal-close-btn {
+        position: absolute; top: 10px; right: 15px;
+        font-size: 28px; font-weight: bold; color: #888; cursor: pointer;
+    }
+    #modal-title { margin-top: 0; color: #0056b3; }
+    #modal-body { font-size: 1.1em; color: #333; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>LIC Plan 732 Premium Calculator</h1>
 
-    <label for="age">Age</label>
-    <input type="number" id="age" value="10" min="0" max="12" />
+    <label for="age">Child's Age (0-12)</label>
+    <input type="number" id="age" value="5" min="0" max="12" />
 
     <label for="term">Policy Term</label>
-    <input type="number" id="term" value="25" min="25" max="25" />
+    <input type="text" id="term" value="25" disabled />
 
     <label for="sumAssured">Sum Assured</label>
-    <input type="number" id="sumAssured" value="200000" step="10000" />
-
-  
+    <input type="number" id="sumAssured" value="500000" step="10000" />
 
     <label for="ppt">Premium Paying Term</label>
     <input type="text" id="ppt" disabled />
 
-    <button onclick="calculate()">Calculate Premium</button>
+       <!-- START: New Button Container -->
+    <div class="actions-container">
+        <button onclick="calculate()">Calculate Base Premium</button>
+        <button id="pwb-btn" class="pwb-btn">Know Your PWB Premium</button>
+    </div>
+    <!-- END: New Button Container -->
+
 
     <div id="results"></div>
   </div>
 
+  <!-- Button and Modal HTML -->
+
+  <div id="pwb-modal" class="modal-overlay">
+      <div class="modal-content">
+          <span class="modal-close-btn">×</span>
+          <h2 id="modal-title"></h2>
+          <div id="modal-body"></div>
+      </div>
+  </div>
+
+
 <script>
-const premiumRates = {
-    0: { 25: 45.95 },
-    1: { 25: 48.15 },
-    2: { 25: 50.55 },
-    3: { 25: 53.3 },
-    4: { 25: 56.3 },
-    5: { 25: 59.6 },
-    6: { 25: 63.35 },
-    7: { 25: 67.55 },
-    8: { 25: 72.25 },
-    9: { 25: 77.6 },
-    10: { 25: 83.65 },
-    11: { 25: 89.1 },
-    12: { 25: 96.95 }
-};
+const premiumRates = { 0: 45.95, 1: 48.15, 2: 50.55, 3: 53.3, 4: 56.3, 5: 59.6, 6: 63.35, 7: 67.55, 8: 72.25, 9: 77.6, 10: 83.65, 11: 89.1, 12: 96.95 };
+const rawPwbRates = [ { "A": 1.7, "B": 1.7, "C": 1.85, "D": 2.1, "E": 2.45, "F": 3.1, "G": 4.1, "Term": 5 }, { "A": 1.8, "B": 1.85, "C": 1.95, "D": 2.25, "E": 2.7, "F": 3.55, "G": 4.8, "Term": 6 }, { "A": 1.9, "B": 1.9, "C": 2.1, "D": 2.4, "E": 2.95, "F": 4, "G": 5.55, "Term": 7 }, { "A": 1.95, "B": 2, "C": 2.2, "D": 2.6, "E": 3.25, "F": 4.5, "G": 6.3, "Term": 8 }, { "A": 2, "B": 2.1, "C": 2.3, "D": 2.8, "E": 3.6, "F": 5, "G": 7.05, "Term": 9 }, { "A": 2.2, "B": 2.25, "C": 2.55, "D": 3.1, "E": 4.05, "F": 5.75, "G": 8.15, "Term": 10 }, { "A": 2.25, "B": 2.4, "C": 2.65, "D": 3.3, "E": 4.4, "F": 6.35, "G": 9, "Term": 11 }, { "A": 2.3, "B": 2.45, "C": 2.8, "D": 3.5, "E": 4.8, "F": 6.9, "G": 9.85, "Term": 12 }, { "A": 2.45, "B": 2.55, "C": 2.95, "D": 3.75, "E": 5.15, "F": 7.5, "G": 10.7, "Term": 13 }, { "A": 2.5, "B": 2.7, "C": 3.1, "D": 4, "E": 5.55, "F": 8.15, "G": 11.6, "Term": 14 }, { "A": 2.6, "B": 2.8, "C": 3.3, "D": 4.35, "E": 6.1, "F": 8.9, "G": 12.75, "Term": 15 }, { "A": 2.7, "B": 2.9, "C": 3.5, "D": 4.6, "E": 6.5, "F": 9.55, "G": 13.7, "Term": 16 }, { "A": 2.8, "B": 3.05, "C": 3.65, "D": 4.9, "E": 7, "F": 10.25, "G": 14.7, "Term": 17 }, { "A": 2.85, "B": 3.15, "C": 3.85, "D": 5.2, "E": 7.45, "F": 10.95, "G": 15.75, "Term": 18 }, { "A": 2.9, "B": 3.3, "C": 4.05, "D": 5.5, "E": 7.95, "F": 11.65, "G": 16.8, "Term": 19 }, { "A": 3.05, "B": 3.45, "C": 4.25, "D": 5.85, "E": 8.4, "F": 12.35, "G": null, "Term": 20 }, { "A": 3.1, "B": 3.55, "C": 4.45, "D": 6.15, "E": 8.95, "F": 13.1, "G": null, "Term": 21 }, { "A": 3.2, "B": 3.7, "C": 4.7, "D": 6.5, "E": 9.45, "F": 13.85, "G": null, "Term": 22 }, { "A": 3.35, "B": 3.85, "C": 4.9, "D": 6.9, "E": 10, "F": 14.65, "G": null, "Term": 23 }, { "A": 3.4, "B": 4, "C": 5.15, "D": 7.25, "E": 10.5, "F": 15.45, "G": null, "Term": 24 }, { "A": 3.5, "B": 4.15, "C": 5.4, "D": 7.65, "E": 11.05, "F": null, "G": null, "Term": 25 } ];
+const pwbRates = rawPwbRates.reduce((acc, item) => { acc[item.Term] = { A: item.A, B: item.B, C: item.C, D: item.D, E: item.E, F: item.F, G: item.G }; return acc; }, {});
 
 const modalFactors = { yly:1, hly:0.50535, qly:0.25535, mly:0.085120 };
 const modeRebate = { yly:0.02, hly:0, qly:0, mly:0 };
@@ -63,46 +104,46 @@ const gstFirst = 1.045;
 const gstSecond = 1.0225;
 
 function formatINR(val) {
-  return "₹" + Math.round(val).toLocaleString("en-IN");
+  return "₹ " + Math.round(val).toLocaleString("en-IN");
 }
 
 function calculate() {
   const sa = parseInt(document.getElementById("sumAssured").value);
   const age = parseInt(document.getElementById("age").value);
 
-  // calculate policy term and ppt based on age
-  const term = 25;           // fixed policy term
-const ppt = 25 - age;      // premium paying term
-  document.getElementById("term").value = term;
+  const term = 25;
+  const ppt = 25 - age;
+  document.getElementById("term").value = term + " Years";
   document.getElementById("ppt").value = ppt + " Years";
 
-  const rate = premiumRates[age]?.[term];
-  if (!rate) {
-    document.getElementById("results").innerHTML = `No rate available for this age and term`;
+  const rate = premiumRates[age];
+  if (rate === undefined) {
+    document.getElementById("results").innerHTML = `<p style="color:red; text-align:center;">No rate available for this age.</p>`;
     return;
   }
 
-  // 1. Base premium
   let basePrem = (sa / 1000) * rate;
 
-  // 2. Sum Assured rebate on premium
-  let saRebateRate = 0;
-  if (sa >= 5000000) saRebateRate = 4.0815;
- else if (sa >= 1000000) saRebateRate = 4.08;
-  else if (sa >= 500000) saRebateRate = 2.55;  
+  // SA Rebate Calculation with new tiers
+  let saRebateRate = 0; // Default to 0 for sums assured below 5 Lakhs
   
+  if (sa >= 5000000) {      // 50 Lakhs and above
+      saRebateRate = 4.082;
+  } else if (sa >= 2500000) { // 25 Lakhs and above
+      saRebateRate = 4.08;
+  } else if (sa >= 1000000) { // 10 Lakhs and above
+      saRebateRate = 4.08;
+  } else if (sa >= 500000) {  // 5 Lakhs and above
+      saRebateRate = 2.55;
+  }
+
   let saRebate = (sa/1000) * saRebateRate;
   let afterSaRebate = basePrem - saRebate;
-  
-  // 3. Yearly mode rebate
-  let yearlyPrem = afterSaRebate - (afterSaRebate * modeRebate.yly);
+  let yearlyPrem = afterSaRebate * (1 - modeRebate.yly);
 
-  let netAnnual = yearlyPrem;
-
-  // 4. Modal premiums with GST
   const result = {};
   for (let m of ["yly", "hly", "qly", "mly"]) {
-    let modalPrem = netAnnual * modalFactors[m];
+    let modalPrem = yearlyPrem * modalFactors[m];
     result[m] = {
       first: formatINR(modalPrem * gstFirst),
       second: formatINR(modalPrem * gstSecond)
@@ -110,20 +151,86 @@ const ppt = 25 - age;      // premium paying term
   }
 
   document.getElementById("results").innerHTML = `
-    <h2>Premium Summary</h2>
+    <h2>Base Premium Summary</h2>
     <table>
-      <tr><th>Mode</th><th>1st Year (incl. GST)</th><th>2nd Year (incl. GST)</th></tr>
+      <tr><th>Mode</th><th>1st Year (incl. GST)</th><th>2nd Year Onwards (incl. GST)</th></tr>
       <tr><td>Yearly</td><td>${result.yly.first}</td><td>${result.yly.second}</td></tr>
       <tr><td>Half-Yearly</td><td>${result.hly.first}</td><td>${result.hly.second}</td></tr>
       <tr><td>Quarterly</td><td>${result.qly.first}</td><td>${result.qly.second}</td></tr>
       <tr><td>Monthly</td><td>${result.mly.first}</td><td>${result.mly.second}</td></tr>
     </table>`;
 }
+
+// --- PWB MODAL LOGIC ---
+const modal = document.getElementById('pwb-modal');
+const modalTitle = document.getElementById('modal-title');
+const modalBody = document.getElementById('modal-body');
+const closeModalBtn = document.querySelector('.modal-close-btn');
+
+function showModal(title, bodyHtml) {
+    modalTitle.innerHTML = title;
+    modalBody.innerHTML = bodyHtml;
+    modal.style.display = 'flex';
+}
+function hideModal() { modal.style.display = 'none'; }
+
+closeModalBtn.addEventListener('click', hideModal);
+window.addEventListener('click', (event) => { if (event.target === modal) hideModal(); });
+
+document.getElementById('pwb-btn').addEventListener('click', () => {
+    const title = 'PWB Rider Premium';
+    const bodyHtml = `
+        <label for="proposer-age" class="form-label">Enter Proposer's Age (18-55)</label>
+        <input type="number" id="proposer-age" class="form-control mb-3" value="30" min="18" max="55">
+        <button class="btn btn-primary w-100" onclick="calculatePwbFromModal()">Calculate PWB Premium</button>
+    `;
+    showModal(title, bodyHtml);
+});
+
+function getPwbTier(proposerAge) {
+    if (proposerAge >= 18 && proposerAge <= 25) return 'A';
+    if (proposerAge >= 26 && proposerAge <= 30) return 'B';
+    if (proposerAge >= 31 && proposerAge <= 35) return 'C';
+    if (proposerAge >= 36 && proposerAge <= 40) return 'D';
+    if (proposerAge >= 41 && proposerAge <= 45) return 'E';
+    if (proposerAge >= 46 && proposerAge <= 50) return 'F';
+    if (proposerAge >= 51 && proposerAge <= 55) return 'G';
+    return null;
+}
+
+function calculatePwbFromModal() {
+    const childAge = parseInt(document.getElementById("age").value);
+    const sumAssured = parseFloat(document.getElementById("sumAssured").value);
+    const proposerAge = parseInt(document.getElementById("proposer-age").value);
+
+    if (isNaN(proposerAge) || proposerAge < 18 || proposerAge > 55) {
+        showModal('Error', '<p class="text-danger">Please enter a valid Proposer Age between 18 and 55.</p>');
+        return;
+    }
+    
+    const ppt = 25 - childAge;
+    const pwbTier = getPwbTier(proposerAge);
+    const pwbRate = pwbRates[ppt]?.[pwbTier];
+
+    if (!pwbRate) {
+        showModal('PWB Premium Not Available', `<p class="text-danger">PWB is not available for a Proposer Age of <b>${proposerAge}</b> and a Premium Paying Term of <b>${ppt} years</b>.</p>`);
+        return;
+    }
+
+    const pwbPremium = (sumAssured / 1000) * pwbRate;
+    
+    const resultHtml = `
+        <p style="font-size: 1.5em; font-weight: bold; color: #333;">
+            Yearly PWB Premium: ${formatINR(pwbPremium)}
+        </p>
+        <small>(This is a standalone rider premium, excluding tax)</small>
+    `;
+    showModal('Standalone PWB Premium', resultHtml);
+}
 </script>
 
-<div style="margin-top: 20px; font-size: 0.9em; color: #555;">
+<div style="margin-top: 20px; font-size: 0.9em; color: #555; text-align:center;">
   <strong>Disclaimer:</strong> The premium amounts calculated here are for indicative purposes only. Actual premiums may vary based on LIC’s official rates, underwriting guidelines, and policy terms. Please consult an authorized LIC agent or branch for the exact premium payable.
 </div>
 </body>
 </html>
-
