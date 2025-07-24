@@ -8,12 +8,111 @@
     .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); max-width: 700px; margin:auto; }
     h1 { text-align:center; }
     label { font-weight:bold; margin-top:10px; display:block; }
-    input { width:100%; padding:10px; margin-bottom:10px; }
+    input { width:100%; padding:10px; margin-bottom:10px; box-sizing: border-box; }
     button { width:100%; padding:15px; background:#27ae60; color:#fff; font-size:16px; border:none; cursor:pointer; }
     button:hover { background:#219150; }
     table { width:100%; margin-top:20px; border-collapse:collapse; }
     th, td { border:1px solid #ccc; padding:10px; text-align:center; }
     th { background:#e8f5e9; }
+    
+    /* === STYLES FOR POP-UP MODAL START === */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: none; /* Hidden by default */
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+    }
+    .modal-content {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        position: relative;
+    }
+    .modal-close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 28px;
+        font-weight: bold;
+        color: #888;
+        cursor: pointer;
+    }
+    .modal-close-btn:hover { color: #000; }
+    #modal-title { margin-top: 0; color: #0056b3; }
+    #modal-body { font-size: 1.5em; font-weight: bold; color: #333; }
+    /* === STYLES FOR POP-UP MODAL END === */
+
+    /* Container to hold and center the buttons */
+    .premium-button-container {
+        display: flex;          /* Aligns buttons in a row */
+        justify-content: center;/* Horizontally centers the buttons */
+        gap: 20px;              /* Creates space between the buttons */
+        margin-top: 20px;       /* Adds space above the buttons */
+    }
+
+    /* Common style for both buttons */
+    .premium-btn {
+        background: linear-gradient(145deg, #007bff, #0056b3); /* Gradient for a modern look */
+        color: white;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px; /* Slightly more rounded corners */
+        padding: 15px 30px;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0, 91, 179, 0.4); /* A more pronounced shadow */
+        transition: all 0.3s ease; /* Smooth transition for all properties */
+    }
+
+    /* Effect for when the mouse hovers over a button */
+    .premium-btn:hover {
+        transform: translateY(-3px); /* Lifts the button slightly */
+        box-shadow: 0 8px 20px rgba(0, 91, 179, 0.5); /* Enhance shadow on hover */
+    }
+
+    /* Effect for when a button is clicked */
+    .premium-btn:active {
+        transform: translateY(0); /* Pushes the button back down */
+        box-shadow: 0 4px 10px rgba(0, 91, 179, 0.3);
+    }
+    
+        .checkbox-container {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background-color: #f7f7f7;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+    }
+
+    /* Styling the checkbox itself */
+    .checkbox-container input[type="checkbox"] {
+        width: auto; /* Resetting width from the general input style */
+        height: 18px; /* Custom height */
+        width: 18px;  /* Custom width */
+        margin: 0 12px 0 5px; /* Spacing: top right bottom left */
+        cursor: pointer;
+    }
+
+    /* Styling the label next to the checkbox */
+    .checkbox-container label {
+        margin: 0; /* Resetting default label margin */
+        font-weight: normal; /* Making the label text look cleaner */
+        color: #333;
+    }
   </style>
 </head>
 <body>
@@ -24,20 +123,55 @@
     <input type="number" id="age" value="30" min="8" max="50" />
 
     <label for="term">Policy Term</label>
-    <input type="number" id="term" value="20" min="13" max="25" />
+    <input type="number" id="term" value="20" min="12" max="35" />
 
     <label for="sumAssured">Sum Assured</label>
     <input type="number" id="sumAssured" value="2500000" step="10000" />
 
     <label for="ppt">Premium Paying Term</label>
     <input type="text" id="ppt" disabled />
+    
+    <!-- HTML for the checkbox -->
+<div class="checkbox-container">
+    <input type="checkbox" id="addb_checkbox" name="addb_checkbox">
+    <label for="addb_checkbox">Include AD&DB Rider</label>
+</div>
 
-    <button onclick="calculate()">Calculate Premium</button>
+    <button onclick="calculate()">Calculate Base Premium</button>
 
+  <!-- === CODE FOR STYLISH BUTTONS === -->
+  <div class="premium-button-container">
+    <button id="pwb-premium-btn" class="premium-btn">Know Your PWB Premium</button>
+    <button id="term-rider-premium-btn" class="premium-btn">Know Your Term Rider Premium</button>
+  </div>
+    
     <div id="results"></div>
   </div>
 
+
+
+  <!-- === CODE FOR POP-UP MODAL === -->
+  <div id="premium-modal" class="modal-overlay">
+      <div class="modal-content">
+          <span class="modal-close-btn">×</span>
+          <h2 id="modal-title"></h2>
+          <p id="modal-body"></p>
+      </div>
+  </div>
+
+<!-- You can keep your existing HTML and CSS. -->
+<!-- This is the required modal HTML. Place it before the <script> tag. -->
+<div id="premium-modal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="modal-close-btn">×</span>
+        <h2 id="modal-title"></h2>
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+<!-- Replace your existing <script> tag with this entire block -->
 <script>
+// Base Premium Rates
 const premiumRates = {
   8:{12:92.35,13:84.7,14:78.2,15:73.7,16:68.65,17:64.25,18:60.3,19:56.8,20:53.65,21:50.95,22:48.45,23:46.2,24:44.1,25:42.2,26:40.45,27:38.85,28:37.35,29:35.95,30:34.65,31:33.55,32:32.45,33:31.45,34:30.55,35:29.65},
   9:{12:92.4,13:84.8,14:78.25,15:73.75,16:68.7,17:64.3,18:60.35,19:56.85,20:53.75,21:51.0,22:48.5,23:46.25,24:44.15,25:42.25,26:40.5,27:38.9,28:37.4,29:36.0,30:34.75,31:33.6,32:32.55,33:31.55,34:30.6,35:29.7},
@@ -84,83 +218,341 @@ const premiumRates = {
   50:{12:97.8,13:90.45,14:84.2,15:80.15,16:75.45,17:71.35,18:67.75,19:64.6,20:61.8,21:59.45,22:57.3,23:55.45,24:53.75,25:52.3}
 };
 
+const pwbRates = {
+    5:{1:1.7,2:1.7,3:1.85,4:2.1,5:2.45,6:3.1,7:4.1},
+    6:{1:1.8,2:1.85,3:1.95,4:2.25,5:2.7,6:3.55,7:4.8},
+    7:{1:1.9,2:1.9,3:2.1,4:2.4,5:2.95,6:4,7:5.55},
+    8:{1:1.95,2:2,3:2.2,4:2.6,5:3.25,6:4.5,7:6.3},
+    9:{1:2,2:2.1,3:2.3,4:2.8,5:3.6,6:5,7:7.05},
+    10:{1:2.2,2:2.25,3:2.55,4:3.1,5:4.05,6:5.75,7:8.15},
+    11:{1:2.25,2:2.4,3:2.65,4:3.3,5:4.4,6:6.35,7:9},
+    12:{1:2.3,2:2.45,3:2.8,4:3.5,5:4.8,6:6.9,7:9.85},
+    13:{1:2.45,2:2.55,3:2.95,4:3.75,5:5.15,6:7.5,7:10.7},
+    14:{1:2.5,2:2.7,3:3.1,4:4,5:5.55,6:8.15,7:11.6},
+    15:{1:2.6,2:2.8,3:3.3,4:4.35,5:6.1,6:8.9,7:12.75},
+    16:{1:2.7,2:2.9,3:3.5,4:4.6,5:6.5,6:9.55,7:13.7},
+    17:{1:2.8,2:3.05,3:3.65,4:4.9,5:7,6:10.25,7:14.7}
+};
 
-const modeRebate = { yly: 0.02, hly: 0, qly: 0, mly: 0 };
+const termRiderRates = {
+    18:{12:1.83,13:1.83,14:1.83,15:1.83,16:1.83,17:1.83,18:1.83,19:1.83,20:1.83,21:1.83,22:1.83,23:1.83,24:1.83,25:1.83,26:1.83,27:1.83,28:1.86,29:1.89,30:1.93,31:1.97,32:2.01,33:2.06,34:2.11,35:2.16},
+    19:{12:1.84,13:1.84,14:1.84,15:1.84,16:1.84,17:1.84,18:1.84,19:1.84,20:1.84,21:1.84,22:1.84,23:1.84,24:1.84,25:1.84,26:1.85,27:1.88,28:1.92,29:1.96,30:2,31:2.04,32:2.09,33:2.15,34:2.2,35:2.26},
+    20:{12:1.85,13:1.85,14:1.85,15:1.85,16:1.85,17:1.85,18:1.85,19:1.85,20:1.85,21:1.85,22:1.85,23:1.85,24:1.85,25:1.87,26:1.91,27:1.94,28:1.98,29:2.03,30:2.08,31:2.13,32:2.19,33:2.25,34:2.31,35:2.38},
+    21:{12:1.85,13:1.85,14:1.85,15:1.85,16:1.85,17:1.85,18:1.85,19:1.85,20:1.85,21:1.85,22:1.85,23:1.86,24:1.9,25:1.93,26:1.97,27:2.01,28:2.06,29:2.11,30:2.17,31:2.23,32:2.29,33:2.36,34:2.43,35:2.5},
+    22:{12:1.85,13:1.85,14:1.85,15:1.85,16:1.85,17:1.85,18:1.85,19:1.85,20:1.85,21:1.85,22:1.88,23:1.92,24:1.96,25:2,26:2.05,27:2.1,28:2.15,29:2.21,30:2.27,31:2.34,32:2.41,33:2.48,34:2.56,35:2.64},
+    23:{12:1.85,13:1.85,14:1.85,15:1.85,16:1.85,17:1.85,18:1.85,19:1.85,20:1.88,21:1.91,22:1.95,23:1.99,24:2.03,25:2.08,26:2.13,27:2.19,28:2.25,29:2.32,30:2.39,31:2.47,32:2.54,33:2.63,34:2.71,35:2.8},
+    24:{12:1.85,13:1.85,14:1.85,15:1.85,16:1.85,17:1.85,18:1.87,19:1.9,20:1.94,21:1.98,22:2.02,23:2.07,24:2.12,25:2.18,26:2.24,27:2.3,28:2.37,29:2.45,30:2.53,31:2.61,32:2.7,33:2.79,34:2.88,35:2.97},
+    25:{12:1.86,13:1.86,14:1.86,15:1.86,16:1.87,17:1.9,18:1.93,19:1.97,20:2.01,21:2.06,22:2.11,23:2.16,24:2.22,25:2.29,26:2.36,27:2.43,28:2.51,29:2.59,30:2.68,31:2.78,32:2.87,33:2.97,34:3.06,35:3.16},
+    26:{12:1.87,13:1.87,14:1.87,15:1.9,16:1.93,17:1.97,18:2.01,19:2.05,20:2.1,21:2.15,22:2.21,23:2.27,24:2.34,25:2.42,26:2.5,27:2.58,28:2.67,29:2.76,30:2.86,31:2.96,32:3.06,33:3.17,34:3.27,35:3.37},
+    27:{12:1.89,13:1.89,14:1.9,15:1.97,16:2.01,17:2.05,18:2.1,19:2.15,20:2.21,21:2.27,22:2.33,23:2.4,24:2.48,25:2.57,26:2.66,27:2.75,28:2.85,29:2.95,30:3.06,31:3.17,32:3.28,33:3.39,34:3.5,35:3.61},
+    28:{12:1.92,13:1.95,14:1.98,15:2.06,16:2.1,17:2.15,18:2.2,19:2.26,20:2.33,21:2.4,22:2.47,23:2.56,24:2.64,25:2.74,26:2.84,27:2.95,28:3.05,29:3.17,30:3.28,31:3.4,32:3.51,33:3.63,34:3.75,35:3.86},
+    29:{12:1.99,13:2.03,14:2.08,15:2.16,16:2.21,17:2.26,18:2.33,19:2.39,20:2.47,21:2.55,22:2.64,23:2.73,24:2.83,25:2.94,26:3.05,27:3.16,28:3.28,29:3.4,30:3.53,31:3.65,32:3.77,33:3.89,34:4.02,35:4.14},
+    30:{12:2.09,13:2.13,14:2.18,15:2.27,16:2.33,17:2.4,18:2.47,19:2.55,20:2.63,21:2.73,22:2.83,23:2.93,24:3.04,25:3.16,26:3.28,27:3.41,28:3.54,29:3.67,30:3.8,31:3.93,32:4.06,33:4.19,34:4.32,35:4.45},
+    31:{12:2.2,13:2.25,14:2.31,15:2.41,16:2.48,17:2.55,18:2.63,19:2.72,20:2.82,21:2.93,22:3.04,23:3.16,24:3.28,25:3.41,26:3.55,27:3.68,28:3.82,29:3.95,30:4.09,31:4.23,32:4.37,33:4.5,34:4.64,35:4.78},
+    32:{12:2.33,13:2.39,14:2.45,15:2.56,16:2.64,17:2.73,18:2.83,19:2.93,20:3.04,21:3.16,22:3.29,23:3.42,24:3.55,25:3.69,26:3.84,27:3.98,28:4.13,29:4.27,30:4.42,31:4.56,32:4.71,33:4.85,34:5,35:5.14},
+    33:{12:2.47,13:2.54,14:2.62,15:2.74,16:2.83,17:2.94,18:3.04,19:3.16,20:3.29,21:3.42,22:3.56,23:3.71,24:3.85,25:4.01,26:4.16,27:4.31,28:4.46,29:4.62,30:4.77,31:4.92,32:5.07,33:5.23,34:5.38,35:5.54},
+    34:{12:2.64,13:2.72,14:2.81,15:2.95,16:3.06,17:3.17,18:3.3,19:3.43,20:3.57,21:3.72,22:3.87,23:4.03,24:4.19,25:4.35,26:4.51,27:4.67,28:4.83,29:4.99,30:5.15,31:5.31,32:5.48,33:5.64,34:5.8,35:5.97},
+    35:{12:2.83,13:2.92,14:3.03,15:3.19,16:3.31,17:3.44,18:3.58,19:3.73,20:3.89,21:4.05,22:4.21,23:4.38,24:4.55,25:4.72,26:4.89,27:5.06,28:5.23,29:5.4,30:5.57,31:5.74,32:5.91,33:6.09,34:6.26,35:6.44},
+    36:{12:3.05,13:3.16,14:3.28,15:3.46,16:3.6,17:3.75,18:3.9,19:4.07,20:4.24,21:4.41,22:4.59,23:4.77,24:4.95,25:5.13,26:5.31,27:5.49,28:5.67,29:5.85,30:6.02,31:6.21,32:6.39,33:6.57,34:6.76,35:6.95},
+    37:{12:3.3,13:3.43,14:3.56,15:3.77,16:3.92,17:4.09,18:4.26,19:4.45,20:4.63,21:4.82,22:5.01,23:5.2,24:5.39,25:5.57,26:5.76,27:5.95,28:6.14,29:6.33,30:6.52,31:6.71,32:6.91,33:7.1,34:7.3,35:7.5},
+    38:{12:3.59,13:3.74,14:3.89,15:4.12,16:4.29,17:4.48,18:4.67,19:4.86,20:5.06,21:5.26,22:5.46,23:5.66,24:5.86,25:6.06,26:6.26,27:6.45,28:6.65,29:6.85,30:7.06,31:7.26,32:7.47,33:7.68,34:7.89,35:8.11},
+    39:{12:3.93,13:4.09,14:4.26,15:4.52,16:4.71,17:4.91,18:5.12,19:5.32,20:5.53,21:5.74,22:5.95,23:6.16,24:6.37,25:6.58,26:6.79,27:7,28:7.21,29:7.42,30:7.64,31:7.86,32:8.08,33:8.3,34:8.53,35:8.76},
+    40:{12:4.31,13:4.49,14:4.68,15:4.96,16:5.17,17:5.39,18:5.61,19:5.83,20:6.05,21:6.27,22:6.49,23:6.71,24:6.93,25:7.15,26:7.37,27:7.59,28:7.82,29:8.04,30:8.27,31:8.51,32:8.74,33:8.98,34:9.23,35:9.47},
+    41:{12:4.74,13:4.94,14:5.15,15:5.46,16:5.69,17:5.92,18:6.15,19:6.38,20:6.61,21:6.84,22:7.07,23:7.3,24:7.54,25:7.77,26:8,27:8.24,28:8.48,29:8.72,30:8.97,31:9.21,32:9.47,33:9.72,34:9.98,35:0},
+    42:{12:5.2,13:5.43,14:5.66,15:5.99,16:6.23,17:6.48,18:6.72,19:6.96,20:7.21,21:7.45,22:7.69,23:7.93,24:8.18,25:8.42,26:8.67,27:8.92,28:9.18,29:9.44,30:9.7,31:9.97,32:10.24,33:10.51,34:0,35:0},
+    43:{12:5.72,13:5.97,14:6.22,15:6.57,16:6.83,17:7.08,18:7.34,19:7.59,20:7.85,21:8.1,22:8.36,23:8.61,24:8.87,25:9.13,26:9.4,27:9.67,28:9.94,29:10.22,30:10.5,31:10.79,32:11.07,33:0,34:0,35:0},
+    44:{12:6.3,13:6.56,14:6.83,15:7.21,16:7.48,17:7.74,18:8.01,19:8.27,20:8.54,21:8.81,22:9.08,23:9.35,24:9.62,25:9.9,26:10.19,27:10.47,28:10.77,29:11.07,30:11.37,31:11.67,32:0,33:0,34:0,35:0},
+    45:{12:6.94,13:7.21,14:7.49,15:7.9,16:8.18,17:8.45,18:8.73,19:9.01,20:9.29,21:9.57,22:9.85,23:10.14,24:10.44,25:10.74,26:11.04,27:11.35,28:11.66,29:11.98,30:12.31,31:0,32:0,33:0,34:0,35:0},
+    46:{12:7.63,13:7.92,14:8.21,15:8.64,16:8.93,17:9.22,18:9.51,19:9.8,20:10.09,21:10.39,22:10.69,23:11,24:11.32,25:11.64,26:11.97,27:12.3,28:12.64,29:12.98,30:0,31:0,32:0,33:0,34:0,35:0},
+    47:{12:8.38,13:8.68,14:8.99,15:9.44,16:9.74,17:10.04,18:10.34,19:10.65,20:10.96,21:11.28,22:11.6,23:11.93,24:12.27,25:12.62,26:12.97,27:13.32,28:13.68,29:0,30:0,31:0,32:0,33:0,34:0,35:0},
+    48:{12:9.19,13:9.5,14:9.81,15:10.29,16:10.6,17:10.92,18:11.24,19:11.56,20:11.89,21:12.23,22:12.58,23:12.94,24:13.3,25:13.67,26:14.05,27:14.43,28:0,29:0,30:0,31:0,32:0,33:0,34:0,35:0},
+    49:{12:10.05,13:10.37,14:10.69,15:11.19,16:11.52,17:11.85,18:12.19,19:12.54,20:12.9,21:13.26,22:13.63,23:14.02,24:14.41,25:14.81,26:15.21,27:0,28:0,29:0,30:0,31:0,32:0,33:0,34:0,35:0},
+    50:{12:10.95,13:11.28,14:11.62,15:12.15,16:12.5,17:12.85,18:13.21,19:13.59,20:13.97,21:14.36,22:14.76,23:15.18,24:15.6,25:16.03,26:0,27:0,28:0,29:0,30:0,31:0,32:0,33:0,34:0,35:0}
+};
+
 const modalFactors = { yly:1, hly:0.5054, qly:0.2554, mly:0.08515 };
 const gstFirst = 1.045;
 const gstSecond = 1.0225;
 
 function formatINR(val) {
-  return "₹" + Math.round(val).toLocaleString("en-IN");
+    return "₹ " + Math.round(val).toLocaleString("en-IN");
 }
+
+// --- START: REPLACE YOUR EXISTING calculate() FUNCTION WITH THIS ---
 
 function calculate() {
   const sa = parseInt(document.getElementById("sumAssured").value);
   const age = parseInt(document.getElementById("age").value);
   const term = parseInt(document.getElementById("term").value);
-  const ppt = term - 0;
+  const ppt = term; // In this plan, PPT = Term
   document.getElementById("ppt").value = ppt + " Years";
+
+  // Get the state of the new AD&DB checkbox
+  const isAddbChecked = document.getElementById("addb_checkbox").checked;
 
   const rate = premiumRates[age]?.[term];
   if (!rate) {
-    document.getElementById("results").innerHTML = `No rate for this age/term`;
+    document.getElementById("results").innerHTML = `<p style="color:red; text-align:center;">No rate available for this Age/Term combination.</p>`;
     return;
   }
 
   // 1. Base premium
   let basePrem = (sa/1000) * rate;
 
-  // 2. SA rebate
+
+  // 2. SA rebate (MODIFIED to have different rates with and without AD&DB)
   let saRebateRate = 0;
-  
-   if (sa >= 1000000) saRebateRate = 4.0815
-  else if (sa >= 500000) saRebateRate = 2.550;
+  if (isAddbChecked) {
+      // --- Rebate rates WHEN AD&DB IS SELECTED (Original Rates) ---
+      if (sa >= 1000000) {
+          saRebateRate = 4.0815;
+      } else if (sa >= 500000) {
+          saRebateRate = 2.550;
+      }
+  } else {
+      // --- <<< SET YOUR NEW REBATE RATES HERE WHEN AD&DB IS NOT SELECTED >>> ---
+      if (sa >= 1000000) {
+          saRebateRate = 4.0815; // Example: New rate for SA >= 10 Lakh
+      } else if (sa >= 500000) {
+          saRebateRate = 2.550; // Example: New rate for SA >= 5 Lakh
+      }
+  }
   let saRebate = (sa/1000) * saRebateRate;
   let afterSaRebate = basePrem - saRebate;
 
   // 3. Mode rebate (2% on yearly)
   let yearlyPrem = afterSaRebate - (afterSaRebate * 0.02);
 
-  // 4. DAB
-  // after yearlyPrem calculation
-let dab = 0;
-if (age >= 18) {
-    dab = (Math.min(sa, 10000000) / 1000) * 1.0;
-}
-let netAnnual = yearlyPrem + dab;
+  // 4. AD&DB Rider Premium Calculation
+  let addbPremium = 0; // Default to 0
+  if (isAddbChecked) {
+      if (age >= 18) {
+          // Calculate AD&DB only if age is 18 or over and checkbox is ticked
+          addbPremium = (Math.min(sa, 10000000) / 1000) * 1.0;
+      } else {
+          // Optional: alert the user if they check the box for an invalid age
+          alert("AD&DB Rider is only available for ages 18 and above.");
+          document.getElementById("addb_checkbox").checked = false; // Uncheck the box
+      }
+  }
+  
+  // 5. Calculate Net Annual Premium
+  let netAnnual = yearlyPrem + addbPremium;
 
-  // 5. Modal + GST
-  const modalFactors = { yly:1, hly:0.50540, qly:0.25540, mly:0.08513 };
-  const gstFirst = 1.045;
-  const gstSecond = 1.0225;
-
+  // 6. Modal + GST Calculations
   const result = {};
   for (let m of ["yly","hly","qly","mly"]) {
     let modalPrem = netAnnual * modalFactors[m];
     result[m] = {
-      first: "₹" + Math.round(modalPrem * gstFirst).toLocaleString("en-IN"),
-      second: "₹" + Math.round(modalPrem * gstSecond).toLocaleString("en-IN")
+      first: formatINR(modalPrem * gstFirst),
+      second: formatINR(modalPrem * gstSecond)
     }
   }
 
+  // --- Updated results display to show the AD&DB premium clearly ---
   document.getElementById("results").innerHTML = `
   <h2>Premium Summary</h2>
   <table>
-    <tr><th>Mode</th><th>1st Year (incl GST)</th><th>2nd Year (incl GST)</th></tr>
+      <tr>
+          <td>Annual Base Premium (After Rebates)</td>
+          <td style="font-weight:bold;">${formatINR(yearlyPrem)}</td>
+      </tr>
+      <tr>
+          <td>Annual AD&DB Rider Premium</td>
+          <td style="font-weight:bold;">${formatINR(addbPremium)}</td>
+      </tr>
+      <tr style="background:#e8f5e9;">
+          <th>Net Annual Premium (Before GST)</th>
+          <th>${formatINR(netAnnual)}</th>
+      </tr>
+  </table>
+
+  <h3 style="text-align:center; margin-top:20px;">Final Modal Premiums (Inclusive of GST)</h3>
+  <table>
+    <tr><th>Mode</th><th>1st Year Premium</th><th>2nd Year Onwards</th></tr>
     <tr><td>Yearly</td><td>${result.yly.first}</td><td>${result.yly.second}</td></tr>
     <tr><td>Half-Yearly</td><td>${result.hly.first}</td><td>${result.hly.second}</td></tr>
     <tr><td>Quarterly</td><td>${result.qly.first}</td><td>${result.qly.second}</td></tr>
     <tr><td>Monthly</td><td>${result.mly.first}</td><td>${result.mly.second}</td></tr>
   </table>`;
 }
+
+// --- END: REPLACE YOUR EXISTING calculate() FUNCTION ---
+
+// --- LOGIC FOR RIDERS AND MODAL ---
+
+const modal = document.getElementById('premium-modal');
+const modalTitle = document.getElementById('modal-title');
+const modalBody = document.getElementById('modal-body');
+const closeModalBtn = document.querySelector('.modal-close-btn');
+
+function showModal(title, bodyHtml) {
+    modalTitle.innerHTML = title;
+    modalBody.innerHTML = bodyHtml;
+    modal.style.display = 'flex';
+}
+
+function hideModal() {
+    modal.style.display = 'none';
+}
+
+closeModalBtn.addEventListener('click', hideModal);
+window.addEventListener('click', (event) => {
+    if (event.target === modal) {
+        hideModal();
+    }
+});
+
+// --- PWB RIDER LOGIC ---
+
+// --- START: REPLACE THIS BLOCK IN YOUR SCRIPT ---
+
+// --- PWB RIDER LOGIC (CORRECTED) ---
+
+function getPwbTier(proposerAge) {
+    if (proposerAge >= 18 && proposerAge <= 25) return 1;
+    if (proposerAge >= 26 && proposerAge <= 30) return 2;
+    if (proposerAge >= 31 && proposerAge <= 35) return 3;
+    if (proposerAge >= 36 && proposerAge <= 40) return 4;
+    if (proposerAge >= 41 && proposerAge <= 45) return 5;
+    if (proposerAge >= 46 && proposerAge <= 50) return 6;
+    if (proposerAge >= 51 && proposerAge <= 55) return 7;
+    return null; // Age is out of the valid range
+}
+
+document.getElementById('pwb-premium-btn').addEventListener('click', () => {
+    // This function now only shows the pop-up to ask for the proposer's age
+    const title = 'PWB Premium Calculator';
+    const bodyHtml = `
+        <label for="proposerAge" style="display:block; margin-bottom:10px; font-weight:bold;">Enter Proposer's Age (18-55)</label>
+        <input type="number" id="proposerAge" style="width: 100%; padding: 10px; margin-bottom: 20px; box-sizing: border-box;" min="18" max="55" />
+        <button onclick="calculatePwbFromModal()" class="premium-btn" style="width:100%;">Calculate PWB Premium</button>
+    `;
+    showModal(title, bodyHtml);
+});
+
+// --- START: Replace your existing PWB function with this corrected version ---
+
+function calculatePwbFromModal() {
+    const proposerAgeInput = document.getElementById('proposerAge');
+    if (!proposerAgeInput) return; // safety check
+    
+    const proposerAge = parseInt(proposerAgeInput.value);
+    const term = parseInt(document.getElementById("term").value);
+    const sa = parseInt(document.getElementById("sumAssured").value);
+    
+    // 1. Validate Proposer Age input
+    if (isNaN(proposerAge) || proposerAge < 18 || proposerAge > 55) {
+        showModal('Error', '<p style="color:red;">Please enter a valid Proposer Age between 18 and 55.</p>');
+        return;
+    }
+    
+    // 2. Validate Term against available PWB rates
+    if (!pwbRates.hasOwnProperty(term)) {
+        showModal('PWB Premium Not Available', `<p style="color:red;">PWB rider is not available for a policy term of <b>${term} years</b>.<br><small>(This rider is only available for terms between 5 and 17)</small></p>`);
+        return;
+    }
+
+    const tier = getPwbTier(proposerAge);
+    const pwbRate = pwbRates[term]?.[tier];
+
+    // 3. Validate the age tier for the given term
+    if (!pwbRate) {
+        showModal('PWB Premium Not Available', '<p style="color:red;">PWB rate is not available for this Proposer Age.</p>');
+        return;
+    }
+
+    // 4. Calculate the premium with the fixed charge
+    const variablePremium = (sa / 1000) * pwbRate;
+    const pwbPremium = variablePremium + 0; // Correct formula: Variable Premium + Fixed Rider Charge
+    
+    // 5. Display the result
+    const resultHtml = `
+        <p style="font-size: 1.5em; font-weight: bold; color: #333;">
+            Yearly Premium: ${formatINR(pwbPremium)}
+        </p>
+        <small>(Excluding Tax & Rebates)</small>
+    `;
+    showModal('Standalone PWB Premium', resultHtml);
+}
+
+// --- END: Replace your existing PWB function ---
+// --- END: REPLACE THIS BLOCK IN YOUR SCRIPT --- 
+
+
+// --- TERM RIDER LOGIC ---
+
+// --- START: REPLACE THE EXISTING TERM RIDER LOGIC WITH THIS BLOCK ---
+
+document.getElementById('term-rider-premium-btn').addEventListener('click', () => {
+    // This function now only builds and shows the pop-up to get the Term Rider SA
+    const baseSa = parseInt(document.getElementById("sumAssured").value);
+    
+    const title = 'Term Rider Premium Calculator';
+    const bodyHtml = `
+        <label for="termRiderSA" style="display:block; margin-bottom:10px; font-weight:bold;">Enter Term Rider Sum Assured</label>
+        <p style="font-size:0.8em; color:#555; margin-top:0;">(Cannot exceed the Base Sum Assured of ${formatINR(baseSa)})</p>
+        <input type="number" id="termRiderSA" style="width: 100%; padding: 10px; margin-bottom: 20px; box-sizing: border-box;" value="${baseSa}" />
+        <button onclick="calculateTermRiderFromModal()" class="premium-btn" style="width:100%;">Calculate Term Rider Premium</button>
+    `;
+    showModal(title, bodyHtml);
+});
+
+function calculateTermRiderFromModal() {
+    // Get all necessary values
+    const age = parseInt(document.getElementById("age").value);
+    const term = parseInt(document.getElementById("term").value);
+    const baseSumAssured = parseInt(document.getElementById("sumAssured").value);
+    const termRiderSA_Input = document.getElementById('termRiderSA');
+    
+    if (!termRiderSA_Input) return; // Safety check
+    
+    const termRiderSumAssured = parseInt(termRiderSA_Input.value);
+
+    // --- Validation ---
+    if (isNaN(termRiderSumAssured) || termRiderSumAssured <= 0) {
+        showModal('Error', '<p style="color:red;">Please enter a valid Term Rider Sum Assured.</p>');
+        return;
+    }
+    
+    if (termRiderSumAssured > baseSumAssured) {
+        const errorMessage = `
+            <p style="color:red; font-weight:bold;">Term Rider Sum Assured cannot be greater than the Base Sum Assured.</p>
+            <p style="color:red;">Please enter a value less than or equal to ${formatINR(baseSumAssured)}.</p>
+        `;
+        showModal('Validation Error', errorMessage);
+        return;
+    }
+
+    // --- Calculation ---
+    const termRiderRate = termRiderRates[age]?.[term];
+    
+    if (!termRiderRate || termRiderRate === 0) {
+        showModal('Term Rider Premium', '<p style="color:red;">Term Rider is not available for this Age/Term combination.</p>');
+        return;
+    }
+
+        const variablePremium = (termRiderSumAssured / 1000) * termRiderRate;
+    const termRiderPremium = variablePremium + 0; // Correct formula: Variable Premium + Fixed Rider Charge
+    const termRiderPremiumWithGst = termRiderPremium * 1.18; // Adding 18% GST
+
+    // --- Display Result ---
+    const resultHtml = `
+        <p style="font-size: 1.5em; font-weight: bold; color: #333;">
+            Yearly Premium: ${formatINR(termRiderPremiumWithGst)}
+        </p>
+        <small>(For a Term Rider Sum Assured of ${formatINR(termRiderSumAssured)}, inclusive of 18% GST)</small>
+    `;
+    showModal('Standalone Term Rider Premium', resultHtml);
+}
+
+// --- END: REPLACE THE EXISTING TERM RIDER LOGIC ---
+
 </script>
 
-<div style="margin-top: 20px; font-size: 0.9em; color: #555;">
+<div style="margin-top: 20px; font-size: 0.9em; color: #555; text-align: center;">
   <strong>Disclaimer:</strong> The premium amounts calculated here are for indicative purposes only. Actual premiums may vary based on LIC’s official rates, underwriting guidelines, and policy terms. Please consult an authorized LIC agent or branch for the exact premium payable.
 </div>
-</body>
-</html>
-
 
 </body>
-</html>
+</html>```
