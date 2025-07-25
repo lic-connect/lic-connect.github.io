@@ -10,6 +10,8 @@
     .calculator-container { max-width: 650px; margin: 40px auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
     .result-box { background-color: #eef2f7; border-left: 4px solid #0dcaf0; }
     h3 { color: #0c2f5a; }
+    /* Style for hidden sub-group */
+    .sub-group { display: none; }
   </style>
 </head>
 <body>
@@ -19,7 +21,7 @@
   
   <div class="row g-3">
     <div class="col-md-6">
-      <label for="age" class="form-label">Entry Age</label>
+      <label for="age" class="form-label">Insured's Entry Age</label>
       <input type="number" class="form-control" id="age" value="30">
     </div>
     <div class="col-md-6">
@@ -37,24 +39,49 @@
         <option value="20" selected>20 Years (PPT: 12)</option>
       </select>
     </div>
+    <!-- Rider Section -->
+    <div class="col-12"><hr class="my-2"></div>
     <div class="col-md-12">
-        <div class="form-check mt-3">
+        <div class="form-check">
             <input class="form-check-input" type="checkbox" id="addb-rider">
             <label class="form-check-label" for="addb-rider">
                 Include Accidental Death & Disability Benefit Rider?
             </label>
         </div>
     </div>
+    <div class="col-md-12">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="pwb-rider">
+            <label class="form-check-label" for="pwb-rider">
+                Include Premium Waiver Benefit (PWB) Rider? (On Proposer)
+            </label>
+        </div>
+    </div>
+    <!-- Hidden Proposer Age field, shown on PWB check -->
+    <div class="col-md-6 sub-group" id="proposer-age-group">
+        <label for="proposer-age" class="form-label">Proposer's Age (18-55)</label>
+        <input type="number" class="form-control" id="proposer-age" min="18" max="55">
+    </div>
+
   </div>
 
-  <div id="error-message" class="text-danger fw-bold mt-3"></div>
   <button type="button" class="btn w-100 mt-4 py-2" style="background-color: #0dcaf0; color: white;" onclick="calculatePremium()">Calculate Premium</button>
+  
+  <div class="text-center mt-3">
+    <button type="button" class="btn btn-outline-info" id="know-pwb-btn">Know Your PWB Premium</button>
+  </div>
+  
+  <div id="error-message" class="text-danger fw-bold mt-3"></div>
+  <div id="standalone-rider-result" class="mt-3"></div>
+
   <div id="results" class="mt-4 d-none"><hr><div id="premium-results"></div></div>
 </div>
 
 <script>
     // --- DATA SETUP ---
     const rawTabularRates = [ { "Age": 0, "T15": 0.0, "T16": 0.0, "T17": 0.0, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 1, "T15": 0.0, "T16": 0.0, "T17": 61.92, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 2, "T15": 0.0, "T16": 70.88, "T17": 61.92, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 3, "T15": 82.7, "T16": 70.88, "T17": 61.92, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 4, "T15": 82.7, "T16": 70.92, "T17": 61.92, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 5, "T15": 82.74, "T16": 70.92, "T17": 61.92, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 6, "T15": 82.74, "T16": 70.97, "T17": 61.96, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 7, "T15": 82.84, "T16": 71.06, "T17": 62.06, "T18": 54.15, "T19": 48.44, "T20": 43.78 }, { "Age": 8, "T15": 82.97, "T16": 71.15, "T17": 62.15, "T18": 54.23, "T19": 48.54, "T20": 43.87 }, { "Age": 9, "T15": 83.02, "T16": 71.24, "T17": 62.24, "T18": 54.28, "T19": 48.58, "T20": 43.91 }, { "Age": 10, "T15": 83.11, "T16": 71.34, "T17": 62.29, "T18": 54.37, "T19": 48.67, "T20": 44.0 }, { "Age": 11, "T15": 83.2, "T16": 71.43, "T17": 62.38, "T18": 54.46, "T19": 48.76, "T20": 44.05 }, { "Age": 12, "T15": 83.3, "T16": 71.47, "T17": 62.47, "T18": 54.55, "T19": 48.81, "T20": 44.13 }, { "Age": 13, "T15": 83.39, "T16": 71.57, "T17": 62.52, "T18": 54.6, "T19": 48.89, "T20": 44.18 }, { "Age": 14, "T15": 83.43, "T16": 71.62, "T17": 62.61, "T18": 54.64, "T19": 48.94, "T20": 44.27 }, { "Age": 15, "T15": 83.48, "T16": 71.71, "T17": 62.66, "T18": 54.68, "T19": 48.98, "T20": 44.27 }, { "Age": 16, "T15": 83.53, "T16": 71.71, "T17": 62.7, "T18": 54.73, "T19": 49.03, "T20": 44.32 }, { "Age": 17, "T15": 83.57, "T16": 71.76, "T17": 62.7, "T18": 54.78, "T19": 49.03, "T20": 44.36 }, { "Age": 18, "T15": 83.62, "T16": 71.8, "T17": 62.75, "T18": 54.78, "T19": 49.07, "T20": 44.36 }, { "Age": 19, "T15": 83.62, "T16": 71.8, "T17": 62.75, "T18": 54.82, "T19": 49.07, "T20": 44.4 }, { "Age": 20, "T15": 83.62, "T16": 71.8, "T17": 62.75, "T18": 54.82, "T19": 49.07, "T20": 44.4 }, { "Age": 21, "T15": 83.62, "T16": 71.8, "T17": 62.75, "T18": 54.82, "T19": 49.12, "T20": 44.4 }, { "Age": 22, "T15": 83.62, "T16": 71.8, "T17": 62.8, "T18": 54.82, "T19": 49.12, "T20": 44.4 }, { "Age": 23, "T15": 83.62, "T16": 71.85, "T17": 62.8, "T18": 54.82, "T19": 49.12, "T20": 44.45 }, { "Age": 24, "T15": 83.67, "T16": 71.85, "T17": 62.8, "T18": 54.87, "T19": 49.16, "T20": 44.45 }, { "Age": 25, "T15": 83.67, "T16": 71.85, "T17": 62.84, "T18": 54.87, "T19": 49.16, "T20": 44.49 }, { "Age": 26, "T15": 83.71, "T16": 71.89, "T17": 62.84, "T18": 54.91, "T19": 49.21, "T20": 44.54 }, { "Age": 27, "T15": 83.71, "T16": 71.94, "T17": 62.89, "T18": 54.95, "T19": 49.26, "T20": 44.58 }, { "Age": 28, "T15": 83.76, "T16": 71.98, "T17": 62.93, "T18": 55.0, "T19": 49.3, "T20": 44.63 }, { "Age": 29, "T15": 83.81, "T16": 72.03, "T17": 62.98, "T18": 55.05, "T19": 49.34, "T20": 44.67 }, { "Age": 30, "T15": 83.9, "T16": 72.08, "T17": 63.03, "T18": 55.13, "T19": 49.43, "T20": 44.77 }, { "Age": 31, "T15": 83.94, "T16": 72.17, "T17": 63.12, "T18": 55.22, "T19": 49.52, "T20": 44.85 }, { "Age": 32, "T15": 84.04, "T16": 72.21, "T17": 63.21, "T18": 55.32, "T19": 49.61, "T20": 44.94 }, { "Age": 33, "T15": 84.13, "T16": 72.35, "T17": 63.31, "T18": 55.4, "T19": 49.74, "T20": 45.08 }, { "Age": 34, "T15": 84.22, "T16": 72.44, "T17": 63.44, "T18": 55.54, "T19": 49.88, "T20": 45.21 }, { "Age": 35, "T15": 84.36, "T16": 72.59, "T17": 63.58, "T18": 55.67, "T19": 50.02, "T20": 45.39 }, { "Age": 36, "T15": 84.49, "T16": 72.72, "T17": 63.72, "T18": 55.85, "T19": 50.19, "T20": 45.57 }, { "Age": 37, "T15": 84.68, "T16": 72.91, "T17": 63.9, "T18": 56.03, "T19": 50.38, "T20": 45.75 }, { "Age": 38, "T15": 84.87, "T16": 73.09, "T17": 64.13, "T18": 56.21, "T19": 50.6, "T20": 45.97 }, { "Age": 39, "T15": 85.1, "T16": 73.32, "T17": 64.37, "T18": 56.48, "T19": 50.83, "T20": 46.24 }, { "Age": 40, "T15": 85.33, "T16": 73.6, "T17": 64.6, "T18": 56.75, "T19": 51.14, "T20": 46.52 }, { "Age": 41, "T15": 85.61, "T16": 73.88, "T17": 64.92, "T18": 57.02, "T19": 51.45, "T20": 46.83 }, { "Age": 42, "T15": 85.93, "T16": 74.2, "T17": 65.24, "T18": 57.38, "T19": 51.77, "T20": 47.23 }, { "Age": 43, "T15": 86.3, "T16": 74.57, "T17": 65.61, "T18": 57.79, "T19": 52.17, "T20": 47.64 }, { "Age": 44, "T15": 86.71, "T16": 74.98, "T17": 66.03, "T18": 58.19, "T19": 52.62, "T20": 48.04 }, { "Age": 45, "T15": 87.17, "T16": 75.45, "T17": 66.54, "T18": 58.68, "T19": 53.11, "T20": 48.54 }, { "Age": 46, "T15": 87.68, "T16": 75.95, "T17": 67.05, "T18": 59.17, "T19": 53.65, "T20": 49.12 }, { "Age": 47, "T15": 88.24, "T16": 76.51, "T17": 67.6, "T18": 59.76, "T19": 54.19, "T20": 49.7 }, { "Age": 48, "T15": 88.84, "T16": 77.16, "T17": 68.24, "T18": 60.39, "T19": 54.87, "T20": 50.33 }, { "Age": 49, "T15": 89.53, "T16": 77.8, "T17": 68.89, "T18": 61.06, "T19": 55.54, "T20": 51.01 }, { "Age": 50, "T15": 90.22, "T16": 78.54, "T17": 69.63, "T18": 61.78, "T19": 56.26, "T20": 51.77 } ];
+
+    const pwbRiderRates = [{"A":1.7,"B":1.7,"C":1.85,"D":2.1,"E":2.45,"F":3.1,"G":4.1,"Term":5},{"A":1.8,"B":1.85,"C":1.95,"D":2.25,"E":2.7,"F":3.55,"G":4.8,"Term":6},{"A":1.9,"B":1.9,"C":2.1,"D":2.4,"E":2.95,"F":4,"G":5.55,"Term":7},{"A":1.95,"B":2,"C":2.2,"D":2.6,"E":3.25,"F":4.5,"G":6.3,"Term":8},{"A":2,"B":2.1,"C":2.3,"D":2.8,"E":3.6,"F":5,"G":7.05,"Term":9},{"A":2.2,"B":2.25,"C":2.55,"D":3.1,"E":4.05,"F":5.75,"G":8.15,"Term":10},{"A":2.25,"B":2.4,"C":2.65,"D":3.3,"E":4.4,"F":6.35,"G":9,"Term":11},{"A":2.3,"B":2.45,"C":2.8,"D":3.5,"E":4.8,"F":6.9,"G":9.85,"Term":12}];
 
     const baseRates = rawTabularRates.reduce((acc, item) => {
         const age = item.Age;
@@ -68,145 +95,195 @@
         return acc;
     }, {});
     
-    const addbRatePer1000 = 1.0;
+    // --- EVENT LISTENERS ---
+    document.getElementById('pwb-rider').addEventListener('change', function() {
+        document.getElementById('proposer-age-group').style.display = this.checked ? 'block' : 'none';
+    });
+    
+    document.getElementById('know-pwb-btn').addEventListener('click', calculateStandalonePwb);
 
-            function calculatePremium() {
+    // --- HELPER & STANDALONE FUNCTIONS ---
+    function clearAllResults() {
         document.getElementById("error-message").textContent = "";
         document.getElementById("results").classList.add("d-none");
+        document.getElementById("standalone-rider-result").innerHTML = "";
+    }
+
+    function showStandaloneResult(message, isError = false) {
+        clearAllResults();
+        const resultDiv = document.getElementById("standalone-rider-result");
+        const alertClass = isError ? 'alert-danger' : 'alert-success';
+        resultDiv.innerHTML = `<div class="alert ${alertClass} text-center p-2">${message}</div>`;
+    }
+
+    function getAnnualTabularPremium(age, sa, term) {
+        const tabularRate = baseRates[age]?.[term];
+        if (!tabularRate) {
+            throw new Error(`Premium rate for Age ${age} and Term ${term} not found.`);
+        }
+        return (tabularRate * sa) / 1000;
+    }
+
+    function getPwbRate(proposerAge, ppt, rateArray) {
+        let ageBandCol;
+        if (proposerAge >= 18 && proposerAge <= 25) ageBandCol = 'A';
+        else if (proposerAge >= 26 && proposerAge <= 30) ageBandCol = 'B';
+        else if (proposerAge >= 31 && proposerAge <= 35) ageBandCol = 'C';
+        else if (proposerAge >= 36 && proposerAge <= 40) ageBandCol = 'D';
+        else if (proposerAge >= 41 && proposerAge <= 45) ageBandCol = 'E';
+        else if (proposerAge >= 46 && proposerAge <= 50) ageBandCol = 'F';
+        else if (proposerAge >= 51 && proposerAge <= 55) ageBandCol = 'G';
+        else return null;
+
+        const row = rateArray.find(item => item.Term === ppt);
+        if (!row) return null;
+        
+        const rate = row[ageBandCol];
+        return (rate !== null && rate > 0) ? rate : null;
+    }
+
+    function calculateStandalonePwb() {
+        try {
+            const age = parseInt(document.getElementById("age").value);
+            const sumAssured = parseFloat(document.getElementById("sum-assured").value);
+            const term = parseInt(document.getElementById("term").value);
+            const proposerAge = parseInt(document.getElementById("proposer-age").value);
+            const ppt = term - 8;
+
+            if (isNaN(proposerAge)) throw new Error("Please enter the Proposer's Age to calculate PWB premium.");
+            if (proposerAge < 18 || proposerAge > 55) throw new Error("Proposer's Age must be between 18 and 55.");
+            if (proposerAge <= age) throw new Error("Proposer's Age must be greater than the Insured's Age.");
+
+            const annualTabularPremium = getAnnualTabularPremium(age, sumAssured, term);
+            const pwbRate = getPwbRate(proposerAge, ppt, pwbRiderRates);
+            if (!pwbRate) throw new Error(`PWB rate for Proposer Age ${proposerAge} and PPT ${ppt} not found.`);
+            
+            const pwbAnnualPremium = (pwbRate / 1000) * annualTabularPremium;
+            const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+
+            showStandaloneResult(`Standalone Annual PWB Rider Premium (Excl. GST): <strong class="fs-5">₹${formatInr(pwbAnnualPremium)}</strong>`);
+
+        } catch (e) {
+            showStandaloneResult(e.message, true);
+        }
+    }
+
+
+    // --- MAIN CALCULATION ---
+    function calculatePremium() {
+        clearAllResults();
+        const errorDiv = document.getElementById("error-message");
 
         const age = parseInt(document.getElementById("age").value);
         const sumAssured = parseFloat(document.getElementById("sum-assured").value);
         const term = parseInt(document.getElementById("term").value);
         const sa = parseFloat(document.getElementById("sum-assured").value);
         const addbSelected = document.getElementById("addb-rider").checked;
+        const pwbSelected = document.getElementById("pwb-rider").checked;
+        const proposerAge = parseInt(document.getElementById("proposer-age").value);
         
-        // Validation for Jeevan Azad
+        // --- VALIDATION ---
         const maxEntryAge = 50; 
-        if (isNaN(age) || isNaN(sumAssured) || isNaN(term)) { /*...*/ return; }
-        if (age > maxEntryAge) { document.getElementById("error-message").textContent = `Max entry age is 50.`; return; }
-        if (sumAssured < 200000 || sumAssured > 500000) { document.getElementById("error-message").textContent = `Sum Assured must be between ₹2,00,000 and ₹5,00,000.`; return; }
+        if (isNaN(age) || isNaN(sumAssured) || isNaN(term)) { errorDiv.textContent = `Please fill all the required fields.`; return; }
+        if (age > maxEntryAge) { errorDiv.textContent = `Max entry age is 50.`; return; }
+        if (sumAssured < 200000 || sumAssured > 500000) { errorDiv.textContent = `Sum Assured must be between ₹2,00,000 and ₹5,00,000.`; return; }
+
+        if (pwbSelected) {
+            if (isNaN(proposerAge)) { errorDiv.textContent = `PWB Rider is selected. Please enter the Proposer's Age.`; return; }
+            if (proposerAge < 18 || proposerAge > 55) { errorDiv.textContent = `Proposer's Age must be between 18 and 55.`; return; }
+            if (proposerAge <= age) { errorDiv.textContent = `Proposer's Age must be greater than the Insured's Age.`; return; }
+        }
 
         const tabularRate = baseRates[age]?.[term];
         if (!tabularRate) {
-            document.getElementById("error-message").textContent = `Premium rate for Age ${age} and Term ${term} not found.`;
+            errorDiv.textContent = `Premium rate for Age ${age} and Term ${term} not found.`;
             return;
         }
 
-        // --- BSMDT CALCULATION ---
+        const ppt = term - 8;
+        
+        // --- BSMDT CALCULATION (ORIGINAL LOGIC UNCHANGED) ---
         // B: Base Premium
         const annualTabularPremium = (tabularRate * sumAssured) / 1000;
 
-        // S: Sum Assured Rebate (using adjustable rates per thousand)
-        let saRebateRate = 0; 
-        
-     
-if (age >= 1 && age <= 17) {
-    if (sa === 500000) {
-        saRebateRate = 2.00  // 1 crore and above
-    } else if (sa >= 400000) {
-        saRebateRate = 1.50;  // 50 lakhs to less than 1 crore
-    } else if (sa >= 300000) {
-        saRebateRate = 0.50;
+        // S: Sum Assured Rebate
+       // --- REPLACE WITH THIS NEW BLOCK ---
+
+// S: Sum Assured Rebate
+let saRebateRate = 0; 
+
+if (addbSelected) {
+    // --- SET 1: Rates for when ADDB is CHECKED (Your original logic) ---
+    if (age >= 1 && age <= 17) {
+        if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; 
+    } else if (age >= 18 && age <= 50) {
+        if (term === 15) { if (sa === 500000) saRebateRate = 1.40; else if (sa >= 400000) saRebateRate = 1.00; else if (sa >= 300000) saRebateRate = 0.20; }
+        else if (term === 16) { if (sa === 500000) saRebateRate = 1.55; else if (sa >= 400000) saRebateRate = 1.15; else if (sa >= 300000) saRebateRate = 0.35; else if (sa >=200000) saRebateRate = 0.15; }
+        else if (term === 17) { if (sa === 500000) saRebateRate = 1.60; else if (sa >= 400000) saRebateRate = 1.20; else if (sa >= 300000) saRebateRate = 0.40; else if (sa >= 200000) saRebateRate = 0.20; }
+        else if (term === 18) { if (sa === 500000) saRebateRate = 1.70; else if (sa >= 400000) saRebateRate = 1.30; else if (sa >= 300000) saRebateRate = 0.50; else if (sa >= 200000) saRebateRate = 0.30; }
+        else if (term === 19) { if (sa === 500000) saRebateRate = 1.75; else if (sa >= 400000) saRebateRate = 1.35; else if (sa >= 300000) saRebateRate = 0.60; else if (sa >= 200000) saRebateRate = 0.35; }
+        else if (term === 20) { if (sa === 500000) saRebateRate = 1.80; else if (sa >= 400000) saRebateRate = 1.40; else if (sa >= 300000) saRebateRate = 0.60; else if (sa >= 200000) saRebateRate = 0.40; }
     }
-} else if (age >= 18 && age <= 50) {
-    
-
-   
-        
-        
-        if (term === 15) {
-if (sa === 500000) saRebateRate = 1.40;  // for 1 crore and above
-else if (sa >= 400000) saRebateRate = 1.00; // 50 lakhs to less than 1 crore  
-else if (sa >= 300000) saRebateRate = 0.20;
-}
-else if (term === 16) {
-if (sa === 500000) saRebateRate = 1.55;  // for 1 crore and above
-else if (sa >= 400000) saRebateRate = 1.15; // 50 lakhs to less than 1 crore  
-else if (sa >= 300000) saRebateRate = 0.35;
-}
-
-
-else if (term === 17) {
-if (sa === 500000) saRebateRate = 1.60;  // for 1 crore and above
-else if (sa >= 400000) saRebateRate = 1.20;// 50 lakhs to less than 1 crore  
-else if (sa >= 300000) saRebateRate = 0.40;
-}
-
-
-else if (term === 18) {
-if (sa === 500000) saRebateRate = 1.70;  // for 1 crore and above
-else if (sa >= 400000) saRebateRate = 1.30; // 50 lakhs to less than 1 crore  
-else if (sa >= 300000) saRebateRate = 0.50;
-}
-
-
-else if (term === 19) {
-if (sa === 500000) saRebateRate = 1.75;  // for 1 crore and above
-else if (sa >= 400000) saRebateRate = 1.35; // 50 lakhs to less than 1 crore  
-else if (sa >= 300000) saRebateRate = 0.60;
-}
-
-
-else if (term === 20) {
-if (sa === 500000) saRebateRate = 1.80;  // for 1 crore and above
-else if (sa >= 400000) saRebateRate = 1.40; // 50 lakhs to less than 1 crore  
-else if (sa >= 300000) saRebateRate = 0.60;
-}
+} else {
+    // --- SET 2: New Rates for when ADDB is NOT CHECKED ---
+    // ** IMPORTANT: Replace these example rates with your actual new values! **
+    if (age >= 1 && age <= 17) {
+        // Example: slightly higher rebate without ADDB
+        if (sa === 500000) saRebateRate = 2.50; else if (sa >= 400000) saRebateRate = 2.00; else if (sa >= 300000) saRebateRate = 1.00;
+    } else if (age >= 18 && age <= 50) {
+        // Example: slightly higher rebate without ADDB
+        if (term === 15) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+        else if (term === 16) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+        else if (term === 17) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+        else if (term === 18) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.49; else if (sa >= 300000) saRebateRate = 0.50; }
+        else if (term === 19) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+        else if (term === 20) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+    }
 }
         const annualSaRebateAmount = (saRebateRate * sumAssured) / 1000;
         
-        // D: ADDB Rider Premium (Annual amount, calculated separately)
+        // D: ADDB Rider Premium
         let dabRatePer1000 = 1.0;
+        if (sumAssured === 500000) dabRatePer1000 = 1.20; else if (sumAssured >= 400000) dabRatePer1000 = 1.30; else if (sumAssured >= 300000) dabRatePer1000 = 1.50; else if (sumAssured>=200000) dabRatePer1000 = 1.80;
+        let annualAddbPremium = 0;
+        if (age >= 18 && addbSelected) { annualAddbPremium = (dabRatePer1000 * sumAssured) / 1000; }
 
-if (sumAssured === 500000) {
-    dabRatePer1000 = 1.20;
-} else if (sumAssured >= 400000) {
-    dabRatePer1000 = 1.30;
-} else if (sumAssured >= 300000) {
-    dabRatePer1000 = 1.50;
-}
-
-// calculate DAB premium ONLY if age >= 18
-let annualAddbPremium = 0;
-if (age >= 18 && addbSelected) {
-    annualAddbPremium = (dabRatePer1000 * sumAssured) / 1000;
-} else {
-    annualAddbPremium = 0;
-}
-
-
+        // PWB RIDER PREMIUM CALCULATION (NEW LOGIC)
+        let annualPwbPremium = 0;
+        if (pwbSelected) {
+            const pwbRate = getPwbRate(proposerAge, ppt, pwbRiderRates);
+            if (!pwbRate) {
+                errorDiv.textContent = `PWB rate for Proposer Age ${proposerAge} and PPT ${ppt} not found.`;
+                return;
+            }
+            annualPwbPremium = (pwbRate / 1000) * sumAssured;
+        }
 
         // M: Mode Rebate & T: Tax
-        // Using your custom modal factors.
         const modes = {
-            yearly:      { name: "Yearly",        factor: 1.0,    modeRebatePercent: 0.02 },
-            "half-yearly": { name: "Half-Yearly",   factor: 0.5000, modeRebatePercent: 0.01 },
-            quarterly:   { name: "Quarterly",     factor: 0.2500, modeRebatePercent: 0    },
-            monthly:     { name: "Monthly (NACH)",factor: 0.0833, modeRebatePercent: 0    }
+            yearly: { name: "Yearly", factor: 1.0, modeRebatePercent: 0.02 },
+            "half-yearly": { name: "Half-Yearly", factor: 0.5000, modeRebatePercent: 0.01 },
+            quarterly: { name: "Quarterly", factor: 0.2500, modeRebatePercent: 0 },
+            monthly: { name: "Monthly (NACH)", factor: 0.0833, modeRebatePercent: 0 }
         };
 
-        const ppt = term - 8;
-        let outputHTML = `<p class="plan-details text-center"><b>Policy Term:</b> ${term} Years | <b>Premium Paying Term:</b> ${ppt} Years</p>`;
+        let ridersIndicator = addbSelected ? " | ADDB Rider" : "";
+        ridersIndicator += pwbSelected ? " | PWB Rider" : "";
+        let outputHTML = `<p class="plan-details text-center"><b>Policy Term:</b> ${term} Years | <b>Premium Paying Term:</b> ${ppt} Years${ridersIndicator}</p>`;
 
         for (const modeKey in modes) {
             const mode = modes[modeKey];
             
-            // --- NEW LOGIC AS PER YOUR RULE (DAB after Mode Rebate) ---
-            // 1. Start with the Tabular Premium
+            // --- ORIGINAL CALCULATION LOGIC (UNCHANGED) ---
             let annualBaseAfterRebates = annualTabularPremium - annualSaRebateAmount;
 
-            // 2. Apply Mode Rebate to the base
             if (mode.modeRebatePercent > 0) {
                 annualBaseAfterRebates -= (annualTabularPremium * mode.modeRebatePercent);
             }
 
-            // 3. NOW, add the DAB premium
-            const annualPayablePremium = annualBaseAfterRebates + annualAddbPremium;
-            // --- END OF NEW LOGIC ---
-
-            // 4. Calculate the final installment premium by applying the modal factor
+            const annualPayablePremium = annualBaseAfterRebates + annualAddbPremium + annualPwbPremium;
+            
             const premiumBeforeTax = annualPayablePremium * mode.factor;
-
             const gst1stYear = premiumBeforeTax * 0.045;
             const finalPremium1stYear = premiumBeforeTax + gst1stYear;
             const gst2ndYear = premiumBeforeTax * 0.0225;
