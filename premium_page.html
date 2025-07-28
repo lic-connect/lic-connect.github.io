@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Premium Calculators</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --lic-blue: #003366;
+            --lic-gold: #ffd700;
+            --bg-color: #eef2f7;
+            --card-bg: rgba(255, 255, 255, 0.6);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --text-color: #333;
+            --header-color: #1c2c4c;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 40px 20px;
+            color: var(--text-color);
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--header-color);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .calculators-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .special-row {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0 40px 0;
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .plan-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-decoration: none;
+            color: var(--text-color);
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-image {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .plan-card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border: 4px solid #fff;
+        }
+
+        .card-icon img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .card-content {
+            padding: 60px 20px 20px 20px;
+            text-align: center;
+        }
+
+        .card-content h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.2rem;
+            color: var(--header-color);
+        }
+
+        .card-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 1200px) {
+            .plan-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 900px) {
+            .plan-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            .plan-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="main-title">LIC PREMIUM CALCULATORS</h1>
+
+    <div class="calculators-container">
+
+        <!-- Top Special Row -->
+        <div class="special-row">
+            <a href="911_BSMDT.html" class="plan-card" style="width: 25%;">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1583522288593-df5692f022ac?q=80&w=600&auto=format&fit=crop" alt="Single Life Plan Image">
+                </div>
+                <div class="card-icon">
+                    <img src="https://img.icons8.com/plasticine/100/user-male-circle.png" alt="Single Life Icon">
+                </div>
+                <div class="card-content">
+                    <h3>Nav Jeevan Shree (Single)</h3>
+                    <p>Plan No. 911</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Main Grid of Plans -->
+        <div class="plan-grid">
+            <!-- Row 1 -->
+            <a href="714_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1561414927-6d86591d0c4f?q=80&w=600&auto=format&fit=crop" alt="Family Savings"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/bubbles/100/money-bag.png" alt="Savings Icon"></div>
+                <div class="card-content"><h3>New Endowment</h3><p>Plan No. 714</p></div>
+            </a>
+            <a href="715_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1542840410-3092f089c82a?q=80&w=600&auto=format&fit=crop" alt="Happy Couple"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/bubbles/100/like.png" alt="Life Anand Icon"></div>
+                <div class="card-content"><h3>Jeevan Anand</h3><p>Plan No. 715</p></div>
+            </a>
+            <a href="717_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=600&auto=format&fit=crop" alt="Investment Growth"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/stack-of-money.png" alt="Single Premium Icon"></div>
+                <div class="card-content"><h3>Single Premium Endowment</h3><p>Plan No. 717</p></div>
+            </a>
+            <a href="720_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1515255384242-62a5b0a7a72b?q=80&w=600&auto=format&fit=crop" alt="Financial Planning"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/bubbles/100/calendar.png" alt="Money Back Icon"></div>
+                <div class="card-content"><h3>20 Yrs MoneyBack</h3><p>Plan No. 720</p></div>
+            </a>
+
+            <!-- Row 2 -->
+            <a href="721_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1579621970795-87f54f597ba7?q=80&w=600&auto=format&fit=crop" alt="Long-term Savings"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/time-machine.png" alt="Long Term Money Back Icon"></div>
+                <div class="card-content"><h3>25 Yrs MoneyBack</h3><p>Plan No. 721</p></div>
+            </a>
+            <a href="732_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1503944583220-79d692131b21?q=80&w=600&auto=format&fit=crop" alt="Child's Future"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/bubbles/100/student-male.png" alt="Child Plan Icon"></div>
+                <div class="card-content"><h3>Children's Money Back</h3><p>Plan No. 732</p></div>
+            </a>
+            <a href="733_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1543286386-713bdd548da4?q=80&w=600&auto=format&fit=crop" alt="Goals and Aspirations"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/bubbles/100/goal.png" alt="Goal Icon"></div>
+                <div class="card-content"><h3>Jeevan Lakshya</h3><p>Plan No. 733</p></div>
+            </a>
+            <a href="734_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1510599124576-9cda81805543?q=80&w=600&auto=format&fit=crop" alt="Child Education"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/bubbles/100/graduation-cap.png" alt="Education Icon"></div>
+                <div class="card-content"><h3>Jeevan Tarun</h3><p>Plan No. 734</p></div>
+            </a>
+
+            <!-- Row 3 -->
+            <a href="736_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop" alt="Profit and Growth"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/profit.png" alt="Profit Icon"></div>
+                <div class="card-content"><h3>Jeevan Labh</h3><p>Plan No. 736</p></div>
+            </a>
+            <a href="745_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1611095965942-8fc69a8b0a48?q=80&w=600&auto=format&fit=crop" alt="Lifetime Happiness"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/bubbles/100/smiling-face-with-heart.png" alt="Happiness Icon"></div>
+                <div class="card-content"><h3>Jeevan Umang</h3><p>Plan No. 745</p></div>
+            </a>
+            <a href="748_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1616594418349-2e1d882def40?q=80&w=600&auto=format&fit=crop" alt="Luxury and Wealth"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/diamond.png" alt="Diamond Icon"></div>
+                <div class="card-content"><h3>Bima Shree</h3><p>Plan No. 748</p></div>
+            </a>
+            <a href="751_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1593672715438-e04273755923?q=80&w=600&auto=format&fit=crop" alt="Small Savings"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/coins.png" alt="Coins Icon"></div>
+                <div class="card-content"><h3>Micro Bachat</h3><p>Plan No. 751</p></div>
+            </a>
+            
+            <!-- Row 4 -->
+            <a href="758_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1563903530908-9922b071a251?q=80&w=600&auto=format&fit=crop" alt="Peaceful Retirement"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/lotus.png" alt="Peace Icon"></div>
+                <div class="card-content"><h3>Jeevan Shanti</h3><p>Plan No. 758</p></div>
+            </a>
+            <a href="760_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1620321023374-1a2b0c16b177?q=80&w=600&auto=format&fit=crop" alt="Bright Future"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/sun.png" alt="Light Icon"></div>
+                <div class="card-content"><h3>Bima Jyoti</h3><p>Plan No. 760</p></div>
+            </a>
+            <a href="764_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1599409636295-81a04871e44a?q=80&w=600&auto=format&fit=crop" alt="Precious Jewel"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/gem-stone.png" alt="Gem Icon"></div>
+                <div class="card-content"><h3>Bima Ratna</h3><p>Plan No. 764</p></div>
+            </a>
+            <a href="768_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1470237734138-0c6a004b6b6b?q=80&w=600&auto=format&fit=crop" alt="Freedom"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/dove.png" alt="Freedom Icon"></div>
+                <div class="card-content"><h3>Jeevan Azaad</h3><p>Plan No. 768</p></div>
+            </a>
+
+            <!-- Row 5 -->
+            <a href="771_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1543085739-2531952d7685?q=80&w=600&auto=format&fit=crop" alt="Festival of Life"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/confetti.png" alt="Festival Icon"></div>
+                <div class="card-content"><h3>Jeevan Utsav</h3><p>Plan No. 771</p></div>
+            </a>
+            <a href="774_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1596706240410-485a9756b3cd?q=80&w=600&auto=format&fit=crop" alt="Baby Savings"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/baby-bottle.png" alt="Baby Icon"></div>
+                <div class="card-content"><h3>Jeevan Amritbaal</h3><p>Plan No. 774</p></div>
+            </a>
+            <a href="859_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=600&auto=format&fit=crop" alt="Simple Life"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/checked-user-male.png" alt="Simple Icon"></div>
+                <div class="card-content"><h3>Saral Jeevan Bima</h3><p>Plan No. 859</p></div>
+            </a>
+            <a href="862_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1579621970588-a35d0e7ab98d?q=80&w=600&auto=format&fit=crop" alt="Simple Pension"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/receive-cash.png" alt="Pension Icon"></div>
+                <div class="card-content"><h3>Saral Pension</h3><p>Plan No. 862</p></div>
+            </a>
+            
+            <!-- Row 6 -->
+            <a href="875_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1554224155-8d044b3a26e8?q=80&w=600&auto=format&fit=crop" alt="Young Professional"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/shield.png" alt="Shield Icon"></div>
+                <div class="card-content"><h3>Yuva Term</h3><p>Plan No. 875</p></div>
+            </a>
+            <a href="877_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1521790797524-7f2069b16b65?q=80&w=600&auto=format&fit=crop" alt="Credit Protection"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/card-in-use.png" alt="Credit Icon"></div>
+                <div class="card-content"><h3>Yuva Credit Life</h3><p>Plan No. 877</p></div>
+            </a>
+            <a href="879_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1632503433345-455644723e7c?q=80&w=600&auto=format&fit=crop" alt="Smart Savings"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/light-on.png" alt="Smart Icon"></div>
+                <div class="card-content"><h3>Smart Pension</h3><p>Plan No. 879</p></div>
+            </a>
+            <a href="912_BSMDT.html" class="plan-card">
+                <div class="card-image"><img src="https://images.unsplash.com/photo-1559526324-c1f275fbfa32?q=80&w=600&auto=format&fit=crop" alt="Regular Savings"></div>
+                <div class="card-icon"><img src="https://img.icons8.com/clouds/100/refresh-card.png" alt="Regular Payment Icon"></div>
+                <div class="card-content"><h3>Nav Jeevan Shree (Regular)</h3><p>Plan No. 912</p></div>
+            </a>
+        </div>
+
+        <!-- Bottom Special Row -->
+        <div class="special-row">
+            <a href="955_BSMDT.html" class="plan-card" style="width: 25%;">
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1549417229-aa67d5817c1d?q=80&w=600&auto=format&fit=crop" alt="Life Protection Image">
+                </div>
+                <div class="card-icon">
+                    <img src="https://img.icons8.com/clouds/100/family.png" alt="Family Protection Icon">
+                </div>
+                <div class="card-content">
+                    <h3>New Jeevan Amar</h3>
+                    <p>Plan No. 955</p>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>
