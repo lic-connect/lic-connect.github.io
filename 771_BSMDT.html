@@ -1507,7 +1507,12 @@ const addbData = [
         const pwbRate = pwbRow ? pwbRow[pwbTier] : null;
 
         if (pwbRate) {
-            const pwbPremium = (sumAssured * pwbRate) / 1000;
+            //const pwbPremium = (sumAssured * pwbRate) / 1000;
+            //const pwbPremium = (baseAnnualPremium * pwbRate) / 1000;
+    //const pwbPremium = (sumAssured * (pwbRate / 2)) / 1000;      
+//const pwbPremium = (sumAssured * pwbRate) / 1000;
+const pwbPremium = (baseAnnualPremium * pwbRate) / 100;
+  
             showModal('Standalone PWB Premium', `<p style="font-size: 1.5rem; font-weight: bold;">${formatCurrency(pwbPremium)}</p><small>(Yearly Premium, Excluding Tax)</small>`);
         } else {
             alert("PWB rate not available for this combination.");

@@ -158,7 +158,9 @@
             const pwbRate = getPwbRate(proposerAge, ppt, pwbRiderRates);
             if (!pwbRate) throw new Error(`PWB rate for Proposer Age ${proposerAge} and PPT ${ppt} not found.`);
             
-            const pwbAnnualPremium = (pwbRate / 1000) * annualTabularPremium;
+            //const pwbAnnualPremium = (pwbRate / 1000) * annualTabularPremium;
+            const pwbAnnualPremium = ((annualTabularPremium * pwbRate) / 100) * 1.1;
+            
             const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
 
             showStandaloneResult(`Standalone Annual PWB Rider Premium (Excl. GST): <strong class="fs-5">₹${formatInr(pwbAnnualPremium)}</strong>`);
@@ -256,7 +258,17 @@ if (addbSelected) {
                 errorDiv.textContent = `PWB rate for Proposer Age ${proposerAge} and PPT ${ppt} not found.`;
                 return;
             }
-            annualPwbPremium = (pwbRate / 1000) * sumAssured;
+            //annualPwbPremium = (pwbRate / 1000) * sumAssured;
+            
+     //const pwbAnnualPremium = (((sumAssured / 1000) * baseRates[age][term]) / 100) * pwbRate;       
+    // annualPwbPremium = (pwbRate / 1000) * annualTabularPremium;      
+//const pwbAnnualPremium = ((((sumAssured / 1000) * baseRates[age][term]) * pwbRate) / 100) * 1.1; 
+//const pwbAnnualPremium = ((annualTabularPremium * pwbRate) / 100) * 1.1;
+//const pwbAnnualPremium = (((annualTabularPremium * pwbRate) / 100) * 1.1);
+//const pwbAnnualPremium = ((pwbRate / 100) * annualTabularPremium) * 1.1;
+const pwbAnnualPremium = ((annualTabularPremium * pwbRate) / 100) * 1.1;
+
+
         }
 
         // M: Mode Rebate & T: Tax

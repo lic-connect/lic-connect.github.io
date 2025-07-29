@@ -272,10 +272,16 @@ function getHighSaRebateRate(sumAssured) {
 
         //const finalPwbPremium = (baseAnnualPremium * pwbRate) / 1000;
 const sumAssured = parseFloat(document.getElementById("sum-assured").value);
-const finalPwbPremium = (sumAssured * pwbRate) / 1000;
+//const finalPwbPremium = (sumAssured * pwbRate) / 1000;
 
 
+//const finalPwbPremium = ((parseFloat(document.getElementById('sum-assured').value) / 1000) * baseRates[parseInt(document.getElementById('age').value)][parseInt(document.getElementById('ppt').value)]) * (pwbRate / 100);
 
+//const finalPwbPremium = (getBaseAnnualPremium() * pwbRate) / 100;
+
+//const finalPwbPremium = ((parseFloat(document.getElementById('sum-assured').value) / 1000) * baseRates[parseInt(document.getElementById('age').value)][parseInt(document.getElementById('ppt').value)]) * (pwbRate / 100) * 0.637;
+
+const finalPwbPremium = (baseAnnualPremium * pwbRate) / 100 * 0.64;
         showModal('Standalone PWB Premium', `<p class="fs-4 fw-bold">${formatINR(finalPwbPremium)}</p><small>(Yearly Premium, Excluding Tax)</small>`);
     }
 

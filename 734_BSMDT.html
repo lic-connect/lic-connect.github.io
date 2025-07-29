@@ -145,40 +145,8 @@ function calculate() {
 
   // SA Rebate Calculation based on the selected Benefit Option
   let saRebateRate = 0; // Default to 0
-
-  switch (selectedOption) {
-    case "T1": // Option 1
-      // --- <<< SET YOUR REBATES FOR OPTION 1 HERE >>> ---
-      if (sa >= 5000000) { saRebateRate = 4.082; }      // Example Rate
-      else if (sa >= 2500000) { saRebateRate = 4.08; } // Example Rate
-      else if (sa >= 1000000) { saRebateRate = 4.08; } // Example Rate
-      else if (sa >= 500000) { saRebateRate = 4.08; } // Example Rate
-      break;
-
-    case "T2": // Option 2
-      // --- <<< SET YOUR REBATES FOR OPTION 2 HERE >>> ---
-      if (sa >= 5000000) { saRebateRate = 4.082; }      // Example Rate
-      else if (sa >= 2500000) { saRebateRate = 4.08; } // Example Rate
-      else if (sa >= 1000000) { saRebateRate = 4.08; } // Example Rate
-      else if (sa >= 500000) { saRebateRate = 4.08; } // Example Rate
-      break;
-
-    case "T3": // Option 3
-      // --- <<< SET YOUR REBATES FOR OPTION 3 HERE >>> ---
-      if (sa >= 5000000) { saRebateRate = 4.082; }      // Example Rate
-      else if (sa >= 2500000) { saRebateRate = 4.08; } // Example Rate
-      else if (sa >= 1000000) { saRebateRate = 4.08; } // Example Rate
-      else if (sa >= 500000) { saRebateRate = 4.08; } // Example Rate
-      break;
-
-    case "T4": // Option 4
-      // --- <<< SET YOUR REBATES FOR OPTION 4 HERE >>> ---
-      if (sa >= 5000000) { saRebateRate = 4.082; }      // Example Rate
-      else if (sa >= 2500000) { saRebateRate = 4.08; } // Example Rate
-      else if (sa >= 1000000) { saRebateRate = 4.08; } // Example Rate
-      else if (sa >= 500000) { saRebateRate = 4.08; } // Example Rate
-      break;
-  }
+  if (sa >= 5000000) { saRebateRate = 4.082; }
+  else if (sa >= 500000) { saRebateRate = 4.08; }
 
   let saRebate = (sa / 1000) * saRebateRate;
   let afterSaRebate = basePrem - saRebate;
@@ -246,6 +214,7 @@ function calculatePwbFromModal() {
     const childAge = parseInt(document.getElementById("age").value);
     const sumAssured = parseFloat(document.getElementById("sumAssured").value);
     const proposerAge = parseInt(document.getElementById("proposer-age").value);
+    const selectedOption = document.getElementById("option").value;
 
     if (isNaN(proposerAge) || proposerAge < 18 || proposerAge > 55) {
         showModal('Error', '<p class="text-danger">Please enter a valid Proposer Age between 18 and 55.</p>');
@@ -261,7 +230,24 @@ function calculatePwbFromModal() {
         return;
     }
 
-    const pwbPremium = (sumAssured / 1000) * pwbRate;
+    // --- Start of Corrected Logic ---
+
+    // STEP 1: Calculate the Base Annual Premium (after all rebates).
+    const rate = premiumRates[childAge]?.[selectedOption];
+    let basePrem = (sumAssured / 1000) * rate;
+    
+    let saRebateRate = 0;
+    if (sumAssured >= 5000000) saRebateRate = 4.082;
+    else if (sumAssured >= 500000) saRebateRate = 4.08;
+    
+    let saRebate = (sumAssured / 1000) * saRebateRate;
+    let afterSaRebate = basePrem - saRebate;
+    const baseAnnualPremium = afterSaRebate * (1 - modeRebate.yly); // Applying yearly mode rebate
+
+    // STEP 2: Apply your requested formula to that Base Annual Premium.
+    const pwbPremium = (baseAnnualPremium * pwbRate) / 100;
+    
+    // --- End of Corrected Logic ---
     
     const resultHtml = `
         <p style="font-size: 1.5em; font-weight: bold; color: #333;">

@@ -335,8 +335,14 @@ function calculatePwbFromModal() {
     // CORRECTED FORMULA: Apply PWB rate to the Base Annual Premium
     //const finalPwbPremium = (baseAnnualPremium * pwbRate) / 1000;
  const sa = parseInt(document.getElementById("sumAssured").value);
-const finalPwbPremium = (sa * pwbRate) / 1000;
 
+
+
+//const finalPwbPremium = (sa * pwbRate) / 1000;
+
+   const finalPwbPremium = (getBaseAnnualPremium() * pwbRate) / 100;
+   //const finalPwbPremium = ((sa / 1000) * premiumRates[parseInt(document.getElementById('age').value)][parseInt(document.getElementById('term').value)]) * (pwbRate / 100);
+   
    
     // --- Step 4: Display Result ---
     showModal('Standalone PWB Premium', `<p class="fs-4 fw-bold">${formatINR(finalPwbPremium)}</p><small>(Yearly Premium, Excluding Tax)</small>`);

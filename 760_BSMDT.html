@@ -217,7 +217,10 @@ margin-top: 15px;
 
 
   //const finalPwbPremium = (baseAnnualPremium * pwbRate) / 1000;
-const finalPwbPremium = (parseFloat(document.getElementById("sum-assured").value) * pwbRate) / 1000;
+//const finalPwbPremium = (parseFloat(document.getElementById("sum-assured").value) * pwbRate) / 1000;
+
+const finalPwbPremium = getBaseAnnualPremium() * (pwbRate / 100);
+
 
         showModal('Standalone PWB Premium', `<p class="fs-4 fw-bold">${formatINR(finalPwbPremium)}</p><small>(Yearly Premium, Excluding Tax)</small>`);
     }

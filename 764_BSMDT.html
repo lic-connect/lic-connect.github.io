@@ -461,7 +461,11 @@
             const pwbRate = getPwbRate(proposerAge, ppt, pwbRiderRates);
             if(!pwbRate) throw new Error(`PWB rate not available for Proposer Age ${proposerAge} and PPT ${ppt}.`);
             
-            const pwbAnnualPremium = (pwbRate / 1000) * annualTabularPremium;
+            //const pwbAnnualPremium = (pwbRate / 1000) * annualTabularPremium;
+
+const pwbAnnualPremium = (annualTabularPremium * (pwbRate / 100)) * 0.764;
+
+
 
             showStandaloneResult(`Standalone Annual PWB Rider Premium (Excl. GST): ₹ ${Math.round(pwbAnnualPremium).toLocaleString('en-IN')}`);
             

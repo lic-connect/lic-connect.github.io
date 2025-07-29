@@ -463,10 +463,35 @@ function calculatePwbFromModal() {
     }
 
     // 4. Calculate the premium with the fixed charge
-    const variablePremium = (sa / 1000) * pwbRate;
-    const pwbPremium = variablePremium + 0; // Correct formula: Variable Premium + Fixed Rider Charge
+    //const variablePremium = (baseAnnualPremium / 100) * pwbRate;
+    
+  //const variablePremium = (((sa / 1000) * premiumRates[parseInt(document.getElementById('age').value)][term]) / 100) * pwbRate;
+    //const pwbPremium = (baseAnnualPremium * pwbRate) / 100;
+   // const pwbPremium = variablePremium + 0; // Correct formula: Variable Premium + Fixed Rider Charge
     
     // 5. Display the result
+ //  const resultHtml = `
+        //<p style="font-size: 1.5em; font-weight: bold; color: #333;">
+            //Yearly Premium: ${formatINR(pwbPremium)}
+      //</p>
+        //<small>(Excluding Tax & Rebates)</small>
+   // `;
+    //showModal('Standalone PWB Premium', resultHtml);
+//}
+
+    // 4. Calculate the base annual premium to be waived (after all rebates)
+    const age = parseInt(document.getElementById('age').value);
+    const rate = premiumRates[age]?.[term];
+    let basePrem = (sa / 1000) * rate;
+    let saRebateRate = (sa >= 1000000) ? 4.0815 : (sa >= 500000) ? 2.550 : 0;
+    let saRebate = (sa / 1000) * saRebateRate;
+    let afterSaRebate = basePrem - saRebate;
+    const baseAnnualPremium = afterSaRebate * (1 - 0.02); // Applying yearly mode rebate
+
+    // 5. Apply your requested formula
+    const pwbPremium = (baseAnnualPremium * pwbRate) / 100;
+    
+    // 6. Display the result
     const resultHtml = `
         <p style="font-size: 1.5em; font-weight: bold; color: #333;">
             Yearly Premium: ${formatINR(pwbPremium)}
@@ -474,7 +499,9 @@ function calculatePwbFromModal() {
         <small>(Excluding Tax & Rebates)</small>
     `;
     showModal('Standalone PWB Premium', resultHtml);
+
 }
+
 
 // --- END: Replace your existing PWB function ---
 // --- END: REPLACE THIS BLOCK IN YOUR SCRIPT --- 

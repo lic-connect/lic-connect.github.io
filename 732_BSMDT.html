@@ -217,7 +217,25 @@ function calculatePwbFromModal() {
         return;
     }
 
-    const pwbPremium = (sumAssured / 1000) * pwbRate;
+    // --- Start of Corrected Logic ---
+
+    // STEP 1: First, calculate the Base Annual Premium (after all rebates).
+    // This is the actual premium amount the PWB rider needs to waive.
+    const rate = premiumRates[childAge];
+    let basePrem = (sumAssured / 1000) * rate;
+    let saRebateRate = 0;
+    if (sumAssured >= 5000000) saRebateRate = 4.082;
+    else if (sumAssured >= 2500000) saRebateRate = 4.08;
+    else if (sumAssured >= 1000000) saRebateRate = 4.08;
+    else if (sumAssured >= 500000) saRebateRate = 2.55;
+    let saRebate = (sumAssured / 1000) * saRebateRate;
+    let afterSaRebate = basePrem - saRebate;
+    const baseAnnualPremium = afterSaRebate * (1 - modeRebate.yly); // Applying yearly mode rebate
+
+    // STEP 2: Now, use the simple, requested formula on that Base Annual Premium.
+    const pwbPremium = (baseAnnualPremium * pwbRate) / 100;
+
+    // --- End of Corrected Logic ---
     
     const resultHtml = `
         <p style="font-size: 1.5em; font-weight: bold; color: #333;">
