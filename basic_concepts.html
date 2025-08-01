@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Learning Hub - Premium</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap');
+        
+        :root {
+            --primary-color: #0c3b2e;
+            --secondary-color: #d4af37;
+            --background-color: #fdfdf5;
+            --text-color: #333;
+            --heading-color: #0c3b2e;
+            --white-color: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            background-color: var(--primary-color);
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://www.transparenttextures.com/patterns/dark-geometric.png');
+            color: var(--white-color);
+            border-bottom: 5px solid var(--secondary-color);
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(145deg, #FFF8E1, #FFBF00, #D4AF37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.2), 
+                         2px 2px 3px var(--primary-color),
+                         0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            margin-top: 15px;
+            opacity: 0.85;
+            letter-spacing: 0.5px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            color: var(--heading-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin: 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            width: 70%;
+            height: 3px;
+            background: var(--secondary-color);
+            bottom: -10px;
+            left: 15%;
+        }
+        
+        .language-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .language-btn {
+            background: var(--primary-color);
+            color: var(--white-color);
+            border: 2px solid var(--primary-color);
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease-in-out;
+            text-decoration: none;
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+
+        .language-btn:hover {
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            background-color: var(--primary-color);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+        
+        .modal {
+            display: none; position: fixed; z-index: 1000;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: #000;
+        }
+        
+        .player-container { position: relative; width: 100%; height: 100%; }
+        
+        #modalImage {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: contain; z-index: 2; /* Image is on top */
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        #mediaEngine {
+            position: absolute; width: 1px; height: 1px;
+            opacity: 0; z-index: 1; /* Hidden in the background */
+        }
+
+        /* This is the dedicated subtitle display box */
+        #subtitle-display {
+            position: absolute;
+            bottom: 12%; /* Position above the controls */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 800px;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            text-align: center;
+            border-radius: 8px;
+            text-shadow: 1px 1px 2px black;
+            z-index: 4; /* On top of everything */
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        #subtitle-display.visible {
+            opacity: 1;
+        }
+
+        .controls-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 3; opacity: 0; transition: opacity 0.3s ease-in-out;
+        }
+        
+        .player-container.paused .controls-overlay,
+        .player-container.show-controls .controls-overlay { opacity: 1; }
+
+        .timer-controls {
+            position: absolute; bottom: 10px; left: 50%;
+            transform: translateX(-50%); z-index: 4;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 50px; padding: 10px 20px;
+            display: flex; align-items: center; gap: 20px;
+            color: white; font-size: 1.2rem;
+        }
+        .timer-btn { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 0 10px; }
+        #timeDisplay { font-family: 'Poppins', monospace; min-width: 130px; text-align: center; }
+        #playPauseBtn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 4; width: 80px; height: 80px; background: rgba(0,0,0,0.5); border-radius: 50%; cursor: pointer; border: 2px solid rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: center; }
+        #playPauseBtn.playing::before, #playPauseBtn.playing::after { content: ''; width: 8px; height: 30px; background-color: white; }
+        #playPauseBtn.playing::before { margin-right: 10px; }
+        #playPauseBtn.paused::before { content: ''; width: 0; height: 0; border-top: 20px solid transparent; border-bottom: 20px solid transparent; border-left: 30px solid white; margin-left: 8px; }
+        .close-btn { position: absolute; top: 15px; right: 35px; z-index: 5; color: rgba(255, 255, 255, 0.9); font-size: 50px; font-weight: bold; text-shadow: 0 0 8px rgba(0,0,0,0.8); cursor: pointer; transition: color 0.3s; }
+        .close-btn:hover { color: var(--secondary-color); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>LIC Learning Hub</h1>
+        <p>Your premium guide to the Basic Terminologies used in LIC</p>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <div class="section-header"><h2>Core Concepts</h2></div>
+            <div class="section-content">
+                <div class="language-options">
+                    <a href="#" class="language-btn play-presentation-btn" 
+                       data-media-src="english_terminology_subtitles_final5.mp4"
+                       data-vtt-src="english_terminology_subtitles_final5.vtt"
+                       data-images="pexels1.jpg,pexels2.jpg,pexels3.jpg,pexels4.jpg,pexels5.jpg,pexels6.jpg,pexels7.jpg,pexels8.jpg,pexels9.jpg,pexels10.jpg,pexels11.jpeg,pexels12.jpeg,pexels13.jpeg,pexels14.jpeg,pexels15.jpeg,pexels16.jpeg,pexels17.jpeg,pexels18.jpeg,pexels19.jpeg,pexels20.jpeg,pexels21.jpeg,pexels22.jpeg,pexels23.jpeg,pexels24.jpeg,pexels25.jpeg,pexels26.jpeg,pexels27.jpeg,pexels28.jpeg,pexels29.jpeg,pexels30.jpeg,pexels31.jpeg,pexels32.jpeg,pexels33.jpeg,pexels34.jpg,pexels35.jpg,pexels36.jpg,pexels37.jpg,pexels38.jpg,pexels39.jpg,pexels40.jpg,pexels41.jpg,pexels42.jpg,pexels43.jpg,pexels44.jpg,pexels45.jpg,pexels46.jpg,pexels47.jpg,pexels48.jpg,pexels49.jpg,pexels50.jpg,pexels51.jpg">
+                       Watch in English
+                    </a>
+                    <a href="#" class="language-btn play-presentation-btn" 
+                       data-media-src="hindi_terminology_subtitles_final5.mp4"
+                       data-vtt-src="hindi_terminology_subtitles_final5.vtt"
+                       data-images="pexels1.jpg,pexels2.jpg,pexels3.jpg,pexels4.jpg,pexels5.jpg,pexels6.jpg,pexels7.jpg,pexels8.jpg,pexels9.jpg,pexels10.jpg,pexels11.jpeg,pexels12.jpeg,pexels13.jpeg,pexels14.jpeg,pexels15.jpeg,pexels16.jpeg,pexels17.jpeg,pexels18.jpeg,pexels19.jpeg,pexels20.jpeg,pexels21.jpeg,pexels22.jpeg,pexels23.jpeg,pexels24.jpeg,pexels25.jpeg,pexels26.jpeg,pexels27.jpeg,pexels28.jpeg,pexels29.jpeg,pexels30.jpeg,pexels31.jpeg,pexels32.jpeg,pexels33.jpeg,pexels34.jpg,pexels35.jpg,pexels36.jpg,pexels37.jpg,pexels38.jpg,pexels39.jpg,pexels40.jpg,pexels41.jpg,pexels42.jpg,pexels43.jpg,pexels44.jpg,pexels45.jpg,pexels46.jpg,pexels47.jpg,pexels48.jpg,pexels49.jpg,pexels50.jpg,pexels51.jpg">
+                       Watch in Hindi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2024 LIC Learning Hub. All Rights Reserved. For informational purposes only.</p>
+    </div>
+
+    <div id="videoModal" class="modal">
+        <div class="player-container" id="playerContainer">
+            <img id="modalImage" src="" alt="Presentation Slide" />
+            <video id="mediaEngine" playsinline>
+                <track id="subtitleTrack" kind="subtitles">
+            </video>
+            <div id="subtitle-display"></div>
+
+            <div class="controls-overlay">
+                <div id="playPauseBtn"></div>
+                <div class="timer-controls">
+                    <button id="rewindBtn" class="timer-btn">« 10s</button>
+                    <div id="timeDisplay">00:00 / 00:00</div>
+                    <button id="forwardBtn" class="timer-btn">10s »</button>
+                </div>
+            </div>
+            <span id="closeModalBtn" class="close-btn">×</span>
+        </div>
+    </div>
+
+<script>
+    const modal = document.getElementById('videoModal');
+    const modalImage = document.getElementById('modalImage');
+    const mediaEngine = document.getElementById('mediaEngine');
+    const subtitleTrack = document.getElementById('subtitleTrack');
+    const subtitleDisplay = document.getElementById('subtitle-display');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playerContainer = document.getElementById('playerContainer');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const rewindBtn = document.getElementById('rewindBtn');
+    const forwardBtn = document.getElementById('forwardBtn');
+
+    let inactivityTimer;
+    let currentImages = [];
+    let currentIndex = -1;
+
+    function formatTime(seconds) { if (isNaN(seconds) || seconds < 0) return "00:00"; const minutes = Math.floor(seconds / 60); const secs = Math.floor(seconds % 60); return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`; }
+    function togglePlayPause() { if (mediaEngine.paused) { mediaEngine.play().catch(e => console.error("Media play failed:", e)); } else { mediaEngine.pause(); } }
+    function updatePlayPauseIcon() { const isPaused = mediaEngine.paused; playerContainer.classList.toggle('paused', isPaused); playPauseBtn.classList.toggle('paused', isPaused); playPauseBtn.classList.toggle('playing', !isPaused); }
+    function showControls() { playerContainer.classList.add('show-controls'); clearTimeout(inactivityTimer); inactivityTimer = setTimeout(() => { if (!mediaEngine.paused) { playerContainer.classList.remove('show-controls'); } }, 3000); }
+    function updateDisplay(index) { if (currentImages.length === 0) return; const loopingIndex = index % currentImages.length; modalImage.style.opacity = 0; setTimeout(() => { modalImage.src = currentImages[loopingIndex]; modalImage.style.opacity = 1; }, 150); currentIndex = index; }
+    function seek(seconds) { const newTime = mediaEngine.currentTime + seconds; mediaEngine.currentTime = Math.max(0, Math.min(mediaEngine.duration || 0, newTime)); }
+
+    function openModal(mediaSrc, vttSrc, imagesAttr) {
+        modal.style.display = 'block';
+        currentImages = imagesAttr.split(',');
+        mediaEngine.src = mediaSrc;
+        subtitleTrack.src = vttSrc;
+        mediaEngine.load();
+        updateDisplay(0);
+        mediaEngine.play().catch(e => console.error("Autoplay was blocked.", e)).finally(() => { updatePlayPauseIcon(); showControls(); });
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+        mediaEngine.pause();
+        mediaEngine.removeAttribute('src');
+        subtitleTrack.removeAttribute('src');
+        mediaEngine.load();
+        modalImage.removeAttribute('src');
+        currentImages = [];
+        currentIndex = -1;
+        clearTimeout(inactivityTimer);
+    }
+
+    mediaEngine.addEventListener('loadedmetadata', () => {
+        timeDisplay.textContent = `00:00 / ${formatTime(mediaEngine.duration)}`;
+        const track = mediaEngine.textTracks[0];
+        if (track) {
+            track.mode = 'hidden'; // VERY IMPORTANT: We will control it manually
+            track.oncuechange = () => {
+                const cue = track.activeCues[0];
+                if (cue) {
+                    subtitleDisplay.innerHTML = cue.text;
+                    subtitleDisplay.classList.add('visible');
+                } else {
+                    subtitleDisplay.classList.remove('visible');
+                }
+            };
+        }
+    });
+
+    document.addEventListener('click', function(event) { const playButton = event.target.closest('.play-presentation-btn'); if (playButton) { event.preventDefault(); openModal(playButton.dataset.mediaSrc, playButton.dataset.vttSrc, playButton.dataset.images); } });
+    mediaEngine.addEventListener('timeupdate', () => { if (!mediaEngine.duration) return; timeDisplay.textContent = `${formatTime(mediaEngine.currentTime)} / ${formatTime(mediaEngine.duration)}`; const expectedIndex = Math.floor(mediaEngine.currentTime / 10); if (expectedIndex !== currentIndex) { updateDisplay(expectedIndex); } });
+    mediaEngine.addEventListener('play', updatePlayPauseIcon);
+    mediaEngine.addEventListener('pause', updatePlayPauseIcon);
+    mediaEngine.addEventListener('ended', closeModal);
+    rewindBtn.addEventListener('click', (e) => { e.stopPropagation(); seek(-10); });
+    forwardBtn.addEventListener('click', (e) => { e.stopPropagation(); seek(10); });
+    playPauseBtn.addEventListener('click', (e) => { e.stopPropagation(); togglePlayPause(); });
+    closeModalBtn.addEventListener('click', closeModal);
+    playerContainer.addEventListener('mousemove', showControls);
+    playerContainer.addEventListener('click', (e) => { if (e.target.closest('.timer-controls') === null && e.target.closest('.close-btn') === null) { togglePlayPause(); } });
+</script>
+</body>
+</html>
