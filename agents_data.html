@@ -92,6 +92,20 @@
             opacity: 0.8;
             margin: 0;
         }
+        
+        #financial-year {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 25px;
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--accent-color);
+            text-shadow: 0 0 5px rgba(0, 242, 96, 0.5);
+            display: inline-block;
+        }
 
         .action-buttons {
             display: flex;
@@ -123,7 +137,7 @@
         .btn-success { background-color: var(--success-color); color: white; }
         .btn-warning { background-color: #f39c12; color: white; }
         .btn-danger { background-color: var(--error-color); color: white; }
-.btn-secondary { background-color: #34495e; color: white; }
+        .btn-secondary { background-color: #34495e; color: white; }
         
         #status-message {
             margin-top: 20px;
@@ -158,6 +172,11 @@
             border-bottom: 1px solid var(--glass-border);
             padding-bottom: 30px;
         }
+        
+        .fetch-input::placeholder {
+            color: var(--text-light);
+            opacity: 0.7;
+        }
 
         .form-grid {
             display: grid;
@@ -187,11 +206,6 @@
             font-size: 1rem;
             transition: all 0.2s ease;
         }
-
-        .fetch-input::placeholder {
-            color: var(--text-light);
-            opacity: 0.7; /* Make it slightly transparent to look like a placeholder */
-        }
         
         .form-input:focus, .form-textarea:focus {
             outline: none;
@@ -212,7 +226,7 @@
         .btn-primary {
             background-color: var(--primary-color);
             color: white;
-            flex-grow: 1; /* Makes the button take up available space */
+            flex-grow: 1;
         }
         .fetch-input { flex-grow: 2; }
 
@@ -227,12 +241,13 @@
                 <i class="fas fa-satellite-dish"></i>
                 <h1>Agent Command</h1>
                 <p>Manage agent records from the Supabase database.</p>
+                <div id="financial-year"></div>
             </div>
             
             <div id="status-message"></div>
 
             <div class="action-buttons">
-<button id="clearBtn" class="btn btn-secondary"><i class="fas fa-eraser"></i> Clear Form</button>
+                <button id="clearBtn" class="btn btn-secondary"><i class="fas fa-eraser"></i> Clear Form</button>
                 <button id="insertBtn" class="btn btn-success"><i class="fas fa-plus-circle"></i> Insert New Record</button>
                 <button id="updateBtn" class="btn btn-warning"><i class="fas fa-edit"></i> Update Current Record</button>
                 <button id="deleteBtn" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete Current Record</button>
@@ -248,11 +263,8 @@
 
             <form id="agent-form">
                 <div class="form-grid">
-                    <!-- Read-only fields -->
                     <div class="form-group"><label for="id">Record ID</label><input type="text" id="id" class="form-input" readonly></div>
                     <div class="form-group"><label for="created_at">Created At</label><input type="text" id="created_at" class="form-input" readonly></div>
-                    
-                    <!-- Editable fields -->
                     <div class="form-group"><label for="name">Name</label><input type="text" id="name" class="form-input" required></div>
                     <div class="form-group"><label for="agency_code">Agency Code</label><input type="text" id="agency_code" class="form-input" required></div>
                     <div class="form-group"><label for="do_code">DO Code</label><input type="text" id="do_code" class="form-input"></div>
@@ -265,12 +277,8 @@
                     <div class="form-group"><label for="total_policyholders">Total Policyholders</label><input type="number" id="total_policyholders" class="form-input"></div>
                     <div class="form-group"><label for="total_premium">Total Premium</label><input type="number" id="total_premium" class="form-input"></div>
                     <div class="form-group"><label for="total_commission">Total Commission</label><input type="number" id="total_commission" class="form-input"></div>
-
-                    <!-- Larger text areas -->
                     <div class="form-group" style="grid-column: 1 / -1;"><label for="full_address">Full Address</label><textarea id="full_address" class="form-textarea"></textarea></div>
                     <div class="form-group" style="grid-column: 1 / -1;"><label for="remarks">Remarks</label><textarea id="remarks" class="form-textarea"></textarea></div>
-                    
-                    <!-- Hidden user_id field -->
                     <input type="hidden" id="user_id">
                 </div>
             </form>
@@ -278,25 +286,16 @@
     </div>
 
 <script>
-    // --- IMPORTANT: REPLACE WITH YOUR SUPABASE DETAILS ---
-    const SUPABASE_URL = 'https://efduqdondmlzmwhfgkfz.supabase.co'; // e.g., 'https://xyz.supabase.co'
+    const SUPABASE_URL = 'https://efduqdondmlzmwhfgkfz.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
 
     const { createClient } = supabase;
     const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // --- Element Selection ---
     const agentForm = document.getElementById('agent-form');
     const statusMessage = document.getElementById('status-message');
     const formFields = ['id', 'created_at', 'name', 'agency_code', 'do_code', 'date_of_joining', 'full_address', 'mobile_number', 'email', 'pan', 'aadhaar', 'club', 'total_policyholders', 'total_premium', 'total_commission', 'remarks', 'user_id'];
-
-    // --- Event Listener for the New Clear Button ---
-    document.getElementById('clearBtn').addEventListener('click', () => {
-        clearForm();
-        displayStatus('Form cleared.');
-    });
     
-    // --- Helper Functions ---
     const displayStatus = (message, isError = false) => {
         statusMessage.textContent = message;
         statusMessage.className = `visible ${isError ? 'error' : 'success'}`;
@@ -313,12 +312,9 @@
     const getFormData = () => {
         const data = {};
         formFields.forEach(fieldId => {
-            // Exclude read-only fields from the data object for insert/update
             if (fieldId !== 'id' && fieldId !== 'created_at') {
                 const element = document.getElementById(fieldId);
-                if (element) {
-                    data[fieldId] = element.value || null; // Send null for empty fields
-                }
+                if (element) { data[fieldId] = element.value || null; }
             }
         });
         return data;
@@ -329,7 +325,6 @@
         formFields.forEach(fieldId => {
             const element = document.getElementById(fieldId);
             if (element && data[fieldId]) {
-                // Format date correctly for the input field
                 if (element.type === 'date' && data[fieldId]) {
                     element.value = data[fieldId].split('T')[0];
                 } else {
@@ -339,93 +334,56 @@
         });
     };
 
-    // --- Event Listeners for Buttons ---
+    document.getElementById('clearBtn').addEventListener('click', () => {
+        clearForm();
+        displayStatus('Form cleared.');
+    });
+
     document.getElementById('fetchBtn').addEventListener('click', async () => {
         const agencyCode = document.getElementById('fetchAgencyCode').value.trim();
-        if (!agencyCode) {
-            displayStatus('Please enter an Agency Code to fetch.', true);
-            return;
-        }
-        
-        clearForm(); // Clear form before fetching new data
-        
-        const { data, error } = await db
-            .from('agents')
-            .select('*')
-            .eq('agency_code', agencyCode)
-            .single(); // Use .single() as agency_code should be unique
-
-        if (error) {
-            displayStatus(`Error: Agent with code '${agencyCode}' not found.`, true);
-            console.error('Fetch error:', error.message);
-        } else if (data) {
-            populateForm(data);
-            displayStatus('Agent data fetched successfully!');
-        }
+        if (!agencyCode) { displayStatus('Please enter an Agency Code to fetch.', true); return; }
+        clearForm();
+        const { data, error } = await db.from('agents').select('*').eq('agency_code', agencyCode).single();
+        if (error) { displayStatus(`Error: Agent with code '${agencyCode}' not found.`, true); console.error('Fetch error:', error.message); } 
+        else if (data) { populateForm(data); displayStatus('Agent data fetched successfully!'); }
     });
 
     document.getElementById('insertBtn').addEventListener('click', async () => {
         const newAgentData = getFormData();
-        if (!newAgentData.agency_code || !newAgentData.name) {
-            displayStatus('Agency Code and Name are required to insert.', true);
-            return;
-        }
-
+        if (!newAgentData.agency_code || !newAgentData.name) { displayStatus('Agency Code and Name are required to insert.', true); return; }
         const { error } = await db.from('agents').insert([newAgentData]);
-
-        if (error) {
-            displayStatus(`Error inserting agent: ${error.message}`, true);
-        } else {
-            displayStatus('Agent inserted successfully!');
-            clearForm();
-        }
+        if (error) { displayStatus(`Error inserting agent: ${error.message}`, true); } 
+        else { displayStatus('Agent inserted successfully!'); clearForm(); }
     });
 
     document.getElementById('updateBtn').addEventListener('click', async () => {
         const agencyCode = document.getElementById('agency_code').value.trim();
-        if (!agencyCode) {
-            displayStatus('Fetch an agent first before updating.', true);
-            return;
-        }
-
+        if (!agencyCode) { displayStatus('Fetch an agent first before updating.', true); return; }
         const updatedData = getFormData();
-
-        const { error } = await db
-            .from('agents')
-            .update(updatedData)
-            .eq('agency_code', agencyCode);
-
-        if (error) {
-            displayStatus(`Error updating agent: ${error.message}`, true);
-        } else {
-            displayStatus('Agent updated successfully!');
-        }
+        const { error } = await db.from('agents').update(updatedData).eq('agency_code', agencyCode);
+        if (error) { displayStatus(`Error updating agent: ${error.message}`, true); } 
+        else { displayStatus('Agent updated successfully!'); }
     });
 
     document.getElementById('deleteBtn').addEventListener('click', async () => {
         const agencyCode = document.getElementById('agency_code').value.trim();
-        if (!agencyCode) {
-            displayStatus('Fetch an agent first before deleting.', true);
-            return;
-        }
-
+        if (!agencyCode) { displayStatus('Fetch an agent first before deleting.', true); return; }
         const confirmed = confirm(`Are you sure you want to delete agent with code '${agencyCode}'? This action cannot be undone.`);
-
         if (confirmed) {
-            const { error } = await db
-                .from('agents')
-                .delete()
-                .eq('agency_code', agencyCode);
-
-            if (error) {
-                displayStatus(`Error deleting agent: ${error.message}`, true);
-            } else {
-                displayStatus('Agent deleted successfully!');
-                clearForm();
-            }
+            const { error } = await db.from('agents').delete().eq('agency_code', agencyCode);
+            if (error) { displayStatus(`Error deleting agent: ${error.message}`, true); } 
+            else { displayStatus('Agent deleted successfully!'); clearForm(); }
         }
     });
 
+    document.addEventListener('DOMContentLoaded', () => {
+        const today = new Date();
+        const month = today.getMonth();
+        let startYear = today.getFullYear();
+        if (month < 3) { startYear--; }
+        const endYear = startYear + 1;
+        document.getElementById('financial-year').textContent = `FY: April ${startYear} - March ${endYear}`;
+    });
 </script>
 </body>
 </html>
