@@ -89,7 +89,7 @@
           50%  { transform: rotateY(360deg); }
           100% { transform: rotateY(0deg); }
         }
-        
+       
         /* --- RIGHT COLUMN: Content & Buttons --- */
         .content-column {
             flex-grow: 1;
@@ -104,7 +104,7 @@
             flex-grow: 1;
             text-align: center;
         }
-        
+       
         #welcomeMsg, #logoutMsg {
             font-size: 1.5rem;
             font-weight: 600;
@@ -154,7 +154,14 @@
             font-weight: 600;
         }
 
-        .button-container {
+           
+   
+   
+   
+   
+
+
+     .button-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
@@ -243,7 +250,7 @@
         .logout-button:hover {
             background-color: #c0392b;
         }
-        
+       
         footer {
             text-align: center;
             margin-top: 30px;
@@ -264,7 +271,7 @@
     </style>
 </head>
 <body>
-  
+ 
   <div class="page-wrapper">
     <!-- LEFT BRANDING COLUMN -->
     <div class="brand-column">
@@ -278,22 +285,25 @@
     <!-- RIGHT CONTENT COLUMN -->
     <div class="content-column">
       <div class="content-main">
-        
+       
         <div id="welcomeMsg"></div>
-        
+       
         <div id="newsTicker">
           <div id="newsText">Loading news...</div>
         </div>
 
-        <div style="text-align: center; margin: 30px 0;">
-          <a href="voice.html" class="dashboard-button">
-            <img src="icons/voice.png" class="button-icon" alt="Voice Icon"> Voice Assistant
-          </a>
-        </div>
+       <!-- <div style="text-align: center; margin: 30px 0;"-->
+          <!--<a href="voice.html" class="dashboard-button"-->
+            <!--img src="icons/voice.png" class="button-icon" alt="Voice Icon"> Voice Assistant-->
+          <!--</a>-->
+        <!--</div>-->
+        
+        
 
         <main class="button-container">
           <!-- Left Column of Buttons -->
           <div class="column">
+          	<a href="basic_concepts.html" class="dashboard-button"><img src="icons/customerData.png" class="button-icon" alt=""> Life insurance-Video Guide</a>
             <a href="customer_data.html" class="dashboard-button"><img src="icons/customerData.png" class="button-icon" alt=""> Customer Data</a>
             <a href="agents_data.html" class="dashboard-button"><img src="icons/agentsData.png" class="button-icon" alt=""> Agents Data</a>
             <a href="plancombination.html" class="dashboard-button"><img src="icons/agentsCorner1.png" class="button-icon" alt=""> Plan Combination</a>
@@ -310,19 +320,21 @@
             <div class="dropdown">
               <a class="dashboard-button"><img src="icons/calculator.png" class="button-icon" alt=""> Types of Calculators</a>
               <div class="dropdown-content">
+         
                 <a href="maturity/maturityindex.html">LIC Maturity Calculator</a>
                 <a href="revival/revivalindex.html">LIC Revival Calculator</a>
                 <a href="surrender/surrender.html">LIC Surrender Calculator</a>
                <a href= "commissioncalculator.html">LIC Commission Calculator</a>
-                <a href="SBcalculator.html">LIC Survival Benefit Calculator</a> 
-  <a href="premium_page.html">LIC Premium Calculator</a> 
+                <a href="SBcalculator.html">LIC Survival Benefit Calculator</a>
+  <a href="premium_page.html">LIC Premium Calculator</a>
                
               </div>
             </div>
+            <a href="voice.html" class="dashboard-button"><img src="icons/voice.png" class="button-icon" alt=""> Voice Assistant</a>
             <a href="lic_process.html" class="dashboard-button"><img src="icons/process.png" class="button-icon" alt=""> Types of Processes</a>
             <a href="irr_plans.html" class="dashboard-button"><img src="icons/IRR.png" class="button-icon" alt=""> IRR Calculation</a>
             <a href="plan_features.html" class="dashboard-button"><img src="icons/planFeatures.png" class="button-icon" alt=""> Plan Features</a>
-            <a href="comparebygroup.html" class="dashboard-button"><img src="icons/planComparison.png" class="button-icon" alt=""> Plan Comparison Tool</a>
+            <a href="comparebygroup.html" class="dashboard-button"><img src="icons/planComparison.png" class="button-icon" alt=""> Plan Comparison</a>
             <a href="needs_budget.html" class="dashboard-button"><img src="icons/needs.png" class="button-icon" alt=""> Plans as per Need</a>
             <a href="prospectscorner.html" class="dashboard-button"><img src="icons/prospectsCorner.png" class="button-icon" alt=""> Prospects Corner</a>
             <a href="terminologies.html" class="dashboard-button"><img src="icons/glossary.png" class="button-icon" alt=""> Glossary</a>
@@ -332,7 +344,7 @@
 
         <div style="text-align: center; margin: 30px 0;">
           <a href="agents_commission.html" class="dashboard-button">
-            <img src="icons/commission.png" class="button-icon" alt=""> Agents Commission 
+            <img src="icons/commission.png" class="button-icon" alt=""> Agents Commission
           </a>
         </div>
 
@@ -341,7 +353,7 @@
           <p id="logoutMsg"></p>
         </div>
       </div> <!-- End of content-main -->
-      
+     
       <footer>
         <a href="about.html" target="_blank" rel="noopener noreferrer">About</a> |
         <a href="contact.html" target="_blank">Contact Us</a> |
@@ -406,7 +418,7 @@
         document.getElementById("newsText").textContent = "Error loading news.";
       }
     }
-    
+   
     function startNewsTicker() {
         const newsText = document.getElementById("newsText");
         if (!newsList.length) return;
