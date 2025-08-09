@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,359 +12,354 @@
     <!-- Google Fonts & Font Awesome for a stylish look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* === "LUSH GRADIENT" - FINAL & CORRECTED VERSION === */
+        /* === "MODERN FINTECH DASHBOARD" THEME === */
         :root {
-            --primary-color: #00b09b;     /* Main Gradient Green */
-            --secondary-color: #96c93d;   /* Lime Green */
-            --card-bg: #ffffff;
-            --text-color-dark: #2c3e50;
-            --text-color-light: #ffffff;
-            --shadow-color: rgba(0, 0, 0, 0.1);
+            --lic-blue: #0055a4;       /* LIC's Official Blue */
+            --lic-accent: #f97316;    /* Saffron/Orange Accent */
+            --bg-main: #f4f7fc;       /* Light Gray-Blue Background */
+            --bg-sidebar: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #6b7280;
+            --border-color: #e5e7eb;
+            --shadow-color: rgba(0, 85, 164, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
-            margin: 0;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: var(--text-color-dark);
+            background-color: var(--bg-main);
+            color: var(--text-dark);
             overflow-x: hidden;
         }
 
-        .page-wrapper {
+        .page-container {
             display: flex;
             min-height: 100vh;
-            width: 100%;
         }
 
-        /* --- LEFT COLUMN: Brand & Logo (Corrected Layout) --- */
-        .brand-column {
-            flex-basis: 40%;
-            background-color: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+        /* --- SIDEBAR (Left Column) --- */
+        .sidebar {
+            width: 300px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            justify-content: center; /* This centers the content vertically */
-            align-items: center;
+            padding: 30px 25px;
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar-header {
             text-align: center;
-            color: var(--text-color-light);
-            padding: 50px 40px;
+            margin-bottom: 40px;
         }
 
-        .brand-column h1 {
-            font-family: 'Fredoka One', cursive;
-            font-size: 4.5rem;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
-            margin: 20px 0 10px 0;
-            line-height: 1.1;
-        }
+      .logo-container img {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    /* This brings back the rotation */
+    animation: fullSwing 10s ease-in-out infinite;
+    transform-style: preserve-3d; /* Important for smooth 3D rotation */
+}
 
-        .brand-column .tagline {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 500;
-            opacity: 0.9;
-            margin: 0;
-        }
+@keyframes fullSwing {
+  0%   { transform: rotateY(0deg); }
+  50%  { transform: rotateY(360deg); }
+  100% { transform: rotateY(0deg); }
+}
 
-        .logo-container {
-            perspective: 1000px;
-            margin-bottom: 20px;
+        .sidebar-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--lic-blue);
+            margin: 15px 0 5px 0;
         }
-
-        .logo-container img {
-            width: 110px;
-            height: 110px;
-            border-radius: 12px;
-            border: 3px solid #fff;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            animation: fullSwing 10s ease-in-out infinite;
-            transform-style: preserve-3d;
+        
+        .sidebar-header .tagline {
+            font-size: 0.9rem;
+            color: var(--text-light);
         }
-
-        @keyframes fullSwing {
-          0%   { transform: rotateY(0deg); }
-          50%  { transform: rotateY(360deg); }
-          100% { transform: rotateY(0deg); }
-        }
-       
-        /* --- RIGHT COLUMN: Content & Buttons --- */
-        .content-column {
-            flex-grow: 1;
-            padding: 40px;
-            background-color: #f9fbfd;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .content-main {
-            flex-grow: 1;
+        
+        .user-profile {
+            margin-top: auto; /* Pushes this to the bottom */
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
             text-align: center;
         }
-       
+        
         #welcomeMsg, #logoutMsg {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0 auto 30px auto;
-            color: var(--primary-color);
-            background: #eaf6f6;
-            padding: 10px 25px;
-            border-radius: 8px;
-            display: inline-block;
-        }
-
-        #logoutMsg {
-            color: #c0392b;
-            background: #fdeded;
-            border: 1px solid #f5b7b1;
-            visibility: hidden;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        #logoutMsg:not(:empty) {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        #newsTicker {
-            background: #eaf6f6;
-            padding: 12px;
-            border-radius: 8px;
-            color: var(--primary-color);
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 30px;
-            height: 28px;
-            border: 1px solid #d4e9e7;
-        }
-
-        #newsText {
-            position: absolute;
-            white-space: nowrap;
             font-size: 1rem;
-        }
-
-        #newsText a {
-            color: var(--primary-color);
-            text-decoration: none;
             font-weight: 600;
-        }
-
-           
-   
-   
-   
-   
-
-
-     .button-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .dashboard-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #ffffff;
-            color: var(--text-color-dark);
-            padding: 18px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-align: center;
-            text-decoration: none;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px var(--shadow-color);
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-            min-height: 60px; /* Forces all buttons to have the same height */
-        }
-
-        .dashboard-button:hover {
-            background-color: var(--primary-color);
-            color: #fff;
-            border-color: var(--primary-color);
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0, 176, 155, 0.3);
-        }
-
-        .button-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 12px;
-        }
-
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: var(--card-bg);
-            min-width: 100%;
-            box-shadow: 0 8px 16px var(--shadow-color);
-            z-index: 10;
-            border-radius: 10px;
-            padding: 10px 0;
-            margin-top: 5px;
-        }
-
-        .dropdown-content a {
-            color: var(--text-color-dark);
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            font-size: 1rem;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .logout-section {
-            text-align: center;
-            margin-top: 40px;
+            color: var(--lic-blue);
+            margin-bottom: 15px;
         }
 
         .logout-button {
-            padding: 12px 25px;
+            width: 100%;
+            padding: 10px;
             font-size: 1rem;
             background-color: #e74c3c;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .logout-button:hover { background-color: #c0392b; }
+
+        #logoutMsg {
+            font-size: 0.9rem;
+            color: #c0392b;
+            margin-top: 10px;
+            min-height: 1.2em;
         }
 
-        .logout-button:hover {
-            background-color: #c0392b;
+        /* --- MAIN CONTENT (Right Column) --- */
+        .main-content {
+            flex-grow: 1;
+            margin-left: 300px; /* Offset for the fixed sidebar */
+            padding: 30px 40px;
+            overflow-y: auto;
         }
-       
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
+        
+        #newsTicker {
+    background: var(--bg-sidebar);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden; /* This MUST be hidden to create the scrolling effect */
+    position: relative;
+    margin-bottom: 30px;
+    padding: 0; /* Remove padding from container to allow full-height text */
+    height: 48px; /* Increase height to fit the text better */
+    line-height: 48px; /* Vertically centers the text */
+}
+
+#newsText {
+    position: absolute;
+    white-space: nowrap; /* This is CRUCIAL: it prevents the text from wrapping */
+    font-size: 1rem;
+    padding-left: 100%; /* Starts the animation off-screen */
+    animation: scrollTicker 60s linear infinite;
+}
+
+#newsText a {
+    color: var(--lic-blue);
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 50px; /* Adds space between news items */
+}
+
+/* This is the animation that makes it scroll */
+@keyframes scrollTicker {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+        .dashboard-section {
+            margin-bottom: 40px;
         }
 
-        footer a {
-            color: #000000; /* Black color for footer links */
-            text-decoration: none;
-            margin: 0 10px;
+        .dashboard-section h2 {
+            font-size: 1.5rem;
             font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            color: var(--text-dark);
         }
-        footer a:hover {
-            color: var(--primary-color);
-            text-decoration: underline;
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .dashboard-button {
+            display: flex;
+            align-items: center;
+            background: var(--bg-sidebar);
+            color: var(--text-dark);
+            padding: 15px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .dashboard-button i {
+            font-size: 1.2rem;
+            margin-right: 12px;
+            color: var(--lic-blue);
+            width: 24px;
+            text-align: center;
+        }
+        
+        .dashboard-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--shadow-color);
+            border-color: var(--lic-blue);
+        }
+        
+        .dropdown-content {
+            display: none; position: absolute; background-color: var(--bg-sidebar);
+            min-width: 100%; box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 10; border-radius: 10px; padding: 10px 0;
+            margin-top: 5px; border: 1px solid var(--border-color);
+        }
+        .dropdown { position: relative; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a {
+            color: var(--text-dark); padding: 12px 16px; text-decoration: none;
+            display: flex; align-items: center; font-size: 1rem;
+        }
+        .dropdown-content a:hover { background-color: var(--bg-main); }
+        .dropdown-content i { margin-right: 10px; color: var(--text-light); }
+        
+        .highlight-button {
+            grid-column: 1 / -1; /* Makes button span full width */
+            background: linear-gradient(135deg, var(--lic-accent), #ff984e);
+            color: white;
+            font-weight: 600;
+            border: none;
+        }
+        .highlight-button:hover {
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+        }
+        .highlight-button i { color: white; }
+
+        footer {
+            text-align: center; margin-top: 30px; padding-top: 20px;
+            border-top: 1px solid var(--border-color); color: var(--text-light);
+        }
+        footer a { color: var(--lic-blue); text-decoration: none; margin: 0 10px; font-weight: 500; }
+        footer a:hover { text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .page-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .sidebar-header { margin-bottom: 0; text-align: left; }
+            .user-profile { margin-top: 0; padding-top: 0; border: none; }
+            .main-content { margin-left: 0; }
+        }
+        @media (max-width: 576px) {
+            .sidebar { flex-direction: column; }
+            .sidebar-header { text-align: center; margin-bottom: 20px; }
+            .user-profile { width: 100%; }
         }
     </style>
 </head>
 <body>
  
-  <div class="page-wrapper">
-    <!-- LEFT BRANDING COLUMN -->
-    <div class="brand-column">
-        <div class="logo-container">
-            <img src="licnew.jpg" alt="LIC Logo">
+  <div class="page-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="licnew.jpg" alt="LIC Logo">
+            </div>
+            <h1>LIC CONNECT</h1>
+            <p class="tagline">Peace of mind, all the time</p>
         </div>
-        <h1>LIC CONNECT</h1>
-        <p class="tagline">Peace of mind, all the time</p>
-    </div>
+        
+        <div class="user-profile">
+            <div id="welcomeMsg">Loading...</div>
+            <button onclick="handleLogout()" class="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            <p id="logoutMsg"></p>
+        </div>
+    </aside>
 
-    <!-- RIGHT CONTENT COLUMN -->
-    <div class="content-column">
-      <div class="content-main">
-       
-        <div id="welcomeMsg"></div>
-       
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        
         <div id="newsTicker">
           <div id="newsText">Loading news...</div>
         </div>
 
-       <!-- <div style="text-align: center; margin: 30px 0;"-->
-          <!--<a href="voice.html" class="dashboard-button"-->
-            <!--img src="icons/voice.png" class="button-icon" alt="Voice Icon"> Voice Assistant-->
-          <!--</a>-->
-        <!--</div>-->
-        
-        
-
-        <main class="button-container">
-          <!-- Left Column of Buttons -->
-          <div class="column">
-          	<a href="basic_concepts.html" class="dashboard-button"><img src="icons/customerData.png" class="button-icon" alt=""> Life insurance-Video Guide</a>
-            <a href="customer_data.html" class="dashboard-button"><img src="icons/customerData.png" class="button-icon" alt=""> Customer Data</a>
-            <a href="agents_data.html" class="dashboard-button"><img src="icons/agentsData.png" class="button-icon" alt=""> Agents Data</a>
-            <a href="plancombination.html" class="dashboard-button"><img src="icons/agentsCorner1.png" class="button-icon" alt=""> Plan Combination</a>
-            <a href="agents_module.html" class="dashboard-button"><img src="icons/agentsModule.png" class="button-icon" alt=""> Agents Module</a>
-            <a href="automatic_fetch.html" class="dashboard-button"><img src="icons/automaticFetch.png" class="button-icon" alt=""> Automatic Fetch</a>
-            <a href="branches.html" class="dashboard-button"><img src="icons/branchLocator.png" class="button-icon" alt=""> LIC Branch Locator</a>
-            <a href="customer_corner.html" class="dashboard-button"><img src="icons/customersCorner.png" class="button-icon" alt=""> Customers Corner</a>
-            <a href="types_of_forms.html" class="dashboard-button"><img src="icons/forms.png" class="button-icon" alt=""> Types of Forms</a>
- <a href="lic-competitors.html" class="dashboard-button">LIC competitors</a>
-          </div>
-
-          <!-- Right Column of Buttons -->
-          <div class="column">
-            <div class="dropdown">
-              <a class="dashboard-button"><img src="icons/calculator.png" class="button-icon" alt=""> Types of Calculators</a>
-              <div class="dropdown-content">
-         
-                <a href="maturity/maturityindex.html">LIC Maturity Calculator</a>
-                <a href="revival/revivalindex.html">LIC Revival Calculator</a>
-                <a href="surrender/surrender.html">LIC Surrender Calculator</a>
-               <a href= "commissioncalculator.html">LIC Commission Calculator</a>
-                <a href="SBcalculator.html">LIC Survival Benefit Calculator</a>
-  <a href="premium_page.html">LIC Premium Calculator</a>
-               
-              </div>
+        <section class="dashboard-section">
+            <h2>Customer & Agent Tools</h2>
+            <div class="button-grid">
+                <a href="customer_data.html" class="dashboard-button"><i class="fas fa-users"></i> Customer Data</a>
+                <a href="agents_data.html" class="dashboard-button"><i class="fas fa-user-tie"></i> Agents Data</a>
+                <a href="agents_module.html" class="dashboard-button"><i class="fas fa-briefcase"></i> Agents Module</a>
+                <a href="prospectscorner.html" class="dashboard-button"><i class="fas fa-user-plus"></i> Prospects Corner</a>
+                <a href="customer_corner.html" class="dashboard-button"><i class="fas fa-id-card"></i> Customers Corner</a>
+                <a href="automatic_fetch.html" class="dashboard-button"><i class="fas fa-download"></i> Automatic Fetch</a>
             </div>
-            <a href="voice.html" class="dashboard-button"><img src="icons/voice.png" class="button-icon" alt=""> Voice Assistant</a>
-            <a href="lic_process.html" class="dashboard-button"><img src="icons/process.png" class="button-icon" alt=""> Types of Processes</a>
-            <a href="irr_plans.html" class="dashboard-button"><img src="icons/IRR.png" class="button-icon" alt=""> IRR Calculation</a>
-            <a href="plan_features.html" class="dashboard-button"><img src="icons/planFeatures.png" class="button-icon" alt=""> Plan Features</a>
-            <a href="comparebygroup.html" class="dashboard-button"><img src="icons/planComparison.png" class="button-icon" alt=""> Plan Comparison</a>
-            <a href="needs_budget.html" class="dashboard-button"><img src="icons/needs.png" class="button-icon" alt=""> Plans as per Need</a>
-            <a href="prospectscorner.html" class="dashboard-button"><img src="icons/prospectsCorner.png" class="button-icon" alt=""> Prospects Corner</a>
-            <a href="terminologies.html" class="dashboard-button"><img src="icons/glossary.png" class="button-icon" alt=""> Glossary</a>
- <a href="competition1.html" class="dashboard-button">Competitors snapshot</a>
-          </div>
-        </main>
+        </section>
 
-        <div style="text-align: center; margin: 30px 0;">
-          <a href="agents_commission.html" class="dashboard-button">
-            <img src="icons/commission.png" class="button-icon" alt=""> Agents Commission
-          </a>
-        </div>
+        <section class="dashboard-section">
+            <h2>Plan & Policy Tools</h2>
+            <div class="button-grid">
+                <a href="plan_features.html" class="dashboard-button"><i class="fas fa-star"></i> Plan Features</a>
+                <a href="plancombination.html" class="dashboard-button"><i class="fas fa-project-diagram"></i> Plan Combination</a>
+                <a href="comparebygroup.html" class="dashboard-button"><i class="fas fa-balance-scale"></i> Plan Comparison</a>
+                <a href="needs_budget.html" class="dashboard-button"><i class="fas fa-bullseye"></i> Plans as per Need</a>
+                <a href="agents_commission.html" class="dashboard-button"><i class="fas fa-percent"></i> Agents Commission</a>
+                <a href="irr_plans.html" class="dashboard-button"><i class="fas fa-chart-line"></i> IRR Calculation</a>
+            </div>
+        </section>
 
-        <div class="logout-section">
-          <button onclick="handleLogout()" class="logout-button">Logout</button>
-          <p id="logoutMsg"></p>
-        </div>
-      </div> <!-- End of content-main -->
-     
+        <section class="dashboard-section">
+            <h2>Calculators & Resources</h2>
+            <div class="button-grid">
+                <div class="dropdown">
+                    <a class="dashboard-button"><i class="fas fa-calculator"></i> Types of Calculators <i class="fas fa-chevron-down" style="margin-left:auto;"></i></a>
+                    <div class="dropdown-content">
+                        <a href="premium_page.html"><i class="fas fa-wallet"></i> Premium Calculator</a>
+                        <a href="maturity/maturityindex.html"><i class="fas fa-trophy"></i> Maturity Calculator</a>
+                        <a href="revival/revivalindex.html"><i class="fas fa-history"></i> Revival Calculator</a>
+                        <a href="surrender/surrender.html"><i class="fas fa-file-invoice-dollar"></i> Surrender Calculator</a>
+                        <a href="commissioncalculator.html"><i class="fas fa-hand-holding-usd"></i> Commission Calculator</a>
+                        <a href="SBcalculator.html"><i class="fas fa-undo-alt"></i> Survival Benefit Calculator</a>
+                    </div>
+                </div>
+                <a href="basic_concepts.html" class="dashboard-button"><i class="fas fa-video"></i> Life Insurance-Video Guide</a>
+                <a href="lic_process.html" class="dashboard-button"><i class="fas fa-cogs"></i> Types of Processes</a>
+                <a href="types_of_forms.html" class="dashboard-button"><i class="fas fa-file-alt"></i> Types of Forms</a>
+                <a href="terminologies.html" class="dashboard-button"><i class="fas fa-book"></i> Glossary</a>
+                <a href="branches.html" class="dashboard-button"><i class="fas fa-map-marker-alt"></i> LIC Branch Locator</a>
+                <a href="lic-competitors.html" class="dashboard-button"><i class="fas fa-fist-raised"></i> LIC Competitors</a>
+                <a href="competition1.html" class="dashboard-button"><i class="fas fa-chart-pie"></i> Competitors Snapshot</a>
+                <a href="voice.html" class="dashboard-button highlight-button"><i class="fas fa-microphone-alt"></i> Voice Assistant</a>
+            </div>
+        </section>
+      
       <footer>
-        <a href="about.html" target="_blank" rel="noopener noreferrer">About</a> |
+        <a href="about.html" target="_blank">About</a> |
         <a href="contact.html" target="_blank">Contact Us</a> |
-        <a href="privacy_policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a> |
-        <a href="disclaimer.html" target="_blank" rel="noopener noreferrer">Disclaimer</a>
+        <a href="privacy_policy.html" target="_blank">Privacy Policy</a> |
+        <a href="disclaimer.html" target="_blank">Disclaimer</a>
       </footer>
 
-    </div> <!-- End of content-column -->
-  </div> <!-- End of page-wrapper -->
+    </main>
+  </div>
 
   <script>
     // --- SUPABASE CLIENT INITIALIZATION ---
@@ -404,32 +401,36 @@
     let newsList = [];
     let index = 0;
     async function fetchGNews() {
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-        if (data.articles && data.articles.length > 0) {
-          newsList = data.articles.map(article => ({ title: article.title, url: article.url }));
-          startNewsTicker();
-        } else {
-          document.getElementById("newsText").textContent = "No news found.";
+        const newsText = document.getElementById("newsText");
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.articles && data.articles.length > 0) {
+                newsList = data.articles.map(article => ({ title: article.title, url: article.url }));
+                startNewsTicker();
+            } else {
+                newsText.textContent = "No recent news found for 'life insurance India'.";
+            }
+        } catch (error) {
+            console.error("Error fetching GNews:", error);
+            newsText.textContent = "Could not load news at this time.";
         }
-      } catch (error) {
-        console.error("Error fetching GNews:", error);
-        document.getElementById("newsText").textContent = "Error loading news.";
-      }
     }
    
-    function startNewsTicker() {
-        const newsText = document.getElementById("newsText");
-        if (!newsList.length) return;
-        function displayNextNews() {
-            const currentNews = newsList[index];
-            newsText.innerHTML = `<a href="${currentNews.url}" target="_blank">${currentNews.title}</a>`;
-            index = (index + 1) % newsList.length;
-        }
-        displayNextNews();
-        setInterval(displayNextNews, 8000);
+function startNewsTicker() {
+    const newsText = document.getElementById("newsText");
+    if (!newsList.length) {
+        newsText.textContent = "No recent news found.";
+        return;
     }
+
+    // Join all news items into a single, long string for scrolling
+    const allNewsHtml = newsList.map(news => 
+        `<a href="${news.url}" target="_blank">${news.title}</a>`
+    ).join('');
+
+    newsText.innerHTML = allNewsHtml;
+}
   </script>
 
 </body>
