@@ -492,45 +492,37 @@
       document.getElementById("welcomeMsg").textContent = "";
       setTimeout(() => { window.location.href = "signup.html"; }, 1500);
     }
-
+/*
     // --- NEWS TICKER SCRIPT ---
     const apiKey = '8a0ba6734a5022587c68aa4adcac6b33';
     const query = 'life insurance India';
     const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&country=in&token=${apiKey}&max=10`;
     let newsList = [];
     let index = 0;
+*/
 // --- NEWS TICKER SCRIPT (Using a CORS-Friendly API) ---
+// --- NEWS TICKER SCRIPT (Using a Reliable RSS-to-JSON Service) ---
 async function fetchGNews() {
     const newsText = document.getElementById("newsText");
-    // This is a free, public API proxy that fetches news and solves the CORS issue.
-    const url = 'https://stock-ticker-api.netlify.app/api/news'; 
+    // This URL converts a Google News RSS feed into a usable JSON format, solving the CORS issue.
+    const url = 'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dlife%2520insurance%2520india%26hl%3Den-IN%26gl%3DIN%26ceid%3DIN%3Aen';
 
     try {
         const res = await fetch(url);
         const data = await res.json();
         
-        if (data.articles && data.articles.length > 0) {
-            // Filter for relevant news, e.g., containing "finance" or "insurance"
-            const relevantNews = data.articles.filter(article => 
-                article.title.toLowerCase().includes('finance') || 
-                article.title.toLowerCase().includes('insurance') ||
-                article.title.toLowerCase().includes('market')
-            );
-            
-            if (relevantNews.length > 0) {
-                const allNewsHtml = relevantNews.map(news => 
-                    `<a href="${news.url}" target="_blank">${news.title}</a>`
-                ).join('');
-                newsText.innerHTML = allNewsHtml;
-            } else {
-                 newsText.textContent = "Stay updated with the latest financial news from around the world.";
-            }
-
+        if (data.items && data.items.length > 0) {
+            // The data is already in a nice 'items' array.
+            const allNewsHtml = data.items.map(news => 
+                // Note the property names are 'title' and 'link'
+                `<a href="${news.link}" target="_blank">${news.title}</a>`
+            ).join('');
+            newsText.innerHTML = allNewsHtml;
         } else {
-            newsText.textContent = "No recent news found at this time.";
+            newsText.textContent = "No recent news found for 'Life Insurance India'.";
         }
     } catch (error) {
-        console.error("Error fetching news:", error);
+        console.error("Error fetching RSS news:", error);
         newsText.textContent = "Could not load news at this time.";
     }
 }
