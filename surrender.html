@@ -3,640 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIC Surrender/Discounted Value Form (5074/3510) - Combined</title>
+    <title>LIC Calculator Portal</title>
+<!-- PWA: Link to the Manifest File -->
+<link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
+        :root {
+            --primary-color: #1a237e; /* Indigo Night */
+            --secondary-color: #3f51b5; /* Indigo Day */
+            --accent-color: #fdd835; /* Vivid Yellow */
+            --glow-color: rgba(253, 216, 53, 0.7);
+            --text-color: #e8eaf6;
+            --bg-image: linear-gradient(135deg, #000000 0%, #1a237e 50%, #3949ab 100%);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-image);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .document-container { }
-        .form-page {
-            background-color: #fff;
-            margin: 0 auto 40px auto; 
-            padding: 30px;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            max-width: 8.5in;
-            min-height: 11in; /* A4-like min height */
-            box-sizing: border-box;
-            page-break-after: always; 
-        }
-        .form-page:last-child {
-            page-break-after: avoid;
-            margin-bottom: 20px; 
         }
 
-        .header-section { text-align: center; margin-bottom: 20px; }
-        .header-section img { max-width: 130px; margin-bottom: 10px; }
-        .header-section .form-title { font-size: 1.1em; font-weight: bold; }
-        .header-info { display: flex; justify-content: space-between; font-size: 0.9em; margin-bottom: 15px; }
-
-        .section { margin-bottom: 15px; }
-        .section-title-main { font-size: 1.1em; font-weight: bold; text-align: center; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid #eee; }
-        .address-block p, .salutation p, .subject-block p { margin: 0 0 5px 0; font-size: 0.95em; }
-        .point-list { list-style: none; padding-left: 0; }
-        .point-list li { margin-bottom: 8px; display: flex; }
-        .point-list li .asterisk { margin-right: 8px; font-weight: bold; }
-        .declaration-text { font-size: 0.9em; margin-bottom: 15px; }
+        .portal-container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            animation: floatIn 1s ease-out;
+        }
         
-        .signature-block-container { margin-top: 20px; text-align: center; }
-        .signature-line-display { /* For the visual line if needed underneath image */
-            border-top: 1px dotted #555;
-            display: inline-block;
-            min-width: 200px;
-            margin-top: 5px;
+        @keyframes floatIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
-         .input-inline { 
-            border: none; 
-            border-bottom: 1px dotted #333; 
-            padding: 1px 3px;
-            font-family: inherit;
-            font-size: inherit;
-            background-color: #e9e9e9; 
-            text-align: center; 
-            margin: 0 2px;
-            min-width: 50px; /* Minimum width for better appearance */
+
+        .portal-header .icon {
+            font-size: 4rem;
+            color: var(--accent-color);
+            text-shadow: 0 0 15px var(--glow-color);
+            margin-bottom: 15px;
         }
-        .note-block { font-size: 0.85em; margin-top: 15px; padding: 10px; border: 1px solid #eee; background-color: #f9f9f9; }
-        table.data-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 0.9em; }
-        table.data-table th, table.data-table td { border: 1px solid #333; padding: 6px; text-align: left; vertical-align: top; }
-        table.data-table th { background-color: #f2f2f2; font-weight: bold; }
-        .text-hindi { font-family: 'Nirmala UI', Arial, sans-serif; }
-        .text-marathi { font-family: 'Nirmala UI', Arial, sans-serif; }
+
+        .portal-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .portal-header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-align: left;
+        }
+
+        #planSelector {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 2px solid var(--accent-color);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fdd835' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.5em;
+        }
         
-        .neft-form { margin-top: 20px; }
-        .neft-form .neft-title { font-weight: bold; text-align: center; margin-bottom: 10px; font-size: 1em; text-decoration: underline;}
-        .neft-form p { margin: 5px 0; font-size: 0.9em;}
-        .neft-form .input-box { display: inline-block; border: 1px solid #333; padding: 0px 2px; margin: 0 1px; width: 18px; height: 20px; text-align: center; line-height:20px; }
+        #planSelector:focus { outline: none; box-shadow: 0 0 15px var(--glow-color); }
+        #planSelector option { background-color: var(--primary-color); }
 
-        .centered { text-align: center; }
-        .right-aligned { text-align: right; }
-        .bold { font-weight: bold; }
-        .hidden { display: none !important; }
-
-
-        .master-policy-input-area { text-align: center; padding: 20px; background-color: #e9e9f9; margin-bottom: 20px; border-radius: 5px; border: 1px solid #ccc; }
-        .master-policy-input-area label { font-weight: bold; margin-right: 10px; }
-        .master-policy-input-area input[type="text"] { padding: 10px; width: 250px; border: 1px solid #aaa; border-radius: 4px; }
-        .master-policy-input-area input[type="checkbox"] { vertical-align: middle; margin-right:3px;}
-        .master-policy-input-area label[for="isVernacularOrIlliterate_surrender"], 
-        .master-policy-input-area label[for="isPolicyAssigned_surrender"] { font-weight: normal; margin-left: 0;}
-        .master-policy-input-area button { padding: 10px 20px; background-color: #0056b3; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; margin-left: 10px; }
-        .master-policy-input-area button:hover { background-color: #003d82; }
-
-        .signature-upload-section { margin-top: 10px; text-align: center; padding-bottom:5px; }
-        .signature-upload-section img { display:none; max-width: 200px; max-height: 80px; border: 1px solid #ccc; margin-bottom: 10px; background-color: #f9f9f9;}
-        .signature-upload-section input[type="file"] { margin-top: 5px; display: inline-block; width: auto; padding: 5px;}
-
-
-        @media print {
-            body { margin: 0; padding: 0; background-color: #fff; }
-            .form-page { margin: 0 0 5mm 0; padding: 15mm 10mm; border: none; box-shadow: none; page-break-inside: avoid; }
-            .master-policy-input-area, .signature-upload-section input[type="file"] { display: none !important; }
-            .signature-upload-section img { display: block !important; }
-            .input-inline[readonly] { 
-                background-color: #fff !important; 
-                border-bottom: 1px dotted #000 !important;
-                color: #000 !important;
-            }
+        #goToCalculatorBtn {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-color);
+            background: var(--accent-color);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 30px;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 20px -5px var(--glow-color);
         }
+
+        #goToCalculatorBtn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px -5px var(--glow-color);
+        }
+  .home-button-container {
+      position: fixed; /* This makes it float on top of other content */
+      top: 20px;       /* Position 20px from the top edge */
+      right: 25px;     /* Position 25px from the right edge */
+      z-index: 1000;   /* Ensures it's above other elements */
+    }
+
+    .home-button-container a img {
+      width: 50px; /* Adjust size as needed */
+      height: 50px;
+
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    .home-button-container a:hover img {
+      transform: scale(1.1); /* Slightly enlarge on hover */
+    }
     </style>
 </head>
 <body>
 
-<div class="document-container">
-
-    <div class="master-policy-input-area">
-        <div>
-            <label for="surrenderPolicyInput">Enter Policy Number:</label>
-            <input type="text" id="surrenderPolicyInput" placeholder="Enter Policy Number">
+    <div class="portal-container">
+        <div class="portal-header">
+            <div class="icon"><i class="fas fa-rocket"></i></div>
+            <h1>LIC Calculator Portal</h1>
+            <p>Select your plan to launch the specific surrender value calculator.</p>
         </div>
-        <div style="margin-top: 10px;">
-            <input type="checkbox" id="isVernacularOrIlliterate_surrender" name="isVernacularOrIlliterate_surrender">
-            <label for="isVernacularOrIlliterate_surrender">Applicant used Vernacular Medium / is Illiterate</label>
-        </div>
-        <div style="margin-top: 5px; margin-bottom: 15px;">
-            <input type="checkbox" id="isPolicyAssigned_surrender" name="isPolicyAssigned_surrender">
-            <label for="isPolicyAssigned_surrender">Is Policy Assigned?</label>
-        </div>
-        <div>
-            <button type="button" id="surrenderLoadButton">Load Surrender Details</button>
-        </div>
-    </div>
-    
-    <div style="text-align: center; margin-bottom: 20px;">
-        <img src="lic-black.png" alt="LIC Logo" style="max-width: 150px; height: auto;">
-    </div>
-
-    <!-- Page 1 Content (Surrender Form) -->
-    <div class="form-page" id="visualSurrenderPage1">
-        <div class="header-info">
-            <span>SDP 50,000-12/12</span>
-            <span class="right-aligned">प्रपत्र सं/Form No. 5074/3510</span>
-        </div>
-        <div class="header-section">
-            <p class="bold text-hindi" style="font-size: 1.2em;">भारतीय जीवन बीमा निगम</p>
-            <p class="bold" style="font-size: 1.1em;">LIFE INSURANCE CORPORATION OF INDIA</p>
-            <p class="text-hindi">दिल्ली मण्डल/Delhi Division -III</p>
-            <p class="form-title text-hindi">अभ्यर्पण/बहागत मूल्य के प्रार्थना पत्र</p>
-            <p class="form-title">Application for Surrender/Discounted Value</p>
-        </div>
-        <div class="address-block">
-            <p class="text-hindi">वरिष्ठ शाखा प्रबन्धक</p>
-            <p>The Sr. Branch Manager</p>
-            <p class="text-hindi">भारतीय जीवन बीमा निगम</p>
-            <p>LIFE INSURANCE CORPORATION OF INDIA</p>
-            <p class="text-hindi">शाखा कार्यालय सं./ Branch Unit No. <input type="text" id="s_p1_branchUnitNo" class="input-inline" style="width:100px;" readonly></p>
-        </div>
-        <div class="header-info" style="margin-top:15px;">
-            <span class="text-hindi">स्थान/Place: <input type="text" id="s_p1_place" class="input-inline" style="width:150px;" readonly></span>
-            <span class="right-aligned text-hindi">दिनांक/Date: <input type="text" id="s_p1_date" class="input-inline" style="width:120px;" readonly></span>
-        </div>
-        <div class="salutation" style="margin-top:15px;"> <p class="text-hindi">प्रिय महोदय/महोदया,</p> <p>Dear Sir/Madam,</p> </div>
-        <div class="subject-block">
-            <p class="text-hindi">विषयः पालिसी सं. <input type="text" id="s_p1_policyNoSubject" class="input-inline" style="width:150px;" readonly> स्वजीवन पर <input type="text" id="s_p1_lifeAssuredNameSubject" class="input-inline" style="width:200px;" readonly> Fvg.</p>
-            <p>Re.: Policy No. <input type="text" id="s_p1_policyNoSubject_en" class="input-inline" style="width:150px;" readonly></p>
-        </div>
-        <ul class="point-list" style="margin-top:15px;">
-            <li><span class="asterisk">*</span> <span class="text-hindi">मैं अपनी पालिसी का अभ्यर्पण करना चाहता हूं। कृपया अभ्यर्पण मूल्य का भुगतान कर दें।</span></li>
-            <li><span class="asterisk">*</span> <span class="text-hindi">मेरी उपरोक्त पालिसी दिनांक <input type="text" id="s_p1_maturityDate" class="input-inline" style="width:120px;" readonly> को परिपक्व को प्राप्त हो रही है। परन्तु मैं इसका बहागत मूल्य प्राप्त करना चाहता हूं। कृपया मुझे उसका भुगतान कर दें।</span></li>
-            <li><span class="asterisk">*</span> <span>I intend to surrender my above Policy. Kindly pay me the same.</span></li>
-            <li><span class="asterisk">*</span> <span>My above mentioned policy will mature on <input type="text" id="s_p1_maturityDate_en" class="input-inline" style="width:120px;" readonly>. I intend to have it discounted value. Kindly pay me the same.</span></li>
-        </ul>
-        <div class="signature-block right-aligned" style="margin-top:30px;">
-            <p class="text-hindi">भवदीय / Yours faithfully,</p>
-            <div class="signature-upload-section" style="margin-top:0; text-align: right;">
-                <p class="text-hindi" style="margin-bottom:2px;">हस्ताक्षर/Signature:</p>
-                <img id="s_p1_applicantSignatureImage" src="#" alt="Applicant Signature" /> <br/>
-                <input type="file" id="s_p1_applicantSignatureUpload" accept="image/*">
-            </div>
-            <p class="text-hindi" style="margin-top:5px;">पूरा नाम / Full Name: <input type="text" id="s_p1_claimantFullName" class="input-inline" style="width:250px;" readonly></p>
-            <p class="text-hindi">पता / Address: <input type="text" id="s_p1_claimantAddress" class="input-inline" style="width:300px;" readonly></p>
-        </div>
-        <div class="content-block" style="margin-top:15px; font-size:0.9em;"> <p><span class="asterisk">*</span> <span class="text-hindi">जो लागू न हो उसे काट दें।</span> / Delete where Inapplicable</p> </div>
-        <div class="note-block" id="s_p1_assignmentNoteSection"> <!-- ID for conditional visibility -->
-            <p class="text-hindi">टिप्पणी : यदि पालिसी का समनुदेशन हो चुका हो तो इस प्रार्थना पत्र पर समनुदेशियी के हस्ताक्षर होने चाहिए।</p>
-            <p>Note: In case the policy is assigned, the application must be signed by the assignee.</p>
-        </div>
-        <div class="content-block" style="margin-top:20px; font-size: 0.9em;">
-            <p class="text-hindi">श्री <input type="text" id="s_p1_lifeAssuredReceipt" class="input-inline" style="width:200px;" readonly> के जीवन पर दिनांक <input type="text" id="s_p1_policyDateReceipt" class="input-inline" style="width:120px;" readonly></p>
-            <p class="text-hindi">को जारी की गई <input type="text" id="s_p1_sumAssuredReceipt" class="input-inline" style="width:120px;" readonly> रूपये की पालिसी सं. <input type="text" id="s_p1_policyNoReceipt" class="input-inline" style="width:150px;" readonly></p>
-            <p class="text-hindi">के समर्पित मूल्य के भुगतान का फार्म</p>
-            <p>Receipt or the Surrender/Discounted Value of Policy No. <input type="text" id="s_p1_policyNoReceipt_en" class="input-inline" style="width:150px;" readonly> on</p>
-            <p>the life of <input type="text" id="s_p1_lifeOfReceipt_en" class="input-inline" style="width:200px;" readonly> for</p>
-            <p>Rs. <input type="text" id="s_p1_rsReceipt_en" class="input-inline" style="width:120px;" readonly></p>
-        </div>
-        <div class="content-block" style="margin-top:15px; font-size:0.95em;">
-            <p class="text-hindi">मैं/हम <input type="text" id="s_p1_receipt_iwe" class="input-inline" style="width:200px;" readonly> एतद द्वारा भारतीय जीवन बीमा निगम में उपर्युक्त पालिसी के नगद मूल्य सहित <input type="text" id="s_p1_receipt_cash_value_words" class="input-inline" style="width:300px;" readonly> (शब्दों में कुल रकम भरिये) <input type="text" id="s_p1_receipt_cash_value_num" class="input-inline" style="width:120px;" readonly> रूपये के समर्पित मूल्य की प्राप्ति स्वीकार करता हूं/ करते हैं और उपरोक्त पालिसी रद्द करने हेतु लौटा रहा हूं/ रहे हैं। इसकी पुष्टि में कागज पन्नों पर (स्थान) <input type="text" id="s_p1_receipt_place" class="input-inline" style="width:120px;" readonly> में दिनांक <input type="text" id="s_p1_receipt_day" class="input-inline" style="width:40px;" readonly> माह <input type="text" id="s_p1_receipt_month" class="input-inline" style="width:80px;" readonly> 20 <input type="text" id="s_p1_receipt_year" class="input-inline" style="width:40px;" readonly> को मेरे/हमारे द्वारा हस्ताक्षर किये गये।</p>
-            <p class="text-hindi">प्रयर्पित मूल्य (बोनस के नगद मूल्य सहित) रू. <input type="text" id="s_p1_surrenderValueWithBonus" class="input-inline" style="width:150px;" readonly></p>
-        </div>
-         <div class="right-aligned" style="margin-top:10px;">
-            <span class="text-hindi">(जहां चेक भिजवाना चाहते हैं)</span><br>
-            <span class="text-hindi">(at which cheque is to be posted)</span>
-            <input type="text" id="s_p1_cheque_post_address" class="input-inline" style="width:300px; border:1px solid #ccc; background-color:transparent; text-align:left;" placeholder="Cheque Posting Address">
-        </div>
-    </div> <!-- End of visualSurrenderPage1 -->
-
-    <!-- Page 2 Content (Surrender Form) -->
-    <div class="form-page" id="visualSurrenderPage2">
-        <div class="content-block" style="margin-top: 20px;">
-            <p>I/We <input type="text" id="s_p2_iwe_ack" class="input-inline" style="width:200px;" readonly> do hereby acknowledge receipt from Life Insurance Corporation of India the sum of Rs. <input type="text" id="s_p2_sum_ack_rs" class="input-inline" style="width:150px;" readonly> being the Gross/ Surrender/ Discounted Value including Case Value of Bonus of above mentioned policy which is here with delivered upto the said Corporation to be cancelled. In witness, whereof the presents are subscribed by me/us at Place <input type="text" id="s_p2_place_ack" class="input-inline" style="width:120px;" readonly> on <input type="text" id="s_p2_day_ack" class="input-inline" style="width:40px;" readonly> day of <input type="text" id="s_p2_month_ack" class="input-inline" style="width:80px;" readonly> 20 <input type="text" id="s_p2_year_ack" class="input-inline" style="width:40px;" readonly>.</p>
-        </div>
-        <div class="flex-container" style="margin-top: 15px;">
-            <div class="flex-item" style="flex-basis: 60%;">
-                <p>Surrender/Discounted Value (inclusive of case Value of Bonus)</p>
-                <p>D.A.B. Refund</p>
-                <p style="margin-top:10px; font-weight:bold;">निम्न राशि काट ली गयी/Less</p>
-                <p>ऋण/Loan</p>
-                <p>व्याज/Loan Interest</p>
-                <p>देय किस्त/Premium Due</p>
-                <p>ए.पी. एल. का पवाना/APL Debit</p>
-                <p>अन्य रकमें/x- Charge</p>
-            </div>
-            <div class="flex-item" style="flex-basis: 40%; text-align: right;">
-                <p>Rs. <input type="text" id="s_p2_surrender_value_rs" class="input-inline" style="width:80px;" readonly> P. <input type="text" id="s_p2_surrender_value_p" class="input-inline" style="width:40px;" readonly></p>
-                <p>Rs. <input type="text" id="s_p2_dab_refund_rs" class="input-inline" style="width:80px;" readonly> P. <input type="text" id="s_p2_dab_refund_p" class="input-inline" style="width:40px;" readonly></p>
-                <p style="margin-top:10px; font-weight:bold;">TOTAL Rs. <input type="text" id="s_p2_total_rs" class="input-inline" style="width:80px;" readonly> P. <input type="text" id="s_p2_total_p" class="input-inline" style="width:40px;" readonly></p>
-                <p>रू०/Rs. <input type="text" id="s_p2_less_loan_rs" class="input-inline" style="width:80px;" readonly></p>
-                <p>रू०/Rs. <input type="text" id="s_p2_less_loan_interest_rs" class="input-inline" style="width:80px;" readonly></p>
-                <p>रू०/Rs. <input type="text" id="s_p2_less_premium_due_rs" class="input-inline" style="width:80px;" readonly></p>
-                <p>रू०/Rs. <input type="text" id="s_p2_less_apl_debit_rs" class="input-inline" style="width:80px;" readonly></p>
-                <p>रू०/Rs. <input type="text" id="s_p2_less_xcharge_rs" class="input-inline" style="width:80px;" readonly></p>
-                <p style="font-weight:bold;">(-) रु०/Rs. <input type="text" id="s_p2_net_payable_rs" class="input-inline" style="width:80px;" readonly> ...पै/P. <input type="text" id="s_p2_net_payable_p" class="input-inline" style="width:40px;" readonly></p>
-            </div>
-        </div>
-        <div class="declaration-text" style="margin-top: 20px; font-size:0.85em;">
-            <p class="text-hindi">मैं/हम एतद द्वारा घोषित करता हूं/ करते हैं कि सिर्फ उन नोटिस को छोड़कर (यदि कोई हो) जो भारतीय जीवन बीमा निगम अथवा उपरोक्त पालिसी जारी करने वाले बीमा अनुयायी द्वारा पहले ही पंजीकृत कर ली गई हो मैंने / हमने उपर्युक्त पालिसी के सम्बन्ध में अभ्यर्पण का कोई नोटिस भारतीय जीवन बीमा निगम के किसी कार्यालय के नाम जारी नहीं किये हैं और न ही मैं / हम ऋण मूल्य वापसी मूल्य के भुगतान के पहले अभ्यर्पण या गुनरभ्यर्पण का कोई नोटिस उक्त निगम के किसी कार्यालय के नाम जारी करूंगा/करेंगे। हिन्दी जानने वाले केः</p>
-            <p>"I/We hereby declare that I/We have not assigned the above Life Insurance Policy to any one nor I/We have dealt with the same in any manner, except for any Assignment/Reassignment already registered as on date by the Life Insurance Corporation of India or the Insurer who insured the above policy upon due Notice. I/We hereby further Declare that I/We have not served on any office of the Life Insurance Corporation of India any other or further notice of assignment or reassignment in respect of above policy, nor shall I/We serve on any office of the said Corporation any notice of assignment or reassignment before payment of Loan/Surrender Value/Survival Benefit"</p>
-        </div>
-        <div class="flex-container" style="margin-top: 15px;">
-            <div class="flex-item" style="font-size:0.9em;">
-                WITNESS:
-                 <div class="signature-upload-section" style="text-align:left; margin-top:0;">
-                    <p class="text-hindi" style="margin-bottom:2px;">हस्ताक्षर/Signature:</p>
-                    <img id="s_p2_witnessSignatureImage" src="#" alt="Witness Signature" /> <br/>
-                    <input type="file" id="s_p2_witnessSignatureUpload" accept="image/*">
-                </div>
-                <p class="text-hindi">पूरा नाम/Full Name: <input type="text" id="s_p2_witness_name" class="input-inline" style="width:220px;" readonly></p>
-                <p class="text-hindi">व्यवसाय/Occupation: <input type="text" id="s_p2_witness_occupation" class="input-inline" style="width:200px;" readonly></p>
-                <p class="text-hindi">पता/Address: <input type="text" id="s_p2_witness_address" class="input-inline" style="width:250px;" readonly></p>
-            </div>
-            <div class="flex-item right-aligned" style="font-size:0.9em;">
-                 <div class="note-block" style="width: 200px; text-align:center; display:inline-block; padding:5px; margin-bottom:10px; background-color:transparent; border: 1px solid #777;">
-                    <span class="text-hindi">यदि कुल रकम 500 रु. से अधिक हो तो 1 रु. का रसीदी टिकट लगायें</span><br>
-                    Rupee One Revenue Stamp to be affixed if Gross Surrender Value is Rs.500
-                </div><br>
-                <div class="signature-upload-section" style="margin-top:0; text-align: right;">
-                    <img id="s_p2_lifeAssuredSignatureImage" src="#" alt="Life Assured Signature" /> <br/>
-                    <input type="file" id="s_p2_lifeAssuredSignatureUpload" accept="image/*">
-                </div>
-                <p class="text-hindi" style="margin-top:5px;">(बीमाकृत के हस्ताक्षर/Signature of Life assured)</p>
-                <p>Son of/Wife of <input type="text" id="s_p2_son_wife_of" class="input-inline" style="width:200px;" readonly></p>
-            </div>
-        </div>
-        <div class="neft-form">
-            <p class="neft-title">NEFT MANDATE FORM</p>
-            <p>• Bank Name: <input type="text" id="s_p2_bank_name" class="input-inline" style="width:calc(100% - 100px);" readonly></p>
-            <p>• Bank Branch Address: <input type="text" id="s_p2_bank_branch_address" class="input-inline" style="width:calc(100% - 180px);" readonly></p>
-            <p>• Account Type: Savings/Current/Cash Credit/NRI <input type="text" id="s_p2_account_type" class="input-inline" style="width:150px;" readonly></p>
-            <p>• Account No. <input type="text" id="s_p2_account_no_full" class="input-inline" style="width:200px;" readonly> </p>
-            <p class="small-print">(Bank account number should be written from left to right)</p>
-            <p>• MICR No. <input type="text" id="s_p2_micr_no_full" class="input-inline" style="width:120px;" readonly> </p>
-            <p>• IFSC Code: <input type="text" id="s_p2_ifsc_code_full" class="input-inline" style="width:150px;" readonly> </p>
-            <p>• Mobile Number: + 9 1 <input type="text" id="s_p2_mobile_no" class="input-inline" style="width:150px;" readonly></p>
-            <p>• Email id: <input type="text" id="s_p2_email_id" class="input-inline" style="width:calc(100% - 80px);" readonly></p>
-        </div>
-        <p class="centered" style="margin-top:5px;">2</p>
-    </div> <!-- End of visualSurrenderPage2 -->
-
-    <!-- Page 3 Content (Surrender Form) -->
-    <div class="form-page" id="visualSurrenderPage3">
-        <div id="s_p3_vernacularDeclarationSection"> <!-- Always Visible, content populated conditionally -->
-            <div class="note-block" style="font-size:0.85em;">
-                <p class="text-hindi">नोटः जो व्यक्ति पढ़े लिखे न हों उन्हें अपना अंगूठा लगाना चाहिए जिनकी शिनाखत कार्यालय की मोहर के सहित प्रमाणित मजिस्ट्रेट के द्वारा या जस्टिस ऑफ पीस या खण्ड विकास अधिकारी या राजपत्रित अधिकारी या सरकार द्वारा संचालित स्थानीय उच्च विद्यालय अथवा उच्चतर माध्यमिक के प्रधानाचार्य/प्रधानाध्यापक या राष्ट्रीयकृत बैंक के एजेन्ट या निगम के प्रथम श्रेणी अधिकारी या निगम के विकास अधिकारी, जो कम से कम पांच वर्ष सेवारत रह चुका हो और फार्म भरने वाले व्यक्ति की पहचान के बारे में पूर्णतया सन्तुष्ट हो के द्वारा की जानी चाहिए। हिन्दी के अलावा अन्य भाषा में हस्ताक्षरित होने पर उन्हें किसी प्रतिष्ठक हिन्दी जानने वाले व्यक्ति के द्वारा प्रमानित करना चाहिए । ऐसे हस्ताक्षर या अंगूठा निशान को प्रमाणित करने वाले साक्षी को निम्न घोषणा में हस्ताक्षर करने चाहिए।</p>
-                <p>Note: Illiterate persons must affix thumb marks which should be identified by attesting Magistrate under the seal of his office by a Justice of the Peace or a Block Development Officer or a Gazetted Officer or a Principal/Headmaster of Local High School or Higher Secondary School run by the Government or an agent of Nationalised Bank or a Class I Officer of the Corporation or a Development Officer of the Corporation with at least five years service or by an Agent of the Corporation who is a member of the Club at the level of Divisional Manager and above provided he/she is fully satisfied about the identity of the person (s) executing the form. Signature in Regional Languages must be attested by a respectable English Knowing person. The witness attesting the signatures or thumb marks should sign the Declaration below:</p>
-            </div>
-            <div class="content-block" style="margin-top:15px; font-size:0.9em;">
-                <p class="text-hindi">इस भुगतान पत्र का विवरण श्री <input type="text" id="s_p3_discharge_person_name" class="input-inline" style="width:200px;" readonly> का समझा दिया गया हैं और उन्होंने विवरण को भली भांति समझ लेने के बाद ही अपने हस्ताक्षर किए हैं/अपना अंगूठा लगया है।</p>
-                <p>The content of this discharge form have been explained to <input type="text" id="s_p3_discharge_person_name_en" class="input-inline" style="width:200px;" readonly> and he/she/they has/have signed the same after understanding the same.</p>
-            </div>
-        </div>
-        <div class="content-block" style="margin-top:15px;"> <p>SEAL OF OFFICE</p> <p>IF ANY</p> </div>
-        <div class="flex-container" style="margin-top:15px;">
-            <div class="flex-item" style="font-size:0.9em;">
-                <p class="text-hindi">साक्षी का पूरा नाम/Name of Witness: <input type="text" id="s_p3_witness_name" class="input-inline" style="width:250px;" readonly></p>
-                <p class="text-hindi">व्यवसाय/Occupation: <input type="text" id="s_p3_witness_occupation" class="input-inline" style="width:220px;" readonly></p>
-                <p class="text-hindi">पत्ता/Address: <input type="text" id="s_p3_witness_address" class="input-inline" style="width:300px;" readonly></p>
-            </div>
-            <div class="flex-item right-aligned signature-upload-section" style="font-size:0.9em; margin-top:0;">
-                 <img id="s_p3_witnessSignatureImage" src="#" alt="Witness Signature" /> <br/>
-                 <input type="file" id="s_p3_witnessSignatureUpload" accept="image/*">
-                <p class="text-hindi" style="margin-top:5px;">साक्षी के हस्ताक्षर/Signature of Witness</p>
-            </div>
-        </div>
-        <div class="content-block" style="margin-top:10px;"> <p class="text-hindi">कार्यालय का मुहर/Seal Office</p> </div>
-        <div class="note-block" style="font-size:0.85em; margin-top:20px;">
-            <p class="text-hindi">यदि इस भुगतान पत्र पर एक से अधिक व्यक्तियों ने हस्ताक्षर किये हैं किन्तु भुगतान इनमें से किसी एक व्यक्ति को किये जाने की इच्छा व्यक्त की गई है तो जिस व्यक्ति को रकम लेने का अधिकार देना हो उसे छोड़ कर अन्य सभी व्यक्तियों को नीचे दिया अधिकार पत्र मजिस्ट्रेट या जस्टिस आफ पीस या राजपत्रित अधिकारी या खण्ड विकास अधिकारी या सरकार द्वारा संचालित स्थानीय उच्च विद्यालय के प्रधानाचार्य/प्रधानाध्यापक या राष्ट्रीयकृत बैंक के एजेन्ट या निगम के प्रथम श्रेणी अधिकारी या निगम के विकासधिकारी जो कम से कम पाँच वर्ष सेवारत रह चुका हो और हस्ताक्षरकर्ताओं को पहचान के बारे में पूर्णतया सन्तुष्ट होके समझ कर उसमें हस्ताक्षर करने चाहिए। यदि इस भुगतान पत्र हस्ताक्षर करने वाले व्यक्ति के अलावा किसी अन्य व्यक्ति को दिया जाता है तो उस दशा में निम्न अधिकार पत्र की भी आवश्यकता होगी।</p>
-            <p class="bold">Important</p>
-            <p>If the within written receipt is signed by more than one person and payment is desired to be made to only one of them then the following note of authority must be completed and signed by all of them before a magistrate or to a Justice of Peace or Gazetted Officer or a Block Development Officer or a Principal/Headmaster of Local High School or Higher Secondary School run by the Government or Agent of a Nationalised Bank or a Class-I Officer of the Corporation or a Development Officer of the Corporation with at least five year's service provided he/she is fully satisfied about the identity of the executants The letter of Authority will also be required if payment is to be made to any person other than the signatories or the receipt.</p>
-        </div>
-        <div class="header-info" style="margin-top:30px; border-top:1px solid #eee; padding-top:10px;">
-            <span class="text-hindi">स्थान/Place: <input type="text" id="s_p3_auth_place" class="input-inline" style="width:150px;" readonly></span>
-            <span class="right-aligned text-hindi">दिनांक/Date: <input type="text" id="s_p3_auth_date" class="input-inline" style="width:120px;" readonly></span>
-        </div>
-        <p class="centered" style="margin-top:5px;">3</p>
-    </div> <!-- End of visualSurrenderPage3 -->
-    
-    <!-- Page 4 Content (Surrender Form) -->
-    <div class="form-page" id="visualSurrenderPage4">
-        <div class="content-block" style="font-size:0.95em; margin-top:20px;">
-            <p class="text-hindi">मैं/हम एतद द्वारा भारतीय जीवन बीमा निगम को अधिकार देता हूं/देते हैं कि उपर्युक्त <input type="text" id="s_p4_amount_words" class="input-inline" style="width:300px;" readonly> रुपये की रकम श्री <input type="text" id="s_p4_payee_name" class="input-inline" style="width:250px;" readonly> को भुगतान कर दें।</p>
-            <p>I/We hereby authorise and request Life insurance Corporation of India to pay the above mentioned amount of Rs <input type="text" id="s_p4_amount_rs" class="input-inline" style="width:150px;" readonly> Address <input type="text" id="s_p4_payee_address" class="input-inline" style="width:calc(100% - 300px);" readonly>.</p>
-            <p class="text-hindi">इन व्यक्ति या व्यक्तियों ने निम्न की उपस्थिति में हस्ताक्षर किए।</p>
-            <p>Witness: (See introduction below)</p>
-        </div>
-        <div class="flex-container" style="margin-top:15px;">
-            <div class="flex-item" style="font-size:0.9em;">
-                <p class="text-hindi">पूरा नाम/Full Name: <input type="text" id="s_p4_witness_name1" class="input-inline" style="width:220px;" readonly></p>
-                <p class="text-hindi">पद/Occupation: <input type="text" id="s_p4_witness_occupation1" class="input-inline" style="width:200px;" readonly></p>
-                <p class="text-hindi">पता/Address: <input type="text" id="s_p4_witness_address1" class="input-inline" style="width:250px;" readonly></p>
-            </div>
-             <div class="flex-item right-aligned signature-upload-section" style="font-size:0.9em; margin-top:0;">
-                <p class="text-hindi" style="margin-bottom:2px;">(अधिकार प्राप्त किए हुए व्यक्ति का नाम) <input type="text" id="s_p4_authorised_person_name" class="input-inline" style="width:200px;" readonly></p>
-                <img id="s_p4_authorisedPersonSignatureImage" src="#" alt="Authorised Person Signature" /> <br/>
-                <input type="file" id="s_p4_authorisedPersonSignatureUpload" accept="image/*">
-                <p class="text-hindi" style="margin-top:5px;">हस्ताक्षर/Signature</p>
-                <p class="text-hindi">पूरा नाम/Full Name: <input type="text" id="s_p4_authorised_person_full_name" class="input-inline" style="width:220px;" readonly></p>
-                <p class="text-hindi">पता/Address: <input type="text" id="s_p4_authorised_person_address" class="input-inline" style="width:250px;" readonly></p>
-            </div>
-        </div>
-        <div class="content-block" style="font-size:0.9em; margin-top:20px;">
-            <p class="text-hindi">मजिस्ट्रेट या जस्टिस आफ पीस के हस्ताक्षर</p>
-            <p class="text-hindi">मैं प्रमाणित करता हूं कि इस अधिकार पत्र का विवरण श्री/श्रीमती <input type="text" id="s_p4_auth_certify_person" class="input-inline" style="width:200px;" readonly> को उनके द्वारा समझी जाने वाली भाषा में समझा दिया गया था और वह / वे अधिकृत व्यक्ति या व्यक्तियों को रकम का भुगतान किये जाने के लिए सहमत हैं।</p>
-            <p>I hereby certify that the contents of this Note of Authority were explained by me in vernacular to Shri/Smt. <input type="text" id="s_p4_auth_certify_person_en" class="input-inline" style="width:200px;" readonly> and he/she has/have agreed to payment being made to <input type="text" id="s_p4_auth_certify_payee_en" class="input-inline" style="width:200px;" readonly> the party or parties authorised.</p>
-        </div>
-        <div class="right-aligned signature-upload-section" style="margin-top:15px; font-size:0.9em;">
-            <img id="s_p4_witnessAuthSignatureImage" src="#" alt="Witness of Authority Signature" /> <br/>
-            <input type="file" id="s_p4_witnessAuthSignatureUpload" accept="image/*">
-            <p style="margin-top:5px;">Signature of Witness</p>
-            <p class="text-hindi">पूरे हस्ताक्षर/Full Name <input type="text" id="s_p4_witness_full_name_auth" class="input-inline" style="width:200px;" readonly></p>
-        </div>
-        <div class="content-block" style="font-size:0.85em; margin-top:20px; border-top:1px solid #eee; padding-top:10px;">
-            <p class="bold">Instructions:</p>
-            <p class="text-hindi">इस अधिकार पत्र में मजिस्ट्रेट या जस्टिस आफ पीस या राजपत्रित अधिकारी या खण्ड विकास अधिकारी या सरकार द्वारा संचालित उच्च विद्याालय या उच्चतर माध्यमिक विद्यालय के प्रधानाचार्य/प्रधानाध्यापक या राष्ट्रीयकृत बैंक के एजेन्ट या निगम के प्रथम क्षेणी अधिकारी या निगम के विकास अधिकारी, जो कम से कम पांच वर्ष सेवारत रह चुका हो और हस्ताक्षरकर्ताओं के बारे में पुर्णतया संतुष्ट हों की उपस्थिति में हस्ताक्षर किये जाने चाहिए।</p>
-            <p>This letter of authority must be signed before a Magistrate or a Justice of peace or a Gazetted Officer or a Principal/Headmaster of Local High School or Higher Secondary School run by the Government or an Agent of a Nationalised Bank or a Class I Officer of the Corporation or a Development Officer of the Corporation with at least five years service provided he/she is fully satisfied about the identity of the executants.</p>
-            <p class="text-hindi">यदि अधिकारी पत्र भरने वाले व्यक्ति अशिक्षित हैं अथवा हिन्दी के अलावा ईतर भाषा/भाषी हैं तो घुष्टांकन प्रमाणक यदि मजिस्ट्रेट या जस्टिस ऑफ पीस या खण्ड विकास अधिकारी या राजपत्रित अधिकारी या सरकार द्वारा संचालित स्थनीय उच्च विद्यालय या उच्च माध्यमिक विद्यालय के प्रधानाचार्य/प्रधानाध्यापक या राष्ट्रीयकृत बैंक के एजेन्ट या निगम के प्रथम श्रेणी अधिकारी जो कम से कम पाँच वर्ष सेवारत रह चुका हो द्वारा भरकर हस्ताक्षर होना चाहिए।</p>
-            <p>This endorsement is required to be completed and signed by the attesting Magistrate or Justice of the peace or Block Development Officer or Gazetted Officer or a Principal/Headmaster of Local High School/Higher Secondary School run by the Government or Officer of Nationalised Bank or Class I Officer of the Corporation or a Development Officer of the Corporation with at least five year's service when the note of Authority is executed by an illiterate or vernacular knowing person (s).</p>
-        </div>
-        <p class="centered" style="margin-top:5px;">4</p>
-    </div> <!-- End of visualSurrenderPage4 -->
-
-</div> <!-- End of document-container -->
-
-<script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
-    const SUPABASE_URL = 'https://efduqdondmlzmwhfgkfz.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
-    let supabase;
-
-    const defaultPlaceholderText = "....................";
-    const datePlaceholderText = "[Date]";
-
-    try {
-        supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log("Supabase client initialized successfully for Surrender Form.");
-    } catch (e) {
-        console.error("FATAL ERROR: Could not initialize Supabase client for Surrender Form!", e);
-        alert("Application Error: Could not connect to data services.");
-    }
-
-    function setFieldValue(id, value, isDate = false) {
-        const element = document.getElementById(id);
-        if (element) {
-            let valueToSet = value === null || value === undefined ? '' : String(value); // Ensure string
-            if (isDate && valueToSet) {
-                try {
-                    if (!/^\d{4}-\d{2}-\d{2}$/.test(valueToSet)) {
-                        const dateObj = new Date(valueToSet);
-                        if (!isNaN(dateObj.valueOf())) { // Check if date is valid
-                           valueToSet = dateObj.toISOString().split('T')[0];
-                        } else {
-                            valueToSet = ''; // Invalid date, set to empty
-                        }
-                    }
-                } catch (dateError) {
-                    console.warn(`Error formatting date for ID ${id}, value ${value}:`, dateError);
-                    valueToSet = ''; // Fallback to empty for invalid date
-                }
-            }
-            // For input fields, assign to value, for spans, assign to textContent
-            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                element.value = valueToSet || (isDate ? datePlaceholderText : defaultPlaceholderText);
-            } else if (element.tagName === 'SPAN') {
-                 element.textContent = valueToSet || (isDate ? datePlaceholderText : defaultPlaceholderText);
-            }
-        } else {
-             // console.warn(`Element with ID '${id}' not found for setting value.`);
-        }
-    }
-
-    function clearSurrenderFormFields() {
-        const allInputInlineFields = document.querySelectorAll('.input-inline');
-        allInputInlineFields.forEach(el => {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                 el.value = (el.type === 'date' || el.id.toLowerCase().includes('date')) ? datePlaceholderText : defaultPlaceholderText;
-            } else if (el.tagName === 'SPAN') { // Should not happen if all are inputs now
-                 el.textContent = (el.id.toLowerCase().includes('date')) ? datePlaceholderText : defaultPlaceholderText;
-            }
-        });
-
-        // Clear signature previews
-        const signatureUploads = [
-            's_p1_applicantSignatureUpload', 's_p1_applicantSignatureImage',
-            's_p2_witnessSignatureUpload', 's_p2_witnessSignatureImage',
-            's_p2_lifeAssuredSignatureUpload', 's_p2_lifeAssuredSignatureImage',
-            's_p3_witnessSignatureUpload', 's_p3_witnessSignatureImage',
-            's_p4_authorisedPersonSignatureUpload', 's_p4_authorisedPersonSignatureImage',
-            's_p4_witnessAuthSignatureUpload', 's_p4_witnessAuthSignatureImage'
-        ];
-        signatureUploads.forEach(id => {
-            const el = document.getElementById(id);
-            if(el && el.tagName === 'INPUT' && el.type === 'file') el.value = '';
-            if(el && el.tagName === 'IMG') {
-                el.src = '#';
-                el.style.display = 'none';
-            }
-        });
         
-        const vernacularCheckbox = document.getElementById('isVernacularOrIlliterate_surrender');
-        const assignedCheckbox = document.getElementById('isPolicyAssigned_surrender');
-        if(vernacularCheckbox) vernacularCheckbox.checked = false;
-        if(assignedCheckbox) assignedCheckbox.checked = false;
+        <div class="input-group">
+            <label for="planSelector">Choose Your Plan:</label>
+            <select id="planSelector">
+                <option value="">-- Select a Plan to Proceed --</option>
+            </select>
+        </div>
 
-        // Ensure conditional sections are not populated by default if we were hiding them (not needed now)
-        // toggleSectionVisibility('s_p1_assignmentNoteSection', false); // This section's content is conditional, not the section itself
-        // toggleSectionVisibility('s_p3_vernacularDeclarationSection', false);
+        <button id="goToCalculatorBtn">Go to Calculator <i class="fas fa-arrow-right"></i></button>
+    </div>
 
-        console.log("Surrender form fields cleared and conditional checkboxes reset.");
-    }
-    
-    function setupSignatureUpload(uploadInputId, imageDisplayId) {
-        const signatureUploadInput = document.getElementById(uploadInputId);
-        const signatureImageDisplay = document.getElementById(imageDisplayId);
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-        if (signatureUploadInput && signatureImageDisplay) {
-            signatureUploadInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        signatureImageDisplay.src = e.target.result;
-                        signatureImageDisplay.style.display = 'block';
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    signatureImageDisplay.src = "#";
-                    signatureImageDisplay.style.display = 'none';
-                }
-            });
-        } else {
-            console.warn(`Signature elements missing for: Input ID "${uploadInputId}" or Image ID "${imageDisplayId}"`);
-        }
-    }
-    // Initialize signature uploads
-    setupSignatureUpload('s_p1_applicantSignatureUpload', 's_p1_applicantSignatureImage');
-    setupSignatureUpload('s_p2_witnessSignatureUpload', 's_p2_witnessSignatureImage');
-    setupSignatureUpload('s_p2_lifeAssuredSignatureUpload', 's_p2_lifeAssuredSignatureImage');
-    setupSignatureUpload('s_p3_witnessSignatureUpload', 's_p3_witnessSignatureImage');
-    setupSignatureUpload('s_p4_authorisedPersonSignatureUpload', 's_p4_authorisedPersonSignatureImage');
-    setupSignatureUpload('s_p4_witnessAuthSignatureUpload', 's_p4_witnessAuthSignatureImage');
-
-
-    async function fetchSurrenderDetails() {
-        if (!supabase) {
-            console.error("Supabase client is not initialized.");
-            alert("Data service error. Please refresh.");
-            return;
-        }
-        const policyNumber = document.getElementById('surrenderPolicyInput').value.trim();
-        const isVernacular = document.getElementById('isVernacularOrIlliterate_surrender').checked;
-        const isAssigned = document.getElementById('isPolicyAssigned_surrender').checked;
-
-        if (!policyNumber) {
-            console.warn('Policy number for surrender form is empty.');
-            clearSurrenderFormFields();
-            return;
-        }
-        console.log("Fetching surrender details for policy:", policyNumber, "Vernacular:", isVernacular, "Assigned:", isAssigned);
-        clearSurrenderFormFields(); // Clear first, then populate
-
-        try {
-            const { data, error } = await supabase
-                .from('surrender') // YOUR ACTUAL TABLE NAME FOR SURRENDER DATA
-                .select('*') 
-                .eq('policy_number', policyNumber) 
-                .single();
+        // =========================================================================
+        //  STEP 1: UPDATE THIS LIST WITH YOUR EXACT FILE NAMES
+        //  The 'key' is the plan number, the 'value' is the HTML file link.
+        // =================================M========================================
+        const planLinks = {
+            '714': { name: "New Endowment Plan", category: 'Endowment Plans', link: 'surrender_714.html' },
+            '715': { name: "New Jeevan Anand", category: 'Endowment Plans', link: 'surrender_715.html' },
+            '736': { name: "Jeevan Labh", category: 'Endowment Plans', link: 'surrender_736.html' },
+            '733': { name: "Jeevan Lakshya", category: 'Endowment Plans', link: 'surrender_733.html' },
+            '774': { name: "Amritbaal", category: 'Endowment Plans', link: 'surrender_774.html' },
+            '760': { name: "Bima Jyoti", category: 'Endowment Plans', link: 'surrender_760.html' },
+            '768': { name: "Jeevan Azad", category: 'Endowment Plans', link: 'surrender_768.html' },
+            '912': { name: "Nav Jeevan Shree", category: 'Endowment Plans', link: 'surrender_912.html' },
             
-            // Restore checkbox states after clearing
-            document.getElementById('isVernacularOrIlliterate_surrender').checked = isVernacular;
-            document.getElementById('isPolicyAssigned_surrender').checked = isAssigned;
+            '745': { name: "Jeevan Umang", category: '🌳 Whole Life Plans', link: 'surrender_745.html' },
+            '771': { name: "Jeevan Utsav", category: '🌳 Whole Life Plans', link: 'surrender_771.html' },
 
-            if (error) {
-                console.error("Supabase Error (Surrender Form):", JSON.stringify(error, null, 2));
-                if (error.code === 'PGRST116') alert(`No surrender record found for Policy No. ${policyNumber}`);
-                else alert(`Error fetching data: ${error.message}`);
+            '720': { name: "New Money Back Plan-20 Years", category: '💰 Money Back Plans', link: 'surrender_720.html' },
+            '721': { name: "New Money Back Plan-25 Years", category: '💰 Money Back Plans', link: 'surrender_721.html' },
+            '732': { name: "New Children's Money Back Plan", category: '💰 Money Back Plans', link: 'surrender_732.html' },
+            '748': { name: "Bima Shree", category: '💰 Money Back Plans', link: 'surrender_748.html' },
+            '764': { name: "Bima Ratna", category: '💰 Money Back Plans', link: 'surrender_764.html' },
+
+            // Add your 16th plan here, for example:
+            // '859': { name: "Saral Jeevan Bima", category: '🧾 Term Assurance Plans', link: 'plan-859-calculator.html' },
+        };
+        // =========================================================================
+
+        const planSelector = document.getElementById('planSelector');
+        const goToCalculatorBtn = document.getElementById('goToCalculatorBtn');
+
+        // Function to populate the dropdown from the planLinks object
+        function populateSelector() {
+            const categories = {};
+            for (const planId in planLinks) {
+                const plan = planLinks[planId];
+                if (!categories[plan.category]) {
+                    categories[plan.category] = [];
+                }
+                categories[plan.category].push({ id: planId, name: plan.name });
+            }
+            
+            for (const categoryName in categories) {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = `--- ${categoryName} ---`;
+                categories[categoryName].forEach(plan => {
+                    const option = document.createElement('option');
+                    option.value = plan.id;
+                    option.textContent = `${plan.id} - ${plan.name}`;
+                    optgroup.appendChild(option);
+                });
+                planSelector.appendChild(optgroup);
+            }
+        }
+
+        // Event listener for the button
+        goToCalculatorBtn.addEventListener('click', () => {
+            const selectedPlanId = planSelector.value;
+
+            if (!selectedPlanId) {
+                alert('Please select a plan from the dropdown list first.');
                 return;
             }
 
-            if (data) {
-                console.log("Supabase Data (Surrender Form):", JSON.stringify(data, null, 2));
+            const destinationLink = planLinks[selectedPlanId].link;
 
-                // Page 1 Population
-                setFieldValue('s_p1_branchUnitNo', data.branch_unit_no);
-                setFieldValue('s_p1_place', data.place_of_application);
-                setFieldValue('s_p1_date', data.application_date, true);
-                setFieldValue('s_p1_policyNoSubject', data.policy_number);
-                setFieldValue('s_p1_lifeAssuredNameSubject', data.life_assured_name);
-                setFieldValue('s_p1_policyNoSubject_en', data.policy_number);
-                setFieldValue('s_p1_maturityDate', data.maturity_date, true);
-                setFieldValue('s_p1_maturityDate_en', data.maturity_date, true);
-                setFieldValue('s_p1_claimantFullName', data.claimant_full_name || data.life_assured_name);
-                setFieldValue('s_p1_claimantAddress', data.claimant_address);
-                setFieldValue('s_p1_lifeAssuredReceipt', data.life_assured_name);
-                setFieldValue('s_p1_policyDateReceipt', data.policy_issue_date, true);
-                setFieldValue('s_p1_sumAssuredReceipt', data.sum_assured); // Using sum_assured as per your confirmation
-                setFieldValue('s_p1_policyNoReceipt', data.policy_number);
-                setFieldValue('s_p1_policyNoReceipt_en', data.policy_number);
-                setFieldValue('s_p1_lifeOfReceipt_en', data.life_assured_name);
-                setFieldValue('s_p1_rsReceipt_en', data.sum_assured); // Using sum_assured
-                setFieldValue('s_p1_receipt_iwe', data.claimant_full_name || data.life_assured_name);
-                setFieldValue('s_p1_receipt_cash_value_words', data.surrender_value_words);
-                setFieldValue('s_p1_receipt_cash_value_num', data.surrender_value_numeric);
-                setFieldValue('s_p1_receipt_place', data.place_of_receipt);
-                setFieldValue('s_p1_receipt_day', data.receipt_day); 
-                setFieldValue('s_p1_receipt_month', data.receipt_month);
-                setFieldValue('s_p1_receipt_year', data.receipt_year);
-                setFieldValue('s_p1_surrenderValueWithBonus', data.surrender_value_with_bonus);
-                setFieldValue('s_p1_cheque_post_address', data.cheque_posting_address);
-
-                // Conditional population for Assignment Note on Page 1
-                const assignmentNoteSection = document.getElementById('s_p1_assignmentNoteSection');
-                if (assignmentNoteSection) { // Make sure the section exists
-                    if (isAssigned) {
-                        assignmentNoteSection.classList.remove('hidden'); // Show if assigned
-                    } else {
-                        assignmentNoteSection.classList.add('hidden'); // Hide if not assigned
-                    }
-                }
-
-
-                // Page 2 Population
-                setFieldValue('s_p2_iwe_ack', data.claimant_full_name || data.life_assured_name);
-                setFieldValue('s_p2_sum_ack_rs', data.gross_surrender_value_numeric);
-                setFieldValue('s_p2_place_ack', data.ack_place);
-                setFieldValue('s_p2_day_ack', data.ack_day);
-                setFieldValue('s_p2_month_ack', data.ack_month);
-                setFieldValue('s_p2_year_ack', data.ack_year);
-                setFieldValue('s_p2_surrender_value_rs', data.surrender_value_main_rs);
-                setFieldValue('s_p2_surrender_value_p', data.surrender_value_main_p);
-                setFieldValue('s_p2_dab_refund_rs', data.dab_refund_rs);
-                setFieldValue('s_p2_dab_refund_p', data.dab_refund_p);
-                setFieldValue('s_p2_total_rs', data.total_gross_rs);
-                setFieldValue('s_p2_total_p', data.total_gross_p);
-                setFieldValue('s_p2_less_loan_rs', data.deduction_loan_rs);
-                setFieldValue('s_p2_less_loan_interest_rs', data.deduction_loan_interest_rs);
-                setFieldValue('s_p2_less_premium_due_rs', data.deduction_premium_due_rs);
-                setFieldValue('s_p2_less_apl_debit_rs', data.deduction_apl_debit_rs);
-                setFieldValue('s_p2_less_xcharge_rs', data.deduction_xcharge_rs);
-                setFieldValue('s_p2_net_payable_rs', data.net_payable_rs);
-                setFieldValue('s_p2_net_payable_p', data.net_payable_p);
-                setFieldValue('s_p2_witness_name', data.witness_name_p2);
-                setFieldValue('s_p2_witness_occupation', data.witness_occupation_p2);
-                setFieldValue('s_p2_witness_address', data.witness_address_p2);
-                setFieldValue('s_p2_son_wife_of', data.son_wife_of_life_assured);
-                setFieldValue('s_p2_bank_name', data.bank_name);
-                setFieldValue('s_p2_bank_branch_address', data.bank_branch_address);
-                setFieldValue('s_p2_account_type', data.account_type);
-                setFieldValue('s_p2_account_no_full', data.account_no);
-                setFieldValue('s_p2_micr_no_full', data.micr_no);
-                setFieldValue('s_p2_ifsc_code_full', data.ifsc_code);
-                setFieldValue('s_p2_mobile_no', data.mobile_number_neft);
-                setFieldValue('s_p2_email_id', data.email_id_neft);
-
-                // Page 3 Population (Vernacular/Illiterate section is conditional)
-                const vernacularSectionP3 = document.getElementById('s_p3_vernacularDeclarationSection');
-                if(vernacularSectionP3) vernacularSectionP3.style.display = isVernacular ? 'block' : 'none'; // Show/hide section
-
-                if (isVernacular) {
-                    setFieldValue('s_p3_discharge_person_name', data.discharge_explained_to_person || data.life_assured_name);
-                    setFieldValue('s_p3_discharge_person_name_en', data.discharge_explained_to_person_en || data.life_assured_name);
-                    setFieldValue('s_p3_witness_name', data.witness_name_p3_vernacular); // Use specific fields if available
-                    setFieldValue('s_p3_witness_occupation', data.witness_occupation_p3_vernacular);
-                    setFieldValue('s_p3_witness_address', data.witness_address_p3_vernacular);
-                }
-                setFieldValue('s_p3_auth_place', data.authority_place);
-                setFieldValue('s_p3_auth_date', data.authority_date, true);
-
-                // Page 4 Population
-                setFieldValue('s_p4_amount_words', data.authority_amount_words);
-                setFieldValue('s_p4_payee_name', data.authority_payee_name);
-                setFieldValue('s_p4_amount_rs', data.authority_amount_numeric);
-                setFieldValue('s_p4_payee_address', data.authority_payee_address);
-                setFieldValue('s_p4_witness_name1', data.witness_name_p4); 
-                setFieldValue('s_p4_witness_occupation1', data.witness_occupation_p4);
-                setFieldValue('s_p4_witness_address1', data.witness_address_p4);
-                setFieldValue('s_p4_authorised_person_name', data.authorised_person_name_p4);
-                setFieldValue('s_p4_authorised_person_full_name', data.authorised_person_full_name_p4);
-                setFieldValue('s_p4_authorised_person_address', data.authorised_person_address_p4);
-                setFieldValue('s_p4_auth_certify_person', data.authority_certify_person_name);
-                setFieldValue('s_p4_auth_certify_person_en', data.authority_certify_person_name_en || data.authority_certify_person_name);
-                setFieldValue('s_p4_auth_certify_payee_en', data.authority_certify_payee_name_en);
-                setFieldValue('s_p4_witness_full_name_auth', data.authority_witness_full_name);
-                
+            if (destinationLink) {
+                // Redirect the user to the selected calculator page
+                window.location.href = destinationLink;
             } else {
-                console.warn('No data returned for this policy from surrender table.');
-                alert('No data found for this policy number.');
+                alert('Error: Could not find the link for the selected plan.');
             }
-        } catch (e) {
-            console.error("CRITICAL UNEXPECTED ERROR in fetchSurrenderDetails:", e);
-            alert("An unexpected error occurred while fetching data.");
-        }
-    }
+        });
 
-    const loadButton = document.getElementById('surrenderLoadButton');
-    if (loadButton) {
-        loadButton.addEventListener('click', fetchSurrenderDetails);
-    } else {
-        console.error("Load button 'surrenderLoadButton' not found!");
+        // Initial setup
+        populateSelector();
+    });
+    </script>
+<div class="home-button-container">
+  <a href="/main.html" title="Go to Home">
+    <img src="../images/home-icon.png" alt="Home">
+  </a>
+</div>
+<!-- PWA: Register the Workbox Service Worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw-workbox.js')
+                .then(registration => {
+                    console.log('Workbox service worker registered successfully:', registration);
+                })
+                .catch(error => {
+                    console.error('Workbox service worker registration FAILED:', error);
+                });
+        });
     }
-    
-    window.fetchSurrenderDetails = fetchSurrenderDetails; 
-    clearSurrenderFormFields(); 
-
-</script>
+</script>  
 </body>
 </html>
