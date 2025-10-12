@@ -499,37 +499,42 @@
     const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(query)}&lang=en&country=in&token=${apiKey}&max=10`;
     let newsList = [];
     let index = 0;
-    async function fetchGNews() {
-        const newsText = document.getElementById("newsText");
-        try {
-            const res = await fetch(url);
-            const data = await res.json();
-            if (data.articles && data.articles.length > 0) {
-                newsList = data.articles.map(article => ({ title: article.title, url: article.url }));
-                startNewsTicker();
-            } else {
-                newsText.textContent = "No recent news found for 'life insurance India'.";
-            }
-        } catch (error) {
-            console.error("Error fetching GNews:", error);
-            newsText.textContent = "Could not load news at this time.";
-        }
-    }
-   
-function startNewsTicker() {
+// --- NEWS TICKER SCRIPT (Using a CORS-Friendly API) ---
+async function fetchGNews() {
     const newsText = document.getElementById("newsText");
-    if (!newsList.length) {
-        newsText.textContent = "No recent news found.";
-        return;
+    // This is a free, public API proxy that fetches news and solves the CORS issue.
+    const url = 'https://stock-ticker-api.netlify.app/api/news'; 
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        
+        if (data.articles && data.articles.length > 0) {
+            // Filter for relevant news, e.g., containing "finance" or "insurance"
+            const relevantNews = data.articles.filter(article => 
+                article.title.toLowerCase().includes('finance') || 
+                article.title.toLowerCase().includes('insurance') ||
+                article.title.toLowerCase().includes('market')
+            );
+            
+            if (relevantNews.length > 0) {
+                const allNewsHtml = relevantNews.map(news => 
+                    `<a href="${news.url}" target="_blank">${news.title}</a>`
+                ).join('');
+                newsText.innerHTML = allNewsHtml;
+            } else {
+                 newsText.textContent = "Stay updated with the latest financial news from around the world.";
+            }
+
+        } else {
+            newsText.textContent = "No recent news found at this time.";
+        }
+    } catch (error) {
+        console.error("Error fetching news:", error);
+        newsText.textContent = "Could not load news at this time.";
     }
-
-    // Join all news items into a single, long string for scrolling
-    const allNewsHtml = newsList.map(news => 
-        `<a href="${news.url}" target="_blank">${news.title}</a>`
-    ).join('');
-
-    newsText.innerHTML = allNewsHtml;
 }
+// Note: We don't need a separate startNewsTicker() function anymore.
   </script>
 <!-- PWA: Register the Workbox Service Worker -->
 <script>
