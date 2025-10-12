@@ -9,6 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Commission page for agents</title>
+<!-- PWA: Link to the Manifest File -->
+<link rel="manifest" href="manifest.json">
     <style>
 /* === Root Variables for a Fresh & Clean Theme === */
 /* === Root Variables for a Lush Green & Gold Theme === */
@@ -209,6 +211,24 @@ input[readonly] {
     border-radius: 8px;
     border: 1px solid rgba(255, 138, 128, 0.3);
 }
+  .home-button-container {
+      position: fixed; /* This makes it float on top of other content */
+      top: 20px;       /* Position 20px from the top edge */
+      right: 25px;     /* Position 25px from the right edge */
+      z-index: 1000;   /* Ensures it's above other elements */
+    }
+
+    .home-button-container a img {
+      width: 50px; /* Adjust size as needed */
+      height: 50px;
+
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    .home-button-container a:hover img {
+      transform: scale(1.1); /* Slightly enlarge on hover */
+    }
     </style>
 </head>
 <body>
@@ -523,5 +543,24 @@ input[readonly] {
         populatePlans();
     });
     </script>
+<div class="home-button-container">
+  <a href="/main.html" title="Go to Home">
+    <img src="images/home-icon.png" alt="Home">
+  </a>
+</div>
+<!-- PWA: Register the Workbox Service Worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw-workbox.js')
+                .then(registration => {
+                    console.log('Workbox service worker registered successfully:', registration);
+                })
+                .catch(error => {
+                    console.error('Workbox service worker registration FAILED:', error);
+                });
+        });
+    }
+</script>  
 </body>
 </html>
