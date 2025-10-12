@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>LIC Connect - Welcome</title>
+<link rel="manifest" href="manifest.json">
     
     <!-- Google Fonts & Font Awesome for a stylish look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -431,6 +432,19 @@ window.addEventListener('load', async () => {
     alert('Password reset email sent. Please check your inbox.');
   }
 }
+</script>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw-workbox.js')
+                .then(registration => {
+                    console.log('Workbox service worker registered successfully:', registration);
+                })
+                .catch(error => {
+                    console.error('Workbox service worker registration FAILED:', error);
+                });
+        });
+    }
 </script>
 </body>
 </html>
