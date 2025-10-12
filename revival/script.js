@@ -117,3 +117,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+<div class="home-button-container">
+  <a href="/main.html" title="Go to Home">
+    <img src="images/home-icon.png" alt="Home">
+  </a>
+</div>
+<!-- PWA: Register the Workbox Service Worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw-workbox.js')
+                .then(registration => {
+                    console.log('Workbox service worker registered successfully:', registration);
+                })
+                .catch(error => {
+                    console.error('Workbox service worker registration FAILED:', error);
+                });
+        });
+    }
+</script>  

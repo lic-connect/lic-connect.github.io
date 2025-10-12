@@ -201,3 +201,22 @@ input[readonly] {
         font-size: 2.2rem;
     }
 }
+
+  .home-button-container {
+      position: fixed; /* This makes it float on top of other content */
+      top: 20px;       /* Position 20px from the top edge */
+      right: 25px;     /* Position 25px from the right edge */
+      z-index: 1000;   /* Ensures it's above other elements */
+    }
+
+    .home-button-container a img {
+      width: 50px; /* Adjust size as needed */
+      height: 50px;
+
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    .home-button-container a:hover img {
+      transform: scale(1.1); /* Slightly enlarge on hover */
+    }
