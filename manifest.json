@@ -19,10 +19,10 @@
       "type": "image/png"
     }
   ],
-  "screenshots": [
+"screenshots": [
     {
-      "src": "images/screenshot-mobile.jpg",
-      "sizes": "1080x2340",
+      "src": "images/lic-connect-screenshot.jpg",
+      "sizes": "1080x2340", 
       "type": "image/jpeg",
       "form_factor": "narrow"
     }
