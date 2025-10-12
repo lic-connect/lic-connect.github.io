@@ -1,12 +1,12 @@
 {
-  "name": "LIC Connect",
-  "short_name": "LIC Connect",
-  "start_url": "/index.html",
-  "id": "/index.html?v=1",
+  "name": "LIC-CONNECT",
+  "short_name": "lic-connect",
+  "start_url": "index.html",
+  "id": "/index.html?v=7",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0056b3",
-  "description": "Your personal dashboard for managing LIC policies and client connections.",
+  "background_color": "#7FFFD4",
+  "theme_color": "#000000",
+  "description": "Plan your future with our all-in-one app for LIC...",
   "icons": [
     {
       "src": "images/icon-192x192.png",
@@ -17,6 +17,14 @@
       "src": "images/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "images/screenshot-mobile.jpg",
+      "sizes": "1080x2340",
+      "type": "image/jpeg",
+      "form_factor": "narrow"
     }
   ]
 }

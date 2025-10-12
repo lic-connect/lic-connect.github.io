@@ -5,11 +5,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="manifest" href="manifest.json">
     <title>LIC CONNECT - Dashboard</title>
     <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/1/1e/LIC_India_Logo.svg" type="image/svg+xml" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
-
+<!-- PWA: Link to the Manifest File -->
+<link rel="manifest" href="manifest.json">
     <!-- Google Fonts & Font Awesome for a stylish look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -274,39 +274,88 @@
             .sidebar-header { text-align: center; margin-bottom: 20px; }
             .user-profile { width: 100%; }
         }
-/* === PWA Install Button Styles === */
-.install-button {
-    display: none; /* Hidden by default */
-    position: fixed; /* Floats on the screen */
-    bottom: 25px;
-    right: 25px;
-    z-index: 1000; /* Stays on top of everything */
-    
-    background: linear-gradient(135deg, var(--lic-accent), #ff984e);
-    color: white;
+
+/* =========== PWA INSTALL BUTTON STYLES ============= */
+/* =================================================== */
+
+/* The main install button */
+.pwa-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color); /* Uses your site's theme color */
+    color: var(--text-dark);
     border: none;
-    border-radius: 50px; /* Modern pill shape */
+    border-radius: 50px;
     padding: 15px 25px;
+    font-family: 'Poppins', sans-serif;
     font-size: 1rem;
     font-weight: 600;
-    
-    display: flex; /* Aligns icon and text nicely */
-    align-items: center;
-    
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     cursor: pointer;
-    transition: all 0.3s ease;
+    z-index: 9999;
+    transition: transform 0.2s ease-in-out;
 }
 
-.install-button:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+.pwa-button:hover {
+    transform: scale(1.05);
 }
 
-.install-button i {
-    color: white;
-    margin-right: 10px;
-    font-size: 1.1rem;
+.pwa-button i {
+    margin-right: 8px;
+}
+
+/* The QR Code Modal Styles */
+.pwa-modal {
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pwa-modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.pwa-modal-content img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+}
+
+.pwa-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pwa-modal-close:hover {
+    color: #333;
+}
+/* === MOBILE-ONLY FIX FOR INSTALL BUTTON === */
+@media (max-width: 768px) {
+    .pwa-button {
+        right: 115px !important; /* Moves it further left from the edge on mobile */
+    }
 }
     </style>
 </head>
@@ -395,8 +444,23 @@
 
     </main>
   </div>
+<!-- =========== PWA INSTALL BUTTON & QR MODAL ========= -->
+<!-- =================================================== -->
 
-<script>
+<button id="install-button" class="pwa-button">
+    <i class="fas fa-download"></i> Install App
+</button>
+
+<!-- This is the hidden modal for the QR code -->
+<div id="qr-modal" class="pwa-modal" style="display: none;">
+    <div class="pwa-modal-content">
+        <span id="qr-modal-close" class="pwa-modal-close">&times;</span>
+        <h2>Install on Your Phone</h2>
+        <p>Scan this QR code with your phone's camera to open this app and install it.</p>
+        <img src="qr-code.png" alt="Install QR Code">
+    </div>
+</div>
+  <script>
     // --- SUPABASE CLIENT INITIALIZATION ---
     const supabase = window.supabase.createClient(
       'https://efduqdondmlzmwhfgkfz.supabase.co',
@@ -416,46 +480,6 @@
       const { data: profile } = await supabase.from("profiles").select("full_name").eq("id", userId).single();
       const name = profile?.full_name || session.user.user_metadata?.full_name || session.user.email || "User";
       document.getElementById("welcomeMsg").textContent = `Welcome, ${name}`;
-
-      // --- PWA INSTALL BUTTON LOGIC (CORRECTLY PLACED) ---
-      let deferredPrompt;
-      const installButton = document.getElementById('installPwaButton');
-
-      window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent the mini-infobar from appearing on mobile
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        deferredPrompt = e;
-        // Update the UI to show the install button
-        if (installButton) {
-          installButton.style.display = 'flex';
-        }
-      });
-
-      if (installButton) {
-        installButton.addEventListener('click', async () => {
-          // Hide the install button
-          installButton.style.display = 'none';
-          // Show the install prompt
-          deferredPrompt.prompt();
-          // Wait for the user to respond to the prompt
-          const { outcome } = await deferredPrompt.userChoice;
-          console.log(`User response to the install prompt: ${outcome}`);
-          // We've used the prompt, and can't use it again, throw it away
-          deferredPrompt = null;
-        });
-      }
-
-      window.addEventListener('appinstalled', () => {
-        // Hide the install button
-        if (installButton) {
-          installButton.style.display = 'none';
-        }
-        // Clear the deferredPrompt so it can be garbage collected
-        deferredPrompt = null;
-        console.log('PWA was installed');
-      });
-      // --- END OF PWA LOGIC ---
     });
 
     // --- LOGOUT FUNCTIONALITY ---
@@ -492,33 +516,111 @@
         }
     }
    
-    function startNewsTicker() {
-        const newsText = document.getElementById("newsText");
-        if (!newsList.length) {
-            newsText.textContent = "No recent news found.";
-            return;
-        }
-
-        // Join all news items into a single, long string for scrolling
-        const allNewsHtml = newsList.map(news => 
-            `<a href="${news.url}" target="_blank">${news.title}</a>`
-        ).join('');
-
-        newsText.innerHTML = allNewsHtml;
+function startNewsTicker() {
+    const newsText = document.getElementById("newsText");
+    if (!newsList.length) {
+        newsText.textContent = "No recent news found.";
+        return;
     }
+
+    // Join all news items into a single, long string for scrolling
+    const allNewsHtml = newsList.map(news => 
+        `<a href="${news.url}" target="_blank">${news.title}</a>`
+    ).join('');
+
+    newsText.innerHTML = allNewsHtml;
+}
   </script>
+<!-- PWA: Register the Workbox Service Worker -->
 <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js').then(registration => {
-        console.log('SW registered: ', registration);
-      }).catch(registrationError => {
-        console.log('SW registration failed: ', registrationError);
-      });
-    });
-  }
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw-workbox.js')
+                .then(registration => {
+                    console.log('Workbox service worker registered successfully:', registration);
+                })
+                .catch(error => {
+                    console.error('Workbox service worker registration FAILED:', error);
+                });
+        });
+    }
 </script>
-<!-- PWA Install Button -->
-<button id="installPwaButton" class="install-button"><i class="fas fa-download"></i> Install App</button>
+
+<!-- =================================================== -->
+<!-- ======== NEW PROACTIVE PWA INSTALL SCRIPT ========= -->
+<!-- =================================================== -->
+<script>
+    const installButton = document.getElementById('install-button');
+    let deferredPrompt = null; // This variable will hold the install event
+
+    // 1. Listen for the 'beforeinstallprompt' event and capture it.
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); // Stop the browser from showing its own prompt
+        deferredPrompt = e; // Save the event
+        console.log('PWA prompt event captured. The custom button is now fully active.');
+        // Optional: You could add a class to the button to show it's "ready"
+        if (installButton) {
+            installButton.textContent = 'Install App'; // Make sure text is right
+        }
+    });
+
+    // 2. Add the powerful new click handler for our always-visible button.
+    if (installButton) {
+        installButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // IDEAL CASE: We have the prompt, so we show it.
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    console.log('User accepted the install prompt.');
+                    installButton.style.display = 'none'; // Hide button after install
+                }
+                deferredPrompt = null; // The prompt can only be used once.
+            } else {
+                // FALLBACK CASE: The browser is withholding the prompt.
+                // We will inform the user and show the QR code.
+                console.log('Browser has not provided an install prompt. Showing QR fallback.');
+                alert('To install, please use the install icon in your browser address bar.');
+                const qrModal = document.getElementById('qr-modal');
+                if (qrModal) {
+                    qrModal.style.display = 'flex';
+                }
+            }
+        });
+    }
+
+    // 3. Listen for when the app is successfully installed.
+    window.addEventListener('appinstalled', () => {
+        console.log('PWA was installed successfully.');
+        if (installButton) {
+            installButton.style.display = 'none'; // Hide the button for good.
+        }
+        deferredPrompt = null;
+    });
+
+    // --- QR Code Modal Logic (no changes needed here) ---
+    const qrModal = document.getElementById('qr-modal');
+    const openQrModalLink = document.getElementById('open-qr-modal');
+    const closeQrModalButton = document.getElementById('qr-modal-close');
+
+    if (openQrModalLink) {
+        openQrModalLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (qrModal) qrModal.style.display = 'flex';
+        });
+    }
+    if (closeQrModalButton) {
+        closeQrModalButton.addEventListener('click', () => {
+            if (qrModal) qrModal.style.display = 'none';
+        });
+    }
+    if (qrModal) {
+        qrModal.addEventListener('click', (e) => {
+            if (e.target === qrModal) {
+                qrModal.style.display = 'none';
+            }
+        });
+    }
+</script>
 </body>
 </html>
