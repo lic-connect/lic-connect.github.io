@@ -4,210 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>LIC Connect - Welcome</title>
-<link rel="manifest" href="manifest.json">
-    
-    <!-- Google Fonts & Font Awesome for a stylish look -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
-  
     <style>
-        /* === "AURORA NIGHT" THEME === */
-        :root {
-            --primary-bg: #0d122b;      /* Deep Night Blue */
-            --secondary-bg: #1f2937;    /* Dark Grey-Blue */
-            --accent-green: #00f2a7;    /* Electric Green */
-            --accent-blue: #00c6ff;      /* Bright Blue */
-            --text-color: #e5e7eb;
-            --form-bg: rgba(31, 41, 55, 0.5);
-            --form-border: rgba(0, 242, 167, 0.2);
-        }
-
-        /* === General Body and Animated Gradient Background === */
-        body {
-            font-family: 'Poppins', Arial, sans-serif;
-            background-color: var(--primary-bg);
-            background-image: linear-gradient(160deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        /* === "Glassmorphism" Form Container === */
-        .container {
-            width: 100%;
-            max-width: 450px;
-            margin: auto;
-            background: var(--form-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid var(--form-border);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            color: var(--text-color);
-        }
-        
-        #verifyMessage {
-            text-align: center;
-            color: var(--accent-green);
-            font-weight: bold;
-            background-color: rgba(0, 242, 167, 0.1);
-            border: 1px solid rgba(0, 242, 167, 0.3);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 450px;
-            box-sizing: border-box;
-            display: none;
-        }
-
-        h2 {
-            text-align: center;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-top: 0;
-            margin-bottom: 25px;
-        }
-
-        /* === Modern Tab Buttons === */
-        .tab-buttons {
-            display: flex;
-            justify-content: stretch;
-            margin-bottom: 30px;
-            background-color: rgba(0,0,0,0.2);
-            border-radius: 10px;
-            padding: 5px;
-        }
-
-        .tab-buttons button {
-            flex: 1;
-            padding: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            background: transparent;
-            color: rgba(255, 255, 255, 0.7);
-            border: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .tab-buttons button.active {
-            background-color: var(--accent-green);
-            color: var(--primary-bg);
-            box-shadow: 0 2px 10px rgba(0, 242, 167, 0.3);
-        }
-
-        .form-section { display: none; }
-        .form-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* === Polished Input Fields with Icons === */
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        .input-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.5);
-            transition: color 0.3s ease;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 14px 14px 14px 50px;
-            margin: 0;
-            border: 1px solid var(--form-border);
-            border-radius: 8px;
-            font-size: 1rem;
-            background: rgba(0,0,0,0.2);
-            color: var(--text-color);
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-        }
-        
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--accent-green);
-            box-shadow: 0 0 10px rgba(0, 242, 167, 0.3);
-        }
-        
-        input:focus ~ i {
-            color: var(--accent-green);
-        }
-
-        /* === Submit Button Styling === */
-        .submit-button {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue), var(--accent-green));
-            background-size: 200% 100%;
-            color: var(--primary-bg);
-            font-weight: 700;
-            font-size: 1.2rem;
-            border: none;
-            border-radius: 8px;
-            margin-top: 20px;
-            cursor: pointer;
-            transition: all 0.4s ease-in-out;
-        }
-
-        .submit-button:hover {
-            background-position: 100% 0;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 242, 167, 0.2);
-        }
-
-        /* === Link Button Styling === */
-        .link-button {
-            width: auto;
-            float: right;
-            background: none;
-            color: var(--accent-blue);
-            text-align: right;
-            margin-top: 10px;
-            padding: 5px 0;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        .link-button:hover {
-            text-decoration: underline;
-        }
+        :root { --primary-bg: #0d122b; --secondary-bg: #1f2937; --accent-green: #00f2a7; --accent-blue: #00c6ff; --text-color: #e5e7eb; --form-bg: rgba(31, 41, 55, 0.5); --form-border: rgba(0, 242, 167, 0.2); }
+        body { font-family: 'Poppins', Arial, sans-serif; background-color: var(--primary-bg); background-image: linear-gradient(160deg, var(--primary-bg) 0%, var(--secondary-bg) 100%); margin: 0; padding: 40px 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 450px; margin: auto; background: var(--form-bg); backdrop-filter: blur(10px); padding: 40px; border-radius: 20px; border: 1px solid var(--form-border); box-shadow: 0 10px 40px rgba(0,0,0,0.4); color: var(--text-color); }
+        #message { text-align: center; color: var(--accent-green); font-weight: bold; background-color: rgba(0, 242, 167, 0.1); border: 1px solid rgba(0, 242, 167, 0.3); padding: 15px; border-radius: 8px; margin-bottom: 20px; width: 100%; max-width: 450px; box-sizing: border-box; display: none; }
+        h2 { text-align: center; font-family: 'Montserrat', sans-serif; font-size: 2.2rem; margin-top: 0; margin-bottom: 25px; }
+        .tab-buttons { display: flex; justify-content: stretch; margin-bottom: 30px; background-color: rgba(0,0,0,0.2); border-radius: 10px; padding: 5px; }
+        .tab-buttons button { flex: 1; padding: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; background: transparent; color: rgba(255, 255, 255, 0.7); border: none; border-radius: 8px; transition: all 0.3s ease; }
+        .tab-buttons button.active { background-color: var(--accent-green); color: var(--primary-bg); box-shadow: 0 2px 10px rgba(0, 242, 167, 0.3); }
+        .form-section { display: none; } .form-section.active { display: block; }
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: rgba(255, 255, 255, 0.5); }
+        input, select { width: 100%; padding: 14px 14px 14px 50px; margin: 0; border: 1px solid var(--form-border); border-radius: 8px; font-size: 1rem; background: rgba(0,0,0,0.2); color: var(--text-color); }
+        .submit-button { width: 100%; padding: 16px; background: linear-gradient(90deg, var(--accent-green), var(--accent-blue), var(--accent-green)); background-size: 200% 100%; color: var(--primary-bg); font-weight: 700; font-size: 1.2rem; border: none; border-radius: 8px; margin-top: 20px; cursor: pointer; transition: background-position 0.4s ease-in-out; }
+        .submit-button:hover { background-position: 100% 0; }
+/* === Styles for the Autocomplete Suggestion Box === */
+.suggestion-box {
+    position: relative; /* Stays within the normal document flow */
+    z-index: 10;
+    max-height: 150px;
+    overflow-y: auto;
+    background: var(--secondary-bg);
+    border: 1px solid var(--form-border);
+    border-radius: 8px;
+    margin-top: -15px; /* Pulls it up closer to the input field */
+    display: none; /* Hidden by default */
+}
+.suggestion-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    color: var(--text-color);
+}
+.suggestion-item:hover {
+    background-color: var(--accent-green);
+    color: var(--primary-bg);
+}
     </style>
 </head>
 <body>
 
 <h1 style="color: white; text-align: center; font-size: 3rem; margin-bottom: 20px;">LIC-CONNECT</h1>
-
-<p id="verifyMessage">
-  ✅ Verify the email sent to your inbox to complete registration.
-</p>
-
-
+<p id="message"></p>
 
 <div class="container">
   <div class="tab-buttons">
-
     <button id="loginTab" class="active" onclick="showForm('loginForm')">Login</button>
     <button id="signupTab" onclick="showForm('signupForm')">Signup</button>
   </div>
@@ -215,233 +60,181 @@
   <!-- Login Form -->
   <div id="loginForm" class="form-section active">
     <h2>Welcome Back!</h2>
+    <p style="margin-bottom: 20px; color: #ccc;">Enter your email to receive a secure login link.</p>
     <div class="input-group">
         <input type="email" id="loginEmail" placeholder="Email" required />
         <i class="fas fa-envelope"></i>
     </div>
-    <div class="input-group">
-        <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password" />
-        <i class="fas fa-lock"></i>
-    </div>
-    <button class="submit-button" onclick="handleLogin()">Proceed</button>
-    <button class="link-button" onclick="handleForgotPassword()">Forgot Password?</button>
+    <button class="submit-button" onclick="handleMagicLinkLogin()">Send Login Link</button>
   </div>
 
   <!-- Signup Form -->
   <div id="signupForm" class="form-section">
     <h2>Create Account</h2>
-    <div class="input-group">
-        <input type="text" id="signupName" placeholder="Full Name" required />
-        <i class="fas fa-user"></i>
+    <div class="input-group"><input type="text" id="signupName" placeholder="Full Name" required /><i class="fas fa-user"></i></div>
+    <div class="input-group"><input type="email" id="signupEmail" placeholder="Email" required /><i class="fas fa-envelope"></i></div>
+    <div class="input-group"><select id="signupGender" required><option value="" disabled selected>Select Gender</option><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select></div>
+    <div class="input-group"><input type="text" id="signupMobile" placeholder="Mobile Number" /><i class="fas fa-phone"></i></div>
+<div class="input-group">
+      <div class="input-group">
+    <input type="text" id="signupCity" placeholder="City" oninput="handleCityInput(this.value)" autocomplete="off" />
+    <i class="fas fa-city"></i>
+</div>
+<div id="city-suggestions" class="suggestion-box"></div>
     </div>
-    <div class="input-group">
-        <input type="email" id="signupEmail" placeholder="Email" required />
-        <i class="fas fa-envelope"></i>
-    </div>
-    <div class="input-group">
-        <input type="password" id="signupPassword" placeholder="Password" required autocomplete="new-password" />
-        <i class="fas fa-lock"></i>
-    </div>
-    <div class="input-group">
-        <select id="signupGender" required>
-            <option value="" disabled selected>Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-        </select>
-    </div>
-    <div class="input-group">
-        <input type="text" id="signupMobile" placeholder="Mobile Number" />
-        <i class="fas fa-phone"></i>
-    </div>
-    <div class="input-group">
-        <input type="text" id="signupCity" placeholder="City" oninput="suggestCity(this.value)" />
-        <i class="fas fa-city"></i>
-    </div>
-    <div class="input-group">
-        <input type="text" id="signupState" placeholder="State" readonly />
-        <i class="fas fa-map-marker-alt"></i>
-    </div>
-    <div class="input-group">
-        <input type="text" id="signupCountry" placeholder="Country" readonly />
-        <i class="fas fa-globe"></i>
-    </div>
-    <div class="input-group">
-        <input type="text" id="signupProfession" placeholder="Profession" />
-        <i class="fas fa-briefcase"></i>
-    </div>
-    <div class="input-group">
-        <input type="text" id="signupIncome" placeholder="Annual Income" />
-        <i class="fas fa-rupee-sign"></i>
-    </div>
-    <button class="submit-button" onclick="handleSignup()">Signup</button>
+    <div id="city-suggestions" class="suggestion-box"></div>
+    <div class="input-group"><input type="text" id="signupState" placeholder="State"/><i class="fas fa-map-marker-alt"></i></div>
+    <div class="input-group"><input type="text" id="signupCountry" placeholder="Country"/><i class="fas fa-globe"></i></div>
+    <div class="input-group"><input type="text" id="signupProfession" placeholder="Profession" /><i class="fas fa-briefcase"></i></div>
+    <div class="input-group"><input type="text" id="signupIncome" placeholder="Annual Income" /><i class="fas fa-rupee-sign"></i></div>
+    <button class="submit-button" onclick="handleSignup()">Signup with Magic Link</button>
   </div>
 </div>
 
 <script>
-  const supabase = window.supabase.createClient(
-    'https://efduqdondmlzmwhfgkfz.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
-  );
+    const supabase = window.supabase.createClient(
+        'https://efduqdondmlzmwhfgkfz.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
+    );
 
-  //  Password Reset Flow
-  // ✅ Correct Password Reset Flow
-window.addEventListener('load', async () => {
-  const url = new URL(window.location.href);
-  const hash = url.hash;
-
-  if (hash.includes('access_token') && hash.includes('type=recovery')) {
-    // Wait for Supabase to authenticate the user via the token
-    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-
-    if (sessionError || !sessionData.session) {
-      alert("Session not found. Try the reset link again.");
-      return;
+    function showMessage(text) {
+        const msgEl = document.getElementById('message');
+        msgEl.textContent = '✅ ' + text;
+        msgEl.style.display = 'block';
     }
 
-    const newPassword = prompt("Enter your new password:");
-    if (!newPassword) return;
+    // ✅ THIS IS THE CORRECTED FUNCTION
+    function showForm(formId) {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('signupForm').style.display = 'none';
+        document.getElementById(formId).style.display = 'block';
 
-    const { error: updateError } = await supabase.auth.updateUser({
-      password: newPassword
-    });
+        document.getElementById('loginTab').classList.remove('active');
+        document.getElementById('signupTab').classList.remove('active');
 
-    if (updateError) {
-      alert("Password reset failed: " + updateError.message);
-    } else {
-      alert("Password updated successfully! Please login again.");
-      window.location.href = "signup.html";
+        if (formId === 'loginForm') {
+            document.getElementById('loginTab').classList.add('active');
+        } else {
+            document.getElementById('signupTab').classList.add('active');
+        }
     }
-  }
-});
+    // We need to call showForm on DOMContentLoaded to set the initial state
+    document.addEventListener('DOMContentLoaded', () => showForm('loginForm'));
 
-  document.getElementById('loginTab').onclick = () => toggleTab('login');
-  document.getElementById('signupTab').onclick = () => toggleTab('signup');
 
-  function toggleTab(tab) {
-    document.getElementById('loginTab').classList.toggle('active', tab === 'login');
-    document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
-    document.getElementById('loginForm').classList.toggle('active', tab === 'login');
-    document.getElementById('signupForm').classList.toggle('active', tab === 'signup');
-  }
-
-  const cityMap = {
-    'Mumbai': { state: 'Maharashtra', country: 'India' },
-    'Delhi': { state: 'Delhi', country: 'India' },
-    'Chennai': { state: 'Tamil Nadu', country: 'India' },
-    'Kolkata': { state: 'West Bengal', country: 'India' },
-    'New York': { state: 'New York', country: 'USA' },
-    'London': { state: 'England', country: 'UK' }
-  };
-
-  function suggestCity(input) {
-    const city = input.trim();
-    if (city.length >= 3 && cityMap[city]) {
-      document.getElementById('signupState').value = cityMap[city].state;
-      document.getElementById('signupCountry').value = cityMap[city].country;
+    // --- CITY MAP AND AUTOCOMPLETE LOGIC ---
+    const cityMap = {
+        'Mumbai': { state: 'Maharashtra', country: 'India' },
+        'Delhi': { state: 'Delhi', country: 'India' },
+        'Chennai': { state: 'Tamil Nadu', country: 'India' },
+        'Kolkata': { state: 'West Bengal', country: 'India' },
+        'Bangalore': { state: 'Karnataka', country: 'India' },
+        'Hyderabad': { state: 'Telangana', country: 'India' },
+        'Pune': { state: 'Maharashtra', country: 'India' },
+        'New York': { state: 'New York', country: 'USA' },
+        'London': { state: 'England', country: 'UK' }
+    };
+    function handleCityInput(input) {
+        const suggestionsBox = document.getElementById('city-suggestions');
+        const cityInput = document.getElementById('signupCity').value.toLowerCase().trim();
+        if (cityInput.length < 2) {
+            suggestionsBox.innerHTML = ''; suggestionsBox.style.display = 'none'; return;
+        }
+        const matches = Object.keys(cityMap).filter(city => city.toLowerCase().startsWith(cityInput));
+        if (matches.length > 0) {
+            const html = matches.map(match => `<div class="suggestion-item" onclick="selectCity('${match}')">${match}</div>`).join('');
+            suggestionsBox.innerHTML = html; suggestionsBox.style.display = 'block';
+        } else {
+            suggestionsBox.innerHTML = ''; suggestionsBox.style.display = 'none';
+        }
     }
-  }
-
-async function handleSignup() {
-    const email = document.getElementById('signupEmail').value;
-    const password = document.getElementById('signupPassword').value;
-    const fullName = document.getElementById('signupName').value;
-    const gender = document.getElementById('signupGender').value;
-    const mobile = document.getElementById('signupMobile').value;
-    const city = document.getElementById('signupCity').value;
-    const state = document.getElementById('signupState').value;
-    const country = document.getElementById('signupCountry').value;
-    const profession = document.getElementById('signupProfession').value;
-    const annualIncome = document.getElementById('signupIncome').value;
-
-    const { data: signupData, error: signupError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: fullName,
-          gender,
-          mobile,
-          city,
-          state,
-          country,
-          profession,
-          annual_income: annualIncome
-        },
-        // ✅ THE FIX IS HERE: Using the direct, live URL for your GitHub site.
-        emailRedirectTo: 'https://lic-connect.github.io/main.html'
-      }
-    });
-
-    if (signupError) {
-      alert('Signup Error: ' + signupError.message);
-      return;
+    function selectCity(city) {
+        document.getElementById('signupCity').value = city;
+        if (cityMap[city]) {
+            document.getElementById('signupState').value = cityMap[city].state;
+            document.getElementById('signupCountry').value = cityMap[city].country;
+        }
+        document.getElementById('city-suggestions').style.display = 'none';
     }
 
-    document.getElementById("verifyMessage").style.display = "block";
-    alert('Signup successful! Please check your email and verify before logging in.');
-  }
-  async function handleLogin() {
-  const email = document.getElementById('loginEmail').value;
-  const password = document.getElementById('loginPassword').value;
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if (error) {
-    alert('Login failed: ' + error.message);
-  } else {
-    const userId = data.user.id;
-
-    // Try to fetch full_name from profiles table
-    const { data: profileData, error: profileError } = await supabase
-      .from('profiles')
-      .select('full_name')
-      .eq('id', userId)
-      .single();
-
-    if (!profileError && profileData) {
-      alert('Welcome ' + profileData.full_name);
-    } else {
-      alert('Welcome ' + data.user.email);
+    // --- HELPER FUNCTION TO CLEAR THE SIGNUP FORM ---
+    function clearSignupForm() {
+        document.getElementById('signupName').value = ''; document.getElementById('signupEmail').value = '';
+        document.getElementById('signupGender').value = ''; document.getElementById('signupMobile').value = '';
+        document.getElementById('signupCity').value = ''; document.getElementById('signupState').value = '';
+        document.getElementById('signupCountry').value = ''; document.getElementById('signupProfession').value = '';
+        document.getElementById('signupIncome').value = '';
     }
 
-    window.location.href = 'main.html';
-  }
-}
-
-async function handleForgotPassword() {
-    const email = document.getElementById('loginEmail').value;
-
-    if (!email) {
-      alert('Please enter your email first.');
-      return;
+    // --- RELIABLE MAGIC LINK LOGIN ---
+    async function handleMagicLinkLogin() {
+        const email = document.getElementById('loginEmail').value;
+        if (!email) return alert('Please enter your email.');
+        const { error } = await supabase.auth.signInWithOtp({
+            email: email,
+            options: { emailRedirectTo: window.location.origin + '/main.html' }
+        });
+        if (error) alert('Error: ' + error.message);
+        else showMessage('Login link sent! Please check your email inbox to log in.');
     }
+    
+    // --- RELIABLE MAGIC LINK SIGNUP (with full validation) ---
+    async function handleSignup() {
+        const fullName = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const gender = document.getElementById('signupGender').value;
+        const mobile = document.getElementById('signupMobile').value;
+        const city = document.getElementById('signupCity').value;
+        const profession = document.getElementById('signupProfession').value;
+        const annualIncome = document.getElementById('signupIncome').value;
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      // ✅ THE FIX IS HERE: Using the direct, live URL for your GitHub site.
-      redirectTo: 'https://lic-connect.github.io/signup.html'
-    });
+        const requiredFields = {
+            'signupName': 'Full Name', 'signupEmail': 'Email', 'signupGender': 'Gender',
+            'signupMobile': 'Mobile Number', 'signupCity': 'City',
+            'signupProfession': 'Profession', 'signupIncome': 'Annual Income'
+        };
+        const missingFields = [];
+        for (const id in requiredFields) {
+            if (!document.getElementById(id).value) {
+                missingFields.push(requiredFields[id]);
+            }
+        }
+        if (missingFields.length > 0) {
+            return alert('Please fill in all required fields:\n\n- ' + missingFields.join('\n- '));
+        }
 
-    if (error) {
-      alert('Error sending reset email: ' + error.message);
-    } else {
-      alert('Password reset email sent. Please check your inbox.');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const mobileRegex = /^[0-9]{10}$/;
+        if (!emailRegex.test(email)) return alert("Please enter a valid email address.");
+        if (!mobileRegex.test(mobile)) return alert("Please enter a valid 10-digit mobile number.");
+
+        try {
+            const { error: insertError } = await supabase.from('signups').insert({ 
+                full_name: fullName, email: email, gender: gender, mobile: mobile, city: city,
+                state: document.getElementById('signupState').value, country: document.getElementById('signupCountry').value,
+                profession: profession, annual_income: annualIncome
+            });
+            if (insertError) throw insertError;
+
+            const { error: magicLinkError } = await supabase.auth.signInWithOtp({
+                email: email, options: { emailRedirectTo: window.location.origin + '/main.html' }
+            });
+            if (magicLinkError) throw magicLinkError;
+            
+            showMessage('Signup successful! Please check your email to verify and log in.');
+            clearSignupForm();
+            setTimeout(() => { showForm('loginForm'); }, 2000);
+        } catch (error) {
+            console.error('An error occurred during signup:', error);
+            alert('Signup Failed: ' + error.message);
+        }
     }
-  }
 </script>
+<!-- PWA Service Worker Registration -->
 <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw-workbox.js')
-                .then(registration => {
-                    console.log('Workbox service worker registered successfully:', registration);
-                })
-                .catch(error => {
-                    console.error('Workbox service worker registration FAILED:', error);
-                });
+            navigator.serviceWorker.register('sw-workbox.js');
         });
     }
 </script>
