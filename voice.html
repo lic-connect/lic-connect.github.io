@@ -3,62 +3,118 @@
 <head>
   <meta charset="UTF-8" />
   <title>LIC Voice Alert System</title>
+<!-- PWA: Link to the Manifest File -->
+<link rel="manifest" href="manifest.json">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
 <style>
   /* ✅ Import ANTON font at the very top */
-  @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
   body {
-    font-family: 'Anton', sans-serif;
-    background: #f4f4f4;
+    font-family: 'Poppins', sans-serif; /* Switched to a cleaner font */
+    background-color: #0866FF; /* MODERN FACEBOOK BLUE BACKGROUND */
     padding: 40px;
-  }
-
-  .voice-button {
-    background: linear-gradient(to bottom, #444, #111);
-    color: white;
-    font-family: 'Anton', sans-serif;
-    font-size: 20px;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 12px;
-    box-shadow:
-      inset 0 -4px 10px rgba(255, 255, 255, 0.1),
-      0 8px 20px rgba(0, 0, 0, 0.7);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: center;
-  }
-
-  .voice-button:hover {
-    transform: scale(1.05);
-    box-shadow:
-      inset 0 -4px 10px rgba(255, 255, 255, 0.2),
-      0 12px 25px rgba(0, 0, 0, 0.9);
+    display: flex; /* Helps center the container */
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
   }
 
   .container {
     max-width: 500px;
+    width: 100%;
     margin: auto;
     background: white;
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #ccc;
+    border-radius: 15px; /* Softer corners */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center; /* Center container content */
   }
 
-  input, button, select {
+  h2 {
+    font-family: 'Anton', sans-serif; /* Keep Anton for the heading */
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+    color: #333;
+  }
+
+  input, select {
     display: block;
     width: 100%;
-    margin: 12px 0;
-    padding: 10px;
-    font-size: 16px;
-    font-family: 'Anton', sans-serif;
+    margin: 15px 0;
+    padding: 12px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  /* Container for the buttons */
+  .button-container {
+    display: flex;
+    gap: 15px; /* Space between buttons */
+    margin-top: 20px;
+  }
+  
+  .voice-button {
+    flex-grow: 1; /* Makes buttons share space equally */
+    padding: 15px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .voice-button i {
+    margin-right: 10px;
+  }
+
+  #submit-button {
+    background-color: #28a745; /* Green for "Go" */
+    color: white;
+  }
+  #submit-button:hover {
+    background-color: #218838;
+  }
+
+  #stop-button {
+    background-color: #dc3545; /* Red for "Stop" */
+    color: white;
+  }
+  #stop-button:hover {
+    background-color: #c82333;
   }
 
   #statusMsg {
-    margin-top: 20px;
-    color: green;
-    font-weight: bold;
+    margin-top: 25px;
+    color: #0866FF; /* Match the background blue */
+    font-weight: 500;
+    min-height: 1.2em; /* Prevents layout shift */
+  }
+  
+  .home-button-container {
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    z-index: 1000;
+  }
+
+  .home-button-container a img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Circular home button */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+  }
+
+  .home-button-container a:hover img {
+    transform: scale(1.1);
   }
 </style>
 
@@ -72,7 +128,10 @@
     <option value="en">English</option>
     <option value="hi-IN">Hindi</option>
   </select>
-  <button onclick="fetchAndSpeak()">Submit</button>
+<div class="button-container">
+  <button id="submit-button" class="voice-button" onclick="fetchAndSpeak()"><i class="fas fa-play"></i> Submit</button>
+  <button id="stop-button" class="voice-button" onclick="stopSpeaking()"><i class="fas fa-stop"></i> Stop</button>
+</div>
   <p id="statusMsg"></p>
 </div>
 
@@ -82,7 +141,42 @@
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44" // Replace with yours
   );
 
-  async function fetchAndSpeak() {
+// Add this translation dictionary right after your supabase client
+const translations = {
+    "here are your LIC policy updates": "यहाँ आपके एलआईसी पॉलिसी अपडेट हैं",
+    "Survival Benefit of": "जीवन रक्षा लाभ",
+    "is due on": "को देय है",
+    "Maturity amount of": "परिपक्वता राशि",
+    "Your premium is due on": "आपका प्रीमियम देय है",
+    "Accrued Bonus is": "उपार्जित बोनस है",
+    "Final Additional Bonus is": "अंतिम अतिरिक्त बोनस है",
+    "Guaranteed Addition is": "गारंटीड एडीशन है",
+    "Loyalty Addition is": "लॉयल्टी एडीशन है",
+    "Loan details:": "ऋण विवरण:",
+    "Revival details:": "पुनरुद्धार विवरण:",
+    "Policy not found": "पॉलिसी नहीं मिली",
+    "rupees": "रुपये"
+};
+
+// Add this helper function to handle translation
+function translate(text, lang) {
+    if (lang !== 'hi-IN') {
+        return text; // If language is not Hindi, return the original English text
+    }
+
+    // A simple function to replace English parts with Hindi
+    let translatedText = text;
+    translatedText = translatedText.replace(/₹/g, `${translations.rupees} `);
+    
+    for (const [english, hindi] of Object.entries(translations)) {
+        if (text.includes(english)) {
+            translatedText = translatedText.replace(english, hindi);
+        }
+    }
+    return translatedText;
+}
+
+async function fetchAndSpeak() {
     const policyNumber = document.getElementById("policyNumber").value.trim();
     const name = document.getElementById("name").value.trim();
     const lang = document.getElementById("language").value;
@@ -98,43 +192,45 @@
       .single();
 
     if (error || !data) {
-      speakText("Policy not found", lang);
+      const notFoundText = translate("Policy not found", lang);
+      speakText(notFoundText, lang);
       statusEl.textContent = "Policy not found!";
       return;
     }
 
     const alerts = [];
+    const policyholderName = (lang === 'hi-IN') ? data.name : data.name; // Name remains as is
 
     // Policyholder name
-    alerts.push(`${data.name}, here are your LIC policy updates.`);
+    alerts.push(`${policyholderName}, ${translate("here are your LIC policy updates", lang)}`);
 
     // SB Due
     if (data.sb_due_date && data.sb_amount) {
-      alerts.push(`Survival Benefit of ₹${data.sb_amount} is due on ${formatDate(data.sb_due_date)}.`);
+      alerts.push(`${translate("Survival Benefit of", lang)} ₹${data.sb_amount} ${translate("is due on", lang)} ${formatDate(data.sb_due_date)}.`);
     }
 
     // Maturity
     if (data.maturity_date && data.maturity_amount) {
-      alerts.push(`Maturity amount of ₹${data.maturity_amount} is due on ${formatDate(data.maturity_date)}.`);
+      alerts.push(`${translate("Maturity amount of", lang)} ₹${data.maturity_amount} ${translate("is due on", lang)} ${formatDate(data.maturity_date)}.`);
     }
 
-    // Calculate next premium due date (assuming yearly mode)
+    // Calculate next premium due date
     const nextDue = calculateNextDue(data.date_of_commencement, data.mode_of_premium);
     if (nextDue) {
-      alerts.push(`Your premium is due on ${formatDate(nextDue)}.`);
+      alerts.push(`${translate("Your premium is due on", lang)} ${formatDate(nextDue)}.`);
     }
 
     // Bonus/FAB/GA/LA
-    if (data.bonus > 0) alerts.push(`Accrued Bonus is ₹${data.bonus}.`);
-    if (data.fab > 0) alerts.push(`Final Additional Bonus is ₹${data.fab}.`);
-    if (data.ga > 0) alerts.push(`Guaranteed Addition is ₹${data.ga}.`);
-    if (data.la > 0) alerts.push(`Loyalty Addition is ₹${data.la}.`);
+    if (data.bonus > 0) alerts.push(`${translate("Accrued Bonus is", lang)} ₹${data.bonus}.`);
+    if (data.fab > 0) alerts.push(`${translate("Final Additional Bonus is", lang)} ₹${data.fab}.`);
+    if (data.ga > 0) alerts.push(`${translate("Guaranteed Addition is", lang)} ₹${data.ga}.`);
+    if (data.la > 0) alerts.push(`${translate("Loyalty Addition is", lang)} ₹${data.la}.`);
 
     // Loan Info
-    if (data.sloan_details) alerts.push(`Loan details: ${data.sloan_details}.`);
+    if (data.sloan_details) alerts.push(`${translate("Loan details:", lang)} ${data.sloan_details}.`);
 
     // Revival Info
-    if (data.revival_details) alerts.push(`Revival details: ${data.revival_details}.`);
+    if (data.revival_details) alerts.push(`${translate("Revival details:", lang)} ${data.revival_details}.`);
 
     // Speak all alerts
     alerts.forEach(line => speakText(line, lang));
@@ -146,6 +242,10 @@
     utter.lang = lang;
     utter.rate = 1;
     speechSynthesis.speak(utter);
+  }
+function stopSpeaking() {
+    speechSynthesis.cancel();
+    document.getElementById("statusMsg").textContent = "Voice alerts stopped.";
   }
 
   function formatDate(dateStr) {
@@ -170,5 +270,24 @@
     return start;
   }
 </script>
+<div class="home-button-container">
+  <a href="/main.html" title="Go to Home">
+    <img src="images/home-icon.png" alt="Home">
+  </a>
+</div>
+<!-- PWA: Register the Workbox Service Worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw-workbox.js')
+                .then(registration => {
+                    console.log('Workbox service worker registered successfully:', registration);
+                })
+                .catch(error => {
+                    console.error('Workbox service worker registration FAILED:', error);
+                });
+        });
+    }
+</script>  
 </body>
 </html>
