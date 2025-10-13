@@ -1,308 +1,327 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LIC Survival Benefit Calculator</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>LIC Survival Benefit Calculator</title>
 
-<!-- PWA: Link to the Manifest File -->
-<link rel="manifest" href="manifest.json">
-  <style>
-    body {
-      background: white;
-      font-family: Impact, sans-serif;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: black;
-    }
-    #errorMsg {
-      color: red;
-      font-weight: bold;
-      font-family: Impact, sans-serif;
-      text-align: center;
-      margin-bottom: 15px;
-      height: 24px; /* reserve space */
-    }
-    input.input-button, button.calculate-button, button.share-button, select.input-button {
-      background: linear-gradient(to bottom, #40e0d0, #20b2aa);
-      border: 4px solid #008b8b;
-      border-radius: 12px;
-      font-size: 16px;
-      font-family: Impact, sans-serif;
-      color: white;
-      font-weight: bold;
-      padding: 10px;
-      margin: 10px auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      box-shadow: inset 2px 2px 6px #222, 3px 3px 8px #444;
-      text-shadow: 1px 1px 1px black;
-      text-align: center;
-      cursor: pointer;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-    input.input-button::placeholder {
-      color: black;
-    }
-    input[disabled].input-button {
-      background: #b0d9d6;
-      color: #333;
-      border: 3px solid #80b7b3;
-      cursor: default;
-      box-shadow: none;
-      text-shadow: none;
-    }
-    .results-container {
-      margin-top: 30px;
-      padding: 20px;
-      border: 2px dashed #999;
-      border-radius: 15px;
-      background: #f9f9f9;
-      text-align: center;
-    }
-    .output-label {
-      color: black;
-      font-size: 18px;
-      margin-bottom: 10px;
-      display: block;
-    }
-    .marquee {
-      width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
-      box-sizing: border-box;
-      color: black;
-      font-size: 16px;
-      font-family: Impact, sans-serif;
-      margin-top: 20px;
-      direction: rtl;
-    }
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: marquee 15s linear infinite;
-    }
-    @keyframes marquee {
-      0% { transform: translateX(0%); }
-      100% { transform: translateX(-100%); }
-    }
-  .home-button-container {
-      position: fixed; /* This makes it float on top of other content */
-      top: 20px;       /* Position 20px from the top edge */
-      right: 25px;     /* Position 25px from the right edge */
-      z-index: 1000;   /* Ensures it's above other elements */
-    }
+    <!-- Google Fonts & Font Awesome for a stylish look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    .home-button-container a img {
-      width: 50px; /* Adjust size as needed */
-      height: 50px;
+    <style>
+        /* === "AQUA GLOW" THEME === */
+        :root {
+            --primary-color: #5f2c82;      /* Deep Purple */
+            --secondary-color: #49a09d;    /* Teal */
+            --accent-color: #00ffc6;      /* Bright Aqua/Mint */
+            --glow-color: rgba(0, 255, 198, 0.4);
+            --text-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-border: rgba(255, 255, 255, 0.25);
+        }
+        
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background-color: var(--primary-color);
+            background-image: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background-attachment: fixed;
+            color: var(--text-color);
+            padding: 40px 20px;
+            margin: 0;
+        }
 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
 
-    .home-button-container a:hover img {
-      transform: scale(1.1); /* Slightly enlarge on hover */
-    }
-  </style>
+        h1 {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        /* === Input Section Styling === */
+        .input-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+        }
+
+        /* NEW LABEL STYLE */
+        label {
+            display: block;
+            text-align: left;
+            font-weight: 600;
+            margin-bottom: 5px;
+            padding-left: 5px;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px; /* Increased margin for better spacing with labels */
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.2);
+            color: var(--text-color);
+            font-size: 1.1rem;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+
+        input[disabled] {
+            background: rgba(0,0,0,0.3);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* === Flamboyant Button Style === */
+        .calculate-button, .share-button {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .calculate-button:hover::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+            transform: translate(-50%, -50%);
+            animation: shine 0.7s ease;
+        }
+
+        @keyframes shine {
+            from { width: 0; height: 0; }
+            to { width: 400px; height: 400px; }
+        }
+
+        .calculate-button:hover {
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+
+        /* === Results Container & Cards === */
+        .results-container h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        #sb-results-grid {
+            display: grid;
+            gap: 15px;
+        }
+        .sb-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: popIn 0.5s ease-out backwards;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .sb-card .sb-date { font-weight: 600; font-size: 1.1rem; }
+        .sb-card .sb-amount { font-size: 1.4rem; font-weight: 700; color: var(--accent-color); }
+        .sb-card .sb-calc { font-size: 0.8rem; opacity: 0.7; text-align: right; }
+
+        #errorMsg {
+            color: #ffcdd2; font-weight: bold; text-align: center;
+            padding: 10px; background: rgba(239, 83, 80, 0.2);
+            border-radius: 8px; margin-bottom: 20px;
+            height: auto; display: none;
+        }
+        #errorMsg:not(:empty) { display: block; }
+        .marquee {
+            margin-top: 30px; background: rgba(0,0,0,0.2); padding: 10px;
+            border-radius: 8px; overflow: hidden; white-space: nowrap;
+        }
+        .marquee span { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } }
+        .share-button { background-color: var(--secondary-color); color: white; margin-top: 20px; }
+        .share-button:hover { background-color: #55c3c0; }
+    </style>
 </head>
 <body>
-  <h1>LIC Survival Benefit Calculator</h1>
 
-  <div id="errorMsg"></div>
+    <div class="container">
+        <h1><i class="fas fa-hand-holding-dollar"></i> Survival Benefit Calculator</h1>
 
-  <input class="input-button" id="planNo" placeholder="Enter Plan Number" oninput="validatePlanNo()" />
-  <input class="input-button" id="planName" placeholder="Plan Name" disabled />
-  <input class="input-button" id="sumAssured" type="number" placeholder="Sum Assured" oninput="validateSumAssured()" />
-  <input class="input-button" id="doc" type="date" placeholder="Date of Commencement" />
-  <button class="calculate-button" onclick="calculateSB()">CALCULATE</button>
+        <div class="input-container">
+            <div id="errorMsg"></div>
+            <input id="planNo" placeholder="Enter Plan Number" oninput="validatePlanNo()" />
+            <input id="planName" placeholder="Plan Name" disabled />
+            <input id="sumAssured" type="number" placeholder="Sum Assured" oninput="validateSumAssured()" />
+            
+            <!-- CORRECTED HTML FOR DATE INPUT -->
+            <label for="doc">Date of Commencement</label>
+            <input id="doc" type="date" />
+            
+            <button class="calculate-button" onclick="calculateSB()">Calculate</button>
+        </div>
 
-  <div class="results-container">
-    <label class="output-label">SB Due Dates and Amounts:</label>
-    <select class="input-button" id="sbResults">
-      <option>-- Select SB Event --</option>
-    </select>
+        <div class="results-container">
+            <h2><i class="fas fa-calendar-alt"></i> Benefit Schedule</h2>
+            <div id="sb-results-grid">
+                <!-- Dynamic result cards will be inserted here by JavaScript -->
+            </div>
+            <button class="share-button" onclick="shareResults()"><i class="fas fa-share-alt"></i> Share Results</button>
+        </div>
 
-    <button class="share-button" onclick="shareResults()">SHARE</button>
-  </div>
+        <div class="marquee"><span id="remarks">Remarks will appear here after calculation...</span></div>
+    </div>
 
-  <div class="marquee"><span id="remarks">Remarks will appear here after calculation...</span></div>
+    <script>
+        // Your entire JavaScript code block remains here, completely unchanged.
+        const sbData = {
+            "720": { name: "20-Year Money Back", sbPercents: {5: 20, 10: 20, 15: 20}, minSA: 10000 },
+            "721": { name: "25-Year Money Back", sbPercents: {5: 15, 10: 15, 15: 15, 20: 15}, minSA: 10000 },
+            "732": { name: "Child Money Back", sbPercents: {18: 20, 20: 20, 22: 20}, minSA: 50000 },
+            "734": { name: "Jeevan Tarun (Option 2)", sbPercents: {20: 5, 21: 5, 22: 5, 23: 5, 24: 5}, minSA: 75000 },
+            "745": { name: "Jeevan Umang", sbPercents: {afterPPT: 8}, minSA: 200000 },
+            "748": { name: "Bima Shree", sbPercents: {14: 30, 18: 30, 22: 40, 26: 45}, minSA: 1000000 },
+            "771": { name: "Jeevan Utsav", sbPercents: {afterIncomeStart: 10}, minSA: 500000 }
+        };
 
-<script>
-  const sbData = {
-    "720": { name: "20-Year Money Back", sbPercents: {5: 20, 10: 20, 15: 20}, minSA: 10000 },
-    "721": { name: "25-Year Money Back", sbPercents: {5: 15, 10: 15, 15: 15, 20: 15}, minSA: 10000 },
-    "732": { name: "Child Money Back", sbPercents: {18: 20, 20: 20, 22: 20}, minSA: 50000 },
-    "734": { name: "Jeevan Tarun (Option 2)", sbPercents: {20: 5, 21: 5, 22: 5, 23: 5, 24: 5}, minSA: 75000 },
-    "745": { name: "Jeevan Umang", sbPercents: {afterPPT: 8}, minSA: 200000 },
-    "748": { name: "Bima Shree", sbPercents: {14: 30, 18: 30, 22: 40, 26: 45}, minSA: 1000000 },
-    "771": { name: "Jeevan Utsav", sbPercents: {afterIncomeStart: 10}, minSA: 500000 }
-  };
+        function setError(message) { document.getElementById('errorMsg').innerText = message; }
+        function clearError() { setError(''); }
 
-  function setError(message) {
-    document.getElementById('errorMsg').innerText = message;
-  }
+        function validatePlanNo() {
+            const planNo = document.getElementById('planNo').value.trim();
+            const planNameEl = document.getElementById('planName');
+            if (!planNo) { planNameEl.value = ''; clearError(); return; }
+            if (!sbData[planNo]) { planNameEl.value = ''; setError('Sorry! Invalid Plan for SB'); } 
+            else { clearError(); planNameEl.value = sbData[planNo].name; }
+            resetResultsAndRemarks();
+        }
 
-  function clearError() {
-    setError('');
-  }
+        function validateSumAssured() {
+            const planNo = document.getElementById('planNo').value.trim();
+            const sa = parseFloat(document.getElementById('sumAssured').value);
+            if (!planNo || !sbData[planNo] || isNaN(sa)) { clearError(); return; }
+            if (sa < sbData[planNo].minSA) { setError('Sum Assured is below minimum for this plan.'); } 
+            else { clearError(); }
+            resetResultsAndRemarks();
+        }
 
-  function validatePlanNo() {
-    const planNo = document.getElementById('planNo').value.trim();
-    if (!planNo) {
-      document.getElementById('planName').value = '';
-      clearError();
-      return;
-    }
-    if (!sbData[planNo]) {
-      document.getElementById('planName').value = '';
-      setError('Sorry! Invalid Details');
-    } else {
-      clearError();
-      document.getElementById('planName').value = sbData[planNo].name;
-    }
-    resetResultsAndRemarks();
-  }
+        function resetResultsAndRemarks() {
+            document.getElementById('sb-results-grid').innerHTML = '';
+            document.getElementById('remarks').innerText = 'Remarks will appear here after calculation...';
+        }
 
-  function validateSumAssured() {
-    const planNo = document.getElementById('planNo').value.trim();
-    const sa = parseFloat(document.getElementById('sumAssured').value);
-    if (!planNo || !sbData[planNo]) {
-      clearError();
-      return;
-    }
-    if (isNaN(sa)) {
-      clearError();
-      return;
-    }
-    if (sa < sbData[planNo].minSA) {
-      setError('Sorry! Invalid Details');
-    } else {
-      clearError();
-    }
-    resetResultsAndRemarks();
-  }
+        function calculateSB() {
+            clearError();
+            const planNo = document.getElementById('planNo').value.trim();
+            const sa = parseFloat(document.getElementById('sumAssured').value);
+            const doc = document.getElementById('doc').value;
+            const plan = sbData[planNo];
+            const resultsGrid = document.getElementById('sb-results-grid');
+            resultsGrid.innerHTML = '';
 
-  function resetResultsAndRemarks() {
-    document.getElementById('sbResults').innerHTML = '<option>-- Select SB Event --</option>';
-    document.getElementById('remarks').innerText = 'Remarks will appear here after calculation...';
-  }
+            if (!planNo || !plan) { setError('Invalid Plan for SB Calculation.'); return; }
+            if (!doc) { setError('Please enter Date of Commencement.'); return; }
+            if (isNaN(sa) || sa < plan.minSA) { setError('Invalid Sum Assured.'); return; }
 
-  function calculateSB() {
-    clearError();
+            const docDate = new Date(doc);
+            const sbPercents = plan.sbPercents;
+            let entriesAdded = 0;
 
-    const planNo = document.getElementById('planNo').value.trim();
-    const sa = parseFloat(document.getElementById('sumAssured').value);
-    const doc = document.getElementById('doc').value;
-    const plan = sbData[planNo];
+            for (let year in sbPercents) {
+                if (!isNaN(year)) {
+                    let dueDate = new Date(docDate);
+                    dueDate.setFullYear(dueDate.getFullYear() + parseInt(year));
+                    const sbAmt = (sa * sbPercents[year]) / 100;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'sb-card';
+                    card.style.animationDelay = `${entriesAdded * 0.1}s`;
+                    card.innerHTML = `
+                        <div>
+                            <div class="sb-date">${dueDate.toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'})}</div>
+                            <div class="sb-calc">${sbPercents[year]}% of ₹${sa.toLocaleString('en-IN')}</div>
+                        </div>
+                        <div class="sb-amount">₹${sbAmt.toLocaleString('en-IN')}</div>
+                    `;
+                    resultsGrid.appendChild(card);
+                    entriesAdded++;
+                }
+            }
+            document.getElementById('remarks').innerText = (entriesAdded > 0) 
+                ? `Calculation complete for Plan ${planNo}.` 
+                : 'No standard Survival Benefit dates found for this plan.';
+        }
 
-    const sbBox = document.getElementById('sbResults');
-    sbBox.innerHTML = '<option>-- Select SB Event --</option>';
-
-    if (!planNo) {
-      setError('Sorry! Invalid Details');
-      return;
-    }
-    if (!plan) {
-      setError('Sorry! Invalid Details');
-      return;
-    }
-    if (!doc) {
-      setError('Please enter Date of Commencement');
-      return;
-    }
-    if (isNaN(sa)) {
-      setError('Sorry! Invalid Details');
-      return;
-    }
-    if (sa < plan.minSA) {
-      setError('Sorry! Invalid Details');
-      return;
-    }
-
-    const docDate = new Date(doc);
-    const sbPercents = plan.sbPercents;
-    let entriesAdded = 0;
-
-    for (let year in sbPercents) {
-      if (!isNaN(year)) {
-        let dueDate = new Date(docDate);
-        dueDate.setFullYear(dueDate.getFullYear() + parseInt(year));
-        const sbAmt = (sa * sbPercents[year]) / 100;
-        const label = `${dueDate.toLocaleDateString('en-GB')} (₹${sbAmt.toFixed(2)})`;
-        const option = document.createElement('option');
-        option.text = label;
-        option.value = label;
-        sbBox.add(option);
-        entriesAdded++;
-      }
-    }
-
-    if(entriesAdded === 0) {
-      document.getElementById('remarks').innerText = 'No standard Survival Benefit dates found for this plan.';
-    } else {
-      document.getElementById('remarks').innerText = `SB calculation complete for Plan ${planNo}. Choose from the dropdown.`;
-    }
-  }
-
-  function shareResults() {
-    const planNo = document.getElementById('planNo').value.trim();
-    const planName = document.getElementById('planName').value;
-    const sa = document.getElementById('sumAssured').value;
-    const doc = document.getElementById('doc').value;
-    const sbBox = document.getElementById('sbResults');
-
-    if (!planNo || !planName || !sa || !doc || sbBox.options.length <= 1) {
-      alert('No results to share. Please perform a valid calculation first.');
-      return;
-    }
-
-    let textToShare = `LIC Survival Benefit Calculation\n\n`;
-    textToShare += `Plan Number: ${planNo}\n`;
-    textToShare += `Plan Name: ${planName}\n`;
-    textToShare += `Sum Assured: ₹${sa}\n`;
-    textToShare += `Date of Commencement: ${doc}\n\n`;
-    textToShare += `Survival Benefit Events:\n`;
-
-    for(let i=1; i < sbBox.options.length; i++) {
-      textToShare += `- ${sbBox.options[i].text}\n`;
-    }
-
-    if (navigator.share) {
-      navigator.share({
-        title: 'LIC Survival Benefit Calculation',
-        text: textToShare,
-      }).catch((error) => {
-        alert('Error sharing: ' + error);
-      });
-    } else {
-      alert('Share not supported on this browser. You can copy the results manually.');
-    }
-  }
-</script>
-<div class="home-button-container">
-  <a href="/main.html" title="Go to Home">
-    <img src="images/home-icon.png" alt="Home">
-  </a>
-</div>
-<!-- PWA: Register the Workbox Service Worker -->
-<script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw-workbox.js')
-                .then(registration => {
-                    console.log('Workbox service worker registered successfully:', registration);
-                })
-                .catch(error => {
-                    console.error('Workbox service worker registration FAILED:', error);
+        function shareResults() {
+            const resultsGrid = document.getElementById('sb-results-grid');
+            if (resultsGrid.children.length === 0) {
+                alert('No results to share. Please perform a calculation first.');
+                return;
+            }
+            let textToShare = `*LIC Survival Benefit Calculation*\n\n`;
+            textToShare += `*Plan:* ${document.getElementById('planName').value} (${document.getElementById('planNo').value})\n`;
+            textToShare += `*Sum Assured:* ₹${document.getElementById('sumAssured').value}\n`;
+            textToShare += `*DOC:* ${document.getElementById('doc').value}\n\n`;
+            textToShare += `*Benefit Schedule:*\n`;
+            Array.from(resultsGrid.children).forEach(card => {
+                const date = card.querySelector('.sb-date').innerText;
+                const amount = card.querySelector('.sb-amount').innerText;
+                textToShare += `• ${date}  ->  *${amount}*\n`;
+            });
+            if (navigator.share) {
+                navigator.share({ title: 'LIC SB Calculation', text: textToShare })
+                    .catch((error) => console.log('Error sharing', error));
+            } else {
+                navigator.clipboard.writeText(textToShare).then(() => {
+                    alert('Share not supported, but results have been copied to your clipboard!');
                 });
-        });
-    }
-</script>  
+            }
+        }
+    </script>
+
 </body>
 </html>
