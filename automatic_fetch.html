@@ -128,7 +128,7 @@
         // It might be 'policy_number' (lowercase) if you didn't use quotes when creating it.
         const { data, error } = await supabaseClient
           .from('automatic_fetch') // Ensure this table name is correct
-          .select('policyholder_name, agents_name') // Ensure these column names are correct
+        .select('policyholder_name, agents_name, agency_code, agents_address, agents_mobile_number, agents_email_id, agency_status, remarks') // New version // Ensure these column names are correct
           .eq('Policy_number', policyNo) // <-- CRITICAL: Verify 'Policy_number' or 'policy_number'
           .single(); // .single() expects exactly one row or it throws an error
 
@@ -152,8 +152,17 @@
           resultDiv.innerHTML = '<p class="error-message">❌ No data found for this policy number (data object is null).</p>';
         } else {
           resultDiv.innerHTML = `
+         
             <p class="success-message"><strong>Policyholder Name:</strong> ${data.policyholder_name || 'N/A'}</p>
+            <hr>
             <p class="success-message"><strong>Agent Name:</strong> ${data.agents_name || 'N/A'}</p>
+            <p class="success-message"><strong>Agency Code:</strong> ${data.agency_code || 'N/A'}</p>
+            <p class="success-message"><strong>Agency Status:</strong> ${data.agency_status || 'N/A'}</p>
+            <p class="success-message"><strong>Agent's Address:</strong> ${data.agents_address || 'N/A'}</p>
+            <p class="success-message"><strong>Agent's Mobile:</strong> ${data.agents_mobile_number || 'N/A'}</p>
+            <p class="success-message"><strong>Agent's Email:</strong> ${data.agents_email_id || 'N/A'}</p>
+            <hr>
+            <p class="success-message"><strong>Remarks:</strong> ${data.remarks || 'N/A'}</p>
           `;
         }
       } catch (catchError) {
