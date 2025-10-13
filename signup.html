@@ -342,46 +342,49 @@ window.addEventListener('load', async () => {
     }
   }
 
-  async function handleSignup() {
-  const email = document.getElementById('signupEmail').value;
-  const password = document.getElementById('signupPassword').value;
-  const fullName = document.getElementById('signupName').value;
-  const gender = document.getElementById('signupGender').value;
-  const mobile = document.getElementById('signupMobile').value;
-  const city = document.getElementById('signupCity').value;
-  const state = document.getElementById('signupState').value;
-  const country = document.getElementById('signupCountry').value;
-  const profession = document.getElementById('signupProfession').value;
-  const annualIncome = document.getElementById('signupIncome').value;
+async function handleSignup() {
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const fullName = document.getElementById('signupName').value;
+    const gender = document.getElementById('signupGender').value;
+    const mobile = document.getElementById('signupMobile').value;
+    const city = document.getElementById('signupCity').value;
+    const state = document.getElementById('signupState').value;
+    const country = document.getElementById('signupCountry').value;
+    const profession = document.getElementById('signupProfession').value;
+    const annualIncome = document.getElementById('signupIncome').value;
 
-  const { data: signupData, error: signupError } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        full_name: fullName,
-        gender,
-        mobile,
-        city,
-        state,
-        country,
-        profession,
-        annual_income: annualIncome
-      },
-      emailRedirectTo: 'http://localhost:8080/post_verification.html'
+    // ✅ NEW DYNAMIC REDIRECT LOGIC
+    // Get the base URL of the current page (e.g., http://localhost:8080 or https://lic-connect.github.io)
+    const baseUrl = window.location.origin; 
+    const redirectUrl = `${baseUrl}/main.html`; // Append the target page
+
+    const { data: signupData, error: signupError } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: fullName,
+          gender,
+          mobile,
+          city,
+          state,
+          country,
+          profession,
+          annual_income: annualIncome
+        },
+        emailRedirectTo: redirectUrl // Use the dynamically created URL
+      }
+    });
+
+    if (signupError) {
+      alert('Signup Error: ' + signupError.message);
+      return;
     }
-  });
 
-  if (signupError) {
-    alert('Signup Error: ' + signupError.message);
-    return;
+    document.getElementById("verifyMessage").style.display = "block";
+    alert('Signup successful! Please check your email and verify before logging in.');
   }
-
-  document.getElementById("verifyMessage").style.display = "block";
-  alert('Signup successful! Please check your email and verify before logging in.');
-}
-  
-  
 
   async function handleLogin() {
   const email = document.getElementById('loginEmail').value;
@@ -414,24 +417,28 @@ window.addEventListener('load', async () => {
   }
 }
 
-  async function handleForgotPassword() {
-  const email = document.getElementById('loginEmail').value;
+async function handleForgotPassword() {
+    const email = document.getElementById('loginEmail').value;
 
-  if (!email) {
-    alert('Please enter your email first.');
-    return;
+    if (!email) {
+      alert('Please enter your email first.');
+      return;
+    }
+
+    // ✅ NEW DYNAMIC REDIRECT LOGIC
+    const baseUrl = window.location.origin;
+    const redirectUrl = `${baseUrl}/signup.html`; // Redirect back to the signup/login page
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: redirectUrl // Use the dynamic URL
+    });
+
+    if (error) {
+      alert('Error sending reset email: '.concat(error.message));
+    } else {
+      alert('Password reset email sent. Please check your inbox.');
+    }
   }
-
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: 'http://localhost:8080/reset.html'
-  });
-
-  if (error) {
-    alert('Error sending reset email: ' + error.message);
-  } else {
-    alert('Password reset email sent. Please check your inbox.');
-  }
-}
 </script>
 <script>
     if ('serviceWorker' in navigator) {
