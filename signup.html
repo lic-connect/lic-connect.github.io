@@ -354,11 +354,6 @@ async function handleSignup() {
     const profession = document.getElementById('signupProfession').value;
     const annualIncome = document.getElementById('signupIncome').value;
 
-    // ✅ NEW DYNAMIC REDIRECT LOGIC
-    // Get the base URL of the current page (e.g., http://localhost:8080 or https://lic-connect.github.io)
-    const baseUrl = window.location.origin; 
-    const redirectUrl = `${baseUrl}/main.html`; // Append the target page
-
     const { data: signupData, error: signupError } = await supabase.auth.signUp({
       email,
       password,
@@ -373,7 +368,8 @@ async function handleSignup() {
           profession,
           annual_income: annualIncome
         },
-        emailRedirectTo: redirectUrl // Use the dynamically created URL
+        // ✅ THE FIX IS HERE: Using the direct, live URL for your GitHub site.
+        emailRedirectTo: 'https://lic-connect.github.io/main.html'
       }
     });
 
@@ -385,7 +381,6 @@ async function handleSignup() {
     document.getElementById("verifyMessage").style.display = "block";
     alert('Signup successful! Please check your email and verify before logging in.');
   }
-
   async function handleLogin() {
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
@@ -425,16 +420,13 @@ async function handleForgotPassword() {
       return;
     }
 
-    // ✅ NEW DYNAMIC REDIRECT LOGIC
-    const baseUrl = window.location.origin;
-    const redirectUrl = `${baseUrl}/signup.html`; // Redirect back to the signup/login page
-
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectUrl // Use the dynamic URL
+      // ✅ THE FIX IS HERE: Using the direct, live URL for your GitHub site.
+      redirectTo: 'https://lic-connect.github.io/signup.html'
     });
 
     if (error) {
-      alert('Error sending reset email: '.concat(error.message));
+      alert('Error sending reset email: ' + error.message);
     } else {
       alert('Password reset email sent. Please check your inbox.');
     }
