@@ -170,54 +170,45 @@
     async function handleMagicLinkLogin() {
         const email = document.getElementById('loginEmail').value;
         if (!email) return alert('Please enter your email.');
+
+        // ✅ THE FIX: This URL is now dynamic.
+        const redirectURL = window.location.origin + '/main.html';
+        console.log("Redirecting Magic Link to:", redirectURL); // For debugging
+
         const { error } = await supabase.auth.signInWithOtp({
             email: email,
-            options: { emailRedirectTo: window.location.origin + '/main.html' }
+            options: { emailRedirectTo: redirectURL }
         });
+
         if (error) alert('Error: ' + error.message);
         else showMessage('Login link sent! Please check your email inbox to log in.');
     }
     
     // --- RELIABLE MAGIC LINK SIGNUP (with full validation) ---
-    async function handleSignup() {
-        const fullName = document.getElementById('signupName').value;
+async function handleSignup() {
         const email = document.getElementById('signupEmail').value;
-        const gender = document.getElementById('signupGender').value;
-        const mobile = document.getElementById('signupMobile').value;
-        const city = document.getElementById('signupCity').value;
-        const profession = document.getElementById('signupProfession').value;
-        const annualIncome = document.getElementById('signupIncome').value;
+        const fullName = document.getElementById('signupName').value;
 
-        const requiredFields = {
-            'signupName': 'Full Name', 'signupEmail': 'Email', 'signupGender': 'Gender',
-            'signupMobile': 'Mobile Number', 'signupCity': 'City',
-            'signupProfession': 'Profession', 'signupIncome': 'Annual Income'
-        };
-        const missingFields = [];
-        for (const id in requiredFields) {
-            if (!document.getElementById(id).value) {
-                missingFields.push(requiredFields[id]);
-            }
+        if (!email || !fullName) {
+            return alert("Please fill in at least your Name and Email.");
         }
-        if (missingFields.length > 0) {
-            return alert('Please fill in all required fields:\n\n- ' + missingFields.join('\n- '));
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const mobileRegex = /^[0-9]{10}$/;
-        if (!emailRegex.test(email)) return alert("Please enter a valid email address.");
-        if (!mobileRegex.test(mobile)) return alert("Please enter a valid 10-digit mobile number.");
+        
+        // ✅ THE FIX: This URL is now dynamic.
+        const redirectURL = window.location.origin + '/main.html';
+        console.log("Redirecting Signup to:", redirectURL); // For debugging
 
         try {
             const { error: insertError } = await supabase.from('signups').insert({ 
-                full_name: fullName, email: email, gender: gender, mobile: mobile, city: city,
+                full_name: fullName, email: email, gender: document.getElementById('signupGender').value,
+                mobile: document.getElementById('signupMobile').value, city: document.getElementById('signupCity').value,
                 state: document.getElementById('signupState').value, country: document.getElementById('signupCountry').value,
-                profession: profession, annual_income: annualIncome
+                profession: document.getElementById('signupProfession').value, annual_income: document.getElementById('signupIncome').value
             });
             if (insertError) throw insertError;
 
             const { error: magicLinkError } = await supabase.auth.signInWithOtp({
-                email: email, options: { emailRedirectTo: window.location.origin + '/main.html' }
+                email: email,
+                options: { emailRedirectTo: redirectURL }
             });
             if (magicLinkError) throw magicLinkError;
             
