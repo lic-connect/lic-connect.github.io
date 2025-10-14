@@ -6,16 +6,20 @@
 <!-- PWA: Link to the Manifest File -->
 <link rel="manifest" href="manifest.json">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <style>
-/* ✅ Import a modern font */
+<style>
+    /* ✅ Import a modern font */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
     :root {
-        --modern-blue: #0866FF; /* Modern Facebook Blue */
-        --light-blue-bg: #f0f2f5; /* Light grey-blue for background */
-        --text-dark: #1c1e21; /* Dark grey for text */
+        --modern-blue: #0866FF;
+        --light-blue-bg: #f0f2f5;
+        --text-dark: #1c1e21;
         --text-light: #65676b;
         --border-color: #dddfe2;
+        --success-green: #28a745;
+        --warning-yellow: #ffc107;
+        --danger-red: #dc3545;
+        --info-grey: #6c757d;
     }
 
     body {
@@ -25,7 +29,7 @@
         margin: 0;
         display: flex;
         justify-content: center;
-        align-items: center; /* Center vertically */
+        align-items: center;
         min-height: 100vh;
     }
     
@@ -34,17 +38,31 @@
         padding: 40px;
         border-radius: 20px;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        max-width: 500px;
+        max-width: 800px; /* Increased width for 2 columns */
         width: 100%;
-        text-align: center;
-        border-top: 5px solid var(--modern-blue); /* Accent border */
+        border-top: 5px solid var(--modern-blue);
     }
     
     .container h2 {
         font-size: 2.5rem;
         font-weight: 700;
         color: var(--modern-blue);
-        margin-bottom: 25px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    /* === ✅ NEW GRID FOR INPUTS === */
+    .input-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Two equal columns */
+        gap: 20px 30px; /* Row gap and Column gap */
+        margin-bottom: 30px;
+    }
+    .input-wrapper {
+        text-align: left;
+    }
+    .input-wrapper.full-span {
+        grid-column: 1 / -1; /* Makes an element span both columns */
     }
 
     label {
@@ -52,28 +70,14 @@
         margin-bottom: 8px;
         font-weight: 600;
         color: var(--text-light);
-        text-align: left; /* Align label to the left */
     }
-
-    /* Modern Input with Icon */
-    .input-wrapper {
-        position: relative;
-        margin-bottom: 20px;
-    }
-    .input-wrapper i {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--border-color);
-        font-size: 1.2rem;
-    }
+    
     input[type="text"] {
         width: 100%;
-        padding: 15px 15px 15px 50px; /* Space for icon */
+        padding: 12px;
         border: 1px solid var(--border-color);
-        border-radius: 10px;
-        font-size: 1.1rem;
+        border-radius: 8px;
+        font-size: 1rem;
         box-sizing: border-box;
         transition: all 0.2s ease;
     }
@@ -82,166 +86,283 @@
         border-color: var(--modern-blue);
         box-shadow: 0 0 0 3px rgba(8, 102, 255, 0.2);
     }
-    input[type="text"]:focus + i {
-        color: var(--modern-blue);
+
+    /* === ✅ NEW GRID FOR BUTTONS === */
+    .button-grid-actions {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 15px;
     }
 
-    /* Flamboyant Button Style */
     button {
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
-        padding: 16px;
-        margin-bottom: 15px;
+        padding: 12px;
         border: none;
-        border-radius: 10px;
-        background-color: var(--modern-blue);
+        border-radius: 8px;
         color: white;
         cursor: pointer;
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(8, 102, 255, 0.3);
+        transition: transform 0.2s, box-shadow 0.2s;
     }
     button i {
-        margin-right: 10px;
+        margin-right: 8px;
     }
     button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(8, 102, 255, 0.4);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
-    /* Stylish Result Box */
-    #result {
-        margin-top: 30px;
-        padding: 0;
-        border: none;
-        background-color: transparent;
-        text-align: left;
-    }
+    /* Button Colors */
+    .fetch-btn { background-color: var(--modern-blue); }
+    .insert-btn { background-color: var(--success-green); }
+    .update-btn { background-color: var(--warning-yellow); color: var(--text-dark); }
+    .delete-btn { background-color: var(--danger-red); }
+    .clear-btn { background-color: var(--info-grey); }
+
+    /* Results styling */
     #result p {
-        background-color: #f0f2f5;
         padding: 12px 15px;
         border-radius: 8px;
-        margin: 10px 0;
-        border-left: 4px solid var(--modern-blue);
-    }
-    #result hr {
-        display: none; /* Hide the old horizontal lines */
+        margin: 20px 0 0 0;
+        text-align: center;
+        font-weight: 600;
     }
     .error-message {
         color: #d93025;
-        font-weight: 600;
-        background-color: #fbe9e7 !important;
-        border-left: 4px solid #d93025 !important;
+        background-color: #fbe9e7;
     }
-    .success-message strong {
-        color: var(--modern-blue);
-        display: block; /* Makes the label and value appear on two lines */
-        font-size: 0.8rem;
-        margin-bottom: 2px;
-        text-transform: uppercase;
+    .success-message {
+        color: #218838;
+        background-color: #e9f5ec;
     }
 
-   .home-button-container {
-      position: fixed;
-      top: 20px;
-      right: 25px;
-      z-index: 1000;
+    .home-button-container {
+      position: fixed; top: 20px; right: 25px; z-index: 1000;
     }
-
     .home-button-container a img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
+      width: 50px; height: 50px; border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3); transition: transform 0.2s;
     }
+    .home-button-container a:hover img { transform: scale(1.1); }
 
-    .home-button-container a:hover img {
-      transform: scale(1.1);
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .container { padding: 20px; }
+        .input-grid { grid-template-columns: 1fr; }
     }
-  </style>
+    @media (max-width: 576px) {
+        .button-grid-actions { grid-template-columns: 1fr 1fr; }
+    }
+</style>
 </head>
 <body>
+
   <div class="container">
-    <h2>Automatic Fetch</h2>
-    <label for="policyNo">Enter Policy Number</label>
-    <input type="text" id="policyNo" placeholder="e.g. 987654321" />
-    <button onclick="fetchPolicyholder()">Fetch Details</button>
+    <h2 style="text-align: center;">AGENT TRACKER</h2>
+    
+    <!-- ✅ NEW INPUT GRID LAYOUT -->
+    <div class="input-grid">
+        <div class="input-wrapper">
+            <label for="policyNo">Policy Number</label>
+            <input type="text" id="policyNo" placeholder="Required for most actions">
+        </div>
+        <div class="input-wrapper">
+            <label for="policyholderName">Policyholder Name</label>
+            <input type="text" id="policyholderName">
+        </div>
+        <div class="input-wrapper">
+            <label for="agentName">Agent Name</label>
+            <input type="text" id="agentName">
+        </div>
+        <div class="input-wrapper">
+            <label for="agencyCode">Agency Code</label>
+            <input type="text" id="agencyCode">
+        </div>
+        <div class="input-wrapper">
+            <label for="agencyStatus">Agency Status</label>
+            <input type="text" id="agencyStatus">
+        </div>
+        <div class="input-wrapper">
+            <label for="agentAddress">Agent's Address</label>
+            <input type="text" id="agentAddress">
+        </div>
+        <div class="input-wrapper">
+            <label for="agentMobile">Agent's Mobile</label>
+            <input type="text" id="agentMobile">
+        </div>
+        <div class="input-wrapper">
+            <label for="agentEmail">Agent's Email</label>
+            <input type="text" id="agentEmail">
+        </div>
+        <div class="input-wrapper full-span">
+            <label for="remarks">Remarks</label>
+            <input type="text" id="remarks">
+        </div>
+    </div>
+
+    <!-- ✅ NEW BUTTON GRID LAYOUT -->
+    <div class="button-grid-actions">
+        <button onclick="handleFetch()" class="fetch-btn"><i class="fas fa-search"></i> Fetch</button>
+        <button onclick="handleInsert()" class="insert-btn"><i class="fas fa-plus"></i> Insert</button>
+        <button onclick="handleUpdate()" class="update-btn"><i class="fas fa-edit"></i> Update</button>
+        <button onclick="handleDelete()" class="delete-btn"><i class="fas fa-trash"></i> Delete</button>
+    </div>
+    <button onclick="clearForm()" class="clear-btn"><i class="fas fa-broom"></i> Clear Form</button>
+    
     <div id="result"></div>
   </div>
 
-  <script>
-    // Ensure these are your actual Supabase project credentials
+
+<script>
     const supabaseUrl = 'https://efduqdondmlzmwhfgkfz.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44';
-
-    // Corrected Supabase client initialization:
-    // 'supabase' here refers to the global object loaded by the CDN script
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+    const resultDiv = document.getElementById('result');
 
-    async function fetchPolicyholder() {
-      const policyNoInput = document.getElementById('policyNo');
-      const policyNo = policyNoInput.value.trim();
-      const resultDiv = document.getElementById('result');
-      resultDiv.innerHTML = ''; // Clear previous results
 
-      if (!policyNo) {
-        resultDiv.innerHTML = '<p class="error-message">❌ Please enter a policy number.</p>';
-        return;
-      }
-
-      console.log('Attempting to fetch for Policy Number:', policyNo);
-
-      try {
-        // IMPORTANT: Double-check the exact column name in your Supabase table.
-        // It might be 'policy_number' (lowercase) if you didn't use quotes when creating it.
-        const { data, error } = await supabaseClient
-          .from('automatic_fetch') // Ensure this table name is correct
-        .select('policyholder_name, agents_name, agency_code, agents_address, agents_mobile_number, agents_email_id, agency_status, remarks') // New version // Ensure these column names are correct
-          .eq('Policy_number', policyNo) // <-- CRITICAL: Verify 'Policy_number' or 'policy_number'
-          .single(); // .single() expects exactly one row or it throws an error
-
-        console.log('Supabase Query Result - Data:', data);
-        console.log('Supabase Query Result - Error:', error);
-
-        if (error) {
-          // .single() will produce an error if 0 or >1 rows are found.
-          // Common error code for no rows with .single() is 'PGRST116'.
-          let errorMessage = '❌ An error occurred while fetching data.';
-          if (error.code === 'PGRST116' || (error.message && error.message.toLowerCase().includes("no rows returned")) ) {
-            errorMessage = '❌ No data found for this policy number.';
-          } else if (error.message) {
-            errorMessage = `❌ Error: ${error.message}`;
-          }
-          resultDiv.innerHTML = `<p class="error-message">${errorMessage}</p>`;
-          console.error('Supabase error details:', error);
-        } else if (!data) {
-          // This case might be redundant if .single() always populates 'error' when no data is found.
-          // However, it's a good fallback.
-          resultDiv.innerHTML = '<p class="error-message">❌ No data found for this policy number (data object is null).</p>';
+// ✅ --- NEW "AUTH GUARD" ---
+    // This code runs as soon as the page loads.
+    window.addEventListener('DOMContentLoaded', async () => {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        
+        if (!session) {
+            // If there is no user session, redirect to the login page.
+            window.location.href = "signup.html";
         } else {
-          resultDiv.innerHTML = `
-         
-            <p class="success-message"><strong>Policyholder Name:</strong> ${data.policyholder_name || 'N/A'}</p>
-            <hr>
-            <p class="success-message"><strong>Agent Name:</strong> ${data.agents_name || 'N/A'}</p>
-            <p class="success-message"><strong>Agency Code:</strong> ${data.agency_code || 'N/A'}</p>
-            <p class="success-message"><strong>Agency Status:</strong> ${data.agency_status || 'N/A'}</p>
-            <p class="success-message"><strong>Agent's Address:</strong> ${data.agents_address || 'N/A'}</p>
-            <p class="success-message"><strong>Agent's Mobile:</strong> ${data.agents_mobile_number || 'N/A'}</p>
-            <p class="success-message"><strong>Agent's Email:</strong> ${data.agents_email_id || 'N/A'}</p>
-            <hr>
-            <p class="success-message"><strong>Remarks:</strong> ${data.remarks || 'N/A'}</p>
-          `;
+            // If there is a session, you can optionally show a welcome message.
+            console.log("User is logged in:", session.user.email);
         }
-      } catch (catchError) {
-        // Catch any unexpected errors during the async operation or from .single()
-        console.error('Caught an unexpected error:', catchError);
-        resultDiv.innerHTML = `<p class="error-message">❌ An unexpected error occurred: ${catchError.message}</p>`;
-      }
+    });
+    // --- END OF AUTH GUARD ---
+
+    // Helper function to get all form values
+    function getFormValues() {
+        return {
+            Policy_number: document.getElementById('policyNo').value.trim(),
+            policyholder_name: document.getElementById('policyholderName').value.trim(),
+            agents_name: document.getElementById('agentName').value.trim(),
+            agency_code: document.getElementById('agencyCode').value.trim(),
+            agency_status: document.getElementById('agencyStatus').value.trim(),
+            agents_address: document.getElementById('agentAddress').value.trim(),
+            agents_mobile_number: document.getElementById('agentMobile').value.trim(),
+            agents_email_id: document.getElementById('agentEmail').value.trim(),
+            remarks: document.getElementById('remarks').value.trim()
+        };
+    }
+
+    // Helper function to populate the form from data
+    function populateForm(data) {
+        document.getElementById('policyNo').value = data.Policy_number || '';
+        document.getElementById('policyholderName').value = data.policyholder_name || '';
+        document.getElementById('agentName').value = data.agents_name || '';
+        document.getElementById('agencyCode').value = data.agency_code || '';
+        document.getElementById('agencyStatus').value = data.agency_status || '';
+        document.getElementById('agentAddress').value = data.agents_address || '';
+        document.getElementById('agentMobile').value = data.agents_mobile_number || '';
+        document.getElementById('agentEmail').value = data.agents_email_id || '';
+        document.getElementById('remarks').value = data.remarks || '';
+    }
+
+    // Helper function to clear all form fields
+    function clearForm() {
+        populateForm({}); // Pass an empty object to clear all fields
+        resultDiv.innerHTML = ''; // Clear result message
+    }
+
+    // --- CRUD FUNCTIONS ---
+
+    // 1. FETCH (READ)
+    async function handleFetch() {
+        const policyNo = document.getElementById('policyNo').value.trim();
+        resultDiv.innerHTML = '';
+        if (!policyNo) return resultDiv.innerHTML = '<p class="error-message">❌ Please enter a Policy Number to fetch.</p>';
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('automatic_fetch')
+                .select('*') // Select all columns
+                .eq('Policy_number', policyNo)
+                .single();
+
+            if (error) throw error;
+            if (data) {
+                populateForm(data);
+                resultDiv.innerHTML = '<p class="success-message">✅ Data fetched and populated in the form.</p>';
+            }
+        } catch (error) {
+            resultDiv.innerHTML = `<p class="error-message">❌ No data found for this policy number.</p>`;
+            console.error('Fetch Error:', error);
+        }
+    }
+
+    // 2. INSERT (CREATE)
+    async function handleInsert() {
+        const formValues = getFormValues();
+        if (!formValues.Policy_number) return resultDiv.innerHTML = '<p class="error-message">❌ Policy Number is required to insert a new record.</p>';
+        
+        try {
+            const { error } = await supabaseClient
+                .from('automatic_fetch')
+                .insert(formValues);
+            
+            if (error) throw error;
+            resultDiv.innerHTML = '<p class="success-message">✅ Record inserted successfully!</p>';
+            clearForm();
+        } catch (error) {
+            resultDiv.innerHTML = `<p class="error-message">❌ Insert failed: ${error.message}</p>`;
+            console.error('Insert Error:', error);
+        }
+    }
+
+    // 3. UPDATE
+    async function handleUpdate() {
+        const formValues = getFormValues();
+        if (!formValues.Policy_number) return resultDiv.innerHTML = '<p class="error-message">❌ Policy Number is required to identify the record to update.</p>';
+
+        try {
+            // We don't want to update the primary key, so we remove it from the object.
+            const { Policy_number, ...updateValues } = formValues;
+
+            const { error } = await supabaseClient
+                .from('automatic_fetch')
+                .update(updateValues)
+                .eq('Policy_number', Policy_number);
+
+            if (error) throw error;
+            resultDiv.innerHTML = '<p class="success-message">✅ Record updated successfully!</p>';
+        } catch (error) {
+            resultDiv.innerHTML = `<p class="error-message">❌ Update failed: ${error.message}</p>`;
+            console.error('Update Error:', error);
+        }
+    }
+
+    // 4. DELETE
+    async function handleDelete() {
+        const policyNo = document.getElementById('policyNo').value.trim();
+        if (!policyNo) return resultDiv.innerHTML = '<p class="error-message">❌ Please enter a Policy Number to delete.</p>';
+        
+        if (!confirm(`Are you sure you want to delete the record for policy ${policyNo}? This cannot be undone.`)) {
+            return; // User cancelled
+        }
+
+        try {
+            const { error } = await supabaseClient
+                .from('automatic_fetch')
+                .delete()
+                .eq('Policy_number', policyNo);
+
+            if (error) throw error;
+            resultDiv.innerHTML = '<p class="success-message">✅ Record deleted successfully!</p>';
+            clearForm();
+        } catch (error) {
+            resultDiv.innerHTML = `<p class="error-message">❌ Delete failed: ${error.message}</p>`;
+            console.error('Delete Error:', error);
+        }
     }
   </script>
 <div class="home-button-container">
