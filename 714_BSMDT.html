@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <title>LIC Plan 714 Premium Calculator</title>
-
   <style>
     body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 20px; }
     .container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); max-width: 700px; margin:auto; }
@@ -146,10 +144,6 @@
     <button id="pwb-premium-btn" class="premium-btn">Know Your PWB Premium</button>
     <button id="term-rider-premium-btn" class="premium-btn">Know Your Term Rider Premium</button>
   </div>
-
-<button id="whatsappShareBtn" style="display:none; background:#25D366; margin-top:20px; font-weight:bold;">
-        <i class="fab fa-whatsapp"></i> Share Quote on WhatsApp
-    </button>
     
     <div id="results"></div>
   </div>
@@ -381,25 +375,6 @@ function calculate() {
     <tr><td>Quarterly</td><td>${result.qly.first}</td><td>${result.qly.second}</td></tr>
     <tr><td>Monthly</td><td>${result.mly.first}</td><td>${result.mly.second}</td></tr>
   </table>`;
-
-// --- WHATSAPP SHARE LOGIC START ---
-// --- WHATSAPP TRIGGER START ---
-  const shareBtn = document.getElementById("whatsappShareBtn");
-  shareBtn.style.display = "block"; 
-
-  shareBtn.onclick = function() {
-      sharePremiumQuote({
-          planName: "LIC's New Endowment Plan",
-          planNo: "714",
-          sa: document.getElementById("sumAssured").value,
-          age: document.getElementById("age").value,
-          term: document.getElementById("term").value,
-          results: result // This passes the whole table (yly, hly, qly, mly)
-      });
-  };
-  // --- WHATSAPP TRIGGER END ---
-  // --- WHATSAPP SHARE LOGIC END ---
-
 }
 
 // --- END: REPLACE YOUR EXISTING calculate() FUNCTION ---
@@ -601,7 +576,7 @@ function calculateTermRiderFromModal() {
 // --- END: REPLACE THE EXISTING TERM RIDER LOGIC ---
 
 </script>
-<script src="common-share.js"></script>
+
 <div style="margin-top: 20px; font-size: 0.9em; color: #555; text-align: center;">
   <strong>Disclaimer:</strong> The premium amounts calculated here are for indicative purposes only. Actual premiums may vary based on LIC’s official rates, underwriting guidelines, and policy terms. Please consult an authorized LIC agent or branch for the exact premium payable.
 </div>
