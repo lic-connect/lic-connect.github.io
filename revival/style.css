@@ -202,25 +202,3 @@ input[readonly] {
     }
 }
 
-/* Hide all revival sections by default */
-.revival-section {
-    display: none;
-    margin-top: 20px;
-    padding: 15px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    border-left: 5px solid #0056b3;
-}
-
-/* Class to show the active section */
-.revival-section.active {
-    display: block;
-}
-
-#result-container {
-    margin-top: 30px;
-    padding: 20px;
-    background: #eef7ff;
-    border-radius: 8px;
-    text-align: center;
-}
