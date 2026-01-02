@@ -3,564 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Add these to your <head> tag -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <title>Commission page for agents</title>
-<!-- PWA: Link to the Manifest File -->
-<link rel="manifest" href="manifest.json">
+    <title>LIC Agent Commission Master</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
     <style>
-/* === Root Variables for a Fresh & Clean Theme === */
-/* === Root Variables for a Lush Green & Gold Theme === */
-:root {
-    --primary-color: #004d40;      /* Deep Forest Green */
-    --secondary-color: #00796b;    /* Lighter Teal */
-    --accent-color: #ffd700;      /* Gold */
-    --glow-color: rgba(255, 215, 0, 0.4);
-    --text-color: #ffffff;
-    --card-bg: rgba(0, 0, 0, 0.15);
-    --card-border: rgba(255, 255, 255, 0.2);
-}
+        :root {
+            --primary-color: #004d40;
+            --secondary-color: #00796b;
+            --accent-color: #ffd700;
+            --text-color: #ffffff;
+            --card-bg: rgba(0, 0, 0, 0.25);
+            --card-border: rgba(255, 255, 255, 0.3);
+        }
 
-/* === General Body and Font Styling === */
-body {
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: var(--primary-color);
-    background-image: radial-gradient(circle at top right, var(--secondary-color), var(--primary-color));
-    margin: 0;
-    padding: 40px 20px;
-    color: var(--text-color);
-    min-height: 100vh;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-color);
+            background-image: radial-gradient(circle at top right, var(--secondary-color), var(--primary-color));
+            margin: 0; padding: 40px 20px; color: var(--text-color); min-height: 100vh;
+        }
 
-.container {
-    max-width: 1000px;
-    margin: auto;
-    background: transparent;
-    padding: 0;
-}
+        .container { max-width: 1100px; margin: auto; }
+        h1 { text-align: center; font-family: 'Montserrat', sans-serif; color: var(--accent-color); font-size: 2.8rem; margin-bottom: 40px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); text-transform: uppercase; }
 
-h1 {
-    text-align: center;
-    font-family: 'Montserrat', sans-serif;
-    color: var(--accent-color);
-    font-size: 3rem;
-    margin-bottom: 40px;
-    font-weight: 700;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.4);
-}
+        .calculator-body { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
 
-/* === Calculator Layout & Glassmorphism Cards === */
-.calculator-body {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 40px;
-    align-items: flex-start;
-}
+        .panel {
+            background: var(--card-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            padding: 40px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border: 1px solid var(--card-border);
+        }
 
-.input-section, .output-section {
-    background: var(--card-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 35px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    border: 1px solid var(--card-border);
-}
+        .panel h2 { font-family: 'Montserrat', sans-serif; margin-top: 0; color: #fff; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-bottom: 30px; font-size: 1.6rem; }
 
-.input-section h2, .output-section h2 {
-    font-family: 'Montserrat', sans-serif;
-    margin-top: 0;
-    margin-bottom: 30px;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1.6rem;
-    border-bottom: 1px solid var(--card-border);
-    padding-bottom: 15px;
-}
+        .form-group { margin-bottom: 22px; text-align: left; }
+        label { font-weight: 600; color: rgba(255, 255, 255, 0.9); display: block; margin-bottom: 8px; font-size: 0.95rem; }
+        
+        input, select { 
+            width: 100%; padding: 15px; border-radius: 12px; border: 1px solid var(--card-border); 
+            background: rgba(0,0,0,0.3); color: #fff; font-size: 1rem; box-sizing: border-box; 
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 15px var(--accent-color); background: rgba(0,0,0,0.5); }
+        input[readonly] { background: rgba(255, 255, 255, 0.1); color: #ccc; cursor: not-allowed; }
 
-<h2><i class="fas fa-cogs"></i> Calculation Inputs</h2>
+        .btn-container { display: flex; gap: 15px; margin-top: 30px; }
+        .btn { flex: 1; padding: 18px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 1.1rem; text-transform: uppercase; }
+        #calc-btn { background: var(--accent-color); color: #004d40; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
+        #reset-btn { background: rgba(255, 255, 255, 0.2); color: #fff; }
+        .btn:hover { transform: translateY(-3px); opacity: 0.95; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
 
-/* --- Form Elements --- */
-.input-section div {
-    margin-bottom: 20px;
-}
+        table { width: 100%; border-collapse: collapse; margin-top: 25px; }
+        th, td { padding: 18px; text-align: center; border-bottom: 1px solid var(--card-border); }
+        th { font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); text-transform: uppercase; letter-spacing: 1.5px; }
+        td { font-size: 1.8rem; font-weight: bold; color: var(--accent-color); text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
 
-label {
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.8);
-    display: block;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-}
+        .error-msg { color: #ff8a80; background: rgba(211, 47, 47, 0.2); padding: 15px; border-radius: 10px; margin-top: 20px; display: none; text-align: center; font-weight: bold; border: 1px solid #ff8a80; }
+        .hidden { display: none; }
 
-input[type="number"], select {
-    padding: 14px;
-    border-radius: 10px;
-    border: 1px solid var(--card-border);
-    width: 100%;
-    box-sizing: border-box;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background-color: rgba(0,0,0,0.2);
-    color: var(--text-color);
-}
-
-input:focus, select:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 15px var(--glow-color);
-    background-color: rgba(0,0,0,0.3);
-}
-
-input[readonly] {
-    background-color: rgba(0,0,0,0.3);
-    cursor: not-allowed;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.hidden {
-    display: none;
-}
-
-/* --- Buttons --- */
-.button-container {
-    display: flex;
-    gap: 15px;
-    margin-top: 25px;
-}
-
-.btn {
-    flex-grow: 1;
-    padding: 16px 20px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border-radius: 10px;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s ease-in-out;
-    outline: none;
-}
-
-#calculate-btn {
-    background: var(--accent-color);
-    color: var(--primary-color);
-    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.2);
-}
-#calculate-btn:hover {
-    box-shadow: 0 7px 25px rgba(255, 215, 0, 0.4);
-    transform: translateY(-2px);
-}
-
-#reset-btn {
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-}
-#reset-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-.btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
-
-/* --- Output Section --- */
-.output-section h2 {
-    color: var(--accent-color);
-}
-
-<h2><i class="fas fa-wallet"></i> Commission in INR</h2>
-
-.output-section table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 25px;
-}
-.output-section th, .output-section td {
-    padding: 15px;
-    text-align: center;
-    border-bottom: 1px solid var(--card-border);
-}
-.output-section th {
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.7);
-    text-transform: uppercase;
-    font-size: 0.8rem;
-}
-.output-section td {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: var(--accent-color);
-}
-.output-section tbody tr:last-child td {
-    border-bottom: none;
-}
-.error { 
-    color: #ff8a80;
-    font-weight: bold;
-    margin-top: 20px;
-    text-align: center;
-    display: none;
-    background-color: rgba(255, 138, 128, 0.1);
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 138, 128, 0.3);
-}
-  .home-button-container {
-      position: fixed; /* This makes it float on top of other content */
-      top: 20px;       /* Position 20px from the top edge */
-      right: 25px;     /* Position 25px from the right edge */
-      z-index: 1000;   /* Ensures it's above other elements */
-    }
-
-    .home-button-container a img {
-      width: 50px; /* Adjust size as needed */
-      height: 50px;
-
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    }
-
-    .home-button-container a:hover img {
-      transform: scale(1.1); /* Slightly enlarge on hover */
-    }
+        .home-button-container { position: fixed; top: 20px; right: 25px; z-index: 1000; }
+        .home-button-container img { width: 55px; height: 55px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); border-radius: 50%; transition: 0.3s; }
+        .home-button-container img:hover { transform: scale(1.15); }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Commission Page for Agents</h1>
-        <div class="calculator-body">
-            <div class="input-section">
-                <div>
-                    <label for="plan-name">Plan Name:</label>
-                    <select id="plan-name">
-                        <option value="">-- Select a Plan --</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="plan-number">Plan Number:</label>
-                    <input type="text" id="plan-number" placeholder="Auto-populated" readonly>
-                </div>
-                <div id="term-container">
-                    <label for="policy-term">Policy Term (Years):</label>
-                    <input type="number" id="policy-term" min="1" placeholder="e.g., 20">
-                    <select id="term-select" class="hidden"></select>
-                </div>
-                <div id="ppt-container">
-                    <label for="ppt">PPT (Premium Paying Term):</label>
-                    <input type="text" id="ppt" placeholder="Auto-populated" readonly>
-                </div>
-                <div>
-                    <label for="premium">Premium Paid:</label>
-                    <input type="number" id="premium" min="0" placeholder="Enter premium amount">
-                </div>
-                <div>
-                    <label for="mode">Mode of Payment:</label>
-                    <select id="mode">
-                        <option value="1">Yearly (YLY)</option>
-                        <option value="2">Half-yearly (HLY)</option>
-                        <option value="4">Quarterly (QLY)</option>
-                        <option value="12">Monthly (MLY)</option>
-                    </select>
-                </div>
+<div class="home-button-container">
+    <a href="/main.html"><img src="images/home-icon.png" alt="Home"></a>
+</div>
 
-                <div class="button-container">
-                     <button id="calculate-btn" class="btn">Calculate</button>
-                     <button id="reset-btn" class="btn">Reset</button>
-                </div>
+<div class="container">
+    <h1><i class="fas fa-hand-holding-usd"></i> LIC Commission Master</h1>
+    <div class="calculator-body">
+        
+        <!-- PANEL: INPUTS -->
+        <div class="panel">
+            <h2><i class="fas fa-sliders-h"></i> Policy Details</h2>
+            <div class="form-group">
+                <label>Select Insurance Plan:</label>
+                <select id="plan-select" onchange="setupPlanLogic()"><option value="">-- Select Plan --</option></select>
             </div>
-            <div class="output-section">
-                <h2>Commission in INR</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Year 1</th>
-                            <th>Year 2</th>
-                            <th>Year 3</th>
-                            <th>Year 4 onwards</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="output-y1">-</td>
-                            <td id="output-y2">-</td>
-                            <td id="output-y3">-</td>
-                            <td id="output-y4plus">-</td>
-                        </tr>
-                    </tbody>
-                </table>
-                 <div id="error-message" class="error"></div>
+            <div class="form-group">
+                <label>Plan Number:</label>
+                <input type="text" id="plan-no" readonly>
+            </div>
+            <div class="form-group" id="term-container">
+                <label id="term-label">Policy Term (Years):</label>
+                <input type="number" id="policy-term" placeholder="Enter Years" oninput="updatePPT()">
+                <select id="term-dropdown" class="hidden" onchange="updatePPT()"></select>
+            </div>
+            <div class="form-group">
+                <label>Premium Paying Term (PPT):</label>
+                <input type="number" id="ppt" readonly>
+            </div>
+            <div class="form-group">
+                <label>Premium (Excluding GST):</label>
+                <input type="number" id="premium" placeholder="Enter amount paid">
+            </div>
+            <div class="form-group">
+                <label>Payment Mode:</label>
+                <select id="mode">
+                    <option value="1">Yearly (YLY)</option>
+                    <option value="2">Half-Yearly (HLY)</option>
+                    <option value="4">Quarterly (QLY)</option>
+                    <option value="12">Monthly (NACH/SSS)</option>
+                </select>
+            </div>
+            <div class="btn-container">
+                <button class="btn" id="calc-btn" onclick="runCalculation()">Calculate</button>
+                <button class="btn" id="reset-btn" onclick="location.reload()">Clear</button>
+            </div>
+            <div id="error-box" class="error-msg"></div>
+        </div>
+
+        <!-- PANEL: OUTPUTS -->
+        <div class="panel">
+            <h2><i class="fas fa-coins"></i> Commission Result</h2>
+            <table>
+                <thead>
+                    <tr><th>Year 1</th><th>Year 2</th><th>Year 3</th><th>Year 4+</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td id="y1">-</td><td id="y2">-</td><td id="y3">-</td><td id="y4">-</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 15px;">
+                <p style="font-size: 0.9rem; color: var(--accent-color); font-weight: 600; margin-bottom: 5px;"><i class="fas fa-info-circle"></i> Important Note:</p>
+                <p style="font-size: 0.85rem; color: #ddd; line-height: 1.6;">Calculations shown are estimated basic commissions. Bonus commission (if applicable) and TDS deductions are not included here.</p>
             </div>
         </div>
+
     </div>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-        const getEndowmentRates = () => term => {
-            const y4plus = 5;
-            if (term >= 15) return { y1: 25, y2: 7.5, y3: 7.5, y4plus };
-            if (term < 15 && term > 0) return { y1: 20, y2: 7.5, y3: 7.5, y4plus };
-            return null;
-        };
-        const getMoneyBackRates = () => term => {
-            const y4plus = 6;
-            if (term >= 15) return { y1: 15, y2: 10, y3: 10, y4plus };
-            return null;
-        };
-        const getChildrensRates = () => term => {
-            const y4plus = 5;
-            if (term >= 13 && term <= 25) { 
-                if (term >= 15) return { y1: 25, y2: 7.5, y3: 7.5, y4plus };
-                else return { y1: 20, y2: 7.5, y3: 7.5, y4plus };
-            }
-            return null;
-        };
-        const getWholeLifeRates = () => term => {
-            const y4plus = 5;
-            if (term >= 15) return { y1: 25, y2: 7.5, y3: 7.5, y4plus };
-            if (term < 15 && term > 0) return { y1: 20, y2: 7.5, y3: 7.5, y4plus };
-            return null;
-        };
-        
-        const singlePremiumRates = { y1: 2, y2: 0, y3: 0, y4plus: 0 };
-        const termInsuranceRates = { y1: 7.5, y2: 2, y3: 2, y4plus: 2 };
-
-        const commissionData = {
-            '714': { name: 'New Endowment (714)', planNumber: '714', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getEndowmentRates(), minTerm: 12, maxTerm: 35 },
-            '715': { name: 'Jeevan Anand (715)', planNumber: '715', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getEndowmentRates(), minTerm: 15, maxTerm: 35 },
-            '717': { name: 'Single Premium Endowment (717)', planNumber: '717', type: 'SINGLE', pptRule: 'SINGLE', rates: singlePremiumRates, minTerm: 10, maxTerm: 25 },
-            '720': { name: '20 Year Money Back (720)', planNumber: '720', type: 'REGULAR', pptRule: 'FIXED', fixedTerm: 20, fixedPPT: 15, rates: getMoneyBackRates() },
-            '721': { name: '25 Year Money Back (721)', planNumber: '721', type: 'REGULAR', pptRule: 'FIXED', fixedTerm: 25, fixedPPT: 20, rates: getMoneyBackRates() },
-            '732': { name: 'Child Money Back (732)', planNumber: '732', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getChildrensRates(), minTerm: 13, maxTerm: 25 },
-            '733': { name: 'Jeevan Lakshya (733)', planNumber: '733', type: 'REGULAR', pptRule: 'TERM_MINUS_3', rates: getEndowmentRates(), minTerm: 13, maxTerm: 25 },
-            '734': { name: 'Jeevan Tarun (734)', planNumber: '734', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getChildrensRates(), minTerm: 13, maxTerm: 25 },
-            '736': { name: 'Jeevan Labh (736)', planNumber: '736', type: 'REGULAR', pptRule: 'MAPPED', termPptMap: { '16': 10, '21': 15, '25': 16 }, rates: getEndowmentRates() },
-            '745': { name: 'Jeevan Umang (745)', planNumber: '745', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getWholeLifeRates(), minTerm: 30, maxTerm: 100 },
-            '748': { name: 'Bima Shree (748)', planNumber: '748', type: 'REGULAR', pptRule: 'MAPPED', termPptMap: { '14': 10, '16': 12, '18': 14, '20': 16, '24':20, '28':24 }, rates: getMoneyBackRates() },
-            '751': { name: 'Micro Bachat (751)', planNumber: '751', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getEndowmentRates(), minTerm: 10, maxTerm: 15 },
-            '760': { name: 'Bima Jyoti (760)', planNumber: '760', type: 'REGULAR', pptRule: 'MAPPED', termPptMap: { '15': 10, '16': 11, '17': 12, '18': 13, '19': 14, '20': 15 }, rates: getEndowmentRates() },
-            '768': { name: 'Jeevan Azad (768)', planNumber: '768', type: 'REGULAR', pptRule: 'MAPPED', termPptMap: { '15': 7, '16': 8, '17': 9, '18': 10, '19': 11, '20': 12 }, rates: getEndowmentRates() },
-            '771': { name: 'Jeevan Utsav (771)', planNumber: '771', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getWholeLifeRates(), minTerm: 10, maxTerm: 95 },
-            '774': { name: 'Amritbaal (774)', planNumber: '774', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: getChildrensRates(), minTerm: 10, maxTerm: 25 },
-            '859': { name: 'Saral Jeevan Bima (859)', planNumber: '859', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: termInsuranceRates, minTerm: 5, maxTerm: 40 },
-            '875': { name: 'Yuva Term (875)', planNumber: '875', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: termInsuranceRates, minTerm: 15, maxTerm: 40 },
-            '877': { name: 'Yuva Credit Life (877)', planNumber: '877', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: termInsuranceRates, minTerm: 5, maxTerm: 30 },
-            '955': { name: 'New Jeevan Amar (955)', planNumber: '955', type: 'REGULAR', pptRule: 'TERM_EQUALS_PPT', rates: termInsuranceRates, minTerm: 10, maxTerm: 40 },
-            
-            '758': { name: 'New Jeevan Shanti (758)', planNumber: '758', type: 'SINGLE', pptRule: 'SINGLE', rates: singlePremiumRates, minTerm: 1, maxTerm: 12 },
-            '857': { name: 'Jeevan Akshay VII (857)', planNumber: '857', type: 'SINGLE', pptRule: 'SINGLE', rates: singlePremiumRates, minTerm: 1, maxTerm: 40 },
-            '862': { name: 'Saral Pension (862)', planNumber: '862', type: 'SINGLE', pptRule: 'SINGLE', rates: singlePremiumRates, minTerm: 1, maxTerm: 40 },
-            '879': { name: 'Smart Pension (879)', planNumber: '879', type: 'SINGLE', pptRule: 'SINGLE', rates: singlePremiumRates, minTerm: 1, maxTerm: 40 },
-        };
-        
-        const planSelect = document.getElementById('plan-name');
-        const planNumberInput = document.getElementById('plan-number');
-        const termInput = document.getElementById('policy-term');
-        const termSelect = document.getElementById('term-select');
-        const pptInput = document.getElementById('ppt');
-        const premiumInput = document.getElementById('premium');
-        const modeSelect = document.getElementById('mode');
-        const calculateBtn = document.getElementById('calculate-btn');
-        const resetBtn = document.getElementById('reset-btn');
-        const errorMsg = document.getElementById('error-message');
-        const [outY1, outY2, outY3, outY4plus] = ['output-y1', 'output-y2', 'output-y3', 'output-y4plus'].map(id => document.getElementById(id));
-
-        const populatePlans = () => {
-            const planKeys = Object.keys(commissionData);
-            planKeys.sort((a, b) => commissionData[a].name.localeCompare(commissionData[b].name));
-            planKeys.forEach(key => {
-                const option = document.createElement('option');
-                option.value = key;
-                option.textContent = commissionData[key].name;
-                planSelect.appendChild(option);
-            });
-        };
-
-        const updateUIForPlan = () => {
-            clearError();
-            const selectedKey = planSelect.value;
-            if (!selectedKey) { resetForm(); return; }
-
-            const plan = commissionData[selectedKey];
-            planNumberInput.value = plan.planNumber;
-            modeSelect.disabled = plan.type === 'SINGLE';
-            if (plan.type === 'SINGLE') modeSelect.value = '1';
-            
-            [termInput, termSelect, pptInput].forEach(el => { el.value = ''; });
-            termInput.classList.remove('hidden');
-            termSelect.classList.add('hidden');
-            termInput.readOnly = false;
-            pptInput.readOnly = true;
-
-            switch (plan.pptRule) {
-                case 'MAPPED':
-                    termInput.classList.add('hidden');
-                    termSelect.classList.remove('hidden');
-                    termSelect.innerHTML = '<option value="">-- Select Term --</option>';
-                    Object.keys(plan.termPptMap).forEach(term => {
-                        const option = document.createElement('option');
-                        option.value = term;
-                        option.textContent = term;
-                        termSelect.appendChild(option);
-                    });
-                    break;
-                case 'FIXED':
-                    termInput.value = plan.fixedTerm;
-                    termInput.readOnly = true;
-                    pptInput.value = plan.fixedPPT;
-                    break;
-                case 'SINGLE':
-                    pptInput.value = '1';
-                    break;
-                case 'TERM_MINUS_3':
-                case 'TERM_EQUALS_PPT':
-                default:
-                    break;
-            }
-            updatePPT();
-        };
-
-        const updatePPT = () => {
-            const selectedKey = planSelect.value;
-            if (!selectedKey) return;
-
-            const plan = commissionData[selectedKey];
-            let term = 0;
-            if (plan.pptRule === 'MAPPED') {
-                term = parseInt(termSelect.value, 10);
-            } else {
-                term = parseInt(termInput.value, 10);
-            }
-
-            if (!term || isNaN(term)) {
-                if (plan.pptRule !== 'FIXED' && plan.pptRule !== 'SINGLE') pptInput.value = '';
-                return;
-            }
-
-            switch (plan.pptRule) {
-                case 'MAPPED':
-                    pptInput.value = plan.termPptMap[term] || '';
-                    break;
-                case 'TERM_MINUS_3':
-                    pptInput.value = term - 3;
-                    break;
-                case 'TERM_EQUALS_PPT':
-                    pptInput.value = term;
-                    break;
-            }
-        };
-        
-        const showError = (message) => { errorMsg.textContent = message; errorMsg.style.display = 'block'; };
-        const clearError = () => { errorMsg.textContent = ''; errorMsg.style.display = 'none'; };
-
-        const resetForm = () => {
-            planSelect.value = '';
-            planNumberInput.value = '';
-            termInput.value = '';
-            termSelect.innerHTML = '';
-            pptInput.value = '';
-            premiumInput.value = '';
-            modeSelect.value = '1';
-            [outY1, outY2, outY3, outY4plus].forEach(el => { el.textContent = '-'; });
-            termInput.classList.remove('hidden');
-            termSelect.classList.add('hidden');
-            termInput.readOnly = false;
-            pptInput.readOnly = true;
-            modeSelect.disabled = false;
-            clearError();
-        };
-
-        const calculateCommission = () => {
-            clearError();
-            
-            // --- STEP 1: VALIDATE FORM COMPLETENESS ---
-            const planKey = planSelect.value;
-            if (!planKey) { showError('Please select a plan.'); return; }
-            const plan = commissionData[planKey];
-
-            let term;
-            if (plan.pptRule === 'MAPPED') {
-                term = parseInt(termSelect.value, 10);
-                if (!term) { showError('Please select a policy term.'); return; }
-            } else if (plan.pptRule === 'FIXED') {
-                term = plan.fixedTerm; 
-            } else {
-                term = parseInt(termInput.value, 10);
-                if (!term || term <= 0) { showError('Please enter a valid policy term.'); return; }
-            }
-
-            const premium = parseFloat(premiumInput.value);
-            if (!premium || premium <= 0) { showError('Please enter a valid premium amount.'); return; }
-
-            // --- STEP 2: VALIDATE TERM RANGE ---
-            if (plan.minTerm && plan.maxTerm) {
-                if (term < plan.minTerm || term > plan.maxTerm) {
-                    showError(`For this plan, the term must be between ${plan.minTerm} and ${plan.maxTerm} years.`);
-                    return;
-                }
-            }
-
-            // --- STEP 3: GET RATES AND CALCULATE ---
-            let rates;
-            if (typeof plan.rates === 'function') {
-                rates = plan.rates(term);
-            } else {
-                rates = plan.rates;
-            }
-
-            if (!rates) {
-                showError(`Commission rates are not available for the selected term of ${term} years.`);
-                return;
-            }
-
-            const annualPremium = (plan.type === 'SINGLE') ? premium : premium * parseInt(modeSelect.value, 10);
-            const formatCurrency = (num) => `₹ ${num.toFixed(2)}`;
-
-            const commY1 = annualPremium * (rates.y1 / 100);
-            const commY2 = (term >= 2 && plan.type === 'REGULAR') ? annualPremium * (rates.y2 / 100) : 0;
-            const commY3 = (term >= 3 && plan.type === 'REGULAR') ? annualPremium * (rates.y3 / 100) : 0;
-            const commY4plus = (term >= 4 && plan.type === 'REGULAR') ? annualPremium * (rates.y4plus / 100) : 0;
-            
-            outY1.textContent = formatCurrency(commY1);
-            outY2.textContent = formatCurrency(commY2);
-            outY3.textContent = formatCurrency(commY3);
-            outY4plus.textContent = formatCurrency(commY4plus);
-        };
-
-        planSelect.addEventListener('change', updateUIForPlan);
-        termInput.addEventListener('input', updatePPT);
-        termSelect.addEventListener('change', updatePPT);
-        calculateBtn.addEventListener('click', calculateCommission);
-        resetBtn.addEventListener('click', resetForm);
-
-        populatePlans();
-    });
-    </script>
-<div class="home-button-container">
-  <a href="/main.html" title="Go to Home">
-    <img src="images/home-icon.png" alt="Home">
-  </a>
 </div>
-<!-- PWA: Register the Workbox Service Worker -->
+
 <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw-workbox.js')
-                .then(registration => {
-                    console.log('Workbox service worker registered successfully:', registration);
-                })
-                .catch(error => {
-                    console.error('Workbox service worker registration FAILED:', error);
-                });
+const db = {
+    '714': { name: "New Endowment (714)", type: 'END', rule: 'T=P', min: 12, max: 35 },
+    '715': { name: "New Jeevan Anand (715)", type: 'END', rule: 'T=P', min: 15, max: 35 },
+    '717': { name: "Single Prem. Endowment (717)", type: 'SP', rule: 'SP', min: 10, max: 25 },
+    '720': { name: "20 Year Money Back (720)", type: 'MB', rule: 'FIX', fT: 20, fP: 15 },
+    '721': { name: "25 Year Money Back (721)", type: 'MB', rule: 'FIX', fT: 25, fP: 20 },
+    '732': { name: "Children Money Back (732)", type: 'END', rule: 'T=P', min: 13, max: 25 },
+    '733': { name: "Jeevan Lakshya (733)", type: 'END', rule: 'T-3', min: 13, max: 25 },
+    '734': { name: "Jeevan Tarun (734)", type: 'END', rule: 'T=P', min: 13, max: 25 },
+    '736': { name: "Jeevan Labh (736)", type: 'END', rule: 'MAP', map: {16:10, 21:15, 25:16} },
+    '745': { name: "Jeevan Umang (745)", type: 'END', rule: 'T=P', min: 15, max: 30 },
+    '748': { name: "Bima Shree (748)", type: 'MB', rule: 'MAP', map: {14:10, 16:12, 18:14, 20:16, 24:20, 28:24} },
+    '751': { name: "Micro Bachat (751)", type: 'MICRO', rule: 'T=P', min: 10, max: 15 },
+    '758': { name: "New Jeevan Shanti (758)", type: 'SP', rule: 'SP', min: 1, max: 12 },
+    '760': { name: "Bima Jyoti (760)", type: 'END', rule: 'MAP', map: {15:10, 16:11, 17:12, 18:13, 19:14, 20:15} },
+    '764': { name: "Bima Ratna (764)", type: 'END', rule: 'MAP', map: {15:11, 20:16, 25:21} },
+    '768': { name: "Jeevan Azad (768)", type: 'END', rule: 'MAP', map: {15:7, 16:8, 17:9, 18:10, 19:11, 20:12} },
+    '771': { name: "Jeevan Utsav (771)", type: 'END', rule: 'T=P', min: 5, max: 16 },
+    '774': { name: "Amritbaal (774)", type: 'END', rule: 'T=P', min: 10, max: 25 },
+    '857': { name: "Jeevan Akshay VII (857)", type: 'SP', rule: 'SP', min: 1, max: 1 },
+    '859': { name: "Saral Jeevan Bima (859)", type: 'TERM', rule: 'T=P', min: 5, max: 40 },
+    '862': { name: "Saral Pension (862)", type: 'SP', rule: 'SP', min: 1, max: 1 },
+    '875': { name: "Yuva Term (875)", type: 'TERM', rule: 'T=P', min: 15, max: 40 },
+    '877': { name: "Yuva Credit Life (877)", type: 'TERM', rule: 'T=P', min: 5, max: 30 },
+    '879': { name: "Smart Pension (879)", type: 'SP', rule: 'SP', min: 1, max: 1 },
+    '880': { name: "Jan Suraksha (880)", type: 'MICRO', rule: 'T-5', min: 12, max: 20 },
+    '881': { name: "Bima Lakshmi (881)", type: 'LAKSHMI', rule: 'MANUAL', min: 25, max: 25 },
+    '911': { name: "Nav Jeevan Shree Single (911)", type: 'SP', rule: 'SP', min: 5, max: 20 },
+    '912': { name: "Nav Jeevan Shree Regular (912)", type: 'END', rule: 'MAP', map: {10:6, 12:8, 15:10, 20:12} },
+    '955': { name: "New Jeevan Amar (955)", type: 'TERM', rule: 'T=P', min: 10, max: 40 }
+};
+
+const planSelect = document.getElementById('plan-select');
+const termInp = document.getElementById('policy-term');
+const termSel = document.getElementById('term-dropdown');
+const pptInp = document.getElementById('ppt');
+const modeSel = document.getElementById('mode');
+
+// Sort and Populate Dropdown
+Object.keys(db).sort().forEach(id => {
+    let el = document.createElement('option');
+    el.value = id; el.text = db[id].name;
+    planSelect.add(el);
+});
+
+function setupPlanLogic() {
+    const plan = db[planSelect.value];
+    if(!plan) return;
+    
+    document.getElementById('plan-no').value = planSelect.value;
+    modeSel.disabled = (plan.type === 'SP');
+    if(plan.type === 'SP') modeSel.value = "1";
+
+    termInp.classList.remove('hidden'); termSel.classList.add('hidden');
+    termInp.readOnly = false; pptInp.readOnly = true;
+
+    if(plan.rule === 'MAP') {
+        termInp.classList.add('hidden'); termSel.classList.remove('hidden');
+        termSel.innerHTML = '<option value="">-- Select --</option>';
+        Object.keys(plan.map).forEach(t => {
+            let o = document.createElement('option'); o.value = t; o.text = t; termSel.add(o);
         });
+    } else if(plan.rule === 'FIX') {
+        termInp.value = plan.fT; termInp.readOnly = true; pptInp.value = plan.fP;
+    } else if(plan.rule === 'SP') {
+        pptInp.value = 1;
+    } else if(plan.rule === 'MANUAL') {
+        termInp.value = plan.min; termInp.readOnly = true;
+        pptInp.readOnly = false; pptInp.placeholder = "Enter 7-15"; pptInp.value = "";
     }
-</script>  
+}
+
+function updatePPT() {
+    const plan = db[planSelect.value];
+    if(!plan) return;
+    const t = parseInt(plan.rule === 'MAP' ? termSel.value : termInp.value);
+    if(!t) return;
+
+    if(plan.rule === 'T=P') pptInp.value = t;
+    if(plan.rule === 'T-3') pptInp.value = t - 3;
+    if(plan.rule === 'T-5') pptInp.value = t - 5;
+    if(plan.rule === 'MAP') pptInp.value = plan.map[t];
+}
+
+function runCalculation() {
+    const id = planSelect.value;
+    const premium = parseFloat(document.getElementById('premium').value);
+    const mode = parseInt(modeSel.value);
+    const ppt = parseInt(pptInp.value);
+    const errorBox = document.getElementById('error-box');
+    
+    errorBox.style.display = 'none';
+    if(!id || !premium || isNaN(ppt)) { alert("Error: Please fill all fields."); return; }
+
+    const plan = db[id];
+    const annualized = (plan.type === 'SP') ? premium : premium * mode;
+    let rates = { y1: 25, y2: 7.5, y3: 7.5, y4: 5 };
+
+    if (plan.type === 'SP') {
+        rates = { y1: 2, y2: 0, y3: 0, y4: 0 };
+    } else if (plan.type === 'TERM') {
+        rates = { y1: 7.5, y2: 2, y3: 2, y4: 2 };
+    } else if (plan.type === 'MICRO') {
+        rates = { y1: 10, y2: 5, y3: 5, y4: 5 };
+    } else if (plan.type === 'MB') {
+        rates = { y1: 15, y2: 10, y3: 10, y4: 6 };
+    } else if (plan.type === 'LAKSHMI') {
+        if (ppt >= 15) rates = { y1: 25, y2: 7.5, y3: 7.5, y4: 5 };
+        else if (ppt >= 10) rates = { y1: 20, y2: 7.5, y3: 7.5, y4: 5 };
+        else rates = { y1: 15, y2: 5, y3: 5, y4: 5 };
+    } else {
+        // Generic Endowment Logic based on PPT
+        if (ppt < 10) rates = { y1: 10, y2: 5, y3: 5, y4: 5 };
+        else if (ppt < 15) rates = { y1: 20, y2: 7.5, y3: 7.5, y4: 5 };
+    }
+
+    const format = (v) => "₹ " + Math.round(v).toLocaleString('en-IN');
+    document.getElementById('y1').innerText = format(annualized * rates.y1 / 100);
+    document.getElementById('y2').innerText = (ppt >= 2) ? format(annualized * rates.y2 / 100) : "₹ 0";
+    document.getElementById('y3').innerText = (ppt >= 3) ? format(annualized * rates.y3 / 100) : "₹ 0";
+    document.getElementById('y4').innerText = (ppt >= 4) ? format(annualized * rates.y4 / 100) : "₹ 0";
+}
+</script>
 </body>
 </html>
