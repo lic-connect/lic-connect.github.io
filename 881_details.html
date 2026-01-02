@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC's Bima Lakshmi (881)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root { --primary-color: #6a1b9a; --accent-color: #00bfa5; --bg-gradient: linear-gradient(135deg, #f3e5f5 0%, #e0f2f1 100%); --text-color: #37474f; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg-gradient); color: var(--text-color); line-height: 1.7; margin: 0; min-height: 100vh; }
+        .container { max-width: 1000px; margin: 50px auto; padding: 0 20px; }
+        .plan-card { background: #ffffff; border-radius: 25px; box-shadow: 0 20px 60px rgba(106,27,154,0.15); display: flex; overflow: hidden; border: 1px solid rgba(255,255,255,0.5); }
+        .card-sidebar { flex-basis: 340px; background: var(--primary-color); color: white; padding: 60px 40px; text-align: center; position: relative; }
+        .card-sidebar::after { content: ''; position: absolute; top: 0; right: 0; width: 8px; height: 100%; background: var(--accent-color); }
+        .card-sidebar .icon { font-size: 5.5rem; margin-bottom: 25px; color: #fff; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.2)); }
+        .card-sidebar h1 { font-family: 'Oswald', sans-serif; font-size: 2.6rem; text-transform: uppercase; margin: 0; letter-spacing: 2px; }
+        .card-sidebar .tagline { font-size: 0.9rem; color: var(--accent-color); font-weight: bold; text-transform: uppercase; display: block; margin-top: 10px; }
+        .card-content { flex: 1; padding: 50px; }
+        .card-content h2 { font-family: 'Oswald', sans-serif; font-size: 2.2rem; color: var(--primary-color); margin-bottom: 15px; }
+        .exclusive { display: inline-block; background: var(--accent-color); color: white; padding: 4px 15px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-bottom: 20px; }
+        .key-info { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 25px 0; }
+        .info-item { background: #fdfbff; padding: 18px; border-radius: 15px; box-shadow: inset 0 0 10px rgba(0,0,0,0.02); border: 1px solid #eee; }
+        .info-item strong { display: block; color: var(--primary-color); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 4px; }
+        .info-item span { font-size: 1.1rem; font-weight: 700; }
+        .survival-options { margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .opt-card { text-align: center; padding: 15px; border-radius: 12px; background: #e0f2f1; border: 1px solid #b2dfdb; }
+        .opt-card h5 { margin: 0 0 5px 0; color: #00796b; font-size: 1rem; }
+        .opt-card p { margin: 0; font-size: 0.85rem; font-weight: 600; line-height: 1.3; }
+        .footer { text-align: center; margin-top: 40px; color: #78909c; font-size: 0.9rem; }
+        @media (max-width: 768px) { .plan-card { flex-direction: column; } .survival-options { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="plan-card">
+            <div class="card-sidebar">
+                <div class="icon"><i class="fas fa-venus"></i></div>
+                <h1>Bima Lakshmi</h1>
+                <span class="tagline">Exclusively for Females</span>
+                <div style="margin-top: 40px; font-size: 1.2rem; font-weight: bold;">Plan No. 881</div>
+            </div>
+            <div class="card-content">
+                <div class="exclusive">WOMEN SPECIAL</div>
+                <h2>Empowering Her Future.</h2>
+                <p>A unique savings plan tailored for the women of India, offering a blend of life protection, high guaranteed returns, and flexible liquidity.</p>
+                
+                <div class="key-info">
+                    <div class="info-item"><strong>Policy Term</strong><span>25 Years</span></div>
+                    <div class="info-item"><strong>Premium Term</strong><span>7 to 15 Years</span></div>
+                    <div class="info-item"><strong>Guaranteed Add.</strong><span>7% of Premium</span></div>
+                    <div class="info-item"><strong>Min Sum Assured</strong><span>₹2,00,000</span></div>
+                </div>
+
+                <h3 style="font-family: 'Oswald', sans-serif; color: var(--primary-color);">Survival Benefit Choices</h3>
+                <div class="survival-options">
+                    <div class="opt-card"><h5>Option A</h5><p>50% SA at end of PPT</p></div>
+                    <div class="opt-card"><h5>Option B</h5><p>7.5% SA Every 2nd Year</p></div>
+                    <div class="opt-card"><h5>Option C</h5><p>15% SA Every 4th Year</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <p>Guaranteed Additions accrue annually throughout the policy term. Loan facility available after 2 years.</p>
+        </div>
+    </div>
+</body>
+</html>

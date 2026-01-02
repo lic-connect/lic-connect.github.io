@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIC Jan Suraksha (Plan 880) Premium Calculator</title>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; margin: 0; padding: 20px; }
+    .container { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 12px 24px rgba(0,0,0,0.1); max-width: 550px; margin:auto; border-top: 6px solid #ff9900; }
+    h1 { text-align:center; color: #333; margin-bottom: 30px; font-size: 24px; text-transform: uppercase; letter-spacing: 1px; }
+    
+    .form-group { margin-bottom: 20px; position: relative; }
+    label { font-weight:600; color: #555; margin-bottom: 8px; display:block; font-size: 14px; }
+    input[type="number"], input[type="text"] { 
+        width:100%; padding:14px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; transition: all 0.3s;
+    }
+    input:focus { border-color: #ff9900; box-shadow: 0 0 5px rgba(255, 153, 0, 0.3); outline: none; }
+    input:disabled { background-color: #f8f9fa; color: #777; border-color: #eee; cursor: not-allowed; }
+    
+    /* Checkbox Styling */
+    .checkbox-container {
+        display: flex; align-items: center; margin-top: 20px; margin-bottom: 25px;
+        background-color: #fff8e1; padding: 15px; border-radius: 8px; border: 1px solid #ffe082;
+    }
+    .checkbox-container input { width: 22px; height: 22px; margin-right: 12px; cursor: pointer; accent-color: #ff9900; }
+    .checkbox-container label { margin: 0; cursor: pointer; color: #5d4037; font-weight: 600; font-size: 15px; }
+
+    /* Button */
+    .calc-btn { 
+        width:100%; padding:16px; background: linear-gradient(135deg, #ff9900, #ff6600); color:#fff; font-size: 18px; font-weight: bold; 
+        border:none; border-radius: 8px; cursor:pointer; transition: transform 0.2s, box-shadow 0.3s; 
+        box-shadow: 0 4px 10px rgba(255, 102, 0, 0.3);
+    }
+    .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255, 102, 0, 0.4); }
+
+    /* Results */
+    .result-box { margin-top: 35px; display: none; animation: slideUp 0.6s ease-out; }
+    table { width:100%; border-collapse:collapse; margin-top:15px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    th, td { border-bottom: 1px solid #f1f1f1; padding:14px; text-align:center; font-size: 15px; color: #444; }
+    th { background-color: #444; color: white; font-weight: 500; font-size: 14px; }
+    tr:last-child td { border-bottom: none; }
+    
+    .highlight-row { background-color: #fff3cd; color: #856404; font-weight: bold; }
+    .incentive-row { background-color: #e8f5e9; color: #2e7d32; font-weight: bold; font-size: 14px; }
+    
+    .error-msg { color: #d32f2f; text-align: center; font-weight: bold; margin-top: 15px; background: #ffebee; padding: 10px; border-radius: 6px; }
+    .note { font-size: 12px; color: #777; text-align: center; margin-top: 20px; line-height: 1.5; }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>LIC Jan Suraksha (880)</h1>
+
+    <div class="form-group">
+        <label for="age">Age (18 - 55)</label>
+        <input type="number" id="age" value="35" min="18" max="55" onchange="updatePPT()">
+    </div>
+
+    <div class="form-group">
+        <label for="term">Policy Term (12 - 20 Years)</label>
+        <input type="number" id="term" value="15" min="12" max="20" onchange="updatePPT()">
+    </div>
+
+    <div class="form-group">
+        <label for="ppt">Premium Paying Term (PPT)</label>
+        <input type="text" id="ppt" value="10 Years" disabled />
+    </div>
+
+    <div class="form-group">
+        <label for="sumAssured">Sum Assured (₹ 1,00,000 - ₹ 2,00,000)</label>
+        <input type="number" id="sumAssured" value="200000" min="100000" max="200000" step="5000" />
+        <small style="color:#888; font-size:12px; margin-top:5px; display:block;">* Multiples of ₹ 5,000</small>
+    </div>
+
+    <!-- Only AD&DB Rider -->
+    <div class="checkbox-container">
+        <input type="checkbox" id="addb_checkbox">
+        <label for="addb_checkbox">Include Accident Benefit Rider (AD&DB)</label>
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">Calculate Premium</button>
+    
+    <div id="error-message" class="error-msg" style="display:none;"></div>
+
+    <div id="results" class="result-box">
+        <!-- Results injected here -->
+    </div>
+
+    <div class="note">
+        <strong>Note:</strong> Premiums displayed are <strong>Exclusive of Taxes</strong>.<br>
+        *High SA Incentive (if applicable) is added to the Policy Benefits (GA), not deducted from the Premium.
+    </div>
+  </div>
+
+<script>
+// Premium Rates (Plan 880) - Data from JSON
+const premiumRates = {
+  18: {12:132.7, 13:114.85, 14:101.05, 15:90.05, 16:81.1, 17:73.7, 18:67.45, 19:62.1, 20:57.9},
+  19: {12:132.7, 13:114.85, 14:101.05, 15:90.1, 16:81.15, 17:73.7, 18:67.45, 19:62.15, 20:57.9},
+  20: {12:132.7, 13:114.9, 14:101.1, 15:90.1, 16:81.15, 17:73.7, 18:67.45, 19:62.15, 20:57.9},
+  21: {12:132.7, 13:114.9, 14:101.1, 15:90.1, 16:81.15, 17:73.7, 18:67.45, 19:62.15, 20:57.95},
+  22: {12:132.7, 13:114.9, 14:101.1, 15:90.1, 16:81.15, 17:73.75, 18:67.5, 19:62.15, 20:57.95},
+  23: {12:132.7, 13:114.9, 14:101.1, 15:90.1, 16:81.15, 17:73.75, 18:67.5, 19:62.2, 20:57.95},
+  24: {12:132.7, 13:114.9, 14:101.1, 15:90.1, 16:81.15, 17:73.75, 18:67.5, 19:62.2, 20:58.0},
+  25: {12:132.7, 13:114.9, 14:101.1, 15:90.15, 16:81.2, 17:73.8, 18:67.55, 19:62.25, 20:58.0},
+  26: {12:132.75, 13:114.9, 14:101.15, 15:90.15, 16:81.2, 17:73.8, 18:67.55, 19:62.25, 20:58.05},
+  27: {12:132.75, 13:114.95, 14:101.15, 15:90.2, 16:81.25, 17:73.85, 18:67.6, 19:62.3, 20:58.1},
+  28: {12:132.8, 13:114.95, 14:101.2, 15:90.2, 16:81.3, 17:73.9, 18:67.65, 19:62.35, 20:58.15},
+  29: {12:132.8, 13:115.0, 14:101.25, 15:90.25, 16:81.35, 17:73.95, 18:67.7, 19:62.4, 20:58.25},
+  30: {12:132.85, 13:115.05, 14:101.3, 15:90.3, 16:81.4, 17:74.0, 18:67.8, 19:62.5, 20:58.35},
+  31: {12:132.9, 13:115.1, 14:101.35, 15:90.4, 16:81.45, 17:74.1, 18:67.9, 19:62.6, 20:58.45},
+  32: {12:132.95, 13:115.2, 14:101.4, 15:90.45, 16:81.55, 17:74.2, 18:68.0, 19:62.7, 20:58.55},
+  33: {12:133.05, 13:115.25, 14:101.5, 15:90.55, 16:81.65, 17:74.3, 18:68.1, 19:62.8, 20:58.65},
+  34: {12:133.15, 13:115.35, 14:101.6, 15:90.65, 16:81.75, 17:74.4, 18:68.2, 19:62.95, 20:58.8},
+  35: {12:133.25, 13:115.45, 14:101.7, 15:90.8, 16:81.9, 17:74.55, 18:68.35, 19:63.1, 20:59.0},
+  36: {12:133.35, 13:115.55, 14:101.85, 15:90.9, 16:82.05, 17:74.7, 18:68.55, 19:63.3, 20:59.2},
+  37: {12:133.45, 13:115.7, 14:102.0, 15:91.05, 16:82.2, 17:74.9, 18:68.75, 19:63.5, 20:59.4},
+  38: {12:133.6, 13:115.85, 14:102.15, 15:91.25, 16:82.4, 17:75.1, 18:68.95, 19:63.75, 20:59.65},
+  39: {12:133.75, 13:116.0, 14:102.35, 15:91.45, 16:82.6, 17:75.3, 18:69.2, 19:64.0, 20:59.95},
+  40: {12:133.95, 13:116.2, 14:102.55, 15:91.65, 16:82.85, 17:75.55, 18:69.5, 19:64.3, 20:60.25},
+  41: {12:134.15, 13:116.45, 14:102.8, 15:91.95, 16:83.15, 17:75.85, 18:69.8, 19:64.65, 20:60.6},
+  42: {12:134.4, 13:116.7, 14:103.05, 15:92.25, 16:83.45, 17:76.2, 18:70.15, 19:65.0, 20:61.0},
+  43: {12:134.65, 13:117.0, 14:103.35, 15:92.55, 16:83.8, 17:76.6, 18:70.55, 19:65.45, 20:61.5},
+  44: {12:134.95, 13:117.35, 14:103.75, 15:92.95, 16:84.2, 17:77.0, 18:71.0, 19:65.9, 20:61.95},
+  45: {12:135.3, 13:117.7, 14:104.15, 15:93.4, 16:84.7, 17:77.5, 18:71.5, 19:66.45, 20:62.5},
+  46: {12:135.75, 13:118.15, 14:104.6, 15:93.85, 16:85.2, 17:78.05, 18:72.05, 19:67.0, 20:63.1},
+  47: {12:136.2, 13:118.65, 14:105.1, 15:94.4, 16:85.75, 17:78.6, 18:72.7, 19:67.65, 20:63.8},
+  48: {12:136.7, 13:119.2, 14:105.7, 15:95.0, 16:86.35, 17:79.25, 18:73.35, 19:68.3, 20:64.5},
+  49: {12:137.25, 13:119.75, 14:106.3, 15:95.65, 16:87.05, 17:79.95, 18:74.05, 19:69.05, 20:65.25},
+  50: {12:137.9, 13:120.4, 14:106.95, 15:96.35, 16:87.75, 17:80.7, 18:74.8, 19:69.85, 20:66.05},
+  51: {12:138.55, 13:121.1, 14:107.7, 15:97.05, 16:88.5, 17:81.45, 18:75.6, 19:70.65},
+  52: {12:139.25, 13:121.8, 14:108.4, 15:97.85, 16:89.3, 17:82.3, 18:76.45},
+  53: {12:139.95, 13:122.55, 14:109.2, 15:98.65, 16:90.15, 17:83.15},
+  54: {12:140.7, 13:123.35, 14:110.0, 15:99.5, 16:91.0},
+  55: {12:141.5, 13:124.15, 14:110.85, 15:100.35}
+};
+
+// Mode Factors (PDF Page 5)
+const modeFactors = {
+    yearly: 1.0,
+    halfYearly: 0.5090,
+    quarterly: 0.2568,
+    monthly: 0.0861
+};
+
+function updatePPT() {
+    let term = document.getElementById("term").value;
+    if(term) {
+        // PPT = Term - 5
+        document.getElementById("ppt").value = (term - 5) + " Years";
+    }
+}
+
+function formatCurrency(num) {
+    return "₹ " + Math.round(num).toLocaleString('en-IN');
+}
+
+function calculate() {
+    const age = parseInt(document.getElementById("age").value);
+    const term = parseInt(document.getElementById("term").value);
+    const sa = parseInt(document.getElementById("sumAssured").value);
+    const errorDiv = document.getElementById("error-message");
+    const resultDiv = document.getElementById("results");
+
+    // Reset UI
+    errorDiv.style.display = "none";
+    resultDiv.style.display = "none";
+
+    // Validations
+    if (!premiumRates[age]) {
+        errorDiv.innerHTML = "Plan not available for this Age.";
+        errorDiv.style.display = "block";
+        return;
+    }
+    const rate = premiumRates[age][term];
+    if (!rate) {
+        errorDiv.innerHTML = `Plan not available for Age ${age} and Term ${term}.`;
+        errorDiv.style.display = "block";
+        return;
+    }
+    if (sa < 100000 || sa > 200000) {
+        errorDiv.innerHTML = "Sum Assured must be between ₹ 1,00,000 and ₹ 2,00,000.";
+        errorDiv.style.display = "block";
+        return;
+    }
+    if (sa % 5000 !== 0) {
+        errorDiv.innerHTML = "Sum Assured must be in multiples of ₹ 5,000.";
+        errorDiv.style.display = "block";
+        return;
+    }
+
+    // --- 1. Base Premium Calculation ---
+    // Formula: (SA / 1000) * Rate
+    let basePremiumYearly = (sa / 1000) * rate;
+
+    // --- 2. Rider Calculation (AD&DB) ---
+    // Rule: Approx 1.0 per 1000 SA. Capped at 30% of Base Premium.
+    let riderPremiumYearly = 0;
+    const hasRider = document.getElementById("addb_checkbox").checked; 
+    
+    if (hasRider) {
+        let riderRate = 1.25; 
+        riderPremiumYearly = (sa / 1000) * riderRate;
+
+        // Constraint from PDF Page 5: Rider Premium <= 30% of Base Premium
+        let maxRiderPrem = basePremiumYearly * 0.30;
+        if (riderPremiumYearly > maxRiderPrem) {
+            riderPremiumYearly = maxRiderPrem; 
+        }
+    }
+
+    // --- 3. Total Annual Premium ---
+    let totalAnnualPremium = basePremiumYearly + riderPremiumYearly;
+
+    // --- 4. High SA Incentive (GA Addition) ---
+    // Rule: If SA >= 2,00,000, Incentive is 0.25% of Annualized Premium (Base).
+    // This is added to Benefits, NOT deducted from premium.
+    let incentiveAmountYearly = 0;
+    let incentiveText = "Nil";
+    
+    if (sa >= 200000) {
+        incentiveAmountYearly = (basePremiumYearly * 0.25) / 100;
+        incentiveText = `+ ${formatCurrency(incentiveAmountYearly)} / year`;
+    }
+
+    // --- 5. Calculate Modal Premiums (Total * ModeFactor) ---
+    let modes = {
+        yearly: totalAnnualPremium * modeFactors.yearly,
+        halfYearly: totalAnnualPremium * modeFactors.halfYearly,
+        quarterly: totalAnnualPremium * modeFactors.quarterly,
+        monthly: totalAnnualPremium * modeFactors.monthly
+    };
+
+    // --- 6. Output HTML ---
+    let output = `
+        <h3 style="text-align:center; color:#333; margin-bottom:15px;">Calculation Summary</h3>
+        <table>
+            <tr>
+                <td><strong>Sum Assured</strong></td>
+                <td><strong>${formatCurrency(sa)}</strong></td>
+            </tr>
+            <tr>
+                <td>Policy Term / PPT</td>
+                <td>${term} Years / ${term - 5} Years</td>
+            </tr>
+            <tr>
+                <td>Base Premium (Yearly)</td>
+                <td>${formatCurrency(basePremiumYearly)}</td>
+            </tr>
+            <tr>
+                <td>Rider Premium (Yearly)</td>
+                <td>${formatCurrency(riderPremiumYearly)}</td>
+            </tr>
+            <!-- Incentive Logic Displayed Here -->
+            <tr class="incentive-row">
+                <td>High SA Incentive (Added to GA)</td>
+                <td>${incentiveText}</td>
+            </tr>
+        </table>
+
+        <h3 style="margin-top:25px; text-align:center; color:#333; margin-bottom:15px;">Installment Premiums (No Tax)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mode</th>
+                    <th>Premium</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="highlight-row">
+                    <td>Yearly</td>
+                    <td>${formatCurrency(modes.yearly)}</td>
+                </tr>
+                <tr>
+                    <td>Half-Yearly</td>
+                    <td>${formatCurrency(modes.halfYearly)}</td>
+                </tr>
+                <tr>
+                    <td>Quarterly</td>
+                    <td>${formatCurrency(modes.quarterly)}</td>
+                </tr>
+                <tr>
+                    <td>Monthly (NACH)</td>
+                    <td>${formatCurrency(modes.monthly)}</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+
+    resultDiv.innerHTML = output;
+    resultDiv.style.display = "block";
+}
+
+// Initialize PPT on load
+updatePPT();
+</script>
+
+</body>
+</html>

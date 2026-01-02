@@ -246,17 +246,42 @@
             "745": { name: "Jeevan Umang", sbPercents: {afterPPT: 8}, minSA: 200000 },
             "748": { name: "Bima Shree", sbPercents: {14: 30, 18: 30, 22: 40, 26: 45}, minSA: 1000000 },
             "771": { name: "Jeevan Utsav", sbPercents: {afterIncomeStart: 10}, minSA: 500000 }
+// Plan 881 Option A (50% SA paid at end of PPT - supporting 7 to 15 years)
+            "881A7":  { name: "Bima Lakshmi (Opt A - 7yr PPT)",  sbPercents: {7: 50},  minSA: 200000 },
+            "881A8":  { name: "Bima Lakshmi (Opt A - 8yr PPT)",  sbPercents: {8: 50},  minSA: 200000 },
+            "881A9":  { name: "Bima Lakshmi (Opt A - 9yr PPT)",  sbPercents: {9: 50},  minSA: 200000 },
+            "881A10": { name: "Bima Lakshmi (Opt A - 10yr PPT)", sbPercents: {10: 50}, minSA: 200000 },
+            "881A11": { name: "Bima Lakshmi (Opt A - 11yr PPT)", sbPercents: {11: 50}, minSA: 200000 },
+            "881A12": { name: "Bima Lakshmi (Opt A - 12yr PPT)", sbPercents: {12: 50}, minSA: 200000 },
+            "881A13": { name: "Bima Lakshmi (Opt A - 13yr PPT)", sbPercents: {13: 50}, minSA: 200000 },
+            "881A14": { name: "Bima Lakshmi (Opt A - 14yr PPT)", sbPercents: {14: 50}, minSA: 200000 },
+            "881A15": { name: "Bima Lakshmi (Opt A - 15yr PPT)", sbPercents: {15: 50}, minSA: 200000 },
+            
+            // Plan 881 Option B (7.5% every 2 years for 24 years)
+            "881B": { name: "Bima Lakshmi (Option B)", sbPercents: {2: 7.5, 4: 7.5, 6: 7.5, 8: 7.5, 10: 7.5, 12: 7.5, 14: 7.5, 16: 7.5, 18: 7.5, 20: 7.5, 22: 7.5, 24: 7.5}, minSA: 200000 },
+            
+            // Plan 881 Option C (15% every 4 years for 24 years)
+            "881C": { name: "Bima Lakshmi (Option C)", sbPercents: {4: 15, 8: 15, 12: 15, 16: 15, 20: 15, 24: 15}, minSA: 200000 },
         };
 
         function setError(message) { document.getElementById('errorMsg').innerText = message; }
         function clearError() { setError(''); }
-
-        function validatePlanNo() {
-            const planNo = document.getElementById('planNo').value.trim();
+function validatePlanNo() {
+            const planNo = document.getElementById('planNo').value.trim().toUpperCase();
             const planNameEl = document.getElementById('planName');
+            
             if (!planNo) { planNameEl.value = ''; clearError(); return; }
-            if (!sbData[planNo]) { planNameEl.value = ''; setError('Sorry! Invalid Plan for SB'); } 
-            else { clearError(); planNameEl.value = sbData[planNo].name; }
+            
+            if (planNo === "881") {
+                setError('For 881, enter 881B, 881C or 881A + PPT (e.g., 881A10)');
+                planNameEl.value = '';
+            } else if (!sbData[planNo]) {
+                planNameEl.value = ''; 
+                setError('Sorry! Invalid Plan for SB');
+            } else {
+                clearError(); 
+                planNameEl.value = sbData[planNo].name;
+            }
             resetResultsAndRemarks();
         }
 
