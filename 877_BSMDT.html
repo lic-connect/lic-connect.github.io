@@ -247,7 +247,7 @@
         <div id="results-container"></div>
         
         <div class="disclaimer">
-            This is an illustrative calculator. The calculated premium is subject to GST and other charges. Please refer to the official LIC policy documents for exact details. The ADDB rider is an optional benefit and availability is subject to plan rules.
+            This is an illustrative calculator. The calculated premium is the base amount and currently excludes GST/Taxes...
         </div>
     </div>
 
@@ -541293,7 +541293,7 @@
             const modalFactor = (mode === 'Y') ? 1 : 0.51;
             const modalPremium = premiumAfterRebate * modalFactor;
             
-            const gstRate = 0.18;
+          const gstRate = 0; // GST removed
             const premiumForGst = modalPremium;
             const gstAmount = premiumForGst * gstRate;
             const totalPremiumPayable = premiumForGst + gstAmount;
@@ -541302,14 +541302,13 @@
             let resultsHtml = `<table class="results-table">`;
             const premiumLabelText = (mode === 'Y' ? "Yearly Premium" : "Half-Yearly Premium");
             resultsHtml += `<tr><td colspan="2" style="background-color: var(--primary-color); color: white; text-align: center; font-weight: bold;">Premium Summary</td></tr>`;
-            resultsHtml += `<tr><td>Basic ${premiumLabelText} (before rebate)</td><td>${formatCurrency(basePremium * modalFactor)}</td></tr>`;
+           resultsHtml += `<tr><td>Basic ${premiumLabelText}</td><td>${formatCurrency(basePremium * modalFactor)}</td></tr>`;
             if (rebateAmount > 0) {
                 const displayRebateRate = rebateValue / 100;
                 resultsHtml += `<tr><td>High SA Rebate (₹${displayRebateRate.toFixed(2)}/1000 SA)</td><td>- ${formatCurrency(rebateAmount * modalFactor)}</td></tr>`;
-                resultsHtml += `<tr><td>Premium after Rebate</td><td>${formatCurrency(modalPremium)}</td></tr>`;
             }
-            resultsHtml += `<tr><td>GST (18%)</td><td>+ ${formatCurrency(gstAmount)}</td></tr>`;
-            resultsHtml += `<tr style="font-size: 1.1em; background-color: #e8f5e9;"><th>Total ${premiumLabelText} Payable</th><th>${formatCurrency(totalPremiumPayable)}</th></tr>`;
+            // Removed intermediate "Premium after Rebate" and "GST" rows
+            resultsHtml += `<tr style="font-size: 1.1em; background-color: #e8f5e9;"><th>Final ${premiumLabelText} Amount</th><th>${formatCurrency(totalPremiumPayable)}</th></tr>`;
             resultsHtml += `</table>`;
             resultsContainer.innerHTML = resultsHtml;
         }

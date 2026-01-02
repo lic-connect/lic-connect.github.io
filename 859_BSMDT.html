@@ -152,14 +152,12 @@
     <div id="results">
         <h2>Premium Calculation</h2>
         <table class="results-table">
-            <thead>
-                <tr>
-                    <th>Mode</th>
-                    <th>Premium (Excl. GST)</th>
-                    <th>GST (18%)</th>
-                    <th>Premium (Incl. GST)</th>
-                </tr>
-            </thead>
+           <thead>
+    <tr>
+        <th>Mode</th>
+        <th>Premium Amount</th>
+    </tr>
+</thead>
             <tbody id="results-tbody">
                 <!-- Rows will be inserted here by JavaScript -->
             </tbody>
@@ -396,8 +394,7 @@ function calculatePremium() {
     const sumAssured = parseInt(document.getElementById('sum-assured').value);
     const pptOption = document.getElementById('ppt-option').value;
     
-    const GST_RATE = 0.18;
-
+ const GST_RATE = 0;
     // 2. Validate
     if (isNaN(age) || isNaN(term) || isNaN(sumAssured)) {
         return displayError("Please fill all fields with valid numbers.");
@@ -488,22 +485,18 @@ function displayResults(premiums, pptOption, term, gstRate) {
     for (const [modeName, data] of Object.entries(modes)) {
         if (!data.premium) continue;
 
-        const premiumExclGst = data.premium / data.frequency;
-        const gstAmount = premiumExclGst * gstRate;
-        const premiumInclGst = premiumExclGst + gstAmount;
+       const finalPremium = data.premium / data.frequency;
 
         const row = `
             <tr>
                 <td>${modeName}</td>
-                <td>${formatCurrency(premiumExclGst)}</td>
-                <td>${formatCurrency(gstAmount)}</td>
-                <td>${formatCurrency(premiumInclGst)}</td>
+                <td>${formatCurrency(finalPremium)}</td>
             </tr>
         `;
         resultsTbody.innerHTML += row;
 
-        if (modeName === 'Yearly') {
-            totalPremiumPaid = (premiumExclGst + gstAmount) * ppt;
+        if (modeName === 'Yearly' || modeName === 'Single') {
+            totalPremiumPaid = finalPremium * ppt;
         }
     }
 

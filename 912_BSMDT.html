@@ -149,30 +149,20 @@
                     <!-- Final Payable Premiums -->
                     <div class="col-12">
                          <h6 class="text-center mb-3">Final Payable Premium for <span id="mode-text" class="text-danger fw-bold"></span> Mode</h6>
-                         <table class="table table-bordered text-center final-premium-table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Basic Premium</th>
-                                    <th>GST</th>
-                                    <th>Total Payable</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1st Year</th>
-                                    <td id="modal-basic"></td>
-                                    <td id="modal-gst1"></td>
-                                    <td class="fw-bold fs-5" id="modal-final1"></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2nd Year Onwards</th>
-                                    <td id="modal-basic2"></td>
-                                    <td id="modal-gst2"></td>
-                                    <td class="fw-bold fs-5" id="modal-final2"></td>
-                                </tr>
-                            </tbody>
-                         </table>
+                        <table class="table table-bordered text-center final-premium-table">
+    <thead>
+        <tr>
+            <th>Payment Mode</th>
+            <th>Premium Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td id="selected-mode-display"></td>
+            <td class="fw-bold fs-5" id="modal-final-total"></td>
+        </tr>
+    </tbody>
+ </table>
                     </div>
                 </div>
             </div>
@@ -3987,9 +3977,8 @@
             "Quarterly": 0.2570,
             "Monthly": 0.0862
         };
-
-        const GST_RATE_1 = 0.045;  // 4.5% for 1st year
-        const GST_RATE_2 = 0.0225; // 2.25% for 2nd year onwards
+const GST_RATE_1 = 0; // GST removed
+const GST_RATE_2 = 0;
         const DAB_RATE_PER_1000 = 0.00;
 
         // --- Event Listeners ---
@@ -4149,13 +4138,10 @@
             document.getElementById('result-ga').textContent = formatCurrency(guaranteedAddition);
             
             // Final Payable Premiums Table
-            document.getElementById('mode-text').textContent = mode;
-            document.getElementById('modal-basic').textContent = formatCurrency(modalBasicPremium);
-            document.getElementById('modal-basic2').textContent = formatCurrency(modalBasicPremium);
-            document.getElementById('modal-gst1').textContent = formatCurrency(gstAmount1);
-            document.getElementById('modal-gst2').textContent = formatCurrency(gstAmount2);
-            document.getElementById('modal-final1').textContent = formatCurrency(finalModalPremium1);
-            document.getElementById('modal-final2').textContent = formatCurrency(finalModalPremium2);
+           // Final Payable Premiums Table (Simplified)
+    document.getElementById('mode-text').textContent = mode;
+    document.getElementById('selected-mode-display').textContent = mode;
+    document.getElementById('modal-final-total').textContent = formatCurrency(modalBasicPremium);
 
             resultsCard.scrollIntoView({ behavior: 'smooth' });
         }

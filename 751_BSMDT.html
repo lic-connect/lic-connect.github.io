@@ -134,36 +134,34 @@
 
         let outputHTML = `<p class="plan-details text-center"><b>Policy Term:</b> ${term} Years | <b>Premium Paying Term:</b> ${term} Years</p>`;
 
-        for (const modeKey in modes) {
+      for (const modeKey in modes) {
             const mode = modes[modeKey];
             
-            // Start with the full annual premium including the rider
+            // 1. Start with the annual premium after SA rebate and adding the rider
             let annualPayablePremium = annualTabularPremium - annualSaRebateAmount + annualAddbPremium;
             
-            // Apply mode-specific rebates if any
+            // 2. Apply mode-specific rebates (Yearly 2%, Half-Yearly 1%)
             if (mode.modeRebatePercent > 0) {
                 annualPayablePremium -= (annualTabularPremium * mode.modeRebatePercent);
             }
             
-            // Apply special 3% charge for monthly mode
+            // 3. Apply the specific 3% extra charge for Monthly mode (Plan 951 rule)
             if (modeKey === 'monthly') {
                 annualPayablePremium += (annualTabularPremium * 0.03);
             }
 
-            // **MODIFICATION: GST Calculation Removed**
-            // The premiumBeforeTax is now the final premium.
+            // 4. Calculate final installment for this mode (No GST added)
             const finalInstallmentPremium = annualPayablePremium * mode.factor;
             
             const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
             
-            // **MODIFICATION: Simplified Output HTML**
-            outputHTML += `
-              <div class="result-box mb-3 p-3">
-                <strong class="text-white" style="background-color: #fd7e14; padding: 2px 5px; border-radius: 3px;">${mode.name.toUpperCase()} PREMIUM</strong><hr class="my-2">
-                <div><b>Installment Premium:</b> <span class="fw-bold fs-5">₹${formatInr(finalInstallmentPremium)}</span></div>
-                <small class="d-block text-muted mt-1">(GST Exempt)</small>
-              </div>
-            `;
+            // 5. Build simplified HTML output
+          outputHTML += `
+  <div class="result-box mb-3 p-3">
+    <strong class="text-white" style="background-color: #fd7e14; padding: 2px 5px; border-radius: 3px;">${mode.name.toUpperCase()}</strong><hr class="my-2">
+    <div><b>Premium Amount:</b> <span class="fw-bold fs-5">₹${formatInr(finalInstallmentPremium)}</span></div>
+  </div>
+`;
         }
         document.getElementById("premium-results").innerHTML = outputHTML;
         document.getElementById("results").classList.remove("d-none");

@@ -6598,13 +6598,13 @@ function calculatePremium() {
 
     if (pptOption === 'single') {
         const netPremium = tabularPremium - saRebateAmount;
-        const finalPremium = netPremium * 1.18; // 18% GST for Single Premium
+        const finalPremium = netPremium * 1.0; // 18% GST for Single Premium
         
         resultsHTML = `
-            <div class="result-card single-prem">
-                <h3>Single Premium</h3>
-                <p>One-Time Payment: <span>${formatInr(finalPremium)}</span></p>
-            </div>`;
+    <div class="result-card single-prem">
+        <h3>Single Premium</h3>
+        <p>Premium Amount: <span>${formatInr(finalPremium)}</span></p>
+    </div>`;
     } else {
         const modes = {
             yearly:    { name: "Yearly",      factor: 1.0 },
@@ -6626,14 +6626,14 @@ function calculatePremium() {
             }
             
             // Apply flat 18% GST for all regular/limited premium modes
-            const finalPremium = modalPremium * 1.18;
+            const finalPremium = modalPremium * 1.0;
 
-            resultsHTML += `
-                <div class="result-card">
-                    <h3>${mode.name} Mode</h3>
-                    <p>Premium: <span>${formatInr(finalPremium)}</span></p>
-                </div>
-            `;
+           resultsHTML += `
+    <div class="result-card">
+        <h3>${mode.name} Mode</h3>
+        <p>Premium Amount: <span>${formatInr(finalPremium)}</span></p>
+    </div>
+`;
         }
     }
 

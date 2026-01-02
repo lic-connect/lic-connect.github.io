@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="form-group full-width">
-                    <label for="purchase-price">Purchase Price (Single Premium, ex. GST)</label>
+                   <label for="purchase-price">Purchase Price (Single Premium)</label>
                     <input type="number" id="purchase-price" min="100000" step="1000" required>
                 </div>
 
@@ -74,15 +74,10 @@
         <div id="error-message"></div>
 
         <div id="results" style="display: none;">
-            <div class="result-item">
-                <span>Purchase Price:</span>
-                <span id="output-purchase-price"></span>
-            </div>
-            <div class="result-item">
-                 <span>Single Premium (incl. 1.8% GST):</span>
-                <span id="output-single-premium"></span>
-            </div>
-            
+          <div class="result-item">
+    <span>Total Purchase Price:</span>
+    <span id="output-purchase-price"></span>
+</div>
             <h3>Mode-wise Annuity Payouts</h3>
             <table class="annuity-table">
                 <thead>
@@ -45356,9 +45351,8 @@
     }
 
     // --- Display Results ---
-    const premiumWithGST = purchasePrice * 1.018;
-    document.getElementById('output-purchase-price').textContent = formatCurrency(purchasePrice);
-    document.getElementById('output-single-premium').textContent = formatCurrency(premiumWithGST);
+// --- Display Results ---
+document.getElementById('output-purchase-price').textContent = formatCurrency(purchasePrice);
     
     document.getElementById('output-yearly').textContent = formatCurrency(finalYearlyPension);
     document.getElementById('output-half-yearly').textContent = formatCurrency(finalHalfYearlyPension);

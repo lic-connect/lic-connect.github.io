@@ -203,12 +203,13 @@ function calculatePremium() {
 
     let outputHTML = `<p class="plan-details text-center"><b>Policy Term:</b> 20 Years | <b>Premium Paying Term:</b> 15 Years</p>`;
 
-    for (const modeKey in modes) {
+ for (const modeKey in modes) {
         const mode = modes[modeKey];
         let premiumBeforeTax = 0;
 
         if (mode.modeRebatePercent > 0) {
             const modeRebateAmount = annualTabularPremium * mode.modeRebatePercent;
+            // Mode rebate only applies to the base premium portion
             premiumBeforeTax = annualTabularPremium - annualSaRebateAmount - modeRebateAmount + annualAddbPremium;
         } else {
             const loadedBasePremium = annualPremiumAfterSaRebate * mode.factor;
@@ -216,13 +217,18 @@ function calculatePremium() {
             premiumBeforeTax = loadedBasePremium + loadedRiderPremium;
         }
 
-        const gst1stYear = premiumBeforeTax * 0.045;
-        const finalPremium1stYear = premiumBeforeTax + gst1stYear;
-        const gst2ndYear = premiumBeforeTax * 0.0225;
-        const finalPremium2ndYear = premiumBeforeTax + gst2ndYear;
-        
         const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
-        outputHTML += `<div class="result-box mb-3 p-3"><strong class="text-success">${mode.name.toUpperCase()} PREMIUM</strong><hr class="my-2"><div><b>1st Year:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium1stYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst1stYear)})</small></div><div class="mt-2"><b>2nd Year Onwards:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium2ndYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst2ndYear)})</small></div></div>`;
+        
+        // Simplified output showing only one total per mode
+        outputHTML += `
+            <div class="result-box mb-3 p-3">
+                <strong class="text-success">${mode.name.toUpperCase()} PREMIUM</strong>
+                <hr class="my-2">
+                <div>
+                    <b>Premium Amount:</b> 
+                    <span class="fw-bold fs-5">₹${formatInr(premiumBeforeTax)}</span>
+                </div>
+            </div>`;
     }
     
     // 8. Display the final results
@@ -274,13 +280,13 @@ function calculatePremium() {
         if (!termRiderRate) { showModal('Term Rider Premium', '<p class="text-danger">Term Rider is not available for this Age.</p>'); return; }
 
         const termRiderPremium = (termRiderSumAssured / 1000) * termRiderRate;
-        const termRiderPremiumWithGst = termRiderPremium * 1.18; // 18% GST
+      const termRiderPremiumWithGst = termRiderPremium; // GST is now 0
 
         const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
         const resultHtml = `
-            <p style="font-size: 1.4em; font-weight: bold; color: #333;">Yearly Premium: ₹${formatInr(termRiderPremiumWithGst)}</p>
-            <small>(For Rider SA of ₹${formatInr(termRiderSumAssured)}, inclusive of 18% GST)</small>
-        `;
+    <p style="font-size: 1.4em; font-weight: bold; color: #333;">Yearly Premium: ₹${formatInr(termRiderPremiumWithGst)}</p>
+    <small>(For Rider SA of ₹${formatInr(termRiderSumAssured)})</small>
+`;
         showModal('Standalone Term Rider Premium', resultHtml);
     }
 </script>

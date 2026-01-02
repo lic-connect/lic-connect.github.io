@@ -108,9 +108,12 @@ function calculatePremium() {
   // Standard SA Rebate for Single Premium Plans
 let saRebateAmount = 0;
 // NOTE: Conditions must be checked from highest to lowest SA to work correctly.
-if (sa >= 200000) {
+if (sa >= 500000) {
     // Correct rate is 30 per 1000 for SA of 2 Lakhs and above
     saRebateAmount = (sa / 1000) * 40;
+} else if (sa >= 200000) {
+    // Correct rate is 30 per 1000 for SA of 2 Lakhs and above
+    saRebateAmount = (sa / 1000) * 20;
 } else if (sa >= 100000) {
     // Correct rate is 18 per 1000 for SA from 1 Lakh to 1,99,999
     saRebateAmount = (sa / 1000) * 0;
@@ -133,10 +136,11 @@ if (sa >= 200000) {
 
     // --- Final Premium Calculation ---
     const netSinglePremium = premiumAfterRebate + singlePremiumRiderCost;
-    const gstAmount = netSinglePremium * 0.045; // Current GST rate for single premium
+    const gstAmount = 0; // GST is now zero
     const finalSinglePremium = netSinglePremium + gstAmount;
 
     // --- Display Results ---
+ // --- Display Results ---
     let outputHTML = `
       <div class="result-box p-3 mb-3">
         <h4>One-Time Payment Summary</h4>
@@ -149,31 +153,28 @@ if (sa >= 200000) {
     }
 
     outputHTML += `
-          <tr><td>Net Premium before GST</td><td class="text-end">${formatINR(netSinglePremium)}</td></tr>
-          <tr><td>GST @ 4.5% (+)</td><td class="text-end">${formatINR(gstAmount)}</td></tr>
-          <tr class="fw-bold"><td>Final Single Premium Payable</td><td class="text-end fs-5">${formatINR(finalSinglePremium)}</td></tr>
+          <tr class="fw-bold border-top"><td>Total Single Premium Payable</td><td class="text-end fs-5">${formatINR(finalSinglePremium)}</td></tr>
         </table>
       </div>`;
 
     // Display recurring premium section ONLY if that option was chosen
-    if (annualRiderPremium > 0) {
+ if (annualRiderPremium > 0) {
         const hlyRider = (annualRiderPremium * 0.51);
         const qlyRider = (annualRiderPremium * 0.26);
         const mlyRider = (annualRiderPremium * 0.0875);
 
         outputHTML += `
           <div class="result-box p-3">
-            <h4>Recurring Rider Premium (To be paid separately)</h4>
+            <h4>Recurring Rider Premium (Annual Installments)</h4>
             <table class="table table-sm">
-              <thead><tr><th>Mode</th><th>Base Premium</th><th>GST @4.5%</th><th>Total Installment</th></tr></thead>
+              <thead><tr><th>Mode</th><th class="text-end">Premium Amount</th></tr></thead>
               <tbody>
-                <tr><td>Yearly</td><td>${formatINR(annualRiderPremium)}</td><td>${formatINR(annualRiderPremium * 0.045)}</td><td>${formatINR(annualRiderPremium * 1.045)}</td></tr>
-                <tr><td>Half-Yearly</td><td>${formatINR(hlyRider)}</td><td>${formatINR(hlyRider * 0.045)}</td><td>${formatINR(hlyRider * 1.045)}</td></tr>
-                <tr><td>Quarterly</td><td>${formatINR(qlyRider)}</td><td>${formatINR(qlyRider * 0.045)}</td><td>${formatINR(qlyRider * 1.045)}</td></tr>
-                <tr><td>Monthly (NACH)</td><td>${formatINR(mlyRider)}</td><td>${formatINR(mlyRider * 0.045)}</td><td>${formatINR(mlyRider * 1.045)}</td></tr>
+                <tr><td>Yearly</td><td class="text-end">${formatINR(annualRiderPremium)}</td></tr>
+                <tr><td>Half-Yearly</td><td class="text-end">${formatINR(hlyRider)}</td></tr>
+                <tr><td>Quarterly</td><td class="text-end">${formatINR(qlyRider)}</td></tr>
+                <tr><td>Monthly (NACH)</td><td class="text-end">${formatINR(mlyRider)}</td></tr>
               </tbody>
             </table>
-            <small class="d-block text-muted mt-2">*Recurring rider premium GST for 2nd year onwards will be 2.25%.</small>
           </div>`;
     }
 

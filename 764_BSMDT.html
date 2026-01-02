@@ -295,12 +295,11 @@
                 <h2>Mode-wise Final Premium (Including Riders & GST)</h2>
                 <table class="results-table">
                     <thead>
-                        <tr>
-                            <th>Mode</th>
-                            <th>1st Year Premium (with 4.5% GST)</th>
-                            <th>2nd Year Onwards Premium (with 2.25% GST)</th>
-                        </tr>
-                    </thead>
+    <tr>
+        <th>Mode</th>
+        <th>Premium Amount</th>
+    </tr>
+</thead>
                     <tbody id="results-body">
                         <!-- Results will be populated here by JavaScript -->
                     </tbody>
@@ -436,7 +435,7 @@
             
             const termRiderAnnualPremium = (termRiderRate / 1000) * termRiderSA;
             
-            showStandaloneResult(`Standalone Annual Term Rider Premium (Excl. GST) for SA of ₹${termRiderSA.toLocaleString('en-IN')}: ₹ ${Math.round(termRiderAnnualPremium).toLocaleString('en-IN')}`);
+        showStandaloneResult(`Annual Term Rider Premium for SA of ₹${termRiderSA.toLocaleString('en-IN')}: ₹ ${Math.round(termRiderAnnualPremium).toLocaleString('en-IN')}`);
 
         } catch (e) {
             showStandaloneResult(e.message, true);
@@ -467,8 +466,7 @@ const pwbAnnualPremium = (annualTabularPremium * (pwbRate / 100)) * 0.764;
 
 
 
-            showStandaloneResult(`Standalone Annual PWB Rider Premium (Excl. GST): ₹ ${Math.round(pwbAnnualPremium).toLocaleString('en-IN')}`);
-            
+           showStandaloneResult(`Annual PWB Rider Premium: ₹ ${Math.round(pwbAnnualPremium).toLocaleString('en-IN')}`);
         } catch (e) {
             showStandaloneResult(e.message, true);
         }
@@ -545,11 +543,12 @@ const pwbAnnualPremium = (annualTabularPremium * (pwbRate / 100)) * 0.764;
             const qlyBase = totalAnnualPremium * modalFactors.quarterly;
             const mlyBase = totalAnnualPremium * modalFactors.monthly;
 
-            const regularPremiums = {};
-            regularPremiums.yearly = { firstYear: Math.round(ylyBase * 1.045), secondYear: Math.round(ylyBase * 1.0225) };
-            regularPremiums.halfly = { firstYear: Math.round(hlyBase * 1.045), secondYear: Math.round(hlyBase * 1.0225) };
-            regularPremiums.quarterly = { firstYear: Math.round(qlyBase * 1.045), secondYear: Math.round(qlyBase * 1.0225) };
-            regularPremiums.monthly = { firstYear: Math.round(mlyBase * 1.045), secondYear: Math.round(mlyBase * 1.0225) };
+           const regularPremiums = {};
+            // Simplified: No GST logic (* 1.045 / * 1.0225 removed)
+            regularPremiums.yearly = Math.round(ylyBase);
+            regularPremiums.halfly = Math.round(hlyBase);
+            regularPremiums.quarterly = Math.round(qlyBase);
+            regularPremiums.monthly = Math.round(mlyBase);
         
             // --- 5. DISPLAY ALL RESULTS ---
             const resultsDiv = document.getElementById('results');
@@ -566,11 +565,13 @@ const pwbAnnualPremium = (annualTabularPremium * (pwbRate / 100)) * 0.764;
                 <div class="summary-item"><span>Term Rider:</span> <span>${summaryData.isTermRider ? 'Yes (SA: ₹' + summaryData.termRiderSA.toLocaleString('en-IN') + ')' : 'No'}</span></div>
                 <div class="summary-item"><span>PWB Rider:</span> <span>${summaryData.isPwbRider ? 'Yes' + (summaryData.isPwbRider ? ` (Proposer Age: ${summaryData.proposerAge})` : '') : 'No'}</span></div>
             `;
+
+            // Updated Table Body with 1 Column for Premium
             resultsBody.innerHTML = `
-                <tr><td>Yearly</td><td>₹ ${regularPremiums.yearly.firstYear.toLocaleString('en-IN')}</td><td>₹ ${regularPremiums.yearly.secondYear.toLocaleString('en-IN')}</td></tr>
-                <tr><td>Half-Yearly</td><td>₹ ${regularPremiums.halfly.firstYear.toLocaleString('en-IN')}</td><td>₹ ${regularPremiums.halfly.secondYear.toLocaleString('en-IN')}</td></tr>
-                <tr><td>Quarterly</td><td>₹ ${regularPremiums.quarterly.firstYear.toLocaleString('en-IN')}</td><td>₹ ${regularPremiums.quarterly.secondYear.toLocaleString('en-IN')}</td></tr>
-                <tr><td>Monthly (NACH)</td><td>₹ ${regularPremiums.monthly.firstYear.toLocaleString('en-IN')}</td><td>₹ ${regularPremiums.monthly.secondYear.toLocaleString('en-IN')}</td></tr>
+                <tr><td>Yearly</td><td>₹ ${regularPremiums.yearly.toLocaleString('en-IN')}</td></tr>
+                <tr><td>Half-Yearly</td><td>₹ ${regularPremiums.halfly.toLocaleString('en-IN')}</td></tr>
+                <tr><td>Quarterly</td><td>₹ ${regularPremiums.quarterly.toLocaleString('en-IN')}</td></tr>
+                <tr><td>Monthly (NACH)</td><td>₹ ${regularPremiums.monthly.toLocaleString('en-IN')}</td></tr>
             `;
             resultsDiv.style.display = 'block';
 

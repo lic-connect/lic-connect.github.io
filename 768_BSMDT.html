@@ -163,7 +163,7 @@
             
             const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
 
-            showStandaloneResult(`Standalone Annual PWB Rider Premium (Excl. GST): <strong class="fs-5">₹${formatInr(pwbAnnualPremium)}</strong>`);
+           showStandaloneResult(`Standalone Annual PWB Rider Premium: <strong class="fs-5">₹${formatInr(pwbAnnualPremium)}</strong>`);
 
         } catch (e) {
             showStandaloneResult(e.message, true);
@@ -283,10 +283,9 @@ const pwbAnnualPremium = ((annualTabularPremium * pwbRate) / 100) * 1.1;
         ridersIndicator += pwbSelected ? " | PWB Rider" : "";
         let outputHTML = `<p class="plan-details text-center"><b>Policy Term:</b> ${term} Years | <b>Premium Paying Term:</b> ${ppt} Years${ridersIndicator}</p>`;
 
-        for (const modeKey in modes) {
+      for (const modeKey in modes) {
             const mode = modes[modeKey];
             
-            // --- ORIGINAL CALCULATION LOGIC (UNCHANGED) ---
             let annualBaseAfterRebates = annualTabularPremium - annualSaRebateAmount;
 
             if (mode.modeRebatePercent > 0) {
@@ -295,18 +294,16 @@ const pwbAnnualPremium = ((annualTabularPremium * pwbRate) / 100) * 1.1;
 
             const annualPayablePremium = annualBaseAfterRebates + annualAddbPremium + annualPwbPremium;
             
-            const premiumBeforeTax = annualPayablePremium * mode.factor;
-            const gst1stYear = premiumBeforeTax * 0.045;
-            const finalPremium1stYear = premiumBeforeTax + gst1stYear;
-            const gst2ndYear = premiumBeforeTax * 0.0225;
-            const finalPremium2ndYear = premiumBeforeTax + gst2ndYear;
+            // Calculate final premium (No GST added)
+            const finalPremium = annualPayablePremium * mode.factor;
             
             const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+            
+            // Simplified HTML Output showing only one amount
             outputHTML += `
               <div class="result-box mb-3 p-3">
-                <strong class="text-white" style="background-color: #0dcaf0; padding: 2px 5px; border-radius: 3px;">${mode.name.toUpperCase()} PREMIUM</strong><hr class="my-2">
-                <div><b>1st Year:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium1stYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst1stYear)})</small></div>
-                <div class="mt-2"><b>2nd Year Onwards:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium2ndYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst2ndYear)})</small></div>
+                <strong class="text-white" style="background-color: #0dcaf0; padding: 2px 5px; border-radius: 3px;">${mode.name.toUpperCase()}</strong><hr class="my-2">
+                <div><b>Premium Amount:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium)}</span></div>
               </div>
             `;
         }

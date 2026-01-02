@@ -233,10 +233,10 @@ const singlePremiumRatesOption4 = {  0: { 18:878.2, 19:857.5, 20:836.55, 21:815.
   13: { 5:1106.75, 6:1106.25, 7:1102.45, 8:1095.55, 9:1085.95, 10:1073.8, 11:1061.9, 12:1047.95 } };
 
 
-const modalFactors = { yly:1, hly:0.51415, qly:0.25679, mly:0.0861 }
-const modeRebate = { yly:0, hly:0.01, qly:0, mly:0 };
-const gstFirst = 1.045;
-const gstSecond = 1.0225;
+const modalFactors = { yly:1, hly:0.5090, qly:0.2568, mly:0.0861 };
+const modeRebate = { yly:0.02, hly:0, qly:0, mly:0 };
+const gstFirst = 1;
+const gstSecond = 1;
 
 function formatINR(val) {
   return "₹" + Math.round(val).toLocaleString("en-IN");
@@ -249,13 +249,12 @@ function adjustTermRange() {
   let minTerm = 18 - age;
   let maxTerm = 25 - age;
 
-  if (optionType === "3" || optionType === "4") {
+  if(optionType === "3" || optionType === "4") {
     if (minTerm < 5) minTerm = 5;
     document.getElementById("ppt").value = "single";
-} else {
-    // options 1 and 2 (limited premium)
-    minTerm = Math.max(10, 18 - age);
-}
+  } else {
+    if (minTerm < 10) minTerm = 10;
+  }
 
   termInput.min = minTerm;
   termInput.max = maxTerm;
@@ -281,6 +280,20 @@ function adjustOptionChoices() {
     optionSelect.value = "1";
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function calculate() {
   const sa = parseInt(document.getElementById("sumAssured").value);
@@ -397,51 +410,40 @@ if (optionType === "1" || optionType === "2") {
   let saRebate = (sa/1000) * rebatePerThousand;
   let afterRebate = basePrem - saRebate;
 
-  // mode rebates properly applied
-let yearlyPrem  = afterRebate; // yearly has no rebate
-let halfYearlyPrem = afterRebate - (afterRebate * modeRebate.hly); // 1% rebate
-let quarterlyPrem  = afterRebate; // no rebate
-let monthlyPrem    = afterRebate; // no rebate
+  let yearlyPrem = afterRebate;
+  if(optionType=="1" || optionType=="2") {
+    yearlyPrem = afterRebate - (afterRebate * modeRebate.yly);
+  }
 
-  if(optionType === "3" || optionType === "4") {
-  document.getElementById("results").innerHTML = `
-    <h2>Single Premium</h2>
-    <table>
-      <tr><th>One-Time Premium incl. GST</th></tr>
-      <tr><td>${formatINR(yearlyPrem * gstFirst)}</td></tr>
-    </table>
-  `;
-} else {
-  const result = {
-    yly: {
-      first: formatINR(yearlyPrem * gstFirst),
-      second: formatINR(yearlyPrem * gstSecond)
-    },
-    hly: {
-      first: formatINR(halfYearlyPrem * modalFactors.hly * gstFirst),
-      second: formatINR(halfYearlyPrem * modalFactors.hly * gstSecond)
-    },
-    qly: {
-      first: formatINR(quarterlyPrem * modalFactors.qly * gstFirst),
-      second: formatINR(quarterlyPrem * modalFactors.qly * gstSecond)
-    },
-    mly: {
-      first: formatINR(monthlyPrem * modalFactors.mly * gstFirst),
-      second: formatINR(monthlyPrem * modalFactors.mly * gstSecond)
+  let netAnnual = yearlyPrem;
+
+if(optionType === "3" || optionType === "4") {
+    document.getElementById("results").innerHTML = `
+      <h2>Single Premium</h2>
+      <table>
+        <tr><th>One-Time Premium Amount</th></tr>
+        <tr><td>${formatINR(netAnnual)}</td></tr>
+      </table>
+    `;
+  }else {
+    const result = {};
+    for(let m of ["yly","hly","qly","mly"]) {
+      let modalPrem = netAnnual * modalFactors[m];
+      // Store a single formatted value
+      result[m] = formatINR(modalPrem);
     }
-  };
-  document.getElementById("results").innerHTML = `
-    <h2>Premium Summary</h2>
-    <table>
-      <tr><th>Mode</th><th>1st Year incl. GST</th><th>2nd Year incl. GST</th></tr>
-      <tr><td>Yearly</td><td>${result.yly.first}</td><td>${result.yly.second}</td></tr>
-      <tr><td>Half-Yearly</td><td>${result.hly.first}</td><td>${result.hly.second}</td></tr>
-      <tr><td>Quarterly</td><td>${result.qly.first}</td><td>${result.qly.second}</td></tr>
-      <tr><td>Monthly</td><td>${result.mly.first}</td><td>${result.mly.second}</td></tr>
-    </table>
-    <p><small>Note: Yearly = 0% rebate, Half-Yearly = 1% rebate, Quarterly/Monthly = no rebate. GST applied after rebates.</small></p>
-  `;
-}
+    document.getElementById("results").innerHTML = `
+      <h2>Premium Summary</h2>
+      <table>
+        <tr><th>Mode</th><th>Premium Amount</th></tr>
+        <tr><td>Yearly</td><td>${result.yly}</td></tr>
+        <tr><td>Half-Yearly</td><td>${result.hly}</td></tr>
+        <tr><td>Quarterly</td><td>${result.qly}</td></tr>
+        <tr><td>Monthly</td><td>${result.mly}</td></tr>
+      </table>
+      <p><small>Note: Modal factors apply only for Options 1 & 2 (Limited premium). Option 3 & 4 (Single) treat premium as one-time.</small></p>
+    `;
+  }
 }
 </script>
 <div style="margin-top: 20px; font-size:0.9em; color:#555;">

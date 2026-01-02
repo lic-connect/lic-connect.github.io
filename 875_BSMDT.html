@@ -260,7 +260,7 @@
             <p><strong>Disclaimer:</strong></p>
             <ul>
                 <li>This is an illustrative calculator based on the provided data. Final premium may vary.</li>
-                <li>GST is calculated indicatively. For Regular/Limited pay, 1st year GST is 4.5% and subsequent years are 2.25%. The calculation shows an indicative annual amount using the 1st year rate. Single Premium GST is 18%.</li>
+            <li>The calculation shows the base premium amount. GST/Taxes are currently excluded.</li>
                 <li>High Sum Assured rebates and Policy Term restrictions are applied as per the brochure.</li>
                 <li>Please contact your nearest LIC branch or agent for exact details and final quotation.</li>
             </ul>
@@ -25328,7 +25328,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const netPremium = basePremium - rebateAmount;
 
         // **FIX:** GST is now 18% for all payment types as requested.
-        const gstRate = 0.18;
+       const gstRate = 0; // GST removed
         const gstAmount = netPremium * gstRate;
         const finalPremium = netPremium + gstAmount;
 
@@ -25383,13 +25383,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span>High SA Rebate ${rebateLabelText}</span>
                 <span>- ${format(rebateAmount)}</span>
 
-                <span>Net ${premiumLabel} (After Rebate)</span>
-                <span>${format(netPremium)}</span>
+                <hr style="grid-column: 1/-1; border-color: #eee; margin: 10px 0;">
 
-                <span>GST (${(gstRate * 100).toFixed(2)}%)</span>
-                <span>+ ${format(gstAmount)}</span>
-
-                <span class="final-premium"><b>Final ${premiumLabel} (Approx.)</b></span>
+                <span class="final-premium"><b>Final ${premiumLabel}</b></span>
                 <span class="final-premium"><b>${format(finalPremium)}</b></span>
             </div>
         `;

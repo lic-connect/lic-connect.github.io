@@ -1214,6 +1214,10 @@ const addbData = [
     // --- SCRIPT LOGIC ---
     // =========================================================
 
+  // =========================================================
+    // --- SCRIPT LOGIC ---
+    // =========================================================
+
     const hsaRebateData = { 5: { slab1: 2.50, slab2: 4.50, slab3: 5.75 }, 6: { slab1: 2.30, slab2: 4.25, slab3: 5.50 }, 7: { slab1: 2.20, slab2: 4.00, slab3: 5.25 }, 8: { slab1: 2.10, slab2: 3.75, slab3: 5.00 }, 9: { slab1: 2.00, slab2: 3.60, slab3: 4.75 }, 10: { slab1: 1.90, slab2: 3.50, slab3: 4.50 }, 11: { slab1: 1.80, slab2: 3.40, slab3: 4.25 }, 12: { slab1: 1.70, slab2: 3.30, slab3: 4.00 }, 13: { slab1: 1.60, slab2: 3.20, slab3: 3.75 }, 14: { slab1: 1.50, slab2: 3.10, slab3: 3.50 }, 15: { slab1: 1.40, slab2: 3.00, slab3: 3.25 }, 16: { slab1: 1.30, slab2: 2.90, slab3: 3.00 } };
     const modalFactors = { "Yearly": 1.0, "Half-Yearly": 0.5089, "Quarterly": 0.2564, "Monthly": 0.0861 };
     const incomeStartYearData = { 5: 11, 6: 11, 7: 11, 8: 11, 9: 12, 10: 13, 11: 14, 12: 15, 13: 16, 14: 17, 15: 18, 16: 19 };
@@ -1271,7 +1275,6 @@ const addbData = [
         benefitsContainer.innerHTML = '';
         errorDiv.style.display = 'none';
 
-        // 1. Get Inputs
         const age = parseInt(document.getElementById('age').value);
         const sumAssured = parseInt(document.getElementById('sumAssured').value);
         const ppt = parseInt(document.getElementById('ppt').value);
@@ -1279,10 +1282,9 @@ const addbData = [
         const isOnline = document.getElementById('onlineRebate').checked;
         const hasAddb = document.getElementById('addb').checked;
 
-        // 2. Validation
+        // Validation Check
         if (!validateInputs(age, sumAssured, ppt)) return;
 
-        // 3. Get Base Rate and Rebate Rate
         const baseRate = getRate(age, ppt);
         if (baseRate === null) {
             displayError("Premium Rate not found for the selected Age and PPT.");
@@ -1290,16 +1292,10 @@ const addbData = [
         }
         
         const hsaRebatePerThousand = getHsaRebatePerThousand(sumAssured, ppt);
-        
-        // 4. Calculate Net Annual Premium
-        const netPremiumRate = baseRate - hsaRebatePerThousand;
-        const tabularAnnualPremium = (sumAssured / 1000) * netPremiumRate;
-
-        // 5. Calculate Online Rebate
+        const tabularAnnualPremium = (sumAssured / 1000) * (baseRate - hsaRebatePerThousand);
         const onlineRebateAmount = isOnline ? tabularAnnualPremium * 0.10 : 0;
         const annualPremiumAfterRebate = tabularAnnualPremium - onlineRebateAmount;
 
-        // 6. Calculate Rider & Total Annual Premium (Following BSMDT Rule)
         let addbAnnualPremium = 0;
         if (hasAddb && age >= 18) {
             const addbAnnualRate = getAddbRate(age, ppt);
@@ -1308,28 +1304,14 @@ const addbData = [
             }
         }
         
-        // 7. Apply Modal Factors Separately
         const modalFactor = modalFactors[mode];
-        const baseModalPremium = annualPremiumAfterRebate * modalFactor;
-        const addbModalPremium = addbAnnualPremium * modalFactor;
+        const finalInstallmentPremium = (annualPremiumAfterRebate + addbAnnualPremium) * modalFactor;
 
-        const premiumBeforeGst = baseModalPremium + addbModalPremium;
-
-        // 8. Calculate Final Premium with GST
-        const gstAmount1stYear = premiumBeforeGst * 0.045;
-        const finalPremium1stYear = premiumBeforeGst + gstAmount1stYear;
-        const gstAmount2ndYear = premiumBeforeGst * 0.0225;
-        const finalPremium2ndYear = premiumBeforeGst + gstAmount2ndYear;
-
-        // 9. Display Results
         displayPremiumResults({
             baseRate, hsaRebatePerThousand, sumAssured,
             onlineRebateAmount, 
-            baseModalPremium: baseModalPremium, 
-            addbModalPremium: addbModalPremium,
+            finalInstallmentPremium,
             addbAnnualPremiumForDisplay: addbAnnualPremium,
-            gstAmount1stYear, finalPremium1stYear, 
-            gstAmount2ndYear, finalPremium2ndYear, 
             mode
         });
         displayBenefitResults(sumAssured, ppt);
@@ -1345,43 +1327,23 @@ const addbData = [
     }
 
     function getRate(age, ppt) {
-        if (!premiumData || premiumData.length === 0) return null;
         const ageRow = premiumData.find(row => row.Age === age);
-        if (!ageRow) { return null; }
-        const pptKey = `T${ppt}`;
-        const rate = ageRow[pptKey];
-        if (rate === null || rate === undefined || rate === 0) { return null; }
-        return parseFloat(rate);
+        if (!ageRow) return null;
+        return parseFloat(ageRow[`T${ppt}`]) || null;
     }
     
     function getAddbRate(age, ppt) {
-        if (!addbData || addbData.length === 0) return null;
         const ageRow = addbData.find(row => row.Term === age);
-        if (!ageRow) { return null; }
-        const pptKey = `T${ppt}`;
-        const rate = ageRow[pptKey];
-        if (rate === null || rate === undefined) { return 0; }
-        return parseFloat(rate);
+        if (!ageRow) return 0;
+        return parseFloat(ageRow[`T${ppt}`]) || 0;
     }
 
     function validateInputs(age, sa, ppt) {
-        if (age > 65) {
-            displayError("Maximum Entry Age is 65.");
-            return false;
-        }
-        
+        if (age > 65 || age < 0) { displayError("Age must be between 0 and 65."); return false; }
         const ageRules = { 5: { min: 8, max: 65 }, 6: { min: 8, max: 65 }, 7: { min: 8, max: 65 }, 8: { min: 8, max: 65 }, 9: { min: 7, max: 65 }, 10: { min: 6, max: 65 }, 11: { min: 5, max: 64 }, 12: { min: 4, max: 63 }, 13: { min: 3, max: 62 }, 14: { min: 2, max: 61 }, 15: { min: 1, max: 60 }, 16: { min: 0, max: 59 } };
-        if (ppt) { 
-             const rule = ageRules[ppt];
-             if (rule && (age < rule.min || age > rule.max)) {
-                 displayError(`For a ${ppt}-year PPT, Age must be between ${rule.min} and ${rule.max}.`);
-                 return false;
-             }
-        }
-
+        const rule = ageRules[ppt];
+        if (rule && (age < rule.min || age > rule.max)) { displayError(`For a ${ppt}-year PPT, Age must be between ${rule.min} and ${rule.max}.`); return false; }
         if (sa < 500000) { displayError("Minimum Sum Assured is ₹5,00,000."); return false; }
-        if (sa <= 2400000 && sa % 25000 !== 0) { displayError("For SA up to ₹24 Lacs, it must be in multiples of ₹25,000."); return false; }
-        if (sa > 2400000 && sa % 100000 !== 0) { displayError("For SA above ₹24 Lacs, it must be in multiples of ₹1,00,000."); return false; }
         return true;
     }
 
@@ -1391,64 +1353,38 @@ const addbData = [
         errorDiv.style.display = 'block';
     }
     
-        function displayPremiumResults(data) {
-        const { baseRate, hsaRebatePerThousand, sumAssured,
-                onlineRebateAmount, 
-                baseModalPremium, addbModalPremium,
-                addbAnnualPremiumForDisplay,
-                gstAmount1stYear, finalPremium1stYear, 
-                gstAmount2ndYear, finalPremium2ndYear, 
-                mode } = data;
-        
+    function displayPremiumResults(data) {
+        const { baseRate, hsaRebatePerThousand, sumAssured, onlineRebateAmount, finalInstallmentPremium, addbAnnualPremiumForDisplay, mode } = data;
         const container = document.getElementById('results-container');
         const tabularAnnualPremium = (sumAssured / 1000) * baseRate;
-        const netAnnualPremium = tabularAnnualPremium - ((sumAssured / 1000) * hsaRebatePerThousand);
-
+        
         container.innerHTML = `
             <h3>Premium Breakdown</h3>
             <div class="result-grid">
                 <span>Tabular Annual Premium</span><span>${formatCurrency(tabularAnnualPremium)}</span>
                 ${hsaRebatePerThousand > 0 ? `<span>(-) High SA Rebate</span><span>- ${formatCurrency((sumAssured / 1000) * hsaRebatePerThousand)}</span>` : ''}
-                <span><b>Net Annual Premium</b></span><span><b>${formatCurrency(netAnnualPremium)}</b></span>
                 ${onlineRebateAmount > 0 ? `<span>(-) Online Rebate (10%)</span><span>- ${formatCurrency(onlineRebateAmount)}</span>` : ''}
                 ${addbAnnualPremiumForDisplay > 0 ? `<span>ADDB Rider Annual Premium</span><span>+ ${formatCurrency(addbAnnualPremiumForDisplay)}</span>` : ''}
                 <hr style="grid-column: 1/-1; border-color: #eee;">
-                <span>Premium Before GST (${mode})</span><span>${formatCurrency(baseModalPremium + addbModalPremium)}</span>
-                <span>GST (1st Year @ 4.50%)</span><span>+ ${formatCurrency(gstAmount1stYear)}</span>
                 <div class="final-premium">
-                    <span><b>Final ${mode} Premium (1st Yr)</b></span>
-                    <span><b>${formatCurrency(finalPremium1stYear)}</b></span>
-                </div>
-                <hr style="grid-column: 1/-1; border-color: #eee; margin-top: 10px;">
-                 <span>Premium Before GST (${mode})</span><span>${formatCurrency(baseModalPremium + addbModalPremium)}</span>
-                <span>GST (2nd Yr onwards @ 2.25%)</span><span>+ ${formatCurrency(gstAmount2ndYear)}</span>
-                <div class="final-premium">
-                    <span><b>Final ${mode} Premium (2nd Yr+)</b></span>
-                    <span><b>${formatCurrency(finalPremium2ndYear)}</b></span>
+                    <span><b>Final ${mode} Premium</b></span>
+                    <span><b>${formatCurrency(finalInstallmentPremium)}</b></span>
                 </div>
             </div>
         `;
     }
 
-    function displayBenefitResults(sa, ppt, benefitOption) {
+    function displayBenefitResults(sa, ppt) {
         const container = document.getElementById('benefits-container');
-        let gaRate = 40; // Default for Option I & II
-        if (benefitOption === "3") { // Check for Option III
-            gaRate = 45;
-        }
-        const gaPerYear = (sa / 1000) * gaRate;
-        const totalGa = gaPerYear * ppt;
-        const incomeBenefit = sa * 0.10;
-        const incomeStartYear = incomeStartYearData[ppt];
-
+        const gaPerYear = (sa / 1000) * 40;
         container.innerHTML = `
             <h3>Guaranteed Benefits</h3>
             <div class="result-grid">
-                <span>Guaranteed Additions (per year during PPT)</span><span>${formatCurrency(gaPerYear)}</span>
-                <span><b>Total Guaranteed Additions</b> (after ${ppt} years)</span><span><b>${formatCurrency(totalGa)}</b></span>
+                <span>Guaranteed Additions (Yearly)</span><span>${formatCurrency(gaPerYear)}</span>
+                <span><b>Total GA (after ${ppt} years)</b></span><span><b>${formatCurrency(gaPerYear * ppt)}</b></span>
                 <hr style="grid-column: 1/-1; border-color: #eee;">
-                <span><b>Annual Income Benefit</b></span><span><b>${formatCurrency(incomeBenefit)}</b></span>
-                <span>(Starts from end of ${incomeStartYear}th year, for life)</span><span></span>
+                <span><b>Annual Income Benefit</b></span><span><b>${formatCurrency(sa * 0.10)}</b></span>
+                <span>(Payable for life after PPT)</span><span></span>
             </div>
         `;
     }
@@ -1513,7 +1449,7 @@ const addbData = [
 //const pwbPremium = (sumAssured * pwbRate) / 1000;
 const pwbPremium = (baseAnnualPremium * pwbRate) / 100;
   
-            showModal('Standalone PWB Premium', `<p style="font-size: 1.5rem; font-weight: bold;">${formatCurrency(pwbPremium)}</p><small>(Yearly Premium, Excluding Tax)</small>`);
+         showModal('Standalone PWB Premium', `<p style="font-size: 1.5rem; font-weight: bold;">${formatCurrency(pwbPremium)}</p><small>(Yearly Premium)</small>`);
         } else {
             alert("PWB rate not available for this combination.");
         }
@@ -1534,7 +1470,7 @@ const pwbPremium = (baseAnnualPremium * pwbRate) / 100;
 
         if (riderRate) {
             const riderPremium = (riderSa / 1000) * riderRate;
-            showModal('Standalone Term Rider Premium', `<p style="font-size: 1.5rem; font-weight: bold;">${formatCurrency(riderPremium)}</p><small>(Yearly Premium, Excluding Tax)</small>`);
+          showModal('Standalone Term Rider Premium', `<p style="font-size: 1.5rem; font-weight: bold;">${formatCurrency(riderPremium)}</p><small>(Yearly Premium)</small>`);
         } else {
             alert("Term Rider is not available for this age/term combination.");
         }

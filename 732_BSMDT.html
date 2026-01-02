@@ -100,8 +100,8 @@ const pwbRates = rawPwbRates.reduce((acc, item) => { acc[item.Term] = { A: item.
 
 const modalFactors = { yly:1, hly:0.50535, qly:0.25535, mly:0.085120 };
 const modeRebate = { yly:0.02, hly:0, qly:0, mly:0 };
-const gstFirst = 1.045;
-const gstSecond = 1.0225;
+const gstFirst = 1;
+const gstSecond = 1;
 
 function formatINR(val) {
   return "₹ " + Math.round(val).toLocaleString("en-IN");
@@ -141,23 +141,21 @@ function calculate() {
   let afterSaRebate = basePrem - saRebate;
   let yearlyPrem = afterSaRebate * (1 - modeRebate.yly);
 
-  const result = {};
+const result = {};
   for (let m of ["yly", "hly", "qly", "mly"]) {
     let modalPrem = yearlyPrem * modalFactors[m];
-    result[m] = {
-      first: formatINR(modalPrem * gstFirst),
-      second: formatINR(modalPrem * gstSecond)
-    };
+    // We now store a single formatted string instead of an object
+    result[m] = formatINR(modalPrem);
   }
 
   document.getElementById("results").innerHTML = `
     <h2>Base Premium Summary</h2>
     <table>
-      <tr><th>Mode</th><th>1st Year (incl. GST)</th><th>2nd Year Onwards (incl. GST)</th></tr>
-      <tr><td>Yearly</td><td>${result.yly.first}</td><td>${result.yly.second}</td></tr>
-      <tr><td>Half-Yearly</td><td>${result.hly.first}</td><td>${result.hly.second}</td></tr>
-      <tr><td>Quarterly</td><td>${result.qly.first}</td><td>${result.qly.second}</td></tr>
-      <tr><td>Monthly</td><td>${result.mly.first}</td><td>${result.mly.second}</td></tr>
+      <tr><th>Mode</th><th>Premium Amount</th></tr>
+      <tr><td>Yearly</td><td>${result.yly}</td></tr>
+      <tr><td>Half-Yearly</td><td>${result.hly}</td></tr>
+      <tr><td>Quarterly</td><td>${result.qly}</td></tr>
+      <tr><td>Monthly</td><td>${result.mly}</td></tr>
     </table>`;
 }
 

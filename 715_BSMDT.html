@@ -183,8 +183,8 @@ const termRiderRates = {
 
 const modalFactors = { yly:1, hly:0.50536, qly:0.25536, mly:0.085120 };
 const modeRebate = { yly:0.02, hly:0, qly:0, mly:0 };
-const gstFirst = 1.045;
-const gstSecond = 1.0225;
+const gstFirst = 1;
+const gstSecond = 1;
 
 function formatINR(val) {
   return "₹ " + Math.round(val).toLocaleString("en-IN");
@@ -244,23 +244,23 @@ function calculate() {
 
     let netAnnual = yearlyPrem + dabPremium;
 
+   // 6. Modal Calculations (GST removed)
     const result = {};
     for (let m of ["yly","hly","qly","mly"]) {
         let modalPrem = netAnnual * modalFactors[m];
-        result[m] = {
-            first: formatINR(modalPrem * gstFirst),
-            second: formatINR(modalPrem * gstSecond)
-        };
+        // We now store a single string instead of a "first" and "second" year object
+        result[m] = formatINR(modalPrem);
     }
 
+    // --- Updated results display with only ONE column ---
     document.getElementById("results").innerHTML = `
     <h2>Premium Summary</h2>
     <table>
-        <tr><th>Mode</th><th>1st Year (incl. GST)</th><th>2nd Year Onwards (incl. GST)</th></tr>
-        <tr><td>Yearly</td><td>${result.yly.first}</td><td>${result.yly.second}</td></tr>
-        <tr><td>Half-Yearly</td><td>${result.hly.first}</td><td>${result.hly.second}</td></tr>
-        <tr><td>Quarterly</td><td>${result.qly.first}</td><td>${result.qly.second}</td></tr>
-        <tr><td>Monthly</td><td>${result.mly.first}</td><td>${result.mly.second}</td></tr>
+        <tr><th>Mode</th><th>Premium Amount</th></tr>
+        <tr><td>Yearly</td><td>${result.yly}</td></tr>
+        <tr><td>Half-Yearly</td><td>${result.hly}</td></tr>
+        <tr><td>Quarterly</td><td>${result.qly}</td></tr>
+        <tr><td>Monthly</td><td>${result.mly}</td></tr>
     </table>`;
 }
 
@@ -334,14 +334,14 @@ function calculateTermRiderFromModal() {
     }
 
     const termRiderPremium = (termRiderSumAssured / 1000) * termRiderRate;
-    const termRiderPremiumWithGst = termRiderPremium * 1.18; // 18% GST
+const termRiderPremiumWithGst = termRiderPremium; // GST is now 0
 
-    const resultHtml = `
-        <p style="font-size: 1.4em; font-weight: bold; color: #333;">
-            Yearly Premium: ${formatINR(termRiderPremiumWithGst)}
-        </p>
-        <small>(For Rider SA of ${formatINR(termRiderSumAssured)}, inclusive of 18% GST)</small>
-    `;
+  const resultHtml = `
+    <p style="font-size: 1.4em; font-weight: bold; color: #333;">
+        Yearly Premium: ${formatINR(termRiderPremiumWithGst)}
+    </p>
+    <small>(For Rider SA of ${formatINR(termRiderSumAssured)})</small>
+`;
     showModal('Standalone Term Rider Premium', resultHtml);
 }
 </script>

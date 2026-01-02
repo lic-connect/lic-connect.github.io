@@ -94,7 +94,7 @@
         <label for="age">Age (Minimum 18, Maximum based on annuity option):</label>
         <input type="number" id="age" min="18" max="100" value="30">
 
-        <label for="premium">Single Premium (₹):</label>
+        <label for="premium">Total Purchase Price (₹):</label>
         <input type="number" id="premium" min="100000" step="10000" value="100000">
 
         <label for="annuity_option">Select Annuity Option:</label>
@@ -301,7 +301,7 @@
     }
 
     let yearlyAnnuity = 0;
-    const gstRate = 0.018;  // GST rate only for display
+    const gstRate = 0; // GST removed
     let rebate = 0;
     const rebateRates = {
       OPTION_I: [0, 1.4, 1.8, 2.1, 2.3],
@@ -387,12 +387,10 @@
 
     // GST applied only for single premium display
     const singlePremium = premium + (premium * gstRate);
-
-    document.getElementById("result").innerHTML = `
-      Purchase Price ₹${premium.toFixed(2)}<br>
-      Single Premium (including 1.8% GST): ₹${singlePremium.toFixed(2)}<br>
-      Estimated ${annuityModeText} Annuity: ₹${annuityAmount.toFixed(2)}<br>
-      Rebate applied: ${rebate}%. Actual payout may vary as per the policy.
+document.getElementById("result").innerHTML = `
+      Total Purchase Price: ₹${premium.toLocaleString('en-IN', {minimumFractionDigits: 2})}<br>
+      Estimated ${annuityModeText} Annuity: <b>₹${annuityAmount.toLocaleString('en-IN', {minimumFractionDigits: 2})}</b><br>
+      <small>Rebate applied: ${rebate} per 1000 SA.</small>
     `;
   }
 

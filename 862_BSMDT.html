@@ -110,7 +110,7 @@
         </div>
 
         <div class="mb-3">
-            <label for="purchasePrice" class="form-label">Total Purchase Price (Investment Amount)</label>
+            <label for="purchasePrice" class="form-label">Total Purchase Price</label>
             <input type="number" class="form-control" id="purchasePrice" min="100000" step="1000" placeholder="e.g., 1000000">
         </div>
 
@@ -7700,9 +7700,10 @@ function calculateAnnuity() {
 
     // --- 3. Calculate Premium Components (Your Original Logic - Rule 1 Satisfied) ---
     // GST is added ON TOP of the Purchase Price.
-    const gstRate = 1.8 / 100;
-    const gstAmount = totalPurchasePrice * gstRate;
-    const totalAmountPaid = totalPurchasePrice + gstAmount;
+    // GST removed
+    const gstRate = 0;
+    const gstAmount = 0;
+    const totalAmountPaid = totalPurchasePrice;
 
     const modes = [
         { key: 'yearly', name: 'Yearly', payments: 1, rateKey: 'Yly' },
@@ -7804,18 +7805,10 @@ function calculateAnnuity() {
 
     resultsTableHTML += `</tbody></table>`;
     
-    const summaryHTML = `
+ const summaryHTML = `
         <h4 class="result-title text-center">Premium Summary</h4>
-        <div class="summary-item">
-            <span>Purchase Price (for Annuity):</span>
-            <span>₹ ${Math.round(totalPurchasePrice).toLocaleString('en-IN')}</span>
-        </div>
-        <div class="summary-item">
-            <span>GST @ 1.8%:</span>
-            <span>₹ ${Math.round(gstAmount).toLocaleString('en-IN')}</span>
-        </div>
         <div class="summary-item summary-total">
-            <strong>Total Single Premium Payable:</strong>
+            <strong>Total Premium Payable:</strong>
             <strong>₹ ${Math.round(totalAmountPaid).toLocaleString('en-IN')}</strong>
         </div>
     `;

@@ -271,8 +271,8 @@ const termRiderRates = {
 };
 
 const modalFactors = { yly:1, hly:0.5054, qly:0.2554, mly:0.08515 };
-const gstFirst = 1.045;
-const gstSecond = 1.0225;
+const gstFirst = 1;
+const gstSecond = 1;
 
 function formatINR(val) {
     return "₹ " + Math.round(val).toLocaleString("en-IN");
@@ -339,17 +339,15 @@ function calculate() {
   // 5. Calculate Net Annual Premium
   let netAnnual = yearlyPrem + addbPremium;
 
-  // 6. Modal + GST Calculations
+// 6. Modal Calculations (No GST)
   const result = {};
   for (let m of ["yly","hly","qly","mly"]) {
     let modalPrem = netAnnual * modalFactors[m];
-    result[m] = {
-      first: formatINR(modalPrem * gstFirst),
-      second: formatINR(modalPrem * gstSecond)
-    }
+    // We only need one value now because GST is 0
+    result[m] = formatINR(modalPrem); 
   }
 
-  // --- Updated results display to show the AD&DB premium clearly ---
+  // --- Updated results display to show only one Premium column ---
   document.getElementById("results").innerHTML = `
   <h2>Premium Summary</h2>
   <table>
@@ -362,18 +360,18 @@ function calculate() {
           <td style="font-weight:bold;">${formatINR(addbPremium)}</td>
       </tr>
       <tr style="background:#e8f5e9;">
-          <th>Net Annual Premium (Before GST)</th>
+          <th>Net Annual Premium</th>
           <th>${formatINR(netAnnual)}</th>
       </tr>
   </table>
 
-  <h3 style="text-align:center; margin-top:20px;">Final Modal Premiums (Inclusive of GST)</h3>
+  <h3 style="text-align:center; margin-top:20px;">Modal Premiums</h3>
   <table>
-    <tr><th>Mode</th><th>1st Year Premium</th><th>2nd Year Onwards</th></tr>
-    <tr><td>Yearly</td><td>${result.yly.first}</td><td>${result.yly.second}</td></tr>
-    <tr><td>Half-Yearly</td><td>${result.hly.first}</td><td>${result.hly.second}</td></tr>
-    <tr><td>Quarterly</td><td>${result.qly.first}</td><td>${result.qly.second}</td></tr>
-    <tr><td>Monthly</td><td>${result.mly.first}</td><td>${result.mly.second}</td></tr>
+    <tr><th>Mode</th><th>Premium Amount</th></tr>
+    <tr><td>Yearly</td><td>${result.yly}</td></tr>
+    <tr><td>Half-Yearly</td><td>${result.hly}</td></tr>
+    <tr><td>Quarterly</td><td>${result.qly}</td></tr>
+    <tr><td>Monthly</td><td>${result.mly}</td></tr>
   </table>`;
 }
 
@@ -561,7 +559,7 @@ function calculateTermRiderFromModal() {
 
         const variablePremium = (termRiderSumAssured / 1000) * termRiderRate;
     const termRiderPremium = variablePremium + 0; // Correct formula: Variable Premium + Fixed Rider Charge
-    const termRiderPremiumWithGst = termRiderPremium * 1.18; // Adding 18% GST
+  const termRiderPremiumWithGst = termRiderPremium; // GST is now zero
 
     // --- Display Result ---
     const resultHtml = `

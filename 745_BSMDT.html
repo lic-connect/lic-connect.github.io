@@ -205,16 +205,13 @@ function getHighSaRebateRate(sumAssured) {
         let premiumResultsHTML = '';
         const modes = { yearly: "Yearly", "half-yearly": "Half-Yearly", quarterly: "Quarterly", monthly: "Monthly (NACH)" };
 
-        for (const modeKey in modes) {
+       for (const modeKey in modes) {
             const premiumBeforeTax = premiums[modeKey];
-            const finalPremium1stYear = Math.round(premiumBeforeTax * 1.045);
-            const finalPremium2ndYear = Math.round(premiumBeforeTax * 1.0225);
 
             premiumResultsHTML += `
                 <div class="result-card">
                     <h3>${modes[modeKey]} Mode</h3>
-                    <p>1st Year Premium: <span>${formatINR(finalPremium1stYear)}</span></p>
-                    <p>2nd Year Onwards: <span>${formatINR(finalPremium2ndYear)}</span></p>
+                    <p>Premium Amount: <span>${formatINR(premiumBeforeTax)}</span></p>
                 </div>`;
         }
         document.getElementById('premium-results').innerHTML = premiumResultsHTML;
@@ -282,7 +279,7 @@ const sumAssured = parseFloat(document.getElementById("sum-assured").value);
 //const finalPwbPremium = ((parseFloat(document.getElementById('sum-assured').value) / 1000) * baseRates[parseInt(document.getElementById('age').value)][parseInt(document.getElementById('ppt').value)]) * (pwbRate / 100) * 0.637;
 
 const finalPwbPremium = (baseAnnualPremium * pwbRate) / 100 * 0.64;
-        showModal('Standalone PWB Premium', `<p class="fs-4 fw-bold">${formatINR(finalPwbPremium)}</p><small>(Yearly Premium, Excluding Tax)</small>`);
+       showModal('Standalone PWB Premium', `<p class="fs-4 fw-bold">${formatINR(finalPwbPremium)}</p><small>(Yearly Premium)</small>`);
     }
 
     document.getElementById('term-rider-btn').addEventListener('click', () => {
@@ -303,8 +300,8 @@ const finalPwbPremium = (baseAnnualPremium * pwbRate) / 100 * 0.64;
         if (!termRiderRate || termRiderRate === 0) { showModal('Term Rider Not Available', `<p class="text-danger">Term Rider is not available for this Age/PPT combination.</p>`); return; }
         
         const termRiderPremium = (termRiderSumAssured / 1000) * termRiderRate;
-        const termRiderPremiumWithGst = termRiderPremium * 1.18;
-        showModal('Standalone Term Rider Premium', `<p class="fs-4 fw-bold">${formatINR(termRiderPremiumWithGst)}</p><small>(Yearly Premium, inclusive of 18% GST)</small>`);
+     const termRiderPremiumWithGst = termRiderPremium; // GST removed
+        showModal('Standalone Term Rider Premium', `<p class="fs-4 fw-bold">${formatINR(termRiderPremiumWithGst)}</p><small>(Yearly Premium)</small>`);
     }
 </script>
 

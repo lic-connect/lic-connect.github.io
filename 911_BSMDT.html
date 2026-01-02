@@ -107,11 +107,7 @@
 
                     <div class="col-12"><hr class="my-1"></div>
                     
-                    <div class="col-6 col-md-4 result-label">Total Premium (w/o GST):</div>
-                    <div class="col-6 col-md-8" id="result-total-no-gst"></div>
-                    
-                    <div class="col-6 col-md-4 result-label">GST @ 4.5%:</div>
-                    <div class="col-6 col-md-8" id="result-gst"></div>
+                   
 
                     <div class="col-12"><hr class="my-2" style="border-top: 1px dashed #000;"></div>
 
@@ -120,7 +116,7 @@
                 </div>
             </div>
              <div class="card-footer footer-note text-center">
-                Disclaimer: This is an illustrative calculator. The final premium may vary. Please contact an authorized LIC agent for an exact quote.
+              Disclaimer: This calculation shows the base premium amount. GST/Taxes are currently excluded.
             </div>
         </div>
     </div>
@@ -250,24 +246,19 @@
                 dabPremium = (sumAssured / 1000) * DAB_RATE_PER_1000;
             }
 
-            const totalPremiumWithoutGst = netPremium + dabPremium;
-            
-            const GST_RATE = 0.045; // 4.5% for Single Premium
-            const gstAmount = totalPremiumWithoutGst * GST_RATE;
+        const totalPremiumPayable = netPremium + dabPremium;
 
-            const finalPremium = totalPremiumWithoutGst + gstAmount;
+// 5. Display Results
+errorContainer.style.display = 'none';
+resultsCard.style.display = 'block';
 
-            // 5. Display Results
-            errorContainer.style.display = 'none';
-            resultsCard.style.display = 'block';
+document.getElementById('result-basic').textContent = formatCurrency(basicPremium);
+document.getElementById('result-rebate').textContent = formatCurrency(totalRebate);
+document.getElementById('result-net').textContent = formatCurrency(netPremium);
+document.getElementById('result-dab').textContent = formatCurrency(dabPremium);
 
-            document.getElementById('result-basic').textContent = formatCurrency(basicPremium);
-            document.getElementById('result-rebate').textContent = formatCurrency(totalRebate);
-            document.getElementById('result-net').textContent = formatCurrency(netPremium);
-            document.getElementById('result-dab').textContent = formatCurrency(dabPremium);
-            document.getElementById('result-total-no-gst').textContent = formatCurrency(totalPremiumWithoutGst);
-            document.getElementById('result-gst').textContent = formatCurrency(gstAmount);
-            document.getElementById('result-final').textContent = formatCurrency(finalPremium);
+// Updated: Only one final total is shown
+document.getElementById('result-final').textContent = formatCurrency(totalPremiumPayable);
 
             // Scroll to results
             resultsCard.scrollIntoView({ behavior: 'smooth' });
