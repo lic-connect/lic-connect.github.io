@@ -11,6 +11,27 @@ document.addEventListener('DOMContentLoaded', function () {
         '774': { name: "LIC's Amritbaal", type: 'Endowment', summary: "A non-participating savings plan for children with Guaranteed Additions.", benefits: { onDeath: "Sum Assured on Death + Guaranteed Additions. Not less than 105% of premiums paid.", onSurvival: "Basic Sum Assured + Guaranteed Additions." }, rules: { death: 'ga_death', maturity: 'ga_maturity' } },
         '760': { name: "LIC's Bima Jyoti", type: 'Endowment', summary: "A Non-participating, limited premium plan with Guaranteed Additions of Rs. 50 per 1000 SA.", benefits: { onDeath: "Sum Assured on Death + Accrued Guaranteed Additions.", onSurvival: "Basic Sum Assured + Guaranteed Additions." }, rules: { death: 'ga_death_50', maturity: 'ga_maturity_50' } },
         '768': { name: "LIC's Jeevan Azad", type: 'Endowment', summary: "A limited premium, non-participating Endowment plan.", benefits: { onDeath: "Sum Assured on Death (higher of Basic SA or 7x Annual Premium). Not less than 105% of premiums paid.", onSurvival: "Basic Sum Assured." }, rules: { death: 'standard_death_no_bonus', maturity: 'sa_only' } },
+'880': { 
+    name: "LIC's Jan Suraksha", 
+    type: 'Micro Insurance', 
+    summary: "A Non-Par, Non-linked, Life Micro Insurance plan providing protection and savings for low-income groups with fixed Guaranteed Additions.", 
+    benefits: { 
+        onDeath: "Sum Assured on Death + Accrued Guaranteed Additions. 'Sum Assured on Death' is higher of 7 times of Annualised Premium or Basic Sum Assured (subject to minimum 105% of total premiums paid).", 
+        onSurvival: "Basic Sum Assured + Accrued Guaranteed Additions. (Note: Guaranteed Additions accrue at a fixed rate of 4% of total annualized premiums each year)." 
+    }, 
+    rules: { death: 'sa_plus_ga', maturity: 'sa_plus_ga' } 
+},
+
+'881': { 
+    name: "LIC's Bima Lakshmi", 
+    type: 'Money Back / Savings', 
+    summary: "A Non-Par, Female-only Savings Plan offering Life Cover and flexible Survival Benefits via 3 options (A, B, or C) with fixed Guaranteed Additions.", 
+    benefits: { 
+        onDeath: "Sum Assured on Death + Accrued Guaranteed Additions. 'Sum Assured on Death' is higher of Basic Sum Assured or 10 times of Tabular Annual Premium adjusted by modal factor.", 
+        onSurvival: "Maturity: Basic Sum Assured + Accrued Guaranteed Additions. Survival Benefits: Paid based on chosen option (Option A: 50% SA at end of PPT; Option B: 7.5% SA every 2 years; Option C: 15% SA every 4 years)." 
+    }, 
+    rules: { death: 'sa_plus_ga', maturity: 'sa_plus_ga' } 
+},
         
         // Whole Life Plans
         '745': { name: "LIC's Jeevan Umang", type: 'Whole Life', summary: "A non-linked, with-profits whole life plan with survival benefits.", benefits: { onDeath: "Sum Assured on Death + Bonuses. Death benefit not less than 105% of premiums paid.", onSurvival: "8% of Basic SA annually after PPT. At maturity (age 100) or death, Basic SA + Bonuses + FAB is paid." }, rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' } },
