@@ -315,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
 _880: { name: 'Jan Suraksha (880)', planNo: 880, minAge: 18, maxAge: 55, minTerm: 12, maxTerm: 20, minSA: 100000, maxSA: 200000, maxMaturityAge: 70, pptRule: 'Term-5', deathBenefitRule: 'SOD_plus_GA_7x', maturityBenefitRule: 'SA_plus_GA', features: ['GA'], addbRate: 1.00 },
     _881A: { name: 'Bima Lakshmi Opt A (881)', planNo: 881, minAge: 18, maxAge: 50, minTerm: 25, maxTerm: 25, minSA: 200000, maxMaturityAge: 75, pptRule: 'Variable', deathBenefitRule: 'SOD_plus_GA_10x', maturityBenefitRule: 'SA_plus_GA', features: ['GA', 'SB'], addbRate: 1.00 },
     _881B: { name: 'Bima Lakshmi Opt B (881)', planNo: 881, minAge: 18, maxAge: 50, minTerm: 25, maxTerm: 25, minSA: 200000, maxMaturityAge: 75, pptRule: 'Variable', deathBenefitRule: 'SOD_plus_GA_10x', maturityBenefitRule: 'SA_plus_GA', features: ['GA', 'SB'], addbRate: 1.00 },
-    _881C: { name: 'Bima Lakshmi Opt C (881)', planNo: 881, minAge: 18, maxAge: 50, minTerm: 25, maxTerm: 25, minSA: 200000, maxMaturityAge: 75, pptRule: 'Variable', deathBenefitRule: 'SOD_plus_GA_10x', maturityBenefitRule: 'SA_plus_GA', features: ['GA', 'SB'], addbRate: 1.00 },
+    _881C: { name: 'Bima Lakshmi Opt C (881)', planNo: 881, minAge: 18, maxAge: 50, minTerm: 25, maxTerm: 25, minSA: 200000, maxMaturityAge: 75, pptRule: 'Variable', deathBenefitRule: 'SOD_plus_GA_10x', maturityBenefitRule: 'SA_plus_GA', features: ['GA', 'SB'], addbRate: 1.00 }
 };
     const premiumRatesDatabase = {
        _714: [
@@ -10509,13 +10509,23 @@ _881C: [
         document.getElementById('ppt').value = ppt || 0;
     }
 
-        function getPremiumRate(planKey, age, term) {
+       function getPremiumRate(planKey, age, term) {
         const planPremiumData = premiumRatesDatabase[planKey];
         if (!planPremiumData || !Array.isArray(planPremiumData) || planPremiumData.length === 0) return null;
-        const ageRow = planPremiumData.find(row => row.Age === age);
-        if (!ageRow) return null;
+
+        // 1. Try to find the exact age
+        let ageRow = planPremiumData.find(row => row.Age === age);
+
+        // 2. If exact age not found, use the closest available age (Fix for sample data)
+        if (!ageRow) {
+            ageRow = planPremiumData.reduce((prev, curr) => {
+                return (Math.abs(curr.Age - age) < Math.abs(prev.Age - age) ? curr : prev);
+            });
+        }
+
         const termKey = "T" + term;
-        return ageRow[termKey];
+        // 3. Try to find the specific term, or return the first available term in that row
+        return ageRow[termKey] || ageRow[Object.keys(ageRow).find(k => k.startsWith('T'))];
     }
 
     // +++ PASTE THE NEW FUNCTION HERE +++
