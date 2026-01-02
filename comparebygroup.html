@@ -410,24 +410,27 @@ document.addEventListener('DOMContentLoaded', () => {
     plan2GroupSelect.addEventListener('change', handlePlan2GroupChange);
     plan2PlanSelect.addEventListener('change', () => displayPlanData(2, plan2PlanSelect.value));
 
-    // --- Handler Functions ---
-function handlePlan1GroupChange() {
+// --- Handler Functions ---
+    function handlePlan1GroupChange() {
         const selectedGroup = plan1GroupSelect.value;
+        clearPlan(2); // Reset Plan 2 when Plan 1 changes
         
         if (selectedGroup) {
             populatePlanDropdown(plan1PlanSelect, selectedGroup);
             plan1PlanSelect.disabled = false;
             
-            // Fix: Enable Plan 2 group selector
+            // Enable Plan 2 side
             plan2SelectorDiv.classList.remove('disabled');
             plan2GroupSelect.disabled = false;
+            updatePlan2Groups(selectedGroup);
             
             clearPlan(1);
+            plan2PlanSelect.innerHTML = '<option value="">Select a Plan</option>';
+            plan2PlanSelect.disabled = true; 
         } else {
             resetAll();
         }
     }
-
 
     function handlePlan1PlanChange() {
         const selectedPlan = plan1PlanSelect.value;
@@ -453,7 +456,7 @@ function handlePlan1GroupChange() {
             clearPlan(2);
         } else {
             plan2PlanSelect.innerHTML = '<option value="">Select a Plan</option>';
-            plan2PlanSelect.disabled = false;
+            plan2PlanSelect.disabled = true;
             clearPlan(2);
         }
     }
@@ -473,11 +476,10 @@ function handlePlan1GroupChange() {
 
     function updatePlan2Groups(plan1Group) {
         Array.from(plan2GroupSelect.options).forEach(option => {
-            option.disabled = false; // Allow any group for comparison
+            option.disabled = false; 
         });
-    }        plan2GroupSelect.value = plan1Group;
+        plan2GroupSelect.value = plan1Group;
     }
-
     function updatePlan2Plans() {
         const plan1Selection = plan1PlanSelect.value;
         const plan2Selection = plan2PlanSelect.value;
