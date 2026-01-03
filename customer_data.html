@@ -12,7 +12,7 @@
 <!-- PWA: Link to the Manifest File -->
 <link rel="manifest" href="manifest.json">
   <style>
-/* === Root Variables for a "Sunset City" Theme === */
+/* === ROOT VARIABLES: Sunset City Theme === */
 :root {
     --primary-color: #6a3093; /* Deep Purple */
     --secondary-color: #a044ff; /* Vibrant Violet */
@@ -24,17 +24,18 @@
     --card-border: rgba(255, 255, 255, 0.2);
 }
 
-/* === General Body and Font Styling === */
+/* === General Body Styling === */
 body {
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: var(--primary-color);
     background-image: linear-gradient(135deg, #6a3093 0%, #a044ff 100%);
     color: var(--text-color);
     margin: 0;
     padding: 40px 20px;
+    overflow-x: hidden; /* Prevents side-wobble on mobile */
 }
 
-/* === Main Container Styling === */
+/* === Main Container === */
 .container {
     background-color: var(--card-bg);
     backdrop-filter: blur(10px);
@@ -46,11 +47,12 @@ body {
     width: 100%;
     margin: auto;
     border: 1px solid var(--card-border);
+    box-sizing: border-box;
 }
 
 h1 {
     text-align: center;
-    font-family: 'Oswald', 'Impact', sans-serif;
+    font-family: 'Oswald', sans-serif;
     font-size: 3rem;
     color: #fff;
     margin-bottom: 40px;
@@ -59,7 +61,7 @@ h1 {
     text-shadow: 0 0 10px var(--accent-color);
 }
 
-/* === Main Form Grid Layout === */
+/* === Form Grid Layout === */
 .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -115,7 +117,7 @@ input[readonly] {
     cursor: not-allowed;
 }
 
-/* === Buttons Styling === */
+/* === Actions Grid === */
 .actions-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -142,7 +144,7 @@ button:hover {
     box-shadow: 0 5px 15px rgba(248, 54, 0, 0.4);
 }
 
-/* --- Lookup Section --- */
+/* === Lookup Section === */
 .lookup-section {
     margin-top: 40px;
     padding-top: 30px;
@@ -151,141 +153,73 @@ button:hover {
     gap: 15px;
     align-items: center;
 }
-#lookup_policy_number { margin: 0; }
-.lookup-section button { margin: 0; width: auto; }
 
-/* === Data Table Styling === */
+/* === TABLE FIX: The scrollable wrapper === */
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Allows side-scrolling the 26-column table */
+    margin-top: 40px;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--card-border);
+}
+
 table {
     width: 100%;
-    margin-top: 40px;
     border-collapse: collapse;
     font-size: 0.9rem;
-}
-thead {
-    background-color: var(--secondary-color);
-}
-th, td {
-    padding: 12px;
-    border: 1px solid var(--primary-color);
-    text-align: left;
-}
-th {
-    color: var(--accent-color);
-    font-weight: 600;
-}
-tbody tr:nth-child(even) {
-    background-color: rgba(0,0,0,0.1);
-}
-tbody tr:hover {
-    background-color: rgba(0, 198, 255, 0.1);
+    min-width: 1500px; /* Forces table to keep its shape while scrolling */
 }
 
-    .home-button-container {
-      position: fixed; /* This makes it float on top of other content */
-      top: 20px;       /* Position 20px from the top edge */
-      right: 25px;     /* Position 25px from the right edge */
-      z-index: 1000;   /* Ensures it's above other elements */
-    }
+thead { background-color: var(--secondary-color); }
+th, td { padding: 12px; border: 1px solid var(--primary-color); text-align: left; }
+th { color: var(--accent-color); font-weight: 600; white-space: nowrap; }
 
-    .home-button-container a img {
-      width: 50px; /* Adjust size as needed */
-      height: 50px;
+/* === Home Button === */
+.home-button-container { position: fixed; top: 20px; right: 25px; z-index: 1000; }
+.home-button-container img { width: 50px; height: 50px; transition: transform 0.2s; }
+.home-button-container img:hover { transform: scale(1.1); }
 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    }
-
-    .home-button-container a:hover img {
-      transform: scale(1.1); /* Slightly enlarge on hover */
-    }
-
-
-
+/* ============================================================
+   ANDROID & MOBILE REPAIRS (The Magic Code)
+   ============================================================ */
 @media (max-width: 768px) {
-    /* 1. Reset Body: Allow vertical flow only */
-    body {
-        padding: 10px !important;
-        overflow-x: hidden !important;
-        width: 100vw !important;
-    }
-
-    /* 2. Fix Containers: Remove fixed widths (like 400px or 1200px) */
-    .container, .portal-container, .calc-wrapper, .input-panel, .panel, .container-gatekeeper {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 auto !important;
-        padding: 15px !important;
-        box-sizing: border-box !important;
-        border-radius: 10px !important;
-    }
-
-    /* 3. Scale Headers: Make titles fit on one line */
-    h1 {
-        font-size: 1.8rem !important;
-        line-height: 1.2 !important;
-        margin-bottom: 15px !important;
-    }
+    body { padding: 15px 10px !important; }
     
-    .header p {
-        font-size: 11px !important;
-    }
+    .container { padding: 20px 15px !important; }
 
-    /* 4. Force Single Column: Fix grids for mobile */
-    .plan-grid, .form-grid, .results-grid, .calc-wrapper, .split-screen, .form-grid-887 {
-        display: flex !important;
-        flex-direction: column !important;
+    h1 { font-size: 2rem !important; }
+
+    /* Stack 3-column sections into 1 column */
+    .form-grid {
         grid-template-columns: 1fr !important;
-        gap: 15px !important;
+        gap: 20px !important;
     }
 
-    /* 5. Android Input Fix: Big enough to tap, no auto-zoom */
+    /* Stack buttons into rows of 2 or 1 */
+    .actions-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    /* Stack the lookup area */
+    .lookup-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* CRITICAL: Prevents Android Jumpy Zoom */
     input, select, textarea, button {
-        font-size: 16px !important; /* CRITICAL FOR ANDROID */
-        width: 100% !important;
-        height: auto !important;
-        padding: 12px !important;
-        box-sizing: border-box !important;
+        font-size: 16px !important; 
+        height: auto;
     }
 
-    /* 6. Fix Card Images: Don't let images crush the layout */
-    .card-image {
-        height: 120px !important;
-    }
-    
-    .card-icon {
-        top: 80px !important;
-        width: 60px !important;
-        height: 60px !important;
-    }
-
-    /* 7. Results Section: Make tables and flexboxes stack */
-    .res-line, .result-item {
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        font-size: 14px !important;
-    }
-    
-    .total-val, .total-amt {
-        font-size: 24px !important;
-    }
-
-    /* 8. Home/Back Button: Move it to stay reachable but not in the way */
-    .home-button-container {
-        top: 10px !important;
-        right: 10px !important;
-    }
-    
-    .home-button-container img {
-        width: 35px !important;
-        height: 35px !important;
-    }
+    /* Home button reposition */
+    .home-button-container { top: 10px; right: 10px; }
+    .home-button-container img { width: 35px; height: 35px; }
 }
 
-/* Smooth Tap Feedback for Touchscreens */
-button:active, .plan-card:active {
-    transform: scale(0.98);
-    filter: brightness(0.9);
-}
+/* Smooth Tap Feedback */
+button:active { transform: scale(0.96); filter: brightness(0.9); }
 </style>
     <body>
   <div class="container">
@@ -379,10 +313,12 @@ button:active, .plan-card:active {
       <button onclick="clearLookup()">Clear</button>
     </div>
 
-    <table>
-      <thead><tr><th colspan="26">Policyholder Data</th></tr></thead>
-      <tbody id="dataBody"></tbody>
-    </table>
+<div class="table-wrapper"> <!-- Add this line -->
+        <table>
+          <thead><tr><th colspan="26">Policyholder Data</th></tr></thead>
+          <tbody id="dataBody"></tbody>
+        </table>
+    
   </div>
   
   
