@@ -358,6 +358,96 @@
         right: 115px !important; /* Moves it further left from the edge on mobile */
     }
 }
+
+
+
+/* ============================================================
+   ANDROID & MOBILE OPTIMIZATION 
+   ============================================================ */
+
+@media (max-width: 768px) {
+    /* 1. Fix Font Sizes: Big headers look bad on small screens */
+    h1 {
+        font-size: 2.2rem !important; /* Scale down from 3.5rem */
+        letter-spacing: 1px !important;
+    }
+
+    p.intro {
+        font-size: 1rem !important;
+        padding: 0 15px;
+    }
+
+    /* 2. Container Padding: Save screen space on sides */
+    body {
+        padding: 15px 10px !important;
+    }
+
+    .container, .portal-container {
+        padding: 20px 15px !important;
+    }
+
+    /* 3. Grid Logic: Force single column for everything on mobile */
+    .plan-grid, .form-grid, .results-grid, .calc-wrapper {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+
+    /* 4. Dashboard Buttons & Dropdowns: Make them 100% width */
+    .dashboard-button, .needs-list {
+        width: 100% !important;
+        min-width: 100% !important;
+        font-size: 1.1rem !important;
+        height: auto !important;
+        padding: 15px !important;
+    }
+
+    /* 5. Inputs & Selects: Prevent Android from zooming in on focus */
+    input, select, textarea {
+        font-size: 16px !important; /* Android requires 16px to prevent auto-zoom */
+        padding: 12px !important;
+    }
+
+    /* 6. Navigation Buttons: Adjust for thumbs */
+    .home-button-container {
+        top: 10px !important;
+        right: 10px !important;
+    }
+    
+    .home-button-container img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    /* 7. Card Adjustments: Make cards fit nicely */
+    .plan-card, .result-card {
+        margin: 0 auto !important;
+        width: 100% !important;
+        height: auto !important;
+        padding: 20px !important;
+    }
+
+    /* 8. Split Screens: Force Stack */
+    .split-screen {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 9. Modal Scaling: Modals should take more width on mobile */
+    .modal-content {
+        width: 95% !important;
+        padding: 20px !important;
+    }
+    
+    /* 10. Hide complex background animations if they lag on mobile */
+    #star-field {
+        opacity: 0.3; /* Lower opacity for better text readability */
+    }
+}
+
+/* Add a smooth tap effect for Android buttons */
+button:active, .plan-card:active, .link-card:active {
+    transform: scale(0.96) !important;
+    opacity: 0.8;
+}
     </style>
 </head>
 <body>
