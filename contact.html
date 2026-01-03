@@ -11,6 +11,7 @@
   <title>Contact Us</title>
   <style>
    /* === Root Variables for a Vibrant Green & Gold Theme === */
+/* === Root Variables: Green & Gold Theme === */
 :root {
     --primary-bg: #004d40;      /* Deep Forest Green */
     --accent-color: #ffd700;    /* Gold */
@@ -20,225 +21,173 @@
     --input-focus-border: var(--accent-color);
 }
 
-/* === General Body and Font Styling === */
+/* === General Body Styling === */
 body {
-    font-family: 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     background-color: var(--primary-bg);
-    padding: 40px;
+    background-image: radial-gradient(circle at top right, #00695c, #002d26);
     margin: 0;
+    padding: 20px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-}
-
-/* === Main Form Container Styling === */
-form {
-    max-width: 500px;
-    margin: auto;
-    background: linear-gradient(145deg, #005a4b, #003e2e);
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    border: 1px solid rgba(255, 215, 0, 0.2);
+    overflow-x: hidden;
 }
 
 h1 {
     text-align: center;
     color: var(--accent-color);
-    font-family: 'Georgia', serif;
-    font-size: 2.8rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 35px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+/* === Main Form Container === */
+form {
+    width: 100%;
+    max-width: 500px;
+    background: linear-gradient(145deg, #005a4b, #003e2e);
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    box-sizing: border-box;
+}
+
+/* === ICON SYNC LOGIC (The Fix) === */
+.input-wrapper {
+    position: relative; /* This is the anchor for the icon */
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    margin-top: 20px;
     font-weight: 600;
-    font-size: 1rem;
-    color: var(--text-color);
-    opacity: 0.9;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    margin-bottom: 8px;
+    margin-left: 5px;
 }
 
-/* === Stylish Input Fields === */
 input, textarea {
     width: 100%;
-    padding: 14px;
+    padding: 14px 14px 14px 45px !important; /* Extra left padding for the icon */
     border: 1px solid var(--input-border);
-    border-radius: 8px;
+    border-radius: 10px;
     box-sizing: border-box;
     font-size: 1rem;
-    margin-top: 8px;
     background: var(--input-bg);
     color: var(--text-color);
     transition: all 0.3s ease;
-}
-
-input::placeholder, textarea::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Poppins', sans-serif;
 }
 
 input:focus, textarea:focus {
     outline: none;
-    border-color: var(--input-focus-border);
+    border-color: var(--accent-color);
     background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
 }
 
-textarea {
-    height: 120px;
-    resize: vertical;
+/* Positioning the Icons */
+.input-wrapper .icon {
+    position: absolute;
+    left: 15px;
+    bottom: 14px; /* Perfectly aligned with the center of the input */
+    color: var(--accent-color);
+    font-size: 1.1rem;
+    pointer-events: none; /* Makes sure you can click "through" the icon to type */
+    transition: 0.3s;
 }
 
-/* === Flamboyant Button Style === */
+/* Specific fix for Textarea Icon (move to top) */
+.input-wrapper textarea ~ .icon {
+    top: 50px; /* Aligns icon near the top for long messages */
+    bottom: auto;
+}
+
+/* === Button Styling === */
 button {
-    margin-top: 30px;
+    margin-top: 10px;
     width: 100%;
     padding: 16px;
-    font-size: 1.2rem;
-    color: var(--primary-bg);
+    font-size: 1.1rem;
+    color: #004d40;
     background: var(--accent-color);
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     font-weight: 700;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: all 0.2s ease;
     cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 button:hover {
-    background: #ffc400;
-    box-shadow: 0 7px 20px rgba(0,0,0,0.4);
+    background: #fff;
     transform: translateY(-2px);
 }
 
 button:active {
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    transform: translateY(1px);
+    transform: scale(0.98);
 }
 
-
+/* ============================================================
+   ANDROID & MOBILE REPAIRS
+   ============================================================ */
 @media (max-width: 768px) {
-    /* 1. Reset Body: Allow vertical flow only */
     body {
-        padding: 10px !important;
-        overflow-x: hidden !important;
-        width: 100vw !important;
-    }
-
-    /* 2. Fix Containers: Remove fixed widths (like 400px or 1200px) */
-    .container, .portal-container, .calc-wrapper, .input-panel, .panel, .container-gatekeeper {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 auto !important;
         padding: 15px !important;
-        box-sizing: border-box !important;
-        border-radius: 10px !important;
     }
 
-    /* 3. Scale Headers: Make titles fit on one line */
+    form {
+        padding: 25px 20px !important;
+    }
+
     h1 {
         font-size: 1.8rem !important;
-        line-height: 1.2 !important;
-        margin-bottom: 15px !important;
-    }
-    
-    .header p {
-        font-size: 11px !important;
     }
 
-    /* 4. Force Single Column: Fix grids for mobile */
-    .plan-grid, .form-grid, .results-grid, .calc-wrapper, .split-screen, .form-grid-887 {
-        display: flex !important;
-        flex-direction: column !important;
-        grid-template-columns: 1fr !important;
-        gap: 15px !important;
-    }
-
-    /* 5. Android Input Fix: Big enough to tap, no auto-zoom */
+    /* CRITICAL: Prevents Android auto-zoom and makes fields easy to tap */
     input, select, textarea, button {
-        font-size: 16px !important; /* CRITICAL FOR ANDROID */
-        width: 100% !important;
-        height: auto !important;
-        padding: 12px !important;
-        box-sizing: border-box !important;
-    }
-
-    /* 6. Fix Card Images: Don't let images crush the layout */
-    .card-image {
-        height: 120px !important;
-    }
-    
-    .card-icon {
-        top: 80px !important;
-        width: 60px !important;
-        height: 60px !important;
-    }
-
-    /* 7. Results Section: Make tables and flexboxes stack */
-    .res-line, .result-item {
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        font-size: 14px !important;
-    }
-    
-    .total-val, .total-amt {
-        font-size: 24px !important;
-    }
-
-    /* 8. Home/Back Button: Move it to stay reachable but not in the way */
-    .home-button-container {
-        top: 10px !important;
-        right: 10px !important;
-    }
-    
-    .home-button-container img {
-        width: 35px !important;
-        height: 35px !important;
+        font-size: 16px !important;
+        height: auto;
     }
 }
-
-/* Smooth Tap Feedback for Touchscreens */
-button:active, .plan-card:active {
-    transform: scale(0.98);
-    filter: brightness(0.9);
-}
-
-
-
-
   </style>
 </head>
 <body>
- <h1>Get In Touch</h1>
+  <h1>Get In Touch</h1>
   <form id="contactForm">
 
     <div class="input-wrapper">
       <label for="fullname">Full Name</label>
       <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required />
-      <i class="icon fas fa-user"></i>
+      <i class="icon fas fa-user"></i> <!-- Icon is now inside the wrapper -->
     </div>
 
     <div class="input-wrapper">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Enter your email address" required />
-       <i class="icon fas fa-envelope"></i>
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      <i class="icon fas fa-envelope"></i>
     </div>
 
     <div class="input-wrapper">
       <label for="mobile">Mobile Number</label>
-      <input type="tel" id="mobile" name="mobile" placeholder="Enter your 10-digit mobile number" required pattern="[0-9]{10}" />
-       <i class="icon fas fa-phone"></i>
+      <input type="tel" id="mobile" name="mobile" placeholder="10-digit number" required pattern="[0-9]{10}" />
+      <i class="icon fas fa-phone"></i>
     </div>
 
     <div class="input-wrapper">
-      <label for="message">Message</label>
-      <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
-       <i class="icon fas fa-pen"></i>
+      <label for="message">Your Message</label>
+      <textarea id="message" name="message" placeholder="How can we help?" required></textarea>
+      <i class="icon fas fa-pen"></i>
     </div>
 
     <button type="submit">Send Message</button>
