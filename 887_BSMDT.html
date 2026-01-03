@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Bima Kavach 887 | Premium Hub</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #2ecc71;
+            --dark-green: #27ae60;
+            --lic-blue: #00529b;
+            --gold: #f1c40f;
+            --black: #1a1a1a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- Header Section --- */
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(to right, var(--primary-green), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: #bdc3c7;
+            margin-top: 10px;
+        }
+
+        /* --- Legend / Key Section --- */
+        .legend-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 50px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .legend-title {
+            color: var(--gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #eee;
+        }
+
+        .legend-item b {
+            color: var(--primary-green);
+        }
+
+        /* --- Calculator Grid --- */
+        .calc-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 900px) {
+            .calc-wrapper { grid-template-columns: 1fr; }
+            header h1 { font-size: 2.2rem; }
+        }
+
+        .column-header {
+            background: var(--lic-blue);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-bottom: 4px solid var(--gold);
+        }
+
+        .link-card {
+            background: var(--primary-green);
+            color: var(--black);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .link-card:hover {
+            transform: scale(1.03) translateX(10px);
+            background: var(--gold);
+            box-shadow: 0 10px 25px rgba(241, 196, 15, 0.4);
+        }
+
+        .link-card i {
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+        .link-text {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .link-card {
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Delay for a cascade effect */
+        .link-card:nth-child(n) { animation-delay: 0.1s; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <p><i class="fas fa-shield-halved"></i> LIC PLAN NO. 887</p>
+        <h1>Bima Kavach</h1>
+        <p>Premium Calculator Selection Portal</p>
+    </header>
+
+    <div class="legend-box">
+        <div class="legend-title"><i class="fas fa-info-circle"></i> Legend / Full Forms</div>
+        <div class="legend-grid">
+            <div class="legend-item"><b>M :</b> MALE</div>
+            <div class="legend-item"><b>F :</b> FEMALE</div>
+            <div class="legend-item"><b>S :</b> SMOKER</div>
+            <div class="legend-item"><b>NS :</b> NON-SMOKER</div>
+            <div class="legend-item"><b>LS :</b> LEVEL SUM ASSURED</div>
+            <div class="legend-item"><b>IS :</b> INCREASING SUM ASSURED</div>
+            <div class="legend-item"><b>LP :</b> LIMITED PREMIUM</div>
+            <div class="legend-item"><b>RP :</b> REGULAR PREMIUM</div>
+            <div class="legend-item"><b>SP :</b> SINGLE PREMIUM</div>
+        </div>
+    </div>
+
+    <div class="calc-wrapper">
+        <!-- FEMALE COLUMN (LEFT) -->
+        <div class="column">
+            <div class="column-header"><i class="fas fa-venus"></i> FEMALE CALCULATORS</div>
+            
+            <a href="887-F-NS-LS-SP.html" class="link-card"><div class="link-text"><i class="fas fa-coins"></i> 887-F-NS-LS-SP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-NS-LS-RP.html" class="link-card"><div class="link-text"><i class="fas fa-calendar-check"></i> 887-F-NS-LS-RP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-NS-LS-LP-15.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-end"></i> 887-F-NS-LS-LP-15</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-NS-LS-LP-10.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-half"></i> 887-F-NS-LS-LP-10</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-NS-LS-LP-5.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-start"></i> 887-F-NS-LS-LP-5</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-NS-IS-SP.html" class="link-card"><div class="link-text"><i class="fas fa-arrow-trend-up"></i> 887-F-NS-IS-SP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-NS-IS-RP.html" class="link-card"><div class="link-text"><i class="fas fa-calendar-days"></i> 887-F-NS-IS-RP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-NS-IS-LP-15.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-end"></i> 887-F-NS-IS-LP-15</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-NS-IS-LP-10.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-half"></i> 887-F-NS-IS-LP-10</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-NS-IS-LP-5.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-start"></i> 887-F-NS-IS-LP-5</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-S-LS-SP.html" class="link-card"><div class="link-text"><i class="fas fa-smoking"></i> 887-F-S-LS-SP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-S-LS-RP.html" class="link-card"><div class="link-text"><i class="fas fa-calendar-check"></i> 887-F-S-LS-RP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-S-LS-LP-15.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-end"></i> 887-F-S-LS-LP-15</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-S-LS-LP-10.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-half"></i> 887-F-S-LS-LP-10</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-S-LS-LP-5.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-start"></i> 887-F-S-LS-LP-5</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-S-IS-SP.html" class="link-card"><div class="link-text"><i class="fas fa-arrow-trend-up"></i> 887-F-S-IS-SP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-S-IS-RP.html" class="link-card"><div class="link-text"><i class="fas fa-calendar-days"></i> 887-F-S-IS-RP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-S-IS-LP-15.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-end"></i> 887-F-S-IS-LP-15</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-S-IS-LP-10.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-half"></i> 887-F-S-IS-LP-10</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-F-S-IS-LP-5.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-start"></i> 887-F-S-IS-LP-5</div><i class="fas fa-chevron-right"></i></a>
+        </div>
+
+        <!-- MALE COLUMN (RIGHT) -->
+        <div class="column">
+            <div class="column-header"><i class="fas fa-mars"></i> MALE CALCULATORS</div>
+            
+            <a href="887-M-NS-LS-SP.html" class="link-card"><div class="link-text"><i class="fas fa-coins"></i> 887-M-NS-LS-SP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-NS-LS-RP.html" class="link-card"><div class="link-text"><i class="fas fa-calendar-check"></i> 887-M-NS-LS-RP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-NS-LS-LP-15.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-end"></i> 887-M-NS-LS-LP-15</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-NS-LS-LP-10.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-half"></i> 887-M-NS-LS-LP-10</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-NS-LS-LP-5.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-start"></i> 887-M-NS-LS-LP-5</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-NS-IS-SP.html" class="link-card"><div class="link-text"><i class="fas fa-arrow-trend-up"></i> 887-M-NS-IS-SP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-NS-IS-RP.html" class="link-card"><div class="link-text"><i class="fas fa-calendar-days"></i> 887-M-NS-IS-RP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-NS-IS-LP-15.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-end"></i> 887-M-NS-IS-LP-15</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-NS-IS-LP-10.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-half"></i> 887-M-NS-IS-LP-10</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-NS-IS-LP-5.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-start"></i> 887-M-NS-IS-LP-5</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-S-LS-SP.html" class="link-card"><div class="link-text"><i class="fas fa-smoking"></i> 887-M-S-LS-SP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-S-LS-RP.html" class="link-card"><div class="link-text"><i class="fas fa-calendar-check"></i> 887-M-S-LS-RP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-S-LS-LP-15.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-end"></i> 887-M-S-LS-LP-15</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-S-LS-LP-10.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-half"></i> 887-M-S-LS-LP-10</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-S-LS-LP-5.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-start"></i> 887-M-S-LS-LP-5</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-S-IS-SP.html" class="link-card"><div class="link-text"><i class="fas fa-arrow-trend-up"></i> 887-M-S-IS-SP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-S-IS-RP.html" class="link-card"><div class="link-text"><i class="fas fa-calendar-days"></i> 887-M-S-IS-RP</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-S-IS-LP-15.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-end"></i> 887-M-S-IS-LP-15</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-S-IS-LP-10.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-half"></i> 887-M-S-IS-LP-10</div><i class="fas fa-chevron-right"></i></a>
+            <a href="887-M-S-IS-LP-5.html" class="link-card"><div class="link-text"><i class="fas fa-hourglass-start"></i> 887-M-S-IS-LP-5</div><i class="fas fa-chevron-right"></i></a>
+        </div>
+    </div>
+</div>
+
+<footer style="text-align: center; margin-top: 50px; padding-bottom: 30px; font-size: 0.8rem; opacity: 0.5;">
+    &copy; 2026 LIC Bima Kavach 887 Portal | All Premium Calculations are Subject to Plan Rules.
+</footer>
+
+</body>
+</html>
