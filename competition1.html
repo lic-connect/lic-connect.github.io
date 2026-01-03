@@ -7,7 +7,7 @@
 <!-- PWA: Link to the Manifest File -->
 <link rel="manifest" href="manifest.json">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+       @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
 
         :root {
             --bg-color: #0f0c29;
@@ -23,22 +23,21 @@
         }
 
         body {
-            background: var(--bg-color);
             background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
             color: var(--font-color);
             font-family: var(--body-font);
             margin: 0;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevents side wobble */
+            overflow-y: auto;   /* ALLOWS SCROLLING ON MOBILE */
         }
 
         .main-header {
             text-align: center;
             padding: 15px 0;
             border-bottom: 2px solid var(--border-color);
-            animation: fadeInDown 1s ease-out;
             flex-shrink: 0;
         }
 
@@ -48,7 +47,7 @@
             margin: 0;
             text-transform: uppercase;
             letter-spacing: 4px;
-            text-shadow: 0 0 10px var(--glow-color-1), 0 0 20px var(--glow-color-1);
+            text-shadow: 0 0 10px var(--glow-color-1);
         }
 
         .split-screen-container {
@@ -56,26 +55,23 @@
             flex-grow: 1;
             padding: 20px;
             gap: 20px;
+            box-sizing: border-box;
         }
 
-        /* Left Sidebar - Company List */
         .company-sidebar {
             flex: 0 0 320px;
             background: var(--sidebar-bg);
             border-radius: 15px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
             padding: 20px;
             overflow-y: auto;
-            animation: fadeInLeft 1s ease-out;
+            max-height: 80vh;
         }
 
         .company-sidebar h2 {
             font-family: var(--header-font);
             text-align: center;
             color: var(--glow-color-3);
-            margin-top: 0;
-            margin-bottom: 20px;
             font-size: 1.5em;
         }
 
@@ -89,51 +85,37 @@
             border: 1px solid var(--border-color);
             border-radius: 8px;
             text-align: left;
-            font-family: var(--body-font);
-            font-size: 0.9em;
             cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            transition: 0.3s;
         }
 
-        .company-list button:hover {
-            background-color: #302b63;
-            transform: translateX(5px);
-            box-shadow: 0 0 10px var(--glow-color-2);
-        }
-        
         .company-list button.active {
             background: linear-gradient(45deg, var(--glow-color-1), var(--glow-color-2));
             font-weight: bold;
-            box-shadow: 0 0 15px var(--glow-color-1);
         }
 
-        /* Right Panel - Details Dashboard */
         .details-panel {
             flex-grow: 1;
             background: var(--container-bg);
             border-radius: 15px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.2);
             padding: 30px;
-            animation: fadeInRight 1s ease-out;
             display: flex;
             flex-direction: column;
         }
         
         #company-name-display {
             font-family: var(--header-font);
-            font-size: 2.2em;
+            font-size: 2rem;
             text-align: center;
             color: var(--glow-color-3);
-            text-shadow: 0 0 8px var(--glow-color-3);
-            margin: 0 0 30px 0;
+            margin-bottom: 25px;
         }
         
         .details-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            flex-grow: 1;
         }
 
         .dashboard-button {
@@ -141,174 +123,65 @@
             border: 1px solid var(--border-color);
             border-radius: 10px;
             padding: 15px;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             text-align: center;
+            cursor: pointer;
         }
         
-        .dashboard-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
-        }
-        
-        .button-label {
-            font-family: var(--header-font);
-            font-size: 1.1em;
-            color: var(--glow-color-2);
-            margin-bottom: 8px;
-        }
-        
-        .button-value {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: var(--font-color);
-            display: none; /* Initially hidden */
-            animation: popIn 0.5s ease;
-        }
-        
-        .full-width-button {
+        .button-label { font-family: var(--header-font); color: var(--glow-color-2); margin-bottom: 8px; }
+        .full-width-button { grid-column: 1 / -1; }
+
+        .agent-cta-button {
             grid-column: 1 / -1;
+            background: linear-gradient(45deg, var(--glow-color-1), var(--glow-color-2));
+            color: var(--font-color);
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-family: var(--header-font);
+            font-weight: 700;
+            margin-top: 10px;
+            display: block;
         }
-        
-        /* INSERT THIS CODE SNIPPET */
 
-.agent-cta-button {
-    grid-column: 1 / -1; /* This makes the button span the full width of the grid */
-    background: linear-gradient(45deg, var(--glow-color-1), var(--glow-color-2));
-    color: var(--font-color);
-    text-align: center;
-    padding: 15px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-family: var(--header-font);
-    font-weight: 700;
-    margin-top: 10px; /* Adds some space above it */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    display: block;
-    cursor: pointer;
-}
+        .home-button-container { position: fixed; top: 20px; right: 25px; z-index: 1000; }
+        .home-button-container img { width: 50px; height: 50px; }
 
-.agent-cta-button:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 20px var(--glow-color-2);
-}
+        /* ============================================================
+           ANDROID & MOBILE REPAIRS 
+           ============================================================ */
+        @media (max-width: 900px) {
+            .split-screen-container {
+                flex-direction: column; /* Stack Sidebar on Top */
+                padding: 10px;
+            }
 
-        /* Animations */
-        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes fadeInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+            .company-sidebar {
+                flex: none;
+                width: 100%;
+                max-height: 250px; /* Limits height so details are visible below */
+                padding: 15px;
+            }
 
-   .home-button-container {
-      position: fixed; /* This makes it float on top of other content */
-      top: 20px;       /* Position 20px from the top edge */
-      right: 25px;     /* Position 25px from the right edge */
-      z-index: 1000;   /* Ensures it's above other elements */
-    }
+            .details-panel {
+                padding: 15px;
+            }
 
-    .home-button-container a img {
-      width: 50px; /* Adjust size as needed */
-      height: 50px;
+            .details-grid {
+                grid-template-columns: 1fr !important; /* Single column for dashboard buttons */
+            }
 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    }
-
-    .home-button-container a:hover img {
-      transform: scale(1.1); /* Slightly enlarge on hover */
-    }
-
-
-@media (max-width: 768px) {
-    /* 1. Reset Body: Allow vertical flow only */
-    body {
-        padding: 10px !important;
-        overflow-x: hidden !important;
-        width: 100vw !important;
-    }
-
-    /* 2. Fix Containers: Remove fixed widths (like 400px or 1200px) */
-    .container, .portal-container, .calc-wrapper, .input-panel, .panel, .container-gatekeeper {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 auto !important;
-        padding: 15px !important;
-        box-sizing: border-box !important;
-        border-radius: 10px !important;
-    }
-
-    /* 3. Scale Headers: Make titles fit on one line */
-    h1 {
-        font-size: 1.8rem !important;
-        line-height: 1.2 !important;
-        margin-bottom: 15px !important;
-    }
-    
-    .header p {
-        font-size: 11px !important;
-    }
-
-    /* 4. Force Single Column: Fix grids for mobile */
-    .plan-grid, .form-grid, .results-grid, .calc-wrapper, .split-screen, .form-grid-887 {
-        display: flex !important;
-        flex-direction: column !important;
-        grid-template-columns: 1fr !important;
-        gap: 15px !important;
-    }
-
-    /* 5. Android Input Fix: Big enough to tap, no auto-zoom */
-    input, select, textarea, button {
-        font-size: 16px !important; /* CRITICAL FOR ANDROID */
-        width: 100% !important;
-        height: auto !important;
-        padding: 12px !important;
-        box-sizing: border-box !important;
-    }
-
-    /* 6. Fix Card Images: Don't let images crush the layout */
-    .card-image {
-        height: 120px !important;
-    }
-    
-    .card-icon {
-        top: 80px !important;
-        width: 60px !important;
-        height: 60px !important;
-    }
-
-    /* 7. Results Section: Make tables and flexboxes stack */
-    .res-line, .result-item {
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        font-size: 14px !important;
-    }
-    
-    .total-val, .total-amt {
-        font-size: 24px !important;
-    }
-
-    /* 8. Home/Back Button: Move it to stay reachable but not in the way */
-    .home-button-container {
-        top: 10px !important;
-        right: 10px !important;
-    }
-    
-    .home-button-container img {
-        width: 35px !important;
-        height: 35px !important;
-    }
-}
-
-/* Smooth Tap Feedback for Touchscreens */
-button:active, .plan-card:active {
-    transform: scale(0.98);
-    filter: brightness(0.9);
-}
-
+            .main-header h1 { font-size: 1.5rem; letter-spacing: 2px; }
+            #company-name-display { font-size: 1.4rem; }
+            
+            /* Big touch targets for Android */
+            input, select, button, .dashboard-button {
+                font-size: 16px !important;
+            }
+            
+            .home-button-container { top: 5px; right: 5px; }
+            .home-button-container img { width: 35px; height: 35px; }
+        }
     </style>
 </head>
 <body>
