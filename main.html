@@ -448,6 +448,29 @@ button:active, .plan-card:active, .link-card:active {
     transform: scale(0.96) !important;
     opacity: 0.8;
 }
+
+/* --- News Ticker Performance Fix for Mobile --- */
+.ticker-container, .ticker-wrap, .marquee, [class*="ticker"] {
+    /* 1. Force Hardware Acceleration (Smooths out lag on Android) */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform;
+    
+    /* 2. Prevent Flexbox Squashing */
+    display: block !important; 
+    width: 100% !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+}
+
+/* 3. Speed Correction */
+/* If your ticker uses CSS Animation, we increase the speed for mobile */
+@media (max-width: 768px) {
+    [class*="ticker"] span, [class*="marquee"] div {
+        animation-duration: 10s !important; /* Adjust this number: lower is faster */
+    }
+}
     </style>
 </head>
 <body>
