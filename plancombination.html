@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale:1.0">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LIC Plan Combinations - Dazzling Future</title>
 <!-- PWA: Link to the Manifest File -->
 <link rel="manifest" href="manifest.json">
@@ -223,6 +223,96 @@
     .home-button-container a:hover img {
       transform: scale(1.1); /* Slightly enlarge on hover */
     }
+
+@media (max-width: 768px) {
+    /* 1. Reset Body: Allow vertical flow only */
+    body {
+        padding: 10px !important;
+        overflow-x: hidden !important;
+        width: 100vw !important;
+    }
+
+    /* 2. Fix Containers: Remove fixed widths (like 400px or 1200px) */
+    .container, .portal-container, .calc-wrapper, .input-panel, .panel, .container-gatekeeper {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        padding: 15px !important;
+        box-sizing: border-box !important;
+        border-radius: 10px !important;
+    }
+
+    /* 3. Scale Headers: Make titles fit on one line */
+    h1 {
+        font-size: 1.8rem !important;
+        line-height: 1.2 !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .header p {
+        font-size: 11px !important;
+    }
+
+    /* 4. Force Single Column: Fix grids for mobile */
+    .plan-grid, .form-grid, .results-grid, .calc-wrapper, .split-screen, .form-grid-887 {
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+
+    /* 5. Android Input Fix: Big enough to tap, no auto-zoom */
+    input, select, textarea, button {
+        font-size: 16px !important; /* CRITICAL FOR ANDROID */
+        width: 100% !important;
+        height: auto !important;
+        padding: 12px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 6. Fix Card Images: Don't let images crush the layout */
+    .card-image {
+        height: 120px !important;
+    }
+    
+    .card-icon {
+        top: 80px !important;
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    /* 7. Results Section: Make tables and flexboxes stack */
+    .res-line, .result-item {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        font-size: 14px !important;
+    }
+    
+    .total-val, .total-amt {
+        font-size: 24px !important;
+    }
+
+    /* 8. Home/Back Button: Move it to stay reachable but not in the way */
+    .home-button-container {
+        top: 10px !important;
+        right: 10px !important;
+    }
+    
+    .home-button-container img {
+        width: 35px !important;
+        height: 35px !important;
+    }
+}
+
+/* Smooth Tap Feedback for Touchscreens */
+button:active, .plan-card:active {
+    transform: scale(0.98);
+    filter: brightness(0.9);
+}
+
+
+
+
     </style>
 </head>
 <body>
