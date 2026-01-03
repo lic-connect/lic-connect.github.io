@@ -44,6 +44,19 @@ document.addEventListener('DOMContentLoaded', function () {
         '732': { name: "LIC's New Children's Money Back Plan", type: 'Money Back', summary: "A money back plan for children, with payouts at specific ages.", benefits: { onDeath: "Sum Assured on Death + Bonuses.", onSurvival: "20% of SA at ages 18, 20, 22. At maturity (age 25), 40% of SA + Bonuses." }, rules: { death: 'standard_death_bonus', maturity: 'money_back_bonus_child' } },
         
         // Term Assurance Plans
+'887': { 
+    name: "LIC's Bima Kavach", 
+    type: 'Term', 
+    summary: "A high-value pure risk, non-linked, non-participating plan with options for Increasing Sum Assured and cover up to age 100.", 
+    benefits: { 
+        onDeath: "Sum Assured on Death is paid (Level or Increasing SA depending on the option chosen).", 
+        onSurvival: "No maturity benefit is payable." 
+    }, 
+    rules: { 
+        death: '887_logic', 
+        maturity: 'term_plan' 
+    } 
+  },
         '955': { name: "LIC's New Jeevan Amar", type: 'Term', summary: "A pure risk, non-linked, non-profit term assurance plan.", benefits: { onDeath: "Sum Assured on Death is paid.", onSurvival: "No maturity benefit is payable." }, rules: { death: 'term_plan', maturity: 'term_plan' } },
         '859': { name: "LIC's Saral Jeevan Bima", type: 'Term', summary: "A standardized pure risk term assurance plan.", benefits: { onDeath: "Sum Assured on Death is paid.", onSurvival: "No maturity benefit is payable." }, rules: { death: 'term_plan', maturity: 'term_plan' } },
         '875': { name: "LIC's Yuva Term", type: 'Term', summary: "A pure risk, non-linked, non-profit term assurance plan.", benefits: { onDeath: "Sum Assured on Death is paid.", onSurvival: "No maturity benefit is payable." }, rules: { death: 'term_plan', maturity: 'term_plan' } },
@@ -240,6 +253,27 @@ document.addEventListener('DOMContentLoaded', function () {
             case 'pension':
                 totalBenefit = 0;
                 notes = `Benefit for ${plan.type} plans depends on market performance (Fund Value) or annuity rates, which cannot be estimated with these inputs. Please check your policy document.`;
+                break;
+case '887_logic':
+                if (isDeathCalc) {
+                    // Logic for Option II: Increasing Sum Assured
+                    // policyYear is completedYears + 1 (e.g., if completed 0 years, you are in policy year 1)
+                    let pYear = completedYears + 1; 
+                    
+                    if (pYear <= 5) {
+                        totalBenefit = sa;
+                    } else if (pYear > 5 && pYear <= 15) {
+                        // Increases by 10% of BSA for every year from 6th to 15th
+                        totalBenefit = sa + (sa * 0.10 * (pYear - 5));
+                    } else {
+                        // From 16th year onwards, it is constant at twice the BSA
+                        totalBenefit = sa * 2;
+                    }
+                    notes = `Death Benefit calculated using 'Increasing Sum Assured' logic. Current Cover: ${((totalBenefit/sa)*100).toFixed(0)}% of Basic SA.`;
+                } else {
+                    totalBenefit = 0;
+                    notes = "Plan 887 is a Pure Risk plan; no benefit is payable on survival to maturity.";
+                }
                 break;
             default:
                 totalBenefit = sa + totalBonus + finalBonus;
