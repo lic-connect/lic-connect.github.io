@@ -374,6 +374,22 @@ const allPlanData = {
     '955': { name: 'New Jeevan Amar (955)', summary: 'A Non-Linked, pure protection plan with two death benefit options.', premiumMode: 'Single, Regular, Limited Pay', term: '10 to 40 Years', minAge: '18', maxAge: '65', minSA: '25,00,000', maxSA: 'No Limit', ppt: 'Same as term or limited', deathBenefit: 'Option 1: Level Sum Assured. Option 2: Increasing Sum Assured.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'Option for Increasing Sum Assured.', advantage: 'Allows your life cover to grow over time, helping to combat inflation and increased responsibilities.' },
     '875': { name: 'Yuva Term (875)', summary: 'A pure risk plan targeted at younger individuals.', premiumMode: 'Single, Regular, Limited Pay', term: '15 to 40 Years', minAge: '18', maxAge: '45', minSA: '50,00,000', maxSA: '5 Crore+', ppt: 'Same as term or limited', deathBenefit: 'Offers Level or Increasing Sum Assured options.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'High sum assured for young professionals.', advantage: 'Specifically designed to offer very high life cover at competitive rates for the younger demographic.' },
     '877': { name: 'Yuva Credit Life (877)', summary: 'A pure risk plan to cover loan liabilities.', premiumMode: 'Single, Limited Pay', term: '5 to 30 Years', minAge: '18', maxAge: '45', minSA: '50,00,000', maxSA: '5 Crore+', ppt: '5, 10, 15 years or Single', deathBenefit: 'Risk cover reduces as per a pre-defined schedule, mimicking a loan balance.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'Decreasing term cover for loan protection.', advantage: 'A perfect tool to cover a large housing or business loan, where the insurance amount decreases as the loan is repaid.' },
+'887': { 
+        name: 'Bima Kavach (887)', 
+        summary: 'A Non-Par, High-Value Pure Risk plan with flexible premium options and lifetime cover.', 
+        premiumMode: 'Single, Regular, Limited Pay (5, 10, 15 Years)', 
+        term: '10 to 82 Years (Cover up to age 100)', 
+        minAge: '18', 
+        maxAge: '65', 
+        minSA: '2,00,00,000', 
+        maxSA: 'No Limit', 
+        ppt: 'Single, 5, 10, 15 Years or Same as Term', 
+        deathBenefit: 'Option I: Level Sum Assured. Option II: Increasing Sum Assured (Increases 10% p.a. from 6th-15th year).', 
+        maturityBenefit: 'Not Applicable (Pure Risk Plan)', 
+        survivalBenefit: 'Not Applicable', 
+        usp: 'Risk cover available up to 100 years of age with Increasing SA option.', 
+        advantage: 'High-value protection starting from 2 Crore with specialized lower rates for non-smokers and women.' 
+    },
 
     // Childrens Plans
     '732': { name: 'Children\'s Money Back (732)', summary: 'A non-linked, with-profits, regular premium money back plan for children.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: 'Matures at age 25', minAge: '0', maxAge: '12', minSA: '2,00,000', maxSA: 'No Limit', ppt: '25 - Age at entry', deathBenefit: 'Higher of 7 times AP or Basic SA + Bonuses.', maturityBenefit: '40% of MSA + Vested Bonus + FAB.', survivalBenefit: '20% of MSA at ages 18, 20, and 22.', usp: 'Money-back payouts timed for educational milestones.', advantage: 'Provides money at crucial ages (18, 20, 22) for college admissions and other related expenses.' },
@@ -386,7 +402,7 @@ const planGroups = {
     moneyBack: ['720', '721', '748', '764', '881'], // Added 881 here
     wholeLife: ['745', '771'],
     childrens: ['732', '734', '774'],
-    term: ['859', '955', '875', '877'],
+    term: ['859', '955', '875', '877', '887'],
     annuity: ['758', '857', '862', '879'],
     single: ['717', '911']
 };

@@ -167,6 +167,7 @@ const db = {
     '879': { name: "Smart Pension (879)", type: 'SP', rule: 'SP', min: 1, max: 1 },
     '880': { name: "Jan Suraksha (880)", type: 'MICRO', rule: 'T-5', min: 12, max: 20 },
     '881': { name: "Bima Lakshmi (881)", type: 'LAKSHMI', rule: 'MANUAL', min: 25, max: 25 },
+    '887': { name: "Bima Kavach (887)", type: 'TERM', rule: 'MANUAL', min: 10, max: 82 },
     '911': { name: "Nav Jeevan Shree Single (911)", type: 'SP', rule: 'SP', min: 5, max: 20 },
     '912': { name: "Nav Jeevan Shree Regular (912)", type: 'END', rule: 'MAP', map: {10:6, 12:8, 15:10, 20:12} },
     '955': { name: "New Jeevan Amar (955)", type: 'TERM', rule: 'T=P', min: 10, max: 40 }
@@ -240,8 +241,12 @@ function runCalculation() {
 
     if (plan.type === 'SP') {
         rates = { y1: 2, y2: 0, y3: 0, y4: 0 };
-    } else if (plan.type === 'TERM') {
-        rates = { y1: 7.5, y2: 2, y3: 2, y4: 2 };
+ } else if (plan.type === 'TERM') {
+        if (ppt === 1) { 
+            rates = { y1: 2, y2: 0, y3: 0, y4: 0 }; // Single Premium rate
+        } else {
+            rates = { y1: 7.5, y2: 2, y3: 2, y4: 2 }; // Regular/Limited Pay rate
+        }
     } else if (plan.type === 'MICRO') {
         rates = { y1: 10, y2: 5, y3: 5, y4: 5 };
     } else if (plan.type === 'MB') {
