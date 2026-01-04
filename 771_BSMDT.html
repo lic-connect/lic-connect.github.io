@@ -1532,66 +1532,79 @@ const pwbPremium = (baseAnnualPremium * pwbRate) / 100;
 
 
 function shareOnWhatsApp() {
-    // 1. Get Plan Name (Looks for H1 or H3)
-    const titleElem = document.querySelector('h1') || document.querySelector('h3');
-    const planName = titleElem ? titleElem.innerText : "LIC Plan";
+    try {
+        // 1. Get Plan Name (Handles H1, H2, or H3)
+        const titleElem = document.querySelector('h1') || document.querySelector('h2') || document.querySelector('h3');
+        const planName = titleElem ? titleElem.innerText.trim() : "LIC Plan";
 
-    // 2. Get Input Values (Handles both 'sumAssured' and 'sum-assured')
-    const age = document.getElementById("age").value;
-    const term = (document.getElementById("term") || document.getElementById("policy-term")).value;
-    const saInput = document.getElementById("sumAssured") || document.getElementById("sum-assured");
-    const sumAssured = saInput ? saInput.value : "0";
-    
-    // 3. Check if calculation results are visible
-    const resultsDiv = document.getElementById("results");
-    // Check if results are hidden (Bootstrap d-none or Style display none)
-    if (!resultsDiv || resultsDiv.classList.contains('d-none') || window.getComputedStyle(resultsDiv).display === 'none') {
-        alert("Please calculate the premium first!");
-        return;
-    }
+        // 2. Get Input Values (Handles all variations across your 26 files)
+        const ageElem = document.getElementById("age") || document.getElementById("primaryAge");
+        const age = ageElem ? ageElem.value : "N/A";
 
-    // 4. Format numbers
-    const formattedSA = Number(sumAssured).toLocaleString('en-IN');
+        const saElem = document.getElementById("sumAssured") || document.getElementById("sum-assured") || document.getElementById("purchasePrice");
+        const sumAssured = saElem ? saElem.value : "0";
+        const saLabel = (saElem && saElem.id === "purchasePrice") ? "Purchase Price" : "Sum Assured";
 
-    // 5. Gather Premium Results
-    let premiumDetails = "";
-    
-    // Logic for Table-based results (Plan 714, 764, etc.)
-    const rows = resultsDiv.querySelectorAll('table tr');
-    if (rows.length > 0) {
+        const termElem = document.getElementById("term") || document.getElementById("policy-term") || document.getElementById("ppt");
+        const term = termElem ? termElem.value : null;
+
+        // 3. Check Visibility of results
+        const resultsDiv = document.getElementById("results") || document.getElementById("results-container") || document.querySelector('.output-section');
+        
+        if (!resultsDiv || resultsDiv.classList.contains('d-none') || window.getComputedStyle(resultsDiv).display === 'none') {
+            alert("Please calculate the premium first!");
+            return;
+        }
+
+        // 4. Format numbers
+        const formattedSA = Number(sumAssured).toLocaleString('en-IN');
+
+        // 5. Gather Results (Smart Scraper)
+        let premiumDetails = "";
+
+        // Strategy A: Look for Tables (Plan 714, 764, 862)
+        const rows = resultsDiv.querySelectorAll('table tr');
         rows.forEach(row => {
             const cols = row.querySelectorAll('td, th');
-            if (cols.length === 2) {
-                premiumDetails += `*${cols[0].innerText.trim().replace(':','')}:* ${cols[1].innerText.trim()}\n`;
+            if (cols.length >= 2) {
+                premiumDetails += `*${cols[0].innerText.trim()}:* ${cols[1].innerText.trim()}\n`;
             }
         });
-    } 
-    
-    // Logic for Div-based results (Plan 751, 760, etc.)
-    if (premiumDetails === "") {
-        const resultBoxes = resultsDiv.querySelectorAll('.result-box');
-        resultBoxes.forEach(box => {
-            const mode = box.querySelector('strong') || box.querySelector('.result-title');
-            const price = box.querySelector('span');
-            if (mode && price) {
-                premiumDetails += `*${mode.innerText.trim()}:* ${price.innerText.trim()}\n`;
-            }
-        });
+
+        // Strategy B: Look for Cards/Boxes (Plan 745, 751, 760, 771)
+        if (premiumDetails.trim() === "") {
+            const boxes = document.querySelectorAll('.result-card, .result-box, .results-box, .benefits-box');
+            boxes.forEach(box => {
+                const heading = box.querySelector('h3, h4, strong');
+                if (heading) premiumDetails += `\n*${heading.innerText.trim()}*\n`;
+                
+                const lines = box.querySelectorAll('p, div.result-grid > span, .summary-item');
+                lines.forEach(line => {
+                    if(line.innerText.includes('₹') || line.innerText.includes(':')) {
+                        premiumDetails += `• ${line.innerText.trim().replace(/\n/g, ': ')}\n`;
+                    }
+                });
+            });
+        }
+
+        // 6. Construct the Message
+        let message = `*📊 ${planName} Quote*\n\n`;
+        message += `*--- Policy Details ---*\n`;
+        message += `*Age:* ${age} Years\n`;
+        if (term) message += `*Term/PPT:* ${term} Years\n`;
+        message += `*${saLabel}:* ₹${formattedSA}\n\n`;
+        message += `*--- Summary ---*\n`;
+        message += premiumDetails;
+        message += `\n_Calculated via LIC Premium Calculator_`;
+
+        // 7. Open WhatsApp
+        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+
+    } catch (error) {
+        console.error(error);
+        alert("An error occurred while sharing. Please ensure calculation is complete.");
     }
-
-    // 6. Construct the Message
-    let message = `*📊 ${planName} Premium Quote*\n\n`;
-    message += `*--- Policy Details ---*\n`;
-    message += `*Age:* ${age} Years\n`;
-    message += `*Policy Term:* ${term} Years\n`;
-    message += `*Sum Assured:* ₹${formattedSA}\n\n`;
-    message += `*--- Premium Summary ---*\n`;
-    message += premiumDetails;
-    message += `\n_Calculated via LIC Premium Calculator_`;
-
-    // 7. Open WhatsApp
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
 }
 </script>
 

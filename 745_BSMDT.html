@@ -349,49 +349,79 @@ const finalPwbPremium = (baseAnnualPremium * pwbRate) / 100 * 0.64;
 
 
 function shareOnWhatsApp() {
-    // 1. Get Plan Name from the H1 tag
-    const planName = document.querySelector('h1').innerText;
+    try {
+        // 1. Get Plan Name (Handles H1, H2, or H3)
+        const titleElem = document.querySelector('h1') || document.querySelector('h2') || document.querySelector('h3');
+        const planName = titleElem ? titleElem.innerText.trim() : "LIC Plan";
 
-    // 2. Get Input Values
-    const age = document.getElementById("age").value;
-    const term = document.getElementById("term").value;
-    const sumAssured = document.getElementById("sumAssured").value;
-    
-    // 3. Check if calculation results exist
-    const resultsDiv = document.getElementById("results");
-    if (resultsDiv.innerHTML.trim() === "") {
-        alert("Please calculate the premium first!");
-        return;
-    }
+        // 2. Get Input Values (Handles all variations across your 26 files)
+        const ageElem = document.getElementById("age") || document.getElementById("primaryAge");
+        const age = ageElem ? ageElem.value : "N/A";
 
-    // 4. Format the numbers for readability
-    const formattedSA = Number(sumAssured).toLocaleString('en-IN');
+        const saElem = document.getElementById("sumAssured") || document.getElementById("sum-assured") || document.getElementById("purchasePrice");
+        const sumAssured = saElem ? saElem.value : "0";
+        const saLabel = (saElem && saElem.id === "purchasePrice") ? "Purchase Price" : "Sum Assured";
 
-    // 5. Gather Modal Premium results from the table
-    // This logic finds the results generated in the 'results' div
-    const rows = resultsDiv.querySelectorAll('table tr');
-    let premiumDetails = "";
-    
-    rows.forEach(row => {
-        const cols = row.querySelectorAll('td, th');
-        if (cols.length === 2) {
-            premiumDetails += `*${cols[0].innerText.replace(':','')}:* ${cols[1].innerText}\n`;
+        const termElem = document.getElementById("term") || document.getElementById("policy-term") || document.getElementById("ppt");
+        const term = termElem ? termElem.value : null;
+
+        // 3. Check Visibility of results
+        const resultsDiv = document.getElementById("results") || document.getElementById("results-container") || document.querySelector('.output-section');
+        
+        if (!resultsDiv || resultsDiv.classList.contains('d-none') || window.getComputedStyle(resultsDiv).display === 'none') {
+            alert("Please calculate the premium first!");
+            return;
         }
-    });
 
-    // 6. Construct the Message
-    let message = `*📊 ${planName} Premium Quote*\n\n`;
-    message += `*--- Policy Details ---*\n`;
-    message += `*Age:* ${age} Years\n`;
-    message += `*Policy Term:* ${term} Years\n`;
-    message += `*Sum Assured:* ₹${formattedSA}\n\n`;
-    message += `*--- Premium Summary ---*\n`;
-    message += premiumDetails;
-    message += `\n_Calculated via LIC Premium Calculator_`;
+        // 4. Format numbers
+        const formattedSA = Number(sumAssured).toLocaleString('en-IN');
 
-    // 7. Open WhatsApp
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+        // 5. Gather Results (Smart Scraper)
+        let premiumDetails = "";
+
+        // Strategy A: Look for Tables (Plan 714, 764, 862)
+        const rows = resultsDiv.querySelectorAll('table tr');
+        rows.forEach(row => {
+            const cols = row.querySelectorAll('td, th');
+            if (cols.length >= 2) {
+                premiumDetails += `*${cols[0].innerText.trim()}:* ${cols[1].innerText.trim()}\n`;
+            }
+        });
+
+        // Strategy B: Look for Cards/Boxes (Plan 745, 751, 760, 771)
+        if (premiumDetails.trim() === "") {
+            const boxes = document.querySelectorAll('.result-card, .result-box, .results-box, .benefits-box');
+            boxes.forEach(box => {
+                const heading = box.querySelector('h3, h4, strong');
+                if (heading) premiumDetails += `\n*${heading.innerText.trim()}*\n`;
+                
+                const lines = box.querySelectorAll('p, div.result-grid > span, .summary-item');
+                lines.forEach(line => {
+                    if(line.innerText.includes('₹') || line.innerText.includes(':')) {
+                        premiumDetails += `• ${line.innerText.trim().replace(/\n/g, ': ')}\n`;
+                    }
+                });
+            });
+        }
+
+        // 6. Construct the Message
+        let message = `*📊 ${planName} Quote*\n\n`;
+        message += `*--- Policy Details ---*\n`;
+        message += `*Age:* ${age} Years\n`;
+        if (term) message += `*Term/PPT:* ${term} Years\n`;
+        message += `*${saLabel}:* ₹${formattedSA}\n\n`;
+        message += `*--- Summary ---*\n`;
+        message += premiumDetails;
+        message += `\n_Calculated via LIC Premium Calculator_`;
+
+        // 7. Open WhatsApp
+        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+
+    } catch (error) {
+        console.error(error);
+        alert("An error occurred while sharing. Please ensure calculation is complete.");
+    }
 }
 </script>
 
