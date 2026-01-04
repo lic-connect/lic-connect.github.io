@@ -212,35 +212,52 @@
     }
 
 function shareOnWhatsApp() {
-    // 1. Get Plan Name from the H1 tag
-    const planName = document.querySelector('h1').innerText;
+    // 1. Get Plan Name (Looks for H1 or H3)
+    const titleElem = document.querySelector('h1') || document.querySelector('h3');
+    const planName = titleElem ? titleElem.innerText : "LIC Plan";
 
-    // 2. Get Input Values
+    // 2. Get Input Values (Handles both 'sumAssured' and 'sum-assured')
     const age = document.getElementById("age").value;
-    const term = document.getElementById("term").value;
-    const sumAssured = document.getElementById("sumAssured").value;
+    const term = (document.getElementById("term") || document.getElementById("policy-term")).value;
+    const saInput = document.getElementById("sumAssured") || document.getElementById("sum-assured");
+    const sumAssured = saInput ? saInput.value : "0";
     
-    // 3. Check if calculation results exist
+    // 3. Check if calculation results are visible
     const resultsDiv = document.getElementById("results");
-    if (resultsDiv.innerHTML.trim() === "") {
+    // Check if results are hidden (Bootstrap d-none or Style display none)
+    if (!resultsDiv || resultsDiv.classList.contains('d-none') || window.getComputedStyle(resultsDiv).display === 'none') {
         alert("Please calculate the premium first!");
         return;
     }
 
-    // 4. Format the numbers for readability
+    // 4. Format numbers
     const formattedSA = Number(sumAssured).toLocaleString('en-IN');
 
-    // 5. Gather Modal Premium results from the table
-    // This logic finds the results generated in the 'results' div
-    const rows = resultsDiv.querySelectorAll('table tr');
+    // 5. Gather Premium Results
     let premiumDetails = "";
     
-    rows.forEach(row => {
-        const cols = row.querySelectorAll('td, th');
-        if (cols.length === 2) {
-            premiumDetails += `*${cols[0].innerText.replace(':','')}:* ${cols[1].innerText}\n`;
-        }
-    });
+    // Logic for Table-based results (Plan 714, 764, etc.)
+    const rows = resultsDiv.querySelectorAll('table tr');
+    if (rows.length > 0) {
+        rows.forEach(row => {
+            const cols = row.querySelectorAll('td, th');
+            if (cols.length === 2) {
+                premiumDetails += `*${cols[0].innerText.trim().replace(':','')}:* ${cols[1].innerText.trim()}\n`;
+            }
+        });
+    } 
+    
+    // Logic for Div-based results (Plan 751, 760, etc.)
+    if (premiumDetails === "") {
+        const resultBoxes = resultsDiv.querySelectorAll('.result-box');
+        resultBoxes.forEach(box => {
+            const mode = box.querySelector('strong') || box.querySelector('.result-title');
+            const price = box.querySelector('span');
+            if (mode && price) {
+                premiumDetails += `*${mode.innerText.trim()}:* ${price.innerText.trim()}\n`;
+            }
+        });
+    }
 
     // 6. Construct the Message
     let message = `*📊 ${planName} Premium Quote*\n\n`;
