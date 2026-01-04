@@ -335,37 +335,67 @@ function calculatePremium() {
 
 
 function shareOnWhatsApp() {
-    // 1. Get Plan Name from the H1 tag
-    const planName = document.querySelector('h1').innerText;
+    // 1. Get Plan Name (Handles H1 or H3)
+    const titleElem = document.querySelector('h1') || document.querySelector('h3');
+    const planName = titleElem ? titleElem.innerText : "LIC Plan";
 
-    // 2. Get Input Values
-    const age = document.getElementById("age").value;
-    const term = document.getElementById("term").value;
-    const sumAssured = document.getElementById("sumAssured").value;
+    // 2. Get Input Values (Handles 'age', 'term'/'policy-term', and 'sum-assured'/'sumAssured')
+    const age = document.getElementById("age") ? document.getElementById("age").value : "N/A";
     
-    // 3. Check if calculation results exist
+    const termElem = document.getElementById("term") || document.getElementById("policy-term");
+    const term = termElem ? termElem.value : "N/A";
+    
+    const saElem = document.getElementById("sum-assured") || document.getElementById("sumAssured");
+    const sumAssured = saElem ? saElem.value : "0";
+    
+    // 3. Check if results are calculated and visible
     const resultsDiv = document.getElementById("results");
-    if (resultsDiv.innerHTML.trim() === "") {
+    if (!resultsDiv || resultsDiv.classList.contains('d-none') || window.getComputedStyle(resultsDiv).display === 'none') {
         alert("Please calculate the premium first!");
         return;
     }
 
-    // 4. Format the numbers for readability
+    // 4. Format numbers for the message
     const formattedSA = Number(sumAssured).toLocaleString('en-IN');
 
-    // 5. Gather Modal Premium results from the table
-    // This logic finds the results generated in the 'results' div
-    const rows = resultsDiv.querySelectorAll('table tr');
+    // 5. Gather Results (The Scraper)
     let premiumDetails = "";
     
-    rows.forEach(row => {
-        const cols = row.querySelectorAll('td, th');
-        if (cols.length === 2) {
-            premiumDetails += `*${cols[0].innerText.replace(':','')}:* ${cols[1].innerText}\n`;
-        }
-    });
+    // Check for Table Layout (Plan 714, 764, etc.)
+    const rows = resultsDiv.querySelectorAll('table tr');
+    if (rows.length > 0) {
+        rows.forEach(row => {
+            const cols = row.querySelectorAll('td, th');
+            if (cols.length === 2) {
+                premiumDetails += `*${cols[0].innerText.trim().replace(':','')}:* ${cols[1].innerText.trim()}\n`;
+            }
+        });
+    } 
+    
+    // Check for Div/Box Layout (Plan 717, 720, 721, 751, 760)
+    if (premiumDetails === "") {
+        const resultBoxes = resultsDiv.querySelectorAll('.result-box');
+        resultBoxes.forEach(box => {
+            // Find the heading (Yearly, Single, etc.)
+            const heading = box.querySelector('h4') || box.querySelector('strong') || box.querySelector('.result-title');
+            // Find all key-value pairs inside that box
+            const lines = box.querySelectorAll('div, p, tr');
+            
+            if (heading) premiumDetails += `\n*${heading.innerText.trim()}*\n`;
+            
+            lines.forEach(line => {
+                // If it's a simple line with a span (like Plan 751)
+                const label = line.innerText.split('₹')[0].trim().replace(':','');
+                const value = line.querySelector('span') || line.innerText.split('₹')[1];
+                if (label && value) {
+                    const valText = typeof value === 'string' ? '₹' + value : value.innerText;
+                    premiumDetails += `• ${label}: ${valText}\n`;
+                }
+            });
+        });
+    }
 
-    // 6. Construct the Message
+    // 6. Construct and Send Message
     let message = `*📊 ${planName} Premium Quote*\n\n`;
     message += `*--- Policy Details ---*\n`;
     message += `*Age:* ${age} Years\n`;
@@ -375,7 +405,6 @@ function shareOnWhatsApp() {
     message += premiumDetails;
     message += `\n_Calculated via LIC Premium Calculator_`;
 
-    // 7. Open WhatsApp
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
 }
