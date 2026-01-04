@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surrender Value Pro | LIC Plan 880</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00f2ff;
+            --neon-purple: #bc13fe;
+            --neon-pink: #ff0055;
+            --glass: rgba(255, 255, 255, 0.1);
+            --bg-dark: #080a0f;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(188, 19, 254, 0.15) 0%, transparent 40%);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 900px;
+            padding: 40px 20px;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(0, 242, 255, 0.5));
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: var(--neon-cyan);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #aaa;
+            margin-left: 5px;
+        }
+
+        input, select {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 15px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+        }
+
+        .calc-btn {
+            width: 100%;
+            margin-top: 30px;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
+        }
+
+        .calc-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(188, 19, 254, 0.6);
+        }
+
+        .results-area {
+            margin-top: 40px;
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .res-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .res-box {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid var(--neon-cyan);
+        }
+
+        .res-box.alt { border-left-color: var(--neon-purple); }
+
+        .res-label { font-size: 0.8rem; color: #888; margin-bottom: 5px; }
+        .res-value { font-size: 1.4rem; font-weight: 700; font-family: 'Orbitron', sans-serif; }
+
+        .final-box {
+            background: linear-gradient(135deg, rgba(0, 242, 255, 0.1), rgba(188, 19, 254, 0.1));
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--neon-cyan);
+        }
+
+        .final-label { color: var(--neon-cyan); font-weight: bold; margin-bottom: 10px; }
+        .final-amt { font-size: 3rem; color: white; font-weight: 800; font-family: 'Orbitron', sans-serif; text-shadow: 0 0 20px var(--neon-cyan); }
+
+        @media (max-width: 600px) {
+            .res-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="glass-card">
+            <h1>PLAN 880 CALCULATOR</h1>
+            <div class="subtitle">Jan Suraksha Surrender Analytics</div>
+
+         <div class="input-grid">
+    <div class="input-group">
+        <label>Basic Sum Assured (BSA)</label>
+        <input type="number" id="bsa" value="200000" oninput="updateAutoFields()">
+    </div>
+    <div class="input-group">
+        <label>Policy Term</label>
+        <select id="policyTerm" onchange="updateAutoFields()">
+            <option value="12">12 Years</option>
+            <option value="13">13 Years</option>
+            <option value="14">14 Years</option>
+            <option value="15">15 Years</option>
+            <option value="16">16 Years</option>
+            <option value="17">17 Years</option>
+            <option value="18">18 Years</option>
+            <option value="19">19 Years</option>
+            <option value="T20" selected>20 Years</option>
+        </select>
+    </div>
+    <div class="input-group">
+        <label>Annual Premium (AP)</label>
+        <input type="number" id="ap" value="10000" oninput="updateAutoFields()">
+    </div>
+    <div class="input-group">
+        <label>Years Premiums Paid</label>
+        <input type="number" id="yearsPaid" value="5" min="2" oninput="updateAutoFields()">
+    </div>
+    <div class="input-group">
+        <label>Premium Paying Term (PPT)</label>
+        <input type="number" id="ppt" readonly style="background: rgba(255,255,255,0.05); color: var(--neon-cyan);">
+    </div>
+    <div class="input-group">
+        <label>Accrued Bonus</label>
+        <input type="number" id="bonus" value="0" readonly style="background: rgba(255,255,255,0.05);">
+    </div>
+    <div class="input-group">
+        <label>Accrued GA (Auto-Calculated)</label>
+        <input type="number" id="ga" readonly style="background: rgba(255,255,255,0.05); color: var(--neon-cyan);">
+    </div>
+</div>
+<!-- Add these two checkboxes below the grid for the GA formula -->
+<div style="margin-top: 20px; display: flex; gap: 20px; justify-content: center;">
+    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" id="isOnline" checked onchange="updateAutoFields()"> Online Purchase (+1%)
+    </label>
+    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+        <input type="checkbox" id="isHighSA" checked onchange="updateAutoFields()"> High Sum Assured (+0.25%)
+    </label>
+</div>
+
+            <button class="calc-btn" onclick="calculateSurrender()">Analyze Surrender Value</button>
+
+            <div id="results" class="results-area">
+                <div class="res-grid">
+                    <div class="res-box">
+                        <div class="res-label">Guaranteed Surrender Value (GSV)</div>
+                        <div class="res-value" id="gsvVal">₹ 0</div>
+                    </div>
+                    <div class="res-box alt">
+                        <div class="res-label">Special Surrender Value (SSV)</div>
+                        <div class="res-value" id="ssvVal">₹ 0</div>
+                    </div>
+                </div>
+                <div class="final-box">
+                    <div class="final-label">MAXIMUM PAYABLE SURRENDER VALUE</div>
+                    <div class="final-amt" id="finalAmt">₹ 0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data derived from provided JSON snippets
+        const dataB = [
+            {"Term": 1, "T12": 0, "T13": 0, "T14": 0, "T15": 0, "T16": 0, "T17": 0, "T18": 0, "T19": 0, "T20": 0},
+            {"Term": 2, "T12": 0.1816, "T13": 0.1785, "T14": 0.1766, "T15": 0.1758, "T16": 0.1758, "T17": 0.1703, "T18": 0.1658, "T19": 0.1622, "T20": 0.1593},
+            {"Term": 3, "T12": 0.186, "T13": 0.1816, "T14": 0.1785, "T15": 0.1766, "T16": 0.1758, "T17": 0.1758, "T18": 0.1703, "T19": 0.1658, "T20": 0.1622},
+            {"Term": 4, "T12": 0.1918, "T13": 0.186, "T14": 0.1816, "T15": 0.1785, "T16": 0.1766, "T17": 0.1758, "T18": 0.1758, "T19": 0.1703, "T20": 0.1658},
+            {"Term": 5, "T12": 0.1993, "T13": 0.1918, "T14": 0.186, "T15": 0.1816, "T16": 0.1785, "T17": 0.1766, "T18": 0.1758, "T19": 0.1758, "T20": 0.1703},
+            {"Term": 6, "T12": 0.2085, "T13": 0.1993, "T14": 0.1918, "T15": 0.186, "T16": 0.1816, "T17": 0.1785, "T18": 0.1766, "T19": 0.1758, "T20": 0.1758},
+            {"Term": 7, "T12": 0.2199, "T13": 0.2085, "T14": 0.1993, "T15": 0.1918, "T16": 0.186, "T17": 0.1816, "T18": 0.1785, "T19": 0.1766, "T20": 0.1758},
+            {"Term": 8, "T12": 0.2338, "T13": 0.2199, "T14": 0.2085, "T15": 0.1993, "T16": 0.1918, "T17": 0.186, "T18": 0.1816, "T19": 0.1785, "T20": 0.1766},
+            {"Term": 9, "T12": 0.2505, "T13": 0.2338, "T14": 0.2199, "T15": 0.2085, "T16": 0.1993, "T17": 0.1918, "T18": 0.186, "T19": 0.1816, "T20": 0.1785},
+            {"Term": 10, "T12": 0.2706, "T13": 0.2505, "T14": 0.2338, "T15": 0.2199, "T16": 0.2085, "T17": 0.1993, "T18": 0.1918, "T19": 0.186, "T20": 0.1816},
+            {"Term": 11, "T12": 0.3, "T13": 0.2706, "T14": 0.2505, "T15": 0.2338, "T16": 0.2199, "T17": 0.2085, "T18": 0.1993, "T19": 0.1918, "T20": 0.186},
+            {"Term": 12, "T12": 0.35, "T13": 0.3, "T14": 0.2706, "T15": 0.2505, "T16": 0.2338, "T17": 0.2199, "T18": 0.2085, "T19": 0.1993, "T20": 0.1918},
+            {"Term": 13, "T13": 0.35, "T14": 0.3, "T15": 0.2706, "T16": 0.2505, "T17": 0.2338, "T18": 0.2199, "T19": 0.2085, "T20": 0.1993},
+            {"Term": 14, "T14": 0.35, "T15": 0.3, "T16": 0.2706, "T17": 0.2505, "T18": 0.2338, "T19": 0.2199, "T20": 0.2085},
+            {"Term": 15, "T15": 0.35, "T16": 0.3, "T17": 0.2706, "T18": 0.2505, "T19": 0.2338, "T20": 0.2199},
+            {"Term": 16, "T16": 0.35, "T17": 0.3, "T18": 0.2706, "T19": 0.2505, "T20": 0.2338},
+            {"Term": 17, "T17": 0.35, "T18": 0.3, "T19": 0.2706, "T20": 0.2505},
+            {"Term": 18, "T18": 0.35, "T19": 0.3, "T20": 0.2706},
+            {"Term": 19, "T19": 0.35, "T20": 0.3},
+            {"Term": 20, "T20": 0.35}
+        ];
+
+        const dataP = [
+            {"Term": 1, "T12": 0, "T13": 0, "T14": 0, "T15": 0, "T16": 0, "T17": 0, "T18": 0, "T19": 0, "T20": 0},
+            {"Term": 2, "T12": 0.3, "T13": 0.3, "T14": 0.3, "T15": 0.3, "T16": 0.3, "T17": 0.3, "T18": 0.3, "T19": 0.3, "T20": 0.3},
+            {"Term": 3, "T12": 0.35, "T13": 0.35, "T14": 0.35, "T15": 0.35, "T16": 0.35, "T17": 0.35, "T18": 0.35, "T19": 0.35, "T20": 0.35},
+            {"Term": 4, "T12": 0.5, "T13": 0.5, "T14": 0.5, "T15": 0.5, "T16": 0.5, "T17": 0.5, "T18": 0.5, "T19": 0.5, "T20": 0.5},
+            {"Term": 5, "T12": 0.5, "T13": 0.5, "T14": 0.5, "T15": 0.5, "T16": 0.5, "T17": 0.5, "T18": 0.5, "T19": 0.5, "T20": 0.5},
+            {"Term": 6, "T12": 0.5, "T13": 0.5, "T14": 0.5, "T15": 0.5, "T16": 0.5, "T17": 0.5, "T18": 0.5, "T19": 0.5, "T20": 0.5},
+            {"Term": 7, "T12": 0.5, "T13": 0.5, "T14": 0.5, "T15": 0.5, "T16": 0.5, "T17": 0.5, "T18": 0.5, "T19": 0.5, "T20": 0.5},
+            {"Term": 8, "T12": 0.575, "T13": 0.56, "T14": 0.55, "T15": 0.5429, "T16": 0.5375, "T17": 0.5333, "T18": 0.53, "T19": 0.5273, "T20": 0.525},
+            {"Term": 9, "T12": 0.65, "T13": 0.62, "T14": 0.6, "T15": 0.5857, "T16": 0.575, "T17": 0.5667, "T18": 0.56, "T19": 0.5545, "T20": 0.55},
+            {"Term": 10, "T12": 0.725, "T13": 0.68, "T14": 0.65, "T15": 0.6286, "T16": 0.6125, "T17": 0.6, "T18": 0.59, "T19": 0.5818, "T20": 0.575},
+            {"Term": 11, "T12": 0.9, "T13": 0.74, "T14": 0.7, "T15": 0.6714, "T16": 0.65, "T17": 0.6333, "T18": 0.62, "T19": 0.6091, "T20": 0.6},
+            {"Term": 12, "T12": 0.9, "T13": 0.9, "T14": 0.75, "T15": 0.7143, "T16": 0.6875, "T17": 0.6667, "T18": 0.65, "T19": 0.6364, "T20": 0.625},
+            {"Term": 13, "T13": 0.9, "T14": 0.9, "T15": 0.7571, "T16": 0.725, "T17": 0.7, "T18": 0.68, "T19": 0.6636, "T20": 0.65},
+            {"Term": 14, "T14": 0.9, "T15": 0.9, "T16": 0.7625, "T17": 0.7333, "T18": 0.71, "T19": 0.6909, "T20": 0.675},
+            {"Term": 15, "T15": 0.9, "T16": 0.9, "T17": 0.7667, "T18": 0.74, "T19": 0.7182, "T20": 0.7},
+            {"Term": 16, "T16": 0.9, "T17": 0.9, "T18": 0.77, "T19": 0.7455, "T20": 0.725},
+            {"Term": 17, "T17": 0.9, "T18": 0.9, "T19": 0.7727, "T20": 0.75},
+            {"Term": 18, "T18": 0.9, "T19": 0.9, "T20": 0.775},
+            {"Term": 19, "T19": 0.9, "T20": 0.9},
+            {"Term": 20, "T20": 0.9}
+        ];
+
+        const dataF1 = [
+            {"Term": 1, "T12": 0.0166, "T13": 0.0182, "T14": 0.02, "T15": 0.0218, "T16": 0.0236, "T17": 0.0256, "T18": 0.0276, "T19": 0.0297, "T20": 0.0318},
+            {"Term": 2, "T12": 0.0162, "T13": 0.018, "T14": 0.0199, "T15": 0.0218, "T16": 0.0238, "T17": 0.0259, "T18": 0.028, "T19": 0.0303, "T20": 0.0326},
+            {"Term": 3, "T12": 0.0157, "T13": 0.0176, "T14": 0.0196, "T15": 0.0217, "T16": 0.0239, "T17": 0.0261, "T18": 0.0284, "T19": 0.0308, "T20": 0.0333},
+            {"Term": 4, "T12": 0.0151, "T13": 0.0171, "T14": 0.0193, "T15": 0.0215, "T16": 0.0238, "T17": 0.0262, "T18": 0.0287, "T19": 0.0313, "T20": 0.0339},
+            {"Term": 5, "T12": 0.0142, "T13": 0.0164, "T14": 0.0187, "T15": 0.0211, "T16": 0.0236, "T17": 0.0262, "T18": 0.0289, "T19": 0.0317, "T20": 0.0345},
+            {"Term": 6, "T12": 0.0132, "T13": 0.0156, "T14": 0.018, "T15": 0.0206, "T16": 0.0233, "T17": 0.0261, "T18": 0.0289, "T19": 0.0319, "T20": 0.0349},
+            {"Term": 7, "T12": 0.0119, "T13": 0.0145, "T14": 0.0171, "T15": 0.0199, "T16": 0.0228, "T17": 0.0257, "T18": 0.0288, "T19": 0.032, "T20": 0.0353},
+            {"Term": 8, "T12": 0.0103, "T13": 0.0131, "T14": 0.0159, "T15": 0.0189, "T16": 0.022, "T17": 0.0252, "T18": 0.0285, "T19": 0.032, "T20": 0.0355},
+            {"Term": 9, "T12": 0.0084, "T13": 0.0114, "T14": 0.0144, "T15": 0.0176, "T16": 0.021, "T17": 0.0244, "T18": 0.028, "T19": 0.0317, "T20": 0.0354},
+            {"Term": 10, "T12": 0.0061, "T13": 0.0093, "T14": 0.0126, "T15": 0.016, "T16": 0.0196, "T17": 0.0233, "T18": 0.0272, "T19": 0.0311, "T20": 0.0352},
+            {"Term": 11, "T12": 0.0033, "T13": 0.0068, "T14": 0.0103, "T15": 0.014, "T16": 0.0179, "T17": 0.0219, "T18": 0.026, "T19": 0.0302, "T20": 0.0346}
+        ];
+
+        const dataF2 = [
+            {"Term": 1, "T12": 0.4519, "T13": 0.4198, "T14": 0.3898, "T15": 0.3617, "T16": 0.3354, "T17": 0.3109, "T18": 0.2879, "T19": 0.2664, "T20": 0.2463},
+            {"Term": 2, "T12": 0.4854, "T13": 0.4509, "T14": 0.4186, "T15": 0.3885, "T16": 0.3603, "T17": 0.3339, "T18": 0.3092, "T19": 0.2861, "T20": 0.2646},
+            {"Term": 3, "T12": 0.5214, "T13": 0.4843, "T14": 0.4496, "T15": 0.4173, "T16": 0.387, "T17": 0.3586, "T18": 0.3321, "T19": 0.3073, "T20": 0.2842},
+            {"Term": 4, "T12": 0.5601, "T13": 0.5203, "T14": 0.483, "T15": 0.4482, "T16": 0.4157, "T17": 0.3853, "T18": 0.3568, "T19": 0.3302, "T20": 0.3053},
+            {"Term": 5, "T12": 0.6018, "T13": 0.559, "T14": 0.519, "T15": 0.4816, "T16": 0.4466, "T17": 0.4139, "T18": 0.3833, "T19": 0.3547, "T20": 0.328},
+            {"Term": 6, "T12": 0.6466, "T13": 0.6006, "T14": 0.5577, "T15": 0.5175, "T16": 0.4799, "T17": 0.4448, "T18": 0.4119, "T19": 0.3812, "T20": 0.3524},
+            {"Term": 7, "T12": 0.695, "T13": 0.6455, "T14": 0.5993, "T15": 0.5562, "T16": 0.5158, "T17": 0.478, "T18": 0.4427, "T19": 0.4097, "T20": 0.3788},
+            {"Term": 8, "T12": 0.747, "T13": 0.6939, "T14": 0.6443, "T15": 0.5978, "T16": 0.5544, "T17": 0.5139, "T18": 0.4759, "T19": 0.4404, "T20": 0.4072},
+            {"Term": 9, "T12": 0.8032, "T13": 0.7461, "T14": 0.6927, "T15": 0.6428, "T16": 0.5961, "T17": 0.5525, "T18": 0.5117, "T19": 0.4735, "T20": 0.4378},
+            {"Term": 10, "T12": 0.8638, "T13": 0.8024, "T14": 0.745, "T15": 0.6913, "T16": 0.6411, "T17": 0.5942, "T18": 0.5503, "T19": 0.5092, "T20": 0.4708},
+            {"Term": 11, "T12": 0.9293, "T13": 0.8632, "T14": 0.8014, "T15": 0.7437, "T16": 0.6897, "T17": 0.6392, "T18": 0.592, "T19": 0.5478, "T20": 0.5065}
+        ];
+
+        const dataF3 = [
+            {"Term": 1, "T12": 0.1008, "T13": 0.1209, "T14": 0.1434, "T15": 0.1685, "T16": 0.1966, "T17": 0.2277, "T18": 0.2619, "T19": 0.2992, "T20": 0.3395},
+            {"Term": 2, "T12": 0.0905, "T13": 0.1102, "T14": 0.1325, "T15": 0.1576, "T16": 0.1857, "T17": 0.217, "T18": 0.2516, "T19": 0.2894, "T20": 0.3305},
+            {"Term": 3, "T12": 0.0798, "T13": 0.099, "T14": 0.121, "T15": 0.1459, "T16": 0.1739, "T17": 0.2053, "T18": 0.2401, "T19": 0.2784, "T20": 0.32},
+            {"Term": 4, "T12": 0.0688, "T13": 0.0875, "T14": 0.1089, "T15": 0.1334, "T16": 0.1612, "T17": 0.1925, "T18": 0.2274, "T19": 0.2659, "T20": 0.308},
+            {"Term": 5, "T12": 0.0578, "T13": 0.0756, "T14": 0.0963, "T15": 0.1202, "T16": 0.1476, "T17": 0.1787, "T18": 0.2135, "T19": 0.2521, "T20": 0.2945},
+            {"Term": 6, "T12": 0.0468, "T13": 0.0635, "T14": 0.0833, "T15": 0.1065, "T16": 0.1332, "T17": 0.1638, "T18": 0.1984, "T19": 0.2369, "T20": 0.2794},
+            {"Term": 7, "T12": 0.0361, "T13": 0.0515, "T14": 0.0702, "T15": 0.0923, "T16": 0.1182, "T17": 0.1481, "T18": 0.1821, "T19": 0.2203, "T20": 0.2627},
+            {"Term": 8, "T12": 0.0261, "T13": 0.0399, "T14": 0.057, "T15": 0.0778, "T16": 0.1026, "T17": 0.1315, "T18": 0.1647, "T19": 0.2024, "T20": 0.2445},
+            {"Term": 9, "T12": 0.0169, "T13": 0.0288, "T14": 0.0442, "T15": 0.0634, "T16": 0.0866, "T17": 0.1143, "T18": 0.1464, "T19": 0.1832, "T20": 0.2247},
+            {"Term": 10, "T12": 0.0092, "T13": 0.0188, "T14": 0.032, "T15": 0.0492, "T16": 0.0706, "T17": 0.0966, "T18": 0.1274, "T19": 0.163, "T20": 0.2036},
+            {"Term": 11, "T12": 0.0033, "T13": 0.0102, "T14": 0.0209, "T15": 0.0357, "T16": 0.0549, "T17": 0.0788, "T18": 0.1078, "T19": 0.1419, "T20": 0.1811}
+        ];
+
+
+function updateAutoFields() {
+    // 1. Term and PPT Extraction
+    // Extract number even if value is "T20" or "20"
+    const termInput = document.getElementById('policyTerm').value;
+    const term = parseInt(termInput.replace('T', '')); 
+    const ppt = term - 5;
+    
+    // Update PPT field
+    document.getElementById('ppt').value = ppt;
+
+    // 2. Bonus - Always Zero for Plan 880
+    document.getElementById('bonus').value = 0;
+
+    // 3. Guaranteed Addition (GA) Calculation
+    const bsa = parseFloat(document.getElementById('bsa').value) || 0;
+    const ap = parseFloat(document.getElementById('ap').value) || 0;
+    const yearsPaid = parseInt(document.getElementById('yearsPaid').value) || 0;
+    const isOnline = document.getElementById('isOnline').checked;
+    const isHighSA = document.getElementById('isHighSA').checked;
+
+    // GA Formula logic
+    let gaPercentage = 0.04; // Base 4%
+    if (isOnline) gaPercentage += 0.01; // Online Purchase +1%
+    
+    // High SA condition: Only if BSA is exactly 2,00,00,000 (2 Lacs)
+    if (isHighSA && bsa === 200000) {
+        gaPercentage += 0.0025; // High SA +0.25%
+    }
+
+    // GA is only accrued for years premiums were paid, capped by PPT
+    const gaYears = Math.min(yearsPaid, ppt);
+    const totalGA = ap * gaPercentage * gaYears;
+
+    // Update GA field in UI
+    document.getElementById('ga').value = Math.round(totalGA);
+}
+// Run once on page load to initialize fields
+window.onload = updateAutoFields;
+
+
+     function calculateSurrender() {
+    // 1. Environment Setup
+    const termInput = document.getElementById('policyTerm').value;
+    const term = parseInt(termInput.replace('T', ''));
+    const termKey = "T" + term; // Ensures key is strictly "T12", "T20", etc.
+
+    const bsa = parseFloat(document.getElementById('bsa').value);
+    const ap = parseFloat(document.getElementById('ap').value);
+    const ppt = parseInt(document.getElementById('ppt').value);
+    const yearsPaid = parseInt(document.getElementById('yearsPaid').value);
+    const totalGA = parseFloat(document.getElementById('ga').value) || 0;
+    const bonus = parseFloat(document.getElementById('bonus').value) || 0;
+
+    // 2. Eligibility Check
+    if (yearsPaid < 2) {
+        alert("Surrender value is only payable after 2 full years' premiums are paid.");
+        return;
+    }
+
+    // 3. GSV Calculation
+    // Find factors from JSON data based on yearsPaid
+    const rowB = dataB.find(r => r.Term === yearsPaid);
+    const rowP = dataP.find(r => r.Term === yearsPaid);
+
+    const factorB = rowB ? (rowB[termKey] || 0) : 0;
+    const factorP = rowP ? (rowP[termKey] || 0) : 0;
+
+    const totalPremPaid = ap * yearsPaid;
+    
+    // GSV = (FactorB * Premiums) + (FactorP * Accrued GA)
+    const gsv = (factorB * totalPremPaid) + (factorP * totalGA);
+
+    // 4. SSV Calculation
+    // Paid up SA = (BSA * Years Paid) / PPT
+    const paidUpSA = (bsa * yearsPaid) / ppt;
+
+    // Find SSV factors from F1, F2, F3 JSON tables
+    const rowF1 = dataF1.find(r => r.Term === yearsPaid);
+    const rowF2 = dataF2.find(r => r.Term === yearsPaid);
+    const rowF3 = dataF3.find(r => r.Term === yearsPaid);
+
+    const f1 = rowF1 ? (rowF1[termKey] || 0) : 0;
+    const f2 = rowF2 ? (rowF2[termKey] || 0) : 0;
+    const f3 = rowF3 ? (rowF3[termKey] || 0) : 0;
+
+    // SSV = (Paid-up SA * F1) + (Bonus * F2) + (GA * F3)
+    const ssv1 = paidUpSA * f1;
+    const ssv2 = bonus * f2; // Note: bonus is 0 here
+    const ssv3 = totalGA * f3;
+
+    const ssv = ssv1 + ssv2 + ssv3;
+
+    // 5. Final Result Determination
+    const finalSV = Math.max(gsv, ssv);
+
+    // 6. UI Update
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('gsvVal').innerText = "₹ " + Math.round(gsv).toLocaleString('en-IN');
+    document.getElementById('ssvVal').innerText = "₹ " + Math.round(ssv).toLocaleString('en-IN');
+    document.getElementById('finalAmt').innerText = "₹ " + Math.round(finalSV).toLocaleString('en-IN');
+}
+    </script>
+</body>
+</html>
