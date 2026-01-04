@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC CONNECT - Universal HLV Master</title>
+    
+    <!-- External Dependencies -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --lic-blue: #003366;
+            --lic-light-blue: #0055a4;
+            --lic-accent: #f97316;
+            --lic-gold: #ffd700;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fc;
+            padding: 20px;
+        }
+
+        /* === FLAMBOYANT FULL-WIDTH TAB === */
+        .hlv-master-tab {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: linear-gradient(135deg, #001f3f 0%, #0055a4 50%, #001f3f 100%);
+            border: 3px solid var(--lic-gold);
+            border-radius: 20px;
+            padding: 30px;
+            color: white;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 85, 164, 0.3);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .hlv-master-tab:hover {
+            transform: scale(1.01) translateY(-5px);
+        }
+
+        .hlv-master-tab::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 4s infinite;
+        }
+
+        @keyframes shine { 0% { left: -100%; } 100% { left: 100%; } }
+
+        .hlv-icon-box {
+            font-size: 3.5rem;
+            color: var(--lic-gold);
+            margin-right: 30px;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+        }
+
+        .hlv-text h2 { font-weight: 800; font-size: 1.8rem; margin: 0; letter-spacing: 1px; }
+        .hlv-text p { margin: 0; opacity: 0.8; font-size: 1rem; }
+
+        /* === MODAL & UI === */
+        .pwa-modal { position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+        .pwa-modal-content { background: #fff; padding: 40px; border-radius: 30px; width: 95%; max-width: 1100px; max-height: 90vh; overflow-y: auto; position: relative; }
+        .close-btn { position: absolute; top: 20px; right: 25px; font-size: 30px; cursor: pointer; color: #999; }
+
+        .hlv-card-input { background: #f8fafc; padding: 30px; border-radius: 20px; border: 1px solid #e2e8f0; }
+        .hlv-card-result { background: white; padding: 30px; border-radius: 20px; border-top: 8px solid var(--lic-accent); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+
+        .hlv-number { font-size: 3.5rem; font-weight: 900; color: var(--lic-blue); line-height: 1; margin: 15px 0; }
+        .gap-badge { background: #fee2e2; color: #b91c1c; padding: 10px 25px; border-radius: 50px; font-weight: 700; display: inline-block; font-size: 1.2rem; }
+
+        .plan-tag {
+            display: inline-block; background: #e0f2fe; color: #0369a1; 
+            padding: 8px 16px; margin: 5px; border-radius: 12px; font-size: 0.85rem; 
+            font-weight: 600; border: 1px solid #bae6fd; transition: 0.2s;
+        }
+        .plan-tag.hot { background: #fff1f2; color: #e11d48; border-color: #fecdd3; box-shadow: 0 4px 10px rgba(225, 29, 72, 0.1); }
+        .plan-category { font-size: 0.75rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-top: 20px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+
+        @media (max-width: 768px) {
+            .hlv-master-tab { padding: 20px; }
+            .hlv-icon-box { font-size: 2.5rem; margin-right: 15px; }
+            .hlv-text h2 { font-size: 1.3rem; }
+            .hlv-number { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- DASHBOARD INTEGRATION -->
+<div class="hlv-master-tab" onclick="openHlv()">
+    <i class="fas fa-hand-holding-heart hlv-icon-box"></i>
+    <div class="hlv-text">
+        <h2>HUMAN LIFE VALUE (HLV) MASTER</h2>
+        <p>Analyze family security gap across all 29 LIC plans.</p>
+    </div>
+    <i class="fas fa-crown" style="margin-left:auto; color: var(--lic-gold); font-size: 1.5rem; animation: pulse 2s infinite;"></i>
+</div>
+
+<!-- HLV CALCULATOR POPUP -->
+<div id="hlvModal" class="pwa-modal">
+    <div class="pwa-modal-content">
+        <span class="close-btn" onclick="closeHlv()">&times;</span>
+        
+        <div class="row g-4">
+            <!-- Left: Professional Inputs -->
+            <div class="col-lg-4">
+                <div class="hlv-card-input">
+                    <h4 class="fw-bold mb-4" style="color:var(--lic-blue);">Financial Inputs</h4>
+                    
+                    <div class="mb-3">
+                        <label class="small fw-bold">Current Age (Years)</label>
+                        <input type="number" id="h-age" class="form-control" value="35">
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold">Retirement Age (Def: 60)</label>
+                        <input type="number" id="h-ret" class="form-control" value="60">
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold">Monthly Family Expenses (₹)</label>
+                        <input type="number" id="h-exp" class="form-control" value="40000">
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold">Existing Life Insurance Cover (₹)</label>
+                        <input type="number" id="h-ins" class="form-control" value="500000">
+                    </div>
+                    <div class="mb-3">
+                        <label class="small fw-bold">Total Liabilities / Loans (₹)</label>
+                        <input type="number" id="h-loan" class="form-control" value="0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="small fw-bold">Liquid Savings/Assets (₹)</label>
+                        <input type="number" id="h-savings" class="form-control" value="0">
+                    </div>
+
+                    <button class="btn btn-primary w-100 py-3 fw-bold" onclick="calculateHlv()">
+                        ANALYZE MY WORTH
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Flamboyant Results -->
+            <div id="hlv-results-area" class="col-lg-8" style="display: none;">
+                <div class="hlv-card-result text-center mb-4">
+                    <p class="text-muted fw-bold mb-0">TOTAL HUMAN LIFE VALUE</p>
+                    <div id="res-hlv-val" class="hlv-number">₹ 0</div>
+                    <div class="gap-badge" id="res-gap-val">Gap: ₹ 0</div>
+                    <p class="mt-3 small text-muted">You require a total insurance cover of <span id="res-round" class="fw-bold">₹0</span> to secure your family.</p>
+                </div>
+
+                <div class="hlv-card-result">
+                    <h5 class="fw-bold mb-3"><i class="fas fa-shield-halved text-success"></i> Recommended LIC Solutions</h5>
+                    <div id="recommended-plans-container">
+                        <!-- Plans will load here -->
+                    </div>
+                    
+                    <div class="mt-4 p-3 rounded" style="background:#f1f5f9; font-size: 10px; line-height: 1.5; border-left: 4px solid var(--lic-blue);">
+                        <strong>*Assumptions & Disclaimer:</strong> Formula: (Annual Expenses × Years to Retire) + Liabilities - (Insurance + Liquid Savings). 
+                        Expenses assumed constant; inflation and interest on HLV corpus not adjusted for simplicity. Final eligibility subject to LIC underwriting.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openHlv() { document.getElementById('hlvModal').style.display = 'flex'; }
+    function closeHlv() { document.getElementById('hlvModal').style.display = 'none'; }
+
+    function calculateHlv() {
+        // 1. Inputs
+        const age = parseInt(document.getElementById('h-age').value);
+        const retAge = parseInt(document.getElementById('h-ret').value);
+        const mExp = parseFloat(document.getElementById('h-exp').value);
+        const existingIns = parseFloat(document.getElementById('h-ins').value) || 0;
+        const loans = parseFloat(document.getElementById('h-loan').value) || 0;
+        const savings = parseFloat(document.getElementById('h-savings').value) || 0;
+
+        // 2. Formula Logic
+        const yearsToProtect = retAge - age;
+        if (yearsToProtect <= 0) {
+            alert("Age must be less than Retirement Age.");
+            return;
+        }
+
+        const annualExp = mExp * 12;
+        // Total HLV = Income replacement for family + Debt clearance
+        const totalHlv = (annualExp * yearsToProtect) + loans;
+        // Insurance Gap = Total HLV - (Insurance + 50% of savings for liquidity)
+        const insuranceGap = Math.max(totalHlv - (existingIns + (savings * 0.5)), 0);
+
+        // 3. Formatting Numbers
+        const formatCr = (num) => {
+            if(num >= 10000000) return (num / 10000000).toFixed(2) + " Cr";
+            return (num / 100000).toFixed(2) + " L";
+        }
+
+        document.getElementById('res-hlv-val').innerText = "₹ " + formatCr(totalHlv);
+        document.getElementById('res-gap-val').innerText = "Insurance Gap: ₹ " + Math.round(insuranceGap).toLocaleString('en-IN');
+        document.getElementById('res-round').innerText = "₹ " + formatCr(insuranceGap);
+
+        // 4. MASTER 29-PLAN ENGINE
+        const allPlans = [
+            { id: 714, name: "New Endowment", cat: "Savings" },
+            { id: 715, name: "Jeevan Anand", cat: "Savings", hot: true },
+            { id: 717, name: "Single Prem. Endowment", cat: "One-Time" },
+            { id: 720, name: "20 Yr MoneyBack", cat: "Cashback" },
+            { id: 721, name: "25 Yr MoneyBack", cat: "Cashback" },
+            { id: 732, name: "Children MoneyBack", cat: "Child" },
+            { id: 733, name: "Jeevan Lakshya", cat: "Child", hot: true },
+            { id: 734, name: "Jeevan Tarun", cat: "Child" },
+            { id: 736, name: "Jeevan Labh", cat: "Savings", hot: true },
+            { id: 745, name: "Jeevan Umang", cat: "Whole Life", hot: true },
+            { id: 748, name: "Bima Shree", cat: "Elite" },
+            { id: 751, name: "Micro Bachat", cat: "Small Savings" },
+            { id: 758, name: "Jeevan Shanti", cat: "Pension" },
+            { id: 760, name: "Bima Jyoti", cat: "Savings" },
+            { id: 764, name: "Bima Ratna", cat: "Elite" },
+            { id: 768, name: "Jeevan Azaad", cat: "Savings" },
+            { id: 771, name: "Jeevan Utsav", cat: "Whole Life", hot: true },
+            { id: 774, name: "Amritbaal", cat: "Child" },
+            { id: 857, name: "Jeevan Akshay", cat: "Pension" },
+            { id: 859, name: "Saral Jeevan Bima", cat: "Term" },
+            { id: 862, name: "Saral Pension", cat: "Pension" },
+            { id: 875, name: "Yuva Term", cat: "Term", hot: true },
+            { id: 877, name: "Yuva Credit Life", cat: "Loan Protection" },
+            { id: 879, name: "Smart Pension", cat: "Pension" },
+            { id: 880, name: "Jan suraksha", cat: "Term", hot: true },
+            { id: 881, name: "Bima Lakshmi", cat: "Loan Protection" },
+            { id: 887, name: "Bima Kavach", cat: "Term" },
+            { id: 911, name: "Nav Jeevan Shree (S)", cat: "One-Time" },
+            { id: 912, name: "Nav Jeevan Shree (R)", cat: "One-Time" },
+            { id: 955, name: "Jeevan Amar", cat: "Term", hot: true }
+        ];
+
+        let categories = { "Protection (High Gap)": [], "Whole Life (Income)": [], "Wealth & Savings": [], "Retirement": [], "Child Future": [] };
+
+        allPlans.forEach(p => {
+            // Logic: Push Term plans only if gap is significant
+            if (p.cat === "Term" && insuranceGap > 1500000 && age < 55) {
+                categories["Protection (High Gap)"].push(p);
+            }
+            // Logic: Filter Pension - only if gap is small OR age is high
+            else if (p.cat === "Pension" && (insuranceGap < 3000000 || age > 40)) {
+                categories["Retirement"].push(p);
+            }
+            else if (p.cat === "Whole Life") {
+                categories["Whole Life (Income)"].push(p);
+            }
+            else if (p.cat === "Child" && age < 45) {
+                categories["Child Future"].push(p);
+            }
+            else if (["Savings", "Elite", "Cashback", "One-Time"].includes(p.cat)) {
+                categories["Wealth & Savings"].push(p);
+            }
+        });
+
+        // Generate HTML
+        let html = "";
+        for (let cat in categories) {
+            if (categories[cat].length > 0) {
+                html += `<div class="plan-category">${cat}</div>`;
+                categories[cat].forEach(p => {
+                    const hotClass = p.hot ? "hot" : "";
+                    html += `<span class="plan-tag ${hotClass}">${p.hot ? '🔥 ' : ''}${p.name} (${p.id})</span>`;
+                });
+            }
+        }
+
+        document.getElementById('recommended-plans-container').innerHTML = html;
+        document.getElementById('hlv-results-area').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
