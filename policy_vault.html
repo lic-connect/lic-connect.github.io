@@ -18,6 +18,35 @@
         .status-due { color: #e74c3c; font-weight: bold; }
         .status-ok { color: #2ecc71; }
         .file-link { color: #0055a4; text-decoration: none; font-weight: 600; }
+
+
+/* MOBILE OPTIMIZATION (CSS ONLY) */
+@media (max-width: 600px) {
+    /* 1. Stack the upload form inputs into a single column */
+    .upload-form { 
+        grid-template-columns: 1fr !important; 
+        padding: 15px !important;
+    }
+
+    /* 2. Fix the button width for mobile */
+    .btn-upload { grid-column: span 1 !important; }
+
+    /* 3. Enable horizontal overflow for the table */
+    .policy-list {
+        display: block; /* Required for overflow-x to work on tables */
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling for iPhone */
+        border: 1px solid #eee;
+    }
+
+    /* 4. Prevent the columns from shrinking/wrapping */
+    .policy-list th, .policy-list td {
+        min-width: 140px; /* Forces the table to be wide enough to scroll */
+        font-size: 0.85rem;
+        white-space: nowrap; /* Keeps text on one line */
+    }
+}
     </style>
 </head>
 <body>
