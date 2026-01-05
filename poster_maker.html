@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>200+ Poster Maker - LIC Connect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --lic-blue: #0055a4;
+            --lic-accent: #f97316;
+            --bg-main: #f4f7fc;
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: var(--bg-main); 
+            margin: 0; 
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container { 
+            max-width: 500px; 
+            width: 100%;
+            background: white; 
+            padding: 20px; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            text-align: center;
+        }
+
+        h2 { color: var(--lic-blue); margin-bottom: 5px; font-size: 1.4rem; }
+        .subtitle { color: #666; font-size: 0.85rem; margin-bottom: 20px; }
+
+        /* Controls Section */
+        .selector-box {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            font-family: 'Poppins';
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            outline: none;
+        }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: var(--lic-blue);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover { background: #003d7a; }
+        #themeCounter { font-weight: 600; color: var(--lic-accent); font-size: 0.9rem; }
+
+        /* Canvas Style */
+        #posterCanvas {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: #eee;
+            margin-bottom: 20px;
+        }
+
+        .action-btns {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-download { background: #27ae60; color: white; font-size: 1rem; }
+        .btn-download:hover { background: #219150; }
+        .btn-back { background: #eee; color: #333; }
+
+        /* Loading Spinner Overlay */
+        #loadingOverlay {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            color: var(--lic-blue);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Marketing Poster Pro</h2>
+    <p class="subtitle">200+ Designs Personalised for You</p>
+
+    <div class="selector-box">
+        <select id="categorySelect" onchange="resetAndDraw()">
+            <optgroup label="Protection & Income">
+                <option value="financial_protection">🛡️ Financial Protection</option>
+                <option value="income_replacement">💰 Income Replacement</option>
+                <option value="term_insurance">⏲️ Term Insurance</option>
+                <option value="accident_cover">🚑 Accident Protection</option>
+            </optgroup>
+            <optgroup label="Family Goals">
+                <option value="child_education">🎓 Child Education</option>
+                <option value="child_marriage">💍 Child Marriage</option>
+                <option value="legacy_creation">📜 Legacy Creation</option>
+                <option value="women_empowerment">👩 Women Special</option>
+            </optgroup>
+            <optgroup label="Retirement & Savings">
+                <option value="retirement_planning">🏖️ Retirement Planning</option>
+                <option value="pension_plans">👴 Guaranteed Pension</option>
+                <option value="wealth_creation">📈 Wealth Creation</option>
+                <option value="tax_benefits">📝 Tax Saving Plans</option>
+            </optgroup>
+            <optgroup label="Business & Special">
+                <option value="business_continuity">🏢 Business Continuity</option>
+                <option value="loan_repayment">🏠 Loan Repayment</option>
+                <option value="charitable_purposes">🤝 Charitable Giving</option>
+                <option value="nri_services">🌐 NRI Insurance</option>
+                <option value="critical_illness">🏥 Critical Illness</option>
+                <option value="savings_plan">💰 Systematic Savings</option>
+                <option value="family_security">👨‍👩‍👧 Family Security</option>
+                <option value="long_term_care">👵 Senior Citizen Care</option>
+            </optgroup>
+        </select>
+
+        <div class="nav-controls">
+            <button class="nav-btn" onclick="changeImage(-1)"><i class="fas fa-arrow-left"></i> Prev</button>
+            <span id="themeCounter">Design 1 of 10</span>
+            <button class="nav-btn" onclick="changeImage(1)">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div style="position: relative;">
+        <canvas id="posterCanvas" width="1080" height="1080"></canvas>
+        <div id="loadingOverlay"><i class="fas fa-spinner fa-spin fa-3x"></i><br>Generating...</div>
+    </div>
+
+    <div class="action-btns">
+        <button class="btn btn-download" onclick="downloadPoster()">
+            <i class="fas fa-cloud-download-alt"></i> Download for WhatsApp
+        </button>
+        <a href="main.html" class="btn btn-back">Return to Dashboard</a>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('posterCanvas');
+    const ctx = canvas.getContext('2d');
+    const loading = document.getElementById('loadingOverlay');
+
+    // --- CONFIGURATION FOR 20 CATEGORIES ---
+// --- MANUALLY CURATED IMAGE DATABASE ---
+// Add 10 Image URLs for each category inside the [ ] brackets.
+const posterDatabase = {
+    financial_protection: {
+        slogan: "Protection for Your Family’s Dreams",
+        images: [
+            "images/1.jpg", "images/2.jpg", "images/3.jpg", "images/4.jpg", "images/5.jpg", 
+            "images/6.jpg", "images/7.jpg", "images/8.jpg", "images/9.jpg", "images/10.jpg"
+        ]
+    },
+    income_replacement: {
+        slogan: "Ensure Your Income Lives Forever",
+        images: [
+            "images/11.jpg", "images/12.jpg", "images/13.jpg", "images/14.jpg", "images/15.jpg", 
+            "images/16.jpg", "images/17.jpg", "images/18.jpg", "images/19.jpg", "images/20.jpg"
+        ]
+    },
+    child_education: {
+        slogan: "Foundation for a Bright Future",
+        images: [
+            "images/21.jpg", "images/22.jpg", "images/23.jpg", "images/24.jpg", "images/25.png", 
+            "images/26.jpg", "images/27.png", "images/28.jpg", "images/29.jpg", "images/30.jpg"
+        ]
+    },
+    child_marriage: {
+        slogan: "A Grand Wedding for Your Angel",
+        images: [
+            "images/31.png", "images/32.png", "images/33.jpg", "images/34.png", "images/35.jpg", 
+            "images/36.jpg", "images/37.png", "images/38.jpg", "images/39.jpg", "images/40.jpg"
+        ]
+    },
+    retirement_planning: {
+        slogan: "Your Second Innings, Your Way",
+        images: [
+            "images/41.png", "images/42.jpg", "images/43.jpg", "images/44.png", "images/45.png", 
+            "images/46.png", "images/47.jpg", "images/48.jpg", "images/49.jpg", "images/50.jpg"
+        ]
+    },
+    pension_plans: {
+        slogan: "Lifetime Guaranteed Pension",
+        images: [
+            "images/51.jpg", "images/52.png", "images/53.jpg", "images/54.jpg", "images/55.jpg", 
+            "images/56.jpg", "images/57.jpg", "images/58.png", "images/59.jpg", "images/60.jpg"
+        ]
+    },
+    wealth_creation: {
+        slogan: "Watch Your Savings Grow",
+        images: [
+            "images/61.jpg", "images/62.jpg", "images/63.jpg", "images/64.jpg", "images/65.jpg", 
+            "images/66.jpg", "images/67.jpg", "images/68.png", "images/69.jpg", "images/70.jpg"
+        ]
+    },
+    tax_benefits: {
+        slogan: "Invest Smart, Save Your Taxes",
+        images: [
+            "images/71.jpg", "images/72.jpg", "images/73.jpg", "images/74.jpg", "images/75.jpg", 
+            "images/76.jpg", "images/77.png", "images/78.png", "images/79.jpg", "images/80.jpg"
+        ]
+    },
+    business_continuity: {
+        slogan: "Protect Your Business Interests",
+        images: [
+            "images/81.png", "images/82.jpg", "images/83.jpg", "images/84.png", "images/85.png", 
+            "images/86.jpg", "images/87.png", "images/88.jpg", "images/89.jpg", "images/90.jpg"
+        ]
+    },
+    loan_repayment: {
+        slogan: "Home Without the Debt Stress",
+        images: [
+            "images/91.jpg", "images/92.png", "images/93.jpg", "images/94.png", "images/95.jpg", 
+            "images/96.jpg", "images/97.jpg", "images/98.jpg", "images/99.jpg", "images/100.png"
+        ]
+    },
+    charitable_purposes: {
+        slogan: "Support the Cause You Love",
+        images: [
+            "images/101.png", "images/102.png", "images/103.png", "images/104.png", "images/105.jpg", 
+            "images/106.jpg", "images/107.jpg", "images/108.png", "images/109.png", "images/110.png"
+        ]
+    },
+    nri_services: {
+        slogan: "Global Plans for Global Indians",
+        images: [
+            "images/111.jpg", "images/112.jpg", "images/113.jpg", "images/114.jpg", "images/115.jpg", 
+            "images/116.jpg", "images/117.jpg", "images/118.jpg", "images/119.jpg", "images/120.jpg"
+        ]
+    },
+    critical_illness: {
+        slogan: "Financial Support in Health Crisis",
+        images: [
+            "images/121.png", "images/122.png", "images/123.png", "images/124.png", "images/125.png", 
+            "images/126.png", "images/127.png", "images/128.png", "images/129.png", "images/130.png"
+        ]
+    },
+    savings_plan: {
+        slogan: "Small Savings, Huge Rewards",
+        images: [
+            "images/131.png", "images/132.jpg", "images/133.png", "images/134.png", "images/135.jpg", 
+            "images/136.png", "images/137.jpg", "images/138.jpg", "images/139.jpg", "images/140.jpg"
+        ]
+    },
+    family_security: {
+        slogan: "A Secure Home is a Happy Home",
+        images: [
+            "images/141.png", "images/142.png", "images/143.jpg", "images/144.png", "images/145.png", 
+            "images/146.jpg", "images/147.jpg", "images/148.jpg", "images/149.jpg", "images/150.jpg"
+        ]
+    },
+    long_term_care: {
+        slogan: "Dignity for Your Golden Years",
+        images: [
+            "images/151.jpg", "images/152.jpg", "images/153.jpg", "images/154.jpg", "images/155.png", 
+            "images/156.jpg", "images/157.png", "images/158.jpg", "images/159.jpg", "images/160.jpg"
+        ]
+    },
+    term_insurance: {
+        slogan: "Maximum Cover, Minimum Cost",
+        images: [
+            "images/161.jpg", "images/162.png", "images/163.jpg", "images/164.jpg", "images/165.png", 
+            "images/166.png", "images/167.jpg", "images/168.jpg", "images/169.jpg", "images/170.png"
+        ]
+    },
+    accident_cover: {
+        slogan: "Because Life is Unpredictable",
+        images: [
+            "images/171.jpg", "images/172.png", "images/173.png", "images/174.png", "images/175.png", 
+            "images/176.png", "images/177.png", "images/178.png", "images/179.jpg", "images/180.jpg"
+        ]
+    },
+    legacy_creation: {
+        slogan: "Leave a Legacy, Not a Liability",
+        images: [
+            "images/181.jpg", "images/182.jpg", "images/183.jpg", "images/184.jpg", "images/185.jpg", 
+            "images/186.jpg", "images/187.jpg", "images/188.jpg", "images/189.jpg", "images/190.jpg"
+        ]
+    },
+    women_empowerment: {
+        slogan: "Financial Freedom for Her",
+        images: [
+            "images/191.jpg", "images/192.jpg", "images/193.jpg", "images/194.jpg", "images/195.jpg", 
+            "images/196.jpg", "images/197.jpg", "images/198.jpg", "images/199.jpg", "images/200.jpg"
+        ]
+    }
+};
+
+
+let currentImgIdx = 1; // Designs 1 to 10
+
+    // --- MAIN DRAWING FUNCTION ---
+function drawPoster() {
+    const canvas = document.getElementById('posterCanvas');
+    const ctx = canvas.getContext('2d');
+    const loading = document.getElementById('loadingOverlay');
+    const cat = document.getElementById('categorySelect').value;
+    
+    // Get info from our hard-coded database
+    const theme = posterDatabase[cat];
+    const imageUrl = theme.images[currentImgIdx - 1]; // -1 because arrays start at 0
+
+    loading.style.display = "block";
+    document.getElementById('themeCounter').innerText = `Design ${currentImgIdx} of 10`;
+
+    const bgImg = new Image();
+    bgImg.crossOrigin = "anonymous"; 
+    
+    // Use the hard-coded URL
+    bgImg.src = imageUrl;
+
+    bgImg.onload = function() {
+        ctx.drawImage(bgImg, 0, 0, 1080, 1080);
+
+        // --- THE OVERLAYS (Slogan, Blue Bar, Photo) ---
+        // Slogan Box
+        ctx.fillStyle = "rgba(0,0,0,0.6)";
+        ctx.fillRect(0, 0, 1080, 180);
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.font = "bold 55px Poppins";
+        ctx.fillText(theme.slogan, 540, 110);
+
+        // Blue Branding Bar
+        ctx.fillStyle = "rgba(0, 85, 164, 0.95)"; 
+        ctx.fillRect(0, 880, 1080, 200);
+
+        // Agent Name & Phone
+        const agent = JSON.parse(localStorage.getItem('agentData')) || { name: "LIC ADVISOR", phone: "Contact Me" };
+        ctx.textAlign = "left";
+        ctx.fillStyle = "white";
+        ctx.font = "bold 50px Poppins";
+        ctx.fillText(agent.name.toUpperCase(), 320, 955);
+        ctx.font = "42px Poppins";
+        ctx.fillText("📞 " + agent.phone, 320, 1030);
+
+        // Profile Photo Logic
+        const savedPhoto = localStorage.getItem('agentPhoto');
+        if (savedPhoto) {
+            const pfp = new Image();
+            pfp.onload = function() {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(160, 980, 115, 0, Math.PI * 2);
+                ctx.clip();
+                ctx.drawImage(pfp, 45, 865, 230, 230);
+                ctx.restore();
+                ctx.strokeStyle = "white"; ctx.lineWidth = 10; ctx.stroke();
+                loading.style.display = "none";
+            };
+            pfp.src = savedPhoto;
+        } else {
+            loading.style.display = "none";
+        }
+    };
+
+    bgImg.onerror = function() {
+        loading.style.display = "none";
+        alert("Image URL is empty or broken for this design. Please add a valid image link.");
+    };
+}
+    // --- NAVIGATION LOGIC ---
+function changeImage(dir) {
+    currentImgIdx += dir;
+    if (currentImgIdx > 10) currentImgIdx = 1;
+    if (currentImgIdx < 1) currentImgIdx = 10;
+    
+    // Calling the function to redraw everything
+    drawPoster();
+}
+
+    function resetAndDraw() {
+        currentImgIdx = 1;
+        drawPoster();
+    }
+
+    function downloadPoster() {
+        const cat = document.getElementById('categorySelect').value;
+        const link = document.createElement('a');
+        link.download = `LIC_Poster_${cat}_${currentImgIdx}.png`;
+        try {
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        } catch(e) {
+            alert("Security error: Could not download. Try long-pressing the image to save.");
+        }
+    }
+
+    window.onload = drawPoster;
+</script>
+
+</body>
+</html>
