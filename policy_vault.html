@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Vault - LIC Connect</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f4f7fc; padding: 20px; }
+        .vault-container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h2 { color: #0055a4; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .upload-form { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; background: #f9f9f9; padding: 20px; border-radius: 15px; }
+        input { padding: 12px; border-radius: 8px; border: 1px solid #ddd; }
+        .btn-upload { background: #0055a4; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; grid-column: span 2; font-weight: 600; }
+        .policy-list { width: 100%; border-collapse: collapse; }
+        .policy-list th, .policy-list td { text-align: left; padding: 12px; border-bottom: 1px solid #eee; }
+        .status-due { color: #e74c3c; font-weight: bold; }
+        .status-ok { color: #2ecc71; }
+        .file-link { color: #0055a4; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="vault-container">
+    <h2><i class="fas fa-shield-alt"></i> Policy Vault</h2>
+    
+    <!-- Upload Form -->
+    <div class="upload-form">
+        <input type="text" id="clientName" placeholder="Client Name" required>
+        <input type="text" id="policyNo" placeholder="Policy Number" required>
+        <input type="date" id="dueDate" title="Next Renewal Date" required>
+        <input type="file" id="policyFile" accept=".pdf" required>
+        <button class="btn-upload" onclick="uploadPolicy()">Upload to Cloud Vault</button>
+    </div>
+
+    <!-- Policy Table -->
+    <table class="policy-list">
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Policy No.</th>
+                <th>Next Due</th>
+                <th>Document</th>
+            </tr>
+        </thead>
+        <tbody id="policyTableBody">
+            <!-- Data will load here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Initialize Supabase (Use your existing credentials)
+    const supabase = window.supabase.createClient('https://efduqdondmlzmwhfgkfz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44');
+
+    async function uploadPolicy() {
+        const file = document.getElementById('policyFile').files[0];
+        const client = document.getElementById('clientName').value;
+        const pNo = document.getElementById('policyNo').value;
+        const dDate = document.getElementById('dueDate').value;
+
+        if (!file || !client) return alert("Please fill all fields");
+
+        const fileName = `${Date.now()}_${file.name}`;
+        
+        // 1. Upload to Supabase Storage
+        const { data: storageData, error: storageError } = await supabase.storage
+            .from('policy-vault')
+            .upload(fileName, file);
+
+        if (storageError) return alert("Upload Error: " + storageError.message);
+
+        // 2. Get Public URL
+        const { data: urlData } = supabase.storage.from('policy-vault').getPublicUrl(fileName);
+
+        // 3. Save to Database
+        const { error: dbError } = await supabase.from('policies').insert([{
+            client_name: client,
+            policy_number: pNo,
+            due_date: dDate,
+            file_url: urlData.publicUrl
+        }]);
+
+        if (dbError) alert(dbError.message);
+        else location.reload();
+    }
+
+    async function loadPolicies() {
+        const { data, error } = await supabase.from('policies').select('*').order('due_date', { ascending: true });
+        const tbody = document.getElementById('policyTableBody');
+        
+        data.forEach(p => {
+            const isDue = new Date(p.due_date).getMonth() === new Date().getMonth();
+            tbody.innerHTML += `
+                <tr>
+                    <td>${p.client_name}</td>
+                    <td>${p.policy_number}</td>
+                    <td class="${isDue ? 'status-due' : ''}">${p.due_date} ${isDue ? '⚠️' : ''}</td>
+                    <td><a href="${p.file_url}" target="_blank" class="file-link"><i class="fas fa-file-pdf"></i> View</a></td>
+                </tr>
+            `;
+        });
+    }
+
+    loadPolicies();
+</script>
+</body>
+</html>

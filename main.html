@@ -501,6 +501,17 @@ button:active, .plan-card:active, .link-card:active {
           <div id="newsText">Loading news...</div>
         </div>
 
+<div id="renewalAlert" style="display: none; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 20px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div>
+            <h3 style="margin: 0; font-size: 1.2rem;"><i class="fas fa-bell"></i> Renewal Calendar</h3>
+            <p id="alertText" style="margin: 5px 0 0 0; font-size: 0.9rem;">You have policies due for renewal this month!</p>
+        </div>
+        <a href="policy_vault.html" style="background: white; color: #e74c3c; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-weight: 700; font-size: 0.8rem;">VIEW LIST</a>
+    </div>
+</div>
+
+
         <section class="dashboard-section">
             <h2>Customer & Agent Tools</h2>
             <div class="button-grid">
@@ -508,6 +519,9 @@ button:active, .plan-card:active, .link-card:active {
                 <a href="agents_data.html" class="dashboard-button"><i class="fas fa-user-tie"></i> Agents Data</a>
                 <a href="agents_module.html" class="dashboard-button"><i class="fas fa-briefcase"></i> Agents Module</a>
                 <a href="prospectscorner.html" class="dashboard-button"><i class="fas fa-user-plus"></i> Prospects Corner</a>
+<a href="policy_vault.html" class="dashboard-button">
+    <i class="fas fa-vault"></i> Policy Vault & FPR
+</a>
            <a href="automatic_fetch.html" class="dashboard-button" style="grid-column: 1 / -1; justify-content: center;"><i class="fas fa-link"></i> Agent Tracker</a>
                
             </div>
@@ -621,6 +635,9 @@ button:active, .plan-card:active, .link-card:active {
 
           // Now that we know the user is logged in, we can fetch the news.
           fetchGNews();
+
+ // ADD THIS LINE HERE:
+          checkRenewals(); 
         } else {
           // If for some reason there's no session, redirect.
           window.location.href = "signup.html";
@@ -753,6 +770,35 @@ button:active, .plan-card:active, .link-card:active {
             }
         });
     }
+
+async function checkRenewals() {
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1; // JS months are 0-11
+    
+    // Fetch policies for the current month
+    // Note: This logic assumes your due_date is in YYYY-MM-DD format
+    const { data, count, error } = await supabase
+        .from('policies')
+        .select('*', { count: 'exact' });
+
+    if (data) {
+        const dueThisMonth = data.filter(p => {
+            const pMonth = new Date(p.due_date).getMonth() + 1;
+            return pMonth === currentMonth;
+        });
+
+        if (dueThisMonth.length > 0) {
+            document.getElementById('renewalAlert').style.display = 'block';
+            document.getElementById('alertText').textContent = `Action Required: ${dueThisMonth.length} policies are due for renewal this month!`;
+        }
+    }
+}
+
+// Call this function after the user logs in
+// ... inside supabase.auth.onAuthStateChange ...
+if (session) {
+    checkRenewals();
+}
 </script>
 </body>
 </html>
