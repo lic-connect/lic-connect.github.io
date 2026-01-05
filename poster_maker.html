@@ -173,6 +173,10 @@
             <i class="fas fa-cloud-download-alt"></i> Download for WhatsApp
         </button>
         <a href="main.html" class="btn btn-back">Return to Dashboard</a>
+
+<button class="btn" style="background: #25D366; color: white;" onclick="shareToWhatsApp()">
+    <i class="fab fa-whatsapp"></i> Send to Client with Digital Card
+</button>
     </div>
 </div>
 
@@ -428,6 +432,37 @@ function changeImage(dir) {
     }
 
     window.onload = drawPoster;
+
+function shareToWhatsApp() {
+    const cat = document.getElementById('categorySelect').value;
+    const theme = posterDatabase[cat];
+    const agent = JSON.parse(localStorage.getItem('agentData')) || { name: "LIC Advisor" };
+    
+    // 1. Get the current URL of your Digital Card
+    // We assume digital_card.html is in the same folder as this page
+    const cardUrl = window.location.href.replace('poster_maker.html', 'digital_card.html');
+
+    // 2. Create Plan-Specific Messages
+    const pitches = {
+        financial_protection: "Secure your family's future with our specialized Financial Protection plans.",
+        child_education: "Start planning today for your child's dream education.",
+        retirement_planning: "Ensure a dignified and tension-free retirement.",
+        wealth_creation: "Grow your wealth safely with LIC's trusted investment plans.",
+        tax_benefits: "Save your hard-earned money from taxes while building an estate."
+    };
+
+    const pitch = pitches[cat] || "I thought you might be interested in this LIC insurance solution.";
+
+    // 3. Construct the Full Message
+    const fullMessage = `Hello! 👋%0A%0A${pitch}%0A%0APlease find the plan details in the image attached.%0A%0AFor more details and to connect with me, visit my *Digital Business Card* here:%0A${cardUrl}%0A%0ARegards,%0A*${agent.name}*%0ALIC of India`;
+
+    // 4. Open WhatsApp
+    // Note: User will have to manually attach the poster they just downloaded
+    const waUrl = `https://wa.me/?text=${fullMessage}`;
+    
+    alert("Step 1: Download the Poster\nStep 2: WhatsApp will open\nStep 3: Just attach the poster from your gallery and send!");
+    window.open(waUrl, '_blank');
+}
 </script>
 
 </body>
