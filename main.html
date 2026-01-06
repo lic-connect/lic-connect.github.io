@@ -472,6 +472,17 @@ button:active, .plan-card:active, .link-card:active {
         animation-duration: 10s !important; /* Adjust this number: lower is faster */
     }
 }
+
+
+
+
+#universalSearchInput::placeholder { color: rgba(0,0,0,0.6); }
+#universalSearchBtn:hover { background-color: #004dc7; transform: translateY(-2px); }
+
+@media (max-width: 600px) {
+    .search-section div { flex-direction: column; }
+    #universalSearchBtn { padding: 15px; }
+}
     </style>
 </head>
 <body>
@@ -500,6 +511,29 @@ button:active, .plan-card:active, .link-card:active {
         <div id="newsTicker">
           <div id="newsText">Loading news...</div>
         </div>
+
+
+
+<!-- INTELLIGENT UNIVERSAL SEARCH -->
+<div class="search-section" style="margin-bottom: 30px; font-family: 'Poppins', sans-serif;">
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <input type="text" id="universalSearchInput" placeholder="Type query or Policy No (e.g., 'Details for 123456789')" 
+               style="flex-grow: 1; background-color: #2ecc71; color: #000; border: 2px solid #27ae60; padding: 15px; border-radius: 10px; font-weight: 600; font-size: 1rem; min-width: 280px;">
+        <button id="universalSearchBtn" onclick="handleUniversalSearch()" 
+                style="background-color: #0866FF; color: #000; border: none; padding: 15px 35px; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; flex-shrink: 0;">
+            SEARCH
+        </button>
+    </div>
+    
+    <!-- Search Result Display Box -->
+    <div id="searchResultDisplay" style="display: none; margin-top: 20px; background: white; padding: 25px; border-radius: 15px; border: 2px solid #0866FF; box-shadow: 0 15px 40px rgba(0,0,0,0.15); position: relative;">
+        <button onclick="document.getElementById('searchResultDisplay').style.display='none'" 
+                style="position: absolute; top: 15px; right: 15px; background: #eee; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold;">&times;</button>
+        <div id="searchContent"></div>
+    </div>
+</div>
+
+
 
 <div id="renewalAlert" style="display: none; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 20px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);">
     <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -798,6 +832,104 @@ async function checkRenewals() {
 // ... inside supabase.auth.onAuthStateChange ...
 if (session) {
     checkRenewals();
+}
+
+
+
+async function handleUniversalSearch() {
+    const input = document.getElementById('universalSearchInput').value.trim();
+    const display = document.getElementById('searchResultDisplay');
+    const content = document.getElementById('searchContent');
+    
+    if (!input) return;
+
+    // 1. EXTRACTION LOGIC: Extract 9 consecutive digits (LIC Policy format) from the phrase
+    const policyMatch = input.match(/\d{9}/); 
+    const extractedPolicy = policyMatch ? policyMatch[0] : null;
+
+    if (extractedPolicy) {
+        display.style.display = 'block';
+        content.innerHTML = `<p style="color: #0866FF;"><i class="fas fa-cog fa-spin"></i> Analyzing Policy #${extractedPolicy} and linked Agent records...</p>`;
+
+        try {
+            // A. Fetch Policyholder Details
+            const { data: policy, error: pError } = await supabase
+                .from('policyholder')
+                .select('name, policy_number, sum_assured, premium, policy_term, ppt, date_of_commencement, maturity_date, agency_code')
+                .eq('policy_number', extractedPolicy)
+                .single();
+
+            if (pError || !policy) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <i class="fas fa-search-minus fa-3x" style="color: #ccc; margin-bottom: 15px;"></i>
+                        <p style="color: #e74c3c; font-weight: 700; font-size: 1.1rem;">Policy Number ${extractedPolicy} not found!</p>
+                        <p style="color: #666;">Please ensure the policy is entered correctly in the Customer Data section.</p>
+                    </div>`;
+                return;
+            }
+
+            // B. Fetch Agent Details (Using the agency_code from the policy record)
+            let agentHtml = "";
+            if (policy.agency_code) {
+                const { data: agent } = await supabase
+                    .from('agents')
+                    .select('name, agency_code, full_address, mobile_number')
+                    .eq('agency_code', policy.agency_code)
+                    .single();
+                
+                if (agent) {
+                    agentHtml = `
+                        <div class="agent-highlight">
+                            <h4 style="margin: 0 0 10px 0; color: #0866FF;"><i class="fas fa-user-tie"></i> Servicing Agent Information</h4>
+                            <div class="result-grid">
+                                <div class="result-item"><b>Agent Name:</b> ${agent.name}</div>
+                                <div class="result-item"><b>Agency Code:</b> ${agent.agency_code}</div>
+                                <div class="result-item"><b>Mobile:</b> ${agent.mobile_number || 'N/A'}</div>
+                                <div class="result-item"><b>Address:</b> ${agent.full_address || 'N/A'}</div>
+                            </div>
+                        </div>`;
+                }
+            }
+
+            // C. Construct the final display
+            content.innerHTML = `
+                <h3 style="margin-top:0; color: #0055a4; border-bottom: 2px solid #0866FF; padding-bottom: 10px;">
+                    <i class="fas fa-check-circle"></i> Policy & Agent Portfolio
+                </h3>
+                <div class="result-grid">
+                    <div class="result-item"><b>Policyholder:</b> ${policy.name}</div>
+                    <div class="result-item"><b>Policy No:</b> ${policy.policy_number}</div>
+                    <div class="result-item"><b>Sum Assured:</b> ₹${Number(policy.sum_assured).toLocaleString()}</div>
+                    <div class="result-item"><b>Premium:</b> ₹${Number(policy.premium).toLocaleString()}</div>
+                    <div class="result-item"><b>Term/PPT:</b> ${policy.policy_term}/${policy.ppt} Years</div>
+                    <div class="result-item"><b>DOC:</b> ${policy.date_of_commencement}</div>
+                    <div class="result-item"><b>Maturity Date:</b> ${policy.maturity_date}</div>
+                </div>
+                ${agentHtml || '<p style="font-size: 0.8rem; color: #999; margin-top: 15px;">No agent linked to this agency code.</p>'}
+                <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+                    <button onclick="window.location.href='customer_data.html'" style="background: none; border: 1px solid #0866FF; color: #0866FF; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; font-weight: 600;">Edit Full Policy Details</button>
+                </div>
+            `;
+
+        } catch (err) {
+            console.error(err);
+            content.innerHTML = `<p style="color: red;">Search failed. Please try again.</p>`;
+        }
+    } else {
+        // --- 2. GENERAL PHRASE SEARCH (If no policy number is found) ---
+        const searchQuery = encodeURIComponent("LIC India " + input);
+        display.style.display = 'block';
+        content.innerHTML = `
+            <div style="text-align: center; padding: 10px;">
+                <h4 style="margin: 0 0 10px 0;">Searching LIC Knowledge Base</h4>
+                <p style="color: #666;">Query: "${input}"</p>
+                <a href="https://www.google.com/search?q=${searchQuery}" target="_blank" 
+                   style="display: inline-block; background: #0866FF; color: #fff; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 700; margin-top: 10px;">
+                   VIEW KNOWLEDGE RESULTS <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>`;
+    }
 }
 </script>
 </body>
