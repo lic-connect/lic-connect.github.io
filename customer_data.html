@@ -343,19 +343,35 @@ button:active { transform: scale(0.96); filter: brightness(0.9); }
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
     );
 
-    function getFieldValues() {
-      const fields = [
-  'name','policy_number','plan_no','policy_name','date_of_birth','age',
-  'address','mobile_number','email',
-  'policy_term','ppt','sum_assured','premium','mode_of_premium','date_of_commencement',
-  'maturity_date','maturity_amount','death_benefit','bonus','fab','sb_details',
-  'loan_details','revival_details','surrender_value','paid_up_value','remarks'
-];
-      const values = {};
-      fields.forEach(id => values[id] = document.getElementById(id).value);
-      return values;
+function getFieldValues() {
+  const fields = [
+    'name','policy_number','plan_no','policy_name','date_of_birth','age',
+    'address','mobile_number','email',
+    'policy_term','ppt','sum_assured','premium','mode_of_premium','date_of_commencement',
+    'maturity_date','maturity_amount','death_benefit','bonus','fab','sb_details',
+    'loan_details','revival_details','surrender_value','paid_up_value','remarks'
+  ];
+  
+  const values = {};
+  
+  fields.forEach(id => {
+    let val = document.getElementById(id).value;
+    
+    // List of fields that MUST be numbers in your database
+    const numericFields = ['surrender_value', 'maturity_amount', 'death_benefit', 'bonus', 'fab', 'sum_assured', 'premium'];
+    
+    if (numericFields.includes(id)) {
+      // Remove everything except digits and decimal points (strips ₹ and text)
+      val = val.replace(/[^\d.-]/g, ''); 
+      // If the field is empty or "Not eligible", send 0 or null
+      val = val === "" ? 0 : parseFloat(val);
     }
-
+    
+    values[id] = val;
+  });
+  
+  return values;
+}
     window.insertData = async function () {
       const values = getFieldValues();
       const { error } = await supabase.from('policyholder').insert([values]);
