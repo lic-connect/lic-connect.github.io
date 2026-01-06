@@ -623,25 +623,39 @@ button:active, .plan-card:active, .link-card:active {
       'https://efduqdondmlzmwhfgkfz.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
     );
-
-    // --- ✅ NEW, RELIABLE AUTHENTICATION LISTENER ---
     // This function runs automatically and waits for login events to complete.
-  // --- AUTHENTICATION LISTENER ---
     supabase.auth.onAuthStateChange( async (event, session) => {
+      console.log('Authentication event:', event, session);
+
       if (event === "INITIAL_SESSION" || event === "SIGNED_IN") {
         if (session && session.user) {
-          document.getElementById("welcomeMsg").textContent = `Welcome, ${session.user.email}`;
+          // USER IS LOGGED IN or has just logged in.
+          // The page will remain, and we will update the welcome message.
+          const user = session.user;
+
+          // Now that we have the user, fetch their name from the 'profiles' table if it exists
+          // NOTE: Your current setup saves to 'signups' table, not 'profiles'. 
+          // We will just use the email for the welcome message for now.
+          const name = user.email;
+
+          document.getElementById("welcomeMsg").textContent = `Welcome, ${name}`;
+
+          // Now that we know the user is logged in, we can fetch the news.
           fetchGNews();
-          
-          // Fixes "session not defined": Run this ONLY here
+
+ // ADD THIS LINE HERE:
           checkRenewals(); 
         } else {
+          // If for some reason there's no session, redirect.
           window.location.href = "signup.html";
         }
       } else if (event === "SIGNED_OUT") {
+        // USER HAS SIGNED OUT
+        // Redirect them to the signup page.
         window.location.href = "signup.html";
       }
     });
+
 
     // --- LOGOUT FUNCTIONALITY (No changes needed) ---
     async function handleLogout() {
