@@ -474,15 +474,6 @@ button:active, .plan-card:active, .link-card:active {
 }
 
 
-
-
-#universalSearchInput::placeholder { color: rgba(0,0,0,0.6); }
-#universalSearchBtn:hover { background-color: #004dc7; transform: translateY(-2px); }
-
-@media (max-width: 600px) {
-    .search-section div { flex-direction: column; }
-    #universalSearchBtn { padding: 15px; }
-}
     </style>
 </head>
 <body>
@@ -516,21 +507,7 @@ button:active, .plan-card:active, .link-card:active {
 
 
 
-<!-- INTELLIGENT UNIVERSAL SEARCH -->
-<div class="search-section" style="margin-bottom: 30px; font-family: 'Poppins', sans-serif;">
-    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <input type="text" id="universalSearchInput" placeholder="Type query or Policy No (e.g., 'Details for 666666666')" 
-               style="flex-grow: 1; background-color: #2ecc71; color: #000; border: 2px solid #27ae60; padding: 15px; border-radius: 10px; font-weight: 600; font-size: 1rem; min-width: 280px;">
-        <button id="universalSearchBtn" onclick="handleUniversalSearch()" 
-                style="background-color: #0866FF; color: #000; border: none; padding: 15px 35px; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; flex-shrink: 0;">
-            SEARCH
-        </button>
-    </div>
-    
-    <div id="searchResultDisplay" style="display: none; margin-top: 20px; background: white; padding: 25px; border-radius: 15px; border: 2px solid #0866FF; box-shadow: 0 15px 40px rgba(0,0,0,0.15); position: relative;">
-        <div id="searchContent"></div>
-    </div>
-</div>
+
 
 
 <div id="renewalAlert" style="display: none; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 20px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);">
@@ -818,78 +795,7 @@ if (session) {
 
 
 
-async function handleUniversalSearch() {
-    const input = document.getElementById('universalSearchInput').value.trim();
-    const display = document.getElementById('searchResultDisplay');
-    const content = document.getElementById('searchContent');
-    
-    if (!input) return;
 
-    // Extract 9-digit policy number from phrase
-    const policyMatch = input.match(/\d{9}/); 
-    const extractedPolicy = policyMatch ? policyMatch[0] : null;
-
-    if (extractedPolicy) {
-        display.style.display = 'block';
-        content.innerHTML = `<p style="color:#0866FF;"><i class="fas fa-sync fa-spin"></i> Fetching records for ${extractedPolicy}...</p>`;
-
-        try {
-            // STEP A: Fetch from 'policyholder' table
-            const { data: policy, error: pError } = await supabase
-                .from('policyholder')
-                .select('name, policy_number, sum_assured, premium, policy_term, ppt, date_of_commencement, maturity_date, agency_code')
-                .eq('policy_number', extractedPolicy)
-                .maybeSingle(); // Prevents crash if no data found
-
-            if (!policy) {
-                content.innerHTML = `<p style="color:#e74c3c;"><b>Error:</b> Information for Policy #${extractedPolicy} is not available in our records.</p>`;
-                return;
-            }
-
-            // STEP B: Fetch from 'agents' table using the code found in the policy
-            let agentHtml = "";
-            if (policy.agency_code) {
-                const { data: agent } = await supabase
-                    .from('agents')
-                    .select('name, agency_code, full_address, mobile_number')
-                    .eq('agency_code', policy.agency_code)
-                    .maybeSingle();
-                
-                if (agent) {
-                    agentHtml = `
-                        <div style="margin-top:15px; padding:15px; background:#f0f7ff; border-radius:10px; border:1px solid #0866FF;">
-                            <h4 style="margin:0 0 10px 0; color:#0866FF;"><i class="fas fa-user-tie"></i> Linked Agent</h4>
-                            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.85rem;">
-                                <div><b>Name:</b> ${agent.name}</div>
-                                <div><b>Code:</b> ${agent.agency_code}</div>
-                                <div><b>Mobile:</b> ${agent.mobile_number || 'N/A'}</div>
-                                <div><b>Address:</b> ${agent.full_address || 'N/A'}</div>
-                            </div>
-                        </div>`;
-                }
-            }
-
-            // STEP C: Display Results
-            content.innerHTML = `
-                <h3 style="margin-top:0; color:#0055a4; border-bottom:2px solid #0866FF; padding-bottom:5px;">Policy Details</h3>
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.9rem;">
-                    <div><b>Name:</b> ${policy.name}</div>
-                    <div><b>Policy No:</b> ${policy.policy_number}</div>
-                    <div><b>Sum Assured:</b> ₹${Number(policy.sum_assured).toLocaleString('en-IN')}</div>
-                    <div><b>Premium:</b> ₹${Number(policy.premium).toLocaleString('en-IN')}</div>
-                    <div><b>Term/PPT:</b> ${policy.policy_term}/${policy.ppt}</div>
-                    <div><b>DOC:</b> ${policy.date_of_commencement}</div>
-                    <div><b>Maturity:</b> ${policy.maturity_date}</div>
-                </div>
-                ${agentHtml}
-                <button onclick="document.getElementById('searchResultDisplay').style.display='none'" style="margin-top:15px; background:#eee; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:600;">CLOSE</button>
-            `;
-        } catch (err) { content.innerHTML = "Error connecting to database."; }
-    } else {
-        // Fallback for general text queries
-        window.open(`https://www.google.com/search?q=LIC+India+${encodeURIComponent(input)}`, '_blank');
-    }
-}
 </script>
 </body>
 </html>
