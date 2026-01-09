@@ -10813,8 +10813,8 @@ _881C: [
                 const addbRateValue = getAddbRate(planKey, age, policyTerm, ppt);
         const addbRiderPremium = hasAddb ? (sumAssured / 1000) * addbRateValue : 0;
         const annualPremiumWithoutGST = baseYearlyPremium + addbRiderPremium;
-        const firstYearPremiumWithGST = annualPremiumWithoutGST * 1.045;
-        const renewalPremiumWithGST = annualPremiumWithoutGST * 1.0225;
+        const firstYearPremiumWithGST = annualPremiumWithoutGST * 1.000;
+        const renewalPremiumWithGST = annualPremiumWithoutGST * 1.000;
 
         let tableHTML = `<table class="report-table"><thead><tr><th>Policy Year</th><th>Age</th><th>Date</th><th>Total Outflow</th><th>Premium</th><th>Loan Interest</th><th>Revival</th><th>Riders</th><th>Total Inflow</th><th>Loan</th><th>SB</th><th>Maturity/Surrender</th><th>Bonus/GA</th><th>FAB/LA</th><th>Death Benefit</th><th>Net Cash Flow</th></tr></thead><tbody>`;
         let runningAccruedBonus = 0, runningAccruedGA = 0, totalPremiumsPaid = 0;
@@ -10968,4 +10968,5 @@ _881C: [
     }
 </script>  
 </body>
+
 </html>
