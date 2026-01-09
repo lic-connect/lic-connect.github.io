@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC's Nav Jeevan Shree (912)</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-dark: #2c3e50; /* Slate Blue */
+            --accent-orange: #e67e22; /* Sunset Orange */
+            --bg-light: #f4f7f6;
+            --text-main: #34495e;
+            --white: #ffffff;
+            --success-green: #27ae60;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 10px;
+        }
+
+        .main-wrapper {
+            max-width: 1100px;
+            margin: 30px auto;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border-top: 8px solid var(--accent-orange);
+        }
+
+        /* Header Section */
+        .header {
+            padding: 50px 40px;
+            background: var(--primary-dark);
+            color: var(--white);
+            position: relative;
+        }
+
+        .plan-tag {
+            background: var(--accent-orange);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            max-width: 800px;
+        }
+
+        /* Info Grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+            padding: 40px;
+            background: #fff;
+        }
+
+        .info-card {
+            border: 1px solid #edf2f7;
+            padding: 20px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .info-card:hover {
+            border-color: var(--accent-orange);
+            background: #fffaf5;
+        }
+
+        .info-card i {
+            color: var(--accent-orange);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .info-card h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .info-card p {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        /* PPT Table Section */
+        .ppt-section {
+            background: #fdfdfd;
+            padding: 40px;
+            margin: 0 40px;
+            border-radius: 12px;
+            border: 1px solid #eee;
+        }
+
+        .ppt-title {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ppt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .ppt-box {
+            background: white;
+            padding: 15px;
+            border-left: 4px solid var(--primary-dark);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Benefits Styling */
+        .benefits-container {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .benefit-block {
+            padding: 30px;
+            border-radius: 12px;
+            height: 100%;
+        }
+
+        .death-benefit {
+            background: #fcf3cf;
+            border-bottom: 5px solid #f1c40f;
+        }
+
+        .survival-benefit {
+            background: #d5f5e3;
+            border-bottom: 5px solid #27ae60;
+        }
+
+        .benefit-block h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .benefit-list {
+            list-style: none;
+        }
+
+        .benefit-list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .benefit-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-orange);
+            font-weight: bold;
+        }
+
+        /* GA Table */
+        .ga-badge {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary-dark);
+            color: white;
+            border-radius: 30px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Footer Info */
+        .footer-features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 30px 40px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        .feat-item {
+            text-align: center;
+            margin: 10px;
+        }
+
+        .feat-item i {
+            display: block;
+            font-size: 1.2rem;
+            color: var(--accent-orange);
+            margin-bottom: 5px;
+        }
+
+        .feat-item span {
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .benefits-container { grid-template-columns: 1fr; }
+            .header h1 { font-size: 2rem; }
+            .header { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <header class="header">
+            <span class="plan-tag">Table No. 912</span>
+            <h1>Nav Jeevan Shree</h1>
+            <p>A Limited Premium Payment Savings Endowment Plan offering a strategic blend of high sum assured coverage and guaranteed returns for your financial milestones.</p>
+        </header>
+
+        <!-- Key Parameters -->
+        <div class="grid-container">
+            <div class="info-card">
+                <i class="fas fa-money-bill-transfer"></i>
+                <h4>Premium Modes</h4>
+                <p>Yearly, Half-yearly, Quarterly, Monthly (ECS)</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h4>Min. Sum Assured</h4>
+                <p>₹5,00,000</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-user-plus"></i>
+                <h4>Entry Age</h4>
+                <p>0 (30 days) to 60 Years</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-shield-alt"></i>
+                <h4>Max Sum Assured</h4>
+                <p>No Limit (Based on Income)</p>
+            </div>
+        </div>
+
+        <!-- PPT & Term Logic -->
+        <div class="ppt-section">
+            <h3 class="ppt-title"><i class="fas fa-calendar-check"></i> Term & Premium Paying Term (PPT)</h3>
+            <div class="ppt-grid">
+                <div class="ppt-box">
+                    <strong>PPT: 6 Years</strong>
+                    <p>Term: 10 to 20 Years</p>
+                </div>
+                <div class="ppt-box">
+                    <strong>PPT: 8 & 10 Years</strong>
+                    <p>Term: 15 to 20 Years</p>
+                </div>
+                <div class="ppt-box">
+                    <strong>PPT: 12 Years</strong>
+                    <p>Term: 16 to 20 Years</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benefits -->
+        <div class="benefits-container">
+            <!-- Death Benefit -->
+            <div class="benefit-block death-benefit">
+                <h3><i class="fas fa-crosshairs"></i> Death Benefit</h3>
+                <ul class="benefit-list">
+                    <li><strong>Before Risk Commencement:</strong> Total premiums paid (excluding taxes/extra) is refunded.</li>
+                    <li><strong>After Risk Commencement:</strong> Sum Assured on Death + Accrued Guaranteed Additions.</li>
+                </ul>
+                <div style="font-size: 0.8rem; margin-top: 15px; color: #7f8c8d;">
+                    <strong>S.A. ON DEATH:</strong><br>
+                    Option 1: Higher of 7x Premium or Basic S.A.<br>
+                    Option 2: Higher of 10x Premium or Basic S.A.
+                </div>
+            </div>
+
+            <!-- Survival Benefit -->
+            <div class="benefit-block survival-benefit">
+                <h3><i class="fas fa-birthday-cake"></i> Maturity Benefit</h3>
+                <p>On survival to the end of the term, get:</p>
+                <ul class="benefit-list">
+                    <li>Basic Sum Assured</li>
+                    <li>Guaranteed Additions (GA)</li>
+                </ul>
+                
+                <div class="ga-badge">
+                    <strong>GA Rates (% of Total Annual Premiums):</strong><br>
+                    • Term 10-13 yrs: 8.50%<br>
+                    • Term 14-17 yrs: 9.00%<br>
+                    • Term 18-20 yrs: 9.50%
+                </div>
+            </div>
+        </div>
+
+        <!-- Features & Tax -->
+        <div class="footer-features">
+            <div class="feat-item">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>SEC 80C REBATE</span>
+            </div>
+            <div class="feat-item">
+                <i class="fas fa-piggy-bank"></i>
+                <span>10(10D) TAX FREE</span>
+            </div>
+            <div class="feat-item">
+                <i class="fas fa-hand-holding-usd"></i>
+                <span>LOAN (After 1 Yr)</span>
+            </div>
+            <div class="feat-item">
+                <i class="fas fa-redo"></i>
+                <span>SURRENDER (After 1 Yr)</span>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 20px; font-size: 0.8rem; color: #95a5a6; background: #fff;">
+            Disclaimer: This is a policy summary. For more details, please read the policy sales brochure.
+        </div>
+    </div>
+
+</body>
+</html>
