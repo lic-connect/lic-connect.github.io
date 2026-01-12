@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Jan Suraksha (880) Professional IRR Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #ff9900; --accent: #333; --bg: #fdfbf7; --danger: #d32f2f; --success: #2e7d32; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); margin: 0; padding: 15px; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #ff9900, #ff6600); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3); }
+        .grid-layout { display: grid; grid-template-columns: 350px 1fr; gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); }
+        
+        label { display: block; font-size: 0.85em; font-weight: 600; margin-bottom: 5px; color: #555; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9em; box-sizing: border-box; margin-bottom: 15px; transition: border 0.3s; }
+        input:focus, select:focus { outline: none; border-color: var(--primary); }
+        input:disabled { background: #f5f5f5; color: #aaa; }
+
+        .checkbox-wrapper { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; background: #fff8e1; padding: 10px; border-radius: 6px; border: 1px solid #ffe082; }
+        
+        button { width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #000; transform: translateY(-2px); }
+        
+        #errorMsg { color: var(--danger); display: none; background: #ffebee; padding: 10px; border-radius: 5px; font-size: 0.85em; margin-top: 10px; border: 1px solid #ffcdd2; }
+        
+        .results-panel { display: none; }
+        .summary-box { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .kpi-card { background: #333; color: white; padding: 15px; border-radius: 8px; text-align: center; }
+        .kpi-card.irr { background: linear-gradient(135deg, #2e7d32, #66bb6a); }
+        .kpi-card h3 { margin: 0; font-size: 0.85em; opacity: 0.9; }
+        .kpi-card span { font-size: 1.6em; font-weight: 700; }
+
+        .table-wrap { overflow-x: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85em; background: white; min-width: 800px; }
+        th { background: #444; color: white; padding: 10px; text-align: center; font-weight: 500; }
+        td { padding: 8px; border: 1px solid #eee; text-align: center; }
+        .outflow { color: var(--danger); font-weight: 600; }
+        .inflow { color: var(--success); font-weight: 600; }
+        .total-row { background: #f5f5f5; font-weight: bold; border-top: 2px solid #ddd; }
+        
+        @media(max-width: 768px) { .grid-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>LIC Jan Suraksha (880)</h1>
+        <p style="margin:0; font-size:0.9em; opacity:0.9;">Micro Insurance | Guaranteed Additions</p>
+    </div>
+
+    <div class="grid-layout">
+        <div class="card">
+            <h3>Plan Details</h3>
+            
+            <label>Age at Entry (18-55)</label>
+            <input type="number" id="age" value="30" min="18" max="55">
+
+            <label>Policy Term (12-20)</label>
+            <input type="number" id="term" value="15" min="12" max="20" onchange="updatePPT()">
+
+            <label>Premium Paying Term (PPT)</label>
+            <input type="number" id="ppt" value="10" disabled>
+
+            <label>Sum Assured (1L - 2L)</label>
+            <input type="number" id="sumAssured" value="200000" step="5000" min="100000" max="200000">
+            <small style="display:block; margin-top:-10px; margin-bottom:15px; color:#777; font-size:0.75em;">Multiples of ₹5,000</small>
+
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="addbCheck"> 
+                <label style="margin:0; cursor:pointer; color:#5d4037;" for="addbCheck">Include Accident Benefit (ADDB)</label>
+            </div>
+
+            <div class="checkbox-wrapper" style="background:#e0f7fa; border-color:#b2ebf2;">
+                <input type="checkbox" id="onlineCheck"> 
+                <label style="margin:0; cursor:pointer; color:#006064;" for="onlineCheck">Online Purchase (Incentive)</label>
+            </div>
+
+            <button onclick="generateReport()">Generate IRR Table</button>
+            <div id="errorMsg"></div>
+        </div>
+
+        <div class="results-panel" id="resultsPanel">
+            <div class="summary-box">
+                <div class="kpi-card">
+                    <h3>Net Profit</h3>
+                    <span id="netProfit">₹0</span>
+                </div>
+                <div class="kpi-card irr">
+                    <h3>XIRR (Return)</h3>
+                    <span id="xirrVal">0.00%</span>
+                </div>
+            </div>
+
+            <div class="card" style="padding:0; overflow:hidden;">
+                <div class="table-wrap">
+                    <table id="flowTable">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Age</th>
+                                <th>Premium<br><small>(Outflow)</small></th>
+                                <th>Maturity<br><small>(Inflow)</small></th>
+                                <th>Accrued GA</th>
+                                <th>Death Benefit<br><small>(Cover)</small></th>
+                                <th>Net Cashflow</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                        <tfoot id="tableFoot"></tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- RATE DATA ---
+    const premiumRates = {
+      18: {12:132.7, 13:114.85, 14:101.05, 15:90.05, 16:81.1, 17:73.7, 18:67.45, 19:62.1, 20:57.9},
+      19: {12:132.7, 13:114.85, 14:101.05, 15:90.1, 16:81.15, 17:73.7, 18:67.45, 19:62.15, 20:57.9},
+      20: {12:132.7, 13:114.9, 14:101.1, 15:90.1, 16:81.15, 17:73.7, 18:67.45, 19:62.15, 20:57.9},
+      21: {12:132.7, 13:114.9, 14:101.1, 15:90.1, 16:81.15, 17:73.7, 18:67.45, 19:62.15, 20:57.95},
+      22: {12:132.7, 13:114.9, 14:101.1, 15:90.1, 16:81.15, 17:73.75, 18:67.5, 19:62.15, 20:57.95},
+      23: {12:132.7, 13:114.9, 14:101.1, 15:90.1, 16:81.15, 17:73.75, 18:67.5, 19:62.2, 20:57.95},
+      24: {12:132.7, 13:114.9, 14:101.1, 15:90.1, 16:81.15, 17:73.75, 18:67.5, 19:62.2, 20:58.0},
+      25: {12:132.7, 13:114.9, 14:101.1, 15:90.15, 16:81.2, 17:73.8, 18:67.55, 19:62.25, 20:58.0},
+      26: {12:132.75, 13:114.9, 14:101.15, 15:90.15, 16:81.2, 17:73.8, 18:67.55, 19:62.25, 20:58.05},
+      27: {12:132.75, 13:114.95, 14:101.15, 15:90.2, 16:81.25, 17:73.85, 18:67.6, 19:62.3, 20:58.1},
+      28: {12:132.8, 13:114.95, 14:101.2, 15:90.2, 16:81.3, 17:73.9, 18:67.65, 19:62.35, 20:58.15},
+      29: {12:132.8, 13:115.0, 14:101.25, 15:90.25, 16:81.35, 17:73.95, 18:67.7, 19:62.4, 20:58.25},
+      30: {12:132.85, 13:115.05, 14:101.3, 15:90.3, 16:81.4, 17:74.0, 18:67.8, 19:62.5, 20:58.35},
+      31: {12:132.9, 13:115.1, 14:101.35, 15:90.4, 16:81.45, 17:74.1, 18:67.9, 19:62.6, 20:58.45},
+      32: {12:132.95, 13:115.2, 14:101.4, 15:90.45, 16:81.55, 17:74.2, 18:68.0, 19:62.7, 20:58.55},
+      33: {12:133.05, 13:115.25, 14:101.5, 15:90.55, 16:81.65, 17:74.3, 18:68.1, 19:62.8, 20:58.65},
+      34: {12:133.15, 13:115.35, 14:101.6, 15:90.65, 16:81.75, 17:74.4, 18:68.2, 19:62.95, 20:58.8},
+      35: {12:133.25, 13:115.45, 14:101.7, 15:90.8, 16:81.9, 17:74.55, 18:68.35, 19:63.1, 20:59.0},
+      36: {12:133.35, 13:115.55, 14:101.85, 15:90.9, 16:82.05, 17:74.7, 18:68.55, 19:63.3, 20:59.2},
+      37: {12:133.45, 13:115.7, 14:102.0, 15:91.05, 16:82.2, 17:74.9, 18:68.75, 19:63.5, 20:59.4},
+      38: {12:133.6, 13:115.85, 14:102.15, 15:91.25, 16:82.4, 17:75.1, 18:68.95, 19:63.75, 20:59.65},
+      39: {12:133.75, 13:116.0, 14:102.35, 15:91.45, 16:82.6, 17:75.3, 18:69.2, 19:64.0, 20:59.95},
+      40: {12:133.95, 13:116.2, 14:102.55, 15:91.65, 16:82.85, 17:75.55, 18:69.5, 19:64.3, 20:60.25},
+      41: {12:134.15, 13:116.45, 14:102.8, 15:91.95, 16:83.15, 17:75.85, 18:69.8, 19:64.65, 20:60.6},
+      42: {12:134.4, 13:116.7, 14:103.05, 15:92.25, 16:83.45, 17:76.2, 18:70.15, 19:65.0, 20:61.0},
+      43: {12:134.65, 13:117.0, 14:103.35, 15:92.55, 16:83.8, 17:76.6, 18:70.55, 19:65.45, 20:61.5},
+      44: {12:134.95, 13:117.35, 14:103.75, 15:92.95, 16:84.2, 17:77.0, 18:71.0, 19:65.9, 20:61.95},
+      45: {12:135.3, 13:117.7, 14:104.15, 15:93.4, 16:84.7, 17:77.5, 18:71.5, 19:66.45, 20:62.5},
+      46: {12:135.75, 13:118.15, 14:104.6, 15:93.85, 16:85.2, 17:78.05, 18:72.05, 19:67.0, 20:63.1},
+      47: {12:136.2, 13:118.65, 14:105.1, 15:94.4, 16:85.75, 17:78.6, 18:72.7, 19:67.65, 20:63.8},
+      48: {12:136.7, 13:119.2, 14:105.7, 15:95.0, 16:86.35, 17:79.25, 18:73.35, 19:68.3, 20:64.5},
+      49: {12:137.25, 13:119.75, 14:106.3, 15:95.65, 16:87.05, 17:79.95, 18:74.05, 19:69.05, 20:65.25},
+      50: {12:137.9, 13:120.4, 14:106.95, 15:96.35, 16:87.75, 17:80.7, 18:74.8, 19:69.85, 20:66.05},
+      51: {12:138.55, 13:121.1, 14:107.7, 15:97.05, 16:88.5, 17:81.45, 18:75.6, 19:70.65},
+      52: {12:139.25, 13:121.8, 14:108.4, 15:97.85, 16:89.3, 17:82.3, 18:76.45},
+      53: {12:139.95, 13:122.55, 14:109.2, 15:98.65, 16:90.15, 17:83.15},
+      54: {12:140.7, 13:123.35, 14:110.0, 15:99.5, 16:91.0},
+      55: {12:141.5, 13:124.15, 14:110.85, 15:100.35}
+    };
+
+    function updatePPT() {
+        const term = document.getElementById('term').value;
+        document.getElementById('ppt').value = term ? parseInt(term) - 5 : '';
+    }
+
+    function xirr(values) {
+        let x = 0.1;
+        for (let i = 0; i < 100; i++) {
+            let f = 0, df = 0;
+            for (let j = 0; j < values.length; j++) {
+                let p = Math.pow(1 + x, j);
+                f += values[j] / p;
+                df -= j * values[j] / (p * (1 + x));
+            }
+            if (Math.abs(df) < 1e-12) break;
+            x = x - f / df;
+        }
+        return x;
+    }
+
+    function generateReport() {
+        const age = parseInt(document.getElementById('age').value);
+        const sa = parseInt(document.getElementById('sumAssured').value);
+        const term = parseInt(document.getElementById('term').value);
+        const ppt = term - 5;
+        const err = document.getElementById('errorMsg');
+        err.style.display = 'none';
+
+        // --- VALIDATIONS ---
+        if(age < 18 || age > 55) { showError("Age must be between 18 and 55."); return; }
+        if(term < 12 || term > 20) { showError("Policy Term must be 12-20 years."); return; }
+        const matAge = age + term;
+        if(matAge > 70) { showError("Maturity Age cannot exceed 70."); return; }
+        if(sa < 100000 || sa > 200000) { showError("Sum Assured must be between 1,00,000 and 2,00,000."); return; }
+        if(sa % 5000 !== 0) { showError("Sum Assured must be in multiples of 5,000."); return; }
+
+        // --- PREMIUM CALCULATION ---
+        const rate = premiumRates[age]?.[term];
+        if(!rate) { showError("Rate not found for this combination."); return; }
+
+        let basePremium = Math.round((sa / 1000) * rate); // Annualized Premium
+
+        // Rider (ADDB)
+        const hasAddb = document.getElementById('addbCheck').checked;
+        let addbPremium = 0;
+        if(hasAddb) {
+            let riderRate = 1.25; // Approx standard for ADDB
+            addbPremium = (sa / 1000) * riderRate;
+            // Cap Rider Premium at 30% of Base Premium (Plan Rule)
+            if(addbPremium > (basePremium * 0.30)) addbPremium = basePremium * 0.30;
+            addbPremium = Math.round(addbPremium);
+        }
+
+        const totalAnnualPremium = basePremium + addbPremium;
+
+        // --- GUARANTEED ADDITIONS CALCULATION ---
+        // Base GA Rate: 4.00% of Annualized Premium
+        // High SA Incentive:
+        //   1L - 1.95L : Nil
+        //   2L         : 0.25% (Added to GA rate)
+        // Online Incentive: 1.00% (Added to GA rate)
+        
+        let gaRatePercent = 4.00;
+        
+        // High SA Incentive
+        if(sa === 200000) {
+            gaRatePercent += 0.25;
+        }
+
+        // Online Incentive
+        const isOnline = document.getElementById('onlineCheck').checked;
+        if(isOnline) {
+            gaRatePercent += 1.00;
+        }
+
+        // GA Amount per year
+        const gaAmount = Math.round(basePremium * (gaRatePercent / 100));
+
+        // --- TABLE GENERATION ---
+        document.getElementById('resultsPanel').style.display = 'block';
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        
+        let cflows = [], totalOut = 0, totalIn = 0;
+        let accruedGA = 0;
+
+        for(let yr = 0; yr <= term; yr++) {
+            let curAge = age + yr;
+            
+            // Outflow
+            let out = 0;
+            if (yr < ppt) out = totalAnnualPremium;
+
+            // GA Accrual (At end of year)
+            if (yr > 0 && yr <= term) {
+                accruedGA += gaAmount;
+            }
+
+            // Maturity Benefit (At end of Term)
+            let matVal = 0;
+            if (yr === term) {
+                matVal = sa + accruedGA;
+            }
+
+            // Death Benefit Logic (Plan 880)
+            // Higher of:
+            // 1. 7 x Annualized Premium
+            // 2. Basic Sum Assured
+            // Plus Accrued GA.
+            // Min 105% of Total Premiums Paid.
+            
+            let db = 0;
+            if (yr < term) {
+                let totalPremiumsPaid = totalAnnualPremium * (yr + 1);
+                if (yr >= ppt) totalPremiumsPaid = totalAnnualPremium * ppt;
+
+                let saOnDeath = Math.max(7 * basePremium, sa);
+                let dbVal = saOnDeath + accruedGA; // Current accrued GA till date of death
+                
+                db = Math.max(dbVal, 1.05 * totalPremiumsPaid);
+            }
+
+            let net = matVal - out;
+            
+            // XIRR Logic
+            if(yr === 0) {
+                cflows.push(-out); // Year 0 flow
+            } else {
+                cflows.push(matVal - out);
+            }
+
+            totalOut += out;
+            totalIn += matVal;
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${yr}</td>
+                    <td>${curAge}</td>
+                    <td class="outflow">${out > 0 ? '₹'+out.toLocaleString() : '-'}</td>
+                    <td class="inflow">${matVal > 0 ? '₹'+matVal.toLocaleString() : '-'}</td>
+                    <td>₹${accruedGA.toLocaleString()}</td>
+                    <td style="color:blue">${db > 0 ? '₹'+Math.round(db).toLocaleString() : '-'}</td>
+                    <td style="font-weight:bold">${net !== 0 ? (net > 0 ? '+' : '') + '₹'+net.toLocaleString() : '-'}</td>
+                </tr>
+            `;
+        }
+
+        document.getElementById('netProfit').innerText = "₹" + (totalIn - totalOut).toLocaleString();
+        document.getElementById('xirrVal').innerText = (xirr(cflows)*100).toFixed(2) + "%";
+        
+        document.getElementById('tableFoot').innerHTML = `
+            <tr class="total-row">
+                <td colspan="2">TOTAL</td>
+                <td>₹${totalOut.toLocaleString()}</td>
+                <td>₹${totalIn.toLocaleString()}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>₹${(totalIn-totalOut).toLocaleString()}</td>
+            </tr>
+        `;
+    }
+
+    function showError(msg) {
+        const e = document.getElementById('errorMsg');
+        e.innerText = "⚠️ " + msg;
+        e.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

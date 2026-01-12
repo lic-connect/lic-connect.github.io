@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Bima Ratna (764) Professional IRR Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --primary-dark: #001a35;
+            --success-green: #2e7d32;
+            --white: #ffffff;
+            --black: #000000;
+            --bg-light: #f0f4f8;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--black);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        .header h1 { margin: 0; font-size: 2.5em; text-transform: uppercase; letter-spacing: 2px; }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid #e0e0e0;
+        }
+
+        .section-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            border-bottom: 3px solid #f0ad4e;
+            display: inline-block;
+        }
+
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.85em; font-weight: 600; margin-bottom: 5px; }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        input[readonly] { background-color: #f0f0f0; cursor: not-allowed; font-weight: bold; }
+
+        .rider-box {
+            background: #eef5ff;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 1px solid #cce0ff;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        #errorMsg {
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            font-weight: bold;
+            border: 1px solid #ffcdd2;
+            font-size: 0.85em;
+        }
+
+        button.btn-generate {
+            width: 100%;
+            background: #f0ad4e;
+            color: var(--primary-blue);
+            border: none;
+            padding: 18px;
+            font-size: 1.1em;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .results-panel { display: none; }
+        
+        .summary-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: var(--primary-blue);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-card.irr-box {
+            background: linear-gradient(135deg, #fbc02d 0%, #f57f17 100%);
+            color: #000;
+        }
+
+        .summary-card h3 { margin: 0; font-size: 0.8em; text-transform: uppercase; opacity: 0.8; }
+        .summary-card p { margin: 10px 0 0; font-size: 1.8em; font-weight: 800; }
+
+        .table-container {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+        th { background: #f8fafc; color: var(--primary-blue); padding: 12px; border-bottom: 2px solid #eee; text-align: center; }
+        td { padding: 10px; text-align: center; border-bottom: 1px solid #f1f5f9; }
+        .row-outflow { color: #d9534f; font-weight: bold; }
+        .row-inflow { color: var(--success-green); font-weight: bold; }
+        .total-row { background: #333 !important; color: white !important; font-weight: 800; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>LIC Bima Ratna (764)</h1>
+        <p>Non-Par | Money Back | Guaranteed Additions: ₹50-60 per 1000 SA</p>
+    </div>
+
+    <div class="main-grid">
+        <div class="card">
+            <div class="section-title">Primary Inputs</div>
+            
+            <div class="input-group">
+                <label>Life Assured's Age (0-55 Yrs)</label>
+                <input type="number" id="age" value="30">
+            </div>
+            
+            <div class="input-group">
+                <label>Basic Sum Assured (Min ₹5L)</label>
+                <input type="number" id="sumAssured" value="500000" step="25000">
+            </div>
+
+            <div class="input-group">
+                <label>Policy Term</label>
+                <select id="term" onchange="updatePPT()">
+                    <option value="15">15 Years (PPT 11)</option>
+                    <option value="20" selected>20 Years (PPT 16)</option>
+                    <option value="25">25 Years (PPT 21)</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label>Premium Paying Term (PPT)</label>
+                <input type="number" id="ppt" readonly value="16">
+            </div>
+
+            <div class="rider-box">
+                <div class="section-title" style="font-size: 0.85em; margin-bottom: 10px; border:none;">Riders Configuration</div>
+                
+                <div class="checkbox-container">
+                    <input type="checkbox" id="addbCheck" onchange="toggleInput('addbInputDiv', this)">
+                    <label>Include AD&DB Rider</label>
+                </div>
+                <div id="addbInputDiv" style="display:none;" class="input-group">
+                    <input type="number" id="addbSaValue" placeholder="AD&DB Sum Assured">
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="trCheck" onchange="toggleInput('trInputDiv', this)">
+                    <label>Include Term Rider</label>
+                </div>
+                <div id="trInputDiv" style="display:none;" class="input-group">
+                    <input type="number" id="trSaValue" placeholder="Term Rider Sum Assured">
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="pwbCheck" onchange="toggleInput('pwbInputDiv', this)">
+                    <label>Include PWB Rider</label>
+                </div>
+                <div id="pwbInputDiv" style="display:none;" class="input-group">
+                    <input type="number" id="pwbAgeValue" placeholder="Proposer Age (18-55)">
+                </div>
+            </div>
+
+            <button class="btn-generate" onclick="generateReport()">Generate Precise Report</button>
+            <div id="errorMsg"></div>
+        </div>
+
+        <div class="results-panel" id="resultsPanel">
+            <div class="summary-dashboard">
+                <div class="summary-card">
+                    <h3>Total Net Profit</h3>
+                    <p id="assetVal">₹0</p>
+                </div>
+                <div class="summary-card irr-box">
+                    <h3>Internal Rate of Return (XIRR)</h3>
+                    <p id="xirrResult">0.00%</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="irrTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Age</th>
+                            <th>Premium (Out)</th>
+                            <th>SB (In)</th>
+                            <th>Maturity / GA</th>
+                            <th>Accrued GA</th>
+                            <th>Death Benefit</th>
+                            <th>Net Cashflow</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                    <tfoot id="tableFoot"></tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- DATA ---
+    const tabularRates = {
+        15: {5:107.75, 10:108.15, 15:108.50, 20:108.65, 25:108.75, 30:109.05, 35:109.75, 40:111.05, 45:113.45, 50:117.20, 55:122.30},
+        20: {0:74.15, 5:74.15, 10:74.60, 15:74.90, 20:75.05, 25:75.25, 30:75.70, 35:76.70, 40:78.45, 45:81.40, 50:85.85},
+        25: {0:55.20, 5:55.25, 10:55.65, 15:56.00, 20:56.20, 25:56.50, 30:57.20, 35:58.55, 40:60.75, 45:64.30}
+    };
+
+    const termRiderRates = {
+        15: {18:2.04, 20:2.08, 25:2.26, 30:2.78, 35:3.89, 40:6.04, 45:9.56, 50:14.62, 55:21.33},
+        20: {18:1.92, 20:1.99, 25:2.30, 30:3.00, 35:4.42, 40:6.85, 45:10.47, 50:15.65},
+        25: {18:1.93, 20:2.04, 25:2.49, 30:3.44, 35:5.12, 40:7.72, 45:11.54}
+    };
+
+    const pwbRates = {
+        11: {T1:2.25, T2:2.4, T3:2.65, T4:3.3, T5:4.4, T6:6.35, T7:9.0},
+        16: {T1:2.7, T2:2.9, T3:3.5, T4:4.6, T5:6.5, T6:9.55, T7:13.7},
+        21: {T1:3.1, T2:3.55, T3:4.45, T4:6.15, T5:8.95, T6:13.1, T7:0}
+    };
+
+ const addbRateTable = { 15: 1.25, 20: 1.20, 25: 1.15 };
+
+    function updatePPT() {
+        const term = parseInt(document.getElementById("term").value);
+        const pptMap = {15:11, 20:16, 25:21};
+        document.getElementById("ppt").value = pptMap[term];
+    }
+
+    function toggleInput(divId, cb) {
+        document.getElementById(divId).style.display = cb.checked ? 'block' : 'none';
+    }
+
+    // XIRR Calculation
+    function irr(values) {
+        let x = 0.1;
+        for (let i = 0; i < 20; i++) {
+            let f = 0, df = 0;
+            for (let j = 0; j < values.length; j++) {
+                let powVal = Math.pow(1 + x, j);
+                f += values[j] / powVal;
+                df -= (j * values[j]) / (powVal * (1 + x));
+            }
+            if (Math.abs(df) < 1e-12) break;
+            let xNew = x - f / df;
+            if (Math.abs(xNew - x) < 1e-12) return xNew;
+            x = xNew;
+        }
+        return x;
+    }
+
+    function generateReport() {
+        const age = parseInt(document.getElementById("age").value);
+        const sa = parseInt(document.getElementById("sumAssured").value);
+        const term = parseInt(document.getElementById("term").value);
+        const ppt = parseInt(document.getElementById("ppt").value);
+        const errorBox = document.getElementById('errorMsg');
+        errorBox.style.display = "none";
+
+        // Rider values
+        const hasAddb = document.getElementById('addbCheck').checked;
+        const addbSa = parseInt(document.getElementById('addbSaValue').value) || 0;
+        const hasTr = document.getElementById('trCheck').checked;
+        const trSa = parseInt(document.getElementById('trSaValue').value) || 0;
+        const hasPwb = document.getElementById('pwbCheck').checked;
+        const pAge = parseInt(document.getElementById('pwbAgeValue').value) || 0;
+
+        // Validations
+        if (sa < 500000) { errorBox.innerHTML = "⚠️ Min SA ₹5,00,000"; errorBox.style.display = "block"; return; }
+        if (hasPwb && age > 17) { errorBox.innerHTML = "⚠️ PWB Rider is only available for Life Assured age 17 or less."; errorBox.style.display = "block"; return; }
+        if (hasAddb && (addbSa > sa || addbSa > 10000000)) { errorBox.innerHTML = "⚠️ AD&DB Capped at SA or 1 Cr."; errorBox.style.display = "block"; return; }
+        if (hasTr && (trSa > sa || trSa > 2500000)) { errorBox.innerHTML = "⚠️ Term Rider Capped at SA or 25 Lacs."; errorBox.style.display = "block"; return; }
+
+        // Premium Math
+        const rateRow = tabularRates[term];
+        const ages = Object.keys(rateRow).map(Number).sort((a,b)=>a-b);
+        let tabularRate = 0;
+        for(let a of ages) if(age <= a) { tabularRate = rateRow[a]; break; }
+
+        let saRebate = (sa >= 2000000) ? 1.25 : (sa >= 1500000 ? 1.00 : (sa >= 1000000 ? 0.70 : 0));
+        const baseAnnual = ((tabularRate - saRebate) * (sa / 1000)) * 0.98;
+
+      // Looks up the specific rate (1.25, 1.20, or 1.15) based on the chosen term
+        const addbRate = addbRateTable[term] || 1.25; 
+        const addbPrem = hasAddb ? (addbSa / 1000) * addbRate : 0;
+        
+        let trRate = 0;
+        const trRow = termRiderRates[term];
+        const trAges = Object.keys(trRow).map(Number).sort((a,b)=>a-b);
+        for(let a of trAges) if(age <= a) { trRate = trRow[a]; break; }
+        const trPrem = hasTr ? (trSa / 1000) * trRate : 0;
+
+        let pwbTier = pAge <= 25 ? "T1" : pAge <= 30 ? "T2" : pAge <= 35 ? "T3" : pAge <= 40 ? "T4" : pAge <= 45 ? "T5" : pAge <= 50 ? "T6" : "T7";
+        const pwbPrem = hasPwb ? (baseAnnual * pwbRates[ppt][pwbTier] / 100) : 0;
+
+        const totalPremium = Math.round(baseAnnual + addbPrem + trPrem + pwbPrem);
+
+        // Results
+        document.getElementById('resultsPanel').style.display = 'block';
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        
+        let cashflows = [];
+        let accGA = 0, totalOut = 0, totalIn = 0;
+
+        for (let yr = 1; yr <= term; yr++) {
+            let outflow = (yr <= ppt) ? totalPremium : 0;
+            
+            // GA: 50 (1-5), 55 (6-10), 60 (11-25)
+            let yrGA = (yr <= 5) ? 50 : (yr <= 10 ? 55 : 60);
+            accGA += (sa / 1000) * yrGA;
+
+            // SB logic
+            let sb = 0;
+            if (term === 15 && (yr === 13 || yr === 14)) sb = sa * 0.25;
+            if (term === 20 && (yr === 18 || yr === 19)) sb = sa * 0.25;
+            if (term === 25 && (yr === 23 || yr === 24)) sb = sa * 0.25;
+
+            let maturityVal = (yr === term) ? (sa * 0.5 + accGA) : 0;
+            let db = Math.max(1.25 * sa, 7 * baseAnnual) + accGA;
+
+            cashflows.push((sb + maturityVal) - outflow);
+            totalOut += outflow; totalIn += (sb + maturityVal);
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${yr}</td><td>${age+yr}</td>
+                    <td class="row-outflow">${outflow > 0 ? '₹' + outflow.toLocaleString() : '-'}</td>
+                    <td class="row-inflow">${sb > 0 ? '₹' + sb.toLocaleString() : '-'}</td>
+                    <td>${maturityVal > 0 ? '₹' + maturityVal.toLocaleString() : '-'}</td>
+                    <td>₹${Math.round(accGA).toLocaleString()}</td>
+                    <td style="color:blue;font-weight:700">₹${Math.round(db).toLocaleString()}</td>
+                    <td style="background:#f0f4f8;font-weight:700">${((sb+maturityVal)-outflow) >= 0 ? '+' : ''}₹${Math.round((sb+maturityVal)-outflow).toLocaleString()}</td>
+                </tr>`;
+        }
+
+        document.getElementById('xirrResult').innerText = (irr(cashflows) * 100).toFixed(2) + "%";
+        document.getElementById('assetVal').innerText = "₹" + Math.round(totalIn - totalOut).toLocaleString();
+        document.getElementById('tableFoot').innerHTML = `<tr class="total-row"><td colspan="2">TOTAL</td><td>₹${totalOut.toLocaleString()}</td><td>₹${(sa*0.5).toLocaleString()}</td><td>₹${accGA.toLocaleString()}</td><td colspan="2">Net Received:</td><td>₹${Math.round(totalIn-totalOut).toLocaleString()}</td></tr>`;
+    }
+</script>
+</body>
+</html>

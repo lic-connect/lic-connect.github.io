@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Bima Lakshmi (881) IRR Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #ad1457; --accent: #ec407a; --bg: #fce4ec; --text: #333; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: var(--text); }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #ad1457, #880e4f); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(173, 20, 87, 0.3); }
+        .grid-layout { display: grid; grid-template-columns: 320px 1fr; gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); }
+        
+        label { display: block; font-size: 0.85em; font-weight: 600; margin-bottom: 5px; color: #880e4f; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #f8bbd0; border-radius: 6px; font-size: 0.9em; margin-bottom: 15px; }
+        input:focus, select:focus { outline: none; border-color: var(--accent); }
+
+        .rider-section { background: #fce4ec; padding: 10px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #f48fb1; }
+        .checkbox-wrapper { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; font-weight: 500; font-size: 0.9em; }
+        
+        button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #880e4f; transform: translateY(-2px); }
+        
+        #errorMsg { color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 5px; font-size: 0.85em; margin-top: 10px; display: none; border: 1px solid #ef9a9a; }
+        
+        .results-panel { display: none; }
+        .summary-box { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .kpi-card { background: #880e4f; color: white; padding: 15px; border-radius: 8px; text-align: center; }
+        .kpi-card h3 { margin: 0; font-size: 0.8em; opacity: 0.9; }
+        .kpi-card span { font-size: 1.5em; font-weight: 700; }
+
+        .table-wrap { overflow-x: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85em; background: white; min-width: 900px; }
+        th { background: var(--primary); color: white; padding: 10px; text-align: center; }
+        td { padding: 8px; border: 1px solid #fce4ec; text-align: center; }
+        .total-row { background: #f8bbd0; font-weight: bold; color: #880e4f; }
+        
+        @media(max-width: 768px) { .grid-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>LIC Bima Lakshmi (881)</h1>
+        <p style="margin:0; font-size:0.9em; opacity:0.9;">Women's Plan | Guaranteed Additions</p>
+    </div>
+
+    <div class="grid-layout">
+        <div class="card">
+            <h3>Plan Inputs</h3>
+            
+            <label>Plan Option</label>
+            <select id="planOption" onchange="updateDesc()">
+                <option value="A">Option A (Lumpsum at End of PPT)</option>
+                <option value="B">Option B (MB 7.5% every 2 yrs)</option>
+                <option value="C">Option C (MB 15% every 4 yrs)</option>
+            </select>
+            <div id="optDesc" style="font-size:0.75em; color:#666; margin-top:-10px; margin-bottom:15px;">50% SA at end of PPT</div>
+
+            <label>Age (18-50)</label>
+            <input type="number" id="age" value="24" min="18" max="50">
+
+            <label>Premium Paying Term (7-15)</label>
+            <input type="number" id="ppt" value="10" min="7" max="15">
+
+            <label>Sum Assured (Min 2L)</label>
+            <input type="number" id="sumAssured" value="200000" step="10000" min="200000">
+
+            <div class="rider-section">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="addbCheck" onchange="toggleInp('addbInp', this)"> 
+                    <label for="addbCheck">ADDB Rider (Max 1Cr)</label>
+                </div>
+                <div id="addbInp" style="display:none;">
+                    <input type="number" id="addbSa" placeholder="Rider SA" style="margin-bottom:5px;">
+                </div>
+
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="trCheck" onchange="toggleInp('trInp', this)"> 
+                    <label for="trCheck">Term Rider (Max 25L)</label>
+                </div>
+                <div id="trInp" style="display:none;">
+                    <input type="number" id="trSa" placeholder="Rider SA" style="margin-bottom:5px;">
+                </div>
+                
+                <div class="checkbox-wrapper" style="margin-top:10px; border-top:1px dashed #f48fb1; padding-top:5px;">
+                    <input type="checkbox" id="onlineCheck"> 
+                    <label for="onlineCheck">Online Purchase</label>
+                </div>
+            </div>
+
+            <button onclick="generateReport()">Generate IRR Table</button>
+            <div id="errorMsg"></div>
+        </div>
+
+        <div class="results-panel" id="resultsPanel">
+            <div class="summary-box">
+                <div class="kpi-card">
+                    <h3>Net Benefit</h3>
+                    <span id="netProfit">₹0</span>
+                </div>
+                <div class="kpi-card" style="background:#00897b;">
+                    <h3>XIRR (Yield)</h3>
+                    <span id="xirrVal">0.00%</span>
+                </div>
+            </div>
+
+            <div class="card" style="padding:0; overflow:hidden;">
+                <div class="table-wrap">
+                    <table id="flowTable">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Age</th>
+                                <th>Premium<br><small>(Outflow)</small></th>
+                                <th>Survival Benefit</th>
+                                <th>Maturity<br><small>(SA+GA)</small></th>
+                                <th>Accrued GA</th>
+                                <th>Death Benefit<br><small>(Cover)</small></th>
+                                <th>Net Cashflow</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                        <tfoot id="tableFoot"></tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- RATES DATASETS ---
+    const ratesA = [ {Age:18,T7:221.7,T8:192.7,T9:170.6,T10:164.4,T11:148.6,T12:135.65,T13:124.85,T14:115.7,T15:111.1},{Age:19,T7:222.0,T8:192.9,T9:170.75,T10:164.55,T11:148.7,T12:135.7,T13:124.9,T14:115.7,T15:111.15},{Age:20,T7:222.25,T8:193.1,T9:170.9,T10:164.7,T11:148.8,T12:135.75,T13:124.95,T14:115.75,T15:111.15},{Age:21,T7:222.6,T8:193.3,T9:171.05,T10:164.85,T11:148.9,T12:135.85,T13:125.0,T14:115.8,T15:111.2},{Age:22,T7:222.95,T8:193.6,T9:171.25,T10:165.0,T11:149.0,T12:135.95,T13:125.05,T14:115.85,T15:111.25},{Age:23,T7:223.4,T8:193.9,T9:171.45,T10:165.2,T11:149.15,T12:136.05,T13:125.1,T14:115.9,T15:111.25},{Age:24,T7:223.9,T8:194.25,T9:171.7,T10:165.4,T11:149.3,T12:136.15,T13:125.2,T14:115.95,T15:111.3},{Age:25,T7:224.5,T8:194.65,T9:172.0,T10:165.7,T11:149.5,T12:136.3,T13:125.3,T14:116.0,T15:111.35},{Age:26,T7:225.2,T8:195.15,T9:172.35,T10:166.0,T11:149.75,T12:136.45,T13:125.4,T14:116.1,T15:111.45},{Age:27,T7:226.05,T8:195.75,T9:172.75,T10:166.4,T11:150.0,T12:136.65,T13:125.55,T14:116.2,T15:111.5},{Age:28,T7:227.0,T8:196.4,T9:173.25,T10:166.85,T11:150.35,T12:136.9,T13:125.75,T14:116.3,T15:111.6},{Age:29,T7:228.15,T8:197.2,T9:173.85,T10:167.35,T11:150.7,T12:137.2,T13:125.95,T14:116.45,T15:111.75},{Age:30,T7:229.45,T8:198.15,T9:174.5,T10:167.95,T11:151.15,T12:137.5,T13:126.2,T14:116.65,T15:111.85},{Age:31,T7:230.95,T8:199.2,T9:175.25,T10:168.65,T11:151.65,T12:137.9,T13:126.45,T14:116.85,T15:112.05},{Age:32,T7:232.65,T8:200.35,T9:176.1,T10:169.4,T11:152.25,T12:138.3,T13:126.8,T14:117.05,T15:112.25},{Age:33,T7:234.55,T8:201.7,T9:177.1,T10:170.3,T11:152.9,T12:138.8,T13:127.15,T14:117.35,T15:112.45},{Age:34,T7:236.75,T8:203.25,T9:178.2,T10:171.3,T11:153.65,T12:139.35,T13:127.55,T14:117.6,T15:112.7},{Age:35,T7:239.2,T8:204.95,T9:179.4,T10:172.4,T11:154.45,T12:139.95,T13:128.0,T14:117.95,T15:112.95},{Age:36,T7:241.95,T8:206.85,T9:180.75,T10:173.65,T11:155.35,T12:140.6,T13:128.5,T14:118.3,T15:113.25},{Age:37,T7:245.0,T8:208.95,T9:182.3,T10:175.0,T11:156.35,T12:141.35,T13:129.05,T14:118.7,T15:113.6},{Age:38,T7:248.45,T8:211.35,T9:183.95,T10:176.55,T11:157.5,T12:142.2,T13:129.65,T14:119.15,T15:113.95},{Age:39,T7:252.35,T8:214.0,T9:185.85,T10:178.2,T11:158.7,T12:143.1,T13:130.3,T14:119.65,T15:114.4},{Age:40,T7:256.7,T8:216.95,T9:187.95,T10:180.1,T11:160.1,T12:144.15,T13:131.05,T14:120.2,T15:114.85},{Age:41,T7:261.6,T8:220.25,T9:190.25,T10:182.2,T11:161.65,T12:145.25,T13:131.9,T14:120.85,T15:115.4},{Age:42,T7:267.15,T8:224.0,T9:192.85,T10:184.6,T11:163.35,T12:146.55,T13:132.85,T14:121.55,T15:116.0},{Age:43,T7:273.5,T8:228.2,T9:195.8,T10:187.25,T11:165.3,T12:147.95,T13:133.95,T14:122.35,T15:116.75},{Age:44,T7:280.8,T8:233.0,T9:199.1,T10:190.25,T11:167.5,T12:149.6,T13:135.2,T14:123.3,T15:117.55},{Age:45,T7:289.15,T8:238.5,T9:202.9,T10:193.7,T11:170.0,T12:151.45,T13:136.6,T14:124.4,T15:118.5},{Age:46,T7:298.95,T8:244.8,T9:207.25,T10:197.65,T11:172.85,T12:153.6,T13:138.2,T14:125.65,T15:119.65},{Age:47,T7:310.4,T8:252.15,T9:212.25,T10:202.2,T11:176.2,T12:156.05,T13:140.1,T14:127.05,T15:120.9},{Age:48,T7:323.95,T8:260.7,T9:218.0,T10:207.5,T11:180.0,T12:158.9,T13:142.25,T14:128.7,T15:122.35},{Age:49,T7:340.3,T8:270.8,T9:224.75,T10:213.65,T11:184.4,T12:162.15,T13:144.7,T14:130.6,T15:124.05},{Age:50,T7:360.05,T8:282.75,T9:232.65,T10:220.9,T11:189.55,T12:165.9,T13:147.5,T14:132.75,T15:126.0} ];
+    const ratesB = [ {Age:18,T7:263.4,T8:236.15,T9:215.45,T10:213.75,T11:198.55,T12:186.15,T13:175.75,T14:166.9,T15:164.15},{Age:19,T7:263.7,T8:236.4,T9:215.6,T10:213.9,T11:198.7,T12:186.25,T13:175.85,T14:167.0,T15:164.2},{Age:20,T7:264.0,T8:236.65,T9:215.8,T10:214.1,T11:198.85,T12:186.35,T13:175.95,T14:167.05,T15:164.3},{Age:21,T7:264.4,T8:236.9,T9:216.0,T10:214.3,T11:199.0,T12:186.5,T13:176.05,T14:167.15,T15:164.35},{Age:22,T7:264.8,T8:237.2,T9:216.25,T10:214.5,T11:199.2,T12:186.65,T13:176.15,T14:167.25,T15:164.45},{Age:23,T7:265.3,T8:237.6,T9:216.55,T10:214.75,T11:199.4,T12:186.8,T13:176.3,T14:167.35,T15:164.55},{Age:24,T7:265.9,T8:238.0,T9:216.85,T10:215.1,T11:199.65,T12:187.0,T13:176.45,T14:167.5,T15:164.7},{Age:25,T7:266.6,T8:238.55,T9:217.25,T10:215.45,T11:199.95,T12:187.25,T13:176.7,T14:167.7,T15:164.85},{Age:26,T7:267.4,T8:239.15,T9:217.7,T10:215.9,T11:200.3,T12:187.55,T13:176.9,T14:167.9,T15:165.05},{Age:27,T7:268.35,T8:239.85,T9:218.25,T10:216.45,T11:200.75,T12:187.9,T13:177.2,T14:168.15,T15:165.25},{Age:28,T7:269.5,T8:240.7,T9:218.9,T10:217.05,T11:201.25,T12:188.3,T13:177.55,T14:168.4,T15:165.55},{Age:29,T7:270.8,T8:241.65,T9:219.65,T10:217.8,T11:201.8,T12:188.8,T13:177.95,T14:168.75,T15:165.85},{Age:30,T7:272.3,T8:242.75,T9:220.5,T10:218.6,T11:202.45,T12:189.3,T13:178.4,T14:169.15,T15:166.2},{Age:31,T7:274.0,T8:244.05,T9:221.45,T10:219.55,T11:203.2,T12:189.95,T13:178.9,T14:169.55,T15:166.65},{Age:32,T7:276.0,T8:245.5,T9:222.6,T10:220.65,T11:204.1,T12:190.65,T13:179.5,T14:170.05,T15:167.1},{Age:33,T7:278.2,T8:247.1,T9:223.8,T10:221.85,T11:205.05,T12:191.45,T13:180.15,T14:170.6,T15:167.65},{Age:34,T7:280.7,T8:248.95,T9:225.2,T10:223.2,T11:206.15,T12:192.3,T13:180.9,T14:171.25,T15:168.25},{Age:35,T7:283.5,T8:250.95,T9:226.75,T10:224.7,T11:207.35,T12:193.3,T13:181.7,T14:171.95,T15:168.9},{Age:36,T7:286.6,T8:253.25,T9:228.5,T10:226.35,T11:208.65,T12:194.4,T13:182.6,T14:172.7,T15:169.65},{Age:37,T7:290.1,T8:255.8,T9:230.4,T10:228.2,T11:210.15,T12:195.6,T13:183.6,T14:173.55,T15:170.45},{Age:38,T7:294.0,T8:258.6,T9:232.55,T10:230.25,T11:211.8,T12:196.95,T13:184.75,T14:174.5,T15:171.35},{Age:39,T7:298.35,T8:261.75,T9:234.9,T10:232.55,T11:213.6,T12:198.4,T13:185.95,T14:175.55,T15:172.4},{Age:40,T7:303.3,T8:265.25,T9:237.55,T10:235.1,T11:215.65,T12:200.05,T13:187.35,T14:176.75,T15:173.55},{Age:41,T7:308.8,T8:269.2,T9:240.5,T10:238.0,T11:217.9,T12:201.95,T13:188.9,T14:178.1,T15:174.85},{Age:42,T7:315.15,T8:273.65,T9:243.8,T10:241.2,T11:220.45,T12:204.0,T13:190.65,T14:179.6,T15:176.3},{Age:43,T7:322.3,T8:278.7,T9:247.6,T10:244.85,T11:223.35,T12:206.4,T13:192.65,T14:181.3,T15:178.0},{Age:44,T7:330.6,T8:284.5,T9:251.85,T10:249.0,T11:226.65,T12:209.05,T13:194.9,T14:183.25,T15:179.85},{Age:45,T7:340.15,T8:291.1,T9:256.7,T10:253.75,T11:230.4,T12:212.15,T13:197.5,T14:185.45,T15:182.0},{Age:46,T7:351.3,T8:298.75,T9:262.3,T10:259.25,T11:234.7,T12:215.6,T13:200.4,T14:187.95,T15:184.45},{Age:47,T7:364.5,T8:307.6,T9:268.75,T10:265.55,T11:239.6,T12:219.65,T13:203.75,T14:190.8,T15:187.2},{Age:48,T7:380.1,T8:318.0,T9:276.25,T10:272.85,T11:245.3,T12:224.2,T13:207.55,T14:194.05,T15:190.4},{Age:49,T7:398.8,T8:330.25,T9:284.95,T10:281.35,T11:251.85,T12:229.5,T13:211.9,T14:197.75,T15:193.95},{Age:50,T7:421.55,T8:344.8,T9:280.95,T10:291.25,T11:259.45,T12:235.55,T13:216.85,T14:201.95,T15:198.0} ];
+    const ratesC = [ {Age:18,T7:253.7,T8:227.5,T9:207.55,T10:205.9,T11:191.35,T12:179.4,T13:169.4,T14:160.9,T15:158.2},{Age:19,T7:254.0,T8:227.7,T9:207.7,T10:206.1,T11:191.45,T12:179.5,T13:169.45,T14:160.95,T15:158.3},{Age:20,T7:254.3,T8:227.95,T9:207.9,T10:206.25,T11:191.6,T12:179.6,T13:169.55,T14:161.0,T15:158.35},{Age:21,T7:254.6,T8:228.2,T9:208.1,T10:206.45,T11:191.75,T12:179.7,T13:169.65,T14:161.1,T15:158.4},{Age:22,T7:255.0,T8:228.45,T9:208.3,T10:206.65,T11:191.9,T12:179.85,T13:169.75,T14:161.2,T15:158.5},{Age:23,T7:255.45,T8:228.8,T9:208.55,T10:206.9,T11:192.1,T12:180.0,T13:169.9,T14:161.3,T15:158.6},{Age:24,T7:256.0,T8:229.2,T9:208.85,T10:207.15,T11:192.3,T12:180.15,T13:170.05,T14:161.4,T15:158.7},{Age:25,T7:256.65,T8:229.65,T9:209.2,T10:207.5,T11:192.6,T12:180.4,T13:170.2,T14:161.55,T15:158.85},{Age:26,T7:257.4,T8:230.25,T9:209.65,T10:207.9,T11:192.9,T12:180.65,T13:170.4,T14:161.75,T15:159.0},{Age:27,T7:258.3,T8:230.9,T9:210.15,T10:208.4,T11:193.3,T12:180.95,T13:170.65,T14:161.95,T15:159.2},{Age:28,T7:259.35,T8:231.65,T9:210.7,T10:208.95,T11:193.75,T12:181.3,T13:170.95,T14:162.2,T15:159.45},{Age:29,T7:260.55,T8:232.55,T9:211.4,T10:209.6,T11:194.25,T12:181.75,T13:171.3,T14:162.5,T15:159.75},{Age:30,T7:261.95,T8:233.55,T9:212.15,T10:210.4,T11:194.85,T12:182.25,T13:171.75,T14:162.85,T15:160.05},{Age:31,T7:263.55,T8:234.75,T9:213.05,T10:211.25,T11:195.55,T12:182.8,T13:172.2,T14:163.2,T15:160.4},{Age:32,T7:265.4,T8:236.1,T9:214.1,T10:212.25,T11:196.35,T12:183.45,T13:172.7,T14:163.65,T15:160.85},{Age:33,T7:267.45,T8:237.6,T9:215.2,T10:213.35,T11:197.2,T12:184.15,T13:173.3,T14:164.15,T15:161.3},{Age:34,T7:269.75,T8:239.25,T9:216.5,T10:214.55,T11:198.2,T12:184.95,T13:173.95,T14:164.7,T15:161.85},{Age:35,T7:272.35,T8:241.15,T9:217.9,T10:215.95,T11:199.3,T12:185.8,T13:174.7,T14:165.3,T15:162.4},{Age:36,T7:275.25,T8:243.25,T9:219.5,T10:217.5,T11:200.5,T12:186.8,T13:175.5,T14:166.0,T15:163.05},{Age:37,T7:278.5,T8:245.6,T9:221.25,T10:219.2,T11:201.85,T12:187.9,T13:176.4,T14:166.75,T15:163.8},{Age:38,T7:282.15,T8:248.2,T9:223.25,T10:221.1,T11:203.35,T12:189.1,T13:177.4,T14:167.6,T15:164.6},{Age:39,T7:286.2,T8:251.15,T9:225.4,T10:223.2,T11:205.0,T12:190.45,T13:178.55,T14:168.55,T15:165.55},{Age:40,T7:290.8,T8:254.4,T9:227.85,T10:225.55,T11:206.85,T12:191.95,T13:179.8,T14:169.65,T15:166.6},{Age:41,T7:295.95,T8:258.05,T9:230.55,T10:228.15,T11:208.95,T12:193.65,T13:181.2,T14:170.85,T15:167.75},{Age:42,T7:301.85,T8:262.15,T9:233.6,T10:231.15,T11:211.3,T12:195.55,T13:182.8,T14:172.2,T15:169.05},{Age:43,T7:308.55,T8:266.85,T9:237.1,T10:234.5,T11:213.95,T12:197.7,T13:184.6,T14:173.7,T15:170.55},{Age:44,T7:316.3,T8:272.2,T9:241.0,T10:238.35,T11:216.95,T12:200.15,T13:186.65,T14:175.45,T15:172.25},{Age:45,T7:325.2,T8:278.3,T9:245.5,T10:242.7,T11:220.35,T12:202.95,T13:188.95,T14:177.45,T15:174.2},{Age:46,T7:335.6,T8:285.45,T9:250.65,T10:247.75,T11:224.3,T12:206.15,T13:191.6,T14:179.75,T15:176.4},{Age:47,T7:347.85,T8:293.7,T9:256.6,T10:253.55,T11:228.85,T12:209.8,T13:194.65,T14:182.3,T15:178.9},{Age:48,T7:362.45,T8:303.3,T9:263.5,T10:260.3,T11:234.1,T12:214.0,T13:198.1,T14:185.25,T15:181.75},{Age:49,T7:379.9,T8:314.7,T9:271.6,T10:268.15,T11:240.1,T12:218.8,T13:202.05,T14:188.6,T15:185.0},{Age:50,T7:401.15,T8:328.25,T9:280.95,T10:277.3,T11:247.05,T12:224.35,T13:206.6,T14:192.4,T15:188.7} ];
+    
+    // TR Rates (Term 25 fixed for Plan 881 logic, as rider term = policy term 25)
+    const ratesTR = [ {Age:18,T10:3.1,T11:2.89,T12:2.71,T13:2.56,T14:2.43,T15:2.36,T7:3.96,T8:3.55,T9:3.24},{Age:19,T10:3.19,T11:2.96,T12:2.78,T13:2.63,T14:2.5,T15:2.42,T7:4.07,T8:3.65,T9:3.33},{Age:20,T10:3.28,T11:3.05,T12:2.86,T13:2.7,T14:2.57,T15:2.49,T7:4.19,T8:3.75,T9:3.42},{Age:21,T10:3.38,T11:3.14,T12:2.95,T13:2.79,T14:2.65,T15:2.57,T7:4.32,T8:3.87,T9:3.53},{Age:22,T10:3.5,T11:3.26,T12:3.05,T13:2.89,T14:2.74,T15:2.66,T7:4.47,T8:4.01,T9:3.65},{Age:23,T10:3.64,T11:3.39,T12:3.18,T13:3.0,T14:2.85,T15:2.77,T7:4.65,T8:4.17,T9:3.8},{Age:24,T10:3.8,T11:3.54,T12:3.32,T13:3.14,T14:2.98,T15:2.89,T7:4.86,T8:4.36,T9:3.97},{Age:25,T10:4.0,T11:3.72,T12:3.49,T13:3.29,T14:3.13,T15:3.04,T7:5.1,T8:4.58,T9:4.17},{Age:26,T10:4.22,T11:3.92,T12:3.68,T13:3.48,T14:3.31,T15:3.21,T7:5.39,T8:4.83,T9:4.4},{Age:27,T10:4.48,T11:4.17,T12:3.91,T13:3.69,T14:3.51,T15:3.41,T7:5.72,T8:5.13,T9:4.67},{Age:28,T10:4.78,T11:4.44,T12:4.17,T13:3.94,T14:3.74,T15:3.63,T7:6.1,T8:5.47,T9:4.99},{Age:29,T10:5.12,T11:4.76,T12:4.47,T13:4.22,T14:4.01,T15:3.89,T7:6.53,T8:5.86,T9:5.34},{Age:30,T10:5.5,T11:5.12,T12:4.8,T13:4.54,T14:4.31,T15:4.19,T7:7.03,T8:6.3,T9:5.74},{Age:31,T10:5.94,T11:5.52,T12:5.18,T13:4.89,T14:4.65,T15:4.52,T7:7.58,T8:6.79,T9:6.19},{Age:32,T10:6.42,T11:5.97,T12:5.6,T13:5.29,T14:5.03,T15:4.88,T7:8.19,T8:7.34,T9:6.69},{Age:33,T10:6.94,T11:6.46,T12:6.06,T13:5.73,T14:5.45,T15:5.29,T7:8.86,T8:7.95,T9:7.24},{Age:34,T10:7.52,T11:7.0,T12:6.57,T13:6.21,T14:5.9,T15:5.73,T7:9.6,T8:8.61,T9:7.85},{Age:35,T10:8.16,T11:7.59,T12:7.12,T13:6.73,T14:6.4,T15:6.22,T7:10.4,T8:9.33,T9:8.51},{Age:36,T10:8.84,T11:8.23,T12:7.72,T13:7.3,T14:6.95,T15:6.74,T7:11.27,T8:10.11,T9:9.22},{Age:37,T10:9.59,T11:8.92,T12:8.37,T13:7.92,T14:7.53,T15:7.32,T7:12.22,T8:10.96,T9:10.0},{Age:38,T10:10.39,T11:9.67,T12:9.08,T13:8.59,T14:8.17,T15:7.94,T7:13.24,T8:11.88,T9:10.83},{Age:39,T10:11.26,T11:10.48,T12:9.84,T13:9.31,T14:8.86,T15:8.61,T7:14.34,T8:12.87,T9:11.74},{Age:40,T10:12.2,T11:11.35,T12:10.66,T13:10.09,T14:9.6,T15:9.33,T7:15.53,T8:13.94,T9:12.71},{Age:41,T10:13.21,T11:12.3,T12:11.55,T13:10.93,T14:10.4,T15:10.11,T7:16.81,T8:15.09,T9:13.76},{Age:42,T10:14.27,T11:13.29,T12:12.49,T13:11.82,T14:11.25,T15:10.94,T7:18.15,T8:16.29,T9:14.87},{Age:43,T10:15.42,T11:14.36,T12:13.49,T13:12.77,T14:12.17,T15:11.83,T7:19.6,T8:17.6,T9:16.06},{Age:44,T10:16.65,T11:15.51,T12:14.58,T13:13.81,T14:13.15,T15:12.8,T7:21.15,T8:18.99,T9:17.34},{Age:45,T10:17.98,T11:16.76,T12:15.75,T13:14.92,T14:14.22,T15:13.84,T7:22.82,T8:20.5,T9:18.72},{Age:46,T10:19.41,T11:18.09,T12:17.02,T13:16.12,T14:15.37,T15:14.96,T7:24.61,T8:22.11,T9:20.19},{Age:47,T10:20.94,T11:19.53,T12:18.37,T13:17.41,T14:16.6,T15:16.17,T7:26.53,T8:23.84,T9:21.78},{Age:48,T10:22.58,T11:21.06,T12:19.82,T13:18.79,T14:17.92,T15:17.46,T7:28.57,T8:25.69,T9:23.48},{Age:49,T10:24.33,T11:22.71,T12:21.37,T13:20.27,T14:19.34,T15:18.85,T7:30.76,T8:27.66,T9:25.29},{Age:50,T10:26.2,T11:24.45,T12:23.03,T13:21.84,T14:20.85,T15:20.33,T7:33.07,T8:29.75,T9:27.21} ];
+
+    const ratesADDB = [ {Term:25,T10:1.6,T11:1.5,T12:1.4,T13:1.35,T14:1.25,T15:1.2,T7:2.1,T8:1.9,T9:1.75} ]; // Assuming fixed term 25
+
+    // --- HELPER FUNCTIONS ---
+    function updateDesc() {
+        const opt = document.getElementById("planOption").value;
+        const txt = {
+            'A': "50% of Basic Sum Assured payable at end of Premium Paying Term.",
+            'B': "7.5% of Basic Sum Assured payable every 2 years starting end of PPT.",
+            'C': "15% of Basic Sum Assured payable every 4 years starting end of PPT."
+        };
+        document.getElementById("optDesc").innerText = txt[opt];
+    }
+
+    function toggleInp(id, cb) { document.getElementById(id).style.display = cb.checked ? 'block' : 'none'; }
+
+  // --- ROBUST XIRR FUNCTION ---
+  function calculateIRR(values, guess) {
+        // Advanced Newton-Raphson with Bisect Fallback
+        const credits = values;
+        const maxIterations = 100;
+        const tolerance = 1e-7;
+        
+        let x0 = guess || 0.1;
+        let x1 = 0.0;
+        
+        // Check for validity (must have at least one positive and one negative)
+        let positive = false;
+        let negative = false;
+        for (let i = 0; i < credits.length; i++) {
+            if (credits[i] > 0) positive = true;
+            if (credits[i] < 0) negative = true;
+        }
+        if (!positive || !negative) return 0;
+
+        for (let i = 0; i < maxIterations; i++) {
+            let fValue = 0;
+            let fDerivative = 0;
+            
+            for (let j = 0; j < credits.length; j++) {
+                // Formula: sum( CF / (1+r)^t )
+                const div = Math.pow(1 + x0, j);
+                fValue += credits[j] / div;
+                fDerivative -= (j * credits[j]) / (div * (1 + x0));
+            }
+            
+            x1 = x0 - fValue / fDerivative;
+            
+            if (Math.abs(x1 - x0) <= tolerance) {
+                return x1;
+            }
+            x0 = x1;
+        }
+        
+        // If Newton fails, try a simple brute force scan (Fallback)
+        let bestRate = 0;
+        let minDiff = Infinity;
+        for(let r = -0.5; r < 1.0; r += 0.001) {
+             let npv = 0;
+             for (let j = 0; j < values.length; j++) {
+                npv += values[j] / Math.pow(1 + r, j);
+             }
+             if(Math.abs(npv) < minDiff) {
+                 minDiff = Math.abs(npv);
+                 bestRate = r;
+             }
+        }
+        return bestRate;
+    }
+
+ function generateReport() {
+        const age = parseInt(document.getElementById('age').value);
+        const ppt = parseInt(document.getElementById('ppt').value);
+        const sa = parseInt(document.getElementById('sumAssured').value);
+        const opt = document.getElementById('planOption').value;
+        const err = document.getElementById('errorMsg');
+        err.style.display = 'none';
+
+        // --- VALIDATIONS ---
+        if(sa < 200000) { showError("Min Sum Assured is 2L"); return; }
+        if(sa % 10000 !== 0) { showError("SA must be multiple of 10,000"); return; }
+        if(age < 18 || age > 50) { showError("Age must be 18-50"); return; }
+        if(ppt < 7 || ppt > 15) { showError("PPT must be 7-15"); return; }
+
+        const hasAddb = document.getElementById('addbCheck').checked;
+        const addbSaInp = document.getElementById('addbSa').value;
+        const addbSa = addbSaInp ? parseInt(addbSaInp) : sa;
+        if(hasAddb && (addbSa > sa || addbSa > 10000000)) { showError("ADDB SA Max 1Cr or Basic SA"); return; }
+
+        const hasTr = document.getElementById('trCheck').checked;
+        const trSaInp = document.getElementById('trSa').value;
+        const trSa = trSaInp ? parseInt(trSaInp) : sa;
+        if(hasTr && (trSa > sa || trSa > 2500000)) { showError("Term Rider SA Max 25L or Basic SA"); return; }
+
+        // --- PREMIUM CALCULATION ---
+        let rateArr;
+        if(opt === 'A') rateArr = ratesA;
+        else if(opt === 'B') rateArr = ratesB;
+        else rateArr = ratesC;
+
+        const rateRow = rateArr.find(r => r.Age === age);
+        if(!rateRow) { showError("Rate not found"); return; }
+        const baseRate = rateRow[`T${ppt}`];
+        const basePrem = (sa * baseRate) / 1000;
+
+        // Rider Premiums
+        let addbPrem = 0;
+        if(hasAddb) {
+            const addbRow = ratesADDB.find(x => x.Term === 25);
+            if(addbRow) {
+                let rateVal = addbRow[`T${ppt}`];
+                if(rateVal) {
+                    let rateNum = parseFloat(rateVal);
+                    let rawAddb = (addbSa * rateNum) / 1000;
+                    const maxRiderPrem = basePrem * 0.30;
+                    addbPrem = (rawAddb > maxRiderPrem) ? maxRiderPrem : rawAddb;
+                    addbPrem = Math.round(addbPrem);
+                }
+            }
+        }
+
+        let trPrem = 0;
+        if(hasTr) {
+            const trRow = ratesTR.find(r => r.Age === age);
+            if(trRow) {
+                const trRate = trRow[`T${ppt}`];
+                if(trRate) {
+                    let rawTr = (trSa * trRate) / 1000;
+                    const maxRiderPrem = basePrem * 0.30;
+                    trPrem = (rawTr > maxRiderPrem) ? maxRiderPrem : rawTr;
+                    trPrem = Math.round(trPrem);
+                }
+            }
+        }
+
+        const totalAnnualPrem = Math.round(basePrem + addbPrem + trPrem);
+
+        // --- GA CALCULATION ---
+        let gaRatePct = 7.0;
+        if(sa >= 2500000) gaRatePct += 0.45;
+        else if(sa >= 1500000) gaRatePct += 0.40;
+        else if(sa >= 1000000) gaRatePct += 0.35;
+        else if(sa >= 500000) gaRatePct += 0.25;
+
+        if(document.getElementById('onlineCheck').checked) {
+            if(ppt <= 9) gaRatePct += 0.75;
+            else if(ppt <= 14) gaRatePct += 1.25;
+            else gaRatePct += 1.50;
+        }
+
+        const gaAmount = (basePrem * gaRatePct) / 100;
+
+        // --- TABLE GENERATION ---
+        document.getElementById('resultsPanel').style.display = 'block';
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        let cflows = [], totalOut = 0, totalIn = 0;
+        let accruedGA = 0;
+
+        // Year 0 Cashflow (First Premium Outflow)
+        cflows.push(-totalAnnualPrem);
+
+        for(let yr = 1; yr <= 25; yr++) {
+            let curAge = age + yr;
+            
+            // Outflow (Years 1 to PPT-1, since Year 0 is already paid)
+            let out = 0;
+            // Note: Premium is paid at START of year. 
+            // In table, Row "1" means End of Year 1. 
+            // So premium for Year 2 is paid at start of Year 2 (which is effectively end of Year 1 time-value wise).
+            if (yr < ppt) out = totalAnnualPrem;
+
+            // GA Accrual (End of Year)
+            if(yr <= ppt) accruedGA += gaAmount; // GA accrues during PPT only? 
+            // Wait, brochure says: "Guaranteed Additions during the Policy Term... 7% of premiums paid".
+            // Actually, for Limited Pay, GA usually accrues ONLY during PPT for premiums paid.
+            // Bima Lakshmi Brochure check: "Under an in-force policy... Guaranteed Additions during the Policy Term shall accrue at the end of each policy year."
+            // "The Guaranteed Additions... shall be 7% of Total Tabular Annual Premium in respect of Premiums Paid."
+            // This usually means GA is attached every year *during PPT*. After PPT, GA stops accruing for this specific plan structure unless specified "throughout policy term".
+            // Correction: Brochure Point 4: "Under an in-force policy... Guaranteed Additions during the Policy Term shall accrue at the end of each policy year."
+            // AND "Rate ... shall be 7% of ... Annual Premium in respect of Premiums Paid".
+            // Meaning: Year 1 GA = 7% * 1 Prem. Year 2 GA = 7% * 1 Prem. 
+            // Does it accrue after PPT? "In case of fully paid-up policy... GA shall continue to accrue at the end of each policy year".
+            // YES, it accrues for the full 25 years.
+            
+            if(yr > ppt) accruedGA += gaAmount; // Continue accruing after PPT
+
+            // Survival Benefits
+            let sb = 0;
+            if (opt === 'A') {
+                if (yr === ppt) sb = sa * 0.50;
+            } else if (opt === 'B') {
+                // Payable at end of policy year 2, 4, 6... 24
+                if (yr % 2 === 0 && yr < 25) sb = sa * 0.075;
+            } else if (opt === 'C') {
+                // Payable at end of policy year 4, 8, 12, 16, 20, 24
+                if (yr % 4 === 0 && yr < 25) sb = sa * 0.15;
+            }
+
+            // Maturity Benefit (End of Year 25)
+            let maturity = 0;
+            if (yr === 25) maturity = sa + accruedGA;
+
+            // Death Benefit
+            let db = 0;
+            let totalPremiumsPaid = totalAnnualPrem * (yr < ppt ? yr : ppt); // Approx logic for display
+            if(yr === 1 && totalPremiumsPaid === 0) totalPremiumsPaid = totalAnnualPrem; // Handle Year 1 start
+
+            let saOnDeath = Math.max(sa, 10 * totalAnnualPrem);
+            let dbVal = saOnDeath + accruedGA;
+            db = Math.max(dbVal, 1.05 * totalPremiumsPaid);
+
+            let net = (sb + maturity) - out;
+            cflows.push(net);
+
+            totalOut += out; // This sums up 2nd to last premium
+            totalIn += (sb + maturity);
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${yr}</td>
+                    <td>${curAge}</td>
+                    <td class="outflow">${out > 0 ? '₹'+Math.round(out).toLocaleString() : '-'}</td>
+                    <td class="inflow">${sb > 0 ? '₹'+Math.round(sb).toLocaleString() : '-'}</td>
+                    <td class="inflow">${maturity > 0 ? '₹'+Math.round(maturity).toLocaleString() : '-'}</td>
+                    <td>₹${Math.round(accruedGA).toLocaleString()}</td>
+                    <td style="color:blue">${db > 0 ? '₹'+Math.round(db).toLocaleString() : '-'}</td>
+                    <td style="font-weight:bold">${net !== 0 ? (net > 0 ? '+' : '') + '₹'+Math.round(net).toLocaleString() : '-'}</td>
+                </tr>
+            `;
+        }
+
+        // Adjust Total Out to include Year 0 premium
+        totalOut += totalAnnualPrem; 
+
+        document.getElementById('netProfit').innerText = "₹" + Math.round(totalIn - totalOut).toLocaleString();
+        
+        // Calculate IRR using new function
+        let irrVal = calculateIRR(cflows, 0.05) * 100;
+        if(isNaN(irrVal) || !isFinite(irrVal)) irrVal = 0;
+        
+        document.getElementById('xirrVal').innerText = irrVal.toFixed(2) + "%";
+        
+        document.getElementById('tableFoot').innerHTML = `
+            <tr class="total-row">
+                <td colspan="2">TOTAL</td>
+                <td>₹${Math.round(totalOut).toLocaleString()}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>₹${Math.round(totalIn - totalOut).toLocaleString()}</td>
+            </tr>
+        `;
+    }
+    function showError(msg) {
+        const e = document.getElementById('errorMsg');
+        e.innerText = "⚠️ " + msg;
+        e.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

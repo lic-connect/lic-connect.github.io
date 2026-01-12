@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRR Generator Hub</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --fb-blue: #1877F2;
+            --turquoise: #40E0D0;
+            --dark-blue: #0e4f9e;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- BACKGROUND CHANGE HERE --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: aquamarine; /* Background set to Aquamarine */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 50px;
+        }
+
+        /* --- HEADER STYLES --- */
+        .header-container {
+            text-align: center;
+            margin: 40px 0 30px 0;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--white); /* Changed to white for better contrast on aquamarine */
+            text-shadow: 2px 4px 10px rgba(0,0,0, 0.1);
+            margin-bottom: 10px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        p.subtitle {
+            color: #004d40; /* Darker teal for readability */
+            font-size: 1.1rem;
+            font-weight: 600;
+            animation: fadeInDown 1.2s ease-out;
+        }
+
+        /* --- SEARCH BAR --- */
+        .search-box {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 50px;
+            border: 2px solid transparent;
+            font-size: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-box input:focus {
+            border-color: var(--fb-blue);
+            box-shadow: 0 10px 25px rgba(24, 119, 242, 0.2);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--fb-blue);
+            font-size: 1.2rem;
+        }
+
+        /* --- CARD GRID --- */
+        .plan-container {
+            width: 90%;
+            max-width: 700px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .plan-card {
+            background: var(--white);
+            padding: 20px 30px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid var(--fb-blue);
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Animation Delays */
+        .plan-card:nth-child(n) { animation-delay: 0.1s; }
+        .plan-card:nth-child(2n) { animation-delay: 0.2s; }
+        .plan-card:nth-child(3n) { animation-delay: 0.3s; }
+
+        .plan-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 2;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            background: rgba(24, 119, 242, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--fb-blue);
+            transition: all 0.3s ease;
+        }
+
+        .plan-info h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .plan-info span {
+            font-size: 0.85rem;
+            color: #888;
+            font-weight: 500;
+            background: #f0f2f5;
+            padding: 2px 8px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .arrow-icon {
+            color: #ccc;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        /* --- HOVER EFFECTS --- */
+        .plan-card:hover {
+            transform: scale(1.03) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0, 0.15);
+            border-left-color: var(--turquoise);
+        }
+
+        .plan-card:hover .icon-box {
+            background: var(--turquoise);
+            color: white;
+            transform: rotate(10deg);
+        }
+
+        .plan-card:hover .plan-info h3 {
+            color: var(--fb-blue);
+        }
+
+        .plan-card:hover .plan-info span {
+            background: rgba(64, 224, 208, 0.2);
+            color: var(--dark-blue);
+        }
+
+        .plan-card:hover .arrow-icon {
+            color: var(--fb-blue);
+            transform: translateX(5px);
+        }
+
+        .plan-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(240, 255, 255, 0.6));
+            transition: width 0.5s ease;
+            z-index: 1;
+        }
+        .plan-card:hover::after {
+            width: 100%;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .plan-card { padding: 15px 20px; }
+            .icon-box { width: 40px; height: 40px; font-size: 1.2rem; }
+            .plan-info h3 { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <h1>IRR Generator</h1>
+        <p class="subtitle">Select a plan to calculate returns</p>
+    </div>
+
+    <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" onkeyup="filterPlans()" placeholder="Search plan name or number...">
+    </div>
+
+    <div class="plan-container" id="planList">
+        
+        <!-- Endowment Plans -->
+        <a href="714_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-shield-alt"></i></div>
+                <div class="plan-info">
+                    <h3>New Endowment</h3>
+                    <span>Plan 714</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="715_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-heart-pulse"></i></div>
+                <div class="plan-info">
+                    <h3>New Jeevan Anand</h3>
+                    <span>Plan 715</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="717_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-money-bill-wave"></i></div>
+                <div class="plan-info">
+                    <h3>Single Premium Endowment</h3>
+                    <span>Plan 717</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <!-- Money Back Plans -->
+        <a href="720_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-hand-holding-usd"></i></div>
+                <div class="plan-info">
+                    <h3>New Money Back (20 Yrs)</h3>
+                    <span>Plan 720</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="721_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-coins"></i></div>
+                <div class="plan-info">
+                    <h3>New Money Back (25 Yrs)</h3>
+                    <span>Plan 721</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="732_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-child"></i></div>
+                <div class="plan-info">
+                    <h3>Children's Money Back</h3>
+                    <span>Plan 732</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <!-- Specific Benefits Plans -->
+        <a href="733_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-bullseye"></i></div>
+                <div class="plan-info">
+                    <h3>Jeevan Lakshya</h3>
+                    <span>Plan 733</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="734_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-graduation-cap"></i></div>
+                <div class="plan-info">
+                    <h3>Jeevan Tarun</h3>
+                    <span>Plan 734</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="736_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-chart-line"></i></div>
+                <div class="plan-info">
+                    <h3>Jeevan Labh</h3>
+                    <span>Plan 736</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="745_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-umbrella"></i></div>
+                <div class="plan-info">
+                    <h3>Jeevan Umang</h3>
+                    <span>Plan 745</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="748_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-gem"></i></div>
+                <div class="plan-info">
+                    <h3>Bima Shree</h3>
+                    <span>Plan 748</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="751_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-piggy-bank"></i></div>
+                <div class="plan-info">
+                    <h3>Micro Bachat</h3>
+                    <span>Plan 751</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <!-- Pension / Annuity -->
+        <a href="758_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-dove"></i></div>
+                <div class="plan-info">
+                    <h3>New Jeevan Shanti</h3>
+                    <span>Plan 758</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="760_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-lightbulb"></i></div>
+                <div class="plan-info">
+                    <h3>Bima Jyoti</h3>
+                    <span>Plan 760</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="764_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-star"></i></div>
+                <div class="plan-info">
+                    <h3>Bima Ratna</h3>
+                    <span>Plan 764</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="768_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-feather-alt"></i></div>
+                <div class="plan-info">
+                    <h3>Jeevan Azad</h3>
+                    <span>Plan 768</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="771_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-glass-cheers"></i></div>
+                <div class="plan-info">
+                    <h3>Jeevan Utsav</h3>
+                    <span>Plan 771</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="774_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-baby"></i></div>
+                <div class="plan-info">
+                    <h3>Amrit Baal</h3>
+                    <span>Plan 774</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="857_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-infinity"></i></div>
+                <div class="plan-info">
+                    <h3>Jeevan Akshay VII</h3>
+                    <span>Plan 857</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="862_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-blind"></i></div>
+                <div class="plan-info">
+                    <h3>Saral Pension</h3>
+                    <span>Plan 862</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="879_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-brain"></i></div>
+                <div class="plan-info">
+                    <h3>Smart Pension</h3>
+                    <span>Plan 879</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+        
+        <a href="880_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-users"></i></div>
+                <div class="plan-info">
+                    <h3>Jan Suraksha</h3>
+                    <span>Plan 880</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+        
+        <a href="881_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-rupee-sign"></i></div>
+                <div class="plan-info">
+                    <h3>Bima Lakshmi</h3>
+                    <span>Plan 881</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+        <a href="911_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-crown"></i></div>
+                <div class="plan-info">
+                    <h3>Nav Jeevan Shree (Single)</h3>
+                    <span>Plan 911</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+        
+        <a href="912_IMP.html" class="plan-card">
+            <div class="plan-content">
+                <div class="icon-box"><i class="fas fa-medal"></i></div>
+                <div class="plan-info">
+                    <h3>Nav Jeevan Shree (Limited)</h3>
+                    <span>Plan 912</span>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+
+    </div>
+
+    <script>
+        function filterPlans() {
+            var input, filter, container, cards, h3, span, i, txtValue, numValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            container = document.getElementById("planList");
+            cards = container.getElementsByClassName("plan-card");
+
+            for (i = 0; i < cards.length; i++) {
+                h3 = cards[i].getElementsByTagName("h3")[0];
+                span = cards[i].getElementsByTagName("span")[0];
+                
+                txtValue = h3.textContent || h3.innerText;
+                numValue = span.textContent || span.innerText;
+
+                if (txtValue.toUpperCase().indexOf(filter) > -1 || numValue.toUpperCase().indexOf(filter) > -1) {
+                    cards[i].style.display = "";
+                    cards[i].style.animation = "fadeInUp 0.5s ease forwards";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

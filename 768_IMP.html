@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Jeevan Azad (868) Professional IRR Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0c2f5a;
+            --accent: #0dcaf0;
+            --success: #2e7d32;
+            --danger: #d32f2f;
+            --bg: #f4f7f9;
+        }
+
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); color: #333; margin: 0; padding: 10px; }
+        .container { max-width: 1350px; margin: 0 auto; }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #001a35 100%);
+            color: white; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .main-grid { display: grid; grid-template-columns: 350px 1fr; gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        
+        .section-title { font-size: 1em; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 3px solid var(--accent); display: inline-block; }
+
+        .input-group { margin-bottom: 12px; }
+        label { display: block; font-size: 0.85em; font-weight: 600; margin-bottom: 4px; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9em; box-sizing: border-box; }
+        
+        .rider-box { background: #f0f9ff; padding: 12px; border-radius: 10px; margin: 10px 0; border: 1px solid #e0f2fe; }
+        .checkbox-container { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-weight: 600; font-size: 0.8em; }
+
+        button.btn-generate { 
+            width: 100%; background: var(--accent); color: white; border: none; padding: 12px; 
+            font-size: 1em; font-weight: 700; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: 0.3s;
+        }
+        button.btn-generate:hover { background: #0bb5d9; }
+
+        #errorMsg { color: var(--danger); background: #fef2f2; padding: 10px; border-radius: 6px; margin-top: 10px; display: none; font-weight: bold; font-size: 0.8em; border: 1px solid #fee2e2; }
+
+        .results-panel { display: none; }
+        .summary-dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .summary-card { background: var(--primary); color: white; padding: 15px; border-radius: 12px; text-align: center; }
+        .summary-card.irr { background: linear-gradient(135deg, #0dcaf0 0%, #0284c7 100%); }
+        .summary-card h3 { font-size: 0.8em; margin: 0; opacity: 0.8; }
+        .summary-card p { margin: 5px 0 0; font-size: 1.5em; font-weight: 800; }
+
+        .table-container { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.82em; min-width: 1000px;}
+        th { background: #f1f5f9; color: var(--primary); padding: 10px; border: 1px solid #e2e8f0; }
+        td { padding: 8px; text-align: center; border: 1px solid #f1f5f9; }
+        
+        .outflow { color: var(--danger); font-weight: bold; }
+        .inflow { color: var(--success); font-weight: bold; }
+        .total-row { background: #1e293b !important; color: white !important; font-weight: 800; }
+        .total-row td { border: 1px solid #334155; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>LIC Jeevan Azad (868) IRR Generator</h1>
+    </div>
+
+    <div class="main-grid">
+        <div class="card">
+            <div class="section-title">Inputs</div>
+            
+            <div class="input-group">
+                <label>Life Assured's Age (0-50)</label>
+                <input type="number" id="age" value="30">
+            </div>
+            
+            <div class="input-group">
+                <label>Sum Assured (2L - 5L)</label>
+                <input type="number" id="sumAssured" value="500000" step="25000">
+            </div>
+
+            <div class="input-group">
+                <label>Policy Term</label>
+                <select id="term" onchange="updatePPT()">
+                    <option value="15">15 Years (PPT: 7)</option>
+                    <option value="16">16 Years (PPT: 8)</option>
+                    <option value="17">17 Years (PPT: 9)</option>
+                    <option value="18">18 Years (PPT: 10)</option>
+                    <option value="19">19 Years (PPT: 11)</option>
+                    <option value="20" selected>20 Years (PPT: 12)</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label>PPT (Term - 8)</label>
+                <input type="number" id="ppt" readonly value="12" style="background:#f1f5f9">
+            </div>
+
+            <div class="rider-box">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="addbCheck" onchange="toggleInp('addbDiv', this)">
+                    <label>AD&DB Rider</label>
+                </div>
+                <div id="addbDiv" style="display:none;" class="input-group">
+                    <input type="number" id="addbSa" placeholder="ADDB SA (Max: Base SA)">
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="trCheck" onchange="toggleInp('trDiv', this)">
+                    <label>Term Rider</label>
+                </div>
+                <div id="trDiv" style="display:none;" class="input-group">
+                    <input type="number" id="trSa" placeholder="Term Rider SA (Max: Base SA/25L)">
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="pwbCheck" onchange="toggleInp('pwbDiv', this)">
+                    <label>PWB Rider</label>
+                </div>
+                <div id="pwbDiv" style="display:none;" class="input-group">
+                    <input type="number" id="propAge" placeholder="Proposer Age (18-55)">
+                </div>
+            </div>
+
+            <button class="btn-generate" onclick="generateReport()">Generate IRR Table</button>
+            <div id="errorMsg"></div>
+        </div>
+
+        <div class="results-panel" id="resultsPanel">
+            <div class="summary-dashboard">
+                <div class="summary-card">
+                    <h3>Total Net Flow</h3>
+                    <p id="netProfit">₹0</p>
+                </div>
+                <div class="summary-card irr">
+                    <h3>XIRR (Net Return)</h3>
+                    <p id="xirrVal">0.00%</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Age</th>
+                            <th>Outflow (Prem)</th>
+                            <th>Inflows</th>
+                            <th>SB</th>
+                            <th>Bonus</th>
+                            <th>FAB</th>
+                            <th>GA</th>
+                            <th>Death Benefit</th>
+                            <th>Netflow</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                    <tfoot id="tableFoot"></tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- RATES DATA ---
+    const rawTabularRates = [
+        {"Age": 0, "T15": 0.0, "T16": 0.0, "T17": 0.0, "T18": 60.25, "T19": 53.9, "T20": 48.65},
+        {"Age": 1, "T15": 0.0, "T16": 0.0, "T17": 67.05, "T18": 60.25, "T19": 53.9, "T20": 48.65},
+        {"Age": 2, "T15": 0.0, "T16": 76.75, "T17": 67.05, "T18": 60.25, "T19": 53.9, "T20": 48.65},
+        {"Age": 3, "T15": 89.55, "T16": 76.75, "T17": 67.05, "T18": 60.25, "T19": 53.9, "T20": 48.65},
+        {"Age": 4, "T15": 89.55, "T16": 76.8, "T17": 67.05, "T18": 60.25, "T19": 53.9, "T20": 48.65},
+        {"Age": 5, "T15": 89.6, "T16": 76.8, "T17": 67.05, "T18": 60.25, "T19": 53.9, "T20": 48.65},
+        {"Age": 6, "T15": 89.6, "T16": 76.85, "T17": 67.1, "T18": 60.25, "T19": 53.9, "T20": 48.65},
+        {"Age": 7, "T15": 89.7, "T16": 76.95, "T17": 67.2, "T18": 60.3, "T19": 53.95, "T20": 48.75},
+        {"Age": 8, "T15": 89.85, "T16": 77.05, "T17": 67.3, "T18": 60.4, "T19": 54.05, "T20": 48.85},
+        {"Age": 9, "T15": 89.9, "T16": 77.15, "T17": 67.4, "T18": 60.45, "T19": 54.1, "T20": 48.9},
+        {"Age": 10, "T15": 90.0, "T16": 77.25, "T17": 67.45, "T18": 60.55, "T19": 54.2, "T20": 49.0},
+        {"Age": 11, "T15": 90.1, "T16": 77.35, "T17": 67.55, "T18": 60.65, "T19": 54.3, "T20": 49.05},
+        {"Age": 12, "T15": 90.2, "T16": 77.4, "T17": 67.65, "T18": 60.75, "T19": 54.35, "T20": 49.15},
+        {"Age": 13, "T15": 90.3, "T16": 77.5, "T17": 67.7, "T18": 60.8, "T19": 54.45, "T20": 49.2},
+        {"Age": 14, "T15": 90.35, "T16": 77.55, "T17": 67.8, "T18": 60.85, "T19": 54.5, "T20": 49.3},
+        {"Age": 15, "T15": 90.4, "T16": 77.65, "T17": 67.85, "T18": 60.9, "T19": 54.55, "T20": 49.3},
+        {"Age": 16, "T15": 90.45, "T16": 77.65, "T17": 67.9, "T18": 60.95, "T19": 54.6, "T20": 49.35},
+        {"Age": 17, "T15": 90.5, "T16": 77.7, "T17": 67.9, "T18": 61.0, "T19": 54.6, "T20": 49.4},
+        {"Age": 18, "T15": 90.55, "T16": 77.75, "T17": 67.95, "T18": 61.0, "T19": 54.65, "T20": 49.4},
+        {"Age": 19, "T15": 90.55, "T16": 77.75, "T17": 67.95, "T18": 61.05, "T19": 54.65, "T20": 49.45},
+        {"Age": 20, "T15": 90.55, "T16": 77.75, "T17": 67.95, "T18": 61.05, "T19": 54.65, "T20": 49.45},
+        {"Age": 21, "T15": 90.55, "T16": 77.75, "T17": 67.95, "T18": 61.05, "T19": 54.7, "T20": 49.45},
+        {"Age": 22, "T15": 90.55, "T16": 77.75, "T17": 68.0, "T18": 61.05, "T19": 54.7, "T20": 49.45},
+        {"Age": 23, "T15": 90.55, "T16": 77.8, "T17": 68.0, "T18": 61.05, "T19": 54.7, "T20": 49.5},
+        {"Age": 24, "T15": 90.6, "T16": 77.8, "T17": 68.0, "T18": 61.1, "T19": 54.75, "T20": 49.5},
+        {"Age": 25, "T15": 90.6, "T16": 77.8, "T17": 68.05, "T18": 61.1, "T19": 54.75, "T20": 49.55},
+        {"Age": 26, "T15": 90.65, "T16": 77.85, "T17": 68.05, "T18": 61.15, "T19": 54.8, "T20": 49.6},
+        {"Age": 27, "T15": 90.65, "T16": 77.9, "T17": 68.1, "T18": 61.2, "T19": 54.85, "T20": 49.65},
+        {"Age": 28, "T15": 90.7, "T16": 77.95, "T17": 68.15, "T18": 61.25, "T19": 54.9, "T20": 49.7},
+        {"Age": 29, "T15": 90.75, "T16": 78.0, "T17": 68.2, "T18": 61.3, "T19": 54.95, "T20": 49.75},
+        {"Age": 30, "T15": 90.85, "T16": 78.05, "T17": 68.25, "T18": 61.4, "T19": 55.05, "T20": 49.85},
+        {"Age": 31, "T15": 90.9, "T16": 78.15, "T17": 68.35, "T18": 61.5, "T19": 55.15, "T20": 49.95},
+        {"Age": 32, "T15": 91.0, "T16": 78.2, "T17": 68.45, "T18": 61.6, "T19": 55.25, "T20": 50.05},
+        {"Age": 33, "T15": 91.1, "T16": 78.35, "T17": 68.55, "T18": 61.7, "T19": 55.4, "T20": 50.2},
+        {"Age": 34, "T15": 91.2, "T16": 78.45, "T17": 68.7, "T18": 61.85, "T19": 55.55, "T20": 50.35},
+        {"Age": 35, "T15": 91.35, "T16": 78.6, "T17": 68.85, "T18": 62.0, "T19": 55.7, "T20": 50.55},
+        {"Age": 36, "T15": 91.5, "T16": 78.75, "T17": 69.0, "T18": 62.2, "T19": 55.9, "T20": 50.75},
+        {"Age": 37, "T15": 91.7, "T16": 78.95, "T17": 69.2, "T18": 62.4, "T19": 56.1, "T20": 50.95},
+        {"Age": 38, "T15": 91.9, "T16": 79.15, "T17": 69.45, "T18": 62.6, "T19": 56.35, "T20": 51.2},
+        {"Age": 39, "T15": 92.15, "T16": 79.4, "T17": 69.7, "T18": 62.9, "T19": 56.6, "T20": 51.5},
+        {"Age": 40, "T15": 92.4, "T16": 79.7, "T17": 69.95, "T18": 63.2, "T19": 56.95, "T20": 51.8},
+        {"Age": 41, "T15": 92.7, "T16": 80.0, "T17": 70.3, "T18": 63.5, "T19": 57.3, "T20": 52.15},
+        {"Age": 42, "T15": 93.05, "T16": 80.35, "T17": 70.65, "T18": 63.9, "T19": 57.65, "T20": 52.6},
+        {"Age": 43, "T15": 93.45, "T16": 80.75, "T17": 71.05, "T18": 64.35, "T19": 58.1, "T20": 53.05},
+        {"Age": 44, "T15": 93.9, "T16": 81.2, "T17": 71.5, "T18": 64.8, "T19": 58.6, "T20": 53.5},
+        {"Age": 45, "T15": 94.4, "T16": 81.7, "T17": 72.05, "T18": 65.35, "T19": 59.15, "T20": 54.05},
+        {"Age": 46, "T15": 94.95, "T16": 82.25, "T17": 72.6, "T18": 65.9, "T19": 59.75, "T20": 54.7},
+        {"Age": 47, "T15": 95.55, "T16": 82.85, "T17": 73.2, "T18": 66.55, "T19": 60.35, "T20": 55.35},
+        {"Age": 48, "T15": 96.2, "T16": 83.55, "T17": 73.9, "T18": 67.25, "T19": 61.1, "T20": 56.05},
+        {"Age": 49, "T15": 96.95, "T16": 84.25, "T17": 74.6, "T18": 68.0, "T19": 61.85, "T20": 56.8},
+        {"Age": 50, "T15": 97.7, "T16": 85.05, "T17": 75.4, "T18": 68.8, "T19": 62.65, "T20": 57.65}
+    ];
+
+    const pwbRiderRates = [
+        {"Term": 5, "A": 1.7, "B": 1.7, "C": 1.85, "D": 2.1, "E": 2.45, "F": 3.1, "G": 4.1},
+        {"Term": 6, "A": 1.8, "B": 1.85, "C": 1.95, "D": 2.25, "E": 2.7, "F": 3.55, "G": 4.8},
+        {"Term": 7, "A": 1.9, "B": 1.9, "C": 2.1, "D": 2.4, "E": 2.95, "F": 4, "G": 5.55},
+        {"Term": 8, "A": 1.95, "B": 2, "C": 2.2, "D": 2.6, "E": 3.25, "F": 4.5, "G": 6.3},
+        {"Term": 9, "A": 2, "B": 2.1, "C": 2.3, "D": 2.8, "E": 3.6, "F": 5, "G": 7.05},
+        {"Term": 10, "A": 2.2, "B": 2.25, "C": 2.55, "D": 3.1, "E": 4.05, "F": 5.75, "G": 8.15},
+        {"Term": 11, "A": 2.25, "B": 2.4, "C": 2.65, "D": 3.3, "E": 4.4, "F": 6.35, "G": 9},
+        {"Term": 12, "A": 2.3, "B": 2.45, "C": 2.8, "D": 3.5, "E": 4.8, "F": 6.9, "G": 9.85}
+    ];
+
+    // Helper: Map data for easier access
+    const baseRates = rawTabularRates.reduce((acc, item) => {
+        const age = item.Age;
+        acc[age] = {};
+        for (const key in item) {
+            if (key !== 'Age' && item[key] !== 0.0) {
+                const term = parseInt(key.substring(1));
+                acc[age][term] = item[key];
+            }
+        }
+        return acc;
+    }, {});
+
+    function updatePPT() { document.getElementById('ppt').value = document.getElementById('term').value - 8; }
+    function toggleInp(id, cb) { document.getElementById(id).style.display = cb.checked ? 'block' : 'none'; }
+
+    function xirr(values) {
+        let x = 0.1;
+        for (let i = 0; i < 100; i++) {
+            let f = 0, df = 0;
+            for (let j = 0; j < values.length; j++) {
+                let p = Math.pow(1 + x, j);
+                f += values[j] / p;
+                df -= j * values[j] / (p * (1 + x));
+            }
+            if (Math.abs(df) < 1e-12) break;
+            x = x - f / df;
+        }
+        return x;
+    }
+
+    function generateReport() {
+        const age = parseInt(document.getElementById('age').value);
+        const sa = parseInt(document.getElementById('sumAssured').value);
+        const term = parseInt(document.getElementById('term').value);
+        const ppt = term - 8;
+        const err = document.getElementById('errorMsg');
+        err.style.display = 'none';
+
+        // --- VALIDATIONS ---
+        if (age > 50) { showError("Max Entry Age is 50"); return; }
+        if (term == 15 && age < 3) { showError("Min Age for T15 is 3"); return; }
+        if (term == 16 && age < 2) { showError("Min Age for T16 is 2"); return; }
+        if (term == 17 && age < 1) { showError("Min Age for T17 is 1"); return; }
+        
+        if (sa < 200000 || sa > 500000) { showError("Sum Assured must be between 2L and 5L"); return; }
+
+        const hasAddb = document.getElementById('addbCheck').checked;
+        const addbInput = document.getElementById('addbSa').value;
+        const addbSa = addbInput ? parseInt(addbInput) : sa; // Default to SA if empty
+
+        const hasTr = document.getElementById('trCheck').checked;
+        const trSa = parseInt(document.getElementById('trSa').value) || 0;
+        
+        const hasPwb = document.getElementById('pwbCheck').checked;
+        const propAge = parseInt(document.getElementById('propAge').value) || 0;
+
+        if (hasAddb && (addbSa > sa || addbSa > 10000000)) { showError("ADDB capped at SA or 1Cr"); return; }
+        if (hasTr && (trSa > sa || trSa > 2500000)) { showError("Term Rider capped at SA or 25L"); return; }
+        if (hasPwb) {
+            if (age > 17) { showError("PWB is only applicable if Insured Age is <= 17"); return; }
+            if (isNaN(propAge) || propAge < 18 || propAge > 55) { showError("Proposer Age must be 18-55 for PWB"); return; }
+        }
+
+        // --- PREMIUM CALCULATION (Matching Official Figures) ---
+        const tabularRate = baseRates[age]?.[term];
+        if (!tabularRate) { showError("Rate not found"); return; }
+
+        const annualTabularPremium = (tabularRate * sa) / 1000;
+
+        // Rebate Logic (From BSMDT)
+        let saRebateRate = 0;
+        if (hasAddb) {
+            if (age >= 1 && age <= 17) {
+                if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; 
+            } else if (age >= 18 && age <= 50) {
+                if (term === 15) { if (sa === 500000) saRebateRate = 1.40; else if (sa >= 400000) saRebateRate = 1.00; else if (sa >= 300000) saRebateRate = 0.20; }
+                else if (term === 16) { if (sa === 500000) saRebateRate = 1.55; else if (sa >= 400000) saRebateRate = 1.15; else if (sa >= 300000) saRebateRate = 0.35; else if (sa >=200000) saRebateRate = 0.15; }
+                else if (term === 17) { if (sa === 500000) saRebateRate = 1.60; else if (sa >= 400000) saRebateRate = 1.20; else if (sa >= 300000) saRebateRate = 0.40; else if (sa >= 200000) saRebateRate = 0.20; }
+                else if (term === 18) { if (sa === 500000) saRebateRate = 1.70; else if (sa >= 400000) saRebateRate = 1.30; else if (sa >= 300000) saRebateRate = 0.50; else if (sa >= 200000) saRebateRate = 0.30; }
+                else if (term === 19) { if (sa === 500000) saRebateRate = 1.75; else if (sa >= 400000) saRebateRate = 1.35; else if (sa >= 300000) saRebateRate = 0.60; else if (sa >= 200000) saRebateRate = 0.35; }
+                else if (term === 20) { if (sa === 500000) saRebateRate = 1.80; else if (sa >= 400000) saRebateRate = 1.40; else if (sa >= 300000) saRebateRate = 0.60; else if (sa >= 200000) saRebateRate = 0.40; }
+            }
+        } else {
+             if (age >= 1 && age <= 17) {
+                if (sa === 500000) saRebateRate = 2.50; else if (sa >= 400000) saRebateRate = 2.00; else if (sa >= 300000) saRebateRate = 1.00;
+            } else if (age >= 18 && age <= 50) {
+                if (term === 15) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+                else if (term === 16) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+                else if (term === 17) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+                else if (term === 18) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.49; else if (sa >= 300000) saRebateRate = 0.50; }
+                else if (term === 19) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+                else if (term === 20) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+            }
+        }
+
+        const annualSaRebateAmount = (saRebateRate * sa) / 1000;
+        let basicPremium = annualTabularPremium - annualSaRebateAmount;
+        // Mode Rebate for Yearly (2%)
+        basicPremium = basicPremium - (annualTabularPremium * 0.02);
+
+        // ADDB Premium
+        let dabRatePer1000 = 1.0;
+        if (sa === 500000) dabRatePer1000 = 1.20; else if (sa >= 400000) dabRatePer1000 = 1.30; else if (sa >= 300000) dabRatePer1000 = 1.50; else if (sa>=200000) dabRatePer1000 = 1.80;
+        
+        let annualAddbPremium = 0;
+        if (age >= 18 && hasAddb) { annualAddbPremium = (dabRatePer1000 * addbSa) / 1000; }
+
+        // Term Rider Premium (Using 2.8 estimate from IMP file as BSMDT had no specific array, but constraints exist)
+        let annualTrPremium = 0;
+        if (hasTr) { annualTrPremium = (2.8 * trSa) / 1000; }
+
+        // PWB Premium
+        let annualPwbPremium = 0;
+        if (hasPwb) {
+             let ageBandCol = propAge <= 25 ? 'A' : propAge <= 30 ? 'B' : propAge <= 35 ? 'C' : propAge <= 40 ? 'D' : propAge <= 45 ? 'E' : propAge <= 50 ? 'F' : 'G';
+             let row = pwbRiderRates.find(item => item.Term === ppt);
+             if (row) {
+                let pwbRate = row[ageBandCol];
+                // PWB Calculation from BSMDT: ((AnnualTabular * Rate) / 100) * 1.1
+                annualPwbPremium = ((annualTabularPremium * pwbRate) / 100) * 1.1; 
+             }
+        }
+
+        const totalAnnualPremium = Math.round(basicPremium + annualAddbPremium + annualTrPremium + annualPwbPremium);
+
+        // --- GENERATE TABLE ---
+        document.getElementById('resultsPanel').style.display = 'block';
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        let cflows = [], totalOut = 0, lastDB = 0, totalIn = 0;
+
+        for (let yr = 0; yr <= term; yr++) {
+            let out = (yr < ppt) ? totalAnnualPremium : 0;
+            let inf = (yr == term) ? sa : 0;
+            
+            // Death Benefit Logic (Plan 868)
+            let db = 0;
+            if (yr < term) {
+                let totalPaid = totalAnnualPremium * (yr + 1);
+                // Risk commencement for minors
+                let riskCommenced = true;
+                if (age < 8) {
+                    // Risk starts 2 years after policy or at age 8, whichever is earlier
+                    if (yr < 2 && (age + yr) < 8) riskCommenced = false;
+                }
+                
+                if (riskCommenced) {
+                    // Max(Basic SA, 7 * Annualized Premium, 105% of Total Premiums)
+                    db = Math.max(sa, 7 * totalAnnualPremium, 1.05 * totalPaid);
+                } else {
+                    db = totalPaid; // Refund of premium
+                }
+            }
+
+            cflows.push(inf - out);
+            totalOut += out;
+            totalIn += inf;
+            lastDB = db;
+
+            tbody.innerHTML += `<tr>
+                <td>${yr}</td><td>${age+yr}</td>
+                <td class="outflow">${out > 0 ? '₹'+out.toLocaleString() : '-'}</td>
+                <td class="inflow">${inf > 0 ? '₹'+inf.toLocaleString() : '-'}</td>
+                <td>${inf > 0 ? '₹'+inf.toLocaleString() : '0'}</td>
+                <td>0</td><td>0</td><td>0</td>
+                <td style="color:blue">₹${db > 0 ? db.toLocaleString() : '-'}</td>
+                <td style="font-weight:bold">${(inf-out) >= 0 ? '+' : ''}₹${(inf-out).toLocaleString()}</td>
+            </tr>`;
+        }
+
+        document.getElementById('xirrVal').innerText = (xirr(cflows) * 100).toFixed(2) + "%";
+        document.getElementById('netProfit').innerText = "₹" + (totalIn - totalOut).toLocaleString();
+        document.getElementById('tableFoot').innerHTML = `
+            <tr class="total-row">
+                <td colspan="2">TOTAL</td>
+                <td>₹${totalOut.toLocaleString()}</td>
+                <td>₹${totalIn.toLocaleString()}</td>
+                <td>₹${totalIn.toLocaleString()}</td>
+                <td>0</td><td>0</td><td>0</td>
+                <td>-</td>
+                <td>₹${(totalIn - totalOut).toLocaleString()}</td>
+            </tr>`;
+    }
+
+    function showError(m) { const e = document.getElementById('errorMsg'); e.innerText = "⚠️ " + m; e.style.display = 'block'; }
+</script>
+</body>
+</html>

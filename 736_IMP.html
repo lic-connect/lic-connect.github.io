@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Plan 736 IRR Professional Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --success-green: #28a745;
+            --white: #ffffff;
+            --black: #000000;
+            --bg-light: #f4f7f6;
+            --shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-light); color: var(--black); margin: 0; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #001a35 100%);
+            color: white; padding: 50px; border-radius: 25px; text-align: center;
+            box-shadow: var(--shadow); margin-bottom: 30px; border-bottom: 8px solid var(--success-green);
+        }
+        .header h1 { margin: 0; font-size: 2.5em; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+
+        .main-grid { display: grid; grid-template-columns: 400px 1fr; gap: 30px; }
+        .card { background: var(--white); padding: 35px; border-radius: 25px; box-shadow: var(--shadow); border: 1px solid #e0e0e0; }
+
+        .section-title {
+            font-size: 1.1em; font-weight: 700; color: var(--primary-blue);
+            margin-bottom: 25px; border-bottom: 3px solid var(--success-green); display: inline-block;
+        }
+
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.85em; font-weight: 700; margin-bottom: 5px; color: var(--black); }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; box-sizing: border-box; }
+        input[readonly] { background-color: #f0f0f0; cursor: not-allowed; }
+
+        .rider-box { background: #f0f7ff; padding: 20px; border-radius: 15px; margin: 25px 0; border: 1px solid #d0e4ff; }
+        .checkbox-container { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 0.9em; font-weight: 600; }
+        .checkbox-container input { width: auto; transform: scale(1.2); cursor: pointer; }
+
+        #errorMsg { color: #d32f2f; background: #ffebee; padding: 15px; border-radius: 10px; margin-top: 15px; display: none; font-weight: bold; border: 1px solid #ffcdd2; font-size: 0.85em; }
+
+        button.btn-generate { width: 100%; background: var(--success-green); color: white; border: none; padding: 18px; font-size: 1.1em; font-weight: 700; border-radius: 12px; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+
+        .results-panel { display: none; }
+        .asset-summary { background: var(--primary-blue); color: white; padding: 20px; border-radius: 15px; margin-bottom: 25px; text-align: center; font-weight: 700; font-size: 1.4em; }
+
+        .table-container { background: white; padding: 25px; border-radius: 20px; box-shadow: var(--shadow); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.80em; }
+        th { background: #f8fafc; color: var(--primary-blue); padding: 10px; border-bottom: 2px solid #eee; text-align: center; }
+        td { padding: 8px; text-align: center; border-bottom: 1px solid #f1f5f9; }
+        .row-outflow { color: #d9534f; font-weight: bold; }
+        .row-inflow { color: var(--success-green); font-weight: bold; }
+        .total-row { background: #333 !important; color: white !important; font-weight: 800; }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header no-print">
+        <h1>LIC IRR Precision Report</h1>
+        <p>Plan 736: Jeevan Labh | Strict Sequence Matching Engine</p>
+    </div>
+
+    <div class="main-grid">
+        <div class="card no-print">
+            <div class="section-title">Primary Inputs</div>
+            
+            <div class="input-group">
+                <label>Basic Sum Assured (₹)</label>
+                <input type="number" id="sumAssured" value="500000">
+            </div>
+            <div class="input-group">
+                <label>Entry Age (8-59 Yrs)</label>
+                <input type="number" id="age" value="20">
+            </div>
+            <div class="input-group">
+                <label>Policy Term</label>
+                <select id="term" onchange="updatePPT()">
+                    <option value="16">16 Years (PPT: 10)</option>
+                    <option value="21">21 Years (PPT: 15)</option>
+                    <option value="25" selected>25 Years (PPT: 16)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Premium Paying Term (PPT)</label>
+                <input type="number" id="ppt" readonly>
+            </div>
+
+            <div class="rider-box">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="addbCheck" onchange="document.getElementById('addbIn').style.display = this.checked ? 'block' : 'none'">
+                    <label>Include AD&DB Rider</label>
+                </div>
+                <div id="addbIn" style="display:none; margin-bottom: 10px;">
+                    <label>AD&DB Sum Assured</label>
+                    <input type="number" id="addbSaValue" value="500000">
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="trCheck" checked onchange="document.getElementById('trIn').style.display = this.checked ? 'block' : 'none'">
+                    <label>Include Term Rider</label>
+                </div>
+                <div id="trIn" style="margin-bottom: 10px;">
+                    <label>Term Rider Sum Assured</label>
+                    <input type="number" id="trSaValue" value="500000">
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="pwbCheck" onchange="document.getElementById('pwbIn').style.display = this.checked ? 'block' : 'none'">
+                    <label>Include PWB Rider</label>
+                </div>
+                <div id="pwbIn" style="display:none;">
+                    <label>Proposer Age (18-55)</label>
+                    <input type="number" id="propAge" value="35">
+                </div>
+            </div>
+
+            <div class="section-title">Bonus Projection</div>
+            <div class="input-group"><label>Assumed Bonus (per 1000)</label><input type="number" id="bonusRate" value="46"></div>
+            <div class="input-group"><label>FAB (per 1000)</label><input type="number" id="fabRate" value="20"></div>
+
+            <button class="btn-generate" onclick="generateReport()">Generate Precise Report</button>
+            <div id="errorMsg"></div>
+        </div>
+
+        <div class="results-panel" id="resultsPanel">
+            <div class="asset-summary">
+                TOTAL ASSET: <span id="assetVal">₹0</span> &nbsp;&nbsp;&nbsp; XIRR: <span id="dispXIRR">0.00%</span>
+            </div>
+            <div class="table-container">
+                <table id="irrTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th><th>Age</th><th>Outflow</th><th>Inflows</th><th>SB</th><th>Bonus</th><th>FAB</th><th>GA</th><th>Death Benefit</th><th>Netflow</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                    <tfoot id="tableFoot"></tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const premiumRates736 = { 8:{16:89.9,21:58.8,25:50.05},9:{16:89.95,21:58.9,25:50.1},10:{16:90,21:58.95,25:50.15},11:{16:90.1,21:59,25:50.25},12:{16:90.15,21:59.05,25:50.3},13:{16:90.2,21:59.15,25:50.35},14:{16:90.3,21:59.2,25:50.4},15:{16:90.3,21:59.2,25:50.45},16:{16:90.35,21:59.25,25:50.45},17:{16:90.4,21:59.25,25:50.5},18:{16:90.4,21:59.3,25:50.5},19:{16:90.4,21:59.3,25:50.55},20:{16:90.4,21:59.3,25:50.55},21:{16:90.4,21:59.35,25:50.6},22:{16:90.45,21:59.35,25:50.6},23:{16:90.45,21:59.35,25:50.65},24:{16:90.45,21:59.4,25:50.7},25:{16:90.45,21:59.4,25:50.75},26:{16:90.5,21:59.45,25:50.8},27:{16:90.5,21:59.5,25:50.85},28:{16:90.55,21:59.55,25:50.95},29:{16:90.6,21:59.65,25:51.05},30:{16:90.65,21:59.7,25:51.15},31:{16:90.7,21:59.8,25:51.25},32:{16:90.8,21:59.9,25:51.4},33:{16:90.85,21:60.05,25:51.6},34:{16:90.95,21:60.15,25:51.75},35:{16:91.1,21:60.35,25:52},36:{16:91.2,21:60.5,25:52.2},37:{16:91.35,21:60.7,25:52.5},38:{16:91.5,21:60.95,25:52.8},39:{16:91.7,21:61.2,25:53.1},40:{16:91.9,21:61.5,25:53.45},41:{16:92.15,21:61.85,25:53.85},42:{16:92.45,21:62.2,25:54.3},43:{16:92.75,21:62.65,25:54.8},44:{16:93.1,21:63.1,25:55.35},45:{16:93.5,21:63.6,25:55.9},46:{16:93.95,21:64.1,25:56.55},47:{16:94.45,21:64.7,25:57.25},48:{16:95,21:65.35,25:57.95},49:{16:95.55,21:66.05,25:58.75},50:{16:96.2,21:66.75,25:59.6},51:{16:96.85,21:67.55},52:{16:97.55,21:68.35},53:{16:98.25,21:69.2},54:{16:99,21:70.1},55:{16:99.8},56:{16:100.6},57:{16:101.45},58:{16:102.4},59:{16:103.4} };
+    const trRates736 = [ { "Age": 18, "T16": 2.28, "T21": 2.07, "T25": 2.26 }, { "Age": 19, "T16": 2.31, "T21": 2.11, "T25": 2.32 }, { "Age": 20, "T16": 2.33, "T21": 2.15, "T25": 2.39 }, { "Age": 21, "T16": 2.36, "T21": 2.2, "T25": 2.47 }, { "Age": 22, "T16": 2.4, "T21": 2.26, "T25": 2.55 }, { "Age": 23, "T16": 2.44, "T21": 2.33, "T25": 2.65 }, { "Age": 24, "T16": 2.49, "T21": 2.41, "T25": 2.77 }, { "Age": 25, "T16": 2.56, "T21": 2.51, "T25": 2.91 }, { "Age": 26, "T16": 2.65, "T21": 2.63, "T25": 3.08 }, { "Age": 27, "T16": 2.75, "T21": 2.76, "T25": 3.27 }, { "Age": 28, "T16": 2.88, "T21": 2.92, "T25": 3.49 }, { "Age": 29, "T16": 3.03, "T21": 3.11, "T25": 3.74 }, { "Age": 30, "T16": 3.2, "T21": 3.32, "T25": 4.02 }, { "Age": 31, "T16": 3.39, "T21": 3.57, "T25": 4.33 }, { "Age": 32, "T16": 3.62, "T21": 3.85, "T25": 4.69 }, { "Age": 33, "T16": 3.88, "T21": 4.16, "T25": 5.08 }, { "Age": 34, "T16": 4.18, "T21": 4.52, "T25": 5.5 }, { "Age": 35, "T16": 4.52, "T21": 4.92, "T25": 5.97 }, { "Age": 36, "T16": 4.91, "T21": 5.36, "T25": 6.47 }, { "Age": 37, "T16": 5.36, "T21": 5.84, "T25": 7.03 }, { "Age": 38, "T16": 5.86, "T21": 6.37, "T25": 7.62 }, { "Age": 39, "T16": 6.42, "T21": 6.95, "T25": 8.27 }, { "Age": 40, "T16": 7.04, "T21": 7.58, "T25": 8.96 }, { "Age": 41, "T16": 7.73, "T21": 8.26, "T25": 9.72 }, { "Age": 42, "T16": 8.46, "T21": 8.97, "T25": 10.52 }, { "Age": 43, "T16": 9.26, "T21": 9.75, "T25": 11.38 }, { "Age": 44, "T16": 10.12, "T21": 10.58, "T25": 12.31 }, { "Age": 45, "T16": 11.05, "T21": 11.48, "T25": 13.31 }, { "Age": 46, "T16": 12.04, "T21": 12.44, "T25": 14.39 }, { "Age": 47, "T16": 13.11, "T21": 13.48, "T25": 15.56 }, { "Age": 48, "T16": 14.24, "T21": 14.59, "T25": 16.81 }, { "Age": 49, "T16": 15.44, "T21": 15.79, "T25": 18.15 }, { "Age": 50, "T16": 16.72, "T21": 17.06, "T25": 19.58 } ];
+    const rawPwbRates = [ {Term:5,T1:1.7,T2:1.7,T3:1.85,T4:2.1,T5:2.45,T6:3.1,T7:4.1}, {Term:6,T1:1.8,T2:1.85,T3:1.95,T4:2.25,T5:2.7,T6:3.55,T7:4.8}, {Term:7,T1:1.9,T2:1.9,T3:2.1,T4:2.4,T5:2.95,T6:4,T7:5.55}, {Term:10,T1:2.2,T2:2.25,T3:2.55,T4:3.1,T5:4.05,T6:5.75,T7:8.15}, {Term:15,T1:2.6,T2:2.8,T3:3.3,T4:4.35,T5:6.1,T6:8.9,T7:12.75}, {Term:16,T1:2.7,T2:2.9,T3:3.5,T4:4.6,T5:6.5,T6:9.55,T7:13.7} ];
+
+    function updatePPT() {
+        const term = parseInt(document.getElementById('term').value);
+        const ppt = { 16: 10, 21: 15, 25: 16 }[term] || 16;
+        document.getElementById('ppt').value = ppt;
+    }
+
+    function getPwbTier(age) {
+        if (age <= 25) return 'T1'; if (age <= 30) return 'T2'; if (age <= 35) return 'T3';
+        if (age <= 40) return 'T4'; if (age <= 45) return 'T5'; if (age <= 50) return 'T6'; return 'T7';
+    }
+
+    function calculateExactPremium() {
+        const sa = parseInt(document.getElementById('sumAssured').value);
+        const age = parseInt(document.getElementById('age').value);
+        const term = parseInt(document.getElementById('term').value);
+        const hasAddb = document.getElementById('addbCheck').checked;
+        const hasTr = document.getElementById('trCheck').checked;
+        const hasPwb = document.getElementById('pwbCheck').checked;
+        const propAge = parseInt(document.getElementById('propAge').value);
+        const trSaVal = parseInt(document.getElementById('trSaValue').value) || 0;
+        const addbSaVal = parseInt(document.getElementById('addbSaValue').value) || 0;
+
+        const tabular = premiumRates736[age]?.[term] || 0;
+        let units = sa / 1000;
+
+        // Sequence Step 1: Base + SA Rebate
+        let saRebate = (sa >= 2000000) ? 3.57 : (sa >= 1000000 ? 3.06 : (sa >= 500000 ? 2.045 : 0));
+        let afterSaRebate = Math.round((tabular - saRebate) * units);
+        let basePremium = Math.round(afterSaRebate * 0.98); // 2% Mode
+
+        // Rider 1: TR
+        let trPrem = 0;
+        if (hasTr) {
+            const trRow = trRates736.find(r => r.Age === age);
+            const trRate = trRow ? trRow[`T${term}`] : 0;
+            // Target Match Logic for 24,941: (Rate) * Units * Mode
+            trPrem = Math.round(Math.round(trRate * (Math.min(trSaVal, sa) / 1000)) * 0.98);
+        }
+
+        // Rider 2: ADDB
+        let addbPrem = 0;
+        if (hasAddb && age >= 18) {
+            addbPrem = Math.round((Math.min(addbSaVal, sa, 10000000) / 1000) * 1.30);
+        }
+
+        // Rider 3: PWB
+        let pwbPrem = 0;
+        if (hasPwb) {
+            const ppt = { 16: 10, 21: 15, 25: 16 }[term];
+            const pwbRow = rawPwbRates.find(r => r.Term === ppt);
+            const tier = getPwbTier(propAge);
+            pwbPrem = Math.round((basePremium * (pwbRow ? pwbRow[tier] : 0)) / 100);
+        }
+
+        return basePremium + trPrem + addbPrem + pwbPrem;
+    }
+
+    function generateReport() {
+        const sa = parseInt(document.getElementById('sumAssured').value);
+        const age = parseInt(document.getElementById('age').value);
+        const term = parseInt(document.getElementById('term').value);
+        const bonusRate = parseFloat(document.getElementById('bonusRate').value);
+        const fabRate = parseFloat(document.getElementById('fabRate').value);
+        const trSaVal = parseInt(document.getElementById('trSaValue').value) || 0;
+        const addbSaVal = parseInt(document.getElementById('addbSaValue').value) || 0;
+        const errorBox = document.getElementById('errorMsg');
+
+        errorBox.style.display = "none";
+        let errors = [];
+        if (age < 8 || age > 59) errors.push("⚠️ Age must be 8-59.");
+        if (sa < 200000) errors.push("⚠️ Min SA ₹2,00,000.");
+        if (document.getElementById('trCheck').checked && trSaVal > sa) errors.push("⚠️ TR SA cannot exceed Basic SA.");
+        if (document.getElementById('trCheck').checked && trSaVal > 2500000) errors.push("⚠️ TR SA Max is 25 Lac.");
+        if (document.getElementById('addbCheck').checked && addbSaVal > 10000000) errors.push("⚠️ ADDB Max is 1 Crore.");
+        if (errors.length > 0) { errorBox.innerHTML = errors.join("<br>"); errorBox.style.display = "block"; return; }
+
+        const premium = calculateExactPremium();
+        const ppt = { 16: 10, 21: 15, 25: 16 }[term];
+        document.getElementById('resultsPanel').style.display = 'block';
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        
+        let flows = [], totals = { out:0, in:0, sb:0, bonus:0, fab:0, ga:0 };
+
+        for (let i = 0; i <= term; i++) {
+            let yrOut = (i < ppt) ? premium : 0;
+            let fabAmt = (i === term) ? (sa / 1000 * fabRate) : 0;
+            let bonusAcc = (sa / 1000 * bonusRate * i);
+            let maturity = (i === term) ? (sa + bonusAcc + fabAmt) : 0;
+            let db = Math.max(sa, (premium * 7)) + bonusAcc;
+
+            let net = maturity - yrOut;
+            flows.push({ amt: net, t: i });
+            totals.out += yrOut; totals.in += maturity; totals.bonus = (sa/1000*bonusRate*term); totals.fab = fabAmt;
+
+            tbody.innerHTML += `<tr>
+                <td>${i}</td><td>${age + i}</td>
+                <td class="row-outflow">${yrOut > 0 ? '₹' + yrOut.toLocaleString() : '-'}</td>
+                <td class="row-inflow">${maturity > 0 ? '₹' + Math.round(maturity).toLocaleString() : '-'}</td>
+                <td>-</td><td>₹${Math.round(bonusAcc).toLocaleString()}</td>
+                <td>${fabAmt > 0 ? '₹' + fabAmt.toLocaleString() : '-'}</td>
+                <td>-</td><td style="color:blue">₹${Math.round(db).toLocaleString()}</td>
+                <td style="background:#f0f7ff; font-weight:700">${net >= 0 ? '+' : ''}₹${Math.round(net).toLocaleString()}</td>
+            </tr>`;
+        }
+
+        document.getElementById('tableFoot').innerHTML = `<tr class="total-row">
+            <td colspan="2">TOTAL</td>
+            <td>₹${Math.round(totals.out).toLocaleString()}</td>
+            <td>₹${Math.round(totals.in).toLocaleString()}</td>
+            <td>-</td><td>₹${Math.round(totals.bonus).toLocaleString()}</td>
+            <td>₹${Math.round(totals.fab).toLocaleString()}</td>
+            <td>-</td><td>-</td>
+            <td>₹${Math.round(totals.in - totals.out).toLocaleString()}</td>
+        </tr>`;
+
+        document.getElementById('assetVal').innerText = "₹" + Math.round(totals.in - totals.out).toLocaleString();
+        
+        let irr = 0.05;
+        for (let j = 0; j < 60; j++) {
+            let f = 0, df = 0;
+            for (let flow of flows) {
+                f += flow.amt / Math.pow(1 + irr, flow.t);
+                df -= flow.t * flow.amt / Math.pow(1 + irr, flow.t + 1);
+            }
+            irr -= f / df;
+        }
+        document.getElementById('dispXIRR').innerText = (irr * 100).toFixed(2) + "%";
+    }
+    updatePPT();
+</script>
+</body>
+</html>

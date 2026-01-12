@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Bima Shree (748) Professional IRR Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #004d40; 
+            --success-green: #2e7d32;
+            --white: #ffffff;
+            --black: #000000;
+            --bg-light: #f1f8e9;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--black);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #00251a 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        .header h1 { margin: 0; font-size: 2.5em; text-transform: uppercase; letter-spacing: 2px; }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid #e0e0e0;
+        }
+
+        .section-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--success-green);
+            display: inline-block;
+        }
+
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.85em; font-weight: 600; margin-bottom: 5px; }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        input[readonly] { background-color: #f0f0f0; cursor: not-allowed; font-weight: bold; }
+
+        .rider-box {
+            background: #e0f2f1;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 1px solid #b2dfdb;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        #errorMsg {
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            font-weight: bold;
+            border: 1px solid #ffcdd2;
+            font-size: 0.85em;
+        }
+
+        button.btn-generate {
+            width: 100%;
+            background: var(--success-green);
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.1em;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .results-panel { display: none; }
+        
+        /* Summary Highlight Section */
+        .summary-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: var(--primary-blue);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-card.irr-box {
+            background: linear-gradient(135deg, #fbc02d 0%, #f57f17 100%);
+            color: #000;
+        }
+
+        .summary-card h3 { margin: 0; font-size: 0.8em; text-transform: uppercase; opacity: 0.8; }
+        .summary-card p { margin: 10px 0 0; font-size: 1.8em; font-weight: 800; }
+
+        .table-container {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+        th { background: #e0f2f1; color: var(--primary-blue); padding: 12px; border-bottom: 2px solid #b2dfdb; text-align: center; }
+        td { padding: 10px; text-align: center; border-bottom: 1px solid #f1f5f9; }
+        .row-outflow { color: #d9534f; font-weight: bold; }
+        .row-inflow { color: var(--success-green); font-weight: bold; }
+        .total-row { background: #333 !important; color: white !important; font-weight: 800; }
+        .info-small { font-size: 0.75em; color: #666; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>LIC Bima Shree (748)</h1>
+        <p>Premium & XIRR Yield Report Generator</p>
+    </div>
+
+    <div class="main-grid">
+        <div class="card">
+            <div class="section-title">Primary Inputs</div>
+            
+            <div class="input-group">
+                <label>Age at Entry (8-55 Yrs)</label>
+                <input type="number" id="age" value="30" min="8" max="55">
+            </div>
+            
+            <div class="input-group">
+                <label>Basic Sum Assured (Min ₹10L)</label>
+                <input type="number" id="sumAssured" value="2500000" step="50000">
+            </div>
+
+            <div class="input-group">
+                <label>Policy Term</label>
+                <select id="term" onchange="updatePPT()">
+                    <option value="14">14 Years (PPT 10)</option>
+                    <option value="16">16 Years (PPT 12)</option>
+                    <option value="18">18 Years (PPT 14)</option>
+                    <option value="20" selected>20 Years (PPT 16)</option>
+                    <option value="24">24 Years (PPT 20)</option>
+                    <option value="28">28 Years (PPT 24)</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label>Premium Paying Term (PPT)</label>
+                <input type="number" id="ppt" readonly>
+            </div>
+
+            <div class="rider-box">
+                <div class="section-title" style="font-size: 0.9em; margin-bottom: 10px; border:none;">Riders</div>
+                
+                <div class="checkbox-container">
+                    <input type="checkbox" id="addbCheck" onchange="document.getElementById('addbIn').style.display = this.checked ? 'block' : 'none'">
+                    <label>Include AD&DB Rider</label>
+                </div>
+                <div id="addbIn" style="display:none; margin-bottom: 15px;">
+                    <label>AD&DB Sum Assured (Max 1 Cr)</label>
+                    <input type="number" id="addbSaValue" value="2500000">
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="trCheck" onchange="document.getElementById('trIn').style.display = this.checked ? 'block' : 'none'">
+                    <label>Include Term Rider</label>
+                </div>
+                <div id="trIn" style="display:none;">
+                    <label>Term Rider Sum Assured (Max 25L)</label>
+                    <input type="number" id="trSaValue" value="2500000">
+                </div>
+            </div>
+
+            <div class="section-title">Projection Settings</div>
+            <div class="input-group">
+                <label>Loyalty Addition (LA) Rate (per 1000 SA)</label>
+                <input type="number" id="laRate" value="120">
+            </div>
+
+            <button class="btn-generate" onclick="generateReport()">Calculate & Generate XIRR</button>
+            <div id="errorMsg"></div>
+        </div>
+
+        <div class="results-panel" id="resultsPanel">
+            <div class="summary-dashboard">
+                <div class="summary-card">
+                    <h3>Total Net Profit</h3>
+                    <p id="assetVal">₹0</p>
+                </div>
+                <div class="summary-card irr-box">
+                    <h3>Internal Rate of Return (XIRR)</h3>
+                    <p id="xirrResult">0.00%</p>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table id="irrTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Age</th>
+                            <th>Outflow</th>
+                            <th>Survival Benefit</th>
+                            <th>Maturity / LA</th>
+                            <th>Accrued GA</th>
+                            <th>Total Inflow</th>
+                            <th>Death Benefit</th>
+                            <th>Net Cashflow</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                    <tfoot id="tableFoot"></tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- DATA ---
+    const premiumRates = {
+        "8": { "14": 110.3, "16": 92.65, "18": 79.8, "20": 70.9, "24": 55.5, "28": 45.05 },
+        "9": { "14": 110.4, "16": 92.75, "18": 79.9, "20": 71, "24": 55.6, "28": 45.15 },
+        "10": { "14": 110.45, "16": 92.85, "18": 79.95, "20": 71.1, "24": 55.7, "28": 45.2 },
+        "11": { "14": 110.55, "16": 92.95, "18": 80.05, "20": 71.15, "24": 55.75, "28": 45.3 },
+        "12": { "14": 110.65, "16": 93, "18": 80.15, "20": 71.25, "24": 55.85, "28": 45.4 },
+        "13": { "14": 110.75, "16": 93.1, "18": 80.2, "20": 71.3, "24": 55.9, "28": 45.45 },
+        "14": { "14": 110.8, "16": 93.15, "18": 80.25, "20": 71.4, "24": 56, "28": 45.55 },
+        "15": { "14": 110.85, "16": 93.2, "18": 80.3, "20": 71.45, "24": 56.05, "28": 45.6 },
+        "16": { "14": 110.9, "16": 93.25, "18": 80.35, "20": 71.5, "24": 56.1, "28": 45.65 },
+        "17": { "14": 110.95, "16": 93.3, "18": 80.4, "20": 71.5, "24": 56.15, "28": 45.7 },
+        "18": { "14": 110.95, "16": 93.3, "18": 80.45, "20": 71.55, "24": 56.2, "28": 45.75 },
+        "19": { "14": 111, "16": 93.35, "18": 80.45, "20": 71.6, "24": 56.2, "28": 45.85 },
+        "20": { "14": 111, "16": 93.35, "18": 80.5, "20": 71.6, "24": 56.25, "28": 45.9 },
+        "21": { "14": 111.05, "16": 93.4, "18": 80.5, "20": 71.65, "24": 56.3, "28": 45.95 },
+        "22": { "14": 111.05, "16": 93.4, "18": 80.55, "20": 71.7, "24": 56.4, "28": 46.05 },
+        "23": { "14": 111.05, "16": 93.45, "18": 80.6, "20": 71.75, "24": 56.45, "28": 46.15 },
+        "24": { "14": 111.1, "16": 93.5, "18": 80.65, "20": 71.8, "24": 56.55, "28": 46.3 },
+        "25": { "14": 111.15, "16": 93.55, "18": 80.7, "20": 71.85, "24": 56.65, "28": 46.4 },
+        "26": { "14": 111.2, "16": 93.6, "18": 80.75, "20": 71.95, "24": 56.75, "28": 46.6 },
+        "27": { "14": 111.25, "16": 93.65, "18": 80.85, "20": 72.05, "24": 56.9, "28": 46.75 },
+        "28": { "14": 111.3, "16": 93.75, "18": 80.95, "20": 72.2, "24": 57.05, "28": 46.95 },
+        "29": { "14": 111.4, "16": 93.85, "18": 81.05, "20": 72.3, "24": 57.25, "28": 47.2 },
+        "30": { "14": 111.5, "16": 93.95, "18": 81.2, "20": 72.5, "24": 57.45, "28": 46.95 },
+        "31": { "14": 111.6, "16": 94.1, "18": 81.35, "20": 72.7, "24": 57.7, "28": 47.75 },
+        "32": { "14": 111.75, "16": 94.25, "18": 81.55, "20": 72.9, "24": 57.95, "28": 48.1 },
+        "33": { "14": 111.9, "16": 94.45, "18": 81.75, "20": 73.15, "24": 58.25, "28": 48.45 },
+        "34": { "14": 112.1, "16": 94.64, "18": 82, "20": 73.4, "24": 58.6, "28": 48.8 },
+        "35": { "14": 112.3, "16": 94.9, "18": 82.25, "20": 73.75, "24": 58.95, "28": 49.25 },
+        "36": { "14": 112.55, "16": 95.15, "18": 82.6, "20": 74.1, "24": 59.35, "28": 49.7 },
+        "37": { "14": 112.85, "16": 95.5, "18": 82.95, "20": 74.45, "24": 59.8, "28": 50.2 },
+        "38": { "14": 113.15, "16": 95.85, "18": 83.3, "20": 74.9, "24": 60.3, "28": 50.8 },
+        "39": { "14": 113.5, "16": 96.2, "18": 83.75, "20": 75.35, "24": 60.8, "28": 51.4 },
+        "40": { "14": 113.9, "16": 96.65, "18": 84.2, "20": 75.9, "24": 61.4, "28": 52.05 },
+        "41": { "14": 114.35, "16": 97.15, "18": 84.75, "20": 76.45, "24": 62.05, "28": 52.8 },
+        "42": { "14": 114.85, "16": 97.7, "18": 85.3, "20": 77.05, "24": 62.7 },
+        "43": { "14": 115.4, "16": 98.25, "18": 85.9, "20": 77.7, "24": 63.45 },
+        "44": { "14": 116.05, "16": 98.9, "18": 86.6, "20": 78.45, "24": 64.3 },
+        "45": { "14": 116.7, "16": 99.6, "18": 87.3, "20": 79.25, "24": 65.2 },
+        "46": { "14": 117.45, "16": 100.35, "18": 88.1, "20": 80.1 },
+        "47": { "14": 118.2, "16": 101.2, "18": 89, "20": 81.05 },
+        "48": { "14": 119.1, "16": 102.05, "18": 89.9, "20": 82.05 },
+        "49": { "14": 120, "16": 103, "18": 90.9, "20": 83.1 },
+        "50": { "14": 121, "16": 104.05, "18": 91.95 },
+        "51": { "14": 122, "16": 105.1, "18": 93.1 },
+        "52": { "14": 123.1, "16": 106.25 },
+        "53": { "14": 124.25, "16": 107.45 },
+        "54": { "14": 125.45 },
+        "55": { "14": 126.75 }
+    };
+
+    const moneyBackRules = {
+        14: { 10: 0.30, 12: 0.30, maturity: 0.40 },
+        16: { 12: 0.35, 14: 0.35, maturity: 0.30 },
+        18: { 14: 0.40, 16: 0.40, maturity: 0.20 },
+        20: { 16: 0.45, 18: 0.45, maturity: 0.10 },
+        24: { 20: 0.45, 22: 0.45, maturity: 0.10 },
+        28: { 24: 0.45, 26: 0.45, maturity: 0.10 }
+    };
+
+    // --- XIRR CALCULATION ENGINE (NEWTON-RAPHSON) ---
+    function calculateXIRR(cashFlows) {
+        let rate = 0.1; // Initial guess
+        const maxIter = 1000;
+        const precision = 1e-10;
+
+        for (let i = 0; i < maxIter; i++) {
+            let npv = 0;
+            let dnpv = 0;
+
+            for (let t = 0; t < cashFlows.length; t++) {
+                // We treat standard Year 1 as Time 0, Year 2 as Time 1 etc.
+                const time = t;
+                const cf = cashFlows[t];
+                
+                npv += cf / Math.pow(1 + rate, time);
+                dnpv -= (time * cf) / Math.pow(1 + rate, time + 1);
+            }
+
+            const newRate = rate - npv / dnpv;
+
+            if (Math.abs(newRate - rate) < precision) {
+                return newRate;
+            }
+            rate = newRate;
+        }
+        return rate;
+    }
+
+    function updatePPT() {
+        const term = parseInt(document.getElementById("term").value);
+        let ppt = 0;
+        if (term === 14) ppt = 10;
+        else if (term === 16) ppt = 12;
+        else if (term === 18) ppt = 14;
+        else if (term === 20) ppt = 16;
+        else if (term === 24) ppt = 20;
+        else if (term === 28) ppt = 24;
+        document.getElementById("ppt").value = ppt;
+    }
+
+    function generateReport() {
+        const sa = parseInt(document.getElementById("sumAssured").value);
+        const age = parseInt(document.getElementById("age").value);
+        const term = parseInt(document.getElementById("term").value);
+        const ppt = parseInt(document.getElementById("ppt").value);
+        const laRate = parseFloat(document.getElementById("laRate").value);
+        
+        const hasAddb = document.getElementById('addbCheck').checked;
+        const addbSaIn = parseInt(document.getElementById('addbSaValue').value) || 0;
+        const hasTr = document.getElementById('trCheck').checked;
+        const trSaIn = parseInt(document.getElementById('trSaValue').value) || 0;
+        
+        const errorBox = document.getElementById('errorMsg');
+        errorBox.style.display = "none";
+        
+        // --- VALIDATIONS ---
+        let errors = [];
+        if (sa < 1000000) errors.push("⚠️ Min Sum Assured: ₹10,00,000.");
+        if (hasAddb && addbSaIn > 10000000) errors.push("⚠️ AD&DB Capped at ₹1 Crore.");
+        if (hasAddb && addbSaIn > sa) errors.push("⚠️ AD&DB cannot exceed Basic SA.");
+        if (hasTr && trSaIn > 2500000) errors.push("⚠️ Term Rider Capped at ₹25 Lacs.");
+        if (hasTr && trSaIn > sa) errors.push("⚠️ Term Rider cannot exceed Basic SA.");
+        
+        if (errors.length > 0) {
+            errorBox.innerHTML = errors.join("<br>");
+            errorBox.style.display = "block";
+            return;
+        }
+
+   // --- PREMIUM LOGIC ---
+       // --- CORRECTED PREMIUM LOGIC ---
+        const rate = premiumRates[age]?.[term] || 0;
+        
+        // 1. SA Rebate (Per 1000 SA)
+        let saRebate = (sa >= 5000000) ? 0.50 : (sa >= 2000000 ? 0.30 : 0);
+        
+        // 2. Term Rider Rate (Scaling based on 3.0 for Term 20)
+        let trRatePer1000 = 3.0 + (age - 30) * 0.12; 
+        if (term === 14) trRatePer1000 -= 1.14; 
+        else if (term === 16) trRatePer1000 -= 0.85;
+        else if (term === 18) trRatePer1000 -= 0.45;
+
+        // 3. AD&DB Logic (Added outside the 2% Yearly Rebate)
+        let addbRate = (sa >= 5000000) ? 1.085 : (sa >= 2000000 ? 1.113 : 1.15);
+        let addbPrem = hasAddb ? (Math.min(addbSaIn, sa, 10000000) / 1000) * addbRate : 0;
+
+        // 4. THE FIX: Separate Base and TR components by their respective Sum Assureds
+        let annualBase = (rate - saRebate) * (sa / 1000);
+        let annualTR = hasTr ? (trRatePer1000 * (Math.min(trSaIn, sa, 2500000) / 1000)) : 0;
+
+        // 5. Final Premium: (Base + TR) * 0.98 [2% Mode Rebate] + AD&DB
+        const totalPremium = Math.round((annualBase + annualTR) * 0.98 + addbPrem);
+        // --- CASHFLOW & TABLE ---
+        document.getElementById('resultsPanel').style.display = 'block';
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        
+        let cashFlowArray = [];
+        let accumulatedGA = 0;
+        let totalOut = 0;
+        let totalIn = 0;
+
+        for (let yr = 1; yr <= term; yr++) {
+            let outflow = (yr <= ppt) ? totalPremium : 0;
+            
+            // GA Logic
+            let yrGA = (yr <= 5) ? (sa/1000)*50 : (yr <= ppt ? (sa/1000)*55 : 0);
+            accumulatedGA += yrGA;
+
+            // SB Logic
+            let sb = (moneyBackRules[term][yr] || 0) * sa;
+            
+            // Maturity Logic
+            let mat = 0;
+            if (yr === term) {
+                mat = (sa * moneyBackRules[term]['maturity']) + accumulatedGA + (sa/1000*laRate);
+            }
+
+            let inflow = sb + mat;
+            let net = inflow - outflow;
+            cashFlowArray.push(net);
+
+            totalOut += outflow;
+            totalIn += inflow;
+
+            // Death Benefit Logic (125% SA + GA + LA)
+            let db = (sa * 1.25) + accumulatedGA + (yr > 5 ? (sa/1000*laRate) : 0);
+
+            tbody.innerHTML += `
+                <tr>
+                    <td>${yr}</td>
+                    <td>${age + yr}</td>
+                    <td class="row-outflow">${outflow > 0 ? '₹' + outflow.toLocaleString() : '-'}</td>
+                    <td>${sb > 0 ? '₹' + Math.round(sb).toLocaleString() : '-'}</td>
+                    <td>${mat > 0 ? '₹' + Math.round(mat).toLocaleString() : '-'}</td>
+                    <td>₹${Math.round(accumulatedGA).toLocaleString()}</td>
+                    <td class="row-inflow">${inflow > 0 ? '₹' + Math.round(inflow).toLocaleString() : '-'}</td>
+                    <td style="color:blue;font-weight:700">₹${Math.round(db).toLocaleString()}</td>
+                    <td style="background:#e0f2f1;font-weight:700">${net >= 0 ? '+' : ''}₹${Math.round(net).toLocaleString()}</td>
+                </tr>
+            `;
+        }
+
+        // --- XIRR & TOTAL SUMMARY ---
+        const finalXIRR = calculateXIRR(cashFlowArray);
+        document.getElementById('xirrResult').innerText = (finalXIRR * 100).toFixed(2) + "%";
+        document.getElementById('assetVal').innerText = "₹" + Math.round(totalIn - totalOut).toLocaleString();
+
+        document.getElementById('tableFoot').innerHTML = `
+            <tr class="total-row">
+                <td colspan="2">TOTAL</td>
+                <td>₹${totalOut.toLocaleString()}</td>
+                <td colspan="3">Accumulated GA: ₹${Math.round(accumulatedGA).toLocaleString()}</td>
+                <td>₹${Math.round(totalIn).toLocaleString()}</td>
+                <td>-</td>
+                <td>₹${Math.round(totalIn - totalOut).toLocaleString()}</td>
+            </tr>`;
+    }
+
+    window.onload = updatePPT;
+</script>
+</body>
+</html>

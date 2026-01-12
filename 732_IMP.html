@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Plan 732 IRR Professional Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --success-green: #28a745;
+            --white: #ffffff;
+            --black: #000000;
+            --bg-light: #f4f7f6;
+            --shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-light); color: var(--black); margin: 0; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #001a35 100%);
+            color: white; padding: 50px; border-radius: 25px; text-align: center;
+            box-shadow: var(--shadow); margin-bottom: 30px; border-bottom: 8px solid var(--success-green);
+        }
+        .header h1 { margin: 0; font-size: 2.8em; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; }
+        .header p { opacity: 0.9; margin-top: 10px; font-size: 1.1em; }
+
+        .main-grid { display: grid; grid-template-columns: 400px 1fr; gap: 30px; }
+        .card { background: var(--white); padding: 35px; border-radius: 25px; box-shadow: var(--shadow); border: 1px solid #e0e0e0; }
+
+        .section-title {
+            font-size: 1.1em; font-weight: 700; color: var(--primary-blue);
+            margin-bottom: 25px; border-bottom: 3px solid var(--success-green); display: inline-block;
+        }
+
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 0.85em; font-weight: 700; margin-bottom: 5px; color: var(--black); }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; box-sizing: border-box; }
+        input[readonly] { background-color: #f0f0f0; cursor: not-allowed; }
+
+        .rider-box { background: #f0f7ff; padding: 20px; border-radius: 15px; margin: 25px 0; border: 1px solid #d0e4ff; }
+        .checkbox-container { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 0.9em; font-weight: 600; }
+        .checkbox-container input { width: auto; transform: scale(1.2); cursor: pointer; }
+
+        #errorMsg { color: #d32f2f; background: #ffebee; padding: 15px; border-radius: 10px; margin-top: 15px; display: none; font-weight: bold; border: 1px solid #ffcdd2; font-size: 0.85em; line-height: 1.6; }
+
+        button.btn-generate { width: 100%; background: var(--success-green); color: white; border: none; padding: 18px; font-size: 1.1em; font-weight: 700; border-radius: 12px; cursor: pointer; transition: 0.3s; text-transform: uppercase; }
+
+        .results-panel { display: none; }
+        .asset-summary { background: var(--primary-blue); color: white; padding: 20px; border-radius: 15px; margin-bottom: 25px; text-align: center; font-weight: 700; font-size: 1.4em; }
+
+        .table-container { background: white; padding: 25px; border-radius: 20px; box-shadow: var(--shadow); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.82em; }
+        th { background: #f8fafc; color: var(--primary-blue); padding: 12px; border-bottom: 2px solid #eee; text-align: center; }
+        td { padding: 10px; text-align: center; border-bottom: 1px solid #f1f5f9; }
+        .row-outflow { color: #d9534f; font-weight: bold; }
+        .row-inflow { color: var(--success-green); font-weight: bold; }
+        .total-row { background: #333 !important; color: white !important; font-weight: 800; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header no-print">
+        <h1>LIC IRR Precision Report</h1>
+        <p>Plan 732: New Children's Money Back | Strict Calculation Sequence</p>
+    </div>
+
+    <div class="main-grid">
+        <div class="card no-print">
+            <div class="section-title">Primary Inputs</div>
+            
+            <div class="input-group">
+                <label>Basic Sum Assured (₹)</label>
+                <input type="number" id="sumAssured" value="500000">
+            </div>
+            <div class="input-group">
+                <label>Child Age (0-12 Yrs)</label>
+                <input type="number" id="age" value="5">
+            </div>
+
+            <div class="rider-box">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="pwbCheck" onchange="document.getElementById('pwbIn').style.display = this.checked ? 'block' : 'none'">
+                    <label>Include PWB Rider</label>
+                </div>
+                <div id="pwbIn" style="display:none; margin-bottom: 15px;">
+                    <label>Proposer Age (18-55)</label>
+                    <input type="number" id="propAge" value="30">
+                </div>
+            </div>
+
+            <div class="section-title">Projection Settings</div>
+            <div class="input-group">
+                <label>Assumed Bonus (per 1000)</label>
+                <input type="number" id="bonusRate" value="39">
+            </div>
+            <div class="input-group">
+                <label>FAB (per 1000)</label>
+                <input type="number" id="fabRate" value="20">
+            </div>
+
+            <button class="btn-generate" onclick="generateReport()">Generate Precise Report</button>
+            <div id="errorMsg"></div>
+        </div>
+
+        <div class="results-panel" id="resultsPanel">
+            <div class="asset-summary">
+                TOTAL ASSET = INFLOWS - OUTFLOWS : <span id="assetVal">₹0</span> &nbsp;&nbsp;&nbsp; XIRR : <span id="dispXIRR">0.00%</span>
+            </div>
+            <div class="table-container">
+                <table id="irrTable">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Age</th>
+                            <th>Premium (Out)</th>
+                            <th>Inflows (SB/Mat)</th>
+                            <th>SB (20%)</th>
+                            <th>Bonus Acc.</th>
+                            <th>FAB</th>
+                            <th>Death Benefit</th>
+                            <th>Netflow</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                    <tfoot id="tableFoot"></tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- DATA AND SEQUENCE COPIED EXACTLY FROM USER ATTACHMENT ---
+    const premiumRates = { 0: 45.95, 1: 48.15, 2: 50.55, 3: 53.3, 4: 56.3, 5: 59.6, 6: 63.35, 7: 67.55, 8: 72.25, 9: 77.6, 10: 83.65, 11: 89.1, 12: 96.95 };
+    const rawPwbRates = [ { "A": 1.7, "B": 1.7, "C": 1.85, "D": 2.1, "E": 2.45, "F": 3.1, "G": 4.1, "Term": 5 }, { "A": 1.8, "B": 1.85, "C": 1.95, "D": 2.25, "E": 2.7, "F": 3.55, "G": 4.8, "Term": 6 }, { "A": 1.9, "B": 1.9, "C": 2.1, "D": 2.4, "E": 2.95, "F": 4, "G": 5.55, "Term": 7 }, { "A": 1.95, "B": 2, "C": 2.2, "D": 2.6, "E": 3.25, "F": 4.5, "G": 6.3, "Term": 8 }, { "A": 2, "B": 2.1, "C": 2.3, "D": 2.8, "E": 3.6, "F": 5, "G": 7.05, "Term": 9 }, { "A": 2.2, "B": 2.25, "C": 2.55, "D": 3.1, "E": 4.05, "F": 5.75, "G": 8.15, "Term": 10 }, { "A": 2.25, "B": 2.4, "C": 2.65, "D": 3.3, "E": 4.4, "F": 6.35, "G": 9, "Term": 11 }, { "A": 2.3, "B": 2.45, "C": 2.8, "D": 3.5, "E": 4.8, "F": 6.9, "G": 9.85, "Term": 12 }, { "A": 2.45, "B": 2.55, "C": 2.95, "D": 3.75, "E": 5.15, "F": 7.5, "G": 10.7, "Term": 13 }, { "A": 2.5, "B": 2.7, "C": 3.1, "D": 4, "E": 5.55, "F": 8.15, "G": 11.6, "Term": 14 }, { "A": 2.6, "B": 2.8, "C": 3.3, "D": 4.35, "E": 6.1, "F": 8.9, "G": 12.75, "Term": 15 }, { "A": 2.7, "B": 2.9, "C": 3.5, "D": 4.6, "E": 6.5, "F": 9.55, "G": 13.7, "Term": 16 }, { "A": 2.8, "B": 3.05, "C": 3.65, "D": 4.9, "E": 7, "F": 10.25, "G": 14.7, "Term": 17 }, { "A": 2.85, "B": 3.15, "C": 3.85, "D": 5.2, "E": 7.45, "F": 10.95, "G": 15.75, "Term": 18 }, { "A": 2.9, "B": 3.3, "C": 4.05, "D": 5.5, "E": 7.95, "F": 11.65, "G": 16.8, "Term": 19 }, { "A": 3.05, "B": 3.45, "C": 4.25, "D": 5.85, "E": 8.4, "F": 12.35, "G": null, "Term": 20 }, { "A": 3.1, "B": 3.55, "C": 4.45, "D": 6.15, "E": 8.95, "F": 13.1, "G": null, "Term": 21 }, { "A": 3.2, "B": 3.7, "C": 4.7, "D": 6.5, "E": 9.45, "F": 13.85, "G": null, "Term": 22 }, { "A": 3.35, "B": 3.85, "C": 4.9, "D": 6.9, "E": 10, "F": 14.65, "G": null, "Term": 23 }, { "A": 3.4, "B": 4, "C": 5.15, "D": 7.25, "E": 10.5, "F": 15.45, "G": null, "Term": 24 }, { "A": 3.5, "B": 4.15, "C": 5.4, "D": 7.65, "E": 11.05, "F": null, "G": null, "Term": 25 } ];
+    const pwbRates = rawPwbRates.reduce((acc, item) => { acc[item.Term] = { A: item.A, B: item.B, C: item.C, D: item.D, E: item.E, F: item.F, G: item.G }; return acc; }, {});
+
+    function getPwbTier(proposerAge) {
+        if (proposerAge >= 18 && proposerAge <= 25) return 'A';
+        if (proposerAge >= 26 && proposerAge <= 30) return 'B';
+        if (proposerAge >= 31 && proposerAge <= 35) return 'C';
+        if (proposerAge >= 36 && proposerAge <= 40) return 'D';
+        if (proposerAge >= 41 && proposerAge <= 45) return 'E';
+        if (proposerAge >= 46 && proposerAge <= 50) return 'F';
+        if (proposerAge >= 51 && proposerAge <= 55) return 'G';
+        return null;
+    }
+
+    function generateReport() {
+        const sa = parseInt(document.getElementById("sumAssured").value);
+        const age = parseInt(document.getElementById("age").value);
+        const hasPwb = document.getElementById("pwbCheck").checked;
+        const propAge = parseInt(document.getElementById("propAge").value);
+        const bonusRate = parseFloat(document.getElementById('bonusRate').value);
+        const fabRate = parseFloat(document.getElementById('fabRate').value);
+        const errorBox = document.getElementById('errorMsg');
+
+        errorBox.style.display = "none";
+        let errors = [];
+        if (isNaN(age) || age < 0 || age > 12) errors.push("⚠️ Child's Entry Age must be between 0 and 12.");
+        if (isNaN(sa) || sa < 200000) errors.push("⚠️ Minimum Sum Assured allowed is ₹2,00,000.");
+        if (hasPwb && (isNaN(propAge) || propAge < 18 || propAge > 55)) errors.push("⚠️ Proposer Age must be between 18 and 55.");
+        if (errors.length > 0) { errorBox.innerHTML = errors.join("<br>"); errorBox.style.display = "block"; return; }
+
+        // --- CALCULATION SEQUENCE OF OPERATIONS (AS PROVIDED IN ATTACHMENT) ---
+        const rate = premiumRates[age];
+        let basePrem = (sa / 1000) * rate;
+
+        let saRebateRate = 0;
+        if (sa >= 5000000) saRebateRate = 4.082;
+        else if (sa >= 2500000) saRebateRate = 4.08;
+        else if (sa >= 1000000) saRebateRate = 4.08;
+        else if (sa >= 500000) saRebateRate = 2.55;
+
+        let saRebate = (sa / 1000) * saRebateRate;
+        let afterSaRebate = basePrem - saRebate;
+        const baseAnnualPremium = afterSaRebate * (1 - 0.02); // 2% Yearly Mode Rebate
+
+        let pwbPremium = 0;
+        if (hasPwb) {
+            const ppt = 25 - age;
+            const pwbTier = getPwbTier(propAge);
+            const pwbRateValue = pwbRates[ppt]?.[pwbTier];
+            if (pwbRateValue) {
+                pwbPremium = (baseAnnualPremium * pwbRateValue) / 100;
+            }
+        }
+
+        const totalPremium = Math.round(baseAnnualPremium + pwbPremium);
+        // --- END OF SEQUENCE ---
+
+        document.getElementById('resultsPanel').style.display = 'block';
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        let flows = [], totals = { out: 0, in: 0 };
+        const term = 25 - age;
+
+        for (let i = 0; i <= term; i++) {
+            let curAge = age + i;
+            let yrOut = (i < term) ? totalPremium : 0;
+            let sb = [18, 20, 22].includes(curAge) ? sa * 0.20 : 0;
+            let fabAmt = (curAge === 25) ? (sa / 1000 * fabRate) : 0;
+            let maturity = (curAge === 25) ? (sa * 0.40) + (sa / 1000 * bonusRate * term) + fabAmt : 0;
+            let bonusAcc = (sa / 1000 * bonusRate * i);
+            
+            // Death Benefit Logic (Plan 732 Rule: Before 8/2yrs return of prem, After 8/2yrs SA+Bonus)
+            let riskStarts = (age >= 8) || (i >= 2);
+            let db = riskStarts ? Math.round(sa + bonusAcc + fabAmt) : "Ref. of Prem";
+
+            let rowIn = sb + maturity;
+            let net = rowIn - yrOut;
+            flows.push({ amt: net, t: i });
+            totals.out += yrOut; totals.in += rowIn;
+
+            tbody.innerHTML += `<tr>
+                <td>${i}</td><td>${curAge}</td>
+                <td class="row-outflow">${yrOut > 0 ? '₹' + yrOut.toLocaleString() : '-'}</td>
+                <td class="row-inflow">${rowIn > 0 ? '₹' + Math.round(rowIn).toLocaleString() : '-'}</td>
+                <td>${sb > 0 ? '₹' + sb.toLocaleString() : '-'}</td>
+                <td>₹${Math.round(bonusAcc).toLocaleString()}</td>
+                <td>${fabAmt > 0 ? '₹' + Math.round(fabAmt).toLocaleString() : '-'}</td>
+                <td style="color:blue">${typeof db === 'number' ? '₹' + db.toLocaleString() : db}</td>
+                <td style="background:#f0f7ff;font-weight:700">${net >= 0 ? '+' : ''}₹${Math.round(net).toLocaleString()}</td>
+            </tr>`;
+        }
+
+        document.getElementById('tableFoot').innerHTML = `<tr class="total-row"><td colspan="2">TOTAL</td><td>₹${Math.round(totals.out).toLocaleString()}</td><td>₹${Math.round(totals.in).toLocaleString()}</td><td colspan="4"></td><td>₹${Math.round(totals.in - totals.out).toLocaleString()}</td></tr>`;
+        document.getElementById('assetVal').innerText = "₹" + Math.round(totals.in - totals.out).toLocaleString();
+
+        let irr = 0.05;
+        for (let j = 0; j < 60; j++) {
+            let f = 0, df = 0;
+            for (let flow of flows) {
+                f += flow.amt / Math.pow(1 + irr, flow.t);
+                df -= flow.t * flow.amt / Math.pow(1 + irr, flow.t + 1);
+            }
+            irr -= f / df;
+        }
+        document.getElementById('dispXIRR').innerText = (irr * 100).toFixed(2) + "%";
+    }
+</script>
+</body>
+</html>
