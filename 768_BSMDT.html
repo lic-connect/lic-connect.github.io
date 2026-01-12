@@ -122,7 +122,467 @@
 
 <script>
     // --- DATA SETUP ---
-    const rawTabularRates = [ { "Age": 0, "T15": 0.0, "T16": 0.0, "T17": 0.0, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 1, "T15": 0.0, "T16": 0.0, "T17": 61.92, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 2, "T15": 0.0, "T16": 70.88, "T17": 61.92, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 3, "T15": 82.7, "T16": 70.88, "T17": 61.92, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 4, "T15": 82.7, "T16": 70.92, "T17": 61.92, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 5, "T15": 82.74, "T16": 70.92, "T17": 61.92, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 6, "T15": 82.74, "T16": 70.97, "T17": 61.96, "T18": 54.1, "T19": 48.4, "T20": 43.68 }, { "Age": 7, "T15": 82.84, "T16": 71.06, "T17": 62.06, "T18": 54.15, "T19": 48.44, "T20": 43.78 }, { "Age": 8, "T15": 82.97, "T16": 71.15, "T17": 62.15, "T18": 54.23, "T19": 48.54, "T20": 43.87 }, { "Age": 9, "T15": 83.02, "T16": 71.24, "T17": 62.24, "T18": 54.28, "T19": 48.58, "T20": 43.91 }, { "Age": 10, "T15": 83.11, "T16": 71.34, "T17": 62.29, "T18": 54.37, "T19": 48.67, "T20": 44.0 }, { "Age": 11, "T15": 83.2, "T16": 71.43, "T17": 62.38, "T18": 54.46, "T19": 48.76, "T20": 44.05 }, { "Age": 12, "T15": 83.3, "T16": 71.47, "T17": 62.47, "T18": 54.55, "T19": 48.81, "T20": 44.13 }, { "Age": 13, "T15": 83.39, "T16": 71.57, "T17": 62.52, "T18": 54.6, "T19": 48.89, "T20": 44.18 }, { "Age": 14, "T15": 83.43, "T16": 71.62, "T17": 62.61, "T18": 54.64, "T19": 48.94, "T20": 44.27 }, { "Age": 15, "T15": 83.48, "T16": 71.71, "T17": 62.66, "T18": 54.68, "T19": 48.98, "T20": 44.27 }, { "Age": 16, "T15": 83.53, "T16": 71.71, "T17": 62.7, "T18": 54.73, "T19": 49.03, "T20": 44.32 }, { "Age": 17, "T15": 83.57, "T16": 71.76, "T17": 62.7, "T18": 54.78, "T19": 49.03, "T20": 44.36 }, { "Age": 18, "T15": 83.62, "T16": 71.8, "T17": 62.75, "T18": 54.78, "T19": 49.07, "T20": 44.36 }, { "Age": 19, "T15": 83.62, "T16": 71.8, "T17": 62.75, "T18": 54.82, "T19": 49.07, "T20": 44.4 }, { "Age": 20, "T15": 83.62, "T16": 71.8, "T17": 62.75, "T18": 54.82, "T19": 49.07, "T20": 44.4 }, { "Age": 21, "T15": 83.62, "T16": 71.8, "T17": 62.75, "T18": 54.82, "T19": 49.12, "T20": 44.4 }, { "Age": 22, "T15": 83.62, "T16": 71.8, "T17": 62.8, "T18": 54.82, "T19": 49.12, "T20": 44.4 }, { "Age": 23, "T15": 83.62, "T16": 71.85, "T17": 62.8, "T18": 54.82, "T19": 49.12, "T20": 44.45 }, { "Age": 24, "T15": 83.67, "T16": 71.85, "T17": 62.8, "T18": 54.87, "T19": 49.16, "T20": 44.45 }, { "Age": 25, "T15": 83.67, "T16": 71.85, "T17": 62.84, "T18": 54.87, "T19": 49.16, "T20": 44.49 }, { "Age": 26, "T15": 83.71, "T16": 71.89, "T17": 62.84, "T18": 54.91, "T19": 49.21, "T20": 44.54 }, { "Age": 27, "T15": 83.71, "T16": 71.94, "T17": 62.89, "T18": 54.95, "T19": 49.26, "T20": 44.58 }, { "Age": 28, "T15": 83.76, "T16": 71.98, "T17": 62.93, "T18": 55.0, "T19": 49.3, "T20": 44.63 }, { "Age": 29, "T15": 83.81, "T16": 72.03, "T17": 62.98, "T18": 55.05, "T19": 49.34, "T20": 44.67 }, { "Age": 30, "T15": 83.9, "T16": 72.08, "T17": 63.03, "T18": 55.13, "T19": 49.43, "T20": 44.77 }, { "Age": 31, "T15": 83.94, "T16": 72.17, "T17": 63.12, "T18": 55.22, "T19": 49.52, "T20": 44.85 }, { "Age": 32, "T15": 84.04, "T16": 72.21, "T17": 63.21, "T18": 55.32, "T19": 49.61, "T20": 44.94 }, { "Age": 33, "T15": 84.13, "T16": 72.35, "T17": 63.31, "T18": 55.4, "T19": 49.74, "T20": 45.08 }, { "Age": 34, "T15": 84.22, "T16": 72.44, "T17": 63.44, "T18": 55.54, "T19": 49.88, "T20": 45.21 }, { "Age": 35, "T15": 84.36, "T16": 72.59, "T17": 63.58, "T18": 55.67, "T19": 50.02, "T20": 45.39 }, { "Age": 36, "T15": 84.49, "T16": 72.72, "T17": 63.72, "T18": 55.85, "T19": 50.19, "T20": 45.57 }, { "Age": 37, "T15": 84.68, "T16": 72.91, "T17": 63.9, "T18": 56.03, "T19": 50.38, "T20": 45.75 }, { "Age": 38, "T15": 84.87, "T16": 73.09, "T17": 64.13, "T18": 56.21, "T19": 50.6, "T20": 45.97 }, { "Age": 39, "T15": 85.1, "T16": 73.32, "T17": 64.37, "T18": 56.48, "T19": 50.83, "T20": 46.24 }, { "Age": 40, "T15": 85.33, "T16": 73.6, "T17": 64.6, "T18": 56.75, "T19": 51.14, "T20": 46.52 }, { "Age": 41, "T15": 85.61, "T16": 73.88, "T17": 64.92, "T18": 57.02, "T19": 51.45, "T20": 46.83 }, { "Age": 42, "T15": 85.93, "T16": 74.2, "T17": 65.24, "T18": 57.38, "T19": 51.77, "T20": 47.23 }, { "Age": 43, "T15": 86.3, "T16": 74.57, "T17": 65.61, "T18": 57.79, "T19": 52.17, "T20": 47.64 }, { "Age": 44, "T15": 86.71, "T16": 74.98, "T17": 66.03, "T18": 58.19, "T19": 52.62, "T20": 48.04 }, { "Age": 45, "T15": 87.17, "T16": 75.45, "T17": 66.54, "T18": 58.68, "T19": 53.11, "T20": 48.54 }, { "Age": 46, "T15": 87.68, "T16": 75.95, "T17": 67.05, "T18": 59.17, "T19": 53.65, "T20": 49.12 }, { "Age": 47, "T15": 88.24, "T16": 76.51, "T17": 67.6, "T18": 59.76, "T19": 54.19, "T20": 49.7 }, { "Age": 48, "T15": 88.84, "T16": 77.16, "T17": 68.24, "T18": 60.39, "T19": 54.87, "T20": 50.33 }, { "Age": 49, "T15": 89.53, "T16": 77.8, "T17": 68.89, "T18": 61.06, "T19": 55.54, "T20": 51.01 }, { "Age": 50, "T15": 90.22, "T16": 78.54, "T17": 69.63, "T18": 61.78, "T19": 56.26, "T20": 51.77 } ];
+    const rawTabularRates =[
+    {
+        "Age": 0,
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 60.25,
+        "T19": 53.9,
+        "T20": 48.65
+    },
+    {
+        "Age": 1,
+        "T15": 0.0,
+        "T16": 0.0,
+        "T17": 67.05,
+        "T18": 60.25,
+        "T19": 53.9,
+        "T20": 48.65
+    },
+    {
+        "Age": 2,
+        "T15": 0.0,
+        "T16": 76.75,
+        "T17": 67.05,
+        "T18": 60.25,
+        "T19": 53.9,
+        "T20": 48.65
+    },
+    {
+        "Age": 3,
+        "T15": 89.55,
+        "T16": 76.75,
+        "T17": 67.05,
+        "T18": 60.25,
+        "T19": 53.9,
+        "T20": 48.65
+    },
+    {
+        "Age": 4,
+        "T15": 89.55,
+        "T16": 76.8,
+        "T17": 67.05,
+        "T18": 60.25,
+        "T19": 53.9,
+        "T20": 48.65
+    },
+    {
+        "Age": 5,
+        "T15": 89.6,
+        "T16": 76.8,
+        "T17": 67.05,
+        "T18": 60.25,
+        "T19": 53.9,
+        "T20": 48.65
+    },
+    {
+        "Age": 6,
+        "T15": 89.6,
+        "T16": 76.85,
+        "T17": 67.1,
+        "T18": 60.25,
+        "T19": 53.9,
+        "T20": 48.65
+    },
+    {
+        "Age": 7,
+        "T15": 89.7,
+        "T16": 76.95,
+        "T17": 67.2,
+        "T18": 60.3,
+        "T19": 53.95,
+        "T20": 48.75
+    },
+    {
+        "Age": 8,
+        "T15": 89.85,
+        "T16": 77.05,
+        "T17": 67.3,
+        "T18": 60.4,
+        "T19": 54.05,
+        "T20": 48.85
+    },
+    {
+        "Age": 9,
+        "T15": 89.9,
+        "T16": 77.15,
+        "T17": 67.4,
+        "T18": 60.45,
+        "T19": 54.1,
+        "T20": 48.9
+    },
+    {
+        "Age": 10,
+        "T15": 90.0,
+        "T16": 77.25,
+        "T17": 67.45,
+        "T18": 60.55,
+        "T19": 54.2,
+        "T20": 49.0
+    },
+    {
+        "Age": 11,
+        "T15": 90.1,
+        "T16": 77.35,
+        "T17": 67.55,
+        "T18": 60.65,
+        "T19": 54.3,
+        "T20": 49.05
+    },
+    {
+        "Age": 12,
+        "T15": 90.2,
+        "T16": 77.4,
+        "T17": 67.65,
+        "T18": 60.75,
+        "T19": 54.35,
+        "T20": 49.15
+    },
+    {
+        "Age": 13,
+        "T15": 90.3,
+        "T16": 77.5,
+        "T17": 67.7,
+        "T18": 60.8,
+        "T19": 54.45,
+        "T20": 49.2
+    },
+    {
+        "Age": 14,
+        "T15": 90.35,
+        "T16": 77.55,
+        "T17": 67.8,
+        "T18": 60.85,
+        "T19": 54.5,
+        "T20": 49.3
+    },
+    {
+        "Age": 15,
+        "T15": 90.4,
+        "T16": 77.65,
+        "T17": 67.85,
+        "T18": 60.9,
+        "T19": 54.55,
+        "T20": 49.3
+    },
+    {
+        "Age": 16,
+        "T15": 90.45,
+        "T16": 77.65,
+        "T17": 67.9,
+        "T18": 60.95,
+        "T19": 54.6,
+        "T20": 49.35
+    },
+    {
+        "Age": 17,
+        "T15": 90.5,
+        "T16": 77.7,
+        "T17": 67.9,
+        "T18": 61.0,
+        "T19": 54.6,
+        "T20": 49.4
+    },
+    {
+        "Age": 18,
+        "T15": 90.55,
+        "T16": 77.75,
+        "T17": 67.95,
+        "T18": 61.0,
+        "T19": 54.65,
+        "T20": 49.4
+    },
+    {
+        "Age": 19,
+        "T15": 90.55,
+        "T16": 77.75,
+        "T17": 67.95,
+        "T18": 61.05,
+        "T19": 54.65,
+        "T20": 49.45
+    },
+    {
+        "Age": 20,
+        "T15": 90.55,
+        "T16": 77.75,
+        "T17": 67.95,
+        "T18": 61.05,
+        "T19": 54.65,
+        "T20": 49.45
+    },
+    {
+        "Age": 21,
+        "T15": 90.55,
+        "T16": 77.75,
+        "T17": 67.95,
+        "T18": 61.05,
+        "T19": 54.7,
+        "T20": 49.45
+    },
+    {
+        "Age": 22,
+        "T15": 90.55,
+        "T16": 77.75,
+        "T17": 68.0,
+        "T18": 61.05,
+        "T19": 54.7,
+        "T20": 49.45
+    },
+    {
+        "Age": 23,
+        "T15": 90.55,
+        "T16": 77.8,
+        "T17": 68.0,
+        "T18": 61.05,
+        "T19": 54.7,
+        "T20": 49.5
+    },
+    {
+        "Age": 24,
+        "T15": 90.6,
+        "T16": 77.8,
+        "T17": 68.0,
+        "T18": 61.1,
+        "T19": 54.75,
+        "T20": 49.5
+    },
+    {
+        "Age": 25,
+        "T15": 90.6,
+        "T16": 77.8,
+        "T17": 68.05,
+        "T18": 61.1,
+        "T19": 54.75,
+        "T20": 49.55
+    },
+    {
+        "Age": 26,
+        "T15": 90.65,
+        "T16": 77.85,
+        "T17": 68.05,
+        "T18": 61.15,
+        "T19": 54.8,
+        "T20": 49.6
+    },
+    {
+        "Age": 27,
+        "T15": 90.65,
+        "T16": 77.9,
+        "T17": 68.1,
+        "T18": 61.2,
+        "T19": 54.85,
+        "T20": 49.65
+    },
+    {
+        "Age": 28,
+        "T15": 90.7,
+        "T16": 77.95,
+        "T17": 68.15,
+        "T18": 61.25,
+        "T19": 54.9,
+        "T20": 49.7
+    },
+    {
+        "Age": 29,
+        "T15": 90.75,
+        "T16": 78.0,
+        "T17": 68.2,
+        "T18": 61.3,
+        "T19": 54.95,
+        "T20": 49.75
+    },
+    {
+        "Age": 30,
+        "T15": 90.85,
+        "T16": 78.05,
+        "T17": 68.25,
+        "T18": 61.4,
+        "T19": 55.05,
+        "T20": 49.85
+    },
+    {
+        "Age": 31,
+        "T15": 90.9,
+        "T16": 78.15,
+        "T17": 68.35,
+        "T18": 61.5,
+        "T19": 55.15,
+        "T20": 49.95
+    },
+    {
+        "Age": 32,
+        "T15": 91.0,
+        "T16": 78.2,
+        "T17": 68.45,
+        "T18": 61.6,
+        "T19": 55.25,
+        "T20": 50.05
+    },
+    {
+        "Age": 33,
+        "T15": 91.1,
+        "T16": 78.35,
+        "T17": 68.55,
+        "T18": 61.7,
+        "T19": 55.4,
+        "T20": 50.2
+    },
+    {
+        "Age": 34,
+        "T15": 91.2,
+        "T16": 78.45,
+        "T17": 68.7,
+        "T18": 61.85,
+        "T19": 55.55,
+        "T20": 50.35
+    },
+    {
+        "Age": 35,
+        "T15": 91.35,
+        "T16": 78.6,
+        "T17": 68.85,
+        "T18": 62.0,
+        "T19": 55.7,
+        "T20": 50.55
+    },
+    {
+        "Age": 36,
+        "T15": 91.5,
+        "T16": 78.75,
+        "T17": 69.0,
+        "T18": 62.2,
+        "T19": 55.9,
+        "T20": 50.75
+    },
+    {
+        "Age": 37,
+        "T15": 91.7,
+        "T16": 78.95,
+        "T17": 69.2,
+        "T18": 62.4,
+        "T19": 56.1,
+        "T20": 50.95
+    },
+    {
+        "Age": 38,
+        "T15": 91.9,
+        "T16": 79.15,
+        "T17": 69.45,
+        "T18": 62.6,
+        "T19": 56.35,
+        "T20": 51.2
+    },
+    {
+        "Age": 39,
+        "T15": 92.15,
+        "T16": 79.4,
+        "T17": 69.7,
+        "T18": 62.9,
+        "T19": 56.6,
+        "T20": 51.5
+    },
+    {
+        "Age": 40,
+        "T15": 92.4,
+        "T16": 79.7,
+        "T17": 69.95,
+        "T18": 63.2,
+        "T19": 56.95,
+        "T20": 51.8
+    },
+    {
+        "Age": 41,
+        "T15": 92.7,
+        "T16": 80.0,
+        "T17": 70.3,
+        "T18": 63.5,
+        "T19": 57.3,
+        "T20": 52.15
+    },
+    {
+        "Age": 42,
+        "T15": 93.05,
+        "T16": 80.35,
+        "T17": 70.65,
+        "T18": 63.9,
+        "T19": 57.65,
+        "T20": 52.6
+    },
+    {
+        "Age": 43,
+        "T15": 93.45,
+        "T16": 80.75,
+        "T17": 71.05,
+        "T18": 64.35,
+        "T19": 58.1,
+        "T20": 53.05
+    },
+    {
+        "Age": 44,
+        "T15": 93.9,
+        "T16": 81.2,
+        "T17": 71.5,
+        "T18": 64.8,
+        "T19": 58.6,
+        "T20": 53.5
+    },
+    {
+        "Age": 45,
+        "T15": 94.4,
+        "T16": 81.7,
+        "T17": 72.05,
+        "T18": 65.35,
+        "T19": 59.15,
+        "T20": 54.05
+    },
+    {
+        "Age": 46,
+        "T15": 94.95,
+        "T16": 82.25,
+        "T17": 72.6,
+        "T18": 65.9,
+        "T19": 59.75,
+        "T20": 54.7
+    },
+    {
+        "Age": 47,
+        "T15": 95.55,
+        "T16": 82.85,
+        "T17": 73.2,
+        "T18": 66.55,
+        "T19": 60.35,
+        "T20": 55.35
+    },
+    {
+        "Age": 48,
+        "T15": 96.2,
+        "T16": 83.55,
+        "T17": 73.9,
+        "T18": 67.25,
+        "T19": 61.1,
+        "T20": 56.05
+    },
+    {
+        "Age": 49,
+        "T15": 96.95,
+        "T16": 84.25,
+        "T17": 74.6,
+        "T18": 68.0,
+        "T19": 61.85,
+        "T20": 56.8
+    },
+    {
+        "Age": 50,
+        "T15": 97.7,
+        "T16": 85.05,
+        "T17": 75.4,
+        "T18": 68.8,
+        "T19": 62.65,
+        "T20": 57.65
+    }
+];
 
     const pwbRiderRates = [{"A":1.7,"B":1.7,"C":1.85,"D":2.1,"E":2.45,"F":3.1,"G":4.1,"Term":5},{"A":1.8,"B":1.85,"C":1.95,"D":2.25,"E":2.7,"F":3.55,"G":4.8,"Term":6},{"A":1.9,"B":1.9,"C":2.1,"D":2.4,"E":2.95,"F":4,"G":5.55,"Term":7},{"A":1.95,"B":2,"C":2.2,"D":2.6,"E":3.25,"F":4.5,"G":6.3,"Term":8},{"A":2,"B":2.1,"C":2.3,"D":2.8,"E":3.6,"F":5,"G":7.05,"Term":9},{"A":2.2,"B":2.25,"C":2.55,"D":3.1,"E":4.05,"F":5.75,"G":8.15,"Term":10},{"A":2.25,"B":2.4,"C":2.65,"D":3.3,"E":4.4,"F":6.35,"G":9,"Term":11},{"A":2.3,"B":2.45,"C":2.8,"D":3.5,"E":4.8,"F":6.9,"G":9.85,"Term":12}];
 
@@ -215,7 +675,7 @@
 
 
     // --- MAIN CALCULATION ---
-    function calculatePremium() {
+  function calculatePremium() {
         clearAllResults();
         const errorDiv = document.getElementById("error-message");
 
@@ -247,44 +707,35 @@
 
         const ppt = term - 8;
         
-        // --- BSMDT CALCULATION (ORIGINAL LOGIC UNCHANGED) ---
         // B: Base Premium
         const annualTabularPremium = (tabularRate * sumAssured) / 1000;
 
         // S: Sum Assured Rebate
-       // --- REPLACE WITH THIS NEW BLOCK ---
-
-// S: Sum Assured Rebate
-let saRebateRate = 0; 
-
-if (addbSelected) {
-    // --- SET 1: Rates for when ADDB is CHECKED (Your original logic) ---
-    if (age >= 1 && age <= 17) {
-        if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; 
-    } else if (age >= 18 && age <= 50) {
-        if (term === 15) { if (sa === 500000) saRebateRate = 1.40; else if (sa >= 400000) saRebateRate = 1.00; else if (sa >= 300000) saRebateRate = 0.20; }
-        else if (term === 16) { if (sa === 500000) saRebateRate = 1.55; else if (sa >= 400000) saRebateRate = 1.15; else if (sa >= 300000) saRebateRate = 0.35; else if (sa >=200000) saRebateRate = 0.15; }
-        else if (term === 17) { if (sa === 500000) saRebateRate = 1.60; else if (sa >= 400000) saRebateRate = 1.20; else if (sa >= 300000) saRebateRate = 0.40; else if (sa >= 200000) saRebateRate = 0.20; }
-        else if (term === 18) { if (sa === 500000) saRebateRate = 1.70; else if (sa >= 400000) saRebateRate = 1.30; else if (sa >= 300000) saRebateRate = 0.50; else if (sa >= 200000) saRebateRate = 0.30; }
-        else if (term === 19) { if (sa === 500000) saRebateRate = 1.75; else if (sa >= 400000) saRebateRate = 1.35; else if (sa >= 300000) saRebateRate = 0.60; else if (sa >= 200000) saRebateRate = 0.35; }
-        else if (term === 20) { if (sa === 500000) saRebateRate = 1.80; else if (sa >= 400000) saRebateRate = 1.40; else if (sa >= 300000) saRebateRate = 0.60; else if (sa >= 200000) saRebateRate = 0.40; }
-    }
-} else {
-    // --- SET 2: New Rates for when ADDB is NOT CHECKED ---
-    // ** IMPORTANT: Replace these example rates with your actual new values! **
-    if (age >= 1 && age <= 17) {
-        // Example: slightly higher rebate without ADDB
-        if (sa === 500000) saRebateRate = 2.50; else if (sa >= 400000) saRebateRate = 2.00; else if (sa >= 300000) saRebateRate = 1.00;
-    } else if (age >= 18 && age <= 50) {
-        // Example: slightly higher rebate without ADDB
-        if (term === 15) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
-        else if (term === 16) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
-        else if (term === 17) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
-        else if (term === 18) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.49; else if (sa >= 300000) saRebateRate = 0.50; }
-        else if (term === 19) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
-        else if (term === 20) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
-    }
-}
+        let saRebateRate = 0; 
+        if (addbSelected) {
+            if (age >= 1 && age <= 17) {
+                if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; 
+            } else if (age >= 18 && age <= 50) {
+                if (term === 15) { if (sa === 500000) saRebateRate = 1.40; else if (sa >= 400000) saRebateRate = 1.00; else if (sa >= 300000) saRebateRate = 0.20; }
+                else if (term === 16) { if (sa === 500000) saRebateRate = 1.55; else if (sa >= 400000) saRebateRate = 1.15; else if (sa >= 300000) saRebateRate = 0.35; else if (sa >=200000) saRebateRate = 0.15; }
+                else if (term === 17) { if (sa === 500000) saRebateRate = 1.60; else if (sa >= 400000) saRebateRate = 1.20; else if (sa >= 300000) saRebateRate = 0.40; else if (sa >= 200000) saRebateRate = 0.20; }
+                else if (term === 18) { if (sa === 500000) saRebateRate = 1.70; else if (sa >= 400000) saRebateRate = 1.30; else if (sa >= 300000) saRebateRate = 0.50; else if (sa >= 200000) saRebateRate = 0.30; }
+                else if (term === 19) { if (sa === 500000) saRebateRate = 1.75; else if (sa >= 400000) saRebateRate = 1.35; else if (sa >= 300000) saRebateRate = 0.60; else if (sa >= 200000) saRebateRate = 0.35; }
+                else if (term === 20) { if (sa === 500000) saRebateRate = 1.80; else if (sa >= 400000) saRebateRate = 1.40; else if (sa >= 300000) saRebateRate = 0.60; else if (sa >= 200000) saRebateRate = 0.40; }
+            }
+        } else {
+            // --- Rebate Rates when ADDB is NOT selected ---
+            if (age >= 1 && age <= 17) {
+                if (sa === 500000) saRebateRate = 2.50; else if (sa >= 400000) saRebateRate = 2.00; else if (sa >= 300000) saRebateRate = 1.00;
+            } else if (age >= 18 && age <= 50) {
+                if (term === 15) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+                else if (term === 16) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+                else if (term === 17) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+                else if (term === 18) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.49; else if (sa >= 300000) saRebateRate = 0.50; }
+                else if (term === 19) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+                else if (term === 20) { if (sa === 500000) saRebateRate = 2.00; else if (sa >= 400000) saRebateRate = 1.50; else if (sa >= 300000) saRebateRate = 0.50; }
+            }
+        }
         const annualSaRebateAmount = (saRebateRate * sumAssured) / 1000;
         
         // D: ADDB Rider Premium
@@ -293,7 +744,7 @@ if (addbSelected) {
         let annualAddbPremium = 0;
         if (age >= 18 && addbSelected) { annualAddbPremium = (dabRatePer1000 * sumAssured) / 1000; }
 
-        // PWB RIDER PREMIUM CALCULATION (NEW LOGIC)
+        // PWB RIDER PREMIUM CALCULATION
         let annualPwbPremium = 0;
         if (pwbSelected) {
             const pwbRate = getPwbRate(proposerAge, ppt, pwbRiderRates);
@@ -301,62 +752,64 @@ if (addbSelected) {
                 errorDiv.textContent = `PWB rate for Proposer Age ${proposerAge} and PPT ${ppt} not found.`;
                 return;
             }
-            //annualPwbPremium = (pwbRate / 1000) * sumAssured;
-            
-     //const pwbAnnualPremium = (((sumAssured / 1000) * baseRates[age][term]) / 100) * pwbRate;       
-    // annualPwbPremium = (pwbRate / 1000) * annualTabularPremium;      
-//const pwbAnnualPremium = ((((sumAssured / 1000) * baseRates[age][term]) * pwbRate) / 100) * 1.1; 
-//const pwbAnnualPremium = ((annualTabularPremium * pwbRate) / 100) * 1.1;
-//const pwbAnnualPremium = (((annualTabularPremium * pwbRate) / 100) * 1.1);
-//const pwbAnnualPremium = ((pwbRate / 100) * annualTabularPremium) * 1.1;
-const pwbAnnualPremium = ((annualTabularPremium * pwbRate) / 100) * 1.1;
-
-
+            annualPwbPremium = ((annualTabularPremium * pwbRate) / 100) * 1.1;
         }
 
-        // M: Mode Rebate & T: Tax
+        // M: Mode Rebate
         const modes = {
             yearly: { name: "Yearly", factor: 1.0, modeRebatePercent: 0.02 },
             "half-yearly": { name: "Half-Yearly", factor: 0.5000, modeRebatePercent: 0.01 },
             quarterly: { name: "Quarterly", factor: 0.2500, modeRebatePercent: 0 },
-            monthly: { name: "Monthly (NACH)", factor: 0.0833, modeRebatePercent: 0 }
+            monthly: { name: "Monthly", factor: 0.0833, modeRebatePercent: 0 }
         };
 
         let ridersIndicator = addbSelected ? " | ADDB Rider" : "";
         ridersIndicator += pwbSelected ? " | PWB Rider" : "";
-        let outputHTML = `<p class="plan-details text-center"><b>Policy Term:</b> ${term} Years | <b>Premium Paying Term:</b> ${ppt} Years${ridersIndicator}</p>`;
+        
+        const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+
+        // Start Table Generation
+        let outputHTML = `
+            <p class="plan-details text-center"><b>Policy Term:</b> ${term} Years | <b>Premium Paying Term:</b> ${ppt} Years${ridersIndicator}</p>
+            <h4 class="text-center mt-3">Premium Summary</h4>
+            <table class="table table-bordered table-striped mt-2">
+                <thead class="table-light">
+                    <tr>
+                        <th>Mode</th>
+                        <th>Premium (Excl. GST)</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
 
         for (const modeKey in modes) {
             const mode = modes[modeKey];
             
-            // --- ORIGINAL CALCULATION LOGIC (UNCHANGED) ---
             let annualBaseAfterRebates = annualTabularPremium - annualSaRebateAmount;
 
+            // Apply Mode Rebate to Base Premium
             if (mode.modeRebatePercent > 0) {
                 annualBaseAfterRebates -= (annualTabularPremium * mode.modeRebatePercent);
             }
 
+            // Total Annual Premium (Excluding GST)
             const annualPayablePremium = annualBaseAfterRebates + annualAddbPremium + annualPwbPremium;
             
-            const premiumBeforeTax = annualPayablePremium * mode.factor;
-            const gst1stYear = premiumBeforeTax * 0.045;
-            const finalPremium1stYear = premiumBeforeTax + gst1stYear;
-            const gst2ndYear = premiumBeforeTax * 0.0225;
-            const finalPremium2ndYear = premiumBeforeTax + gst2ndYear;
+            // Calculate Modal Premium (Excluding GST)
+            const modalPremium = annualPayablePremium * mode.factor;
             
-            const formatInr = (num) => num.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0});
             outputHTML += `
-              <div class="result-box mb-3 p-3">
-                <strong class="text-white" style="background-color: #0dcaf0; padding: 2px 5px; border-radius: 3px;">${mode.name.toUpperCase()} PREMIUM</strong><hr class="my-2">
-                <div><b>1st Year:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium1stYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst1stYear)})</small></div>
-                <div class="mt-2"><b>2nd Year Onwards:</b> <span class="fw-bold fs-5">₹${formatInr(finalPremium2ndYear)}</span><small class="d-block text-muted">(Base: ₹${formatInr(premiumBeforeTax)} + GST: ₹${formatInr(gst2ndYear)})</small></div>
-              </div>
+                <tr>
+                    <td>${mode.name}</td>
+                    <td>₹ ${formatInr(modalPremium)}</td>
+                </tr>
             `;
         }
+
+        outputHTML += `</tbody></table>`;
         document.getElementById("premium-results").innerHTML = outputHTML;
         document.getElementById("results").classList.remove("d-none");
     }
-
 
 function shareOnWhatsApp() {
     // 1. Get Plan Name (Looks for H1 or H3)
