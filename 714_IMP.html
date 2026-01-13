@@ -209,9 +209,11 @@
         </div>
 
         <div class="results-panel" id="resultsPanel">
-            <div class="asset-summary">
-                TOTAL ASSET = INFLOWS - OUTFLOWS : <span id="assetVal">₹0</span>
-            </div>
+        <div class="asset-summary">
+    TOTAL ASSET = INFLOWS-OUTFLOWS: <span id="assetVal">₹0</span> 
+    <span style="margin: 0 20px; opacity: 0.5;">|</span> 
+    PROJECTED YIELD (XIRR): <span id="xirrVal" style="color: #ffcc00;">0.00%</span>
+</div>
             <div class="table-container">
                 <table id="irrTable">
                     <thead>
@@ -353,69 +355,124 @@ const trRates = {
         return basePrem + addbPrem + trPrem;
     }
 
-    function generateReport() {
-        const sa = parseInt(document.getElementById('sumAssured').value);
-        const age = parseInt(document.getElementById('age').value);
-        const term = parseInt(document.getElementById('term').value);
-        const addbSa = parseInt(document.getElementById('addbSaValue').value);
-        const trSa = parseInt(document.getElementById('trSaValue').value);
-        const errorBox = document.getElementById('errorMsg');
+function calculateXIRR(cashflows) {
+    let irr = 0.1; // Initial guess
+    const maxIterations = 100;
+    const tolerance = 0.00001;
 
-        errorBox.style.display = "none";
-        let errors = [];
-        if (age < 8 || age > 50) errors.push("⚠️ Entry Age must be between 8 and 50 years.");
-        if (term < 12 || term > 35) errors.push("⚠️ Policy Term must be between 12 and 35 years.");
-        if (sa < 200000) errors.push("⚠️ Minimum Basic Sum Assured is ₹2,00,000.");
-        
-        if (document.getElementById('addbCheck').checked) {
-            if (addbSa > sa) errors.push("⚠️ AD&DB Rider SA cannot exceed the Basic Sum Assured.");
-            if (addbSa > 10000000) errors.push("⚠️ Max AD&DB Rider allowed for this plan is ₹1,00,00,000.");
-            if (age < 18) errors.push("⚠️ AD&DB Rider is only available for age 18 and above.");
+    for (let i = 0; i < maxIterations; i++) {
+        let npv = 0;
+        let dnpv = 0;
+        for (let t = 0; t < cashflows.length; t++) {
+            npv += cashflows[t] / Math.pow(1 + irr, t);
+            dnpv -= t * cashflows[t] / Math.pow(1 + irr, t + 1);
         }
-        if (document.getElementById('trCheck').checked) {
-            if (trSa > sa) errors.push("⚠️ Term Rider SA cannot exceed the Basic Sum Assured.");
-            if (trSa > 2500000) errors.push("⚠️ Max Term Rider SA allowed for this plan is ₹25,00,000.");
-        }
-
-        if (errors.length > 0) {
-            errorBox.innerHTML = errors.join("<br>");
-            errorBox.style.display = "block";
-            return;
-        }
-
-        const premium = calculateExactPremium();
-        document.getElementById('resultsPanel').style.display = 'block';
-        
-        const bonusRate = parseFloat(document.getElementById('bonusRate').value);
-        const fabRate = parseFloat(document.getElementById('fabRate').value);
-        const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = '';
-        
-        let totals = { outflow:0, inflow:0, bonus:0, fab:0 };
-        const tabularRate = premiumRates[age] ? premiumRates[age][term] : 58.05;
-        let saRebateDB = (sa >= 1000000) ? 4.0815 : (sa >= 500000 ? 2.550 : 0);
-        let annualizedBase = (tabularRate - saRebateDB) * (sa / 1000);
-
-        for (let i = 0; i <= term; i++) {
-            let yrOut = (i < term) ? premium : 0;
-            let yrIn = (i === term) ? sa + (sa/1000*bonusRate*term) + (sa/1000*fabRate) : 0;
-            let bonusAcc = (sa/1000)*bonusRate*i;
-            
-            let compA = sa + bonusAcc + (i >= 15 ? (sa/1000*fabRate) : 0);
-            let compB = annualizedBase * 7;
-            let compC = (premium * i) * 1.05;
-            let db = (i === 0) ? sa : Math.max(compA, compB, compC);
-
-            let net = yrIn - yrOut;
-            totals.outflow += yrOut; totals.inflow += yrIn; totals.bonus = (sa/1000)*bonusRate*term; totals.fab = (sa/1000)*fabRate;
-
-            tbody.innerHTML += `<tr><td>${i}</td><td>${age+i}</td><td class="row-outflow">${yrOut>0?'₹'+yrOut.toLocaleString():'-'}</td><td class="row-inflow">${yrIn>0?'₹'+Math.round(yrIn).toLocaleString():'-'}</td><td>-</td><td>₹${Math.round(bonusAcc).toLocaleString()}</td><td>${i===term?'₹'+Math.round(totals.fab).toLocaleString():'-'}</td><td>-</td><td style="color:blue;font-weight:700">₹${Math.round(db).toLocaleString()}</td><td style="background:#f0f7ff;font-weight:700">${net>=0?'+':''}₹${net.toLocaleString()}</td></tr>`;
-        }
-
-        document.getElementById('tableFoot').innerHTML = `<tr class="total-row"><td colspan="2">TOTAL</td><td>₹${totals.outflow.toLocaleString()}</td><td>₹${Math.round(totals.inflow).toLocaleString()}</td><td>-</td><td>₹${Math.round(totals.bonus).toLocaleString()}</td><td>₹${Math.round(totals.fab).toLocaleString()}</td><td>-</td><td>-</td><td>₹${Math.round(totals.inflow-totals.outflow).toLocaleString()}</td></tr>`;
-        document.getElementById('assetVal').innerText = "₹" + Math.round(totals.inflow - totals.outflow).toLocaleString();
+        let nextIrr = irr - npv / dnpv;
+        if (Math.abs(nextIrr - irr) < tolerance) return nextIrr;
+        irr = nextIrr;
     }
-    window.onload = updatePPT;
+    return irr;
+}
+
+function generateReport() {
+    const sa = parseInt(document.getElementById('sumAssured').value);
+    const age = parseInt(document.getElementById('age').value);
+    const term = parseInt(document.getElementById('term').value);
+    const addbSa = parseInt(document.getElementById('addbSaValue').value);
+    const trSa = parseInt(document.getElementById('trSaValue').value);
+    const errorBox = document.getElementById('errorMsg');
+
+    errorBox.style.display = "none";
+    let errors = [];
+    if (age < 8 || age > 50) errors.push("⚠️ Entry Age must be between 8 and 50 years.");
+    if (term < 12 || term > 35) errors.push("⚠️ Policy Term must be between 12 and 35 years.");
+    if (sa < 200000) errors.push("⚠️ Minimum Basic Sum Assured is ₹2,00,000.");
+    
+    if (document.getElementById('addbCheck').checked) {
+        if (addbSa > sa) errors.push("⚠️ AD&DB Rider SA cannot exceed the Basic Sum Assured.");
+        if (addbSa > 10000000) errors.push("⚠️ Max AD&DB Rider allowed for this plan is ₹1,00,00,000.");
+        if (age < 18) errors.push("⚠️ AD&DB Rider is only available for age 18 and above.");
+    }
+    if (document.getElementById('trCheck').checked) {
+        if (trSa > sa) errors.push("⚠️ Term Rider SA cannot exceed the Basic Sum Assured.");
+        if (trSa > 2500000) errors.push("⚠️ Max Term Rider SA allowed for this plan is ₹25,00,000.");
+    }
+
+    if (errors.length > 0) {
+        errorBox.innerHTML = errors.join("<br>");
+        errorBox.style.display = "block";
+        return;
+    }
+
+    const premium = calculateExactPremium();
+    document.getElementById('resultsPanel').style.display = 'block';
+    
+    const bonusRate = parseFloat(document.getElementById('bonusRate').value);
+    const fabRate = parseFloat(document.getElementById('fabRate').value);
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+    
+    let totals = { outflow:0, inflow:0, bonus:0, fab:0 };
+    let cashflows = []; // Array to store annual net flows for XIRR
+    
+    const tabularRate = premiumRates[age] ? premiumRates[age][term] : 58.05;
+    let saRebateDB = (sa >= 1000000) ? 4.0815 : (sa >= 500000 ? 2.550 : 0);
+    let annualizedBase = (tabularRate - saRebateDB) * (sa / 1000);
+
+    for (let i = 0; i <= term; i++) {
+        let yrOut = (i < term) ? premium : 0;
+        let yrIn = (i === term) ? sa + (sa/1000*bonusRate*term) + (sa/1000*fabRate) : 0;
+        
+        // Track net cashflow for XIRR calculation
+        let net = yrIn - yrOut;
+        cashflows.push(net);
+
+        let bonusAcc = (sa/1000)*bonusRate*i;
+        let compA = sa + bonusAcc + (i >= 15 ? (sa/1000*fabRate) : 0);
+        let compB = annualizedBase * 7;
+        let compC = (premium * i) * 1.05;
+        let db = (i === 0) ? sa : Math.max(compA, compB, compC);
+
+        totals.outflow += yrOut; 
+        totals.inflow += yrIn; 
+        totals.bonus = (sa/1000)*bonusRate*term; 
+        totals.fab = (sa/1000)*fabRate;
+
+        tbody.innerHTML += `<tr>
+            <td>${i}</td>
+            <td>${age+i}</td>
+            <td class="row-outflow">${yrOut>0?'₹'+yrOut.toLocaleString():'-'}</td>
+            <td class="row-inflow">${yrIn>0?'₹'+Math.round(yrIn).toLocaleString():'-'}</td>
+            <td>-</td>
+            <td>₹${Math.round(bonusAcc).toLocaleString()}</td>
+            <td>${i===term?'₹'+Math.round(totals.fab).toLocaleString():'-'}</td>
+            <td>-</td>
+            <td style="color:blue;font-weight:700">₹${Math.round(db).toLocaleString()}</td>
+            <td style="background:#f0f7ff;font-weight:700">${net>=0?'+':''}₹${net.toLocaleString()}</td>
+        </tr>`;
+    }
+
+    // Calculate and display XIRR
+    const xirrResult = calculateXIRR(cashflows);
+    document.getElementById('xirrVal').innerText = (xirrResult * 100).toFixed(2) + "%";
+
+    document.getElementById('tableFoot').innerHTML = `<tr class="total-row">
+        <td colspan="2">TOTAL</td>
+        <td>₹${totals.outflow.toLocaleString()}</td>
+        <td>₹${Math.round(totals.inflow).toLocaleString()}</td>
+        <td>-</td>
+        <td>₹${Math.round(totals.bonus).toLocaleString()}</td>
+        <td>₹${Math.round(totals.fab).toLocaleString()}</td>
+        <td>-</td>
+        <td>-</td>
+        <td>₹${Math.round(totals.inflow-totals.outflow).toLocaleString()}</td>
+    </tr>`;
+    
+    document.getElementById('assetVal').innerText = "₹" + Math.round(totals.inflow - totals.outflow).toLocaleString();
+}
+
+
+  window.onload = updatePPT;
 </script>
 </body>
 </html>
