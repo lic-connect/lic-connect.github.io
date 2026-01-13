@@ -9,163 +9,235 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-green: #2ecc71;
-            --dark-green: #27ae60;
-            --lic-blue: #00529b;
-            --gold: #f1c40f;
-            --black: #1a1a1a;
-        }
+      :root {
+        --fb-blue: #1877f2;
+        --fb-blue-dark: #0e5a8a;
+        --white: #ffffff;
+        --glass-white: rgba(255, 255, 255, 0.9);
+        --black: #000000;
+        --shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: white;
-            min-height: 100vh;
-        }
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        color: var(--black);
+        background-color: var(--white);
+        /* Large Architectural Grid Background */
+        background-image: 
+            linear-gradient(to right, rgba(24, 119, 242, 0.05) 2px, transparent 2px),
+            linear-gradient(to bottom, rgba(24, 119, 242, 0.05) 2px, transparent 2px);
+        background-size: 100px 100px;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 60px 20px;
+        position: relative;
+    }
 
-        /* --- Header Section --- */
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-            animation: fadeInDown 1s ease-out;
-        }
+    /* --- Wow Factor Header --- */
+    header {
+        text-align: center;
+        margin-bottom: 70px;
+        position: relative;
+    }
 
-        header h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin: 0;
-            background: linear-gradient(to right, var(--primary-green), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+    header p:first-child {
+        color: var(--fb-blue);
+        font-weight: 800;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        margin-bottom: 0;
+    }
 
-        header p {
-            font-size: 1.2rem;
-            color: #bdc3c7;
-            margin-top: 10px;
-        }
+    header h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: clamp(3rem, 8vw, 5.5rem);
+        font-weight: 900;
+        margin: 0;
+        color: var(--fb-blue);
+        text-transform: uppercase;
+        line-height: 0.9;
+        text-shadow: 10px 10px 0px rgba(24, 119, 242, 0.05);
+        letter-spacing: -2px;
+    }
 
-        /* --- Legend / Key Section --- */
-        .legend-box {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 50px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
+    header p:last-child {
+        font-size: 1.5rem;
+        color: var(--black);
+        font-weight: 300;
+        margin-top: 10px;
+    }
 
-        .legend-title {
-            color: var(--gold);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    /* --- Legend Mirror Box --- */
+    .legend-box {
+        background: var(--glass-white);
+        backdrop-filter: blur(15px);
+        border: 2px solid var(--fb-blue);
+        border-radius: 0; /* Modern architectural sharp edges */
+        padding: 40px;
+        margin-bottom: 60px;
+        box-shadow: 20px 20px 0px var(--fb-blue);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .legend-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            font-size: 0.85rem;
-            color: #eee;
-        }
+    .legend-title {
+        color: var(--fb-blue);
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+        border-bottom: 6px solid var(--fb-blue);
+    }
 
-        .legend-item b {
-            color: var(--primary-green);
-        }
+    .legend-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        width: 100%;
+    }
 
-        /* --- Calculator Grid --- */
-        .calc-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
+    .legend-item {
+        font-weight: 600;
+        padding: 10px;
+        border-left: 3px solid var(--fb-blue);
+        background: rgba(24, 119, 242, 0.03);
+    }
 
-        @media (max-width: 900px) {
-            .calc-wrapper { grid-template-columns: 1fr; }
-            header h1 { font-size: 2.2rem; }
-        }
+    .legend-item b {
+        color: var(--fb-blue);
+        font-size: 1.1rem;
+    }
 
-        .column-header {
-            background: var(--lic-blue);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            border-bottom: 4px solid var(--gold);
-        }
+    /* --- 3D Dashboard Columns --- */
+    .column-header {
+        background: var(--fb-blue);
+        color: var(--white);
+        padding: 25px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 900;
+        margin-bottom: 30px;
+        box-shadow: 10px 10px 0px var(--black);
+        text-transform: uppercase;
+        position: relative;
+    }
 
-        .link-card {
-            background: var(--primary-green);
-            color: var(--black);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 20px;
-            margin-bottom: 12px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-            border: 2px solid transparent;
-        }
+    /* --- The 3D Mirror/Glass Buttons --- */
+    .link-card {
+        background: var(--white);
+        color: var(--black);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 30px;
+        margin-bottom: 25px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        border: 2px solid var(--fb-blue);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        box-shadow: 6px 6px 0px var(--fb-blue); /* 3D effect */
+    }
 
-        .link-card:hover {
-            transform: scale(1.03) translateX(10px);
-            background: var(--gold);
-            box-shadow: 0 10px 25px rgba(241, 196, 15, 0.4);
-        }
+    /* Mirror Shine Effect Overlay */
+    .link-card::before {
+        content: "";
+        position: absolute;
+        top: -100%;
+        left: -100%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent 0%,
+            transparent 40%,
+            rgba(255, 255, 255, 0.8) 50%,
+            transparent 60%,
+            transparent 100%
+        );
+        transition: all 0.6s;
+        pointer-events: none;
+    }
 
-        .link-card i {
-            font-size: 1.2rem;
-            opacity: 0.7;
-        }
+    .link-card:hover::before {
+        top: -50%;
+        left: -50%;
+    }
 
-        .link-text {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    .link-card:hover {
+        transform: translate(-4px, -4px);
+        box-shadow: 15px 15px 0px var(--black);
+        background-color: var(--fb-blue);
+        color: var(--white);
+    }
 
-        /* --- Animations --- */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .link-card i {
+        color: var(--fb-blue);
+        transition: all 0.3s;
+    }
 
-        .link-card {
-            animation: slideIn 0.5s ease-out forwards;
-            opacity: 0;
-        }
+    .link-card:hover i {
+        color: var(--white);
+        transform: scale(1.2) rotate(-10deg);
+    }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+    .link-text {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
 
-        /* Delay for a cascade effect */
-        .link-card:nth-child(n) { animation-delay: 0.1s; }
+    /* Floating WOW Elements (Visual Grid Accents) */
+    .container::before {
+        content: "887";
+        position: fixed;
+        top: 10%;
+        right: -5%;
+        font-size: 20rem;
+        font-weight: 900;
+        color: rgba(24, 119, 242, 0.03);
+        z-index: -1;
+        font-family: 'Montserrat';
+    }
+
+    footer {
+        color: var(--fb-blue);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        padding: 60px 0;
+        border-top: 2px solid rgba(24, 119, 242, 0.1);
+    }
+
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+        width: 12px;
+    }
+    ::-webkit-scrollbar-track {
+        background: var(--white);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: var(--fb-blue);
+        border: 3px solid var(--white);
+    }
+
+    @media (max-width: 900px) {
+        header h1 { font-size: 3.5rem; }
+        .calc-wrapper { gap: 20px; }
+        .link-card { padding: 18px 20px; font-size: 0.9rem; }
+        background-size: 50px 50px;
+    }
     </style>
 </head>
 <body>
@@ -252,5 +324,4 @@
 </footer>
 
 </body>
-
 </html>
