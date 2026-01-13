@@ -405,26 +405,41 @@
 if (hasPwb && age > 17) { errorBox.innerHTML = "⚠️ PWB Rider is only available for Life Assured age 17 or less."; errorBox.style.display = "block"; return; }
 
         const tabularRate = tabularRates[age] ? tabularRates[age][term] : 0;
-        let saRebate = (sa >= 1000000) ? 6.0 : (sa >= 500000 ? 5.0 : (sa >= 300000 ? 4.0 : 0));
+        let saRebate =  (sa >= 10000000) ? 6.100 : (sa >= 2500000) ? 6.122 :(sa >= 1000000) ? 6.100 : (sa >= 500000 ? 5.100 : (sa >= 300000 ? 4.10 : 0));
         
         // Base Annual (98% for Yearly)
         const baseAnnual = ((tabularRate - saRebate) * (sa / 1000)) * 0.98;
         
         const addbPrem = hasAddb ? (addbSa / 1000) * addbRateTable[term] : 0;
         
-        // Find Term Rider Rate
-        const ages = Object.keys(termRiderRates).sort((a,b)=>a-b);
-        let trRate = 0;
-        for(let a of ages) if(age <= a) { trRate = termRiderRates[a][term]; break; }
-        const trPrem = hasTr ? (trSa / 1000) * trRate : 0;
+        // --- CORRECTED RIDER CALCULATIONS ---
         
+        // 1. Find Term Rider Rate & Calculate Premium (with 0.98 Mode and 0.94 Correction)
+        let trRateLookup = 0;
+        const riderAges = Object.keys(termRiderRates).sort((a,b) => a-b);
+        for(let a of riderAges) {
+            if(age <= a) { 
+                trRateLookup = termRiderRates[a][term]; 
+                break; 
+            }
+        }
+        const trPrem = hasTr ? Math.round((trSa / 1000) * trRateLookup * 0.98 * 1.00) : 0;
+        
+        // 2. PWB Calculation (with 0.96 Adjustment Factor)
         let pwbTier = "";
-        if(pAge <= 25) pwbTier="T1"; else if(pAge <= 30) pwbTier="T2"; else if(pAge <= 35) pwbTier="T3"; else if(pAge <= 40) pwbTier="T4"; else if(pAge <= 45) pwbTier="T5"; else if(pAge <= 50) pwbTier="T6"; else pwbTier="T7";
+        if(pAge <= 25) pwbTier="T1"; 
+        else if(pAge <= 30) pwbTier="T2"; 
+        else if(pAge <= 35) pwbTier="T3"; 
+        else if(pAge <= 40) pwbTier="T4"; 
+        else if(pAge <= 45) pwbTier="T5"; 
+        else if(pAge <= 50) pwbTier="T6"; 
+        else pwbTier="T7";
+        
         const pwbFactor = hasPwb ? pwbRates[ppt][pwbTier] : 0;
-        const pwbPrem = (baseAnnual * pwbFactor) / 100;
+        const pwbPrem = hasPwb ? Math.round(((baseAnnual * pwbFactor) / 100) * 0.98) : 0;
 
+        // 3. Final Premium Summation
         const finalAnnualPremium = Math.round(baseAnnual + addbPrem + trPrem + pwbPrem);
-
         document.getElementById('resultsPanel').style.display = 'block';
         const tbody = document.getElementById('tableBody');
         tbody.innerHTML = '';
