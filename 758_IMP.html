@@ -6,40 +6,36 @@
     <title>LIC New Jeevan Shanti (758) IRR Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #0066cc; --accent: #ffcc00; --bg: #f4f8fb; --text: #333; --danger: #d32f2f; --success: #2e7d32; }
+        :root { --primary: #0054a6; --accent: #fdb913; --bg: #f4f7f6; --text: #333; --danger: #d32f2f; --success: #2e7d32; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: var(--text); }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .header { background: linear-gradient(135deg, #0066cc, #003366); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3); border-bottom: 4px solid var(--accent); }
+        .container { max-width: 1100px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 3px solid var(--accent); margin-bottom: 25px; padding-bottom: 10px; }
+        .header h1 { color: var(--primary); margin: 0; font-size: 24px; }
         
-        .grid-layout { display: grid; grid-template-columns: 320px 1fr; gap: 20px; }
-        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); }
+        .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 25px; }
+        .f-group { display: flex; flex-direction: column; }
+        label { font-weight: 600; font-size: 0.85rem; margin-bottom: 5px; color: var(--primary); }
+        input, select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
         
-        label { display: block; font-size: 0.85em; font-weight: 600; margin-bottom: 5px; color: #0066cc; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #b3d9ff; border-radius: 6px; font-size: 0.9em; margin-bottom: 15px; }
-        input:focus, select:focus { outline: none; border-color: var(--primary); }
-
-        .joint-section { background: #e3f2fd; padding: 10px; border-radius: 6px; margin-bottom: 15px; display: none; }
+        button { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 6px; font-weight: 700; cursor: pointer; width: 100%; font-size: 1.1rem; transition: 0.3s; }
+        button:hover { background: #003d7a; }
         
-        button { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #004080; transform: translateY(-2px); }
+        #errorBox { color: var(--danger); background: #ffebee; padding: 10px; border-radius: 5px; margin-bottom: 20px; display: none; font-weight: bold; border: 1px solid #ffcdd2; }
         
-        #errorMsg { color: var(--danger); background: #ffebee; padding: 10px; border-radius: 5px; font-size: 0.85em; margin-top: 10px; display: none; border: 1px solid #ef9a9a; }
+        .results { display: none; margin-top: 30px; }
+        .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .card { background: #eef5ff; padding: 20px; border-radius: 8px; text-align: center; border: 1px solid #d1e3ff; }
+        .card span { display: block; font-size: 0.8rem; color: #666; }
+        .card strong { font-size: 1.4rem; color: var(--primary); }
         
-        .results-panel { display: none; }
-        .summary-box { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .kpi-card { background: #004b8d; color: white; padding: 15px; border-radius: 8px; text-align: center; }
-        .kpi-card h3 { margin: 0; font-size: 0.8em; opacity: 0.9; }
-        .kpi-card span { font-size: 1.5em; font-weight: 700; }
-
-        .table-wrap { overflow-x: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85em; background: white; min-width: 900px; }
-        th { background: var(--primary); color: white; padding: 10px; text-align: center; }
-        td { padding: 8px; border: 1px solid #e3f2fd; text-align: center; }
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th { background: var(--primary); color: white; padding: 12px; text-align: center; }
+        td { padding: 10px; border: 1px solid #eee; text-align: center; }
+        tr:nth-child(even) { background: #f9f9f9; }
         .outflow { color: var(--danger); font-weight: bold; }
         .inflow { color: var(--success); font-weight: bold; }
-        .total-row { background: #bbdefb; font-weight: bold; color: #003366; }
-        
-        @media(max-width: 768px) { .grid-layout { grid-template-columns: 1fr; } }
+        .total-row { background: #0054a6 !important; color: white; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -47,99 +43,85 @@
 <div class="container">
     <div class="header">
         <h1>LIC New Jeevan Shanti (758)</h1>
-        <p style="margin:0; font-size:0.9em; opacity:0.9;">Deferred Annuity Plan | Single Premium</p>
+        <p>Deferred Annuity - IRR Calculator (No GST)</p>
     </div>
 
-    <div class="grid-layout">
-        <div class="card">
-            <h3>Plan Inputs</h3>
-            
+    <div id="errorBox"></div>
+
+    <div class="input-grid">
+        <div class="f-group">
             <label>Annuity Option</label>
-            <select id="annuityOption" onchange="toggleJoint()">
-                <option value="Single">Option 1: Deferred Annuity (Single Life)</option>
-                <option value="Joint">Option 2: Deferred Annuity (Joint Life)</option>
+            <select id="option" onchange="toggleJoint()">
+                <option value="Single">Single Life Deferred</option>
+                <option value="Joint">Joint Life Deferred</option>
             </select>
+        </div>
 
-            <label>Purchase Price (Min 1.5L)</label>
-            <input type="number" id="purchasePrice" value="1000000" step="10000" min="150000">
+        <div class="f-group">
+            <label>Purchase Price (No GST)</label>
+            <input type="number" id="pp" value="1100000">
+        </div>
 
-            <label>Deferment Period (1-12 Years)</label>
-            <select id="deferment">
+        <div class="f-group">
+            <label>Deferment Period</label>
+            <select id="df">
                 <option value="1">1 Year</option>
                 <option value="2">2 Years</option>
                 <option value="3">3 Years</option>
                 <option value="4">4 Years</option>
-                <option value="5" selected>5 Years</option
+                <option value="5" selected>5 Years</option>
             </select>
-
-            <label>Annuity Mode</label>
-            <select id="mode">
-                <option value="YLY">Yearly</option>
-                <option value="HLY">Half-Yearly</option>
-                <option value="QLY">Quarterly</option>
-                <option value="MLY">Monthly</option>
-            </select>
-
-            <label>Primary Annuitant Age (30-79)</label>
-            <input type="number" id="age" value="45" min="30" max="79">
-
-            <div class="joint-section" id="jointSec">
-                <label>Joint Annuitant Age (30-79)</label>
-                <input type="number" id="jointAge" value="40" min="30" max="79">
-            </div>
-
-            <!-- Optional Fields for Records -->
-            <label style="color:#666; border-top:1px solid #ddd; padding-top:10px; margin-top:10px;">Optional Policy Info (For Display)</label>
-            <input type="text" placeholder="Plan Number (Auto)" disabled>
-            <input type="date" placeholder="Loan Date (Optional)" id="loanDate">
-            <input type="number" placeholder="Loan Amount (Optional)" id="loanAmount">
-
-            <button onclick="generateReport()">Generate IRR Table</button>
-            <div id="errorMsg"></div>
         </div>
 
-        <div class="results-panel" id="resultsPanel">
-            <div class="summary-box">
-                <div class="kpi-card">
-                    <h3>Net Asset (Inflow - Outflow)</h3>
-                    <span id="netProfit">₹0</span>
-                </div>
-                <div class="kpi-card" style="background:#2e7d32;">
-                    <h3>XIRR (Yield)</h3>
-                    <span id="xirrVal">0.00%</span>
-                </div>
-            </div>
+        <div class="f-group">
+            <label>Primary Annuitant Age</label>
+            <input type="number" id="age1" value="45">
+        </div>
 
-            <div class="card" style="padding:0; overflow:hidden;">
-                <div class="table-wrap">
-                    <table id="flowTable">
-                        <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Age</th>
-                                <th>Outflow<br><small>(Premium)</small></th>
-                                <th>Inflow<br><small>(Annuity/Death)</small></th>
-                                <th>Net Flow</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody"></tbody>
-                        <tfoot id="tableFoot"></tfoot>
-                    </table>
-                </div>
+        <div class="f-group" id="jointInput" style="display:none;">
+            <label>Secondary Annuitant Age</label>
+            <input type="number" id="age2" value="41">
+        </div>
+    </div>
+
+    <button onclick="calculate()">Generate IRR Projection</button>
+
+    <div class="results" id="resultsArea">
+        <div class="summary-cards">
+            <div class="card">
+                <span>Annual Pension</span>
+                <strong id="resAnnuity">₹0</strong>
             </div>
+            <div class="card">
+                <span>Total Inflow (Projected)</span>
+                <strong id="resTotalIn">₹0</strong>
+            </div>
+            <div class="card">
+                <span>XIRR / Yield</span>
+                <strong id="resIRR" style="color:#2e7d32;">0.00%</strong>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Age</th>
+                        <th>Cash Outflow</th>
+                        <th>Annuity Inflow</th>
+                        <th>Net Cashflow</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
         </div>
     </div>
 </div>
 
 <script>
-    // =================================================================
-    // --- PASTE YOUR RATES HERE (REPLACE THE ARRAYS BELOW) ---
-    // =================================================================
-    
-  
-// =================================================================
-// == PREMIUM RATE DATA FOR PLAN 858 - PASTE YOUR DATA HERE ==
-// =================================================================
+    // Paste your JavaScript objects here
+
 const singleLifeData =[
     {
         "Age": 30,
@@ -95535,207 +95517,140 @@ const jointLifeData = [
 
 
 
-    // Incentive Rates (Per 1000 SA based on Purchase Price)
-    // Correct Incentive Rates (Per 1000 Purchase Price) for Plan 758
-    const incentives = [
-        { min: 10000000, rate: 5.75 }, // 1 Cr+
-        { min: 5000000, rate: 5.75 },  // 50L - 99L
-        { min: 2500000, rate: 5.75 },  // 25L - 49L
-        { min: 1000000, rate: 5.50 },  // 10L - 24L (Corrected from 1.50)
-        { min: 500000, rate: 4.50 },   // 5L - 9.99L
-        { min: 0, rate: 0.00 }
-    ];
-    // =================================================================
-
     function toggleJoint() {
-        const opt = document.getElementById('annuityOption').value;
-        document.getElementById('jointSec').style.display = (opt === 'Joint') ? 'block' : 'none';
-    }
-
-    function getIncentive(amount) {
-        for(let i=0; i<incentives.length; i++) {
-            if(amount >= incentives[i].min) return incentives[i].rate;
-        }
-        return 0;
-    }
-
-    function calculateXIRR(values, guess) {
-        // Robust Newton-Raphson XIRR
-        const maxIter = 100;
-        const tol = 1e-7;
-        let x0 = guess || 0.05;
-        let x1 = 0.0;
-
-        for (let i = 0; i < maxIter; i++) {
-            let f = 0;
-            let df = 0;
-            for (let j = 0; j < values.length; j++) {
-                let div = Math.pow(1 + x0, j);
-                f += values[j] / div;
-                df -= (j * values[j]) / (div * (1 + x0));
-            }
-            if (Math.abs(df) < 1e-10) break; 
-            x1 = x0 - f / df;
-            if (Math.abs(x1 - x0) <= tol) return x1;
-            x0 = x1;
-        }
-        return x0;
-    }
-
-function generateReport() {
-        // 1. Safe Element Retrieval
-        const ppEl = document.getElementById('purchasePrice');
-        const ageEl = document.getElementById('age');
-        const defEl = document.getElementById('deferment');
-        const optEl = document.getElementById('annuityOption');
-        const jAgeEl = document.getElementById('jointAge');
-        const err = document.getElementById('errorMsg');
-
-        if (!ppEl || !ageEl || !defEl || !optEl || !jAgeEl) {
-            alert("System Error: Missing Input Fields. Please reload.");
-            return;
-        }
-
-        const pp = parseFloat(ppEl.value);
-        const age = parseInt(ageEl.value);
-        const deferment = parseInt(defEl.value);
-        const opt = optEl.value;
-        const jointAge = parseInt(jAgeEl.value);
-        
-        err.style.display = 'none';
-
-        // --- VALIDATIONS ---
-        if(isNaN(pp) || pp < 150000) { showError("Min Purchase Price is ₹ 1,50,000"); return; }
-        if(isNaN(age) || age < 30 || age > 79) { showError("Entry Age must be 30-79"); return; }
-        if(deferment < 1 || deferment > 12) { showError("Deferment Period must be 1-12 Years"); return; } // Note: Check circular for 5 or 12 limit
-        if((age + deferment) > 80) { showError(`Vesting Age (Entry+Deferment) cannot exceed 80. Current: ${age+deferment}`); return; }
-
-        let baseRate = 0;
-
-        // --- RATE LOOKUP LOGIC ---
-        if (opt === 'Single') {
-            if (typeof singleLifeData === 'undefined' || singleLifeData.length === 0) {
-                showError("Rate Data (Single Life) not loaded."); return;
-            }
-            const record = singleLifeData.find(r => r.Age === age);
-            if(record) {
-                const key = `T${deferment}`; // Matches T1, T2...
-                baseRate = parseFloat(record[key]);
-            } else {
-                showError("Single Life Rate not found for Age " + age);
-                return;
-            }
-        } else {
-            if (isNaN(jointAge) || jointAge < 30 || jointAge > 79) { showError("Joint Age must be 30-79"); return; }
-            if (typeof jointLifeData === 'undefined' || jointLifeData.length === 0) {
-                showError("Rate Data (Joint Life) not loaded."); return;
-            }
-            // Joint Lookup: Age, Jage, DF
-            let record = jointLifeData.find(r => r.Age === age && r.Jage === jointAge && r.DF === deferment);
-            if(!record) {
-                // Try reverse ages
-                record = jointLifeData.find(r => r.Age === jointAge && r.Jage === age && r.DF === deferment);
-            }
-            if(record) {
-                baseRate = parseFloat(record.Tbp);
-            } else {
-                showError(`Joint Life Rate not found for Ages ${age}, ${jointAge} & Def ${deferment}`);
-                return;
-            }
-        }
-
-        if(!baseRate || isNaN(baseRate)) {
-            showError("Invalid Rate retrieved (Rate is 0 or NaN).");
-            return;
-        }
-
-        // --- CALCULATIONS ---
-        // Incentive logic uses the updated array above (2.10 for 10L)
-        const incentive = getIncentive(pp);
-        
-        // Final Rate = Base + Incentive
-        const totalRatePer1000 = baseRate + incentive;
-        
-        // Annual Annuity = (Purchase Price / 1000) * Rate
-        const annualAnnuity = Math.round((pp / 1000) * totalRatePer1000);
-        
-        // --- TABLE GENERATION ---
-        document.getElementById('resultsPanel').style.display = 'block';
-        const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = '';
-        
-        let cflows = [];
-        let totalOut = 0;
-        let totalIn = 0;
-
-        // Year 0: Outflow
-        cflows.push(-pp);
-        totalOut = pp;
-
-        tbody.innerHTML += `
-            <tr>
-                <td>0</td>
-                <td>${age}</td>
-                <td class="outflow">₹${pp.toLocaleString()}</td>
-                <td>-</td>
-                <td class="outflow">-₹${pp.toLocaleString()}</td>
-            </tr>
-        `;
-
-        // Years 1 to 100
-        for(let yr = 1; yr <= (100 - age); yr++) {
-            let curAge = age + yr;
-            let inflow = 0;
-
-            // Annuity starts AFTER deferment period
-            if(yr > deferment) {
-                inflow = annualAnnuity;
-            }
-
-            // Return of Purchase Price at Age 100 (Assumption for IRR)
-            if(curAge === 100) {
-                inflow += pp; 
-            }
-
-            cflows.push(inflow);
-            totalIn += inflow;
-
-            // Show relevant rows
-            if(yr <= deferment + 2 || curAge === 100 || yr % 5 === 0) {
-                 tbody.innerHTML += `
-                    <tr>
-                        <td>${yr}</td>
-                        <td>${curAge}</td>
-                        <td>-</td>
-                        <td class="inflow">${inflow > 0 ? '₹'+inflow.toLocaleString() : '-'}</td>
-                        <td class="inflow">${inflow > 0 ? '₹'+inflow.toLocaleString() : '-'}</td>
-                    </tr>
-                `;
-            }
-        }
-
-        document.getElementById('netProfit').innerText = "₹" + (totalIn - totalOut).toLocaleString();
-        
-        let irr = calculateXIRR(cflows, 0.06) * 100;
-        if(isNaN(irr) || !isFinite(irr)) irr = 0;
-        document.getElementById('xirrVal').innerText = irr.toFixed(2) + "%";
-
-        document.getElementById('tableFoot').innerHTML = `
-            <tr class="total-row">
-                <td colspan="2">TOTAL</td>
-                <td style="color:#d32f2f;">₹${totalOut.toLocaleString()}</td>
-                <td style="color:#2e7d32;">₹${totalIn.toLocaleString()}</td>
-                <td style="color:#004b8d;">₹${(totalIn-totalOut).toLocaleString()}</td>
-            </tr>
-        `;
+        const isJoint = document.getElementById('option').value === 'Joint';
+        document.getElementById('jointInput').style.display = isJoint ? 'block' : 'none';
     }
 
     function showError(msg) {
-        const e = document.getElementById('errorMsg');
-        e.innerText = "⚠️ " + msg;
-        e.style.display = 'block';
+        const box = document.getElementById('errorBox');
+        if(msg) { box.innerText = "⚠️ " + msg; box.style.display = 'block'; window.scrollTo(0,0); }
+        else { box.style.display = 'none'; }
+    }
+
+    // Corrected Plan 758 Incentive Matrix (Changes by Deferment)
+    function getIncentive(pp, deferment) {
+        const df = parseInt(deferment);
+        if (pp < 500000) return 0;
+
+        if (pp >= 500000 && pp < 1000000) {
+            // Incentives for 5L to 10L
+            const rates = { 1: 1.80, 2: 2.10, 3: 2.40, 4: 2.70, 5: 3.00 };
+            return rates[df] || 0;
+        } 
+        else if (pp >= 1000000 && pp < 2500000) {
+            // Incentives for 10L to 25L (Matches 3.9, 4.3, 4.7, 5.1, 5.5)
+            const rates = { 1: 3.90, 2: 4.30, 3: 4.70, 4: 5.10, 5: 5.50 };
+            return rates[df] || 0;
+        } 
+else if (pp >= 2500000 && pp < 5000000) {
+            // Incentives for 10L to 25L (Matches 3.9, 4.3, 4.7, 5.1, 5.5)
+            const rates = { 1: 4.15, 2: 4.55, 3: 4.95, 4: 5.35, 5: 5.75 };
+            return rates[df] || 0;
+        } 
+else if (pp >= 5000000 && pp < 10000000) {
+            // Incentives for 10L to 25L (Matches 3.9, 4.3, 4.7, 5.1, 5.5)
+            const rates = { 1: 4.15, 2: 4.55, 3: 4.95, 4: 5.35, 5: 5.75 };
+            return rates[df] || 0;
+        } 
+        else {
+            // Incentives for 100L+
+            const rates = { 1: 4.30, 2: 4.80, 3: 5.30, 4: 5.80, 5: 6.30 };
+            return rates[df] || 0;
+        }
+    }
+
+    function calculate() {
+        showError(null);
+        const pp = parseFloat(document.getElementById('pp').value);
+        const opt = document.getElementById('option').value;
+        const df = parseInt(document.getElementById('df').value);
+        const a1 = parseInt(document.getElementById('age1').value);
+        const a2 = parseInt(document.getElementById('age2').value);
+
+        if(pp < 150000) return showError("Minimum Purchase Price is 1,50,000");
+        if(a1 < 30 || a1 > 79) return showError("Annuitant Age must be between 30 and 79");
+
+        let baseRate = 0;
+
+        if(opt === 'Single') {
+            const row = singleLifeData.find(r => r.Age === a1);
+            if(!row) return showError("Data not found for Age " + a1);
+            baseRate = row[`T${df}`];
+        } else {
+            let row = jointLifeData.find(r => r.Age === a1 && r.Jage === a2 && r.DF === df);
+            if(!row) row = jointLifeData.find(r => r.Age === a2 && r.Jage === a1 && r.DF === df);
+            if(!row) return showError("Joint Rate not found for these ages/deferment");
+            baseRate = row.Tbp;
+        }
+
+        const incentive = getIncentive(pp, df);
+        const finalRate = baseRate + incentive;
+        const annuity = Math.round((pp * finalRate) / 1000);
+
+        displayResults(pp, annuity, a1, df);
+    }
+
+    function displayResults(pp, ann, startAge, deferment) {
+        document.getElementById('resAnnuity').innerText = "₹" + ann.toLocaleString('en-IN');
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        
+        let flows = [];
+        let totalIn = 0;
+
+        // Year 0
+        flows.push(-pp);
+        addTableRow(tbody, 0, startAge, pp, 0, -pp);
+
+        const projectionYears = 100 - startAge;
+
+        for(let yr = 1; yr <= projectionYears; yr++) {
+            let currentInflow = (yr > deferment) ? ann : 0;
+            
+            // Death Benefit / ROP simulation for IRR at Age 100
+            if(startAge + yr === 100) currentInflow += pp;
+
+            flows.push(currentInflow);
+            totalIn += currentInflow;
+
+            // Only show relevant rows to keep table clean
+            if(yr <= deferment + 2 || yr % 10 === 0 || startAge + yr === 100) {
+                addTableRow(tbody, yr, startAge + yr, 0, currentInflow, currentInflow);
+            }
+        }
+
+        document.getElementById('resTotalIn').innerText = "₹" + totalIn.toLocaleString('en-IN');
+        document.getElementById('resIRR').innerText = (calcIRR(flows) * 100).toFixed(2) + "%";
+        document.getElementById('resultsArea').style.display = 'block';
+    }
+
+    function addTableRow(target, yr, age, out, inc, net) {
+        const row = `<tr>
+            <td>${yr === 0 ? 'Initial' : yr}</td>
+            <td>${age}</td>
+            <td class="outflow">${out > 0 ? '₹'+out.toLocaleString('en-IN') : '-'}</td>
+            <td class="inflow">${inc > 0 ? '₹'+inc.toLocaleString('en-IN') : '-'}</td>
+            <td><strong>₹${net.toLocaleString('en-IN')}</strong></td>
+        </tr>`;
+        target.innerHTML += row;
+    }
+
+    function calcIRR(values) {
+        let irr = 0.05;
+        for (let i = 0; i < 100; i++) {
+            let npv = 0;
+            let dnpv = 0;
+            for (let t = 0; t < values.length; t++) {
+                npv += values[t] / Math.pow(1 + irr, t);
+                dnpv -= t * values[t] / Math.pow(1 + irr, t + 1);
+            }
+            let next = irr - npv / dnpv;
+            if (Math.abs(next - irr) < 0.000001) return next;
+            irr = next;
+        }
+        return irr;
     }
 </script>
-
 </body>
 </html>
