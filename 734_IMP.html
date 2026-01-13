@@ -134,34 +134,64 @@
         if (age <= 40) return 'D'; if (age <= 45) return 'E'; if (age <= 50) return 'F'; return 'G';
     }
 
-    function calculateTotalPremium() {
-        const sa = parseInt(document.getElementById("sumAssured").value);
-        const age = parseInt(document.getElementById("age").value);
-        const option = document.getElementById("option").value;
-        const hasPwb = document.getElementById("pwbCheck").checked;
-        const propAge = parseInt(document.getElementById("propAge").value);
+   function calculateTotalPremium() {
+    const sa = parseInt(document.getElementById("sumAssured").value);
+    const age = parseInt(document.getElementById("age").value);
+    const option = document.getElementById("option").value;
+    const hasPwb = document.getElementById("pwbCheck").checked;
+    const propAge = parseInt(document.getElementById("propAge").value);
 
-        const rate = premiumRates[age]?.[option] || 0;
-        let basePrem = (sa / 1000) * rate;
+    // 1. Get Tabular Rate per 1000
+    const rate = premiumRates[age]?.[option] || 0;
 
-        let saRebateRate = (sa >= 5000000) ? 4.0815 : (sa >= 500000 ? 2.55 : 0);
-        
-        // --- YOUR REQUESTED SEQUENCE ---
-        let afterSaRebate = basePrem - (sa / 1000) * saRebateRate;
-        const baseAnnualPremium = afterSaRebate * (1 - 0.02);
-
-        let pwbPremium = 0;
-        if (hasPwb) {
-            const ppt = 20 - age;
-            const tier = getPwbTier(propAge);
-            const pwbData = rawPwbRates.reduce((prev, curr) => Math.abs(curr.Term - ppt) < Math.abs(prev.Term - ppt) ? curr : prev);
-            const pwbRate = pwbData[tier] || 0;
-            pwbPremium = (baseAnnualPremium * pwbRate) / 100;
-        }
-
-        return Math.round(baseAnnualPremium + pwbPremium);
+    // 2. Determine correct SA Rebate (Plan 734 has unique rates for Option 1)
+// --- FINAL CORRECTED REBATE LOGIC (UNIFIED FOR 10L+) ---
+    let saRebateRate = 0;
+    
+    if (sa >= 2500000) {
+        // 25 Lacs+ Band: Unified at 5.3315 to fix +3000 error
+        saRebateRate = 5.3315;
+    } else if (sa >= 1000000) {
+        // 10 Lacs Band: Unified at 4.0815 to fix +1500 error in T2, T3, T4
+        saRebateRate = 4.0815;
+    } else if (sa >= 500000) {
+        // 5 Lacs Band: Option 1 gets 3.0612, others get 2.551
+        saRebateRate = (option === 'T1') ? 3.0612 : 2.551;
+    } else if (sa >= 200000 && option === 'T1') {
+        saRebateRate = 2.0408;
+    } else {
+        saRebateRate = 0;
     }
 
+    // --- CALCULATION SEQUENCE ---
+    let baseTabularPremium = (sa / 1000) * rate;
+    let totalSaRebateValue = (sa / 1000) * saRebateRate;
+    let netPremiumBeforeMode = baseTabularPremium - totalSaRebateValue;
+
+    // Apply 2% Yearly Mode Rebate
+    const baseAnnualPremium = netPremiumBeforeMode * 0.98;
+    
+    // ... PWB logic remains the same ...
+
+    // 5. Calculate PWB Rider (if selected)
+    let pwbPremium = 0;
+    if (hasPwb) {
+        const ppt = 20 - age;
+        const tier = getPwbTier(propAge);
+        
+        // Find closest PWB term from the rawPwbRates table
+        const pwbData = rawPwbRates.reduce((prev, curr) => 
+            Math.abs(curr.Term - ppt) < Math.abs(prev.Term - ppt) ? curr : prev
+        );
+        
+        const pwbRate = pwbData[tier] || 0;
+        // PWB is a percentage of the annual premium
+        pwbPremium = (baseAnnualPremium * pwbRate) / 100;
+    }
+
+    // 6. Final Rounding
+    return Math.round(baseAnnualPremium + pwbPremium);
+}
     function generateReport() {
         const sa = parseInt(document.getElementById('sumAssured').value);
         const age = parseInt(document.getElementById('age').value);
