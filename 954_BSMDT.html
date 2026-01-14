@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC New Tech-Term (954) - Exact Match Calculator</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 20px; }
+        .calc-container { max-width: 600px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-top: 5px solid #005A9C; }
+        h2 { color: #005A9C; text-align: center; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; font-size: 0.9rem; }
+        select, input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+        .btn-calc { width: 100%; background-color: #FDB813; color: #000; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1rem; margin-top: 10px; transition: 0.3s; }
+        .btn-calc:hover { background-color: #e0a100; }
+        
+        .result-box { margin-top: 25px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef; overflow: hidden; display: none; }
+        .result-header { background: #005A9C; color: white; padding: 10px 15px; font-weight: bold; }
+        .result-row { display: flex; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+        .result-row:last-child { border-bottom: none; font-weight: bold; background: #eaf2ff; color: #005A9C; font-size: 1.1rem; }
+        .note { font-size: 0.8rem; color: #666; margin-top: 5px; }
+        
+        .rider-section { background: #fff8e1; padding: 10px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #ffeeba; }
+        .checkbox-wrapper { display: flex; align-items: center; gap: 10px; }
+        .checkbox-wrapper input { width: auto; }
+    </style>
+</head>
+<body>
+
+<div class="calc-container">
+    <h2>LIC New Tech-Term (Plan 954)</h2>
+
+    <div class="form-group">
+        <label>Sum Assured (Min 50,00,000)</label>
+        <input type="number" id="sumAssured" value="5000000" step="500000">
+    </div>
+
+    <div class="form-group">
+        <label>Age</label>
+        <select id="age"></select> <!-- Populated by JS -->
+    </div>
+
+    <div class="form-group">
+        <label>Gender</label>
+        <select id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Smoker Status</label>
+        <select id="smoker">
+            <option value="Non-Smoker">Non-Smoker</option>
+            <option value="Smoker">Smoker</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Policy Term (10-40 Years)</label>
+        <select id="policyTerm"></select> <!-- Populated by JS -->
+    </div>
+
+    <div class="form-group">
+        <label>Premium Payment Type</label>
+        <select id="pptType">
+            <option value="Regular">Regular Premium</option>
+            <option value="LimitedPTMinus5">Limited (Term - 5 Yrs)</option>
+            <option value="LimitedPTMinus10">Limited (Term - 10 Yrs)</option>
+            <option value="Single">Single Premium</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Benefit Option</label>
+        <select id="benefitOption">
+            <option value="level">Level Sum Assured</option>
+            <option value="increasing">Increasing Sum Assured</option>
+        </select>
+    </div>
+
+    <div class="rider-section">
+        <div class="checkbox-wrapper">
+            <input type="checkbox" id="riderAB">
+            <label for="riderAB" style="margin:0">Add Accident Benefit Rider</label>
+        </div>
+        <div id="riderInput" style="display:none; margin-top:10px;">
+            <label>Rider Sum Assured</label>
+            <input type="number" id="riderSA" value="5000000">
+        </div>
+    </div>
+
+ <div class="form-group">
+        <label>Payment Mode</label>
+        <select id="mode">
+            <option value="Yearly">Yearly</option>
+            <option value="Half-Yearly">Half-Yearly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Monthly">Monthly (NACH)</option>
+        </select>
+    </div>
+
+    <button class="btn-calc" onclick="calculate()">Calculate Premium</button>
+
+    <div class="result-box" id="resultBox">
+        <div class="result-header">Premium Breakdown</div>
+        <div class="result-row"><span>Base Premium:</span> <span id="resBase">0</span></div>
+        <div class="result-row"><span>High SA Rebate:</span> <span id="resRebate" style="color:green">0</span></div>
+        <div class="result-row"><span>Rider Premium:</span> <span id="resRider">0</span></div>
+        <div class="result-row"><span>Taxable Premium:</span> <span id="resTaxable">0</span></div>
+        <div class="result-row"><span>GST (18%):</span> <span id="resGST">0</span></div>
+        <div class="result-row"><span>Total Premium:</span> <span id="resTotal">0</span></div>
+    </div>
+    <div class="note" style="text-align:center; margin-top:10px;">
+        *Calculated using the exact interpolation logic from source website.
+    </div>
+</div>
+
+<script>
+// --- CONSTANTS FROM SOURCE FILE ---
+const MIN_ENTRY_AGE_TECH = 18;
+const MAX_ENTRY_AGE_TECH = 65;
+const MAX_MATURITY_AGE_TECH = 80;
+const SAMPLE_AGES_TECH = [20, 30, 40];
+const PT_REF_TECH = 20; // Reference Term used for interpolation
+const SMOKER_LOADING_PERCENT_TECH = 25; // 25% extra for smokers
+const FEMALE_AGE_SETBACK_TECH = 3; // Treat female as 3 years younger
+
+// Sample Premiums for 1 Crore SA, 20 Year Term, Non-Smoker Male
+// Extracted directly from the JS logic in your text file
+const SAMPLE_PREMIUMS = {
+    level: { 
+        20: { regular: 7047, limited_pt_minus_5: 8091, limited_pt_minus_10: 10266, single: 75603 }, 
+        30: { regular: 9135, limited_pt_minus_5: 10527, limited_pt_minus_10: 13572, single: 100833 },
+        40: { regular: 17889, limited_pt_minus_5: 20737, limited_pt_minus_10: 26878, single: 203187 }
+    },
+    increasing: { 
+        20: { regular: 9345, limited_pt_minus_5: 10769, limited_pt_minus_10: 13795, single: 102617 },
+        30: { regular: 13083, limited_pt_minus_5: 15219, limited_pt_minus_10: 19669, single: 147562 },
+        40: { regular: 27846, limited_pt_minus_5: 32396, limited_pt_minus_10: 42224, single: 320684 }
+    }
+};
+
+const HSA_REBATES = {
+    level: { 
+        band1: { lt_1cr: 0, cr1_plus: 13, cr2_plus: 22 }, // <=30
+        band2: { lt_1cr: 0, cr1_plus: 11, cr2_plus: 17 }, // 31-50
+        band3: { lt_1cr: 0, cr1_plus: 6,  cr2_plus: 9 }   // >50
+    },
+    increasing: { 
+        band1: { lt_1cr: 0, cr1_plus: 11, cr2_plus: 20 },
+        band2: { lt_1cr: 0, cr1_plus: 9,  cr2_plus: 15 },
+        band3: { lt_1cr: 0, cr1_plus: 5,  cr2_plus: 8 }
+    }
+};
+
+// --- INIT ---
+window.onload = function() {
+    const ageSelect = document.getElementById('age');
+    const termSelect = document.getElementById('policyTerm');
+    
+    for(let i=18; i<=65; i++) {
+        let opt = document.createElement('option');
+        opt.value = i; opt.text = i;
+        ageSelect.add(opt);
+    }
+    ageSelect.value = 30;
+
+    for(let i=10; i<=40; i++) {
+        let opt = document.createElement('option');
+        opt.value = i; opt.text = i;
+        termSelect.add(opt);
+    }
+    termSelect.value = 20;
+
+    document.getElementById('riderAB').addEventListener('change', function() {
+        document.getElementById('riderInput').style.display = this.checked ? 'block' : 'none';
+    });
+};
+
+// --- CALCULATION LOGIC ---
+
+// 1. Interpolation Logic (Exact copy of logic found in file)
+function interpolateRate(age, ratesForAges) {
+    if (ratesForAges[age] !== undefined) return ratesForAges[age];
+
+    let lowerAge = -1, upperAge = -1;
+    // Find closest data points (e.g. if Age 25, find 20 and 30)
+    for (const sampleAge of SAMPLE_AGES_TECH) {
+        if (sampleAge <= age && ratesForAges[sampleAge] !== undefined) lowerAge = sampleAge;
+        if (sampleAge >= age && ratesForAges[sampleAge] !== undefined && upperAge === -1) upperAge = sampleAge;
+    }
+    
+    if (lowerAge === -1 && upperAge !== -1) lowerAge = upperAge; 
+    if (upperAge === -1 && lowerAge !== -1) upperAge = lowerAge; 
+
+    // If outside range (e.g., age 45, but we only have up to 40), extrapolate or clamp
+    // The reference script allows simple extrapolation or clamping
+    if (lowerAge === -1 || upperAge === -1) {
+        // Fallback to closest available
+        const anyAge = SAMPLE_AGES_TECH.find(sa => ratesForAges[sa] !== undefined);
+        return anyAge ? ratesForAges[anyAge] : 0;
+    }
+    
+    if (lowerAge === upperAge) return ratesForAges[lowerAge];
+
+    const rateLower = ratesForAges[lowerAge];
+    const rateUpper = ratesForAges[upperAge];
+    // Linear Interpolation Formula
+    return rateLower + ( (rateUpper - rateLower) / (upperAge - lowerAge) ) * (age - lowerAge);
+}
+
+function calculate() {
+    // Inputs
+    let sa = parseFloat(document.getElementById('sumAssured').value);
+    let age = parseInt(document.getElementById('age').value);
+    let gender = document.getElementById('gender').value;
+    let smoker = document.getElementById('smoker').value;
+    let term = parseInt(document.getElementById('policyTerm').value);
+    let pptType = document.getElementById('pptType').value;
+    let option = document.getElementById('benefitOption').value; 
+    let mode = document.getElementById('mode').value;
+
+    // --- LOGIC STEP 1: Determine Effective Age ---
+    let effectiveAge = age;
+    if (gender === 'Female') {
+        effectiveAge = Math.max(MIN_ENTRY_AGE_TECH, age - FEMALE_AGE_SETBACK_TECH);
+    }
+
+    // --- LOGIC STEP 2: Map UI PPT to Data Keys ---
+    let pptKey = 'regular';
+    if(pptType === 'Single') pptKey = 'single';
+    else if(pptType === 'LimitedPTMinus5') pptKey = 'limited_pt_minus_5';
+    else if(pptType === 'LimitedPTMinus10') pptKey = 'limited_pt_minus_10';
+
+    // --- LOGIC STEP 3: Get Base Rate (Interpolated) ---
+    const ratesByAge = {};
+    const premiumData = SAMPLE_PREMIUMS[option];
+    
+    SAMPLE_AGES_TECH.forEach(ageKey => {
+        if(premiumData[ageKey] && premiumData[ageKey][pptKey]) {
+            ratesByAge[ageKey] = premiumData[ageKey][pptKey] / 10000;
+        }
+    });
+
+    let baseRate = interpolateRate(effectiveAge, ratesByAge);
+
+    // --- LOGIC STEP 4: Adjust for Term (The "Tech" Formula) ---
+    if (term !== PT_REF_TECH) {
+        baseRate *= (1 + (term - PT_REF_TECH) * 0.012);
+    }
+
+    // --- LOGIC STEP 5: Smoker Loading ---
+    if (smoker === 'Smoker') {
+        baseRate *= (1 + SMOKER_LOADING_PERCENT_TECH / 100);
+    }
+
+    // --- LOGIC STEP 6: Calculate Gross Premium ---
+    let grossPremium = baseRate * (sa / 1000);
+
+    // --- LOGIC STEP 7: High SA Rebate ---
+    let rebatePercent = 0;
+    let rebateScheme = HSA_REBATES[option];
+    
+    let band = 'band1';
+    if(age > 30 && age <= 50) band = 'band2';
+    if(age > 50) band = 'band3';
+
+    let rates = rebateScheme[band];
+    if(sa >= 20000000) rebatePercent = rates.cr2_plus;
+    else if(sa >= 10000000) rebatePercent = rates.cr1_plus;
+    else rebatePercent = rates.lt_1cr;
+
+    let rebateAmount = grossPremium * (rebatePercent / 100);
+    let premiumAfterRebate = grossPremium - rebateAmount;
+
+    // --- LOGIC STEP 8: Modal Loading & Frequency ---
+    // Yearly: 1, HLY: 1.02, QLY: 1.02, MLY: 1 (No loading for NACH)
+    let modalFactor = 1;
+    let divider = 1;
+
+    if(pptType !== 'Single') {
+        if (mode === 'Half-Yearly') {
+            modalFactor = 1.02;
+            divider = 2;
+        } else if (mode === 'Quarterly') {
+            modalFactor = 1.02;
+            divider = 4;
+        } else if (mode === 'Monthly') {
+            modalFactor = 1.00; 
+            divider = 12;
+        }
+    }
+
+    let premiumWithLoad = premiumAfterRebate * modalFactor;
+    let installmentPremium = premiumWithLoad / divider;
+
+    // --- LOGIC STEP 10: Accident Benefit Rider ---
+    let riderPremium = 0;
+    if(document.getElementById('riderAB').checked && pptType !== 'Single') {
+        let riderSA = parseFloat(document.getElementById('riderSA').value);
+        if(riderSA > sa) riderSA = sa; 
+        
+        // Rate is 0.50 per 1000
+        let riderBase = 0.50 * (riderSA / 1000);
+        
+        // Apply Mode Loading to Rider
+        riderBase = riderBase * modalFactor / divider;
+        riderPremium = riderBase;
+    }
+
+    // --- LOGIC STEP 11: Final Total & GST ---
+    let totalTaxable = installmentPremium + riderPremium;
+    
+    // UPDATED: GST set to 0 as per user request
+    let gst = 0; 
+    let finalPayable = totalTaxable + gst;
+
+    // --- DISPLAY ---
+    document.getElementById('resultBox').style.display = 'block';
+    
+    // Calculate approx Base for display (reverse modal logic for display purposes)
+    let approxBaseDisplay = grossPremium;
+    let approxRebateDisplay = rebateAmount;
+    
+    // Adjust display values based on mode to show per-installment approximate breakdown
+    if(pptType !== 'Single') {
+        approxBaseDisplay = (grossPremium * modalFactor) / divider;
+        approxRebateDisplay = (rebateAmount * modalFactor) / divider;
+    }
+
+    document.getElementById('resBase').innerText = formatCurrency(approxBaseDisplay);
+    document.getElementById('resRebate').innerText = "-" + formatCurrency(approxRebateDisplay);
+    
+    document.getElementById('resTaxable').innerText = formatCurrency(installmentPremium);
+    document.getElementById('resRider').innerText = formatCurrency(riderPremium);
+    document.getElementById('resGST').innerText = formatCurrency(gst) + " (0%)";
+    document.getElementById('resTotal').innerText = formatCurrency(finalPayable);
+}
+function formatCurrency(num) {
+    return "₹" + Math.round(num).toLocaleString('en-IN');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Digi Credit Life (Plan 878) Premium Calculator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f4f8; padding: 20px; }
+        .calc-container { max-width: 800px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-top: 5px solid #007bff; }
+        h2 { text-align: center; color: #007bff; margin-bottom: 5px; font-size: 24px; }
+        .sub-head { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
+        .online-badge { display: block; width: fit-content; margin: 0 auto 15px auto; background: #ffc107; color: #000; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group.full-width { grid-column: span 2; }
+        
+        label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; font-size: 0.9rem; }
+        select, input { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; background-color: #fafafa; box-sizing: border-box; }
+        select:focus, input:focus { border-color: #007bff; outline: none; background-color: #fff; }
+        
+        .error-msg { color: #dc3545; font-size: 0.8rem; margin-top: 4px; display: none; font-weight: 500; }
+        .note-msg { color: #666; font-size: 0.75rem; margin-top: 4px; font-style: italic; }
+
+        .rider-section { background: #e3f2fd; padding: 15px; border-radius: 8px; border: 1px solid #bbdefb; margin-bottom: 20px; grid-column: span 2; }
+        .checkbox-wrapper { display: flex; align-items: center; gap: 10px; }
+        .checkbox-wrapper input { width: auto; transform: scale(1.2); }
+
+        .btn-calc { width: 100%; background-color: #007bff; color: white; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.3s; margin-top: 10px; }
+        .btn-calc:hover { background-color: #0056b3; }
+
+        .result-box { margin-top: 25px; background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; overflow: hidden; display: none; }
+        .result-header { background-color: #007bff; color: white; padding: 12px 20px; font-weight: bold; font-size: 1.1rem; }
+        .result-row { display: flex; justify-content: space-between; padding: 10px 20px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+        .result-row:last-child { border-bottom: none; background-color: #e6f0ff; font-weight: bold; color: #004085; font-size: 1.2rem; }
+        
+        /* Schedule Table */
+        .schedule-box { margin-top: 20px; display: none; }
+        .schedule-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .schedule-table th { background: #343a40; color: white; padding: 8px; text-align: center; }
+        .schedule-table td { border: 1px solid #dee2e6; padding: 8px; text-align: center; }
+        .schedule-table tr:nth-child(even) { background-color: #f2f2f2; }
+
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
+            .rider-section { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="calc-container">
+    <span class="online-badge">Online Only Plan</span>
+    <h2>LIC Digi Credit Life (Plan 878)</h2>
+    <p class="sub-head">Decreasing Term Assurance for Loan Protection</p>
+    
+    <div class="form-grid">
+        <!-- Inputs -->
+        <div class="form-group">
+            <label>Age (18-45 Years)</label>
+            <select id="age"></select>
+            <div class="error-msg" id="err-age">Age must be between 18 and 45.</div>
+        </div>
+
+        <div class="form-group">
+            <label>Gender</label>
+            <select id="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+
+        <div class="form-group full-width">
+            <label>Loan Amount / Sum Assured (Min 50 Lakhs)</label>
+            <input type="number" id="sumAssured" value="5000000" step="100000">
+            <div class="error-msg" id="err-sa">Minimum Sum Assured is ₹50,00,000</div>
+            <div class="note-msg">Valid multiples: 1L (50-75L), 25L (75L-1.5Cr), 50L (1.5Cr-4Cr), 1Cr (>4Cr)</div>
+        </div>
+
+        <div class="form-group">
+            <label>Smoker Status</label>
+            <select id="smoker">
+                <option value="Non-Smoker">Non-Smoker</option>
+                <option value="Smoker">Smoker</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Loan Interest Rate (%)</label>
+            <select id="loanInterest">
+                <option value="6">6%</option>
+                <option value="7">7%</option>
+                <option value="8" selected>8% (Ref)</option>
+                <option value="9">9%</option>
+                <option value="10">10%</option>
+                <option value="11">11%</option>
+                <option value="12">12%</option>
+            </select>
+            <div class="note-msg">Used for Risk Cover Schedule</div>
+        </div>
+
+        <div class="form-group">
+            <label>Premium Payment</label>
+            <select id="pptType" onchange="handlePPTChange()">
+                <option value="Single">Single Premium</option>
+                <option value="Limited">Limited Premium</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Policy Term (5-30 Years)</label>
+            <select id="policyTerm" onchange="updateLimitedPPTDisplay()"></select>
+            <div class="error-msg" id="err-term"></div>
+        </div>
+
+        <!-- Dynamic PPT Display for Limited -->
+        <div class="form-group" id="limitedPPTGroup" style="display:none;">
+            <label>Premium Paying Term (Auto)</label>
+            <input type="text" id="calculatedPPT" disabled readonly style="background:#e9ecef;">
+        </div>
+
+        <div class="form-group" id="modeGroup" style="display:none;">
+            <label>Payment Mode</label>
+            <select id="mode">
+                <option value="Yearly">Yearly</option>
+                <option value="Half-Yearly">Half-Yearly</option>
+            </select>
+        </div>
+
+        <!-- Rider Section -->
+        <div class="rider-section" id="riderSection">
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="riderAB" onchange="toggleRiderInput()">
+                <label for="riderAB" style="margin:0; cursor:pointer;">Add Accident Benefit Rider</label>
+            </div>
+            <div id="riderInput" style="display:none; margin-top:10px;">
+                <label>Rider Sum Assured</label>
+                <input type="number" id="riderSA" value="5000000">
+                <div class="note-msg">Rider not available with Single Premium</div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculate878()">Calculate Premium</button>
+
+    <div class="result-box" id="resultBox">
+        <div class="result-header">Premium Summary</div>
+        <div class="result-row"><span>Base Premium:</span> <span id="resBase">0</span></div>
+        <div class="result-row"><span>High SA Rebate:</span> <span id="resRebate" style="color:green">0</span></div>
+        <div class="result-row"><span>Rider Premium (ADDB):</span> <span id="resRider">0</span></div>
+        <div class="result-row"><span>Taxable Amount:</span> <span id="resTaxable">0</span></div>
+        <div class="result-row"><span>GST (0%):</span> <span id="resGST">0</span></div>
+        <div class="result-row"><span>Final Premium:</span> <span id="resTotal">0</span></div>
+    </div>
+
+    <div class="schedule-box" id="scheduleBox">
+        <h3 style="color:#333; font-size:16px; margin-bottom:10px; text-align:center;">Projected Death Benefit (Risk Cover Schedule)</h3>
+        <div style="max-height:300px; overflow-y:auto;">
+            <table class="schedule-table">
+                <thead><tr><th>Year</th><th>Sum Assured on Death (₹)</th></tr></thead>
+                <tbody id="scheduleBody"></tbody>
+            </table>
+        </div>
+        <div class="note-msg" style="text-align:center; margin-top:5px;">This schedule assumes equated yearly repayment based on the selected Loan Interest Rate.</div>
+    </div>
+
+</div>
+
+<script>
+// --- CONSTANTS FROM PDF/FILE ---
+const MIN_AGE = 18;
+const MAX_AGE = 45;
+const MAX_MATURITY_AGE = 75;
+const MIN_SA = 5000000; // 50 Lakhs
+const MAX_SA = 50000000; // 5 Crores (Standard limit)
+
+// Logic Constants derived from attached file
+const PT_REF = 25; // Reference Term
+const LIR_REF = 8; // Reference Loan Interest
+const TERM_ADJ_FACTOR = 0.01; // 1% adj per year diff
+const LIR_ADJ_FACTOR = 0.02; // 2% adj per % int diff
+const FEMALE_SETBACK = 3;
+const SMOKER_LOAD = 25; // %
+
+const SAMPLE_AGES = [20, 30, 40];
+
+// Sample Premiums for **50 Lakh SA**, PT 25, LIR 8%, Non-Smoker Male
+// Data Source: Extracted from script-calc-wrap...878
+const SAMPLE_PREMIUMS = {
+    20: { single: 34550, limited5: 8050, limited10: 4800, limited15: 3800 },
+    30: { single: 45500, limited5: 10500, limited10: 6250, limited15: 4900 },
+    40: { single: 88750, limited5: 20300, limited10: 11900, limited15: 9250 }
+};
+
+// High SA Rebates (Part VI logic)
+const HSA_REBATES = {
+    limited: {
+        upto30: { band1: 0, band2: 15, band3: 26, band4: 33 }, // <1Cr, 1-2Cr, 2-5Cr, >5Cr
+        upto45: { band1: 0, band2: 14, band3: 25, band4: 32 }
+    },
+    single: {
+        upto30: { band1: 0, band2: 15, band3: 27, band4: 34 },
+        upto45: { band1: 0, band2: 14, band3: 25, band4: 33 }
+    }
+};
+
+// --- INIT ---
+window.onload = function() {
+    // Populate Age
+    const ageSelect = document.getElementById('age');
+    for(let i=MIN_AGE; i<=MAX_AGE; i++) {
+        let opt = document.createElement('option');
+        opt.value = i; opt.text = i;
+        ageSelect.add(opt);
+    }
+    ageSelect.value = 30;
+
+    // Populate Term (5 to 30)
+    const termSelect = document.getElementById('policyTerm');
+    for(let i=5; i<=30; i++) {
+        let opt = document.createElement('option');
+        opt.value = i; opt.text = i;
+        termSelect.add(opt);
+    }
+    termSelect.value = 25;
+
+    handlePPTChange();
+};
+
+// --- UI LOGIC ---
+
+function handlePPTChange() {
+    const pptType = document.getElementById('pptType').value;
+    const modeGroup = document.getElementById('modeGroup');
+    const limitedPPTGroup = document.getElementById('limitedPPTGroup');
+    const riderSection = document.getElementById('riderSection');
+    const riderCheck = document.getElementById('riderAB');
+
+    if(pptType === 'Single') {
+        modeGroup.style.display = 'none';
+        limitedPPTGroup.style.display = 'none';
+        // Rider not allowed in Single premium for this plan (per script logic)
+        riderCheck.checked = false;
+        toggleRiderInput();
+        riderSection.style.opacity = '0.5';
+        riderCheck.disabled = true;
+    } else {
+        modeGroup.style.display = 'block';
+        limitedPPTGroup.style.display = 'block';
+        riderSection.style.opacity = '1';
+        riderCheck.disabled = false;
+        updateLimitedPPTDisplay();
+    }
+}
+
+function updateLimitedPPTDisplay() {
+    const pt = parseInt(document.getElementById('policyTerm').value);
+    const pptBox = document.getElementById('calculatedPPT');
+    
+    // Logic from PDF/Script for Limited PPT
+    // PT 5-9 -> PPT 5
+    // PT 10-14 -> PPT 5
+    // PT 15-24 -> PPT 10
+    // PT 25-30 -> PPT 15
+    
+    let pptVal = 5;
+    if(pt >= 15 && pt < 25) pptVal = 10;
+    if(pt >= 25) pptVal = 15;
+    
+    // Correction for extremely short terms in Limited?
+    // The plan usually allows Limited for PT 10+. 
+    // If PT < 10, Limited implies PPT=PT (Regular), but 878 is specific.
+    // The script logic sets PPT 5 even for PT 5.
+    
+    pptBox.value = pptVal;
+}
+
+function toggleRiderInput() {
+    const isChecked = document.getElementById('riderAB').checked;
+    document.getElementById('riderInput').style.display = isChecked ? 'block' : 'none';
+}
+
+function validateInputs() {
+    const age = parseInt(document.getElementById('age').value);
+    const sa = parseFloat(document.getElementById('sumAssured').value);
+    const term = parseInt(document.getElementById('policyTerm').value);
+    
+    // Reset errors
+    document.getElementById('err-age').style.display = 'none';
+    document.getElementById('err-sa').style.display = 'none';
+    document.getElementById('err-term').style.display = 'none';
+
+    let valid = true;
+
+    if(age < MIN_AGE || age > MAX_AGE) {
+        document.getElementById('err-age').style.display = 'block';
+        valid = false;
+    }
+
+    if(sa < MIN_SA) {
+        document.getElementById('err-sa').style.display = 'block';
+        valid = false;
+    }
+
+    if(age + term > MAX_MATURITY_AGE) {
+        const errTerm = document.getElementById('err-term');
+        errTerm.innerText = `Maturity Age (${age+term}) exceeds max limit of ${MAX_MATURITY_AGE}. Reduce Term.`;
+        errTerm.style.display = 'block';
+        valid = false;
+    }
+
+    return valid;
+}
+
+// --- CALCULATION LOGIC ---
+
+function interpolateRate(age, ratesForAges) {
+    if (ratesForAges[age] !== undefined) return ratesForAges[age];
+
+    // Linear Interpolation
+    let lowerAge = -1, upperAge = -1;
+    for (const sampleAge of SAMPLE_AGES) {
+        if (sampleAge <= age) lowerAge = sampleAge;
+        if (sampleAge >= age && upperAge === -1) upperAge = sampleAge;
+    }
+
+    if (lowerAge === -1) lowerAge = 20; 
+    if (upperAge === -1) upperAge = 40; 
+
+    const rateLower = ratesForAges[lowerAge] || ratesForAges[20];
+    const rateUpper = ratesForAges[upperAge] || ratesForAges[40];
+
+    if (lowerAge === upperAge) return rateLower;
+
+    return rateLower + ((rateUpper - rateLower) / (upperAge - lowerAge)) * (age - lowerAge);
+}
+
+function calculateSAD(initialLoan, annualInterestRate, policyTermYears, currentYearEnd) {
+    // Decreasing Sum Assured Calculation
+    if (currentYearEnd <= 0) return initialLoan;
+    if (currentYearEnd >= policyTermYears) return 0;
+
+    const r = annualInterestRate / 100;
+    const n = policyTermYears;
+    const k = currentYearEnd;
+
+    // Standard Outstanding Loan Formula (Amortization)
+    // Balance = P * [ ( (1+r)^n - (1+r)^k ) / ( (1+r)^n - 1 ) ]
+    let sad = initialLoan * ( (Math.pow(1 + r, n) - Math.pow(1 + r, k)) / (Math.pow(1 + r, n) - 1) );
+    return Math.max(0, sad);
+}
+
+function calculate878() {
+    if(!validateInputs()) return;
+
+    // 1. Gather Inputs
+    const sa = parseFloat(document.getElementById('sumAssured').value);
+    const age = parseInt(document.getElementById('age').value);
+    const gender = document.getElementById('gender').value;
+    const smoker = document.getElementById('smoker').value;
+    const term = parseInt(document.getElementById('policyTerm').value);
+    const lir = parseFloat(document.getElementById('loanInterest').value);
+    const pptType = document.getElementById('pptType').value;
+    const mode = document.getElementById('mode').value;
+    const pptVal = parseInt(document.getElementById('calculatedPPT').value);
+
+    // 2. Map PPT to Data Key
+    let pptKey = 'single';
+    if(pptType === 'Limited') {
+        pptKey = 'limited' + pptVal; // limited5, limited10, limited15
+    }
+
+    // 3. Effective Age
+    let effectiveAge = age;
+    if(gender === 'Female') effectiveAge = Math.max(18, age - FEMALE_SETBACK);
+
+    // 4. Base Rate Retrieval
+    // Sample premiums are for 50 Lakhs. Convert to Rate per 1000.
+    const ratesByAge = {};
+    SAMPLE_AGES.forEach(a => {
+        if(SAMPLE_PREMIUMS[a] && SAMPLE_PREMIUMS[a][pptKey]) {
+            ratesByAge[a] = SAMPLE_PREMIUMS[a][pptKey] / 5000;
+        }
+    });
+
+    let baseRate = interpolateRate(effectiveAge, ratesByAge);
+
+    // 5. Adjustments for Term and Interest Rate (vs Ref PT 25, LIR 8%)
+    if(term !== PT_REF) {
+        baseRate *= (1 + (term - PT_REF) * TERM_ADJ_FACTOR);
+    }
+    if(lir !== LIR_REF) {
+        baseRate *= (1 + (lir - LIR_REF) * LIR_ADJ_FACTOR);
+    }
+
+    // 6. Smoker Loading
+    if(smoker === 'Smoker') {
+        baseRate *= (1 + SMOKER_LOAD / 100);
+    }
+
+    // 7. Calculate Gross Premium
+    let grossPremium = baseRate * (sa / 1000);
+
+    // 8. High SA Rebate
+    let rebateScheme = HSA_REBATES[pptType === 'Single' ? 'single' : 'limited'];
+    let ageBand = (age <= 30) ? 'upto30' : 'upto45';
+    let rebateTable = rebateScheme[ageBand];
+
+    // Band Logic: 50L-1Cr, 1-2Cr, 2-5Cr, >5Cr
+    let rebatePercent = 0;
+    if(sa >= 50000000) rebatePercent = rebateTable.band4;
+    else if(sa >= 20000000) rebatePercent = rebateTable.band3;
+    else if(sa >= 10000000) rebatePercent = rebateTable.band2;
+    else rebatePercent = rebateTable.band1;
+
+    let rebateAmount = grossPremium * (rebatePercent / 100);
+    let premiumAfterRebate = grossPremium - rebateAmount;
+
+    // 9. Modal Loading (Limited HLY only)
+    // Standard limited HLY loading is actually implicit in the "dividing factor".
+    // Usually HLY = Annual * 0.51 (which is approx 2% loading).
+    let installmentPremium = premiumAfterRebate;
+    if(pptType === 'Limited') {
+        if(mode === 'Half-Yearly') {
+            installmentPremium = premiumAfterRebate * 0.51;
+        }
+    }
+
+    // 10. Rider (ADDB)
+    // Not available for Single. 
+    // Rate 0.50 per 1000 SA.
+    let riderPremium = 0;
+    if(document.getElementById('riderAB').checked && pptType === 'Limited') {
+        let riderSA = parseFloat(document.getElementById('riderSA').value);
+        if(riderSA > sa) riderSA = sa;
+
+        let riderBase = 0.50 * (riderSA / 1000);
+        
+        // Mode Adjustment for Rider
+        if(mode === 'Half-Yearly') riderBase = riderBase * 1.02 / 2;
+        
+        riderPremium = riderBase;
+    }
+
+    // 11. Final Total (No GST)
+    let totalPremium = installmentPremium + riderPremium;
+    let gst = 0;
+    let finalPayable = totalPremium + gst;
+
+    // 12. Display Premium
+    document.getElementById('resultBox').style.display = 'block';
+    
+    let displayBase = grossPremium;
+    if(pptType === 'Limited' && mode === 'Half-Yearly') {
+        displayBase = grossPremium * 0.51; // Show approx instalment breakdown
+        rebateAmount = rebateAmount * 0.51;
+    }
+
+    document.getElementById('resBase').innerText = formatCurrency(displayBase);
+    document.getElementById('resRebate').innerText = "-" + formatCurrency(rebateAmount) + " (" + rebatePercent + "%)";
+    document.getElementById('resRider').innerText = formatCurrency(riderPremium);
+    document.getElementById('resTaxable').innerText = formatCurrency(totalPremium);
+    document.getElementById('resGST').innerText = formatCurrency(gst);
+    document.getElementById('resTotal').innerText = formatCurrency(finalPayable);
+
+    // 13. Generate Risk Cover Schedule
+    generateSchedule(sa, lir, term);
+}
+
+function generateSchedule(sa, lir, term) {
+    const tbody = document.getElementById('scheduleBody');
+    tbody.innerHTML = '';
+    
+    document.getElementById('scheduleBox').style.display = 'block';
+
+    for(let i=1; i<=term; i++) {
+        let sad = calculateSAD(sa, lir, term, i);
+        // Year 1 usually starts at full SA, drops at end of year
+        // For display: "Sum Assured on Death during Year X"
+        // Usually decreasing plans cover the outstanding at the START of the year (or end of previous).
+        // Let's display SAD at START of year to show cover provided during that year.
+        let sadDisplay = calculateSAD(sa, lir, term, i-1); 
+        
+        let row = `<tr>
+            <td>${i}</td>
+            <td>${formatCurrency(sadDisplay)}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+    }
+}
+
+function formatCurrency(num) {
+    return "₹" + Math.round(num).toLocaleString('en-IN');
+}
+</script>
+
+</body>
+</html>

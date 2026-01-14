@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Digi Term (Plan 876) Premium Calculator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f4f8; padding: 20px; }
+        .calc-container { max-width: 700px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-top: 5px solid #28a745; }
+        h2 { text-align: center; color: #28a745; margin-bottom: 5px; font-size: 24px; }
+        .sub-head { text-align: center; color: #666; font-size: 14px; margin-bottom: 25px; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group.full-width { grid-column: span 2; }
+        
+        label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; font-size: 0.9rem; }
+        select, input { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; background-color: #fafafa; }
+        select:focus, input:focus { border-color: #28a745; outline: none; background-color: #fff; }
+        
+        .error-msg { color: #dc3545; font-size: 0.8rem; margin-top: 4px; display: none; }
+        .note-msg { color: #666; font-size: 0.8rem; margin-top: 4px; font-style: italic; }
+
+        .rider-section { background: #e8f5e9; padding: 15px; border-radius: 8px; border: 1px solid #c3e6cb; margin-bottom: 20px; grid-column: span 2; }
+        .checkbox-wrapper { display: flex; align-items: center; gap: 10px; }
+        .checkbox-wrapper input { width: auto; transform: scale(1.2); }
+
+        .btn-calc { width: 100%; background-color: #28a745; color: white; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.3s; margin-top: 10px; }
+        .btn-calc:hover { background-color: #218838; }
+
+        .result-box { margin-top: 25px; background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; overflow: hidden; display: none; }
+        .result-header { background-color: #28a745; color: white; padding: 12px 20px; font-weight: bold; font-size: 1.1rem; }
+        .result-row { display: flex; justify-content: space-between; padding: 10px 20px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+        .result-row:last-child { border-bottom: none; background-color: #e6ffed; font-weight: bold; color: #155724; font-size: 1.2rem; }
+        .result-row span:last-child { text-align: right; }
+
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
+            .rider-section { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="calc-container">
+    <h2>LIC Digi Term (Plan 876)</h2>
+    <p class="sub-head">Pure Risk Term Assurance | Online Only</p>
+    
+    <div class="form-grid">
+        <!-- Inputs -->
+        <div class="form-group">
+            <label>Age (18-45 Years)</label>
+            <select id="age"></select>
+            <div class="error-msg" id="err-age"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Gender</label>
+            <select id="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+
+        <div class="form-group full-width">
+            <label>Sum Assured (Min 50,00,000)</label>
+            <input type="number" id="sumAssured" value="5000000" step="100000">
+            <div class="error-msg" id="err-sa"></div>
+            <div class="note-msg">Min: ₹50L. Multiples: 1L(50-75L), 25L(75L-1.5Cr), 50L(1.5Cr-4Cr), 1Cr(>4Cr)</div>
+        </div>
+
+        <div class="form-group">
+            <label>Smoker Status</label>
+            <select id="smoker">
+                <option value="Non-Smoker">Non-Smoker</option>
+                <option value="Smoker">Smoker</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Death Benefit Option</label>
+            <select id="benefitOption">
+                <option value="level">Option 1: Level SA</option>
+                <option value="increasing">Option 2: Increasing SA</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Premium Payment</label>
+            <select id="pptType" onchange="validatePPT()">
+                <option value="Regular">Regular Premium</option>
+                <option value="Limited10">Limited (10 Years)</option>
+                <option value="Limited15">Limited (15 Years)</option>
+                <option value="Single">Single Premium</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Policy Term (15-40 Years)</label>
+            <select id="policyTerm"></select>
+            <div class="error-msg" id="err-term"></div>
+        </div>
+
+        <!-- Rider Section -->
+        <div class="rider-section">
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="riderAB" onchange="toggleRiderInput()">
+                <label for="riderAB" style="margin:0; cursor:pointer;">Add Accident Benefit Rider</label>
+            </div>
+            <div id="riderInput" style="display:none; margin-top:10px;">
+                <label>Rider Sum Assured (Max = Base SA)</label>
+                <input type="number" id="riderSA" value="5000000">
+                <div class="note-msg">Note: Not available for Single Premium</div>
+            </div>
+        </div>
+
+        <div class="form-group full-width" id="modeGroup">
+            <label>Payment Mode</label>
+            <select id="mode">
+                <option value="Yearly">Yearly</option>
+                <option value="Half-Yearly">Half-Yearly</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculateDigiTerm()">Calculate Premium</button>
+
+    <div class="result-box" id="resultBox">
+        <div class="result-header">Premium Summary</div>
+        <div class="result-row"><span>Base Premium:</span> <span id="resBase">0</span></div>
+        <div class="result-row"><span>High SA Rebate:</span> <span id="resRebate" style="color:green">0</span></div>
+        <div class="result-row"><span>Rider Premium (AB):</span> <span id="resRider">0</span></div>
+        <div class="result-row"><span>Taxable Amount:</span> <span id="resTaxable">0</span></div>
+        <div class="result-row"><span>GST (0%):</span> <span id="resGST">0</span></div>
+        <div class="result-row"><span>Final Premium:</span> <span id="resTotal">0</span></div>
+        <div class="note-msg" style="padding: 10px 20px;">*Calculation based on illustrative rates for 50 Lakhs BSA. Actual values may vary based on underwriting.</div>
+    </div>
+</div>
+
+<script>
+// --- CONSTANTS FROM PDF PLAN 876 ---
+const MIN_AGE_876 = 18;
+const MAX_AGE_876 = 45;
+const MAX_MATURITY_AGE_876 = 75;
+const MIN_SA_876 = 5000000;
+const SAMPLE_AGES_876 = [20, 30, 40];
+const PT_REF_876 = 20; // Reference Term
+const FEMALE_SETBACK_876 = 3; 
+const SMOKER_LOAD_876 = 25; // % extra
+
+// Sample Premiums for **50 Lakh SA**, 20 Year Term, Non-Smoker Male
+// Data Source: PDF Page 9
+const SAMPLE_PREMIUMS_876 = {
+    level: {
+        20: { regular: 3600, limited15: 4100, limited10: 5200, single: 37750 },
+        30: { regular: 4700, limited15: 5400, limited10: 6950, single: 50850 },
+        40: { regular: 9400, limited15: 10850, limited10: 14050, single: 104900 }
+    },
+    increasing: {
+        20: { regular: 4650, limited15: 5350, limited10: 6850, single: 50100 },
+        30: { regular: 6600, limited15: 7650, limited10: 9850, single: 72950 },
+        40: { regular: 14400, limited15: 16750, limited10: 21700, single: 163250 }
+    }
+};
+
+// High SA Rebates (PDF Page 9 & 10)
+const HSA_REBATES_876 = {
+    level: {
+        regular: { 
+            upto30: { band1: 0, band2: 18, band3: 30, band4: 37 }, 
+            upto45: { band1: 0, band2: 16, band3: 28, band4: 33 } 
+        },
+        single: { 
+            upto30: { band1: 0, band2: 17, band3: 27, band4: 30 }, 
+            upto45: { band1: 0, band2: 15, band3: 25, band4: 27 } 
+        }
+    },
+    increasing: {
+        regular: { 
+            upto30: { band1: 0, band2: 16, band3: 26, band4: 33 }, 
+            upto50: { band1: 0, band2: 14, band3: 24, band4: 29 } 
+        },
+        single: { 
+            upto30: { band1: 0, band2: 15, band3: 24, band4: 27 }, 
+            upto45: { band1: 0, band2: 14, band3: 23, band4: 25 } 
+        }
+    }
+};
+
+// --- INITIALIZATION ---
+window.onload = function() {
+    // Populate Age
+    const ageSelect = document.getElementById('age');
+    for(let i=MIN_AGE_876; i<=MAX_AGE_876; i++) {
+        let opt = document.createElement('option');
+        opt.value = i; opt.text = i;
+        ageSelect.add(opt);
+    }
+    ageSelect.value = 30;
+
+    // Populate Policy Term (Start generic, validatePPT will fix)
+    populateTerm(15, 40);
+    validatePPT();
+};
+
+function populateTerm(min, max) {
+    const termSelect = document.getElementById('policyTerm');
+    const currentVal = termSelect.value;
+    termSelect.innerHTML = "";
+    for(let i=min; i<=max; i++) {
+        let opt = document.createElement('option');
+        opt.value = i; opt.text = i;
+        termSelect.add(opt);
+    }
+    if(currentVal >= min && currentVal <= max) termSelect.value = currentVal;
+    else termSelect.value = 20; // Default
+}
+
+// --- VALIDATION LOGIC ---
+function validatePPT() {
+    const ppt = document.getElementById('pptType').value;
+    const modeGroup = document.getElementById('modeGroup');
+    const riderCheck = document.getElementById('riderAB');
+    
+    // Toggle Mode visibility
+    if(ppt === 'Single') {
+        modeGroup.style.display = 'none';
+        if(riderCheck.checked) {
+            alert("Rider is not available with Single Premium.");
+            riderCheck.checked = false;
+            toggleRiderInput();
+        }
+        riderCheck.disabled = true;
+    } else {
+        modeGroup.style.display = 'block';
+        riderCheck.disabled = false;
+    }
+
+    // Min Term Logic based on PPT (PDF Page 3)
+    // Regular/Single/Limited-10: Min 15 Years
+    // Limited-15: Min 20 Years
+    let minTerm = 15;
+    if(ppt === 'Limited15') minTerm = 20;
+    
+    // Max term 40
+    populateTerm(minTerm, 40);
+    validateMaturity();
+}
+
+function validateMaturity() {
+    const age = parseInt(document.getElementById('age').value);
+    const term = parseInt(document.getElementById('policyTerm').value);
+    const errTerm = document.getElementById('err-term');
+    
+    if (age + term > MAX_MATURITY_AGE_876) {
+        errTerm.style.display = 'block';
+        errTerm.innerText = `Maturity Age (${age+term}) exceeds max limit of ${MAX_MATURITY_AGE_876} years.`;
+        return false;
+    }
+    errTerm.style.display = 'none';
+    return true;
+}
+
+function toggleRiderInput() {
+    const isChecked = document.getElementById('riderAB').checked;
+    document.getElementById('riderInput').style.display = isChecked ? 'block' : 'none';
+}
+
+function validateSA() {
+    const saInput = document.getElementById('sumAssured');
+    let sa = parseFloat(saInput.value);
+    const errSa = document.getElementById('err-sa');
+    
+    if (sa < MIN_SA_876) {
+        errSa.innerText = "Minimum Sum Assured is ₹50,00,000";
+        errSa.style.display = 'block';
+        return false;
+    }
+    
+    // Check Multiples (PDF Page 3)
+    let valid = true;
+    if (sa > 5000000 && sa <= 7500000 && sa % 100000 !== 0) valid = false;
+    if (sa > 7500000 && sa <= 15000000 && sa % 2500000 !== 0) valid = false;
+    if (sa > 15000000 && sa <= 40000000 && sa % 5000000 !== 0) valid = false;
+    if (sa > 40000000 && sa % 10000000 !== 0) valid = false;
+
+    if(!valid) {
+        errSa.innerText = "SA is not in valid multiples (see note below).";
+        errSa.style.display = 'block';
+        return true; // Allow calculation but warn
+    }
+    
+    errSa.style.display = 'none';
+    return true;
+}
+
+// --- CALCULATION LOGIC ---
+
+function interpolateRate(age, ratesForAges) {
+    if (ratesForAges[age] !== undefined) return ratesForAges[age];
+
+    // Simple Linear Interpolation between 20, 30, 40
+    let lowerAge = -1, upperAge = -1;
+    for (const sampleAge of SAMPLE_AGES_876) {
+        if (sampleAge <= age) lowerAge = sampleAge;
+        if (sampleAge >= age && upperAge === -1) upperAge = sampleAge;
+    }
+
+    if (lowerAge === -1) lowerAge = 20; 
+    if (upperAge === -1) upperAge = 40; // Extrapolate if > 40 (though limits say 45)
+
+    const rateLower = ratesForAges[lowerAge] || ratesForAges[20];
+    const rateUpper = ratesForAges[upperAge] || ratesForAges[40];
+
+    if (lowerAge === upperAge) return rateLower;
+
+    return rateLower + ((rateUpper - rateLower) / (upperAge - lowerAge)) * (age - lowerAge);
+}
+
+function calculateDigiTerm() {
+    if(!validateMaturity()) return;
+    validateSA(); // Just runs validation UI
+
+    // 1. Get Inputs
+    let sa = parseFloat(document.getElementById('sumAssured').value);
+    let age = parseInt(document.getElementById('age').value);
+    let gender = document.getElementById('gender').value;
+    let smoker = document.getElementById('smoker').value;
+    let term = parseInt(document.getElementById('policyTerm').value);
+    let pptType = document.getElementById('pptType').value;
+    let option = document.getElementById('benefitOption').value;
+    let mode = document.getElementById('mode').value;
+
+    // 2. Map PPT to Data Keys
+    let pptKey = 'regular';
+    if(pptType === 'Limited10') pptKey = 'limited10';
+    if(pptType === 'Limited15') pptKey = 'limited15';
+    if(pptType === 'Single') pptKey = 'single';
+
+    // 3. Effective Age for Females
+    let effectiveAge = age;
+    if(gender === 'Female') effectiveAge = Math.max(18, age - FEMALE_SETBACK_876);
+
+    // 4. Get Base Rate (Per 1000)
+    // The Sample Data in PDF is for 50 Lakhs. 
+    // Rate per 1000 = Sample / (5000000 / 1000) = Sample / 5000
+    const ratesByAge = {};
+    const premiumData = SAMPLE_PREMIUMS_876[option];
+    
+    SAMPLE_AGES_876.forEach(a => {
+        if(premiumData[a] && premiumData[a][pptKey]) {
+            ratesByAge[a] = premiumData[a][pptKey] / 5000;
+        }
+    });
+
+    let baseRate = interpolateRate(effectiveAge, ratesByAge);
+
+    // 5. Term Adjustment (Approximate using 1.2% rule from previous plan logic as specific factor not in PDF text)
+    if(term !== PT_REF_876) {
+        baseRate *= (1 + (term - PT_REF_876) * 0.012);
+    }
+
+    // 6. Smoker Loading
+    if(smoker === 'Smoker') {
+        baseRate *= (1 + SMOKER_LOAD_876 / 100);
+    }
+
+    // 7. Calculate Gross Premium
+    let grossPremium = baseRate * (sa / 1000);
+
+    // 8. High SA Rebate
+    let rebatePercent = 0;
+    let schemeType = (pptType === 'Single') ? 'single' : 'regular';
+    let rebateTable = HSA_REBATES_876[option][schemeType];
+    
+    // Determine Age Band
+    let ageBand = 'upto30';
+    if(option === 'level' && age > 30) ageBand = 'upto45';
+    if(option === 'increasing' && age > 30) {
+        ageBand = (schemeType === 'regular') ? 'upto50' : 'upto45';
+    }
+
+    // Determine SA Band
+    // Band 1: 50L to < 1Cr
+    // Band 2: 1Cr to < 2Cr
+    // Band 3: 2Cr to < 5Cr
+    // Band 4: >= 5Cr
+    let saBandVal = 0;
+    if(sa >= 5000000 && sa < 10000000) saBandVal = rebateTable[ageBand].band1;
+    else if(sa >= 10000000 && sa < 20000000) saBandVal = rebateTable[ageBand].band2;
+    else if(sa >= 20000000 && sa < 50000000) saBandVal = rebateTable[ageBand].band3;
+    else if(sa >= 50000000) saBandVal = rebateTable[ageBand].band4;
+
+    let rebateAmount = grossPremium * (saBandVal / 100);
+    let premiumAfterRebate = grossPremium - rebateAmount;
+
+    // 9. Modal Loading
+    // Yearly: Nil, Half-Yearly: 2% (PDF Page 10)
+    let modalFactor = 1;
+    let divider = 1;
+
+    if(pptType !== 'Single') {
+        if(mode === 'Half-Yearly') {
+            modalFactor = 1.02;
+            divider = 2;
+        }
+    }
+
+    let premiumWithLoad = premiumAfterRebate * modalFactor;
+    let installmentPremium = premiumWithLoad / divider;
+
+    // 10. Accident Benefit Rider (ADDB/AB)
+    // Rate 0.50 per 1000. Not available for Single Premium.
+    let riderPremium = 0;
+    if(document.getElementById('riderAB').checked && pptType !== 'Single') {
+        let riderSA = parseFloat(document.getElementById('riderSA').value);
+        if(riderSA > sa) riderSA = sa; // Cap at Base SA
+        
+        let riderBase = 0.50 * (riderSA / 1000);
+        
+        // Rider modal loading
+        if(mode === 'Half-Yearly') {
+            riderBase = riderBase * 1.02;
+        }
+        riderPremium = riderBase / divider;
+    }
+
+    // 11. Final Calculation (NO GST)
+    let totalPremium = installmentPremium + riderPremium;
+    let gst = 0; // Explicitly 0
+    let finalPayable = totalPremium + gst;
+
+    // 12. Display
+    document.getElementById('resultBox').style.display = 'block';
+    
+    // Adjust base display for mode
+    let displayBase = grossPremium;
+    if(pptType !== 'Single') {
+        displayBase = (grossPremium * modalFactor) / divider;
+    }
+    let displayRebate = (rebateAmount * modalFactor) / divider;
+
+    document.getElementById('resBase').innerText = formatCurrency(displayBase);
+    document.getElementById('resRebate').innerText = "-" + formatCurrency(displayRebate) + " (" + saBandVal + "%)";
+    document.getElementById('resRider').innerText = formatCurrency(riderPremium);
+    document.getElementById('resTaxable').innerText = formatCurrency(totalPremium);
+    document.getElementById('resGST').innerText = formatCurrency(gst);
+    document.getElementById('resTotal').innerText = formatCurrency(finalPayable);
+}
+
+function formatCurrency(num) {
+    return "₹" + Math.round(num).toLocaleString('en-IN');
+}
+</script>
+
+</body>
+</html>
