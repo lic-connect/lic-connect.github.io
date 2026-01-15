@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5RMKYLCCX0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-5RMKYLCCX0');
-</script>
     <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <!-- Add these inside your <head> tag -->
@@ -373,6 +364,63 @@ document.addEventListener('DOMContentLoaded', function() {
         "859":{"planName":"Saral Jeevan Bima","planNumber":"859","productSummary":"A standardized, simple pure risk insurance plan.","term":"5 to 40 Years","minAge":"18 Years","maxAge":"65 Years","minSumAssured":500000,"maxSumAssured":"25,00,000","onDeath":"100% of Basic Sum Assured.","onSurvival":"None.","loan":"Not available.","premiumLimits":{"YLY":{"min":2608,"max":76612},"HLY":{"min":1330,"max":39072},"MLY":{"min":224,"max":6576}}},
         "862":{"planName":"Saral Pension","planNumber":"862","productSummary":"A non-participating, single premium, immediate annuity plan with return of purchase price.","term":"Immediate Annuity","minAge":"40 Years","maxAge":"80 Years","minSumAssured":"Annuity-dependent","onDeath":"100% of Purchase Price is returned.","onSurvival":"Lifelong annuity payments.","loan":"Available after 6 months.","premiumLimits":{"SINGLE":{"min":101800,"max":264500000}}},
         "875":{"planName":"Yuva Term","planNumber":"875","productSummary":"A pure risk plan for young earners with options for increasing cover.","term":"15 to 40 Years","minAge":"18 Years","maxAge":"45 Years","minSumAssured":5000000,"onDeath":"Level or Increasing Sum Assured options available.","onSurvival":"None.","loan":"Not available.","premiumLimits":{"YLY":{"min":6903,"max":110767},"HLY":{"min":3521,"max":56491}}},
+
+
+"876": {
+            "planName": "Digi Term",
+            "planNumber": "876",
+            "productSummary": "A Non-Par, Online-only pure risk plan providing high life cover with special rates for non-smokers and women.",
+            "term": "15 to 40 Years",
+            "minAge": "18 Years",
+            "maxAge": "45 Years",
+            "minSumAssured": 5000000,
+            "onDeath": "Sum Assured on Death (Option I: Level SA or Option II: Increasing SA).",
+            "onSurvival": "None (Pure Risk Protection).",
+            "loan": "Not available.",
+            "premiumLimits": {
+                "YLY": { "min": 3600, "max": 500000 },
+                "HLY": { "min": 1850, "max": 255000 },
+                "SINGLE": { "min": 37750, "max": 5000000 }
+            }
+        },
+        "878": {
+            "planName": "Digi Credit Life",
+            "planNumber": "878",
+            "productSummary": "An online pure decreasing term assurance plan designed to provide a safety net against loan repayments.",
+            "term": "5 to 30 Years",
+            "minAge": "18 Years",
+            "maxAge": "45 Years",
+            "minSumAssured": 5000000,
+            "onDeath": "Decreasing Sum Assured as per the Risk Cover Schedule (matches loan balance).",
+            "onSurvival": "None (Pure Risk Protection).",
+            "loan": "Not available.",
+            "premiumLimits": {
+                "YLY": { "min": 3800, "max": 300000 },
+                "HLY": { "min": 1950, "max": 155000 },
+                "SINGLE": { "min": 34550, "max": 3000000 }
+            }
+        },
+        "954": {
+            "planName": "New Tech-Term",
+            "planNumber": "954",
+            "productSummary": "A high-value online term plan offering flexibility in death benefit options and premium payment modes.",
+            "term": "10 to 40 Years",
+            "minAge": "18 Years",
+            "maxAge": "65 Years",
+            "minSumAssured": 5000000,
+            "onDeath": "Option I: Level Sum Assured. Option II: Increasing Sum Assured (increases by 10% from 6th to 15th year until 2x BSA).",
+            "onSurvival": "None (Pure Risk Protection).",
+            "loan": "Not available.",
+            "premiumLimits": {
+                "YLY": { "min": 7047, "max": 1000000 },
+                "HLY": { "min": 3600, "max": 510000 },
+                "SINGLE": { "min": 75603, "max": 9000000 }
+            }
+        },
+
+
+
+
         "877":{"planName":"Yuva Credit Life","planNumber":"877","productSummary":"A pure risk plan designed to cover outstanding loans, with a reducing cover.","term":"5 to 30 Years","minAge":"18 Years","maxAge":"45 Years","minSumAssured":5000000,"onDeath":"Cover reduces over time, mirroring a loan balance.","onSurvival":"None.","loan":"Not available.","premiumLimits":{"YLY":{"min":6136,"max":95108},"HLY":{"min":3129,"max":48505}}},
         "879":{"planName":"Smart Pension","planNumber":"879","productSummary":"A highly flexible immediate annuity plan with multiple payout options.","term":"Immediate Annuity","minAge":"18 Years","maxAge":"100 Years","minSumAssured":100000,"onDeath":"Varies widely based on the chosen annuity option.","onSurvival":"Lifelong annuity payments.","loan":"Available under specific options.","premiumLimits":{"SINGLE":{"min":101800,"max":254500000}}},
 
@@ -404,6 +452,8 @@ const needsToPlanMapping = {
         {"planNumber":"859","points":["Pure protection at low premium.","High sum assured flexibility.","Simplicity—no surviving pay-outs."]},
         {"planNumber":"768","points":["Guaranteed lumpsum on maturity/death.","Minimal exclusions—broad coverage.","No medical exam up to certain SA."]},
         {"planNumber":"880","points":["Affordable life cover designed for low-income groups.","Guaranteed Additions of 4% on premiums ensure steady growth.","Auto-cover feature keeps the policy active if premiums are missed after 3 years."]},
+{"planNumber":"954","points":["Flexible death benefit (Level or Increasing).","Attractive rebates for high Sum Assured.","Non-smoker rates based on Urinary Cotinine test results."]},
+        {"planNumber":"876","points":["Available online only for lower premiums.","Special rates for women policyholders.","Option to receive death benefit in instalments (5, 10, or 15 years)"]},
         {"planNumber":"887","points":["High-value protection starting from ₹2 Crore Sum Assured.","Increasing Sum Assured option to combat inflation over time.","Lifetime risk cover available up to 100 years of age."]}
     ],
     "income_replacement": [
@@ -416,6 +466,10 @@ const needsToPlanMapping = {
         {"planNumber":"859","points":["Large cover at low premium is ideal for loan amortization.","Term can be perfectly aligned with loan-tenor.","Riders like critical illness can be added."]},
         {"planNumber":"714","points":["Maturity benefit helps in final debt payoff.","Bonus accumulation adds a cushion.","Loan facility available for EMI emergencies."]},
         {"planNumber":"768", "points":["Guaranteed lumpsum payout is perfect for closing a loan.", "No medicals for moderate SA means quick coverage.", "Single premium option fits for settling debt upfront."]},
+
+
+{"planNumber":"878","points":["Specifically designed to cover outstanding home or personal loans.","Choice of loan interest rate (6% to 12%) to prepare risk cover schedule.","Reducing sum assured ensures you don't overpay for protection as your debt decreases."]},
+
         {"planNumber":"887","points":["Specifically designed for high-value housing or commercial loans (₹2 Crore+).","Protects business assets and family homes from being liquidated to pay debts.","Options for Single or Limited premium payment to match one-time business profits."]}
     ],
     "child_education": [
@@ -446,6 +500,9 @@ const needsToPlanMapping = {
     ],
     "business_continuity": [
         {"planNumber":"955","points":["High sum assured available, ideal for Keyman Insurance.", "Term can be aligned with partnership deeds or loan tenors.","Death claim helps partners continue operations or settle dues."]},
+
+{"planNumber":"954","points":["High Sum Assured (No Limit*) is ideal for Keyman insurance.","Limited Premium Payment options (Term minus 5 or 10 years) for better cash flow management."]},
+
         {"planNumber":"715","points":["High SA and maturity benefit useful for funding buy-sell agreements.", "Can be used as collateral for business loans.", "Whole-life cover is suitable for long-term succession planning."]},
         {"planNumber":"717", "points":["Single premium payment is ideal for covering a specific business liability.", "Can be easily assigned to the company or a partner.", "Guaranteed maturity value helps in planning business capital needs."]},
         {"planNumber":"887","points":["High Sum Assured (₹2 Crore+) is perfect for large corporate Keyman or Partnership protection.","Single or Limited premium modes suit seasonal business cash flows.","Specialized lower rates for non-smoker business professionals."]}
@@ -644,5 +701,4 @@ const needsToPlanMapping = {
     }
 </script>  
 </body>
-
 </html>
