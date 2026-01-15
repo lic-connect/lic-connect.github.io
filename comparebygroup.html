@@ -449,6 +449,23 @@ const allPlanData = {
     '745': { name: 'Jeevan Umang (745)', summary: 'A non-linked, with-profits whole life assurance plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '100 - age at entry', minAge: '90 days', maxAge: '55', minSA: '2,00,000', maxSA: 'No Limit', ppt: '15, 20, 25, 30 Years', deathBenefit: 'Higher of Basic SA, 7 times AP, or 105% of premiums + Bonuses.', maturityBenefit: 'On survival to age 100, Sum Assured + Bonuses.', survivalBenefit: '8% of Basic Sum Assured annually after PPT until maturity.', usp: 'Lifelong tax-free pension + Insurance cover.', advantage: 'Provides a guaranteed, tax-free annual income post premium payment term, acting as a pension, with life cover up to age 100.' },
     '771': { name: 'Jeevan Utsav (771)', summary: 'A non-linked, guaranteed benefit, whole life assurance plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '100 - age at entry', minAge: '90 days', maxAge: '65', minSA: '5,00,000', maxSA: 'No Limit', ppt: '5 to 16 Years', deathBenefit: 'Basic Sum Assured + GA, or 7 times AP, or 105% of premiums.', maturityBenefit: 'On survival to 100, SA + Accrued GA.', survivalBenefit: '10% of sum assured every year for life, starting from a specified year.', usp: 'Guaranteed lifelong income with very short premium commitment.', advantage: 'Offers a fixed, guaranteed lifelong income with the flexibility of a very short premium paying term (as low as 5 years).' },
 
+'883': { 
+        name: 'Jeevan Utsav SP (883)', 
+        summary: 'A Non-Par, Whole Life Savings Plan requiring only a one-time premium payment.', 
+        premiumMode: 'Single Premium', 
+        term: '100 - age at entry', 
+        minAge: '30 days', 
+        maxAge: '65', 
+        minSA: '5,00,000', 
+        maxSA: 'No Limit', 
+        ppt: 'Single Premium', 
+        deathBenefit: 'Higher of BSA or 1.25 times Tabular Single Premium + Accrued Guaranteed Additions.', 
+        maturityBenefit: 'Basic Sum Assured + Accrued Guaranteed Additions (at age 100).', 
+        survivalBenefit: '10% of BSA annually for life. Option for Regular Payout or Flexi-Income (5.5% interest).', 
+        usp: 'Fixed Guaranteed Additions of ₹40 per 1000 SA during the GA period.', 
+        advantage: 'Pay once and secure a lifetime of 10% annual guaranteed income with growing life cover.' 
+    },
+
     // Single Premium
     '717': { name: 'Single Premium Endowment (717)', summary: 'A single premium, non-linked, with-profits Endowment Plan.', premiumMode: 'Single Premium', term: '10 to 25 Years', minAge: '90 days', maxAge: '65', minSA: '1,00,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Sum Assured + Vested Bonus + FAB.', maturityBenefit: 'Sum Assured + Vested Bonus + FAB.', survivalBenefit: 'Not Applicable', usp: 'One-time investment for long-term savings.', advantage: 'Eliminates the hassle of regular premium payments while providing a lump sum for future goals.' },
     '911': { name: 'Nav Jeevan Shree (Single)', summary: 'A Non-Par, Single Premium Savings Endowment Plan.', premiumMode: 'Single Premium', term: '5 to 20 Years', minAge: '90 days', maxAge: '60', minSA: '1,00,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Option-1: 1.25x Single Premium or BSA. Option-2: 10x Single Premium. + Guaranteed Additions.', maturityBenefit: 'Basic Sum Assured + Guaranteed Additions.', survivalBenefit: 'Not Applicable', usp: 'Guaranteed additions on a single premium.', advantage: 'A simple, secure one-time investment with guaranteed returns, ideal for lump-sum investors.' },
@@ -543,7 +560,7 @@ const allPlanData = {
 const planGroups = {
     endowment: ['714', '715', '733', '736', '768', '751', '912', '760', '880'], // Added 880 here
     moneyBack: ['720', '721', '748', '764', '881'], // Added 881 here
-    wholeLife: ['745', '771'],
+    wholeLife: ['745', '771', '883'],
     childrens: ['732', '734', '774'],
   term: ['859', '955', '875', '877', '887', '876', '878', '954'],
     annuity: ['758', '857', '862', '879'],
