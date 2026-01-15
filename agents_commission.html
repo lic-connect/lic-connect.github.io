@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5RMKYLCCX0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-5RMKYLCCX0');
-</script>
     <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LIC Agent Commission Master</title>
@@ -262,6 +253,7 @@ const db = {
     '859': { name: "Saral Jeevan Bima (859)", type: 'TERM', rule: 'T=P', min: 5, max: 40 },
     '862': { name: "Saral Pension (862)", type: 'SP', rule: 'SP', min: 1, max: 1 },
     '875': { name: "Yuva Term (875)", type: 'TERM', rule: 'T=P', min: 15, max: 40 },
+'876': { name: "Digi Life (876)", type: 'TERM', rule: 'T=P', min: 10, max: 40 },
     '877': { name: "Yuva Credit Life (877)", type: 'TERM', rule: 'T=P', min: 5, max: 30 },
     '879': { name: "Smart Pension (879)", type: 'SP', rule: 'SP', min: 1, max: 1 },
     '880': { name: "Jan Suraksha (880)", type: 'MICRO', rule: 'T-5', min: 12, max: 20 },
@@ -340,11 +332,17 @@ function runCalculation() {
 
     if (plan.type === 'SP') {
         rates = { y1: 2, y2: 0, y3: 0, y4: 0 };
- } else if (plan.type === 'TERM') {
-        if (ppt === 1) { 
-            rates = { y1: 2, y2: 0, y3: 0, y4: 0 }; // Single Premium rate
+} else if (plan.type === 'TERM') {
+        if (id === '876') {
+            if (ppt === 1) {
+                rates = { y1: 3, y2: 0, y3: 0, y4: 0 }; // Single Premium: 3%
+            } else {
+                rates = { y1: 28, y2: 7.5, y3: 7.5, y4: 6 }; // 28%, 7.5%, 7.5%, 6%
+            }
+        } else if (ppt === 1) { 
+            rates = { y1: 2, y2: 0, y3: 0, y4: 0 }; // Default Single Premium
         } else {
-            rates = { y1: 7.5, y2: 2, y3: 2, y4: 2 }; // Regular/Limited Pay rate
+            rates = { y1: 7.5, y2: 2, y3: 2, y4: 2 }; // Default Regular Term
         }
     } else if (plan.type === 'MICRO') {
         rates = { y1: 10, y2: 5, y3: 5, y4: 5 };
@@ -368,5 +366,4 @@ function runCalculation() {
 }
 </script>
 </body>
-
 </html>

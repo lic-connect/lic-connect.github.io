@@ -281,272 +281,207 @@ button:active, .plan-card:active {
         </main>
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        
-        // --- Setup for Date and Share Button (Corrected) ---
-        const currentDateEl = document.getElementById('current-date');
-        const shareBtn = document.getElementById('share-btn');
-        
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        currentDateEl.textContent = new Date().toLocaleDateString(undefined, options);
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- Setup for Date and Share Button ---
+    const currentDateEl = document.getElementById('current-date');
+    const shareBtn = document.getElementById('share-btn');
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    currentDateEl.textContent = new Date().toLocaleDateString(undefined, options);
 
-        shareBtn.addEventListener('click', async () => {
-            const shareData = {
-                title: 'LIC Commission Calculator',
-                text: 'Check out this dynamic LIC commission and premium calculator!',
-                url: window.location.href
-            };
+    shareBtn.addEventListener('click', async () => {
+        const shareData = { title: 'LIC Commission Calculator', url: window.location.href };
+        if (navigator.share) { try { await navigator.share(shareData); } catch (err) {} } 
+        else if (navigator.clipboard) { await navigator.clipboard.writeText(window.location.href); shareBtn.textContent = '✅ Copied!'; setTimeout(() => { shareBtn.textContent = '🔗 Share'; }, 2000); }
+    });
+    
+    // --- 31 PLANS DATA ---
+    const allPlans = [
+        { id: 714, name: 'New Endowment' }, { id: 715, name: 'Jeevan Anand' },
+        { id: 717, name: 'Single Premium Endowment' }, { id: 720, name: '20 yr Money Back' },
+        { id: 721, name: '25 yr Money Back' }, { id: 732, name: 'Children Money Back' },
+        { id: 733, name: 'Jeevan Lakshya' }, { id: 734, name: 'Jeevan Tarun' },
+        { id: 736, name: 'Jeevan Labh' }, { id: 745, name: 'Jeevan Umang' },
+        { id: 748, name: 'Bima Shree' }, { id: 751, name: 'Micro Bachat' },
+        { id: 758, name: 'New Jeevan Shanti' }, { id: 760, name: 'Bima Jyoti' },
+        { id: 764, name: 'Bima Ratna' }, { id: 768, name: 'Jeevan Azad' },
+        { id: 771, name: 'Jeevan Utsav' }, { id: 774, name: 'Amritbaal' },
+        { id: 857, name: 'Jeevan Akshay' }, { id: 859, name: 'Saral Jeevan Bima' },
+        { id: 862, name: 'Saral Pension' }, { id: 875, name: 'Yuva Term' },
+        { id: 876, name: 'Digi Term' }, { id: 877, name: 'Yuva Credit Life' },
+        { id: 879, name: 'Smart Pension' }, { id: 880, name: 'Jan Suraksha' },
+        { id: 881, name: 'Bima Lakshmi' }, { id: 887, name: 'Bima Kavach' },
+        { id: 911, name: 'Nav Jeevan Shree (Single)' }, { id: 912, name: 'Nav Jeevan Shree (Reg)' },
+        { id: 955, name: 'Jeevan Amar' }
+    ].sort((a,b) => a.id - b.id);
 
-            // Best Case: Web Share API (Mobile & some desktop)
-            if (navigator.share) {
-                try {
-                    await navigator.share(shareData);
-                } catch (err) {
-                    console.error("Share API error:", err);
-                }
-            // Second Best Case: Clipboard API (Desktop on HTTPS/localhost)
-            } else if (navigator.clipboard) {
-                try {
-                    await navigator.clipboard.writeText(window.location.href);
-                    shareBtn.textContent = '✅ URL Copied!';
-                    setTimeout(() => { shareBtn.textContent = '🔗 Share'; }, 2000);
-                } catch (err) {
-                    console.error('Failed to copy URL:', err);
-                    alert('Failed to copy URL. Please do it manually.');
-                }
-            // Fallback for insecure contexts (like file://)
-            } else {
-                alert('To share, please copy the URL from your browser\'s address bar.');
+    // --- COMMISSION RULES (Nov 2024 Circular) ---
+    const commissionRules = {
+        'std': (p) => p.ppt === 1 ? 2 : (p.term >= 15 ? 20 : (p.term >= 10 ? 15 : (p.term >= 8 ? 8 : null))),
+        714: 'std', 715: 'std', 733: 'std', 734: 'std', 736: 'std', 745: 'std',
+        717: () => 2, 720: (p) => p.term >= 15 ? 15 : null, 721: (p) => p.term >= 20 ? 20 : null,
+        732: (p) => p.term >= 15 ? 25 : 20,
+        748: (p) => [16, 20, 24].includes(p.term) ? 20 : ([10, 12, 14].includes(p.term) ? 15 : null),
+        751: (p) => (p.term >= 10 && p.term <= 15) ? 10 : null,
+        758: () => 2, 857: () => 2, 862: () => 2, 911: () => 2, 887: () => 2,
+        760: (p) => p.ppt === 1 ? 2 : (p.term >= 15 ? 25 : (p.term >= 10 ? 20 : null)),
+        764: (p) => p.term >= 15 ? 15 : null, 768: (p) => p.ppt >= 15 ? 15 : 10,
+        771: (p) => p.ppt === 1 ? 2 : (p.term >= 15 ? 25 : (p.term >= 10 ? 20 : 10)),
+        774: (p) => p.ppt === 1 ? 2 : 10,
+        859: () => 7.5, 875: (p) => p.ppt === 1 ? 3 : (p.term >= 15 ? 20 : 15),
+        876: (p) => p.ppt === 1 ? 3 : 28, // Plan 876 specifically as requested
+        877: (p) => p.ppt === 1 ? 3 : (p.term >= 15 ? 20 : (p.term >= 10 ? 15 : 10)),
+        879: (p) => p.ppt === 1 ? 2 : 7.5, 880: () => 15, 881: () => 15,
+        912: (p) => p.term >= 15 ? 25 : 20,
+        955: (p) => p.ppt === 1 ? 4 : (p.term >= 15 ? 28.5 : (p.term >= 10 ? 23 : 15))
+    };
+
+    function getRate(id, params) {
+        let rule = commissionRules[id];
+        if (typeof rule === 'string') rule = commissionRules[rule];
+        return rule ? rule(params) : null;
+    }
+
+    const inputs = {
+        targetCommission: document.getElementById('targetCommission'),
+        policyTerm: document.getElementById('policyTerm'),
+        ppt: document.getElementById('ppt')
+    };
+    const errorMessageDiv = document.getElementById('error-message');
+    const resultsContainer = document.getElementById('results-container');
+    const resultsTitle = document.getElementById('results-title');
+    const checklistContainer = document.getElementById('plan-checklist-container');
+    let currentMode = 'single';
+
+    function populateCombinationChecklist() {
+        checklistContainer.innerHTML = '';
+        allPlans.forEach(plan => {
+            const item = document.createElement('div');
+            item.className = 'combo-item';
+            item.innerHTML = `
+                <input type="checkbox" id="p-${plan.id}" data-plan-id="${plan.id}">
+                <label for="p-${plan.id}">${plan.id} - ${plan.name}</label>
+                <input type="number" class="commission-input" id="alloc-${plan.id}" placeholder="%" disabled>
+            `;
+            checklistContainer.appendChild(item);
+        });
+    }
+
+    function getAndValidateInputs() {
+        const valTC = parseFloat(inputs.targetCommission.value);
+        const valTerm = parseInt(inputs.policyTerm.value, 10);
+        const valPPT = parseInt(inputs.ppt.value, 10);
+        
+        errorMessageDiv.style.display = 'none';
+        let errors = [];
+
+        if (!inputs.targetCommission.value || valTC <= 0) errors.push("Enter a valid Target Commission.");
+        if (!inputs.policyTerm.value || valTerm < 1) errors.push("Enter a valid Policy Term.");
+        if (!inputs.ppt.value || valPPT < 1) errors.push("Enter a valid PPT.");
+        if (valPPT > valTerm) errors.push("PPT cannot be greater than Policy Term.");
+
+        if (errors.length > 0) {
+            errorMessageDiv.innerHTML = errors.join('<br>');
+            errorMessageDiv.style.display = 'block';
+            resultsContainer.innerHTML = '';
+            return null;
+        }
+        return { tc: valTC, term: valTerm, ppt: valPPT };
+    }
+
+    function updateDisplay() {
+        const params = getAndValidateInputs();
+        if (!params) return;
+
+        if (currentMode === 'single') {
+            resultsTitle.textContent = "Eligible Plans & Estimated Premium";
+            renderSingleModeResults(params);
+        } else {
+            resultsTitle.textContent = "Combination Builder";
+            renderComboModeResults(params);
+        }
+    }
+
+    function renderSingleModeResults(p) {
+        resultsContainer.innerHTML = '';
+        let found = 0;
+        allPlans.forEach(plan => {
+            const rate = getRate(plan.id, { term: p.term, ppt: p.ppt });
+            if (rate) {
+                found++;
+                const prem = (p.tc * 100) / rate;
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.innerHTML = `<h3>${plan.id} - ${plan.name}</h3><p>Rate: <b>${rate}%</b></p><p>Est. Premium: <span class="premium">₹${Math.round(prem).toLocaleString('en-IN')}</span></p>`;
+                resultsContainer.appendChild(card);
             }
         });
-        
-        const allPlans = [
-            { id: 714, name: 'New Endowment', category: 'ENDOWMENT' }, { id: 715, name: 'Jeevan Anand', category: 'ENDOWMENT' },
-           { id: 880, name: 'Jan Suraksha', category: 'ENDOWMENT' }, { id: 881, name: 'Bima Lakshmi', category: 'ENDOWMENT' },
-{ id: 887, name: 'Bima Kavach', category: 'TERM_INSURANCE' },
-            { id: 733, name: 'Jeevan Lakshya', category: 'ENDOWMENT' }, { id: 736, name: 'Jeevan Labh', category: 'ENDOWMENT' },
-            { id: 760, name: 'Bima Jyoti', category: 'ENDOWMENT' }, { id: 768, name: 'Jeevan Azaad', category: 'ENDOWMENT' },
-            { id: 912, name: 'Nav Jeevan Shree (Regular)', category: 'ENDOWMENT' }, { id: 751, name: 'Micro Bachat', category: 'ENDOWMENT' },
-            { id: 720, name: '20 yrs MoneyBack', category: 'MONEY_BANKING' }, { id: 721, name: '25 yrs MoneyBack', category: 'MONEY_BANKING' },
-            { id: 764, name: 'Bima Ratna', category: 'MONEY_BANKING' }, { id: 748, name: 'Bima Shree', category: 'MONEY_BANKING' },
-            { id: 732, name: "Children's Money Back", category: 'CHILDREN' }, { id: 734, name: 'Jeevan Tarun', category: 'CHILDREN' },
-            { id: 774, name: 'Jeevan Amritbaal', category: 'CHILDREN' }, { id: 758, name: 'Jeevan Shanti', category: 'PENSION' },
-            { id: 857, name: 'Jeevan Akshay', category: 'PENSION' }, { id: 862, name: 'Saral Pension', category: 'PENSION' },
-            { id: 879, name: 'Smart Pension', category: 'PENSION' }, { id: 717, name: 'Single Premium Endowment', category: 'SINGLE_PREMIUM' },
-            { id: 911, name: 'Nav Jeevan Shree (Single)', category: 'SINGLE_PREMIUM' }, { id: 745, name: 'Jeevan Umang', category: 'WHOLE_LIFE' },
-            { id: 771, name: 'Jeevan Utsav', category: 'WHOLE_LIFE' }, { id: 955, name: 'Jeevan Amar', category: 'TERM_INSURANCE' },
-            { id: 859, name: 'Saral Jeevan Bima', category: 'TERM_INSURANCE' }, { id: 875, name: 'Yuva Term', category: 'TERM_INSURANCE' },
-            { id: 877, name: 'Yuva Credit Life', category: 'TERM_INSURANCE' },
-        ].sort((a,b) => a.id - b.id);
+        if (found === 0) resultsContainer.innerHTML = '<p class="placeholder">No plans eligible for this Term/PPT.</p>';
+    }
 
-        const commissionRules = {
-            'ENDOWMENT': ({ term }) => term >= 15 ? 25 : (term > 0 ? 20 : null),
-            'MONEY_BANKING': ({ term }) => term >= 15 ? 15 : null,
-            'CHILDREN': ({ term }) => (term >= 15) ? 25 : (term >= 10 && term <= 14) ? 20 : null,
-            'PENSION': ({ ppt }) => ppt === 1 ? 2 : (ppt > 1 ? 7.5 : null),
-            'SINGLE_PREMIUM': ({ ppt }) => ppt === 1 ? 2 : null,
-            'WHOLE_LIFE': ({ term }) => term >= 15 ? 25 : (term > 0 ? 20 : null),
-           'TERM_INSURANCE': ({ term, ppt }) => ppt === 1 ? 2 : (term > 0 ? 7.5 : null),
-        };
-
-        let currentMode = 'single';
-        const inputs = {
-            targetCommission: document.getElementById('targetCommission'),
-            policyTerm: document.getElementById('policyTerm'),
-            ppt: document.getElementById('ppt')
-        };
-        const errorMessageDiv = document.getElementById('error-message');
-        const resultsContainer = document.getElementById('results-container');
-        const resultsTitle = document.getElementById('results-title');
-        const checklistContainer = document.getElementById('plan-checklist-container');
-
-        function populateCombinationChecklist() {
-            allPlans.forEach(plan => {
-                const item = document.createElement('div');
-                item.className = 'combo-item';
-                item.innerHTML = `
-                    <input type="checkbox" id="plan-${plan.id}" data-plan-id="${plan.id}">
-                    <label for="plan-${plan.id}">${plan.id} - ${plan.name}</label>
-                    <input type="number" class="commission-input" id="alloc-${plan.id}" placeholder="%" disabled>
-                `;
-                checklistContainer.appendChild(item);
-            });
+    function renderComboModeResults(p) {
+        resultsContainer.innerHTML = '';
+        const selected = Array.from(checklistContainer.querySelectorAll('input[type="checkbox"]:checked'));
+        if (selected.length === 0) {
+            resultsContainer.innerHTML = '<p class="placeholder">Check plans and assign % allocation.</p>';
+            return;
         }
 
-        function setupEventListeners() {
-            Object.values(inputs).forEach(input => input.addEventListener('input', updateDisplay));
-            document.querySelector('.tab-nav').addEventListener('click', (e) => {
-                if (e.target.classList.contains('tab-button')) {
-                    currentMode = e.target.dataset.tab;
-                    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-                    e.target.classList.add('active');
-                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                    document.getElementById(`${currentMode}PlanTab`).classList.add('active');
-                    updateDisplay();
-                }
-            });
-            checklistContainer.addEventListener('input', (e) => {
-                if (e.target.type === 'checkbox') {
-                    const allocInput = document.getElementById(`alloc-${e.target.dataset.planId}`);
-                    allocInput.disabled = !e.target.checked;
-                    if (!e.target.checked) allocInput.value = '';
-                }
-                updateDisplay();
-            });
-        }
-        
-        function getAndValidateInputs() {
-            const values = {
-                targetCommission: parseFloat(inputs.targetCommission.value),
-                policyTerm: parseInt(inputs.policyTerm.value, 10),
-                ppt: parseInt(inputs.ppt.value, 10)
-            };
-            
-            errorMessageDiv.style.display = 'none';
-            let errors = [];
-            
-            if (inputs.targetCommission.value && (isNaN(values.targetCommission) || values.targetCommission <= 0)) errors.push("Target Commission must be a positive number.");
-            if (inputs.policyTerm.value && (isNaN(values.policyTerm) || values.policyTerm <= 4)) errors.push("Policy Term is invalid.");
-            if (inputs.ppt.value && (isNaN(values.ppt) || values.ppt <= 0)) errors.push("PPT is invalid.");
-            if (!isNaN(values.ppt) && !isNaN(values.policyTerm) && values.ppt > values.policyTerm) errors.push("PPT cannot be greater than Policy Term.");
-            
-            if (errors.length > 0) {
-                errorMessageDiv.textContent = errors.join(' ');
-                errorMessageDiv.style.display = 'block';
-                resultsContainer.innerHTML = '';
-                return null;
-            }
+        let totalPerc = 0;
+        selected.forEach(cb => totalPerc += (parseFloat(document.getElementById(`alloc-${cb.dataset.planId}`).value) || 0));
 
-            if (isNaN(values.targetCommission) || isNaN(values.policyTerm) || isNaN(values.ppt)) {
-                addPlaceholder("Enter Target Commission, Policy Term, and PPT to see results.");
-                return null;
-            }
-            
-            return { targetCommission: values.targetCommission, term: values.policyTerm, ppt: values.ppt };
+        if (Math.abs(totalPerc - 100) > 0.01) {
+            errorMessageDiv.innerHTML = `Allocation Error: Total must be exactly 100%. (Current: ${totalPerc}%)`;
+            errorMessageDiv.style.display = 'block';
+            return;
         }
 
-        function updateDisplay() {
-            const params = getAndValidateInputs();
-            if (!params) { return; }
-
-            if (currentMode === 'single') {
-                resultsTitle.textContent = "Eligible Plans & Estimated Premium";
-                renderSingleModeResults(params);
+        let totalPrem = 0;
+        let cardsHtml = '';
+        selected.forEach(cb => {
+            const id = cb.dataset.planId;
+            const plan = allPlans.find(pl => pl.id == id);
+            const perc = parseFloat(document.getElementById(`alloc-${id}`).value) || 0;
+            const rate = getRate(id, { term: p.term, ppt: p.ppt });
+            if (rate) {
+                const prem = ((p.tc * (perc / 100)) * 100) / rate;
+                totalPrem += prem;
+                cardsHtml += `<div class="result-card"><h3>${id} - ${plan.name} (${perc}%)</h3><p>Prem: ₹${Math.round(prem).toLocaleString('en-IN')}</p></div>`;
             } else {
-                resultsTitle.textContent = "Combination Builder";
-                renderComboModeResults(params);
+                cardsHtml += `<div class="result-card"><h3>${id}</h3><p class="prompt">Invalid for Term/PPT</p></div>`;
             }
-        }
+        });
 
-        function renderSingleModeResults(params) {
-            resultsContainer.innerHTML = '';
-            let plansFound = 0;
-            allPlans.forEach((plan, index) => {
-                const commissionRate = commissionRules[plan.category]?.({ term: params.term, ppt: params.ppt });
-                if (commissionRate) {
-                    plansFound++;
-                    const estimatedPremium = (params.targetCommission * 100) / commissionRate;
-                    createSingleResultCard(plan, commissionRate, estimatedPremium, params.targetCommission, index);
-                }
-            });
-            if (plansFound === 0) addPlaceholder("No plans match the specified Term/PPT conditions.");
-        }
+        resultsContainer.innerHTML = `<div class="result-card summary-card"><h3>Total Premium: ₹${Math.round(totalPrem).toLocaleString('en-IN')}</h3><p>Commission Goal: ₹${p.tc.toLocaleString('en-IN')}</p></div>` + cardsHtml;
+    }
 
-        function renderComboModeResults(params) {
-            resultsContainer.innerHTML = '';
-            const selectedCheckboxes = Array.from(checklistContainer.querySelectorAll('input[type="checkbox"]:checked'));
-            
-            if (selectedCheckboxes.length === 0) {
-                addPlaceholder("Check plans and assign % allocation to build a combination.");
-                return;
-            }
-
-            let totalPercentage = 0;
-            let planBreakdowns = [];
-            let isValid = true;
-            selectedCheckboxes.forEach(cb => {
-                const planId = parseInt(cb.dataset.planId, 10);
-                const plan = allPlans.find(p => p.id === planId);
-                const allocInput = document.getElementById(`alloc-${planId}`);
-                const percentage = parseFloat(allocInput.value);
-                if (isNaN(percentage) || percentage <= 0) { 
-                    isValid = false; 
-                } else {
-                    totalPercentage += percentage;
-                    planBreakdowns.push({ plan, percentage });
-                }
-            });
-
-            if (!isValid) {
-                addPlaceholder("Please enter a valid percentage allocation for all selected plans.");
-                return;
-            }
-            if (Math.abs(totalPercentage - 100) > 0.01) {
-                errorMessageDiv.textContent = `Error: Percentage allocations must add up to 100%. Current total is ${totalPercentage}%.`;
-                errorMessageDiv.style.display = 'block';
-                return;
-            }
-
-            let totalEstimatedPremium = 0;
-            let breakdownHTML = '';
-            planBreakdowns.forEach(item => {
-                const { plan, percentage } = item;
-                const allocatedCommission = params.targetCommission * (percentage / 100);
-                const commissionRate = commissionRules[plan.category]?.({ term: params.term, ppt: params.ppt });
-                if (commissionRate) {
-                    const estimatedPremium = (allocatedCommission * 100) / commissionRate;
-                    totalEstimatedPremium += estimatedPremium;
-                    breakdownHTML += createBreakdownCardHTML(plan, percentage, allocatedCommission, commissionRate, estimatedPremium);
-                } else {
-                     breakdownHTML += createBreakdownCardHTML(plan, percentage, allocatedCommission, null, null);
-                }
-            });
-            
-            const summaryHTML = `
-                <div class="result-card summary-card">
-                    <h3>Combination Summary</h3>
-                    <p>Total Target Commission: <strong>₹${params.targetCommission.toLocaleString('en-IN')}</strong></p>
-                    <p>Total Estimated Premium: <span class="premium">₹${Math.round(totalEstimatedPremium).toLocaleString('en-IN')}</span></p>
-                </div>`;
-            resultsContainer.innerHTML = summaryHTML + breakdownHTML;
+    // --- Listeners ---
+    populateCombinationChecklist();
+    Object.values(inputs).forEach(input => input.addEventListener('input', updateDisplay));
+    
+    document.querySelector('.tab-nav').addEventListener('click', (e) => {
+        if (e.target.classList.contains('tab-button')) {
+            currentMode = e.target.dataset.tab;
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(`${currentMode}PlanTab`).classList.add('active');
+            updateDisplay();
         }
-        
-        function createSingleResultCard(plan, rate, premium, commission, index) {
-            const card = document.createElement('div');
-            card.className = 'result-card';
-            card.style.animationDelay = `${index * 0.05}s`;
-            card.innerHTML = `
-                <h3>${plan.id} - ${plan.name}</h3>
-                <p>To get ₹${commission.toLocaleString('en-IN')} commission:</p>
-                <p>Commission Rate: <strong>${rate}%</strong></p>
-                <p>Est. Premium: <span class="premium">₹${Math.round(premium).toLocaleString('en-IN')}</span></p>
-            `;
-            resultsContainer.appendChild(card);
-        }
-        
-        function createBreakdownCardHTML(plan, percentage, allocatedCommission, commissionRate, estimatedPremium) {
-            let content;
-            if(commissionRate){
-                content = `
-                    <p>Allocated Commission: <strong>₹${allocatedCommission.toLocaleString('en-IN', {maximumFractionDigits: 2})}</strong></p>
-                    <p>Commission Rate: <strong>${commissionRate}%</strong></p>
-                    <p>Est. Premium: <span class="premium">₹${Math.round(estimatedPremium).toLocaleString('en-IN')}</span></p>
-                `;
-            } else {
-                content = `<p class="prompt">Invalid for the entered Policy Term / PPT.</p>`;
-            }
-            return `<div class="result-card"><h3>${plan.id} - ${plan.name} (${percentage}%)</h3>${content}</div>`;
-        }
+    });
 
-        function addPlaceholder(message) {
-             resultsContainer.innerHTML = `<p class="placeholder">${message}</p>`;
+    checklistContainer.addEventListener('input', (e) => {
+        if (e.target.type === 'checkbox') {
+            const allocInput = document.getElementById(`alloc-${e.target.dataset.planId}`);
+            allocInput.disabled = !e.target.checked;
+            if (!e.target.checked) allocInput.value = '';
         }
-        
-        populateCombinationChecklist();
-        setupEventListeners();
         updateDisplay();
     });
+
+    updateDisplay();
+});
     </script>
 <div class="home-button-container">
   <a href="/main.html" title="Go to Home">
