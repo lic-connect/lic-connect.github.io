@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5RMKYLCCX0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-5RMKYLCCX0');
-</script>
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LIC Plan Comparator: The Royal Chamber</title>
@@ -473,6 +464,59 @@ const allPlanData = {
     '955': { name: 'New Jeevan Amar (955)', summary: 'A Non-Linked, pure protection plan with two death benefit options.', premiumMode: 'Single, Regular, Limited Pay', term: '10 to 40 Years', minAge: '18', maxAge: '65', minSA: '25,00,000', maxSA: 'No Limit', ppt: 'Same as term or limited', deathBenefit: 'Option 1: Level Sum Assured. Option 2: Increasing Sum Assured.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'Option for Increasing Sum Assured.', advantage: 'Allows your life cover to grow over time, helping to combat inflation and increased responsibilities.' },
     '875': { name: 'Yuva Term (875)', summary: 'A pure risk plan targeted at younger individuals.', premiumMode: 'Single, Regular, Limited Pay', term: '15 to 40 Years', minAge: '18', maxAge: '45', minSA: '50,00,000', maxSA: '5 Crore+', ppt: 'Same as term or limited', deathBenefit: 'Offers Level or Increasing Sum Assured options.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'High sum assured for young professionals.', advantage: 'Specifically designed to offer very high life cover at competitive rates for the younger demographic.' },
     '877': { name: 'Yuva Credit Life (877)', summary: 'A pure risk plan to cover loan liabilities.', premiumMode: 'Single, Limited Pay', term: '5 to 30 Years', minAge: '18', maxAge: '45', minSA: '50,00,000', maxSA: '5 Crore+', ppt: '5, 10, 15 years or Single', deathBenefit: 'Risk cover reduces as per a pre-defined schedule, mimicking a loan balance.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'Decreasing term cover for loan protection.', advantage: 'A perfect tool to cover a large housing or business loan, where the insurance amount decreases as the loan is repaid.' },
+
+
+'876': { 
+        name: 'Digi Term (876)', 
+        summary: 'A Non-Par, Non-Linked, Pure Risk Plan available exclusively Online.', 
+        premiumMode: 'Single, Regular, Limited Pay', 
+        term: '10 to 40 Years', 
+        minAge: '18', 
+        maxAge: '45', 
+        minSA: '50,00,000', 
+        maxSA: 'No Limit', 
+        ppt: 'Single, Regular, Limited (10, 15 yrs)', 
+        deathBenefit: 'Sum Assured on Death. Options for Level or Increasing Sum Assured.', 
+        maturityBenefit: 'Not Applicable', 
+        survivalBenefit: 'Not Applicable', 
+        usp: 'Online exclusive plan with High Sum Assured rebates.', 
+        advantage: 'Provides high life cover at low cost with flexibility of premium payment and cover type.' 
+    },
+    '878': { 
+        name: 'Digi Credit Life (878)', 
+        summary: 'A Decreasing Term Assurance plan available Online, designed for loan protection.', 
+        premiumMode: 'Single, Limited Pay', 
+        term: '5 to 30 Years', 
+        minAge: '18', 
+        maxAge: '45', 
+        minSA: '50,00,000', 
+        maxSA: '5,00,00,000', 
+        ppt: 'Single, Limited (5, 10, 15 yrs)', 
+        deathBenefit: 'Sum Assured on Death as per Risk Cover Schedule (Decreasing).', 
+        maturityBenefit: 'Not Applicable', 
+        survivalBenefit: 'Not Applicable', 
+        usp: 'Risk cover reduces as loan liability decreases. Choice of loan interest rate.', 
+        advantage: 'Ensures family is not burdened with debt repayment. Cheaper than level term assurance.' 
+    },
+    '954': { 
+        name: 'New Tech Term (954)', 
+        summary: 'A Non-Linked, Non-participating, Online Pure Risk Premium Plan.', 
+        premiumMode: 'Single, Regular, Limited Pay', 
+        term: '10 to 40 Years', 
+        minAge: '18', 
+        maxAge: '65', 
+        minSA: '50,00,000', 
+        maxSA: 'No Limit', 
+        ppt: 'Single, Regular, Limited (5, 10, 15 yrs)', 
+        deathBenefit: 'Option I: Level Sum Assured. Option II: Increasing Sum Assured.', 
+        maturityBenefit: 'Not Applicable', 
+        survivalBenefit: 'Not Applicable', 
+        usp: 'Flexibility to choose Level or Increasing Sum Assured (10% increase from 6th to 15th year).', 
+        advantage: 'Comprehensive protection with options to increase cover to beat inflation. Special rates for women.' 
+    },
+
+
+
 '887': { 
         name: 'Bima Kavach (887)', 
         summary: 'A Non-Par, High-Value Pure Risk plan with flexible premium options and lifetime cover.', 
@@ -501,7 +545,7 @@ const planGroups = {
     moneyBack: ['720', '721', '748', '764', '881'], // Added 881 here
     wholeLife: ['745', '771'],
     childrens: ['732', '734', '774'],
-    term: ['859', '955', '875', '877', '887'],
+  term: ['859', '955', '875', '877', '887', '876', '878', '954'],
     annuity: ['758', '857', '862', '879'],
     single: ['717', '911']
 };
@@ -771,5 +815,4 @@ function closeCalculator() {
     }
 </script>  
 </body>
-
 </html>
