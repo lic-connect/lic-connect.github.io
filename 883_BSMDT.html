@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Jeevan Utsav Single Premium (Plan 883) Calculator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 850px;
+        }
+        .header {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 15px;
+        }
+        h2 { margin: 0; font-size: 24px; }
+        h2 small { font-size: 14px; font-weight: normal; color: #555; display: block; margin-top: 5px;}
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .full-width { grid-column: 1 / -1; }
+        .input-group { display: flex; flex-direction: column; }
+        label { font-weight: 600; color: #333; margin-bottom: 8px; font-size: 14px;}
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #eef2f7;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        button {
+            grid-column: 1 / -1;
+            padding: 16px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(135deg, #0055a4, #003366);
+            margin-top: 10px;
+        }
+        button:hover { opacity: 0.9; }
+
+        .output-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+            display: none;
+        }
+        .results-box, .benefits-box {
+            background-color: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e7e7e7;
+        }
+        .results-box h3, .benefits-box h3 {
+            margin-top: 0;
+            color: #003366;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            font-size: 17px;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .result-row span:last-child { font-weight: bold; color: #003366; }
+        .highlight-amt { font-size: 20px !important; color: #d9534f !important; }
+
+        .error-message {
+            color: #d9534f;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f2dede;
+            border: 1px solid #d9534f;
+            border-radius: 5px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .grid, .output-section { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2>LIC's Jeevan Utsav Single Premium <small>Plan No. 883 | UIN: 512N392V01</small></h2>
+    </div>
+
+    <div class="grid">
+        <div class="input-group">
+            <label>Age (Completed Years):</label>
+            <input type="number" id="age" placeholder="0 to 65" min="0" max="65">
+        </div>
+        <div class="input-group">
+            <label>Basic Sum Assured (₹):</label>
+            <input type="number" id="bsa" placeholder="Min 5,00,000" step="25000">
+        </div>
+        <div class="input-group">
+            <label>Guaranteed Addition Period (Years):</label>
+            <select id="gap">
+                <option value="">-- Select Period --</option>
+                <option value="7">7 Years (Income from 8th yr)</option>
+                <option value="8">8 Years (Income from 9th yr)</option>
+                <option value="9">9 Years (Income from 10th yr)</option>
+                <option value="10">10 Years (Income from 11th yr)</option>
+                <option value="11">11 Years (Income from 12th yr)</option>
+                <option value="12">12 Years (Income from 13th yr)</option>
+                <option value="13">13 Years (Income from 14th yr)</option>
+                <option value="14">14 Years (Income from 15th yr)</option>
+                <option value="15">15 Years (Income from 16th yr)</option>
+                <option value="16">16 Years (Income from 17th yr)</option>
+                <option value="17">17 Years (Income from 18th yr)</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Survival Benefit Option:</label>
+            <select id="option">
+                <option value="1">Option I: Regular Income</option>
+                <option value="2">Option II: Flexi Income</option>
+            </select>
+        </div>
+        <div class="input-group full-width">
+            <div class="checkbox-group">
+                <input type="checkbox" id="isOnline" checked>
+                <label for="isOnline" style="margin:0">Purchase Online (Directly from LIC Website)</label>
+            </div>
+        </div>
+
+        <button onclick="calculate()">Calculate Premium & Benefits</button>
+    </div>
+
+    <div id="errorBox" class="error-message"></div>
+
+    <div class="output-section" id="output">
+        <div class="results-box">
+            <h3>Premium Summary</h3>
+            <div class="result-row"><span>Tabular Premium:</span><span id="tabPrem">-</span></div>
+            <div class="result-row"><span>High BSA Rebate:</span><span id="bsaRebate">-</span></div>
+            <div class="result-row" id="onlineRow"><span>Online Rebate (2%):</span><span id="onlineRebate">-</span></div>
+            <div class="result-row" style="border-top:1px solid #ddd; padding-top:10px; margin-top:10px;">
+                <span>Total Single Premium:</span>
+                <span id="totalPrem" class="highlight-amt">-</span>
+            </div>
+            <p style="font-size: 11px; color: #777; margin-top: 10px;">* No GST is applicable on Single Premium as per current rules for this plan.</p>
+        </div>
+
+        <div class="benefits-box">
+            <h3>Guaranteed Benefits</h3>
+            <div class="result-row"><span>Sum Assured on Death:</span><span id="saDeath">-</span></div>
+            <div class="result-row"><span>Annual Income Benefit:</span><span id="incomeAmt">-</span></div>
+            <div class="result-row"><span>Income Start Year:</span><span id="startYear">-</span></div>
+            <div class="result-row"><span>Guaranteed Additions (p.a):</span><span id="gaPerYear">-</span></div>
+            <div class="result-row"><span>Total GA (at end of GA Period):</span><span id="totalGA">-</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const premiumRates = {
+        0: 4100, 5: 4150, 10: 4200, 15: 4300, 20: 4450, 25: 4650, 30: 4900, 35: 5200, 
+        40: 5600, 45: 6150, 50: 6850, 55: 7750, 60: 8950, 65: 10500
+    };
+
+    function getRate(age) {
+        const keys = Object.keys(premiumRates).map(Number).sort((a,b) => a-b);
+        if (age in premiumRates) return premiumRates[age];
+        for(let i=0; i<keys.length-1; i++) {
+            if (age > keys[i] && age < keys[i+1]) {
+                let r1 = premiumRates[keys[i]], r2 = premiumRates[keys[i+1]];
+                return r1 + (r2 - r1) * (age - keys[i]) / (keys[i+1] - keys[i]);
+            }
+        }
+        return age > 65 ? 10500 : 4100;
+    }
+
+    function getHighBSARebate(age, bsa) {
+        if (bsa < 1000000) return 0;
+        let rebate = 0;
+        if (age <= 20) {
+            if (bsa < 2500000) rebate = 11;
+            else if (bsa < 5000000) rebate = 19;
+            else rebate = 21;
+        } else if (age <= 40) {
+            if (bsa < 2500000) rebate = 9;
+            else if (bsa < 5000000) rebate = 15;
+            else rebate = 18;
+        } else if (age <= 55) {
+            if (bsa < 2500000) rebate = 6.5;
+            else if (bsa < 5000000) rebate = 12;
+            else rebate = 13;
+        } else {
+            if (bsa < 2500000) rebate = 5;
+            else if (bsa < 5000000) rebate = 9;
+            else rebate = 10;
+        }
+        return rebate;
+    }
+
+    function format(val) {
+        return "₹" + Math.round(val).toLocaleString('en-IN');
+    }
+
+    function calculate() {
+        const errorBox = document.getElementById('errorBox');
+        const output = document.getElementById('output');
+        errorBox.style.display = 'none';
+        output.style.display = 'none';
+
+        const age = parseInt(document.getElementById('age').value);
+        const bsa = parseInt(document.getElementById('bsa').value);
+        const gap = parseInt(document.getElementById('gap').value);
+        const isOnline = document.getElementById('isOnline').checked;
+
+        // Validations
+        if (isNaN(age) || age < 0 || age > 65) {
+            showError("Please enter valid age (0-65 years)."); return;
+        }
+        if (isNaN(bsa) || bsa < 500000) {
+            showError("Minimum Basic Sum Assured is ₹5,00,000."); return;
+        }
+        if (bsa < 2450000 && bsa % 25000 !== 0) {
+            showError("BSA must be in multiples of ₹25,000."); return;
+        }
+        if (bsa >= 2450000 && bsa % 50000 !== 0) {
+            showError("BSA must be in multiples of ₹50,000 for amounts above 24.5 Lakhs."); return;
+        }
+        if (isNaN(gap)) {
+            showError("Please select the Guaranteed Addition Period."); return;
+        }
+
+        const tabRate = getRate(age);
+        const tabularPremium = (bsa / 1000) * tabRate;
+        const bsaRebateRate = getHighBSARebate(age, bsa);
+        const bsaRebateAmt = (bsa / 1000) * bsaRebateRate;
+        
+        let netPremium = tabularPremium - bsaRebateAmt;
+        let onlineRebateAmt = 0;
+        
+        if (isOnline) {
+            onlineRebateAmt = netPremium * 0.02;
+            netPremium -= onlineRebateAmt;
+            document.getElementById('onlineRow').style.display = 'flex';
+        } else {
+            document.getElementById('onlineRow').style.display = 'none';
+        }
+
+        // Output logic
+        document.getElementById('tabPrem').innerText = format(tabularPremium);
+        document.getElementById('bsaRebate').innerText = format(bsaRebateAmt);
+        document.getElementById('onlineRebate').innerText = format(onlineRebateAmt);
+        document.getElementById('totalPrem').innerText = format(netPremium);
+
+        // Benefits
+        document.getElementById('saDeath').innerText = format(Math.max(bsa, 1.25 * tabularPremium));
+        document.getElementById('incomeAmt').innerText = format(bsa * 0.10) + " (p.a.)";
+        document.getElementById('startYear').innerText = "Policy Year " + (gap + 1);
+        document.getElementById('gaPerYear').innerText = format((bsa / 1000) * 40);
+        document.getElementById('totalGA').innerText = format(((bsa / 1000) * 40) * gap);
+
+        output.style.display = 'grid';
+    }
+
+    function showError(msg) {
+        const errorBox = document.getElementById('errorBox');
+        errorBox.innerText = msg;
+        errorBox.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
