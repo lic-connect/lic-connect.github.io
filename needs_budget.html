@@ -424,6 +424,22 @@ document.addEventListener('DOMContentLoaded', function() {
         "877":{"planName":"Yuva Credit Life","planNumber":"877","productSummary":"A pure risk plan designed to cover outstanding loans, with a reducing cover.","term":"5 to 30 Years","minAge":"18 Years","maxAge":"45 Years","minSumAssured":5000000,"onDeath":"Cover reduces over time, mirroring a loan balance.","onSurvival":"None.","loan":"Not available.","premiumLimits":{"YLY":{"min":6136,"max":95108},"HLY":{"min":3129,"max":48505}}},
         "879":{"planName":"Smart Pension","planNumber":"879","productSummary":"A highly flexible immediate annuity plan with multiple payout options.","term":"Immediate Annuity","minAge":"18 Years","maxAge":"100 Years","minSumAssured":100000,"onDeath":"Varies widely based on the chosen annuity option.","onSurvival":"Lifelong annuity payments.","loan":"Available under specific options.","premiumLimits":{"SINGLE":{"min":101800,"max":254500000}}},
 
+"883": {
+            "planName": "Jeevan Utsav Single Premium",
+            "planNumber": "883",
+            "productSummary": "A Non-Par, Whole Life Savings Plan requiring only a one-time premium payment with lifelong guaranteed income.",
+            "term": "Whole Life (to age 100)",
+            "minAge": "30 Days",
+            "maxAge": "65 Years",
+            "minSumAssured": 500000,
+            "onDeath": "Higher of BSA or 1.25x Tabular Premium + Accrued Guaranteed Additions.",
+            "onSurvival": "Guaranteed income of 10% of BSA annually for life after GA period ends.",
+            "loan": "Available after 3 months from policy issuance.",
+            "premiumLimits": {
+                "SINGLE": { "min": 240000, "max": 900000000 }
+            }
+        },
+
 "887": {
             "planName": "Bima Kavach",
             "planNumber": "887",
@@ -454,12 +470,14 @@ const needsToPlanMapping = {
         {"planNumber":"880","points":["Affordable life cover designed for low-income groups.","Guaranteed Additions of 4% on premiums ensure steady growth.","Auto-cover feature keeps the policy active if premiums are missed after 3 years."]},
 {"planNumber":"954","points":["Flexible death benefit (Level or Increasing).","Attractive rebates for high Sum Assured.","Non-smoker rates based on Urinary Cotinine test results."]},
         {"planNumber":"876","points":["Available online only for lower premiums.","Special rates for women policyholders.","Option to receive death benefit in instalments (5, 10, or 15 years)"]},
+{"planNumber":"883","points":["Lifelong risk cover with just a one-time payment.","Guaranteed additions of ₹40 per thousand SA boost the death benefit.","Ideal for leaving a tax-free legacy for heirs."]},
         {"planNumber":"887","points":["High-value protection starting from ₹2 Crore Sum Assured.","Increasing Sum Assured option to combat inflation over time.","Lifetime risk cover available up to 100 years of age."]}
     ],
     "income_replacement": [
         {"planNumber":"715","points":["Ample death benefit replaces income.","Bonus accumulation strengthens payout.","Optional accidental rider & premium waiver."]},
         {"planNumber":"760","points":["Guaranteed additions provide a predictable corpus.","Lump-sum maturity can be invested for regular income.","Good for middle-income earners."]},
         {"planNumber":"771", "points":["Provides lifelong annual income after the premium term.", "Acts as a self-funded pension to replace salary.", "Guaranteed benefits remove market uncertainty."]},
+{"planNumber":"883","points":["Provides a massive 10% of Sum Assured as guaranteed income every year.","Flexi-income option allows you to accumulate survival benefits at 5.5% interest.","Perfect for creating a permanent second salary."]},
         {"planNumber":"887","points":["High Sum Assured ensures a massive corpus to replace high-level professional income.","Flexible settlement options for death benefit (Installments) to provide family stability.","Increasing cover ensures the 'replacement value' stays relevant as your lifestyle grows."]}
     ],
     "loan_repayment": [
@@ -485,6 +503,7 @@ const needsToPlanMapping = {
     "retirement_planning": [
         {"planNumber":"745","points":["Provides a guaranteed, tax-free annual income for life after the premium term.","Acts as a private pension plan.","Maturity at age 100 creates a massive legacy corpus."]},
         {"planNumber":"857","points":["Provides an immediate, guaranteed pension for life.","Ideal for those who have just retired and have a lump sum to invest.","Multiple options including return of purchase price."]},
+{"planNumber":"883","points":["Acts as a high-yield single-premium pension alternative.","No market risk—every payout is guaranteed at inception.","Liquidity available through loan facility after just 3 months."]},
         {"planNumber":"758","points":["Locks in current annuity rates for a future pension.", "Allows you to plan for retirement 1 to 12 years in advance.","Single premium investment simplifies financial planning."]}
     ],
     "wealth_creation": [
