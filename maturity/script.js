@@ -36,7 +36,16 @@ document.addEventListener('DOMContentLoaded', function () {
         // Whole Life Plans
         '745': { name: "LIC's Jeevan Umang", type: 'Whole Life', summary: "A non-linked, with-profits whole life plan with survival benefits.", benefits: { onDeath: "Sum Assured on Death + Bonuses. Death benefit not less than 105% of premiums paid.", onSurvival: "8% of Basic SA annually after PPT. At maturity (age 100) or death, Basic SA + Bonuses + FAB is paid." }, rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' } },
         '771': { name: "LIC's Jeevan Utsav", type: 'Whole Life', summary: "A whole life plan with guaranteed additions and lifetime guaranteed income.", benefits: { onDeath: "Sum Assured on Death + Guaranteed Additions.", onSurvival: "10% of Basic SA as annual income for life. On maturity (age 100), SA + GAs." }, rules: { death: 'ga_death_40', maturity: 'ga_maturity_40_income' } },
-        
+ '883': { 
+            name: "LIC's Jeevan Utsav Single Premium", 
+            type: 'Whole Life', 
+            summary: "Single Premium plan with Guaranteed Additions of ₹40 per 1000 SA.", 
+            benefits: { 
+                onDeath: "Higher of BSA or 1.25x SP + Accrued GAs.", 
+                onSurvival: "Maturity (Age 100): Higher of SA or 1.25x SP + Accrued GAs." 
+            }, 
+            rules: { death: 'utsav_sp', maturity: 'utsav_sp' } 
+        },
         // Money Back Plans
         '748': { name: "LIC’s Bima Shree", type: 'Money Back', summary: "A limited premium money back plan for HNI with Guaranteed Additions.", benefits: { onDeath: "Sum Assured on Death + Accrued GA.", onSurvival: "Periodic survival benefits. At maturity, remaining SA + GA + Loyalty Addition." }, rules: { death: 'ga_death', maturity: 'money_back_ga' } },
         '720': { name: "LIC's New Money Back Plan-20 Yrs", type: 'Money Back', summary: "A 20-year money back plan with periodic payouts.", benefits: { onDeath: "Sum Assured on Death (125% of SA or 7x AP) + Bonuses. Not less than 105% of premiums.", onSurvival: "20% of SA at years 5, 10, 15. At maturity (year 20), 40% of SA + Bonuses." }, rules: { death: 'mb_death', maturity: 'money_back_bonus_20' } },
@@ -253,6 +262,26 @@ document.addEventListener('DOMContentLoaded', function () {
             case 'pension':
                 totalBenefit = 0;
                 notes = `Benefit for ${plan.type} plans depends on market performance (Fund Value) or annuity rates, which cannot be estimated with these inputs. Please check your policy document.`;
+                break;
+case 'utsav_sp':
+                // Calculate Base: Higher of SA or 1.25x Single Premium
+                let utsavBase = Math.max(sa, 1.25 * annualPremium);
+                
+                // Calculate GA: ₹40 per 1000 SA (4% of SA per year)
+                // We use the 'PPT' field for the number of years GA is earned
+                let gaPeriod = isDeathCalc ? Math.min(completedYears, ppt) : ppt;
+                let utsavGA = (sa / 1000) * 40 * gaPeriod;
+                
+                // Set Total Benefit
+                totalBenefit = utsavBase + utsavGA;
+
+                // Force the result boxes to show these specific 883 values
+                setTimeout(() => {
+                    totalBenefitResult.textContent = `₹ ${totalBenefit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+                    bonusResult.textContent = `₹ ${utsavGA.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+                }, 50);
+
+                notes = "Benefit = [Higher of BSA or 1.25x Single Premium] + [Accrued Guaranteed Additions at ₹40/1000 SA].";
                 break;
 case '887_logic':
                 if (isDeathCalc) {
