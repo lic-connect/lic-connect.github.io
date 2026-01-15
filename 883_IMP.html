@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Jeevan Utsav (883) Professional IRR Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0c2f5a; /* LIC Blue */
+            --accent: #ffd700;  /* LIC Gold */
+            --action: #0dcaf0;  /* Cyan */
+            --success: #2e7d32;
+            --danger: #d32f2f;
+            --bg: #f4f7f9;
+        }
+
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg); color: #333; margin: 0; padding: 10px; }
+        .container { max-width: 1350px; margin: 0 auto; }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #001a35 100%);
+            color: white; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .main-grid { display: grid; grid-template-columns: 350px 1fr; gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: fit-content;}
+        
+        .section-title { font-size: 1em; font-weight: 700; color: var(--primary); margin-bottom: 15px; border-bottom: 3px solid var(--accent); display: inline-block; }
+
+        .input-group { margin-bottom: 12px; }
+        label { display: block; font-size: 0.85em; font-weight: 600; margin-bottom: 4px; }
+        input, select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9em; box-sizing: border-box; }
+        input:focus, select:focus { outline: none; border-color: var(--action); }
+
+        .rider-box { background: #f0f9ff; padding: 12px; border-radius: 10px; margin: 10px 0; border: 1px solid #e0f2fe; }
+        .checkbox-container { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-weight: 600; font-size: 0.8em; }
+
+        button.btn-generate { 
+            width: 100%; background: var(--primary); color: white; border: none; padding: 12px; 
+            font-size: 1em; font-weight: 700; border-radius: 8px; cursor: pointer; text-transform: uppercase; transition: 0.3s;
+        }
+        button.btn-generate:hover { background: #004080; }
+
+        #errorMsg { color: var(--danger); background: #fef2f2; padding: 10px; border-radius: 6px; margin-top: 10px; display: none; font-weight: bold; font-size: 0.8em; border: 1px solid #fee2e2; }
+
+        .results-panel { display: none; }
+        .summary-dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        .summary-card { background: var(--primary); color: white; padding: 15px; border-radius: 12px; text-align: center; }
+        .summary-card.irr { background: linear-gradient(135deg, #0dcaf0 0%, #0284c7 100%); }
+        .summary-card h3 { font-size: 0.8em; margin: 0; opacity: 0.8; }
+        .summary-card p { margin: 5px 0 0; font-size: 1.3em; font-weight: 800; }
+
+        .table-container { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.82em; min-width: 1000px;}
+        th { background: #f1f5f9; color: var(--primary); padding: 10px; border: 1px solid #e2e8f0; position: sticky; top: 0; }
+        td { padding: 8px; text-align: center; border: 1px solid #f1f5f9; }
+        
+        .outflow { color: var(--danger); font-weight: bold; }
+        .inflow { color: var(--success); font-weight: bold; }
+        .total-row { background: #1e293b !important; color: white !important; font-weight: 800; }
+
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>LIC Jeevan Utsav (Plan 883 SP) IRR Generator</h1>
+    </div>
+
+    <div class="main-grid">
+        <div class="card">
+            <div class="section-title">Policy Parameters</div>
+            
+            <div class="input-group">
+                <label>Age (0-65)</label>
+                <input type="number" id="age" value="35">
+            </div>
+            
+            <div class="input-group">
+                <label>Sum Assured (Min 5L)</label>
+                <input type="number" id="sumAssured" value="1000000" step="25000">
+            </div>
+
+            <div class="input-group">
+                <label>GA Period / Income Start</label>
+                <select id="gap">
+                    <option value="7">7 Yrs (Income from 8th)</option>
+                    <option value="8">8 Yrs (Income from 9th)</option>
+                    <option value="9">9 Yrs (Income from 10th)</option>
+                    <option value="10" selected>10 Yrs (Income from 11th)</option>
+                    <option value="12">12 Yrs (Income from 13th)</option>
+                    <option value="15">15 Yrs (Income from 16th)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="onlineRebate" checked>
+                    <label>Apply Online Rebate (2%)</label>
+                </div>
+            </div>
+
+            <div class="rider-box">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="addbCheck" onchange="toggleInp('addbDiv', this)">
+                    <label>AD&DB Rider</label>
+                </div>
+                <div id="addbDiv" style="display:none;" class="input-group">
+                    <input type="number" id="addbSa" placeholder="ADDB Sum Assured">
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="trCheck" onchange="toggleInp('trDiv', this)">
+                    <label>Term Rider</label>
+                </div>
+                <div id="trDiv" style="display:none;" class="input-group">
+                    <input type="number" id="trSa" placeholder="Term Rider Sum Assured">
+                </div>
+            </div>
+
+            <button class="btn-generate" onclick="generateReport()">Generate Professional Report</button>
+            <div id="errorMsg"></div>
+        </div>
+
+        <div class="results-panel" id="resultsPanel">
+           <div class="summary-dashboard">
+    <div class="summary-card">
+        <h3>Single Premium</h3>
+        <p id="totalPremium">₹0</p>
+    </div>
+    <div class="summary-card">
+        <h3 id="profitTitle">Total Profit (Inflows - Outflows)</h3>
+        <p id="netProfit">₹0</p>
+    </div>
+    <div class="summary-card">
+        <h3>Yearly Income</h3>
+        <p id="yearlyIncome">₹0</p>
+    </div>
+    <div class="summary-card irr">
+        <h3>IRR (Yield)</h3>
+        <p id="xirrVal">0.00%</p>
+    </div>
+</div>
+
+            <div class="table-container">
+                <table>
+                   <thead>
+    <tr>
+        <th>Year</th>
+        <th>Age</th>
+        <th>Outflow (Premium)</th>
+        <th>GA (Accrued)</th>
+        <th>Survival Benefit (10%)</th>
+        <th>Death Benefit</th>
+        <th>Maturity Benefit</th>
+        <th>Net Cashflow</th>
+    </tr>
+</thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+const premiumRates = {
+    0:4100, 5:4150, 10:4200, 15:4300, 20:4450, 25:4650, 30:4900, 35:5200,
+    40:5600, 45:6150, 50:6850, 55:7750, 60:8950, 65:10500
+};
+
+function getRate(age){
+    const k = Object.keys(premiumRates).map(Number).sort((a,b)=>a-b);
+    if(age in premiumRates) return premiumRates[age];
+    for(let i=0; i<k.length-1; i++){
+        if(age>k[i] && age<k[i+1]){
+            return premiumRates[k[i]] + (premiumRates[k[i+1]]-premiumRates[k[i]])*(age-k[i])/(k[i+1]-k[i]);
+        }
+    }
+    return 10500;
+}
+
+function getHighBSARebate(age, bsa) {
+    if (bsa < 1000000) return 0;
+    if (age <= 20) return bsa < 2500000 ? 11 : (bsa < 5000000 ? 19 : 21);
+    if (age <= 40) return bsa < 2500000 ? 9 : (bsa < 5000000 ? 15 : 18);
+    if (age <= 55) return bsa < 2500000 ? 6.5 : (bsa < 5000000 ? 12 : 13);
+    return bsa < 2500000 ? 5 : (bsa < 5000000 ? 9 : 10);
+}
+
+function format(v){ return "₹" + Math.round(v).toLocaleString('en-IN'); }
+function toggleInp(id,c){ document.getElementById(id).style.display = c.checked ? 'block' : 'none'; }
+function showErr(m){ const e=document.getElementById("errorMsg"); e.innerText=m; e.style.display='block'; }
+
+function generateReport(){
+    document.getElementById("errorMsg").style.display='none';
+    const age = +document.getElementById("age").value;
+    const bsa = +document.getElementById("sumAssured").value;
+    const gap = +document.getElementById("gap").value;
+    const online = document.getElementById("onlineRebate").checked;
+
+    // 1. CALCULATE PREMIUM (What the customer pays once)
+    const tabRate = getRate(age);
+    let premium = (bsa / 1000) * tabRate;
+    premium -= (bsa / 1000) * getHighBSARebate(age, bsa);
+    if(online) premium *= 0.98;
+
+    let rider = 0;
+    if(document.getElementById("addbCheck").checked) rider += (+document.getElementById("addbSa").value || bsa) / 1000 * 12.5;
+    if(document.getElementById("trCheck").checked) rider += (+document.getElementById("trSa").value || bsa) / 1000 * (age * 0.85);
+
+    const totalOutflow = premium + rider;
+
+    // 2. BENEFIT CONSTANTS
+    const baseDB = Math.max(1.25 * bsa, 1.05 * totalOutflow);
+    const yearlySB = bsa * 0.10;
+    const endYear = 100 - age;
+
+    let cashflows = [-totalOutflow]; // For IRR Math
+    let ga = 0, sumSB = 0, totalRealInflow = 0;
+
+    // 3. YEAR 0 ROW (The Day they Pay)
+    let html = `<tr style="background:#f8fafc; font-weight:bold;">
+        <td>0</td><td>${age}</td>
+        <td class="outflow">${format(totalOutflow)}</td>
+        <td>-</td><td>-</td><td>${format(baseDB)}</td><td>-</td>
+        <td class="outflow">-${format(totalOutflow)}</td>
+    </tr>`;
+
+    // 4. YEARLY ROWS (What actually happens)
+    for(let y=1; y<=endYear; y++){
+        let curAge = age + y;
+        if(y <= gap) ga += (bsa / 1000) * 40;
+
+        // Survival Benefit (Bank Transfer)
+        let sb = (y > gap && curAge < 100) ? yearlySB : 0;
+        
+        // Maturity (Only at Age 100)
+        let maturity = (curAge === 100) ? (bsa + ga) : 0;
+        
+        // Net Cashflow (Actual money into the customer's pocket this year)
+        let realNet = sb + maturity;
+
+        // ACCUMULATE TOTALS FOR THE FOOTER
+        sumSB += sb;
+        totalRealInflow += realNet;
+
+        // HIDDEN IRR MATH (Adding the terminal death value just for the solver)
+        let mathNet = realNet;
+        if(y === endYear) { mathNet += (1.05 * totalOutflow + ga); }
+        cashflows.push(mathNet);
+
+        html += `<tr>
+            <td>${y}</td><td>${curAge}</td><td>-</td><td>${format(ga)}</td>
+            <td class="inflow">${sb ? format(sb) : "-"}</td>
+            <td>${format(baseDB + ga)}</td>
+            <td class="inflow">${maturity ? format(maturity) : "-"}</td>
+            <td class="inflow">${format(realNet)}</td>
+        </tr>`;
+    }
+
+    // 5. THE RESULTS (NO MORE IDIOTIC FIGURES)
+    const netProfitAmt = totalRealInflow - totalOutflow;
+    
+    document.getElementById("resultsPanel").style.display = 'block';
+    document.getElementById("tableBody").innerHTML = html + `
+        <tr class="total-row">
+            <td colspan="2">TOTALS</td>
+            <td>${format(totalOutflow)}</td><td>-</td>
+            <td>${format(sumSB)}</td><td>-</td>
+            <td>${format(bsa + ga)}</td>
+            <td style="background:var(--accent); color:black;">${format(netProfitAmt)}</td>
+        </tr>`;
+
+    // Update Summary Dashboard
+    document.getElementById("totalPremium").innerText = format(totalOutflow);
+    document.getElementById("yearlyIncome").innerText = format(yearlySB);
+    
+    // EXPLAINING THE MATH TO THE CUSTOMER
+    document.getElementById("netProfit").innerHTML = `
+        <div style="text-align:left; font-size:12px;">
+            Total Income Recd (SB): ${format(sumSB)}<br>
+            + Return of SA & Bonus: ${format(bsa + ga)}<br>
+            - Single Premium Paid: ${format(totalOutflow)}<br>
+            <hr style="border:0.5px solid #ddd">
+            <strong>Clear Net Profit: ${format(netProfitAmt)}</strong>
+        </div>`;
+
+    const irr = stableIRR(cashflows);
+    document.getElementById("xirrVal").innerText = irr ? (irr * 100).toFixed(2) + "%" : "N/A";
+}
+
+function stableIRR(cf){
+    let lo = -0.9, hi = 1;
+    const npv = r => {
+        let v = cf[0];
+        for(let i=1; i<cf.length; i++) v += cf[i] / Math.pow(1 + r, i);
+        return v;
+    };
+    if(npv(lo) <= 0) return null;
+    for(let i=0; i<80; i++){
+        let mid = (lo + hi) / 2;
+        npv(mid) > 0 ? lo = mid : hi = mid;
+    }
+    return (lo + hi) / 2;
+}
+</script>
+
+</body>
+</html>
