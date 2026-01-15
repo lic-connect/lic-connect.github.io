@@ -312,6 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 876, name: 'Digi Term' }, { id: 877, name: 'Yuva Credit Life' },
         { id: 879, name: 'Smart Pension' }, { id: 880, name: 'Jan Suraksha' },
         { id: 881, name: 'Bima Lakshmi' }, { id: 887, name: 'Bima Kavach' },
+{ id: 883, name: 'Jeevan Utsav (SP)' },
         { id: 911, name: 'Nav Jeevan Shree (Single)' }, { id: 912, name: 'Nav Jeevan Shree (Reg)' },
         { id: 955, name: 'Jeevan Amar' }
     ].sort((a,b) => a.id - b.id);
@@ -333,6 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
         876: (p) => p.ppt === 1 ? 3 : 28, // Plan 876 specifically as requested
         877: (p) => p.ppt === 1 ? 3 : (p.term >= 15 ? 20 : (p.term >= 10 ? 15 : 10)),
         879: (p) => p.ppt === 1 ? 2 : 7.5, 880: () => 15, 881: () => 15,
+  883: () => 2, 
         912: (p) => p.term >= 15 ? 25 : 20,
         955: (p) => p.ppt === 1 ? 4 : (p.term >= 15 ? 28.5 : (p.term >= 10 ? 23 : 15))
     };
