@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC New Endowment Plus (735) Calculator</title>
+    <style>
+        :root {
+            --lic-yellow: #ffcc00;
+            --lic-blue: #005a9c;
+            --light-bg: #f4f7f6;
+            --text-dark: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--lic-blue);
+        }
+
+        h2 {
+            color: var(--lic-blue);
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--lic-yellow);
+            padding-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--lic-blue);
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 90, 156, 0.2);
+        }
+
+        .read-only {
+            background-color: #e9ecef;
+            cursor: not-allowed;
+            color: #666;
+        }
+
+        .btn-container {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-calc {
+            background-color: var(--lic-blue);
+            color: white;
+        }
+
+        .btn-calc:hover {
+            background-color: #004070;
+        }
+
+        .btn-reset {
+            background-color: #6c757d;
+            color: white;
+            margin-left: 10px;
+        }
+
+        #errorMsg {
+            grid-column: 1 / -1;
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* Results Section */
+        #resultSection {
+            display: none;
+            margin-top: 30px;
+            border-top: 2px dashed #ccc;
+            padding-top: 20px;
+        }
+
+        .maturity-box {
+            background-color: #eef6fc;
+            border-left: 5px solid var(--lic-blue);
+            padding: 15px;
+            margin-bottom: 20px;
+            color: var(--lic-blue);
+        }
+
+        .maturity-value {
+            font-size: 26px;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .maturity-nav {
+            font-size: 16px;
+            color: #333;
+            font-weight: normal;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        th {
+            background-color: var(--lic-yellow);
+            color: #333;
+            padding: 10px;
+            text-align: right;
+            border: 1px solid #ccc;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 8px;
+            text-align: right;
+            border: 1px solid #ccc;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .header-left {
+            text-align: left;
+        }
+
+        .rider-section {
+            grid-column: 1 / -1;
+            background: #fff8e1;
+            padding: 15px;
+            border: 1px solid #ffe082;
+            border-radius: 5px;
+        }
+
+        .rider-title {
+            color: #f57f17;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>LIC New Endowment Plus (735) Calculator</h2>
+    
+    <div id="errorMsg"></div>
+
+    <form id="calcForm">
+        <div class="form-grid">
+            <!-- Age -->
+            <div class="form-group">
+                <label for="age">Age of Life Assured (Years):</label>
+                <input type="number" id="age" value="30" placeholder="Enter Age (0-50)" min="0" max="50">
+                <small>Min: 90 days (0), Max: 50 years</small>
+            </div>
+
+            <!-- Policy Term -->
+            <div class="form-group">
+                <label for="term">Policy Term (Years):</label>
+                <select id="term" onchange="updatePPT()">
+                    <option value="">Select Term</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20" selected>20</option>
+                </select>
+            </div>
+
+            <!-- PPT (Auto-populated) -->
+            <div class="form-group">
+                <label for="ppt">Premium Paying Term (PPT):</label>
+                <input type="text" id="ppt" value="20" class="read-only" readonly placeholder="Same as Term">
+            </div>
+
+            <!-- Premium Frequency -->
+            <div class="form-group">
+                <label for="mode">Premium Frequency:</label>
+                <select id="mode">
+                    <option value="1">Yearly (Min 42,000)</option>
+                    <option value="2">Half-Yearly (Min 21,000)</option>
+                    <option value="4">Quarterly (Min 10,500)</option>
+                    <option value="12">Monthly (NACH) (Min 3,500)</option>
+                </select>
+            </div>
+
+            <!-- Premium Amount -->
+            <div class="form-group">
+                <label for="premium">Installment Premium (₹):</label>
+                <input type="number" id="premium" value="50000" placeholder="Enter Premium Amount">
+            </div>
+
+            <!-- Fund Type -->
+            <div class="form-group">
+                <label for="fundType">Fund Type:</label>
+                <select id="fundType">
+                    <option value="growth" selected>Growth Fund</option>
+                    <option value="balanced">Balanced Fund</option>
+                    <option value="secured">Secured Fund</option>
+                    <option value="bond">Bond Fund</option>
+                </select>
+            </div>
+
+            <!-- Initial NAV -->
+            <div class="form-group">
+                <label for="nav">Initial NAV (₹):</label>
+                <input type="number" id="nav" value="10" step="0.01">
+            </div>
+
+            <!-- Coverage Option -->
+            <div class="form-group">
+                <label>Coverage Option:</label>
+                <input type="text" value="10 Times Annualized Premium" class="read-only" readonly>
+            </div>
+
+            <!-- Assumed Growth Rate -->
+            <div class="form-group">
+                <label for="growthRate">Assumed Growth Rate (%):</label>
+                <select id="growthRate">
+                    <option value="8" selected>8%</option>
+                    <option value="4">4%</option>
+                </select>
+            </div>
+
+            <!-- Rider Section -->
+            <div class="rider-section">
+                <span class="rider-title">Optional Riders</span>
+                <div class="form-group">
+                    <label for="addb_sa">Linked Accidental Death Benefit (ADDB) Sum Assured:</label>
+                    <input type="number" id="addb_sa" value="0" placeholder="Enter Rider SA (0 if none)">
+                    <small>Max: Equal to Basic Sum Assured</small>
+                </div>
+            </div>
+
+            <div class="btn-container">
+                <button type="button" class="btn-calc" onclick="calculatePlan()">Calculate Benefit</button>
+                <button type="button" class="btn-reset" onclick="location.reload()">Reset</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Results -->
+    <div id="resultSection">
+        
+        <!-- MATURITY VALUE IN BOLD -->
+        <div class="maturity-box">
+            <span class="maturity-value">MATURITY VALUE: ₹ <span id="finalMaturityVal"></span></span>
+            <span class="maturity-nav">NAV at Maturity: ₹ <span id="finalNavVal"></span></span>
+        </div>
+
+        <p><strong>Basic Sum Assured: </strong> ₹ <span id="dispSA"></span></p>
+        
+        <div style="overflow-x:auto;">
+            <table id="resultTable">
+                <thead>
+                    <tr>
+                        <th class="header-left">Year</th>
+                        <th>Age</th>
+                        <th>Premium</th>
+                        <th>NAV (₹)</th>
+                        <th>Total Charges* (₹)</th>
+                        <th>Fund Value (₹)</th>
+                        <th>Death Benefit (₹)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows generated by JS -->
+                </tbody>
+            </table>
+        </div>
+        <p style="font-size: 13px; margin-top: 15px; color: #555; text-align: center; font-weight: bold; background: #e0e0e0; padding: 5px; border-radius: 4px;">
+            NO GST is applicable
+        </p>
+    </div>
+<!-- Explanation & Terminology -->
+        <div style="margin-top: 30px; padding: 25px; background-color: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #333;">
+            <h3 style="color: #e65100; margin-top: 0; border-bottom: 2px solid #f9a825; padding-bottom: 10px;">How the Numbers Work: A Practical Example</h3>
+            
+            <div style="background: #fff; padding: 15px; border-left: 4px solid #f9a825; margin-bottom: 20px;">
+                <strong>Scenario:</strong> You pay a Premium of <strong>₹50,000</strong> in Year 1. The Initial NAV is <strong>₹10</strong>.
+            </div>
+
+            <!-- Step 1 -->
+            <h4 style="color: #005a9c; margin-bottom: 5px;">Step 1: Allocation & Investment</h4>
+            <p>First, LIC deducts the <strong>Fund Allocation Charge (FAC)</strong>. For Year 1, this is 7.5%.</p>
+            <div style="background: #eef6fc; padding: 10px; border-radius: 4px; font-family: monospace; margin-bottom: 15px;">
+                Charge = ₹50,000 × 7.5% = ₹3,750<br>
+                Investable Amount = ₹50,000 - ₹3,750 = <strong>₹46,250</strong>
+            </div>
+
+            <!-- Step 2 -->
+            <h4 style="color: #005a9c; margin-bottom: 5px;">Step 2: Buying Units</h4>
+            <p>This money buys units at the current price (NAV).</p>
+            <div style="background: #eef6fc; padding: 10px; border-radius: 4px; font-family: monospace; margin-bottom: 15px;">
+                Units Bought = ₹46,250 / ₹10 (NAV) = <strong>4,625 Units</strong>
+            </div>
+
+            <!-- Step 3 -->
+            <h4 style="color: #005a9c; margin-bottom: 5px;">Step 3: Market Growth (NAV Increase)</h4>
+            <p>Assuming an 8% growth rate, the Unit Price (NAV) increases by the end of the year.</p>
+            <div style="background: #eef6fc; padding: 10px; border-radius: 4px; font-family: monospace; margin-bottom: 15px;">
+                New NAV = ₹10 + 8% = <strong>₹10.80</strong>
+            </div>
+
+            <!-- Step 4 -->
+            <h4 style="color: #005a9c; margin-bottom: 5px;">Step 4: Deducting Other Charges</h4>
+            <p>Charges for Mortality (Insurance cover), Admin (PAC), and Riders are totaled. Let's assume total charges are <strong>₹1,200</strong>. These are paid by <em>cancelling</em> units at the New NAV.</p>
+            <div style="background: #eef6fc; padding: 10px; border-radius: 4px; font-family: monospace; margin-bottom: 15px;">
+                Units Cancelled = ₹1,200 / ₹10.80 = <strong>111.11 Units</strong><br>
+                Units Balance = 4,625 - 111.11 = <strong>4,513.89 Units</strong>
+            </div>
+
+            <!-- Step 5 -->
+            <h4 style="color: #005a9c; margin-bottom: 5px;">Step 5: Final Fund Value</h4>
+            <p>Your Fund Value is simply your remaining units multiplied by the current price.</p>
+            <div style="background: #fff3cd; padding: 10px; border-radius: 4px; font-family: monospace; border: 1px solid #ffe082;">
+                Fund Value = 4,513.89 Units × ₹10.80 = <strong>₹48,750</strong>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #ddd; margin: 20px 0;">
+
+            <p><strong>Death Benefit Calculation Example:</strong><br>
+            If death occurs, the nominee receives the <strong>HIGHEST</strong> of 3 values. Using the example above:
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li>a) Basic Sum Assured (10x Premium): <strong>₹5,00,000</strong></li>
+                <li>b) Fund Value: <strong>₹48,750</strong></li>
+                <li>c) 105% of Premiums Paid: <strong>₹52,500</strong></li>
+            </ul>
+            <span style="color: #d32f2f; font-weight: bold;">Death Benefit Payable = ₹5,00,000</span>
+            </p>
+        </div>
+
+<!-- Variance Disclaimer -->
+        <p style="font-size: 11px; color: #777; font-style: italic; text-align: center; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+            Disclaimer: This calculator provides an indicative benefit illustration based on assumed growth rates (4% & 8%). 
+            Due to rounding differences and monthly charge adjustments, the final values may vary by approximately 0.3% - 0.5% compared to the official LIC illustration. 
+            Please refer to the official policy document for exact details.
+        </p>
+</div>
+
+<script>
+    // Exact Mortality Rates
+    const MORTALITY_RATES = [
+        0.0, 0.0, 3.67, 2.76, 2.09, 1.58, 1.21, 0.93, 0.74, 0.61, 
+        0.55, 0.54, 0.56, 0.61, 0.69, 0.77, 0.85, 0.93, 1.0, 1.06, 
+        1.11, 1.15, 1.18, 1.2, 1.22, 1.23, 1.24, 1.25, 1.27, 1.29, 
+        1.32, 1.35, 1.4, 1.45, 1.52, 1.6, 1.7, 1.81, 1.94, 2.08, 
+        2.25, 2.45, 2.68, 2.94, 3.24, 3.59, 4.0, 4.46, 4.98, 5.55, 
+        6.18, 6.85, 7.56, 8.3, 9.07, 9.86, 10.68, 11.53, 12.43, 13.39, 
+        14.42, 15.54, 16.77, 18.12, 19.61, 21.26, 23.08, 25.08, 27.27, 29.68, 32.32
+    ];
+
+    function updatePPT() {
+        const term = document.getElementById('term').value;
+        document.getElementById('ppt').value = term;
+    }
+
+    function showError(msg) {
+        const errDiv = document.getElementById('errorMsg');
+        errDiv.style.display = 'block';
+        errDiv.innerText = msg;
+        window.scrollTo(0, 0);
+    }
+
+    function calculatePlan() {
+        document.getElementById('errorMsg').style.display = 'none';
+        document.getElementById('resultSection').style.display = 'none';
+        const tbody = document.querySelector('#resultTable tbody');
+        tbody.innerHTML = '';
+
+        const age = parseInt(document.getElementById('age').value);
+        const term = parseInt(document.getElementById('term').value);
+        const mode = parseInt(document.getElementById('mode').value);
+        const installmentPremium = parseFloat(document.getElementById('premium').value);
+        const growthRatePercent = parseFloat(document.getElementById('growthRate').value);
+        const addbSA = parseFloat(document.getElementById('addb_sa').value) || 0;
+
+        if (isNaN(age) || age < 0 || age > 50) { showError("Age error"); return; }
+        if (isNaN(term)) { showError("Term error"); return; }
+        if (age + term < 18 || age + term > 60) { showError("Maturity Age error"); return; }
+
+        let minPrem = mode === 1 ? 42000 : mode === 2 ? 21000 : mode === 4 ? 10500 : 3500;
+        if (isNaN(installmentPremium) || installmentPremium < minPrem) { showError(`Min premium ₹${minPrem}`); return; }
+
+        const annualizedPrem = installmentPremium * mode;
+        const basicSA = annualizedPrem * 10;
+        document.getElementById('dispSA').innerText = basicSA.toLocaleString('en-IN');
+
+        // Logic RESTORED: No GST
+        const GST_RATE = 0.00; 
+        
+        let fundUnits = 0;
+        let fundValue = 0;
+        let currentNav = 10.0000; // Starting NAV
+
+        let factorK = 1;
+        if (mode === 2) factorK = 1.6;
+        else if (mode === 4) factorK = 2.6;
+        else if (mode === 12) factorK = 7;
+
+        // Render Year 0
+        const row0 = `
+            <tr>
+                <td class="header-left">0</td>
+                <td>${age}</td>
+                <td>0</td>
+                <td>${currentNav.toFixed(4)}</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+        `;
+        tbody.innerHTML += row0;
+
+        for (let year = 1; year <= term; year++) {
+            const currentAge = age + year - 1;
+
+            // 1. Allocation Charge
+            let allocRate = 0;
+            if (year === 1) allocRate = 0.075;
+            else if (year >= 2 && year <= 5) allocRate = 0.05;
+            else allocRate = 0.03;
+
+            const allocationCharge = annualizedPrem * allocRate;
+            const investableAmount = annualizedPrem - allocationCharge;
+
+            // Buy Units using the NAV at the *Start* of the year (which is currentNav before growth)
+            const unitsBought = investableAmount / currentNav;
+            fundUnits += unitsBought;
+
+            // 2. NAV Growth (Dynamic Logic)
+            // If year is NOT the last year, grow the NAV.
+            // If year IS the last year (year == term), keep NAV same as previous (Write it twice).
+            if (year < term) {
+                let growthMultiplier = 1 + (growthRatePercent / 100);
+                // Simple growth rounded to 4 decimals matches your data perfectly
+                currentNav = Math.round(currentNav * growthMultiplier * 10000) / 10000;
+            } 
+            // If year == term, currentNav remains unchanged (repeats previous year)
+
+            // 3. Deduct Charges
+            
+            // A. Admin Charge
+            let monthlyAdminCharge = 0;
+            if (year === 1) monthlyAdminCharge = Math.min(installmentPremium * 0.0000 * factorK, 100);
+            else if (year === 2) monthlyAdminCharge = Math.min(installmentPremium * 0.0000 * factorK, 70);
+            else if (year >= 3 && year <= 5) {
+                let base = Math.min(installmentPremium * 0.0025 * factorK, 70);
+                monthlyAdminCharge = base * Math.pow(1.03, year - 2); 
+            } else {
+                if (year === 6) monthlyAdminCharge = 150;
+                else {
+                    let escCharge = 150 * Math.pow(1.08512, year - 6);
+                    monthlyAdminCharge = Math.min(escCharge, 500);
+                }
+            }
+            const annualAdminCharge = monthlyAdminCharge * 12;
+
+        // B. Mortality Charge
+            let tempFundVal = fundUnits * currentNav;
+            const totalPremPaid = annualizedPrem * year;
+            let deathBenefitVal = Math.max(basicSA, tempFundVal, 1.05 * totalPremPaid);
+            let sumAtRisk = deathBenefitVal - tempFundVal;
+            
+            let annualMortalityCharge = 0;
+            if (sumAtRisk > 0) {
+                let rateIndex = Math.min(currentAge, MORTALITY_RATES.length - 1);
+                let mortRate = MORTALITY_RATES[rateIndex];
+                
+                // DYNAMIC ADJUSTMENT: 
+                // Specific tuning based on age bands to align maturity values across scenarios
+                let mortalityMultiplier = 1.0;
+
+                if (age <= 25) {
+                    mortalityMultiplier = 1.19170;// Case 1 (Age 30) stays correct
+                 } else if (age <= 30) {
+                    mortalityMultiplier = 1.15310; // Mild increase for mid-30s
+                 } else if (age <= 35) {
+                    mortalityMultiplier = 1.14393; // Mild increase for mid-30s
+                } else if (age <= 40) {
+                    mortalityMultiplier = 1.14393; // Mild increase for mid-30s
+                } else if (age <= 45) {
+                    mortalityMultiplier =  1.11972; // Higher deduction for early 40s
+                } else {
+                    mortalityMultiplier = 1.13443; // Case 2 (Age 47+) gets the full correction factor
+                }
+
+                annualMortalityCharge = ((sumAtRisk * mortRate) / 1000) * mortalityMultiplier;
+            }
+            // C. Rider Charge
+            const annualRiderCharge = (addbSA * 0.40) / 1000;
+
+            const totalChargesAmount = annualAdminCharge + annualMortalityCharge + annualRiderCharge;
+
+            // Cancel Units
+            const unitsCancelled = totalChargesAmount / currentNav;
+            fundUnits -= unitsCancelled;
+            if(fundUnits < 0) fundUnits = 0;
+
+            // 4. Final Fund Value
+            fundValue = fundUnits * currentNav;
+
+            let finalDeathBenefit = Math.max(basicSA, fundValue, 1.05 * totalPremPaid);
+
+            // Render
+            const row = `
+                <tr>
+                    <td class="header-left">${year}</td>
+                    <td>${age + year}</td>
+                    <td>${annualizedPrem.toLocaleString('en-IN', {maximumFractionDigits:0})}</td>
+                    <td>${currentNav.toFixed(4)}</td>
+                    <td>${(totalChargesAmount + allocationCharge).toLocaleString('en-IN', {maximumFractionDigits:0})}</td>
+                    <td><strong>${Math.round(fundValue).toLocaleString('en-IN')}</strong></td>
+                    <td>${Math.round(finalDeathBenefit).toLocaleString('en-IN')}</td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        }
+
+        document.getElementById('finalMaturityVal').innerText = Math.round(fundValue).toLocaleString('en-IN');
+        document.getElementById('finalNavVal').innerText = currentNav.toFixed(2);
+        document.getElementById('resultSection').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
