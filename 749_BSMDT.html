@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Nivesh Plus 749 - Professional Report</title>
+    <style>
+        :root {
+            --lic-blue: #00529b;
+            --lic-yellow: #ffcb05;
+            --light-bg: #f4f7f9;
+            --border-color: #d1d9e0;
+        }
+
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #eef2f5; padding: 20px; color: #333; line-height: 1.6; }
+        .container { max-width: 1050px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 4px; box-shadow: 0 4px 25px rgba(0,0,0,0.1); border-top: 6px solid var(--lic-blue); }
+        
+        .main-header { text-align: center; margin-bottom: 25px; }
+        .main-header h1 { color: var(--lic-blue); margin: 0; font-size: 2rem; text-transform: uppercase; letter-spacing: 1px; }
+        .main-header p { margin: 5px 0; color: #666; font-weight: bold; }
+
+        /* Summary Header Banner */
+        .summary-header {
+            background: var(--lic-blue);
+            color: #white;
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            color: white;
+            border-bottom: 4px solid var(--lic-yellow);
+        }
+        .summary-item { text-align: center; }
+        .summary-item label { display: block; font-size: 0.75rem; text-transform: uppercase; color: var(--lic-yellow); margin-bottom: 5px; font-weight: bold; }
+        .summary-item value { font-size: 1.4rem; font-weight: bold; }
+
+        .input-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 20px; 
+            background: var(--light-bg); 
+            padding: 20px; 
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+        .field { display: flex; flex-direction: column; }
+        .field label { font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; color: var(--lic-blue); }
+        input, select { padding: 10px; border: 1px solid #bbb; border-radius: 4px; font-size: 1rem; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { background: #f1f4f8; color: var(--lic-blue); padding: 12px 10px; font-size: 0.8rem; border: 1px solid var(--border-color); text-transform: uppercase; }
+        td { padding: 10px; text-align: center; border: 1px solid var(--border-color); font-size: 0.95rem; font-family: 'Courier New', Courier, monospace; font-weight: bold; }
+        tr:nth-child(even) { background: #fafafa; }
+        .highlight-maturity { background: #fff9c4 !important; font-weight: 900; color: var(--lic-blue); }
+
+        .error-box { color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 4px; margin-bottom: 15px; display: none; font-weight: bold; font-size: 0.9rem; border: 1px solid #d32f2f; }
+
+        .footer-math { margin-top: 40px; padding: 25px; background: #fdfdfd; border: 1px solid var(--border-color); }
+        .footer-math h3 { color: var(--lic-blue); border-bottom: 2px solid var(--lic-yellow); display: inline-block; margin-bottom: 15px; }
+        .math-example { font-family: 'Consolas', monospace; background: #333; color: #00ff00; padding: 15px; border-radius: 4px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="main-header">
+        <h1>Nivesh Plus (Plan 749)</h1>
+        <p>Dynamic Unit Linked Insurance Benefit Projection</p>
+    </div>
+
+    <div id="errorBox" class="error-box"></div>
+
+    <div class="input-grid">
+        <div class="field">
+            <label>Age (Entry)</label>
+            <input type="number" id="age" value="30" oninput="calculate()">
+        </div>
+        <div class="field">
+            <label>Single Premium (₹)</label>
+            <input type="number" id="premium" value="500000" oninput="calculate()">
+        </div>
+        <div class="field">
+            <label>Policy Term</label>
+            <input type="number" id="term" value="20" oninput="calculate()">
+        </div>
+        <div class="field">
+            <label>SA Option</label>
+            <select id="saOption" onchange="calculate()">
+                <option value="1.25">Option 1: 1.25x (Max Age 70)</option>
+                <option value="10">Option 2: 10x (Max Age 35)</option>
+            </select>
+        </div>
+        <div class="field">
+            <label>Expected Growth (%)</label>
+            <input type="number" id="growth" value="8" step="0.1" oninput="calculate()">
+        </div>
+        <div class="field">
+            <label>ADDB Cover (Optional)</label>
+            <input type="number" id="addb" value="0" oninput="calculate()">
+        </div>
+    </div>
+
+    <!-- Summary Header -->
+    <div class="summary-header">
+        <div class="summary-item">
+            <label>Total Sum Assured</label>
+            <value id="summarySA">₹ 0</value>
+        </div>
+        <div class="summary-item">
+            <label>Total Maturity Value</label>
+            <value id="summaryMaturity">₹ 0</value>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Yr</th>
+                <th>Age</th>
+                <th>NAV</th>
+                <th>Premium</th>
+                <th>Guaranteed Addition</th>
+                <th>Death Benefit</th>
+                <th>Fund Value (SV)</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <div class="footer-math">
+        <h3>Mathematical Verification & Glossary</h3>
+        <p><strong>1. Premium Allocation Charge (PAC):</strong> 3.3% is deducted upfront. Only 96.7% is used to buy units.</p>
+        <div class="math-example" id="pacMath"></div>
+        
+        <p><strong>2. NAV Spread:</strong> The NAV grows at the selected growth rate compounded annually. 
+        <br>Formula: $NAV_{Year} = 10 \times (1 + r)^{(Year-1)}$</p>
+
+        <p><strong>3. Guaranteed Additions (GA):</strong> Loyalty additions are added to the unit fund at the end of specific years (6, 10, 15, 20, 25).
+        <br>Year 6: 3% | Yr 10: 4% | Yr 15: 5% | Yr 20: 6% | Yr 25: 7% (of Single Premium).</p>
+
+        <p><strong>4. Death Benefit:</strong> In Plan 749, the nominee gets the <strong>Higher</strong> of the Basic Sum Assured or the Unit Fund Value.</p>
+    </div>
+</div>
+
+<script>
+    function calculate() {
+        const age = parseInt(document.getElementById('age').value);
+        const premium = parseFloat(document.getElementById('premium').value);
+        const term = parseInt(document.getElementById('term').value);
+        const saMultiplier = parseFloat(document.getElementById('saOption').value);
+        const growth = parseFloat(document.getElementById('growth').value) / 100;
+        const addbSA = parseFloat(document.getElementById('addb').value) || 0;
+        
+        const errorBox = document.getElementById('errorBox');
+        errorBox.style.display = 'none';
+
+        // Validations
+        if (premium < 125000) { showError("Minimum Premium is ₹1,25,000"); return; }
+        if (term < 10 || term > 25) { showError("Term must be between 10 and 25 years"); return; }
+        if (saMultiplier === 10 && age > 35) { showError("Option 2 (10x SA) allowed only up to Age 35"); return; }
+        if (age > 70) { showError("Maximum entry age is 70 years"); return; }
+        if (addbSA > (premium * saMultiplier)) { showError("ADDB cannot exceed Sum Assured"); return; }
+        if (addbSA > 10000000) { showError("Maximum ADDB allowed is ₹1 Crore"); return; }
+
+        const baseSA = premium * saMultiplier;
+        const pac = premium * 0.105385;
+        const netInvested = premium - pac;
+        
+        // Initial units at NAV 10
+        let units = netInvested / 10;
+        let html = "";
+        let finalFundValue = 0;
+
+        for (let yr = 1; yr <= term; yr++) {
+            // NAV at start of year (matches PDF spread)
+            let navStart = 10 * Math.pow((1 + growth), yr - 1);
+            
+            // GA logic
+            let gaPercent = 0;
+            if (yr === 6) gaPercent = 0.03;
+            else if (yr === 10) gaPercent = 0.04;
+            else if (yr === 15) gaPercent = 0.05;
+            else if (yr === 20) gaPercent = 0.06;
+            else if (yr === 25) gaPercent = 0.07;
+            
+            let gaAmount = premium * gaPercent;
+
+            // Grow units to end of year
+            // Note: In projections, growth is applied to the balance, then GA is added
+            let fundValueBeforeGA = units * (navStart * (1 + growth));
+
+
+
+// 1. Calculate ADDB Charge (0.50 per 1000 of ADDB SA)
+            if (addbSA > 0) {
+                let annualAddbCharge = (addbSA / 1000) * 0.50;
+                // Deduct units based on the end-of-year NAV
+                units -= (annualAddbCharge / (navStart * (1 + growth)));
+            }
+
+            
+            if (gaAmount > 0) {
+                // Convert GA amount to units at end-of-year NAV
+                units += (gaAmount / (navStart * (1 + growth)));
+            }
+            
+            let currentFundValue = units * (navStart * (1 + growth));
+            let deathBenefit = Math.max(baseSA, currentFundValue) + addbSA;
+            
+            // Highlight the last row
+            let rowClass = (yr === term) ? 'class="highlight-maturity"' : '';
+
+            html += `<tr ${rowClass}>
+                <td>${yr}</td>
+                <td>${age + yr - 1}</td>
+                <td style="color:red">${navStart.toFixed(4)}</td>
+                <td>${yr === 1 ? '₹' + premium.toLocaleString('en-IN') : '0'}</td>
+                <td>${gaAmount > 0 ? '₹' + gaAmount.toLocaleString('en-IN') : '0'}</td>
+                <td>₹${Math.round(deathBenefit).toLocaleString('en-IN')}</td>
+                <td>${yr <= 5 ? 'Lock-in' : '₹' + Math.round(currentFundValue).toLocaleString('en-IN')}</td>
+            </tr>`;
+
+            if (yr === term) finalFundValue = currentFundValue;
+        }
+
+        document.getElementById('tableBody').innerHTML = html;
+        document.getElementById('summarySA').innerText = "₹ " + baseSA.toLocaleString('en-IN');
+        document.getElementById('summaryMaturity').innerText = "₹ " + Math.round(finalFundValue).toLocaleString('en-IN');
+        
+        document.getElementById('pacMath').innerHTML = `
+            Premium: ₹${premium.toLocaleString('en-IN')}
+            PAC (-3.3%): ₹${pac.toLocaleString('en-IN')}
+            Investible: ₹${netInvested.toLocaleString('en-IN')}
+            Start Units: ${units.toFixed(2)} (at NAV 10.00)
+        `;
+    }
+
+    function showError(msg) {
+        const eb = document.getElementById('errorBox');
+        eb.innerText = msg;
+        eb.style.display = 'block';
+        document.getElementById('tableBody').innerHTML = "";
+    }
+
+    calculate(); // Initial run
+</script>
+
+</body>
+</html>
