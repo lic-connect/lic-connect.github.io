@@ -537,27 +537,27 @@ button:active, .plan-card:active, .link-card:active {
 
 <!-- START OF PROMO TICKER & MODAL -->
 <style>
-    /* Promotional Ticker Box Styles */
     .promo-ticker-container {
         background-color: #40E0D0; /* Turquoise */
-        color: #000000; /* Black Font */
-        padding: 20px;
+        color: #000000;
+        padding: 15px; /* Slightly reduced padding */
         border-radius: 12px;
         margin-bottom: 30px;
         text-align: center;
         font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        font-size: 1.1rem;
         cursor: pointer;
         box-shadow: 0 0 15px rgba(64, 224, 208, 0.6);
         border: 2px solid #2c3e50;
         position: relative;
         overflow: hidden;
         transition: transform 0.2s ease;
+        
+        /* Flexbox to stack lines vertically */
         display: flex;
+        flex-direction: column; 
         align-items: center;
         justify-content: center;
-        min-height: 80px;
+        min-height: 90px;
     }
 
     .promo-ticker-container:hover {
@@ -572,97 +572,27 @@ button:active, .plan-card:active, .link-card:active {
     }
 
     @keyframes textCycle {
-        0% { opacity: 0; transform: scale(0.9); }
+        0% { opacity: 0; transform: scale(0.95); }
         10% { opacity: 1; transform: scale(1); }
         90% { opacity: 1; transform: scale(1); }
         100% { opacity: 0; transform: scale(1.05); }
     }
 
-    /* Stylish Modal Styles */
-    .custom-modal-overlay {
-        display: none;
-        position: fixed;
-        z-index: 10001;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(5px);
-        align-items: center;
-        justify-content: center;
-    }
-
-    .custom-modal-box {
-        background: linear-gradient(135deg, #ffffff, #f0f0f0);
-        padding: 40px;
-        border-radius: 20px;
-        text-align: center;
-        width: 90%;
-        max-width: 450px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        border: 1px solid rgba(255,255,255,0.5);
-        position: relative;
-        animation: modalPop 0.3s ease-out;
-    }
-
-    @keyframes modalPop {
-        from { transform: scale(0.7); opacity: 0; }
-        to { transform: scale(1); opacity: 1; }
-    }
-
-    .modal-icon-circle {
-        width: 80px;
-        height: 80px;
-        background: #40E0D0;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 20px auto;
-        font-size: 40px;
-        color: #000;
-        box-shadow: 0 10px 20px rgba(64, 224, 208, 0.3);
-    }
-
-    .modal-btn-call {
-        display: block;
-        width: 100%;
-        padding: 15px;
-        margin-top: 25px;
-        background: #2c3e50;
-        color: #40E0D0;
-        font-size: 1.2rem;
-        font-weight: bold;
-        text-decoration: none;
-        border-radius: 50px;
-        transition: all 0.3s;
-        border: none;
-        cursor: pointer;
-    }
-
-    .modal-btn-call:hover {
-        background: #000;
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    }
-
-    .modal-close-x {
-        position: absolute;
-        top: 15px;
-        right: 20px;
-        font-size: 24px;
-        cursor: pointer;
-        color: #aaa;
-        font-weight: bold;
-    }
+    /* Modal Styles (Same as before) */
+    .custom-modal-overlay { display: none; position: fixed; z-index: 10001; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px); align-items: center; justify-content: center; }
+    .custom-modal-box { background: linear-gradient(135deg, #ffffff, #f0f0f0); padding: 40px; border-radius: 20px; text-align: center; width: 90%; max-width: 450px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.5); position: relative; animation: modalPop 0.3s ease-out; }
+    @keyframes modalPop { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-icon-circle { width: 80px; height: 80px; background: #40E0D0; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 40px; color: #000; box-shadow: 0 10px 20px rgba(64, 224, 208, 0.3); }
+    .modal-btn-call { display: block; width: 100%; padding: 15px; margin-top: 25px; background: #2c3e50; color: #40E0D0; font-size: 1.2rem; font-weight: bold; text-decoration: none; border-radius: 50px; transition: all 0.3s; border: none; cursor: pointer; }
+    .modal-btn-call:hover { background: #000; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+    .modal-close-x { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; font-weight: bold; }
     .modal-close-x:hover { color: #000; }
 </style>
 
-<!-- The Flashing Button -->
+<!-- The Flashing Box -->
 <div class="promo-ticker-container" onclick="openPromoModal()">
     <div id="promoDisplay" class="promo-text-anim">
-        <i class="fas fa-gem"></i> Loading Exclusive Offers...
+        <!-- Content injected by JS -->
     </div>
 </div>
 
@@ -670,92 +600,83 @@ button:active, .plan-card:active, .link-card:active {
 <div id="promoModal" class="custom-modal-overlay">
     <div class="custom-modal-box">
         <span class="modal-close-x" onclick="closePromoModal()">&times;</span>
-        <div class="modal-icon-circle">
-            <i class="fas fa-phone-alt"></i>
-        </div>
-        <h2 style="color: #2c3e50; font-family: 'Poppins', sans-serif; margin-bottom: 10px;">Interested?</h2>
-        <p style="color: #555; font-size: 1.1rem; line-height: 1.5;">Secure your future today with LIC's best-selling plans.</p>
-        <a href="tel:0000000000" class="modal-btn-call">
-            TO BUY THE PLAN,<br>CALL NOW ON 0000000000
-        </a>
+        <div class="modal-icon-circle"><i class="fas fa-phone-alt"></i></div>
+        <h2 style="color: #2c3e50; margin-bottom: 10px;">Interested?</h2>
+        <p style="color: #555; font-size: 1.1rem;">Secure your future today with LIC's best-selling plans.</p>
+        <a href="tel:0000000000" class="modal-btn-call">TO BUY THE PLAN,<br>CALL NOW ON 0000000000</a>
     </div>
 </div>
 
 <script>
-    // 33 Unique Messages based on provided LIC Plans
-    const planMessages = [
-        "Secure your future! Get Sum Assured + Bonus with New Endowment (714).",
-        "Lifetime protection + Maturity Benefit! Enjoy double benefits with New Jeevan Anand (715).",
-        "Pay once, enjoy benefits for years! Invest in Single Premium Endowment (717).",
-        "Get money back every 5 years! Liquidity & Protection with 20-Year Money Back (720).",
-        "Long-term coverage, periodic payouts! Plan cash flow with 25-Year Money Back (721).",
-        "Secure your child's education! Payouts from age 18 with Child Money Back (732).",
-        "Protect your family's income! Annual Income Benefit with Jeevan Lakshya (733).",
-        "Flexible payouts for your growing child! Design their future with Jeevan Tarun (734).",
-        "Pay for limited years, enjoy long coverage! Maximize returns with Jeevan Labh (736).",
-        "Guaranteed 8% income for life! Whole life security starts with Jeevan Umang (745).",
-        "Exclusive for High Net-worth Individuals! High cover & money back: Bima Shree (748).",
-        "Small savings, big security! Affordable protection with Micro Bachat (751).",
-        "Plan your pension today! Guaranteed rates with New Jeevan Shanti (758).",
-        "Guaranteed Additions of ₹50/1000! Secure your savings with Bima Jyoti (760).",
-        "Freedom from long payments! Pay 8 years less than the term: Jeevan Azad (768).",
-        "Celebrate life with 10% guaranteed income! Whole life benefits: Jeevan Utsav (771).",
-        "Build a massive corpus for your child! Guaranteed Additions with Amritbaal (774).",
-        "Get pension immediately! One-time investment, lifetime income: Jeevan Akshay VII (857).",
-        "Simple, immediate pension for life! Secure your retirement with Saral Pension (862).",
-        "Guaranteed Annuity rates! Smart choices for retirement with Smart Pension (879).",
-        "Single Premium, Guaranteed Additions! Grow wealth with Nav Jeevan Shree (911).",
-        "Limited Pay, High Returns! GA up to 9.5% with Nav Jeevan Shree (912).",
-        "Cover your loans! Pure risk cover with LIC's Digi Credit Life (878).",
-        "High Sum Assured at low rates! Pure protection online with LIC's Digi Term (876).",
-        "Click and Insure! Affordable online term assurance with Tech Term (954).",
-        "Flexible Death Benefits! Offline pure protection with New Jeevan Amar (955).",
-        "Chhota Premium, Badi Suraksha! Low-cost cover with Jan Suraksha (880).",
-        "Exclusively for Women! 7% Guaranteed Additions with Bima Lakshmi (881).",
-        "Invest once, earn 10% income forever! Jeevan Utsav Single Premium (883).",
-        "High Value Protection! Secure your legacy with Bima Kavach (887).",
-        "Tax rebates under 80C & Tax-free Maturity! Invest in LIC Plans today.",
-        "Need a loan? Get liquidity after just 2 years with most LIC Endowment Plans.",
-        "Accidental Death & Disability Rider available! Enhance your cover with LIC."
+    // Data Structure: Hook (Line 1) + Plan Name (Line 2)
+    const planData = [
+        { hook: "Secure your future! Get Sum Assured + Bonus", plan: "New Endowment (714)" },
+        { hook: "Double Benefit: Lifetime Protection + Maturity!", plan: "New Jeevan Anand (715)" },
+        { hook: "Pay Once, Enjoy Benefits for Years!", plan: "Single Premium Endowment (717)" },
+        { hook: "Need Liquidity? Get Money Back every 5 Years!", plan: "20-Year Money Back (720)" },
+        { hook: "Long-term Coverage with Periodic Payouts!", plan: "25-Year Money Back (721)" },
+        { hook: "Secure your Child's Education & Future!", plan: "Child Money Back (732)" },
+        { hook: "Protect Family Income: Annual Benefits!", plan: "Jeevan Lakshya (733)" },
+        { hook: "Design your Growing Child's Financial Future!", plan: "Jeevan Tarun (734)" },
+        { hook: "Pay Limited Premiums, Get Max Returns!", plan: "Jeevan Labh (736)" },
+        { hook: "Guaranteed 8% Income for Life!", plan: "Jeevan Umang (745)" },
+        { hook: "High Net-Worth? Get High Cover & Returns!", plan: "Bima Shree (748)" },
+        { hook: "Small Savings, Big Security for Everyone!", plan: "Micro Bachat (751)" },
+        { hook: "Plan Your Pension Today, Relax Tomorrow!", plan: "New Jeevan Shanti (758)" },
+        { hook: "Guaranteed Additions of ₹50 per ₹1000!", plan: "Bima Jyoti (760)" },
+        { hook: "Freedom! Pay 8 Years Less than Term!", plan: "Jeevan Azad (768)" },
+        { hook: "Celebrate Life with 10% Guaranteed Income!", plan: "Jeevan Utsav (771)" },
+        { hook: "Build a Massive Corpus for Your Child!", plan: "Amritbaal (774)" },
+        { hook: "Invest Once, Get Pension Immediately!", plan: "Jeevan Akshay VII (857)" },
+        { hook: "Simple, Immediate Pension for Life!", plan: "Saral Pension (862)" },
+        { hook: "Retire Smart with Guaranteed Annuity!", plan: "Smart Pension (879)" },
+        { hook: "Single Premium, Guaranteed Additions!", plan: "Nav Jeevan Shree (911)" },
+        { hook: "Limited Pay, High Returns up to 9.5%!", plan: "Nav Jeevan Shree (912)" },
+        { hook: "Cover Your Loans: Pure Risk Protection!", plan: "Digi Credit Life (878)" },
+        { hook: "High Sum Assured at Low Rates Online!", plan: "Digi Term (876)" },
+        { hook: "Click & Insure: Affordable Online Term Plan!", plan: "Tech Term (954)" },
+        { hook: "Flexible Death Benefits: Level or Increasing!", plan: "New Jeevan Amar (955)" },
+        { hook: "Chhota Premium, Badi Suraksha!", plan: "Jan Suraksha (880)" },
+        { hook: "Exclusively for Women: 7% Guaranteed Additions!", plan: "Bima Lakshmi (881)" },
+        { hook: "Invest Once, Earn 10% Income Forever!", plan: "Jeevan Utsav Single (883)" },
+        { hook: "High Value Protection for Your Legacy!", plan: "Bima Kavach (887)" },
+        { hook: "Save Tax under 80C & Get Tax-free Maturity!", plan: "All LIC Plans" },
+        { hook: "Need Cash? Loan Facility after 2 Years!", plan: "Endowment Plans" },
+        { hook: "Add Accidental Death & Disability Cover!", plan: "Optional Riders" }
     ];
 
     let msgIndex = 0;
     const promoDisplay = document.getElementById("promoDisplay");
 
     function cycleMessages() {
-        // Reset Animation to restart it
+        // Reset Animation
         promoDisplay.style.animation = 'none';
         promoDisplay.offsetHeight; /* trigger reflow */
         promoDisplay.style.animation = 'textCycle 4s infinite';
         
-        // Update Text
-        promoDisplay.innerHTML = `<i class="fas fa-star" style="margin-right:8px;"></i> ${planMessages[msgIndex]}`;
+        const current = planData[msgIndex];
+
+        // Insert HTML with 2 separate lines
+        promoDisplay.innerHTML = `
+            <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; line-height: 1.2;">
+                ${current.hook}
+            </div>
+            <div style="font-size: 0.9rem; background-color: #000; color: #40E0D0; padding: 4px 14px; border-radius: 20px; display: inline-block; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                <i class="fas fa-certificate"></i> ${current.plan}
+            </div>
+        `;
         
-        // Increment Index
-        msgIndex = (msgIndex + 1) % planMessages.length;
+        msgIndex = (msgIndex + 1) % planData.length;
     }
 
-    // Start loop
-    cycleMessages(); // Run once immediately
-    setInterval(cycleMessages, 4000); // Change every 4 seconds
+    cycleMessages(); 
+    setInterval(cycleMessages, 4000); 
 
     // Modal Logic
     const promoModal = document.getElementById("promoModal");
-
-    function openPromoModal() {
-        promoModal.style.display = "flex";
-    }
-
-    function closePromoModal() {
-        promoModal.style.display = "none";
-    }
-
-    // Close modal if clicked outside
-    window.onclick = function(event) {
-        if (event.target == promoModal) {
-            promoModal.style.display = "none";
-        }
-    }
+    function openPromoModal() { promoModal.style.display = "flex"; }
+    function closePromoModal() { promoModal.style.display = "none"; }
+    window.onclick = function(event) { if (event.target == promoModal) closePromoModal(); }
 </script>
 <!-- END OF PROMO TICKER & MODAL -->
 
