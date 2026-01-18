@@ -587,6 +587,16 @@ button:active, .plan-card:active, .link-card:active {
     .modal-btn-call:hover { background: #000; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
     .modal-close-x { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #aaa; font-weight: bold; }
     .modal-close-x:hover { color: #000; }
+
+
+/* MOBILE ONLY FIX: Increase box size so text fits */
+    @media (max-width: 768px) {
+        .promo-ticker-container {
+            min-height: 140px !important; /* Forces the box to be taller on mobile */
+            height: auto !important;      /* Allows it to grow if text is very long */
+            padding: 10px !important;
+        }
+    }
 </style>
 
 <!-- The Flashing Box -->
