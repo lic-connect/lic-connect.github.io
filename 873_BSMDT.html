@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC ULIP Plan 873 – Index Plus Calculator</title>
+
+<style>
+body{font-family:Segoe UI,Arial;background:#f2f4f7;padding:20px}
+.container{max-width:1100px;margin:auto;background:#fff;padding:30px;border-radius:14px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);border-top:8px solid #003366}
+h1{text-align:center;color:#003366;border-bottom:3px solid #f0c20b;padding-bottom:10px}
+
+#inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:20px}
+label{font-weight:700;font-size:13px;color:#475569}
+input,select{padding:11px;border-radius:8px;border:1px solid #cbd5e1;font-size:15px}
+button{grid-column:1/-1;padding:16px;font-size:18px;background:#003366;color:#fff;
+border:none;border-radius:8px;font-weight:700;cursor:pointer}
+
+.summary{margin-top:25px;background:#003366;color:#fff;padding:18px;border-radius:10px;
+font-size:15px;text-align:center;line-height:1.7}
+
+.error{margin-top:15px;background:#fee2e2;color:#b91c1c;padding:12px;border-radius:8px;
+text-align:center;font-weight:700}
+
+table{width:100%;border-collapse:collapse;margin-top:30px}
+th{background:#f0c20b;color:#003366;padding:12px;font-size:13px}
+td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:center;font-size:13px}
+tr:nth-child(even){background:#f8fafc}
+
+.explain{margin-top:40px;background:#fff;border:1px solid #e5e7eb;padding:30px;border-radius:12px}
+.explain h2{color:#003366;border-bottom:3px solid #f0c20b;display:inline-block}
+</style>
+
+</head>
+
+<body>
+<div class="container">
+<h1>LIC ULIP Plan 873 – Index Plus (Dynamic Calculator)</h1>
+
+<div id="inputs">
+
+<div><label>Age at Entry</label><input id="age" type="number"></div>
+
+<!-- FIXED TYPO AND ADDED AUTO PPT -->
+<div>
+    <label>Policy Term (Years)</label>
+    <input id="term" type="number" oninput="document.getElementById('ppt').value = this.value">
+</div>
+
+<div class="row">
+  <label>Premium Paying Term (PPT):</label>
+  <input type="number" id="ppt" readonly style="background-color: #e2e8f0;"/>
+</div>
+
+
+<div><label>Annualised Premium (₹)</label><input id="premium" type="number"></div>
+
+<div><label>Coverage Option</label>
+<select id="cover">
+<option value="7">Option I – 7 × Premium</option>
+<option value="10">Option II – 10 × Premium</option>
+</select></div>
+
+<div><label>Bond Type</label>
+<select id="bond">
+<option value="flexiGrowth">Flexi Growth</option>
+<option value="flexiSmart">Flexi Smart Growth</option>
+</select></div>
+
+<div><label>ADDB Sum Assured (₹)</label><input id="addbSA" type="number" value="0"></div>
+
+<div><label>Expected Growth %</label><input id="growth" type="number" value="8"></div>
+
+<div><label>Initial NAV</label><input value="10.00" readonly></div>
+
+<button onclick="calculate()">Calculate</button>
+
+<div id="err" class="error"></div>
+</div>
+
+<div id="summary" class="summary"></div>
+
+<table id="table"></table>
+
+<div class="explain">
+  <h2>Plan No. 873: The Story of Mrs. Kavita’s "Index-Linked Jet"</h2>
+  <p>Imagine you want to travel to wealth, and you decide to hitch a ride on a <strong>"Jet"</strong> that follows the top companies of India. This is <strong>LIC’s Index Plus (Plan 873)</strong>—a ULIP that specifically invests in the stock market indices. Here is how an agent explains it to Mrs. Kavita (Age 35), who invests <strong>₹1,00,000 every year</strong>:</p>
+
+  <div style="background: #fdf6e3; padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #003366;">
+    <ol>
+      <li><strong>The Boarding Pass (PAC):</strong> Out of Kavita's ₹1,00,000, LIC takes an entry fee. For an offline policy in Year 1, this is 7.5%.
+        <br><em>Math: ₹1,00,000 - ₹7,500 = <strong>₹92,500</strong> is used to buy "fuel" (units).</em>
+      </li>
+      
+      <li><strong>Choosing the Flight Path (NAV):</strong> Kavita chooses the <strong>Flexi Growth Fund</strong>, which follows the <strong>Nifty 50 Index</strong>. If the NAV is <strong>₹10</strong>, she gets her units.
+        <br><em>Math: ₹92,500 ÷ ₹10 = <strong>9,250 Units</strong>.</em>
+      </li>
+
+      <li><strong>The Safety Belt & Pilot (Charges):</strong> LIC provides her with a <strong>₹10,00,000 Life Cover</strong>. Every month, they cancel a few units to pay for this protection (Mortality Charge) and the management of the fund.
+        <br><em>Math: If monthly charges are ₹200 and NAV is ₹12, LIC cancels <strong>16.6 units</strong>.</em>
+      </li>
+
+      <li><strong>Riding the Index:</strong> Because her fund follows the Nifty 50, if India's top 50 companies grow by 12% in a year, the price of her units (NAV) aims to mirror that growth. 
+      </li>
+
+      <li><strong>The Loyalty Fuel (GA):</strong> At the end of Year 6, Year 10, and every 5 years after, LIC adds <strong>Guaranteed Additions</strong> (Free units) to her fund just for staying on the flight.
+        <br><em>Math: At year 15, LIC adds 15% of premium = <strong>₹15,000 worth of extra units</strong>.</em>
+      </li>
+    </ol>
+  </div>
+
+  <h2 style="margin-top:30px; color: #003366;">Key Technical Definitions</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>
+      <p><strong>1. NAV (Net Asset Value):</strong> The price of one unit of your index fund. It changes daily based on how the Nifty 50 or Nifty Next 50 performs.</p>
+      <p><strong>2. PAC (Premium Allocation Charge):</strong> The fee deducted from your premium. It is higher in Year 1 (7.5% offline) and drops significantly in later years.</p>
+      <p><strong>3. Admin Charges:</strong> A monthly administrative fee deducted by cancelling units from your fund. Currently, it is ₹0 for many online modes but applies to offline.</p>
+    </div>
+    <div>
+      <p><strong>4. Mortality Charges:</strong> The cost of providing the Life Cover. It is deducted monthly and reduces as your fund value grows closer to the Sum Assured.</p>
+      <p><strong>5. FMC (Fund Management Charge):</strong> The 1.35% annual fee for managing the index fund, deducted daily from the NAV.</p>
+      <p><strong>6. GA (Guaranteed Additions):</strong> Fixed percentages of the annual premium added as units at the end of the 6th, 10th, 15th, 20th, and 25th years.</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top:30px; color: #003366;">How Each Charge is Calculated</h2>
+  <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+    <ul>
+      <li><strong>PAC:</strong> Calculated as a % of your premium. <em>Offline: Yr 1 (7.5%), Yr 2-5 (5%), Yr 6+ (3%). Online: Yr 1 (3%), Yr 2-5 (2%), Yr 6+ (1.5%).</em></li>
+      <li><strong>Mortality Charge:</strong> `(Sum at Risk × Age Rate) / 12000`. Sum at Risk = (Sum Assured - Fund Value).</li>
+      <li><strong>Admin Charge:</strong> A fixed monthly amount divided by the current NAV to determine the units to be cancelled.</li>
+      <li><strong>FMC:</strong> 1.35% per year, deducted daily from the NAV calculation.</li>
+      <li><strong>GA Calculation:</strong> `Annual Premium × GA %`. This amount is added to the unit fund on the policy anniversary.</li>
+    </ul>
+  </div>
+
+  <h2 style="margin-top:30px; color: #003366;">Index Fund Options (Investment Strategy)</h2>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+    <tr style="background-color: #f0c20b; color: #003366;">
+      <th style="padding: 10px; border: 1px solid #ddd;">Fund Option</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Benchmark Index</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Investment Objective</th>
+    </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Flexi Growth Fund</strong></td>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Nifty 50 Index</strong></td>
+      <td style="padding: 10px; border: 1px solid #ddd;">Invests in stocks of the 50 largest, most stable companies in India.</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Flexi Smart Growth Fund</strong></td>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Nifty Next 50 Index</strong></td>
+      <td style="padding: 10px; border: 1px solid #ddd;">Invests in the next 50 potential "blue-chip" companies (ranked 51-100). Higher potential for growth but higher volatility.</td>
+    </tr>
+  </table>
+
+  <div style="margin-top: 30px; background: #eef6fc; padding: 20px; border-radius: 8px; font-style: italic; border: 1px solid #bcdff1;">
+    <strong>Pro-Tip:</strong> Plan 873 is ideal for investors who believe in the long-term growth of the Indian Economy. By tracking an <strong>Index</strong>, you remove the risk of a fund manager making a poor stock choice, as your money is spread across the market leaders automatically.
+  </div>
+</div>
+<div class="ulip-disclaimer" style="margin-top:30px; padding:20px; border:1px solid #fbbf24; border-radius:10px; background-color:#fff7ed; color:#92400e; font-size:13px; line-height:1.5;">
+    <strong>Disclaimer:</strong> <br>
+    1. The values displayed by this calculator are <strong>indicative only</strong> and meant for <strong>illustrative purposes</strong>. <br>
+    2. Actual premiums, fund values, and maturity benefits may vary based on <strong>LIC’s official calculations, NAV movements, fund performance, taxes, and policy terms</strong>. <br>
+    3. Charges such as <strong>Premium Allocation Charges (PAC), Fund Management Charges (FMC), Mortality Charges, and Admin Charges</strong> are applied as per LIC guidelines and may impact the final benefit. <br>
+    4. Accidental Death & Disability Benefit (ADDB) charges are considered at <strong>₹0.40 per ₹1000 of ADDB SA per annum</strong>. <br>
+    5. This calculator does <strong>not guarantee returns</strong> and should not be treated as financial advice. <br>
+    6. Please refer to the <strong>official LIC brochures and policy documents</strong> for accurate and legally binding information. <br>
+    7. By using this calculator, you acknowledge that LIC or this website/app is not responsible for any discrepancies between the calculated value and actual policy payouts.
+</div>
+
+</div>
+
+<script>
+/* =======================
+   MORTALITY TABLE
+======================= */
+const MORTALITY = {
+  18:1.30,19:1.31,20:1.33,21:1.35,22:1.37,
+  23:1.39,24:1.41,25:1.53,26:1.57,27:1.61,
+  28:1.65,29:1.69,30:1.74,31:1.79,32:1.85,
+  33:1.91,34:1.98,35:2.05,36:2.13,37:2.22,
+  38:2.32,39:2.43,40:2.55,41:2.68,42:2.83,
+  43:2.99,44:3.17,45:3.36,46:3.58,47:3.82,
+  48:4.09,49:4.39,50:4.73,51:5.11,52:5.54,
+  53:6.03,54:6.58,55:7.21,56:7.92,57:8.72,
+  58:9.63,59:10.66,60:11.83,61:13.17,
+  62:14.69,63:16.42,64:18.40,65:20.66,
+  66:23.26,67:26.26,68:29.75,69:33.82,70:38.60
+};
+
+/* =======================
+   GA SCHEDULE 
+======================= */
+const GA_PCT_25 = {
+  6: 0.05,
+  10: 0.10,
+  15: 0.20,
+  20: 0.25,
+  25: 0.30
+};
+
+/* =======================
+   MAIN CALCULATOR
+======================= */
+function calculate() {
+
+  const age = +document.getElementById("age").value;
+  const term = +document.getElementById("term").value;
+  
+  // Ensure PPT is set
+  const pptInput = document.getElementById("ppt");
+  pptInput.value = term; 
+
+  const premium = +document.getElementById("premium").value;
+  const cover = +document.getElementById("cover").value;
+  const bond = document.getElementById("bond").value;
+  const addbSA = +document.getElementById("addbSA").value || 0;
+  const growth = +document.getElementById("growth").value / 100;
+  const sa = premium * cover;
+  const err = document.getElementById("err");
+  const table = document.getElementById("table");
+  const summary = document.getElementById("summary");
+
+  err.innerHTML = "";
+  table.innerHTML = "";
+  summary.innerHTML = "";
+
+  /* =======================
+     VALIDATIONS
+  ======================= */
+  if (premium < 30000) return err.innerHTML = "Minimum annual premium is ₹30,000";
+  if (addbSA > sa || addbSA > 10000000) return err.innerHTML = "Invalid ADDB Sum Assured";
+
+  /* =======================
+     FMC & CHARGES
+  ======================= */
+  const FMC = bond === "flexiGrowth" ? 0.0135 : 0.01;
+  const FMC_MONTHLY = FMC / 12;
+
+  // ADDB CHARGE: Typically Rs 0.40 per 1000 SA per year for ULIPs
+  const annualADDBCharge = (addbSA * 0.40) / 1000;
+  const monthlyADDBCharge = annualADDBCharge / 12;
+
+  // VISUAL NAV START
+  let displayNAV = 10.00;
+
+  // INTERNAL CALC VARIABLES
+  let accountNAV = 10.00;
+  let units = 0;
+  let totalGA = 0;
+  let totalPremiumPaid = 0;
+  let lastFundValue = 0;
+
+  table.innerHTML = `
+  <tr>
+    <th>Year</th>
+    <th>Age</th>
+    <th>NAV</th>
+    <th>Premium</th>
+    <th>Mortality</th>
+    <th>GA Credited</th>
+    <th>Fund Value</th>
+  </tr>`;
+
+  /* =======================
+     POLICY YEAR LOOP
+  ======================= */
+  for (let y = 1; y <= term; y++) {
+
+    const attainedAge = age + y - 1;
+
+    /* 1. CAPTURE NAV TO DISPLAY THIS ROW (BEFORE GROWTH) */
+    const navStringToPrint = displayNAV.toFixed(2);
+
+    /* 2. PREMIUM & ALLOCATION */
+    let pac = (y === 1) ? 0.08 : (y <= 5 ? 0.055 : 0.04); 
+    const investible = premium * (1 - pac);
+    
+    // Units bought at current Internal Price
+    units += investible / accountNAV; 
+    totalPremiumPaid += premium;
+
+    /* 3. MORTALITY */
+    const rate = MORTALITY[attainedAge] || MORTALITY[70];
+    const fundBefore = units * accountNAV;
+    const sumAtRisk = Math.max(0, sa - fundBefore);
+    const annualMortality = (sumAtRisk * rate) / 1000;
+    const monthlyMort = annualMortality / 12;
+
+    /* 4. ADMIN CHARGES */
+    let annualAdmin = 0;
+    if (y >= 6) {
+      const baseAdmin = Math.min((0.0325 * premium), 1500);
+      annualAdmin = baseAdmin * Math.pow(1.05, y - 6);
+      annualAdmin = Math.min(annualAdmin, 6000);
+    }
+    const monthlyAdmin = annualAdmin / 12;
+
+    /* 5. MONTHLY LOOP (Growth + Deductions) */
+    for (let m = 0; m < 12; m++) {
+      accountNAV *= (1 + growth / 12);  // Internal monthly growth
+      accountNAV *= (1 - FMC_MONTHLY);  // FMC deduction
+      
+      // Deduct Mortality + Admin + ADDB Charge
+      units -= (monthlyMort + monthlyAdmin + monthlyADDBCharge) / accountNAV;
+      
+      if (units < 0) units = 0;
+    }
+
+    /* 6. GA CALCULATION */
+    let gaThisYear = 0;
+    if (GA_PCT_25[y]) {
+      gaThisYear = premium * GA_PCT_25[y];
+      totalGA += gaThisYear;
+    }
+    const fundValue = (units * accountNAV) + totalGA;
+    if (y === term) lastFundValue = fundValue;
+
+    /* 7. PRINT ROW */
+    table.innerHTML += `
+    <tr>
+      <td>${y}</td>
+      <td>${attainedAge}</td>
+      <td>${navStringToPrint}</td>
+      <td>${premium.toLocaleString("en-IN")}</td>
+      <td>${Math.round(annualMortality).toLocaleString("en-IN")}</td>
+      <td>${gaThisYear.toLocaleString("en-IN")}</td>
+      <td><b>${Math.round(fundValue).toLocaleString("en-IN")}</b></td>
+    </tr>`;
+
+    /* 8. UPDATE VISUAL NAV FOR NEXT YEAR'S ROW */
+    displayNAV = displayNAV * (1 + growth);
+  }
+
+  /* =======================
+     SUMMARY & TAX
+  ======================= */
+  let ltcg = 0;
+  if (premium > 250000) {
+    const gain = lastFundValue - totalPremiumPaid;
+    if (gain > 0) ltcg = gain * 0.125;
+  }
+
+  const netMaturity = lastFundValue - ltcg;
+  
+  // Death Benefit = Max(SA, Fund) + ADDB SA
+  const deathBenefit = Math.max(sa, lastFundValue) + addbSA;
+
+  summary.innerHTML = `
+    Sum Assured: ₹${sa.toLocaleString("en-IN")} |
+    Gross Maturity: ₹${Math.round(lastFundValue).toLocaleString("en-IN")} |
+    LTCG: ₹${Math.round(ltcg).toLocaleString("en-IN")} |
+    Net Maturity: ₹${Math.round(netMaturity).toLocaleString("en-IN")} |
+    Death Benefit: ₹${Math.round(deathBenefit).toLocaleString("en-IN")}
+  `;
+}
+</script>
+
+</body>
+</html>

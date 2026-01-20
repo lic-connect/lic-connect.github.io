@@ -1,250 +1,467 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIC Nivesh Plus 749 - Professional Report</title>
-    <style>
-        :root {
-            --lic-blue: #00529b;
-            --lic-yellow: #ffcb05;
-            --light-bg: #f4f7f9;
-            --border-color: #d1d9e0;
-        }
+<meta charset="UTF-8">
+<title>LIC Plan 749 – Nivesh Plus ULIP Calculator</title>
 
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #eef2f5; padding: 20px; color: #333; line-height: 1.6; }
-        .container { max-width: 1050px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 4px; box-shadow: 0 4px 25px rgba(0,0,0,0.1); border-top: 6px solid var(--lic-blue); }
-        
-        .main-header { text-align: center; margin-bottom: 25px; }
-        .main-header h1 { color: var(--lic-blue); margin: 0; font-size: 2rem; text-transform: uppercase; letter-spacing: 1px; }
-        .main-header p { margin: 5px 0; color: #666; font-weight: bold; }
+<style>
+body{
+  font-family: Segoe UI, Arial;
+  background:#f4f6f9;
+  padding:20px;
+}
+.container{
+  max-width:1100px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+h1{
+  text-align:center;
+  color:#003366;
+  border-bottom:3px solid #f0c20b;
+  padding-bottom:10px;
+}
+.inputs{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
+label{font-weight:600;font-size:13px;}
+input,select{
+  padding:10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+button{
+  grid-column:1/-1;
+  padding:14px;
+  background:#003366;
+  color:#fff;
+  font-size:17px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+.error{
+  grid-column:1/-1;
+  color:#b91c1c;
+  background:#fee2e2;
+  padding:10px;
+  border-radius:6px;
+  text-align:center;
+}
+.summary{
+  margin-top:25px;
+  background:#003366;
+  color:#fff;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+  font-size:16px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:25px;
+}
+th{
+  background:#f0c20b;
+  padding:10px;
+}
+td{
+  text-align:center;
+  padding:10px;
+  border-bottom:1px solid #eee;
+}
+.explain{
+  margin-top:40px;
+  background:#f8fafc;
+  padding:25px;
+  border-radius:12px;
+}
 
-        /* Summary Header Banner */
-        .summary-header {
-            background: var(--lic-blue);
-            color: #white;
-            display: flex;
-            justify-content: space-around;
-            padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 4px;
-            color: white;
-            border-bottom: 4px solid var(--lic-yellow);
-        }
-        .summary-item { text-align: center; }
-        .summary-item label { display: block; font-size: 0.75rem; text-transform: uppercase; color: var(--lic-yellow); margin-bottom: 5px; font-weight: bold; }
-        .summary-item value { font-size: 1.4rem; font-weight: bold; }
-
-        .input-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 20px; 
-            background: var(--light-bg); 
-            padding: 20px; 
-            border: 1px solid var(--border-color);
-            margin-bottom: 30px;
-        }
-        .field { display: flex; flex-direction: column; }
-        .field label { font-weight: bold; font-size: 0.85rem; margin-bottom: 5px; color: var(--lic-blue); }
-        input, select { padding: 10px; border: 1px solid #bbb; border-radius: 4px; font-size: 1rem; }
-
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { background: #f1f4f8; color: var(--lic-blue); padding: 12px 10px; font-size: 0.8rem; border: 1px solid var(--border-color); text-transform: uppercase; }
-        td { padding: 10px; text-align: center; border: 1px solid var(--border-color); font-size: 0.95rem; font-family: 'Courier New', Courier, monospace; font-weight: bold; }
-        tr:nth-child(even) { background: #fafafa; }
-        .highlight-maturity { background: #fff9c4 !important; font-weight: 900; color: var(--lic-blue); }
-
-        .error-box { color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 4px; margin-bottom: 15px; display: none; font-weight: bold; font-size: 0.9rem; border: 1px solid #d32f2f; }
-
-        .footer-math { margin-top: 40px; padding: 25px; background: #fdfdfd; border: 1px solid var(--border-color); }
-        .footer-math h3 { color: var(--lic-blue); border-bottom: 2px solid var(--lic-yellow); display: inline-block; margin-bottom: 15px; }
-        .math-example { font-family: 'Consolas', monospace; background: #333; color: #00ff00; padding: 15px; border-radius: 4px; margin: 10px 0; }
-    </style>
+/* HIDE GA INPUT FROM UI */
+#gaDiv {
+  display: none;
+}
+</style>
 </head>
+
 <body>
-
 <div class="container">
-    <div class="main-header">
-        <h1>Nivesh Plus (Plan 749)</h1>
-        <p>Dynamic Unit Linked Insurance Benefit Projection</p>
+<h1>LIC Nivesh Plus (Plan 749) – ULIP Calculator</h1>
+
+<div class="inputs">
+  <div>
+    <label>Age</label>
+    <input type="number" id="age">
+  </div>
+
+  <div>
+    <label>Single Premium (₹)</label>
+    <input type="number" id="premium">
+  </div>
+
+  <div>
+    <label>Policy Term (years)</label>
+    <input type="number" id="term">
+  </div>
+
+  <div>
+    <label>Coverage Option</label>
+    <select id="option">
+      <option value="1.25">Option I – 1.25 × Premium</option>
+      <option value="10">Option II – 10 × Premium</option>
+    </select>
+  </div>
+
+  <div>
+    <label>ADDB Sum Assured (₹)</label>
+    <input type="number" id="addbSA" value="0">
+  </div>
+
+  <div>
+    <label>ADDB Rate (₹ per 1000 p.a.)</label>
+    <input type="number" id="addbRate" value="0.50" step="0.01">
+  </div>
+
+  <!-- GA input is hidden but still exists for JS -->
+  <div id="gaDiv">
+    <label>Guaranteed Addition (₹)</label>
+    <input type="number" id="ga" value="0">
+  </div>
+
+  <div>
+    <label>Expected Growth %</label>
+    <input type="number" id="growth" value="8">
+  </div>
+
+  <div class="row">
+    <label>Fund Type:</label>
+    <select id="fundType">
+      <option value="growth">Growth Fund</option>
+      <option value="balanced">Balanced Fund</option>
+      <option value="secured">Secured Fund</option>
+      <option value="bond">Bond Fund</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Initial NAV</label>
+    <input type="number" value="10" readonly>
+  </div>
+
+  <button onclick="calculate()">Calculate</button>
+  <div id="err" class="error"></div>
+</div>
+
+<div id="summary" class="summary"></div>
+
+<table id="table"></table>
+
+<div class="explain">
+  <h2>Plan No. 749: The Story of Mr. Ajay’s "Golden One-Time Seed"</h2>
+  <p>Imagine you have a lump sum of money and you want to plant a <strong>"Golden Seed"</strong> that grows into a massive tree without you having to water it every year. This is <strong>LIC’s Nivesh Plus (Plan 749)</strong>—a Single Premium plan. Here is how it works for Mr. Ajay (Age 35), who invests <strong>₹5,00,000 just once</strong>:</p>
+
+  <div style="background: #fdf6e3; padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #f0c20b;">
+    <ol>
+      <li><strong>The Entry Toll (PAC):</strong> Since Ajay is only paying once, LIC takes a one-time "Setup Fee." If the PAC is 3.3%, LIC takes ₹16,500 immediately.
+        <br><em>Math: ₹5,00,000 - ₹16,500 = <strong>₹4,83,500</strong> actually goes into the market.</em>
+      </li>
+      
+      <li><strong>Buying the Units (NAV):</strong> If the market price (NAV) today is <strong>₹10</strong>, Ajay’s money buys "Units."
+        <br><em>Math: ₹4,83,500 ÷ ₹10 = <strong>48,350 Units</strong> credited to his account.</em>
+      </li>
+
+      <li><strong>The Monthly Gardener (Charges):</strong> Even though Ajay doesn't pay more premiums, LIC still provides him with a <strong>₹6,25,000 Life Cover</strong> (Option 1). Every month, LIC "plucks" a few units to pay for this cover.
+        <br><em>Math: If monthly charges are ₹150 and NAV is ₹15, LIC cancels <strong>10 units</strong> from Ajay's pot.</em>
+      </li>
+
+      <li><strong>The Bonus Fruit (Guaranteed Additions):</strong> This is the best part! At specific years (6th, 10th, 15th, 20th, and 25th), LIC adds <strong>extra money</strong> into the pot just for staying invested.
+        <br><em>Math: At year 10, if the GA is 4%, LIC adds <strong>₹20,000</strong> worth of extra units to Ajay's pot for free.</em>
+      </li>
+
+      <li><strong>The Mega Harvest (Maturity):</strong> After 20 years, Ajay takes all his remaining units (including the bonus ones) and sells them at the then-current market price (NAV).
+      </li>
+    </ol>
+  </div>
+
+  <h2 style="margin-top:30px;">Key Technical Definitions</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>
+      <p><strong>1. NAV (Net Asset Value):</strong> The "Daily Price" of one unit of your fund. Your wealth = Total Units × Current NAV.</p>
+      <p><strong>2. PAC (Premium Allocation Charge):</strong> The one-time fee deducted from your Single Premium before the money is invested.</p>
+      <p><strong>3. Admin Charges:</strong> A fixed monthly administrative fee deducted by cancelling units (currently ₹0 for this plan in many cases, but kept as a provision).</p>
     </div>
-
-    <div id="errorBox" class="error-box"></div>
-
-    <div class="input-grid">
-        <div class="field">
-            <label>Age (Entry)</label>
-            <input type="number" id="age" value="30" oninput="calculate()">
-        </div>
-        <div class="field">
-            <label>Single Premium (₹)</label>
-            <input type="number" id="premium" value="500000" oninput="calculate()">
-        </div>
-        <div class="field">
-            <label>Policy Term</label>
-            <input type="number" id="term" value="20" oninput="calculate()">
-        </div>
-        <div class="field">
-            <label>SA Option</label>
-            <select id="saOption" onchange="calculate()">
-                <option value="1.25">Option 1: 1.25x (Max Age 70)</option>
-                <option value="10">Option 2: 10x (Max Age 35)</option>
-            </select>
-        </div>
-        <div class="field">
-            <label>Expected Growth (%)</label>
-            <input type="number" id="growth" value="8" step="0.1" oninput="calculate()">
-        </div>
-        <div class="field">
-            <label>ADDB Cover (Optional)</label>
-            <input type="number" id="addb" value="0" oninput="calculate()">
-        </div>
+    <div>
+      <p><strong>4. Mortality Charges:</strong> The cost of the Life Cover. It is calculated monthly based on the "Sum at Risk."</p>
+      <p><strong>5. FMC (Fund Management Charge):</strong> The fee (1.35% p.a.) charged by LIC experts for managing your investments in the stock/bond market.</p>
+      <p><strong>6. GA (Guaranteed Additions):</strong> Fixed percentage of the Single Premium added to the unit fund at the end of specific policy years.</p>
     </div>
+  </div>
 
-    <!-- Summary Header -->
-    <div class="summary-header">
-        <div class="summary-item">
-            <label>Total Sum Assured</label>
-            <value id="summarySA">₹ 0</value>
-        </div>
-        <div class="summary-item">
-            <label>Total Maturity Value</label>
-            <value id="summaryMaturity">₹ 0</value>
-        </div>
-    </div>
+  <h2 style="margin-top:30px;">How Each Charge is Calculated</h2>
+  <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+    <ul>
+      <li><strong>PAC:</strong> Deducted once at the start. For Offline: 3.30%, For Online: 1.50%.</li>
+      <li><strong>Mortality Charge:</strong> (Sum at Risk × Mortality Rate for Age) / 12. Sum at Risk is (Sum Assured - Fund Value). As your fund grows, this charge usually decreases.</li>
+      <li><strong>Admin Charge:</strong> In Plan 749, this is typically nil for the current duration, but generally fixed at a monthly rate if applicable.</li>
+      <li><strong>FMC:</strong> 1.35% per annum of the fund value, deducted daily from the NAV calculation (before the price is shown to you).</li>
+      <li><strong>GA Calculation:</strong> A fixed % (3% to 7%) of the <strong>Single Premium</strong> is converted into units and added to your balance at years 6, 10, 15, 20, and 25.</li>
+    </ul>
+  </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Yr</th>
-                <th>Age</th>
-                <th>NAV</th>
-                <th>Premium</th>
-                <th>Guaranteed Addition</th>
-                <th>Death Benefit</th>
-                <th>Fund Value (SV)</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-    </table>
+  <h2 style="margin-top:30px;">Investment Fund Options (Where your money goes)</h2>
+  <table style="margin-top: 10px;">
+    <tr>
+      <th>Fund Name</th>
+      <th>Risk Profile</th>
+      <th>Equity (Stocks)</th>
+      <th>Govt / Debt Bonds</th>
+      <th>Money Market (Cash)</th>
+    </tr>
+    <tr>
+      <td><strong>Bond Fund</strong></td>
+      <td>Low Risk</td>
+      <td>0%</td>
+      <td>60% to 100%</td>
+      <td>0% to 40%</td>
+    </tr>
+    <tr>
+      <td><strong>Secured Fund</strong></td>
+      <td>Lower-Medium</td>
+      <td>15% to 45%</td>
+      <td>45% to 85%</td>
+      <td>0% to 40%</td>
+    </tr>
+    <tr>
+      <td><strong>Balanced Fund</strong></td>
+      <td>Medium Risk</td>
+      <td>30% to 70%</td>
+      <td>30% to 70%</td>
+      <td>0% to 40%</td>
+    </tr>
+    <tr>
+      <td><strong>Growth Fund</strong></td>
+      <td>High Risk</td>
+      <td>40% to 80%</td>
+      <td>20% to 60%</td>
+      <td>0% to 40%</td>
+    </tr>
+  </table>
+</div>
+<div class="ulip-disclaimer" style="margin-top:30px; padding:20px; border:1px solid #fbbf24; border-radius:10px; background-color:#fff7ed; color:#92400e; font-size:13px; line-height:1.5;">
+    <strong>Disclaimer:</strong> <br>
+    1. The values displayed by this calculator are <strong>indicative only</strong> and meant for <strong>illustrative purposes</strong>. <br>
+    2. Actual premiums, fund values, and maturity benefits may vary based on <strong>LIC’s official calculations, NAV movements, fund performance, taxes, and policy terms</strong>. <br>
+    3. Charges such as <strong>Premium Allocation Charges (PAC), Fund Management Charges (FMC), Mortality Charges, and Admin Charges</strong> are applied as per LIC guidelines and may impact the final benefit. <br>
+    4. Accidental Death & Disability Benefit (ADDB) charges are considered at <strong>₹0.40 per ₹1000 of ADDB SA per annum</strong>. <br>
+    5. This calculator does <strong>not guarantee returns</strong> and should not be treated as financial advice. <br>
+    6. Please refer to the <strong>official LIC brochures and policy documents</strong> for accurate and legally binding information. <br>
+    7. By using this calculator, you acknowledge that LIC or this website/app is not responsible for any discrepancies between the calculated value and actual policy payouts.
+</div>
 
-    <div class="footer-math">
-        <h3>Mathematical Verification & Glossary</h3>
-        <p><strong>1. Premium Allocation Charge (PAC):</strong> 3.3% is deducted upfront. Only 96.7% is used to buy units.</p>
-        <div class="math-example" id="pacMath"></div>
-        
-        <p><strong>2. NAV Spread:</strong> The NAV grows at the selected growth rate compounded annually. 
-        <br>Formula: $NAV_{Year} = 10 \times (1 + r)^{(Year-1)}$</p>
-
-        <p><strong>3. Guaranteed Additions (GA):</strong> Loyalty additions are added to the unit fund at the end of specific years (6, 10, 15, 20, 25).
-        <br>Year 6: 3% | Yr 10: 4% | Yr 15: 5% | Yr 20: 6% | Yr 25: 7% (of Single Premium).</p>
-
-        <p><strong>4. Death Benefit:</strong> In Plan 749, the nominee gets the <strong>Higher</strong> of the Basic Sum Assured or the Unit Fund Value.</p>
-    </div>
 </div>
 
 <script>
-    function calculate() {
-        const age = parseInt(document.getElementById('age').value);
-        const premium = parseFloat(document.getElementById('premium').value);
-        const term = parseInt(document.getElementById('term').value);
-        const saMultiplier = parseFloat(document.getElementById('saOption').value);
-        const growth = parseFloat(document.getElementById('growth').value) / 100;
-        const addbSA = parseFloat(document.getElementById('addb').value) || 0;
-        
-        const errorBox = document.getElementById('errorBox');
-        errorBox.style.display = 'none';
+/* =========================================
+   LIC PLAN 749 – NIVESH PLUS (ULIP)
+   CORE CALCULATION SCRIPT
+   ========================================= */
 
-        // Validations
-        if (premium < 125000) { showError("Minimum Premium is ₹1,25,000"); return; }
-        if (term < 10 || term > 25) { showError("Term must be between 10 and 25 years"); return; }
-        if (saMultiplier === 10 && age > 35) { showError("Option 2 (10x SA) allowed only up to Age 35"); return; }
-        if (age > 70) { showError("Maximum entry age is 70 years"); return; }
-        if (addbSA > (premium * saMultiplier)) { showError("ADDB cannot exceed Sum Assured"); return; }
-        if (addbSA > 10000000) { showError("Maximum ADDB allowed is ₹1 Crore"); return; }
+/* -------- Mortality Rates (₹ per 1000 SAR p.a.) -------- */
+const MORTALITY = {
+  20:1.20,21:1.22,22:1.24,23:1.26,24:1.28,
+  25:1.30,26:1.33,27:1.36,28:1.39,29:1.42,
+  30:1.46,31:1.50,32:1.55,33:1.60,34:1.66,
+  35:1.72,36:1.79,37:1.87,38:1.96,39:2.06,
+  40:2.17,41:2.29,42:2.43,43:2.58,44:2.75,
+  45:2.94,46:3.15,47:3.39,48:3.66,49:3.97,
+  50:4.32,51:4.73,52:5.19,53:5.73,54:6.35,
+  55:7.10
+};
 
-        const baseSA = premium * saMultiplier;
-        const pac = premium * 0.105385;
-        const netInvested = premium - pac;
-        
-        // Initial units at NAV 10
-        let units = netInvested / 10;
-        let html = "";
-        let finalFundValue = 0;
+/* -------- Guaranteed Additions (% of Single Premium) -------- */
+const GA_TABLE = {
+  6: 0.03,
+  10: 0.04,
+  15: 0.05,
+  20: 0.06,
+  25: 0.07
+};
 
-        for (let yr = 1; yr <= term; yr++) {
-            // NAV at start of year (matches PDF spread)
-            let navStart = 10 * Math.pow((1 + growth), yr - 1);
-            
-            // GA logic
-            let gaPercent = 0;
-            if (yr === 6) gaPercent = 0.03;
-            else if (yr === 10) gaPercent = 0.04;
-            else if (yr === 15) gaPercent = 0.05;
-            else if (yr === 20) gaPercent = 0.06;
-            else if (yr === 25) gaPercent = 0.07;
-            
-            let gaAmount = premium * gaPercent;
+/* -------- Admin Charge -------- */
+const ADMIN_ANNUAL = 150 * 12;
 
-            // Grow units to end of year
-            // Note: In projections, growth is applied to the balance, then GA is added
-            let fundValueBeforeGA = units * (navStart * (1 + growth));
+/* ========================================= */
 
+function calculate() {
 
+  const age = +document.getElementById("age").value;
+  const term = +document.getElementById("term").value;
+  const premium = +document.getElementById("premium").value;
+  const growth = +document.getElementById("growth").value / 100;
+  const fundType = document.getElementById("fundType").value;
 
-// 1. Calculate ADDB Charge (0.50 per 1000 of ADDB SA)
-            if (addbSA > 0) {
-                let annualAddbCharge = (addbSA / 1000) * 0.50;
-                // Deduct units based on the end-of-year NAV
-                units -= (annualAddbCharge / (navStart * (1 + growth)));
-            }
+  const addbSA = +document.getElementById("addbSA").value || 0;
+  const addbRate = +document.getElementById("addbRate").value || 0;
 
-            
-            if (gaAmount > 0) {
-                // Convert GA amount to units at end-of-year NAV
-                units += (gaAmount / (navStart * (1 + growth)));
-            }
-            
-            let currentFundValue = units * (navStart * (1 + growth));
-            let deathBenefit = Math.max(baseSA, currentFundValue) + addbSA;
-            
-            // Highlight the last row
-            let rowClass = (yr === term) ? 'class="highlight-maturity"' : '';
+  const option = document.getElementById("option").value;
 
-            html += `<tr ${rowClass}>
-                <td>${yr}</td>
-                <td>${age + yr - 1}</td>
-                <td style="color:red">${navStart.toFixed(4)}</td>
-                <td>${yr === 1 ? '₹' + premium.toLocaleString('en-IN') : '0'}</td>
-                <td>${gaAmount > 0 ? '₹' + gaAmount.toLocaleString('en-IN') : '0'}</td>
-                <td>₹${Math.round(deathBenefit).toLocaleString('en-IN')}</td>
-                <td>${yr <= 5 ? 'Lock-in' : '₹' + Math.round(currentFundValue).toLocaleString('en-IN')}</td>
-            </tr>`;
+  const err = document.getElementById("err");
+  const table = document.getElementById("table");
+  const summary = document.getElementById("summary");
 
-            if (yr === term) finalFundValue = currentFundValue;
-        }
+  // Clear previous results
+  err.innerHTML = "";
+  table.innerHTML = "";
+  summary.innerHTML = "";
 
-        document.getElementById('tableBody').innerHTML = html;
-        document.getElementById('summarySA').innerText = "₹ " + baseSA.toLocaleString('en-IN');
-        document.getElementById('summaryMaturity').innerText = "₹ " + Math.round(finalFundValue).toLocaleString('en-IN');
-        
-        document.getElementById('pacMath').innerHTML = `
-            Premium: ₹${premium.toLocaleString('en-IN')}
-            PAC (-3.3%): ₹${pac.toLocaleString('en-IN')}
-            Investible: ₹${netInvested.toLocaleString('en-IN')}
-            Start Units: ${units.toFixed(2)} (at NAV 10.00)
-        `;
+  /* -------- Validations -------- */
+  if (!age || !term || !premium) {
+    err.innerHTML = "Please fill all mandatory inputs";
+    return;
+  }
+
+  if (age < 20 || age > 55) {
+    err.innerHTML = "Entry age must be between 20 and 55 years";
+    return;
+  }
+
+  if (term < 10 || term > 25) {
+    err.innerHTML = "Policy term must be between 10 and 25 years";
+    return;
+  }
+
+  if (premium <= 0) {
+    err.innerHTML = "Premium must be greater than 0";
+    return;
+  }
+
+  if (premium < 125000) {
+    err.innerHTML = "Premium must be at least ₹1,25,000";
+    return;
+  }
+
+  /* -------- Sum Assured -------- */
+  let SA = option === "1.25"
+    ? 1.25 * premium
+    : 10 * premium;
+
+  if (addbSA > SA || addbSA > 10000000) {
+    err.innerHTML = "ADDB Sum Assured must be ≤ Basic SA and max ₹1 crore";
+    return;
+  }
+
+  /* -------- Initial Values -------- */
+  let nav = 10;
+  let units = 0;
+  let totalPremiumPaid = premium;
+  let lastFundValue = 0;
+
+  table.innerHTML = `
+    <tr>
+      <th>Year</th>
+      <th>Age</th>
+      <th>NAV</th>
+      <th>GA Added</th>
+      <th>Fund Value</th>
+    </tr>`;
+
+  /* =========================================
+     YEARLY LOOP
+     ========================================= */
+  for (let y = 1; y <= term; y++) {
+
+    let attainedAge = age + y - 1;
+
+    /* -------- Units from Single Premium (Year 1 only) -------- */
+    if (y === 1) {
+      units += premium / nav;
     }
 
-    function showError(msg) {
-        const eb = document.getElementById('errorBox');
-        eb.innerText = msg;
-        eb.style.display = 'block';
-        document.getElementById('tableBody').innerHTML = "";
+    /* -------- Mortality -------- */
+    let rate = MORTALITY[attainedAge] || MORTALITY[55];
+    let fundBefore = units * nav;
+    let sumAtRisk = Math.max(0, SA - fundBefore);
+    let annualMortality = (sumAtRisk * rate) / 1000;
+    let monthlyMortality = annualMortality / 12;
+
+    /* -------- ADDB -------- */
+    let annualADDB = (addbSA * addbRate) / 1000;
+    let monthlyADDB = annualADDB / 12;
+
+    let monthlyAdmin = ADMIN_ANNUAL / 12;
+
+    for (let m = 0; m < 12; m++) {
+      units -= monthlyMortality / nav;
+      units -= monthlyADDB / nav;
+      units -= monthlyAdmin / nav;
+      if (units < 0) units = 0;
     }
 
-    calculate(); // Initial run
+    /* -------- Guaranteed Additions -------- */
+    let gaAmount = "-";
+    if (GA_TABLE[y]) {
+      let gaValue = premium * GA_TABLE[y];
+      let gaUnits = gaValue / nav;
+      units += gaUnits;
+      gaAmount = Math.round(gaValue).toLocaleString("en-IN");
+    }
+
+    let fundValue = units * nav;
+    if (y === term) lastFundValue = fundValue;
+
+    table.innerHTML += `
+      <tr>
+        <td>${y}</td>
+        <td>${attainedAge}</td>
+        <td>${nav.toFixed(4)}</td>
+        <td>${gaAmount}</td>
+        <td><b>${Math.round(fundValue).toLocaleString("en-IN")}</b></td>
+      </tr>`;
+
+    /* -------- NAV Growth -------- */
+    nav = nav * (1 + growth);
+    nav = Math.round(nav * 10000) / 10000;
+  }
+
+  /* =========================================
+     MATURITY & TAX
+     ========================================= */
+  let grossMaturity = lastFundValue;
+  let ltcg = 0;
+  let netMaturity = grossMaturity;
+
+  if (premium > 250000) {
+    let gain = grossMaturity - totalPremiumPaid;
+    if (gain > 0) {
+      ltcg = gain * 0.125;
+      netMaturity -= ltcg;
+    }
+  }
+
+  /* -------- Death Benefit -------- */
+  let deathBenefit = Math.max(SA, grossMaturity);
+
+  /* -------- Summary -------- */
+  summary.innerHTML = `
+    <b>Plan:</b> LIC Nivesh Plus (749)
+    | <b>Fund:</b> ${fundType.toUpperCase()}
+    | <b>Sum Assured:</b> ₹${Math.round(SA).toLocaleString("en-IN")}
+    | <b>Final NAV:</b> ${(nav / (1 + growth)).toFixed(4)}
+    | <b>Maturity Value:</b> ₹${Math.round(grossMaturity).toLocaleString("en-IN")}
+    | <b>LTCG:</b> ₹${Math.round(ltcg).toLocaleString("en-IN")}
+    | <b>Net Maturity:</b> ₹${Math.round(netMaturity).toLocaleString("en-IN")}
+    | <b>Death Benefit:</b> ₹${Math.round(deathBenefit).toLocaleString("en-IN")}
+  `;
+}
 </script>
+
 
 </body>
 </html>
