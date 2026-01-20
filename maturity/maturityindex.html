@@ -146,6 +146,16 @@ button:active, .plan-card:active {
         <option value="881">LIC's Bima Lakshmi (881)</option>
     </optgroup>
 
+<!-- Unit Linked Plans (ULIP) Group -->
+<optgroup label="📈 Unit Linked Plans (ULIP)">
+    <option value="735">LIC's Endowment Plus (735)</option>
+    <option value="749">LIC's Nivesh Plus (749)</option>
+    <option value="752">LIC's SIIP (752)</option>
+    <option value="867">LIC's New Pension Plus (867)</option>
+    <option value="873">LIC's Index Plus (873)</option>
+    <option value="886">LIC's Protection Plus (886)</option>
+</optgroup>
+
 <!-- Term Assurance Plans Group -->
     <optgroup label="🛡️ Term Assurance Plans">
         <option value="887">LIC's Bima Kavach (887)</option>
@@ -166,11 +176,20 @@ button:active, .plan-card:active {
                     <div class="input-group"><label for="sumAssured">Basic Sum Assured (₹)</label><input type="number" id="sumAssured" placeholder="e.g., 500000" required></div>
                     <div class="input-group"><label for="policyTerm">Policy Term (Years)</label><input type="number" id="policyTerm" placeholder="e.g., 25" required></div>
                     <div class="input-group"><label for="ppt">Premium Paying Term (Years)</label><input type="number" id="ppt" placeholder="e.g., 20" required></div>
-                    <div class="input-group"><label for="annualPremium">Annual Premium (₹)</label><input type="number" id="annualPremium" placeholder="e.g., 20000" required></div>
+                  <div class="input-group">
+    <label for="annualPremium">Annual Premium / Single Premium (₹)</label>
+    <input type="number" id="annualPremium" placeholder="e.g., 20000" required>
+</div>
                     <div class="input-group"><label for="ageAtEntry">Age at Entry</label><input type="number" id="ageAtEntry" placeholder="e.g., 30"></div>
                     <div class="input-group"><label for="doc">Date of Commencement</label><input type="date" id="doc"></div>
-                    <div class="input-group"><label for="bonusRate">Avg. Bonus Rate (per ₹1000 SA)</label><input type="number" id="bonusRate" placeholder="e.g., 45" value="45"></div>
-                    <div class="input-group"><label for="fabRate">Final Bonus (FAB) (per ₹1000 SA)</label><input type="number" id="fabRate" placeholder="e.g., 150" value="150"></div>
+                   <div class="input-group">
+    <label for="bonusRate">Bonus Rate / Market Growth Rate (%)</label>
+    <input type="number" id="bonusRate" placeholder="Trad: ₹ per 1000 | ULIP: %" value="45">
+</div>
+                   <div class="input-group">
+    <label for="fabRate">Final Bonus (FAB) / Guaranteed Additions (GA)</label>
+    <input type="number" id="fabRate" placeholder="Trad: ₹ per 1000 | ULIP: %" value="150">
+</div>
                 </div>
             </div>
             

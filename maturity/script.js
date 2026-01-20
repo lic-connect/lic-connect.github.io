@@ -51,6 +51,73 @@ document.addEventListener('DOMContentLoaded', function () {
         '720': { name: "LIC's New Money Back Plan-20 Yrs", type: 'Money Back', summary: "A 20-year money back plan with periodic payouts.", benefits: { onDeath: "Sum Assured on Death (125% of SA or 7x AP) + Bonuses. Not less than 105% of premiums.", onSurvival: "20% of SA at years 5, 10, 15. At maturity (year 20), 40% of SA + Bonuses." }, rules: { death: 'mb_death', maturity: 'money_back_bonus_20' } },
         '721': { name: "LIC's New Money Back Plan-25 Yrs", type: 'Money Back', summary: "A 25-year money back plan with periodic payouts.", benefits: { onDeath: "Sum Assured on Death (125% of SA or 7x AP) + Bonuses. Not less than 105% of premiums.", onSurvival: "15% of SA at years 5, 10, 15, 20. At maturity (year 25), 40% of SA + Bonuses." }, rules: { death: 'mb_death', maturity: 'money_back_bonus_25' } },
         '732': { name: "LIC's New Children's Money Back Plan", type: 'Money Back', summary: "A money back plan for children, with payouts at specific ages.", benefits: { onDeath: "Sum Assured on Death + Bonuses.", onSurvival: "20% of SA at ages 18, 20, 22. At maturity (age 25), 40% of SA + Bonuses." }, rules: { death: 'standard_death_bonus', maturity: 'money_back_bonus_child' } },
+
+//ULIP PLANS
+'735': { 
+    name: "LIC's New Endowment Plus", 
+    type: 'Unit Linked (ULIP)', 
+    summary: "A regular premium, unit-linked plan combining insurance and market-linked wealth creation.", 
+    benefits: { 
+      onDeath: "Before Risk Commencement: Unit Fund Value. After Risk Commencement: Highest of (Basic Sum Assured less partial withdrawals, Unit Fund Value, or 105% of total premiums received).", 
+      onSurvival: "Unit Fund Value as on the Date of Maturity." 
+    }, 
+    rules: { death: 'ulip_risk_logic', maturity: 'fund_value_only' } 
+  },
+
+  '749': { 
+    name: "LIC's Nivesh Plus", 
+    type: 'Single Premium ULIP', 
+    summary: "A single premium unit-linked plan offering two types of death cover options and guaranteed additions.", 
+    benefits: { 
+      onDeath: "Before Risk Commencement: Unit Fund Value. After Risk Commencement: Higher of (Basic Sum Assured less partial withdrawals or Unit Fund Value).", 
+      onSurvival: "Unit Fund Value + Guaranteed Additions." 
+    }, 
+    rules: { death: 'single_premium_ulip_logic', maturity: 'fund_value_plus_ga' } 
+  },
+
+  '752': { 
+    name: "LIC's SIIP", 
+    type: 'Unit Linked (ULIP)', 
+    summary: "A systematic investment plan providing life cover and a unique refund of mortality charges feature.", 
+    benefits: { 
+      onDeath: "Before Risk Commencement: Unit Fund Value. After Risk Commencement: Highest of (Basic Sum Assured less partial withdrawals, Unit Fund Value, or 105% of total premiums received).", 
+      onSurvival: "Unit Fund Value + Refund of Mortality Charges + Guaranteed Additions." 
+    }, 
+    rules: { death: 'ulip_risk_logic', maturity: 'fund_value_plus_refund_plus_ga' } 
+  },
+
+  '867': { 
+    name: "LIC's New Pension Plus", 
+    type: 'Unit Linked Pension', 
+    summary: "A unit-linked individual pension plan designed to build a retirement corpus through market growth.", 
+    benefits: { 
+      onDeath: "Higher of (Unit Fund Value or 105% of total premiums received). Proceeds must be used for annuity as per IRDAI rules.", 
+      onSurvival: "Vesting Benefit: Unit Fund Value (utilized to purchase annuity, with up to 60% commutation allowed)." 
+    }, 
+    rules: { death: 'pension_ulip_logic', maturity: 'vesting_annuitisation' } 
+  },
+
+  '873': { 
+    name: "LIC's Index Plus", 
+    type: 'Unit Linked (ULIP)', 
+    summary: "A unit-linked plan specifically investing in NSE Nifty 50 or Nifty 100 indices.", 
+    benefits: { 
+      onDeath: "Before Risk Commencement: Unit Fund Value. After Risk Commencement: Highest of (Basic Sum Assured less partial withdrawals, Unit Fund Value, or 105% of total premiums received).", 
+      onSurvival: "Unit Fund Value + Refund of Mortality Charges + Guaranteed Additions." 
+    }, 
+    rules: { death: 'ulip_risk_logic', maturity: 'fund_value_plus_refund_plus_ga' } 
+  },
+
+  '886': { 
+    name: "LIC's Protection Plus", 
+    type: 'Unit Linked (ULIP)', 
+    summary: "A high-cover unit-linked savings plan with flexible premium terms and mortality charge refund.", 
+    benefits: { 
+      onDeath: "Highest of (Basic Sum Assured, Unit Fund Value, or 105% of total premiums received).", 
+      onSurvival: "Base Premium Fund Value + Top-up Fund Value + Refund of Mortality Charges." 
+    }, 
+    rules: { death: 'high_cover_ulip_logic', maturity: 'fund_value_plus_refund' } 
+  },
         
         // Term Assurance Plans
 '887': { 
@@ -258,7 +325,88 @@ document.addEventListener('DOMContentLoaded', function () {
                 totalBenefit = Math.max(sa, 7*annualPremium) + (sa / 1000 * 40 * completedYears);
                 notes = `Death = SA on Death + Accrued GAs.`;
                 break;
-            case 'ulip':
+          
+// --- CORE CALCULATION LOGIC ---
+        switch (rule) {
+            // --- NEW ULIP LOGIC ADDED HERE ---
+            
+            case 'ulip_risk_logic':
+            case 'fund_value_plus_refund_plus_ga':
+            case 'high_cover_ulip_logic':
+                // Bonus Rate input is treated as Expected Growth % (e.g. 8 for 8%)
+                // FAB Rate input is treated as Guaranteed Addition % (e.g. 5 for 5%)
+                let netGrowth = (bonusRate - 1.35) / 100; // Deducting Fund Management Charge
+                let fundValue = 0;
+                let refundAmount = 0;
+
+                // Simulate yearly growth
+                for (let i = 1; i <= term; i++) {
+                    if (i <= ppt) {
+                        fundValue += (annualPremium * 0.96); // 4% avg allocation charge
+                    }
+                    fundValue *= (1 + netGrowth);
+                }
+
+                // Calculate extra additions
+                let gaValue = (sa * (fabRate / 100));
+                if (rule !== 'ulip_risk_logic') {
+                    refundAmount = (sa / 1000) * 1.5 * term; // Estimated Mortality Refund
+                }
+
+                // IMPORTANT: Assign values to variables the Display section expects
+                totalBonus = gaValue + refundAmount; 
+                finalBonus = 0; // Set to 0 to avoid traditional bonus math
+                totalBenefit = fundValue + totalBonus;
+                
+                notes = `Fund Value estimated at ${bonusRate}% market growth. Includes ${refundAmount > 0 ? 'Refund of Mortality Charges and ' : ''}Guaranteed Additions.`;
+                break;
+
+            case 'single_premium_ulip_logic':
+            case 'fund_value_plus_ga':
+                // Single Premium ULIP (749 / Nivesh Plus)
+                let spGrowth = (bonusRate - 1.35) / 100;
+                let spFund = (annualPremium * 0.967) * Math.pow((1 + spGrowth), term);
+                
+                // Add Guaranteed Additions
+                totalBonus = (annualPremium * (fabRate / 100)); 
+                finalBonus = 0;
+                totalBenefit = spFund + totalBonus;
+                notes = `Single Premium Fund Value at ${bonusRate}% growth + Guaranteed Additions.`;
+                break;
+
+            case 'pension_ulip_logic':
+            case 'vesting_annuitisation':
+                // Plan 867: New Pension Plus
+                let pGrowth = (bonusRate - 1.35) / 100;
+                let pFund = 0;
+                for (let i = 1; i <= term; i++) {
+                    let inv = (i <= ppt) ? (annualPremium * 0.95) : 0;
+                    pFund = (pFund + inv) * (1 + pGrowth);
+                }
+                totalBonus = (annualPremium * (fabRate / 100)) * (term / 5); // Illustrative GA
+                finalBonus = 0;
+                totalBenefit = pFund + totalBonus;
+                notes = "Vesting Benefit: Full Fund Value. Note: 60% is tax-free withdrawal, 40% must be converted to monthly pension.";
+                break;
+
+            case 'fund_value_only':
+                // Plan 735: Endowment Plus
+                let simpleGrowth = (bonusRate - 1.35) / 100;
+                let sFund = 0;
+                for (let i = 1; i <= term; i++) {
+                    let inv = (i <= ppt) ? (annualPremium * 0.93) : 0;
+                    sFund = (sFund + inv) * (1 + simpleGrowth);
+                }
+                totalBonus = 0; 
+                finalBonus = 0;
+                totalBenefit = sFund;
+                notes = "Maturity Benefit is strictly the Unit Fund Value based on market performance.";
+                break;
+
+            // --- END OF ULIP LOGIC ---
+
+        
+
             case 'pension':
                 totalBenefit = 0;
                 notes = `Benefit for ${plan.type} plans depends on market performance (Fund Value) or annuity rates, which cannot be estimated with these inputs. Please check your policy document.`;
@@ -309,15 +457,35 @@ case '887_logic':
                 notes = 'Standard calculation applied. Please verify with official documents for specifics.';
         }
 
-        // --- Display Results ---
-        resultTitle.innerHTML = `<i class="fas ${isDeathCalc ? 'fa-cross' : 'fa-trophy'}"></i> ${isDeathCalc ? 'Death' : 'Maturity'} Benefit Results`;
+     // --- Display Results ---
+        resultTitle.innerHTML = `<i class="fas ${isDeathCalc ? 'fa-skull-crossbones' : 'fa-hand-holding-usd'}"></i> ${isDeathCalc ? 'Death' : 'Maturity'} Benefit Results`;
+        
+        // Main Benefit
         totalBenefitResult.textContent = `₹ ${totalBenefit.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        
+        // Investment Info
         premiumsPaidResult.textContent = `₹ ${totalPremiumsPaid.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         sumAssuredResult.textContent = `₹ ${sa.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-        bonusResult.textContent = `₹ ${(totalBonus + finalBonus).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+        // Logic to handle "Bonus" label vs "Additions" label for ULIPs
+        const bonusLabel = document.querySelector('.result-item:nth-child(4) span:first-child');
+        if (['735', '749', '752', '867', '873', '886'].includes(planId)) {
+            if (bonusLabel) bonusLabel.textContent = "Guaranteed Additions / Refunds:";
+            // For ULIPs, totalBonus was set inside the switch logic
+            bonusResult.textContent = `₹ ${totalBonus.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        } else {
+            if (bonusLabel) bonusLabel.textContent = "Vested Bonus & FAB:";
+            bonusResult.textContent = `₹ ${(totalBonus + finalBonus).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        // Notes and Visibility
         resultNotes.innerHTML = notes ? `<i class="fas fa-info-circle"></i> ${notes}` : '';
         resultsContainer.style.display = 'block';
-        resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        
+        // Mobile smooth scroll
+        setTimeout(() => {
+            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
     }
 
     // --- Event Listeners ---
