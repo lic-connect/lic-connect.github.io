@@ -339,6 +339,9 @@ button:active, .plan-card:active {
                             <option value="term">Term Insurance</option>
                             <option value="annuity">Annuity Plans</option>
                             <option value="single">Single Premium</option>
+<!-- Inside both #plan1-group and #plan2-group -->
+<option value="ulip">Unit Linked Plans (ULIP)</option>
+<option value="pension">Pension Plans</option>
                         </select>
                     </div>
                     <div class="custom-select">
@@ -360,6 +363,9 @@ button:active, .plan-card:active {
                             <option value="term">Term Insurance</option>
                             <option value="annuity">Annuity Plans</option>
                             <option value="single">Single Premium</option>
+<!-- Inside both #plan1-group and #plan2-group -->
+<option value="ulip">Unit Linked Plans (ULIP)</option>
+<option value="pension">Pension Plans</option>
                         </select>
                     </div>
                     <div class="custom-select">
@@ -445,9 +451,22 @@ const allPlanData = {
     '764': { name: 'Bima Ratna (764)', summary: 'A limited premium, non-participating, savings Money Back Plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(NACH)', term: '15, 20, 25 Years', minAge: '90 days', maxAge: '55', minSA: '5,00,000', maxSA: 'No Limit', ppt: '11, 16, 21 Years', deathBenefit: '125% of BSA or 7 times AP. Min 105% of premiums.', maturityBenefit: '50% of Basic Sum Assured + Accrued Guaranteed Additions.', survivalBenefit: '25% of Basic SA at the end of the 13th & 14th year (for 15yr term), and similar for other terms.', usp: 'Guaranteed additions and money back payouts.', advantage: 'Combines the certainty of guaranteed returns with the liquidity of a money back plan.' },
  '881': { name: 'Bima Lakshmi (881)', summary: 'A Non-Par savings plan exclusively for females offering life cover and flexible liquidity.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(NACH)', term: '25 Years', minAge: '18', maxAge: '50', minSA: '2,00,000', maxSA: 'No Limit', ppt: '7 to 15 Years', deathBenefit: 'Higher of BSA or 10 times Annual Premium + Accrued Guaranteed Additions.', maturityBenefit: 'Basic Sum Assured + Accrued Guaranteed Additions.', survivalBenefit: 'Choice of 3 Options: A (50% at end of PPT), B (7.5% every 2yrs), or C (15% every 4yrs).', usp: 'Exclusively for women with high 7% Guaranteed Additions.', advantage: 'Tailored for female financial independence with guaranteed growth.' },
 
+// ULIP PLANS
+'735': { name: 'Endowment Plus (735)', summary: 'A regular premium unit-linked plan for wealth creation and insurance.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(NACH)', term: '10 to 20 Years', minAge: '90 Days', maxAge: '50', minSA: '10x Annual Premium', maxSA: 'No Limit', ppt: 'Same as Policy Term', deathBenefit: 'Highest of Basic Sum Assured, Unit Fund Value, or 105% of premiums paid.', maturityBenefit: 'Unit Fund Value.', survivalBenefit: 'Not Applicable', usp: 'Flexible investment with 4 fund options.', advantage: 'Combines market-linked growth with life insurance protection.' },
+
+'749': { name: 'Nivesh Plus (749)', summary: 'A single premium unit-linked individual savings plan.', premiumMode: 'Single Premium', term: '10 to 25 Years', minAge: '90 Days', maxAge: '70 (Option 1)', minSA: '1.25x or 10x of Single Premium', maxSA: 'No Limit', ppt: 'Single Premium', deathBenefit: 'Higher of Basic Sum Assured or Unit Fund Value.', maturityBenefit: 'Unit Fund Value + Guaranteed Additions.', survivalBenefit: 'Not Applicable', usp: 'One-time investment with market-linked returns.', advantage: 'Guaranteed additions boost the fund value at specific intervals.' },
+
+'752': { name: 'SIIP (752)', summary: 'A systematic investment insurance plan with mortality charge refund.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(NACH)', term: '10 to 25 Years', minAge: '90 Days', maxAge: '65', minSA: '10x Annual Premium', maxSA: 'No Limit', ppt: 'Same as Policy Term', deathBenefit: 'Highest of Basic Sum Assured, Unit Fund Value, or 105% of premiums paid.', maturityBenefit: 'Unit Fund Value + Refund of Mortality Charges.', survivalBenefit: 'Not Applicable', usp: '100% Refund of Mortality charges on maturity.', advantage: 'Lower effective cost due to mortality charge refund feature.' },
+
+
+'873': { name: 'Index Plus (873)', summary: 'A unit-linked plan invested in Nifty 50 or Nifty 100 indices.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(NACH)', term: '10 to 25 Years', minAge: '90 Days', maxAge: '60', minSA: '7x or 10x Annual Premium', maxSA: 'No Limit', ppt: 'Same as Policy Term', deathBenefit: 'Highest of Basic Sum Assured, Unit Fund Value, or 105% of premiums paid.', maturityBenefit: 'Unit Fund Value + Refund of Mortality Charges.', survivalBenefit: 'Not Applicable', usp: 'Passive index-linked investing for long term growth.', advantage: 'Mirroring the Nifty index performance with added life cover.' },
+
+'886': { name: 'Protection Plus (886)', summary: 'A high-cover ULIP providing market growth and elite protection.', premiumMode: 'Regular or Limited Pay', term: '10 to 25 Years', minAge: '18', maxAge: '65', minSA: '7x Annual Premium', maxSA: 'No Limit', ppt: '5, 7, 10, 15 Years', deathBenefit: 'Highest of Basic Sum Assured, Unit Fund Value, or 105% of premiums paid.', maturityBenefit: 'Unit Fund Value + Refund of Mortality Charges.', survivalBenefit: 'Not Applicable', usp: 'High life cover with market returns and charge refunds.', advantage: 'Ideal for high net-worth individuals seeking large cover and growth.' },
     // Whole Life
     '745': { name: 'Jeevan Umang (745)', summary: 'A non-linked, with-profits whole life assurance plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '100 - age at entry', minAge: '90 days', maxAge: '55', minSA: '2,00,000', maxSA: 'No Limit', ppt: '15, 20, 25, 30 Years', deathBenefit: 'Higher of Basic SA, 7 times AP, or 105% of premiums + Bonuses.', maturityBenefit: 'On survival to age 100, Sum Assured + Bonuses.', survivalBenefit: '8% of Basic Sum Assured annually after PPT until maturity.', usp: 'Lifelong tax-free pension + Insurance cover.', advantage: 'Provides a guaranteed, tax-free annual income post premium payment term, acting as a pension, with life cover up to age 100.' },
     '771': { name: 'Jeevan Utsav (771)', summary: 'A non-linked, guaranteed benefit, whole life assurance plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '100 - age at entry', minAge: '90 days', maxAge: '65', minSA: '5,00,000', maxSA: 'No Limit', ppt: '5 to 16 Years', deathBenefit: 'Basic Sum Assured + GA, or 7 times AP, or 105% of premiums.', maturityBenefit: 'On survival to 100, SA + Accrued GA.', survivalBenefit: '10% of sum assured every year for life, starting from a specified year.', usp: 'Guaranteed lifelong income with very short premium commitment.', advantage: 'Offers a fixed, guaranteed lifelong income with the flexibility of a very short premium paying term (as low as 5 years).' },
+//PENSION PLANS
+'867': { name: 'New Pension Plus (867)', summary: 'A unit-linked pension plan to build a retirement corpus.', premiumMode: 'Single or Regular Premium', term: '10 to 42 Years', minAge: '25', maxAge: '75', minSA: 'Not Applicable', maxSA: 'Not Applicable', ppt: 'Single or Same as Term', deathBenefit: 'Higher of Unit Fund Value or 105% of total premiums paid.', maturityBenefit: 'Vesting Benefit: Unit Fund Value used for Annuity.', survivalBenefit: 'Not Applicable', usp: 'Builds a retirement fund with NIL mortality charges.', advantage: 'Allows up to 60% tax-free commutation of the final corpus.' },
 
 '883': { 
         name: 'Jeevan Utsav SP (883)', 
@@ -560,6 +579,9 @@ const allPlanData = {
 const planGroups = {
     endowment: ['714', '715', '733', '736', '768', '751', '912', '760', '880'], // Added 880 here
     moneyBack: ['720', '721', '748', '764', '881'], // Added 881 here
+// Add these keys to the planGroups object
+ulip: ['735', '749', '752', '873', '886'],
+pension: ['867'],
     wholeLife: ['745', '771', '883'],
     childrens: ['732', '734', '774'],
   term: ['859', '955', '875', '877', '887', '876', '878', '954'],
