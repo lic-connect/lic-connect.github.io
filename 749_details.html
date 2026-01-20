@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC's Nivesh Plus | Plan 749</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #004d40; /* Deep Teal */
+            --secondary: #263238; /* Charcoal */
+            --accent: #00bfa5; /* Bright Teal */
+            --platinum: #e0e0e0;
+            --text: #37474f;
+            --white: #ffffff;
+            --shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f0f4f4;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .main-wrapper {
+            max-width: 1200px;
+            margin: 50px auto;
+            background: var(--white);
+            border-radius: 40px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        /* Hero Styling */
+        .header-banner {
+            background: linear-gradient(rgba(0, 77, 64, 0.9), rgba(0, 77, 64, 0.9)), url('https://images.unsplash.com/photo-1579621970795-87f9ac75d6a1?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 60px;
+            color: var(--white);
+            text-align: center;
+            position: relative;
+        }
+
+        .header-banner h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .uin-tag {
+            background: var(--accent);
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .premium-type {
+            font-size: 1.5rem;
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+            color: var(--platinum);
+            margin-bottom: 30px;
+        }
+
+        /* Info Section */
+        .section-padding {
+            padding: 80px 60px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        /* Option Grid */
+        .option-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .option-card {
+            background: #fdfdfd;
+            border: 2px solid #f1f1f1;
+            border-radius: 25px;
+            padding: 40px;
+            transition: 0.4s;
+            position: relative;
+        }
+
+        .option-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .option-card h3 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+
+        .option-card ul {
+            list-style: none;
+        }
+
+        .option-card ul li {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .option-card .icon-label {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        /* Timeline for Guaranteed Additions */
+        .ga-wrapper {
+            background: var(--secondary);
+            color: white;
+            padding: 60px;
+            border-radius: 30px;
+            margin-bottom: 80px;
+        }
+
+        .ga-timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 40px;
+        }
+
+        .ga-timeline::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .ga-item {
+            position: relative;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .ga-circle {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            line-height: 50px;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+
+        .ga-year { font-weight: 800; font-size: 1.2rem; }
+        .ga-percent { color: var(--accent); font-weight: 600; }
+
+        /* Fund Table */
+        .fund-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .fund-table th {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: left;
+        }
+
+        .fund-table td {
+            padding: 20px;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .risk-tag {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .risk-high { background: #ffebee; color: #c62828; }
+        .risk-low { background: #e8f5e9; color: #2e7d32; }
+
+        .footer-note {
+            text-align: center;
+            padding: 40px;
+            background: #f9f9f9;
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        @media (max-width: 768px) {
+            .header-banner h1 { font-size: 2.5rem; }
+            .option-grid { grid-template-columns: 1fr; }
+            .ga-timeline { flex-direction: column; gap: 30px; }
+            .ga-timeline::before { display: none; }
+            .section-padding { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <!-- Hero Section -->
+    <header class="header-banner">
+        <span class="uin-tag">UIN: 512L317V02</span>
+        <h1>Nivesh Plus</h1>
+        <p class="premium-type">Single Premium. Infinite Possibilities.</p>
+        <div style="max-width: 700px; margin: 0 auto; font-weight: 300;">
+            A Non-Participating, Single Premium, Unit Linked Individual Savings Plan. 
+            Invest once and enjoy market-linked returns with life insurance protection.
+        </div>
+    </header>
+
+    <div class="section-padding">
+        <!-- Coverage Options -->
+        <h2 class="section-title">Select Your Protection Level</h2>
+        <div class="option-grid">
+            <!-- Option 1 -->
+            <div class="option-card">
+                <div class="icon-label"><i class="fas fa-umbrella"></i></div>
+                <h3>Option 1</h3>
+                <ul>
+                    <li><strong>Sum Assured:</strong> 1.25 × Single Premium</li>
+                    <li><strong>Entry Age:</strong> 90 Days to 70 Years</li>
+                    <li><strong>Max Maturity:</strong> 85 Years</li>
+                    <li><strong>Best For:</strong> Max Entry Age & Long Term Wealth</li>
+                </ul>
+            </div>
+            <!-- Option 2 -->
+            <div class="option-card">
+                <div class="icon-label"><i class="fas fa-shield-alt"></i></div>
+                <h3>Option 2</h3>
+                <ul>
+                    <li><strong>Sum Assured:</strong> 10 × Single Premium</li>
+                    <li><strong>Entry Age:</strong> 90 Days to 35 Years</li>
+                    <li><strong>Max Maturity:</strong> 50 Years</li>
+                    <li><strong>Best For:</strong> High Life Cover & Tax Efficiency</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Guaranteed Additions Section -->
+        <div class="ga-wrapper">
+            <h2 class="section-title" style="color: white;">Wealth Multiplier (Guaranteed Additions)</h2>
+            <p style="text-align: center; opacity: 0.8; margin-top: -30px;">Percentage of Single Premium added to your Unit Fund at the end of specific years:</p>
+            <div class="ga-timeline">
+                <div class="ga-item">
+                    <div class="ga-circle">6</div>
+                    <div class="ga-year">Year 6</div>
+                    <div class="ga-percent">3% Added</div>
+                </div>
+                <div class="ga-item">
+                    <div class="ga-circle">10</div>
+                    <div class="ga-year">Year 10</div>
+                    <div class="ga-percent">4% Added</div>
+                </div>
+                <div class="ga-item">
+                    <div class="ga-circle">15</div>
+                    <div class="ga-year">Year 15</div>
+                    <div class="ga-percent">5% Added</div>
+                </div>
+                <div class="ga-item">
+                    <div class="ga-circle">20</div>
+                    <div class="ga-year">Year 20</div>
+                    <div class="ga-percent">6% Added</div>
+                </div>
+                <div class="ga-item">
+                    <div class="ga-circle">25</div>
+                    <div class="ga-year">Year 25</div>
+                    <div class="ga-percent">7% Added</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Investment Funds -->
+        <h2 class="section-title">Smart Fund Management</h2>
+        <table class="fund-table">
+            <thead>
+                <tr>
+                    <th>Fund Type</th>
+                    <th>Equity Strategy</th>
+                    <th>Debt / Govt Bonds</th>
+                    <th>Risk Profile</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Growth Fund</strong></td>
+                    <td>40% - 80%</td>
+                    <td>20% - 60%</td>
+                    <td><span class="risk-tag risk-high">High Risk</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Balanced Fund</strong></td>
+                    <td>30% - 70%</td>
+                    <td>30% - 70%</td>
+                    <td><span class="risk-tag" style="background: #fff3e0; color: #ef6c00;">Medium Risk</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Secured Fund</strong></td>
+                    <td>15% - 55%</td>
+                    <td>45% - 85%</td>
+                    <td><span class="risk-tag" style="background: #e3f2fd; color: #1565c0;">Low-Medium Risk</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Bond Fund</strong></td>
+                    <td>Nil</td>
+                    <td>60% - 100%</td>
+                    <td><span class="risk-tag risk-low">Low Risk</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Quick Glance Grid -->
+        <div class="grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 80px;">
+            <div style="background: #fff; border-left: 5px solid var(--accent); padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                <i class="fas fa-coins fa-2x" style="color: var(--accent); margin-bottom: 10px;"></i>
+                <h4>Min. Premium</h4>
+                <p>₹1,25,000 (Lump sum)</p>
+            </div>
+            <div style="background: #fff; border-left: 5px solid var(--accent); padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                <i class="fas fa-clock fa-2x" style="color: var(--accent); margin-bottom: 10px;"></i>
+                <h4>Policy Term</h4>
+                <p>10 to 25 Years</p>
+            </div>
+            <div style="background: #fff; border-left: 5px solid var(--accent); padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                <i class="fas fa-exchange-alt fa-2x" style="color: var(--accent); margin-bottom: 10px;"></i>
+                <h4>Flexibility</h4>
+                <p>Switch between funds anytime</p>
+            </div>
+            <div style="background: #fff; border-left: 5px solid var(--accent); padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                <i class="fas fa-unlock fa-2x" style="color: var(--accent); margin-bottom: 10px;"></i>
+                <h4>Liquidity</h4>
+                <p>Partial withdrawal after 5 years</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-note">
+        <p>Life Insurance Corporation of India | Registration Number: 512</p>
+        <p>Note: Investment risk is borne by the policyholder. First 5 years is a lock-in period.</p>
+    </footer>
+</div>
+
+</body>
+</html>

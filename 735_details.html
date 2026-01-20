@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC's New Endowment Plus | Plan 735</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #002349; /* Deep Royal Navy */
+            --secondary-color: #0056b3; /* Vibrant Blue */
+            --accent-color: #fdb927; /* Rich Gold */
+            --text-color: #2d3436;
+            --light-text: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.9);
+            --bg-color: #f4f7f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--light-text);
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 40%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.05);
+            transform: rotate(30deg);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+
+        .hero p.uin {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .badge {
+            background: var(--accent-color);
+            color: var(--primary-color);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(253, 185, 39, 0.3);
+        }
+
+        .badge.outline {
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* Features Section */
+        .content {
+            padding: 60px 50px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            display: inline-block;
+            position: relative;
+        }
+
+        .section-header h2::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background: var(--accent-color);
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #edf2f7;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+            border-color: var(--accent-color);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        /* Funds Section */
+        .fund-section {
+            background: #f8fafc;
+            padding: 40px;
+            border-radius: 25px;
+            margin: 50px 0;
+        }
+
+        .fund-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .fund-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border-top: 5px solid var(--secondary-color);
+        }
+
+        .fund-box.growth { border-top-color: #e74c3c; }
+        .fund-box.balanced { border-top-color: #f1c40f; }
+        .fund-box.secured { border-top-color: #2ecc71; }
+        .fund-box.bond { border-top-color: #3498db; }
+
+        /* Benefits Area */
+        .benefits-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .benefit-card {
+            padding: 40px;
+            border-radius: 25px;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .benefit-card.maturity { background: linear-gradient(135deg, #2c3e50, #4b6584); }
+        .benefit-card.death { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); }
+
+        .benefit-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .benefit-card ul {
+            list-style: none;
+        }
+
+        .benefit-card ul li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .benefit-card ul li i {
+            color: var(--accent-color);
+            margin-top: 5px;
+        }
+
+        /* Important Tag */
+        .lock-in-tag {
+            background: #fff5f5;
+            border: 2px dashed #fc8181;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: #c53030;
+        }
+
+        .footer {
+            background: var(--primary-color);
+            color: rgba(255,255,255,0.6);
+            padding: 40px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .benefits-wrap { grid-template-columns: 1fr; }
+            .content { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="hero">
+            <p class="uin">UIN: 512L301V03</p>
+            <h1>New Endowment Plus</h1>
+            <div class="badge-container">
+                <span class="badge">Plan No. 735</span>
+                <span class="badge outline">Unit Linked (ULIP)</span>
+            </div>
+            <p style="max-width: 800px; margin: 0 auto; opacity: 0.9;">
+                A non-participating, linked, individual life savings plan that combines the dual benefits of insurance protection and investment-based wealth creation.
+            </p>
+        </header>
+
+        <div class="content">
+            <!-- Eligibility Grid -->
+            <div class="section-header">
+                <h2>Eligibility & Conditions</h2>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <i class="fa-solid fa-cake-candles"></i>
+                    <h3>Entry Age</h3>
+                    <p>90 Days to 50 Years</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                    <h3>Policy Term</h3>
+                    <p>10 to 20 Years</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-shield-heart"></i>
+                    <h3>Basic Sum Assured</h3>
+                    <p>10 × Annual Premium</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    <h3>Min. Monthly Premium</h3>
+                    <p>₹3,500 (NACH)</p>
+                </div>
+            </div>
+
+            <!-- Investment Funds -->
+            <div class="fund-section">
+                <div class="section-header">
+                    <h2>Investment Fund Options</h2>
+                    <p>Choose your fund based on your risk appetite</p>
+                </div>
+                <div class="fund-grid">
+                    <div class="fund-box bond">
+                        <i class="fa-solid fa-building-columns"></i>
+                        <h4>Bond Fund</h4>
+                        <small>Low Risk</small>
+                    </div>
+                    <div class="fund-box secured">
+                        <i class="fa-solid fa-vault"></i>
+                        <h4>Secured Fund</h4>
+                        <small>Lower-Medium Risk</small>
+                    </div>
+                    <div class="fund-box balanced">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                        <h4>Balanced Fund</h4>
+                        <small>Medium Risk</small>
+                    </div>
+                    <div class="fund-box growth">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <h4>Growth Fund</h4>
+                        <small>High Risk</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benefits -->
+            <div class="benefits-wrap">
+                <div class="benefit-card maturity">
+                    <h3>Maturity Benefit</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check"></i> On survival to the end of the term.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Payment of an amount equal to the <strong>Unit Fund Value</strong>.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Choice of settlement in lump sum or instalments.</li>
+                    </ul>
+                </div>
+                <div class="benefit-card death">
+                    <h3>Death Benefit</h3>
+                    <p style="margin-bottom: 15px; opacity: 0.9;">Before maturity, the nominee receives the <strong>Highest</strong> of:</p>
+                    <ul>
+                        <li><i class="fa-solid fa-star"></i> Basic Sum Assured (less partial withdrawals).</li>
+                        <li><i class="fa-solid fa-star"></i> Unit Fund Value.</li>
+                        <li><i class="fa-solid fa-star"></i> 105% of total premiums received.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Lock in info -->
+            <div class="lock-in-tag">
+                <i class="fa-solid fa-triangle-exclamation fa-2x"></i>
+                <div>
+                    <strong>5-Year Lock-in Period:</strong> 
+                    As per IRDAI regulations, no liquidity (surrender or partial withdrawal) is allowed during the first five years of the policy.
+                </div>
+            </div>
+
+            <!-- Additional Features -->
+            <div class="section-header" style="margin-top: 60px;">
+                <h2>Special Privileges</h2>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <h3>Fund Switching</h3>
+                    <p>4 Free switches per year</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <h3>Partial Withdrawal</h3>
+                    <p>Allowed after 5 years</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <h3>Rider Option</h3>
+                    <p>Linked Accidental Death Benefit</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Life Insurance Corporation of India | Registered Office: Yogakshema, Jeevan Bima Marg, Mumbai - 400021</p>
+            <p style="margin-top: 10px;">Refer to the official policy document for detailed charges (Allocation, FMC, Mortality, etc.) and tax implications.</p>
+        </footer>
+    </div>
+
+</body>
+</html>

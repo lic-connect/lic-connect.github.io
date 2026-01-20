@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC's Index Plus | Plan 873</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --cobalt: #2e5bff;
+            --emerald: #00d084;
+            --slate: #1e293b;
+            --glass: rgba(255, 255, 255, 0.95);
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --bg-body: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .wrapper {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: var(--white);
+            border-radius: 32px;
+            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            background: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--slate);
+            padding: 80px 40px;
+            color: white;
+            text-align: left;
+            position: relative;
+            border-bottom: 8px solid var(--emerald);
+        }
+
+        .hero::after {
+            content: '\f201';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 40px;
+            bottom: -20px;
+            font-size: 15rem;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+        }
+
+        .uin-badge {
+            color: var(--emerald);
+            font-weight: 800;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
+        .hero h1 span {
+            color: var(--emerald);
+        }
+
+        .hero p.lead {
+            font-size: 1.2rem;
+            max-width: 600px;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        /* Top Features Bar */
+        .feature-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            background: #f1f5f9;
+            padding: 20px;
+            gap: 2px;
+        }
+
+        .bar-item {
+            background: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .bar-item i {
+            color: var(--cobalt);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .bar-item h4 {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            text-transform: uppercase;
+        }
+
+        .bar-item p {
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        /* Fund Section */
+        .content-padding {
+            padding: 80px 50px;
+        }
+
+        .section-header {
+            margin-bottom: 40px;
+            border-left: 5px solid var(--cobalt);
+            padding-left: 20px;
+        }
+
+        .section-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            color: var(--slate);
+        }
+
+        .index-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .index-card {
+            padding: 40px;
+            border-radius: 24px;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .index-card.nifty50 { background: linear-gradient(135deg, #2e5bff 0%, #1e3a8a 100%); }
+        .index-card.nifty100 { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); }
+
+        .index-card:hover { transform: scale(1.02); }
+
+        .index-card .label {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
+        }
+
+        .index-card h3 { font-size: 2rem; margin: 15px 0; }
+        .index-card p { opacity: 0.8; font-size: 0.95rem; margin-bottom: 20px; }
+
+        /* Mortality Refund Box */
+        .highlight-box {
+            background: #ecfdf5;
+            border: 2px solid var(--emerald);
+            padding: 30px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .highlight-box i {
+            font-size: 3rem;
+            color: var(--emerald);
+        }
+
+        .highlight-box h4 {
+            color: #065f46;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        /* Guaranteed Additions List */
+        .ga-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .ga-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .ga-item span {
+            display: block;
+            color: var(--cobalt);
+            font-weight: 900;
+            font-size: 1.4rem;
+        }
+
+        .ga-item small { color: var(--text-sub); font-weight: 600; }
+
+        .footer {
+            background: var(--slate);
+            padding: 60px;
+            color: white;
+            text-align: center;
+        }
+
+        .disclaimer-text {
+            font-size: 0.75rem;
+            opacity: 0.5;
+            max-width: 800px;
+            margin: 30px auto 0;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .index-grid { grid-template-columns: 1fr; }
+            .content-padding { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <!-- Hero Section -->
+    <header class="hero">
+        <span class="uin-badge">UIN: 512L354V01 | Plan No. 873</span>
+        <h1>Index <span>Plus</span></h1>
+        <p class="lead">Fast forward your investment returns with India's top indices. Benefit from life cover while your money works in the NIFTY markets.</p>
+    </header>
+
+    <!-- Quick Stats Bar -->
+    <div class="feature-bar">
+        <div class="bar-item">
+            <i class="fas fa-user-check"></i>
+            <h4>Entry Age</h4>
+            <p>90 Days - 60 Years</p>
+        </div>
+        <div class="bar-item">
+            <i class="fas fa-calendar-alt"></i>
+            <h4>Policy Term</h4>
+            <p>10 - 25 Years</p>
+        </div>
+        <div class="bar-item">
+            <i class="fas fa-wallet"></i>
+            <h4>Min. Premium</h4>
+            <p>₹2,500 (Monthly)</p>
+        </div>
+        <div class="bar-item">
+            <i class="fas fa-shield-heart"></i>
+            <h4>Sum Assured</h4>
+            <p>7x or 10x Premium</p>
+        </div>
+    </div>
+
+    <div class="content-padding">
+        <!-- Fund Strategy -->
+        <div class="section-header">
+            <h2>Select Your Market Strategy</h2>
+            <p style="color: var(--text-sub);">Upto 100% invested in select stocks of NSE Indices</p>
+        </div>
+
+        <div class="index-grid">
+            <div class="index-card nifty50">
+                <span class="label">FLEXI SMART GROWTH</span>
+                <h3>NIFTY 50</h3>
+                <p>Focus on the 50 largest companies in India. Ideal for stable, long-term capital appreciation through market leaders.</p>
+                <div style="font-weight: 800;"><i class="fas fa-chart-line"></i> Very High Risk Profile</div>
+            </div>
+            <div class="index-card nifty100">
+                <span class="label">FLEXI GROWTH</span>
+                <h3>NIFTY 100</h3>
+                <p>Diversified exposure to the top 100 companies. Captures the broader growth story of the Indian stock market.</p>
+                <div style="font-weight: 800;"><i class="fas fa-chart-pie"></i> Very High Risk Profile</div>
+            </div>
+        </div>
+
+        <!-- Mortality Refund -->
+        <div class="highlight-box">
+            <i class="fas fa-undo-alt"></i>
+            <div>
+                <h4>Refund of Mortality Charges</h4>
+                <p>On survival till maturity, an amount equal to the total mortality charges deducted during the policy term will be added back to your fund value.</p>
+            </div>
+        </div>
+
+        <!-- Guaranteed Additions -->
+        <div class="section-header">
+            <h2>Guaranteed Additions</h2>
+            <p style="color: var(--text-sub);">Rewards for staying invested (As a % of Annualized Premium)</p>
+        </div>
+        
+        <div class="ga-list">
+            <div class="ga-item"><small>End of Year</small><span>6</span><small>3% to 5%</small></div>
+            <div class="ga-item"><small>End of Year</small><span>10</span><small>6% to 10%</small></div>
+            <div class="ga-item"><small>End of Year</small><span>15</span><small>12% to 20%</small></div>
+            <div class="ga-item"><small>End of Year</small><span>20</span><small>15% to 25%</small></div>
+            <div class="ga-item"><small>End of Year</small><span>25</span><small>18% to 30%</small></div>
+        </div>
+
+        <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-sub); font-style: italic;">
+            *Rates depend on the premium amount slab (above or below ₹48,000 annualized).
+        </p>
+
+        <!-- Death Benefit -->
+        <div class="section-header" style="margin-top: 80px;">
+            <h2>Security for Family</h2>
+        </div>
+        <div style="background: #f8fafc; padding: 30px; border-radius: 20px; border-right: 8px solid var(--cobalt);">
+            <p>In case of an unfortunate event during the policy term, the nominee receives the <strong>HIGHEST</strong> of:</p>
+            <ul style="list-style: none; margin-top: 15px;">
+                <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: var(--cobalt);"></i> Basic Sum Assured (adjusted for partial withdrawals)</li>
+                <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: var(--cobalt);"></i> Unit Fund Value</li>
+                <li><i class="fas fa-check-circle" style="color: var(--cobalt);"></i> 105% of the total premiums received</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <img src="https://www.licindia.in/o/lic-theme/images/logo.png" alt="LIC Logo" style="filter: brightness(0) invert(1); width: 140px; margin-bottom: 20px;">
+        <p><strong>Life Insurance Corporation of India</strong></p>
+        <p style="font-size: 0.8rem; opacity: 0.7;">Central Office: Yogakshema, Jeevan Bima Marg, Mumbai - 400021</p>
+        
+        <div class="disclaimer-text">
+            Unit Linked Life Insurance products are different from traditional insurance products and are subject to risk factors. The premiums paid in Unit Linked Life Insurance policies are subject to investment risks associated with capital markets and the NAVs of the units may go up or down based on the performance of fund.
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>

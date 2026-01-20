@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC's Protection Plus | Plan 886</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --midnight: #0a192f;
+            --cobalt: #112240;
+            --gold: #fcc419;
+            --silver: #e6f1ff;
+            --text-dim: #8892b0;
+            --white: #ffffff;
+            --accent: #64ffda;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020c1b;
+            color: var(--silver);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: var(--midnight);
+            border-radius: 24px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        /* Hero Styling */
+        .hero {
+            background: linear-gradient(135deg, var(--midnight) 0%, var(--cobalt) 100%);
+            padding: 80px 40px;
+            text-align: center;
+            border-bottom: 2px solid rgba(100, 255, 218, 0.1);
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4.5rem;
+            color: var(--white);
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            color: var(--gold);
+        }
+
+        .uin-tag {
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Highlight Section */
+        .highlight-banner {
+            background: var(--gold);
+            color: var(--midnight);
+            padding: 15px;
+            text-align: center;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+        }
+
+        /* Specs Grid */
+        .specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2px;
+            background: rgba(100, 255, 218, 0.1);
+        }
+
+        .spec-item {
+            background: var(--midnight);
+            padding: 40px 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .spec-item:hover {
+            background: var(--cobalt);
+        }
+
+        .spec-item i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .spec-item h4 {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .spec-item p {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        /* Core Features Content */
+        .main-content {
+            padding: 80px 60px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: var(--cobalt);
+            padding: 40px;
+            border-radius: 20px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .feature-card h3 {
+            color: var(--white);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .feature-card ul {
+            list-style: none;
+        }
+
+        .feature-card li {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 12px;
+            color: var(--text-dim);
+        }
+
+        .feature-card li i {
+            color: var(--accent);
+            margin-top: 5px;
+        }
+
+        /* Mortality Refund Section */
+        .refund-box {
+            background: rgba(100, 255, 218, 0.05);
+            border: 1px solid var(--accent);
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .refund-box h2 {
+            color: var(--accent);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .refund-box p {
+            color: var(--silver);
+            font-size: 1.1rem;
+        }
+
+        /* Maturity Summary */
+        .maturity-card {
+            background: linear-gradient(45deg, var(--midnight), #0a192f);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .maturity-card h3 {
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 30px;
+        }
+
+        .benefit-sum {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .b-pill {
+            background: var(--midnight);
+            padding: 15px 30px;
+            border-radius: 100px;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-weight: 800;
+        }
+
+        .footer {
+            padding: 60px;
+            background: #020c1b;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .main-content { padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Hero Section -->
+    <header class="hero">
+        <span class="uin-tag">UIN: 512L361V01 | Plan No. 886</span>
+        <h1>Protection <span>Plus</span></h1>
+        <p class="tagline">The ultimate synergy of high-value life cover and market-linked wealth creation. Designed for the elite saver.</p>
+    </header>
+
+    <div class="highlight-banner">
+        New Launch: Non-Par, Linked, Individual Life Savings Plan
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="specs">
+        <div class="spec-item">
+            <i class="fas fa-user-shield"></i>
+            <h4>Entry Age</h4>
+            <p>18 - 65 Years</p>
+        </div>
+        <div class="spec-item">
+            <i class="fas fa-hourglass-half"></i>
+            <h4>Policy Term</h4>
+            <p>10, 15, 20, 25 Years</p>
+        </div>
+        <div class="spec-item">
+            <i class="fas fa-coins"></i>
+            <h4>Min. Sum Assured</h4>
+            <p>7x Annualized Premium</p>
+        </div>
+        <div class="spec-item">
+            <i class="fas fa-stopwatch"></i>
+            <h4>Premium Mode</h4>
+            <p>Regular / Limited Pay</p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Feature Cards -->
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Investment Power</h3>
+                <ul>
+                    <li><i class="fas fa-check"></i> Flexibility to choose between multiple investment funds.</li>
+                    <li><i class="fas fa-check"></i> Option to pay "Top-up" premiums to boost your wealth.</li>
+                    <li><i class="fas fa-check"></i> Partial withdrawals allowed after 5-year lock-in.</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Elite Protection</h3>
+                <ul>
+                    <li><i class="fas fa-check"></i> High life insurance cover throughout the term.</li>
+                    <li><i class="fas fa-check"></i> Option to increase or decrease Sum Assured during the term.</li>
+                    <li><i class="fas fa-check"></i> Coverage extending up to age 90.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Mortality Refund -->
+        <div class="refund-box">
+            <h2>Mortality Charge Refund</h2>
+            <p>A unique efficiency feature: On survival to maturity, <strong>100% of the Mortality Charges</strong> recovered during the policy term shall be refunded to the policyholder along with the fund value.</p>
+        </div>
+
+        <!-- Maturity Card -->
+        <div class="maturity-card">
+            <h3>Maturity Payout Strategy</h3>
+            <p style="margin-bottom: 30px; color: var(--text-dim);">On survival to the end of the term, the total payout includes:</p>
+            <div class="benefit-sum">
+                <div class="b-pill">BASE FUND VALUE</div>
+                <div class="fas fa-plus" style="margin-top:15px"></div>
+                <div class="b-pill">TOP-UP FUND VALUE</div>
+                <div class="fas fa-plus" style="margin-top:15px"></div>
+                <div class="b-pill">MORTALITY CHARGE REFUND</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <img src="https://www.licindia.in/o/lic-theme/images/logo.png" alt="LIC Logo" style="filter: brightness(0) invert(1); width: 120px; margin-bottom: 20px; opacity: 0.5;">
+        <p><strong>Life Insurance Corporation of India</strong> | Central Office: Yogakshema, Mumbai</p>
+        <p style="margin-top: 15px; opacity: 0.5; max-width: 800px; margin-left: auto; margin-right: auto;">
+            Unit Linked Insurance Products (ULIPs) are different from traditional insurance products and are subject to market risks. The investment risk in the investment portfolio is borne by the policyholder.
+        </p>
+    </footer>
+</div>
+
+</body>
+</html>
