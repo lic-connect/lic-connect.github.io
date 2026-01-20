@@ -627,41 +627,47 @@ button:active, .plan-card:active, .link-card:active {
 
 <script>
     // Data Structure: Hook (Line 1) + Plan Name (Line 2)
-    const planData = [
-        { hook: "Secure your future! Get Sum Assured + Bonus", plan: "New Endowment (714)" },
-        { hook: "Double Benefit: Lifetime Protection + Maturity!", plan: "New Jeevan Anand (715)" },
-        { hook: "Pay Once, Enjoy Benefits for Years!", plan: "Single Premium Endowment (717)" },
-        { hook: "Need Liquidity? Get Money Back every 5 Years!", plan: "20-Year Money Back (720)" },
-        { hook: "Long-term Coverage with Periodic Payouts!", plan: "25-Year Money Back (721)" },
-        { hook: "Secure your Child's Education & Future!", plan: "Child Money Back (732)" },
-        { hook: "Protect Family Income: Annual Benefits!", plan: "Jeevan Lakshya (733)" },
-        { hook: "Design your Growing Child's Financial Future!", plan: "Jeevan Tarun (734)" },
-        { hook: "Pay Limited Premiums, Get Max Returns!", plan: "Jeevan Labh (736)" },
-        { hook: "Guaranteed 8% Income for Life!", plan: "Jeevan Umang (745)" },
-        { hook: "High Net-Worth? Get High Cover & Returns!", plan: "Bima Shree (748)" },
-        { hook: "Small Savings, Big Security for Everyone!", plan: "Micro Bachat (751)" },
-        { hook: "Plan Your Pension Today, Relax Tomorrow!", plan: "New Jeevan Shanti (758)" },
-        { hook: "Guaranteed Additions of ₹50 per ₹1000!", plan: "Bima Jyoti (760)" },
-        { hook: "Freedom! Pay 8 Years Less than Term!", plan: "Jeevan Azad (768)" },
-        { hook: "Celebrate Life with 10% Guaranteed Income!", plan: "Jeevan Utsav (771)" },
-        { hook: "Build a Massive Corpus for Your Child!", plan: "Amritbaal (774)" },
-        { hook: "Invest Once, Get Pension Immediately!", plan: "Jeevan Akshay VII (857)" },
-        { hook: "Simple, Immediate Pension for Life!", plan: "Saral Pension (862)" },
-        { hook: "Retire Smart with Guaranteed Annuity!", plan: "Smart Pension (879)" },
-        { hook: "Single Premium, Guaranteed Additions!", plan: "Nav Jeevan Shree (911)" },
-        { hook: "Limited Pay, High Returns up to 9.5%!", plan: "Nav Jeevan Shree (912)" },
-        { hook: "Cover Your Loans: Pure Risk Protection!", plan: "Digi Credit Life (878)" },
-        { hook: "High Sum Assured at Low Rates Online!", plan: "Digi Term (876)" },
-        { hook: "Click & Insure: Affordable Online Term Plan!", plan: "Tech Term (954)" },
-        { hook: "Flexible Death Benefits: Level or Increasing!", plan: "New Jeevan Amar (955)" },
-        { hook: "Chhota Premium, Badi Suraksha!", plan: "Jan Suraksha (880)" },
-        { hook: "Exclusively for Women: 7% Guaranteed Additions!", plan: "Bima Lakshmi (881)" },
-        { hook: "Invest Once, Earn 10% Income Forever!", plan: "Jeevan Utsav Single (883)" },
-        { hook: "High Value Protection for Your Legacy!", plan: "Bima Kavach (887)" },
-        { hook: "Save Tax under 80C & Get Tax-free Maturity!", plan: "All LIC Plans" },
-        { hook: "Need Cash? Loan Facility after 2 Years!", plan: "Endowment Plans" },
-        { hook: "Add Accidental Death & Disability Cover!", plan: "Optional Riders" }
-    ];
+  const planData = [
+    { hook: "Secure your future! Get Sum Assured + Bonus", plan: "New Endowment (714)" },
+    { hook: "Double Benefit: Lifetime Protection + Maturity!", plan: "New Jeevan Anand (715)" },
+    { hook: "Pay Once, Enjoy Benefits for Years!", plan: "Single Premium Endowment (717)" },
+    { hook: "Need Liquidity? Get Money Back every 5 Years!", plan: "20-Year Money Back (720)" },
+    { hook: "Long-term Coverage with Periodic Payouts!", plan: "25-Year Money Back (721)" },
+    { hook: "Secure your Child's Education & Future!", plan: "Child Money Back (732)" },
+    { hook: "Protect Family Income: Annual Benefits!", plan: "Jeevan Lakshya (733)" },
+    { hook: "Design your Growing Child's Financial Future!", plan: "Jeevan Tarun (734)" },
+    { hook: "Market Gains + Life Cover: Your Wealth, Your Choice!", plan: "Endowment Plus (735)" }, // Added
+    { hook: "Pay Limited Premiums, Get Max Returns!", plan: "Jeevan Labh (736)" },
+    { hook: "Guaranteed 8% Income for Life!", plan: "Jeevan Umang (745)" },
+    { hook: "High Net-Worth? Get High Cover & Returns!", plan: "Bima Shree (748)" },
+    { hook: "Invest Once, Grow Forever: Single Premium ULIP!", plan: "Nivesh Plus (749)" }, // Added
+    { hook: "Small Savings, Big Security for Everyone!", plan: "Micro Bachat (751)" },
+    { hook: "Smart Wealth Creation with Systematic Investment!", plan: "SIIP (752)" }, // Added
+    { hook: "Plan Your Pension Today, Relax Tomorrow!", plan: "New Jeevan Shanti (758)" },
+    { hook: "Guaranteed Additions of ₹50 per ₹1000!", plan: "Bima Jyoti (760)" },
+    { hook: "Freedom! Pay 8 Years Less than Term!", plan: "Jeevan Azad (768)" },
+    { hook: "Celebrate Life with 10% Guaranteed Income!", plan: "Jeevan Utsav (771)" },
+    { hook: "Build a Massive Corpus for Your Child!", plan: "Amritbaal (774)" },
+    { hook: "Invest Once, Get Pension Immediately!", plan: "Jeevan Akshay VII (857)" },
+    { hook: "Simple, Immediate Pension for Life!", plan: "Saral Pension (862)" },
+    { hook: "Market-Linked Retirement: Your Pension, Your Way!", plan: "New Pension Plus (867)" }, // Added
+    { hook: "Ride the Nifty Index: Growth with Top Companies!", plan: "Index Plus (873)" }, // Added
+    { hook: "Retire Smart with Guaranteed Annuity!", plan: "Smart Pension (879)" },
+    { hook: "High-Value Elite Protection with Market Returns!", plan: "Protection Plus (886)" }, // Added
+    { hook: "Single Premium, Guaranteed Additions!", plan: "Nav Jeevan Shree (911)" },
+    { hook: "Limited Pay, High Returns up to 9.5%!", plan: "Nav Jeevan Shree (912)" },
+    { hook: "Cover Your Loans: Pure Risk Protection!", plan: "Digi Credit Life (878)" },
+    { hook: "High Sum Assured at Low Rates Online!", plan: "Digi Term (876)" },
+    { hook: "Click & Insure: Affordable Online Term Plan!", plan: "Tech Term (954)" },
+    { hook: "Flexible Death Benefits: Level or Increasing!", plan: "New Jeevan Amar (955)" },
+    { hook: "Chhota Premium, Badi Suraksha!", plan: "Jan Suraksha (880)" },
+    { hook: "Exclusively for Women: 7% Guaranteed Additions!", plan: "Bima Lakshmi (881)" },
+    { hook: "Invest Once, Earn 10% Income Forever!", plan: "Jeevan Utsav Single (883)" },
+    { hook: "High Value Protection for Your Legacy!", plan: "Bima Kavach (887)" },
+    { hook: "Save Tax under 80C & Get Tax-free Maturity!", plan: "All LIC Plans" },
+    { hook: "Need Cash? Loan Facility after 2 Years!", plan: "Endowment Plans" },
+    { hook: "Add Accidental Death & Disability Cover!", plan: "Optional Riders" }
+];
 
     let msgIndex = 0;
     const promoDisplay = document.getElementById("promoDisplay");
