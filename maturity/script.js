@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
         planDetailsContainer.style.display = 'block';
     }
 
-    function calculateBenefits() {
+function calculateBenefits() {
         const planId = planSelector.value;
         if (!planId) {
             alert('Please select a plan first.');
@@ -253,239 +253,166 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const totalPremiumsPaid = annualPremium * (isDeathCalc ? Math.min(completedYears, ppt) : ppt);
-        const totalBonus = (sa / 1000) * bonusRate * completedYears;
-        const finalBonus = isDeathCalc ? 0 : (sa / 1000) * fabRate; // FAB generally not paid on early death
-
+        
+        // Initialize these to 0; they get populated in the switch
+        let totalBonus = 0;
+        let finalBonus = 0;
         let totalBenefit = 0;
         let notes = '';
 
         const rule = isDeathCalc ? plan.rules.death : plan.rules.maturity;
 
-        // --- Core Calculation Logic ---
+        // --- CORE CALCULATION LOGIC ---
         switch (rule) {
-            case 'sa_plus_bonus':
-                totalBenefit = sa + totalBonus + finalBonus;
-                break;
-            case 'standard_death_bonus':
-                let saOnDeath = Math.max(sa, 7 * annualPremium);
-                totalBenefit = saOnDeath + totalBonus;
-                notes = `Sum Assured on Death (Higher of Basic SA or 7x Annual Premium) + Accrued Bonus.`;
-                break;
-            case 'ja_death':
-                let saOnDeathJA = Math.max(1.25 * sa, 7 * annualPremium);
-                totalBenefit = saOnDeathJA + totalBonus;
-                notes = `Sum Assured on Death (Higher of 125% Basic SA or 7x Annual Premium) + Accrued Bonus.`;
-                break;
-            case 'mb_death':
-                let saOnDeathMB = Math.max(1.25 * sa, 7 * annualPremium);
-                totalBenefit = saOnDeathMB + totalBonus;
-                notes = `Sum Assured on Death is paid in full, regardless of survival benefits already paid.`;
-                break;
-            case 'money_back_bonus_20':
-                totalBenefit = (sa * 0.40) + totalBonus + finalBonus;
-                notes = 'Maturity: 40% of SA + Bonuses. (Assumes 3x 20% Survival Benefits were paid).';
-                break;
-            case 'money_back_bonus_25':
-                totalBenefit = (sa * 0.40) + totalBonus + finalBonus;
-                notes = 'Maturity: 40% of SA + Bonuses. (Assumes 4x 15% Survival Benefits were paid).';
-                break;
-            case 'money_back_bonus_child':
-                totalBenefit = (sa * 0.40) + totalBonus + finalBonus;
-                notes = 'Maturity at age 25: 40% of SA + Bonuses. (Assumes 3x 20% Survival Benefits at ages 18, 20, 22 were paid).';
-                break;
-            case 'jeevan_lakshya':
-                totalBenefit = (sa * 1.10) + totalBonus + finalBonus;
-                notes = 'On Death, nominee gets 10% of SA annually till maturity date, then on maturity date, receives 110% of SA + Bonuses. The calculated value represents the final lump sum payment.';
-                break;
-            case 'term_plan':
-                totalBenefit = isDeathCalc ? Math.max(sa, 7 * annualPremium) : 0;
-                notes = isDeathCalc ? 'Sum Assured on Death is paid.' : 'No benefit is payable on maturity for a Term Plan.';
-                break;
-            case 'sa_only':
-                totalBenefit = sa;
-                notes = 'Benefit is equal to the Basic Sum Assured only.';
-                break;
-            case 'standard_death_no_bonus':
-                totalBenefit = Math.max(sa, 7 * annualPremium);
-                notes = 'Sum Assured on Death is paid. This is a non-participating plan.';
-                break;
-            case 'ga_maturity_50':
-                totalBenefit = sa + (sa / 1000 * 50 * term);
-                notes = `Maturity = Basic SA + Guaranteed Additions (₹50 per 1000 SA per year).`;
-                break;
-            case 'ga_death_50':
-                totalBenefit = Math.max(1.25 * sa, 7 * annualPremium) + (sa / 1000 * 50 * completedYears);
-                notes = `Death = SA on Death + Accrued Guaranteed Additions (₹50 per 1000 SA per year).`;
-                break;
-            case 'ga_maturity_40_income':
-                 totalBenefit = sa + (sa / 1000 * 40 * ppt);
-                 notes = `Maturity at 100 = SA + GAs. Note: 10% of SA is also paid as income annually for life after PPT.`;
-                 break;
-            case 'ga_death_40':
-                totalBenefit = Math.max(sa, 7*annualPremium) + (sa / 1000 * 40 * completedYears);
-                notes = `Death = SA on Death + Accrued GAs.`;
-                break;
-          
-// --- CORE CALCULATION LOGIC ---
-        switch (rule) {
-            // --- NEW ULIP LOGIC ADDED HERE ---
-            
+            // === ULIP / PENSION LOGIC ===
             case 'ulip_risk_logic':
             case 'fund_value_plus_refund_plus_ga':
             case 'high_cover_ulip_logic':
-                // Bonus Rate input is treated as Expected Growth % (e.g. 8 for 8%)
-                // FAB Rate input is treated as Guaranteed Addition % (e.g. 5 for 5%)
-                let netGrowth = (bonusRate - 1.35) / 100; // Deducting Fund Management Charge
-                let fundValue = 0;
-                let refundAmount = 0;
-
-                // Simulate yearly growth
+                let netGrowth = (bonusRate - 1.35) / 100; 
+                let fundVal = 0;
+                let refundAmt = 0;
                 for (let i = 1; i <= term; i++) {
-                    if (i <= ppt) {
-                        fundValue += (annualPremium * 0.96); // 4% avg allocation charge
-                    }
-                    fundValue *= (1 + netGrowth);
+                    if (i <= ppt) fundVal += (annualPremium * 0.96); 
+                    fundVal *= (1 + netGrowth);
                 }
-
-                // Calculate extra additions
-                let gaValue = (sa * (fabRate / 100));
-                if (rule !== 'ulip_risk_logic') {
-                    refundAmount = (sa / 1000) * 1.5 * term; // Estimated Mortality Refund
-                }
-
-                // IMPORTANT: Assign values to variables the Display section expects
-                totalBonus = gaValue + refundAmount; 
-                finalBonus = 0; // Set to 0 to avoid traditional bonus math
-                totalBenefit = fundValue + totalBonus;
-                
-                notes = `Fund Value estimated at ${bonusRate}% market growth. Includes ${refundAmount > 0 ? 'Refund of Mortality Charges and ' : ''}Guaranteed Additions.`;
+                let gaVal = (sa * (fabRate / 100));
+                if (rule !== 'ulip_risk_logic') refundAmt = (sa / 1000) * 1.5 * term; 
+                totalBonus = gaVal + refundAmt;
+                totalBenefit = fundVal + totalBonus;
+                notes = `Fund Value estimated at ${bonusRate}% market growth. Includes ${refundAmt > 0 ? 'Mortality Refund & ' : ''}Guaranteed Additions.`;
                 break;
 
             case 'single_premium_ulip_logic':
             case 'fund_value_plus_ga':
-                // Single Premium ULIP (749 / Nivesh Plus)
                 let spGrowth = (bonusRate - 1.35) / 100;
                 let spFund = (annualPremium * 0.967) * Math.pow((1 + spGrowth), term);
-                
-                // Add Guaranteed Additions
                 totalBonus = (annualPremium * (fabRate / 100)); 
-                finalBonus = 0;
                 totalBenefit = spFund + totalBonus;
                 notes = `Single Premium Fund Value at ${bonusRate}% growth + Guaranteed Additions.`;
                 break;
 
-            case 'pension_ulip_logic':
             case 'vesting_annuitisation':
-                // Plan 867: New Pension Plus
                 let pGrowth = (bonusRate - 1.35) / 100;
                 let pFund = 0;
                 for (let i = 1; i <= term; i++) {
                     let inv = (i <= ppt) ? (annualPremium * 0.95) : 0;
                     pFund = (pFund + inv) * (1 + pGrowth);
                 }
-                totalBonus = (annualPremium * (fabRate / 100)) * (term / 5); // Illustrative GA
-                finalBonus = 0;
+                totalBonus = (annualPremium * (fabRate / 100)) * (term / 5);
                 totalBenefit = pFund + totalBonus;
-                notes = "Vesting Benefit: Full Fund Value. Note: 60% is tax-free withdrawal, 40% must be converted to monthly pension.";
+                notes = "Vesting Benefit: Total Fund Value. 60% can be commuted (lump sum), 40% used for pension.";
                 break;
 
             case 'fund_value_only':
-                // Plan 735: Endowment Plus
-                let simpleGrowth = (bonusRate - 1.35) / 100;
+                let sGrowth = (bonusRate - 1.35) / 100;
                 let sFund = 0;
                 for (let i = 1; i <= term; i++) {
                     let inv = (i <= ppt) ? (annualPremium * 0.93) : 0;
-                    sFund = (sFund + inv) * (1 + simpleGrowth);
+                    sFund = (sFund + inv) * (1 + sGrowth);
                 }
-                totalBonus = 0; 
-                finalBonus = 0;
                 totalBenefit = sFund;
                 notes = "Maturity Benefit is strictly the Unit Fund Value based on market performance.";
                 break;
 
-            // --- END OF ULIP LOGIC ---
-
-        
-
-            case 'pension':
-                totalBenefit = 0;
-                notes = `Benefit for ${plan.type} plans depends on market performance (Fund Value) or annuity rates, which cannot be estimated with these inputs. Please check your policy document.`;
+            // === TRADITIONAL PLAN LOGIC ===
+            case 'sa_plus_bonus':
+                totalBonus = (sa / 1000) * bonusRate * completedYears;
+                finalBonus = (sa / 1000) * fabRate;
+                totalBenefit = sa + totalBonus + finalBonus;
                 break;
-case 'utsav_sp':
-                // Calculate Base: Higher of SA or 1.25x Single Premium
-                let utsavBase = Math.max(sa, 1.25 * annualPremium);
-                
-                // Calculate GA: ₹40 per 1000 SA (4% of SA per year)
-                // We use the 'PPT' field for the number of years GA is earned
-                let gaPeriod = isDeathCalc ? Math.min(completedYears, ppt) : ppt;
-                let utsavGA = (sa / 1000) * 40 * gaPeriod;
-                
-                // Set Total Benefit
-                totalBenefit = utsavBase + utsavGA;
-
-                // Force the result boxes to show these specific 883 values
-                setTimeout(() => {
-                    totalBenefitResult.textContent = `₹ ${totalBenefit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
-                    bonusResult.textContent = `₹ ${utsavGA.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
-                }, 50);
-
-                notes = "Benefit = [Higher of BSA or 1.25x Single Premium] + [Accrued Guaranteed Additions at ₹40/1000 SA].";
+            case 'standard_death_bonus':
+                totalBonus = (sa / 1000) * bonusRate * completedYears;
+                totalBenefit = Math.max(sa, 7 * annualPremium) + totalBonus;
+                notes = `Sum Assured on Death + Accrued Bonus.`;
                 break;
-case '887_logic':
+            case 'ja_death':
+                totalBonus = (sa / 1000) * bonusRate * completedYears;
+                totalBenefit = Math.max(1.25 * sa, 7 * annualPremium) + totalBonus;
+                notes = `Sum Assured on Death (125% SA) + Accrued Bonus.`;
+                break;
+            case 'mb_death':
+                totalBonus = (sa / 1000) * bonusRate * completedYears;
+                totalBenefit = Math.max(1.25 * sa, 7 * annualPremium) + totalBonus;
+                notes = `Sum Assured on Death is paid in full.`;
+                break;
+            case 'money_back_bonus_20':
+            case 'money_back_bonus_25':
+            case 'money_back_bonus_child':
+                totalBonus = (sa / 1000) * bonusRate * completedYears;
+                finalBonus = (sa / 1000) * fabRate;
+                totalBenefit = (sa * 0.40) + totalBonus + finalBonus;
+                notes = 'Maturity: 40% of SA + Bonuses.';
+                break;
+            case 'jeevan_lakshya':
+                totalBonus = (sa / 1000) * bonusRate * completedYears;
+                finalBonus = (sa / 1000) * fabRate;
+                totalBenefit = (sa * 1.10) + totalBonus + finalBonus;
+                notes = 'Final maturity payment includes 110% of SA + Bonuses.';
+                break;
+            case 'term_plan':
+                totalBenefit = isDeathCalc ? Math.max(sa, 7 * annualPremium) : 0;
+                notes = isDeathCalc ? 'Sum Assured on Death is paid.' : 'No benefit on maturity for Term Plans.';
+                break;
+            case 'sa_only':
+                totalBenefit = sa;
+                notes = 'Benefit is equal to the Basic Sum Assured only.';
+                break;
+            case 'ga_maturity_50':
+                totalBonus = (sa / 1000 * 50 * term);
+                totalBenefit = sa + totalBonus;
+                break;
+            case 'ga_death_50':
+                totalBonus = (sa / 1000 * 50 * completedYears);
+                totalBenefit = Math.max(1.25 * sa, 7 * annualPremium) + totalBonus;
+                break;
+            case 'ga_maturity_40_income':
+                totalBonus = (sa / 1000 * 40 * ppt);
+                totalBenefit = sa + totalBonus;
+                break;
+            case 'ga_death_40':
+                totalBonus = (sa / 1000 * 40 * completedYears);
+                totalBenefit = Math.max(sa, 7 * annualPremium) + totalBonus;
+                break;
+            case 'utsav_sp':
+                let utBase = Math.max(sa, 1.25 * annualPremium);
+                totalBonus = (sa / 1000) * 40 * (isDeathCalc ? Math.min(completedYears, ppt) : ppt);
+                totalBenefit = utBase + totalBonus;
+                break;
+            case '887_logic':
                 if (isDeathCalc) {
-                    // Logic for Option II: Increasing Sum Assured
-                    // policyYear is completedYears + 1 (e.g., if completed 0 years, you are in policy year 1)
                     let pYear = completedYears + 1; 
-                    
-                    if (pYear <= 5) {
-                        totalBenefit = sa;
-                    } else if (pYear > 5 && pYear <= 15) {
-                        // Increases by 10% of BSA for every year from 6th to 15th
-                        totalBenefit = sa + (sa * 0.10 * (pYear - 5));
-                    } else {
-                        // From 16th year onwards, it is constant at twice the BSA
-                        totalBenefit = sa * 2;
-                    }
-                    notes = `Death Benefit calculated using 'Increasing Sum Assured' logic. Current Cover: ${((totalBenefit/sa)*100).toFixed(0)}% of Basic SA.`;
+                    if (pYear <= 5) totalBenefit = sa;
+                    else if (pYear <= 15) totalBenefit = sa + (sa * 0.10 * (pYear - 5));
+                    else totalBenefit = sa * 2;
+                    notes = `Increasing Sum Assured logic applied.`;
                 } else {
                     totalBenefit = 0;
-                    notes = "Plan 887 is a Pure Risk plan; no benefit is payable on survival to maturity.";
+                    notes = "No benefit on survival for Plan 887.";
                 }
                 break;
             default:
-                totalBenefit = sa + totalBonus + finalBonus;
-                notes = 'Standard calculation applied. Please verify with official documents for specifics.';
+                totalBenefit = sa;
+                notes = 'Standard calculation applied.';
         }
 
-     // --- Display Results ---
+        // --- Display Results ---
         resultTitle.innerHTML = `<i class="fas ${isDeathCalc ? 'fa-skull-crossbones' : 'fa-hand-holding-usd'}"></i> ${isDeathCalc ? 'Death' : 'Maturity'} Benefit Results`;
-        
-        // Main Benefit
-        totalBenefitResult.textContent = `₹ ${totalBenefit.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-        
-        // Investment Info
-        premiumsPaidResult.textContent = `₹ ${totalPremiumsPaid.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-        sumAssuredResult.textContent = `₹ ${sa.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        totalBenefitResult.textContent = `₹ ${totalBenefit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+        premiumsPaidResult.textContent = `₹ ${totalPremiumsPaid.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+        sumAssuredResult.textContent = `₹ ${sa.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
 
-        // Logic to handle "Bonus" label vs "Additions" label for ULIPs
-        const bonusLabel = document.querySelector('.result-item:nth-child(4) span:first-child');
+        const bonusLabel = document.querySelector('.result-item:nth-child(4) p');
         if (['735', '749', '752', '867', '873', '886'].includes(planId)) {
-            if (bonusLabel) bonusLabel.textContent = "Guaranteed Additions / Refunds:";
-            // For ULIPs, totalBonus was set inside the switch logic
-            bonusResult.textContent = `₹ ${totalBonus.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            if (bonusLabel) bonusLabel.textContent = "Additions / Refunds";
+            bonusResult.textContent = `₹ ${totalBonus.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
         } else {
-            if (bonusLabel) bonusLabel.textContent = "Vested Bonus & FAB:";
-            bonusResult.textContent = `₹ ${(totalBonus + finalBonus).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            if (bonusLabel) bonusLabel.textContent = "Total Accrued Bonus";
+            bonusResult.textContent = `₹ ${(totalBonus + finalBonus).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
         }
 
-        // Notes and Visibility
         resultNotes.innerHTML = notes ? `<i class="fas fa-info-circle"></i> ${notes}` : '';
         resultsContainer.style.display = 'block';
-        
-        // Mobile smooth scroll
-        setTimeout(() => {
-            resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 100);
+        setTimeout(() => { resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
     }
 
     // --- Event Listeners ---
