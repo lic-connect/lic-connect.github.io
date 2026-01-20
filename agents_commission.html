@@ -239,10 +239,13 @@ const db = {
     '732': { name: "Children Money Back (732)", type: 'END', rule: 'T=P', min: 13, max: 25 },
     '733': { name: "Jeevan Lakshya (733)", type: 'END', rule: 'T-3', min: 13, max: 25 },
     '734': { name: "Jeevan Tarun (734)", type: 'END', rule: 'T=P', min: 13, max: 25 },
+'735': { name: "Endowment Plus (735)", type: 'ULIP', rule: 'T=P', min: 10, max: 20 },
     '736': { name: "Jeevan Labh (736)", type: 'END', rule: 'MAP', map: {16:10, 21:15, 25:16} },
     '745': { name: "Jeevan Umang (745)", type: 'END', rule: 'T=P', min: 15, max: 30 },
     '748': { name: "Bima Shree (748)", type: 'MB', rule: 'MAP', map: {14:10, 16:12, 18:14, 20:16, 24:20, 28:24} },
+ '749': { name: "Nivesh Plus (749)", type: 'SP', rule: 'SP', min: 10, max: 25 },
     '751': { name: "Micro Bachat (751)", type: 'MICRO', rule: 'T=P', min: 10, max: 15 },
+'752': { name: "SIIP (752)", type: 'ULIP', rule: 'T=P', min: 10, max: 25 },
     '758': { name: "New Jeevan Shanti (758)", type: 'SP', rule: 'SP', min: 1, max: 12 },
     '760': { name: "Bima Jyoti (760)", type: 'END', rule: 'MAP', map: {15:10, 16:11, 17:12, 18:13, 19:14, 20:15} },
     '764': { name: "Bima Ratna (764)", type: 'END', rule: 'MAP', map: {15:11, 20:16, 25:21} },
@@ -252,6 +255,8 @@ const db = {
     '857': { name: "Jeevan Akshay VII (857)", type: 'SP', rule: 'SP', min: 1, max: 1 },
     '859': { name: "Saral Jeevan Bima (859)", type: 'TERM', rule: 'T=P', min: 5, max: 40 },
     '862': { name: "Saral Pension (862)", type: 'SP', rule: 'SP', min: 1, max: 1 },
+'867': { name: "New Pension Plus (867)", type: 'ULIP', rule: 'T=P', min: 10, max: 42 },
+'873': { name: "Index Plus (873)", type: 'ULIP', rule: 'T=P', min: 10, max: 25 },
     '875': { name: "Yuva Term (875)", type: 'TERM', rule: 'T=P', min: 15, max: 40 },
 '876': { name: "Digi Life (876)", type: 'TERM', rule: 'T=P', min: 10, max: 40 },
     '877': { name: "Yuva Credit Life (877)", type: 'TERM', rule: 'T=P', min: 5, max: 30 },
@@ -259,6 +264,7 @@ const db = {
     '880': { name: "Jan Suraksha (880)", type: 'MICRO', rule: 'T-5', min: 12, max: 20 },
     '881': { name: "Bima Lakshmi (881)", type: 'LAKSHMI', rule: 'MANUAL', min: 25, max: 25 },
 '883': { name: "Jeevan Utsav SP (883)", type: 'SP', rule: 'SP', min: 0, max: 65 },
+'886': { name: "Protection Plus (886)", type: 'ULIP', rule: 'T=P', min: 10, max: 25 },
     '887': { name: "Bima Kavach (887)", type: 'TERM', rule: 'MANUAL', min: 10, max: 82 },
     '911': { name: "Nav Jeevan Shree Single (911)", type: 'SP', rule: 'SP', min: 5, max: 20 },
     '912': { name: "Nav Jeevan Shree Regular (912)", type: 'END', rule: 'MAP', map: {10:6, 12:8, 15:10, 20:12} },
@@ -327,23 +333,21 @@ function runCalculation() {
     errorBox.style.display = 'none';
     if(!id || !premium || isNaN(ppt)) { alert("Error: Please fill all fields."); return; }
 
-    const plan = db[id];
+const plan = db[id];
     const annualized = (plan.type === 'SP') ? premium : premium * mode;
     let rates = { y1: 25, y2: 7.5, y3: 7.5, y4: 5 };
 
+    // --- Core Logic ---
     if (plan.type === 'SP') {
         rates = { y1: 2, y2: 0, y3: 0, y4: 0 };
-} else if (plan.type === 'TERM') {
+    } else if (plan.type === 'TERM') {
         if (id === '876') {
-            if (ppt === 1) {
-                rates = { y1: 3, y2: 0, y3: 0, y4: 0 }; // Single Premium: 3%
-            } else {
-                rates = { y1: 28, y2: 7.5, y3: 7.5, y4: 6 }; // 28%, 7.5%, 7.5%, 6%
-            }
+            if (ppt === 1) rates = { y1: 3, y2: 0, y3: 0, y4: 0 };
+            else rates = { y1: 28, y2: 7.5, y3: 7.5, y4: 6 };
         } else if (ppt === 1) { 
-            rates = { y1: 2, y2: 0, y3: 0, y4: 0 }; // Default Single Premium
+            rates = { y1: 2, y2: 0, y3: 0, y4: 0 };
         } else {
-            rates = { y1: 7.5, y2: 2, y3: 2, y4: 2 }; // Default Regular Term
+            rates = { y1: 7.5, y2: 2, y3: 2, y4: 2 };
         }
     } else if (plan.type === 'MICRO') {
         rates = { y1: 10, y2: 5, y3: 5, y4: 5 };
@@ -359,6 +363,32 @@ function runCalculation() {
         else if (ppt < 15) rates = { y1: 20, y2: 7.5, y3: 7.5, y4: 5 };
     }
 
+    // --- NEW ULIP OVERRIDES (Specific Rates) ---
+    if (id === '735') {
+        // Endowment Plus: 7% / 3.5% / 3.5% / 2.5%
+        rates = { y1: 7, y2: 3.5, y3: 3.5, y4: 2.5 };
+    } else if (id === '749') {
+        // Nivesh Plus: 2% / 0 / 0 / 0
+        rates = { y1: 2, y2: 0, y3: 0, y4: 0 };
+    } else if (id === '752') {
+        // SIIP: Tiered by Premium
+        if (annualized < 75000) rates = { y1: 3.5, y2: 3.5, y3: 3.5, y4: 4.5 };
+        else rates = { y1: 5.6, y2: 4.5, y3: 4.5, y4: 4.5 };
+    } else if (id === '867') {
+        // New Pension Plus: Regular 7/2/2/2 | Single 2/0/0/0
+        if (ppt === 1) rates = { y1: 2, y2: 0, y3: 0, y4: 0 };
+        else rates = { y1: 7, y2: 2, y3: 2, y4: 2 };
+    } else if (id === '873') {
+        // Index Plus: Tiered by Premium
+        if (annualized < 72000) rates = { y1: 2.5, y2: 3.5, y3: 3.5, y4: 4.5 };
+        else if (annualized < 96000) rates = { y1: 4, y2: 4.5, y3: 4.5, y4: 4.5 };
+        else if (annualized < 120000) rates = { y1: 5.25, y2: 4.5, y3: 4.5, y4: 4.5 };
+        else rates = { y1: 5.75, y2: 4.5, y3: 4.5, y4: 4.5 };
+    } else if (id === '886') {
+        // Protection Plus Logic
+        if (annualized < 100000) rates = { y1: 5.5, y2: 3, y3: 3, y4: 2 };
+        else rates = { y1: 8, y2: 3, y3: 3, y4: 2.5 };
+    }
     const format = (v) => "₹ " + Math.round(v).toLocaleString('en-IN');
     document.getElementById('y1').innerText = format(annualized * rates.y1 / 100);
     document.getElementById('y2').innerText = (ppt >= 2) ? format(annualized * rates.y2 / 100) : "₹ 0";
