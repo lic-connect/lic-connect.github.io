@@ -2,703 +2,590 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LIC Plan Combinations - Dazzling Future</title>
-<!-- PWA: Link to the Manifest File -->
-<link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Plan Combinations Guide - Wealth & Insurance</title>
+    
+    <!-- PWA Manifest Link -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- FontAwesome for Stylish Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
     <style>
-      body {
+        :root {
+            --modern-blue: #0077b6;
+            --ocean-blue: #023e8a;
+            --aquamarine: #48cae4;
+            --light-aqua: #ade8f4;
+            --white: #ffffff;
+            --text-dark: #333333;
+        }
+
+        body {
             margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
-            /* FIX: Allow natural scrolling */
-            overflow-y: auto; 
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--white);
+            color: var(--text-dark);
             overflow-x: hidden;
         }
 
-        /* --- KEYFRAMES for ANIMATIONS --- */
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* --- 3D TITLE SECTION --- */
+        .header-section {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #f0faff 0%, #ffffff 100%);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .title-box-container {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--modern-blue), var(--ocean-blue));
+            padding: 20px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 119, 182, 0.4);
+            transform: perspective(500px) rotateX(5deg);
+            margin-bottom: 30px;
+            border: 4px solid var(--aquamarine);
         }
 
-     .container {
-            display: flex;
-            /* FIX: Allow container to grow with content */
-            min-height: 100vh; 
+        h1.main-title {
+            margin: 0;
+            color: var(--white);
+            font-size: 3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            /* 3D Text Effect */
+            text-shadow: 
+                1px 1px 0 #0096c7,
+                2px 2px 0 #0077b6,
+                3px 3px 0 #023e8a,
+                4px 4px 0 #03045e,
+                5px 5px 10px rgba(0,0,0,0.5);
         }
 
-     /* --- LEFT SIDE (Titles) --- */
-        .left-side {
-            width: 30%;
-            background: linear-gradient(45deg, #FF4081, #E040FB, #673AB7);
-            background-size: 200% 200%;
-            animation: gradientAnimation 15s ease infinite;
-            color: white;
+        .description {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            padding: 0 15px;
+            border-left: 5px solid var(--aquamarine);
+            background: #f9fcfd;
             padding: 20px;
-            box-shadow: 5px 0px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* --- GRID LAYOUT --- */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            padding-bottom: 80px; /* Space for footer */
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 Columns */
+            gap: 20px;
+        }
+
+        /* --- CARD STYLING --- */
+        .plan-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .plan-card {
+            background: var(--white);
+            border: 2px solid #e0f7fa;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 100%;
             position: relative;
-            /* FIX: Sticky so it stays visible while reading long content */
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow-y: auto;
-        }
-        .left-side::-webkit-scrollbar { /* Hide scrollbar for Chrome, Safari and Opera */
-            display: none;
+            overflow: hidden;
         }
 
-        .left-side {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
-        }
-
-
-        .left-side::before { /* Glowing effect */
+        .plan-card::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #FF4081, #E040FB, #673AB7, #3F51B5);
-            background-size: 400% 400%;
-            animation: gradientAnimation 10s ease infinite;
-            z-index: -1;
-            filter: blur(8px);
-            opacity: 0.8;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--modern-blue);
+            transition: width 0.3s;
         }
 
-        .title-item {
-            padding: 15px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            font-size: 1.1em;
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 119, 182, 0.2);
+            border-color: var(--aquamarine);
         }
 
-        .title-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: scale(1.05);
-        }
-
-        /* --- RIGHT SIDE (Content) --- */
-        .right-side {
-            width: 70%;
-            padding: 30px;
-            background-color: #fff;
-            box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.1);
-            overflow-y: auto; /* Scrollable content */
-            height: 100vh; /* Make sure it fills the vertical space */
-        }
-
-        .right-side::-webkit-scrollbar { /* Hide scrollbar for Chrome, Safari and Opera */
-            display: none;
-        }
-
-        .right-side {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
-        }
-
-
-        /* --- CONTENT STYLING --- */
-        .content {
-            animation: fadeIn 0.5s ease;
-        }
-
-        h2 {
-            color: #E91E63;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-            border-bottom: 2px solid #E91E63;
-            padding-bottom: 5px;
-        }
-
-        h4 {
-            color: #9C27B0;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
-        p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: #555;
-        }
-
-        ul {
-            list-style-type: disc;
-            padding-left: 25px;
-            margin-bottom: 15px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        .combo-table {
+        .plan-card:hover::before {
             width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            border: 1px solid #ddd;
+            opacity: 0.1;
         }
 
-        .combo-table th, .combo-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--modern-blue);
+            margin-right: 20px;
+            width: 60px;
+            text-align: center;
+            transition: transform 0.3s;
         }
 
-        .combo-table th {
-            background-color: #f5f5f5;
-            font-weight: bold;
+        .plan-card:hover .card-icon {
+            transform: scale(1.2) rotate(10deg);
+            color: var(--ocean-blue);
+        }
+
+        .card-text h3 {
+            margin: 0 0 5px 0;
+            color: var(--ocean-blue);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .card-text p {
+            margin: 0;
+            font-size: 0.85rem;
             color: #666;
         }
 
-        .combo-table tr:nth-child(even) {
-            background-color: #f9f9f9;
+        /* --- 29th ITEM (FULL WIDTH) --- */
+        .full-width-item {
+            grid-column: 1 / -1; /* Spans across all columns */
+            margin-top: 10px;
+        }
+        
+        .full-width-item .plan-card {
+            background: linear-gradient(to right, #e0f7fa, #ffffff);
+            border: 2px solid var(--modern-blue);
+            justify-content: center;
+            text-align: center;
+            flex-direction: row;
         }
 
-        .combo-table tr:hover {
-            background-color: #eee;
+        /* --- HOME BUTTON --- */
+        .home-button-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
         }
 
-        h5 {
-            color: #009688;
-            margin-top: 20px;
-            margin-bottom: 10px;
+        .home-button-container a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--modern-blue), var(--aquamarine));
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            transition: transform 0.3s;
         }
-@media (max-width: 768px) {
-            .container {
-                flex-direction: column;
+
+        .home-button-container a:hover {
+            transform: scale(1.1) rotate(360deg);
+        }
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 768px) {
+            .plans-grid {
+                grid-template-columns: 1fr; /* 1 Column on Mobile */
             }
 
-            .left-side {
-                width: 100%;
-                height: 300px; /* Fixed height for title list on mobile */
-                position: relative; /* Remove sticky on mobile */
-                overflow-y: auto;
+            h1.main-title {
+                font-size: 1.8rem;
             }
 
-            .right-side {
-                width: 100%;
-                height: auto; /* Let content expand naturally */
-                overflow-y: visible;
+            .title-box-container {
+                padding: 15px 20px;
+            }
+            
+            .full-width-item .plan-card {
+                flex-direction: row; /* Keep icon side-by-side even on mobile */
+                text-align: left;
+                justify-content: flex-start;
             }
         }
-
-
-        /* --- More Dazzle (Optional) --- */
-        .flashing {
-            animation: flash 1s steps(5, start) infinite;
-        }
-
-        @keyframes flash {
-            to {
-                visibility: hidden;
-            }
-        }
-
-    .home-button-container {
-      position: fixed; /* This makes it float on top of other content */
-      top: 20px;       /* Position 20px from the top edge */
-      right: 25px;     /* Position 25px from the right edge */
-      z-index: 1000;   /* Ensures it's above other elements */
-    }
-
-    .home-button-container a img {
-      width: 50px; /* Adjust size as needed */
-      height: 50px;
-
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      transition: transform 0.2s;
-    }
-
-    .home-button-container a:hover img {
-      transform: scale(1.1); /* Slightly enlarge on hover */
-    }
-
-@media (max-width: 768px) {
-    /* 1. Reset Body: Allow vertical flow only */
-    body {
-        padding: 10px !important;
-        overflow-x: hidden !important;
-        width: 100vw !important;
-    }
-
-    /* 2. Fix Containers: Remove fixed widths (like 400px or 1200px) */
-    .container, .portal-container, .calc-wrapper, .input-panel, .panel, .container-gatekeeper {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 auto !important;
-        padding: 15px !important;
-        box-sizing: border-box !important;
-        border-radius: 10px !important;
-    }
-
-    /* 3. Scale Headers: Make titles fit on one line */
-    h1 {
-        font-size: 1.8rem !important;
-        line-height: 1.2 !important;
-        margin-bottom: 15px !important;
-    }
-    
-    .header p {
-        font-size: 11px !important;
-    }
-
-    /* 4. Force Single Column: Fix grids for mobile */
-    .plan-grid, .form-grid, .results-grid, .calc-wrapper, .split-screen, .form-grid-887 {
-        display: flex !important;
-        flex-direction: column !important;
-        grid-template-columns: 1fr !important;
-        gap: 15px !important;
-    }
-
-    /* 5. Android Input Fix: Big enough to tap, no auto-zoom */
-    input, select, textarea, button {
-        font-size: 16px !important; /* CRITICAL FOR ANDROID */
-        width: 100% !important;
-        height: auto !important;
-        padding: 12px !important;
-        box-sizing: border-box !important;
-    }
-
-    /* 6. Fix Card Images: Don't let images crush the layout */
-    .card-image {
-        height: 120px !important;
-    }
-    
-    .card-icon {
-        top: 80px !important;
-        width: 60px !important;
-        height: 60px !important;
-    }
-
-    /* 7. Results Section: Make tables and flexboxes stack */
-    .res-line, .result-item {
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        font-size: 14px !important;
-    }
-    
-    .total-val, .total-amt {
-        font-size: 24px !important;
-    }
-
-    /* 8. Home/Back Button: Move it to stay reachable but not in the way */
-    .home-button-container {
-        top: 10px !important;
-        right: 10px !important;
-    }
-    
-    .home-button-container img {
-        width: 35px !important;
-        height: 35px !important;
-    }
-}
-
-/* Smooth Tap Feedback for Touchscreens */
-button:active, .plan-card:active {
-    transform: scale(0.98);
-    filter: brightness(0.9);
-}
-
-
-
-
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="left-side">
-            <h2>LIC Plan Combinations</h2>
-            <div id="title-list">
-                <!-- Titles will be dynamically added here -->
-            </div>
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="title-box-container">
+            <h1 class="main-title">PLAN COMBINATIONS GUIDE</h1>
         </div>
-        <div class="right-side">
-            <div id="content-area">
-                <!-- Content will be dynamically added here -->
-                <h1> Welcome to LIC Plan Combinations. Explore the Dazzling Future of Your Investments! </h1>
-                <p> Click on a plan combination on the left to see its details!</p>
-            </div>
+        <div class="description">
+            <strong>What is a Plan Combination?</strong><br>
+            A Plan Combination is a strategic mix of different LIC policies tailored to meet specific financial goals. By blending plans with varying features (liquidity, high risk cover, guaranteed returns, or lifelong pension), these combinations act as a powerful tool to <strong>maximize your wealth</strong> while ensuring a <strong>comprehensive insurance shield</strong>. It's not just insurance; it's a financial fortress.
         </div>
     </div>
 
+    <!-- The Grid Container -->
+    <div class="container">
+        <div class="plans-grid">
+            
+            <!-- 1. All Rounder -->
+            <a href="combination_allrounder.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-medal card-icon"></i>
+                    <div class="card-text">
+                        <h3>The All-Rounder Portfolio</h3>
+                        <p>Balanced mix of liquidity & growth.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 2. Child Future -->
+            <a href="combination_child_future.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-child-reaching card-icon"></i>
+                    <div class="card-text">
+                        <h3>Ultimate Child's Future</h3>
+                        <p>Secure education & marriage goals.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 3. Double Wealth -->
+            <a href="combination_double_wealth.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-coins card-icon"></i>
+                    <div class="card-text">
+                        <h3>Double Wealth Strategy</h3>
+                        <p>Accelerated capital appreciation.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 4. Elite -->
+            <a href="combination_elite.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-gem card-icon"></i>
+                    <div class="card-text">
+                        <h3>Elite Wealth Plan</h3>
+                        <p>Exclusive benefits for high net-worth.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 5. Empowerment -->
+            <a href="combination_empowerment.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-person-dress card-icon"></i>
+                    <div class="card-text">
+                        <h3>Women's Empowerment</h3>
+                        <p>Financial independence for her.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 6. Family Security -->
+            <a href="combination_family_security.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-house-chimney-user card-icon"></i>
+                    <div class="card-text">
+                        <h3>Total Family Security</h3>
+                        <p>Complete umbrella for loved ones.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 7. Freedom -->
+            <a href="combination_freedom.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-dove card-icon"></i>
+                    <div class="card-text">
+                        <h3>Financial Freedom Plan</h3>
+                        <p>Live life on your own terms.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 8. Growth -->
+            <a href="combination_growth.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-chart-line card-icon"></i>
+                    <div class="card-text">
+                        <h3>High Growth Multiplier</h3>
+                        <p>Maximize returns over time.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 9. Growth Protection -->
+            <a href="combination_growth_protection.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-shield-halved card-icon"></i>
+                    <div class="card-text">
+                        <h3>Growth & Protection</h3>
+                        <p>Safety meets profitability.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 10. Guaranteed -->
+            <a href="combination_guaranteed.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-file-contract card-icon"></i>
+                    <div class="card-text">
+                        <h3>Guaranteed Returns</h3>
+                        <p>Fixed benefits, zero risk.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 11. High Value -->
+            <a href="combination_high_value.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-sack-dollar card-icon"></i>
+                    <div class="card-text">
+                        <h3>High Value Corpus</h3>
+                        <p>Building a massive financial reserve.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 12. Liability -->
+            <a href="combination_liability.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-hand-holding-dollar card-icon"></i>
+                    <div class="card-text">
+                        <h3>Liability Free Future</h3>
+                        <p>Cover loans and debts effectively.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 13. Life Shield -->
+            <a href="combination_life_shield.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-user-shield card-icon"></i>
+                    <div class="card-text">
+                        <h3>Ultimate Life Shield</h3>
+                        <p>Maximum life cover protection.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 14. Liquid Cash -->
+            <a href="combination_liquid_cash.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-money-bill-wave card-icon"></i>
+                    <div class="card-text">
+                        <h3>Liquid Cash Flow</h3>
+                        <p>Money available when you need it.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 15. Liquidity -->
+            <a href="combination_liquidity.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-glass-water card-icon"></i>
+                    <div class="card-text">
+                        <h3>Liquidity & Asset</h3>
+                        <p>Flexible funds with asset creation.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 16. Magic -->
+            <a href="combination_magic.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-wand-magic-sparkles card-icon"></i>
+                    <div class="card-text">
+                        <h3>The Magic Combination</h3>
+                        <p>Unique blend of benefits.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 17. Micro -->
+            <a href="combination_micro.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-piggy-bank card-icon"></i>
+                    <div class="card-text">
+                        <h3>Micro Savings Shield</h3>
+                        <p>Small savings, big impact.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 18. Pension -->
+            <a href="combination_pension.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-rocking-chair card-icon"></i>
+                    <div class="card-text">
+                        <h3>Golden Years Pension</h3>
+                        <p>Secure income for retirement.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 19. Protection -->
+            <a href="combination_protection.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-umbrella card-icon"></i>
+                    <div class="card-text">
+                        <h3>Pure Protection Plus</h3>
+                        <p>Comprehensive risk coverage.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 20. Secure -->
+            <a href="combination_secure.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-lock card-icon"></i>
+                    <div class="card-text">
+                        <h3>Secured Future Plan</h3>
+                        <p>Lock in your financial safety.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 21. Smart Student -->
+            <a href="combination_smart_student.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-graduation-cap card-icon"></i>
+                    <div class="card-text">
+                        <h3>Smart Student Plan</h3>
+                        <p>Funding higher education dreams.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 22. Stability -->
+            <a href="combination_stability.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-scale-balanced card-icon"></i>
+                    <div class="card-text">
+                        <h3>Financial Stability</h3>
+                        <p>Steady growth, zero volatility.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 23. Trinity -->
+            <a href="combination_trinity.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-triangle-exclamation card-icon"></i>
+                    <div class="card-text">
+                        <h3>The Wealth Trinity</h3>
+                        <p>Three-way benefit structure.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 24. Ultimate -->
+            <a href="combination_ultimate.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-crown card-icon"></i>
+                    <div class="card-text">
+                        <h3>The Ultimate Combo</h3>
+                        <p>The best of everything in one.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 25. Wealth Generator -->
+            <a href="combination_wealth_generator.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-seedling card-icon"></i>
+                    <div class="card-text">
+                        <h3>Wealth Generator</h3>
+                        <p>Planting seeds for massive returns.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 26. Wealth Plus -->
+            <a href="combination_wealth_plus.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-plus-circle card-icon"></i>
+                    <div class="card-text">
+                        <h3>Wealth Plus Benefit</h3>
+                        <p>Added advantages on savings.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 27. Elite Legacy -->
+            <a href="combination_elite_legacy.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-landmark card-icon"></i>
+                    <div class="card-text">
+                        <h3>Elite Legacy Plan</h3>
+                        <p>Leave a mark for generations.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 28. Shield -->
+            <a href="combination_shield.html" class="plan-link">
+                <div class="plan-card">
+                    <i class="fa-solid fa-shield-cat card-icon"></i>
+                    <div class="card-text">
+                        <h3>Comprehensive Shield</h3>
+                        <p>All-round defense against risk.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- 29. Smart (Full Width) -->
+            <a href="combination_smart.html" class="plan-link full-width-item">
+                <div class="plan-card">
+                    <i class="fa-solid fa-lightbulb card-icon" style="color: #f59e0b;"></i>
+                    <div class="card-text">
+                        <h3>Smart Investment Mix</h3>
+                        <p>The intelligent choice for modern investors.</p>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- Home Button -->
+    <div class="home-button-container">
+      <a href="index.html" title="Go to Home">
+        <i class="fa-solid fa-house"></i>
+      </a>
+    </div>
+
+    <!-- PWA Service Worker Registration -->
     <script>
-        const planData = {
-            childFuture: { title: "The Ultimate Child's Future Plan (Education & Marriage)", html: `<p>This combination is designed to provide funds for a child's key milestones, like higher education and marriage, while ensuring the plan continues even if the parent is no longer around.</p><h4>Financial Goal:</h4><p>To create a guaranteed corpus for a child's future and ensure financial support for the family in case of the parent's untimely demise.</p><h4>Plan Combination:</h4><ul><li><strong>Jeevan Lakshya (Plan 733):</strong> The core of the plan. It's an endowment plan with a unique death benefit.</li><li><strong>Jeevan Tarun (Plan 734):</strong> A specialized children's money-back plan to provide staggered funds during college years.</li></ul><h4>How It Works:</h4><p>Jeevan Lakshya acts as the main funding vehicle and safety net. If the parent passes away, future premiums are waived, the family receives an annual payout (10% of Sum Assured) until the maturity date, and the nominee still receives the full maturity amount at the end of the term. Jeevan Tarun is timed to provide money-back payments during the crucial college years (ages 20-24) to handle fees and other expenses.</p><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Kumar, age 30. | <strong>Child:</strong> A 1-year-old daughter. | <strong>Goal:</strong> Funds for her graduation (age 20-24) and a lump sum for her Master's/Marriage (age 25).</p><table class="combo-table"><tr><th>Plan Details</th><th>Jeevan Lakshya (733)</th><th>Jeevan Tarun (734)</th></tr><tr><td>Parent's Age</td><td>30</td><td>30</td></tr><tr><td>Child's Age</td><td>1</td><td>1</td></tr><tr><td>Policy Term</td><td>24 Years (Matures when child is 25)</td><td>24 Years (Matures when child is 25)</td></tr><tr><td>Premium Paying Term</td><td>21 Years</td><td>19 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹20,00,000</td><td>₹10,00,000 (with Option 4)</td></tr></table><h5>Scenario 1: Mr. Kumar Survives the Term</h5><ul><li><strong>During College (Child's age 20-24):</strong> From the Jeevan Tarun policy, the family receives ₹1,50,000 (15% of ₹10 Lakh SA) every year for 5 years.</li><li><strong>At Maturity (Child's age 25):</strong><ul><li>From Jeevan Lakshya: Approx. ₹41,60,000 (₹20L SA + Vested Bonus + FAB).</li><li>From Jeevan Tarun: Approx. ₹5,00,000 (25% of ₹10L SA + Vested Bonus + FAB).</li><li>Total Maturity Corpus at Age 25: <strong>~ ₹46.6 Lakhs</strong></li></ul></li></ul><h5>Scenario 2: Mr. Kumar passes away after 5 years</h5><ul><li>Immediate Benefit: The family receives the death benefit from both plans.</li><li><strong>Jeevan Lakshya's Magic:</strong><ul><li>All future premiums are waived.</li><li>The family starts receiving ₹2,00,000 every year (10% of SA) until the policy matures.</li><li>At the original maturity date (when the child turns 25), the nominee receives the full maturity amount of <strong>~ ₹41.6 Lakhs</strong>.</li></ul></li><li>Jeevan Tarun: The death benefit is paid out, providing immediate liquidity.</li></ul><p><strong>Key Advantage:</strong> This combination provides unparalleled security. The child's future is financially secured no matter what.</p>` },
-            pensionLegacy: { title: "The Ultimate Tax-Free Pension & Legacy Plan", html: `<p>This combination is for professionals who want to create a guaranteed, tax-free income stream for life post-retirement, and leave a massive legacy for their family.</p><h4>Plan Combination:</h4><ul><li>Jeevan Umang (Plan 745): The pension engine.</li><li>Jeevan Labh (Plan 736): The retirement booster.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Ms. Gupta, age 40. | <strong>Goal:</strong> Retire at 60 with a large corpus and a lifelong income.</p><table class="combo-table"><tr><th>Plan Details</th><th>Jeevan Umang (745)</th><th>Jeevan Labh (Plan 736)</th></tr><tr><td>Client's Age</td><td>40</td><td>40</td></tr><tr><td>Policy Term</td><td>60 Years (100 - 40)</td><td>20 Years (Matures at age 60)</td></tr><tr><td>Premium Paying Term</td><td>20 Years (Stops at age 60)</td><td>15 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹25,00,000</td><td>₹20,00,000</td></tr></table><h5>Scenario: Ms. Gupta at age 60</h5><ul><li><strong>Lump Sum Boost:</strong> The Jeevan Labh policy matures. She receives approximately ₹42,00,000 tax-free.</li><li><strong>Pension Starts:</strong> The Jeevan Umang policy starts paying her ₹2,00,000 every year, tax-free and guaranteed for life.</li><li><strong>Legacy:</strong> When Ms. Gupta passes away (at any age after 60), her nominee will receive a massive death benefit from the Jeevan Umang policy, which could be well over ₹1 Crore.</li></ul><p><strong>Key Advantage:</strong> This combination creates a perfect retirement solution: a large lump sum for immediate needs and a worry-free, guaranteed income stream for life, all while creating a huge tax-free estate for her children.</p>` },
-            crorepati: { title: 'The "Crorepati" Plan (Maximum Protection + High Savings)', html: `<p>This combination is ideal for young earners who want maximum life cover for their family at a low cost, while aggressively saving for long-term wealth creation.</p><h4>Plan Combination:</h4><ul><li>New Jeevan Amar (Plan 955): A pure term insurance plan.</li><li>Jeevan Labh (Plan 736): A high-bonus-earning endowment plan.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Singh, age 25. | <strong>Goal:</strong> Secure his family with a ₹1 Crore cover and build wealth for his future.</p><table class="combo-table"><tr><th>Plan Details</th><th>New Jeevan Amar (955)</th><th>Jeevan Labh (Plan 736)</th></tr><tr><td>Client's Age</td><td>25</td><td>25</td></tr><tr><td>Policy Term</td><td>35 Years (Cover till age 60)</td><td>25 Years (Matures at age 50)</td></tr><tr><td>Premium Paying Term</td><td>35 Years (Regular Pay)</td><td>16 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹1,00,00,000</td><td>₹25,00,000</td></tr></table><h5>Scenario 1: Mr. Singh Survives the Term</h5><p>At Age 50: His Jeevan Labh policy matures. He receives a huge tax-free corpus of approximately <strong>₹66,00,000</strong>. His New Jeevan Amar policy continues to provide the ₹1 Crore risk cover until he turns 60.</p><h5>Scenario 2: Mr. Singh passes away during the policy term (e.g., at age 40)</h5><p>His nominee receives: ₹1,00,00,000 tax-free from New Jeevan Amar, and the death benefit from Jeevan Labh (approx. ₹40,00,000+). Total Payout to Family: <strong>~ ₹1.4 Crore</strong>.</p>` },
-            hniPower: { title: "The HNI's Legacy & Liquidity Powerhouse", html: `<p>This is a premium combination designed for High Net-worth Individuals (HNIs) who want guaranteed periodic cash flows for lifestyle or business needs, coupled with a massive legacy creation for the next generation.</p><h4>Plan Combination:</h4><ul><li>Bima Shree (Plan 748): The HNI money-back engine.</li><li>New Jeevan Amar (Plan 955): The low-cost legacy multiplier.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Sharma, age 40. | <strong>Goal:</strong> Receive large payouts at age 56 and 58, and leave a legacy of over ₹3 Crores.</p><table class="combo-table"><tr><th>Plan Details</th><th>Bima Shree (748)</th><th>New Jeevan Amar (955)</th></tr><tr><td>Client's Age</td><td>40</td><td>40</td></tr><tr><td>Policy Term</td><td>20 Years (Matures at age 60)</td><td>30 Years (Cover till age 70)</td></tr><tr><td>Premium Paying Term</td><td>16 Years</td><td>30 Years (Regular Pay)</td></tr><tr><td>Basic Sum Assured</td><td>₹50,00,000</td><td>₹2,50,00,000 (₹2.5 Crore)</td></tr></table><h5>Scenario 1: Mr. Sharma Survives</h5><ul><li>At Age 56 & 58: He receives Survival Benefits of <strong>₹22,50,000</strong> each, tax-free.</li><li>At Age 60: Bima Shree matures for approx. <strong>₹45,00,000</strong>.</li></ul><h5>Scenario 2: Mr. Sharma passes away at age 50</h5><p>Total Legacy Left for Family: <strong>~ ₹3.4 Crores</strong> (₹2.5 Cr from Jeevan Amar + ~₹90 Lakhs from Bima Shree).</p>`},
-            milestone: { title: 'The "Guaranteed Milestones" Ladder', html: `<p>This combination is perfect for the meticulous planner who wants absolute certainty. It uses plans with guaranteed additions to create a "ladder" of payouts, timed perfectly to fund specific, non-negotiable life goals.</p><h4>Plan Combination:</h4><ul><li>Bima Jyoti (Plan 760) - Policy 1</li><li>Bima Jyoti (Plan 760) - Policy 2</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Ms. Desai, age 30. | <strong>Goals:</strong> ~₹10L at age 45, ~₹20L at age 50.</p><table class="combo-table"><tr><th>Plan Details</th><th>Bima Jyoti (Policy 1)</th><th>Bima Jyoti (Policy 2)</th></tr><tr><td>Client's Age</td><td>30</td><td>30</td></tr><tr><td>Policy Term</td><td>15 Years</td><td>20 Years</td></tr><tr><td>Premium Paying Term</td><td>10 Years</td><td>15 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹6,00,000</td><td>₹10,00,000</td></tr></table><h5>Payouts:</h5><ul><li>At Age 45 (Policy 1 Matures): Receives a guaranteed payout of <strong>₹10,50,000</strong>.</li><li>At Age 50 (Policy 2 Matures): Receives a guaranteed payout of <strong>₹20,00,000</strong>.</li></ul>`},
-            growthGratification: { title: "The Young Professional's 'Growth & Gratification' Plan", html: `<p>This is designed for young earners in their 20s. It balances the need for long-term wealth creation with the desire for periodic gratification.</p><h4>Plan Combination:</h4><ul><li>25 Year Money Back (Plan 721): The "Gratification" plan.</li><li>New Endowment (Plan 714): The "Growth" plan.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Rao, age 25. | <strong>Goal:</strong> Get regular payouts and build a large corpus by age 55.</p><table class="combo-table"><tr><th>Plan Details</th><th>25 Year Money Back (721)</th><th>New Endowment (714)</th></tr><tr><td>Client's Age</td><td>25</td><td>25</td></tr><tr><td>Policy Term</td><td>25 Years</td><td>30 Years</td></tr><tr><td>Premium Paying Term</td><td>20 Years</td><td>30 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹10,00,000</td><td>₹20,00,000</td></tr></table><h5>Cash Flows:</h5><p>Receives <strong>₹1,50,000</strong> at ages 30, 35, 40, and 45. Receives maturity of ~<strong>₹11,00,000</strong> at age 50 from the Money Back plan. Receives a final large maturity of ~<strong>₹58,00,000</strong> at age 55 from the Endowment plan.</p>`},
-            tripleIncome: { title: "The 'Triple-Action' Income & Corpus Combination", html: `<p>This solution is built with three distinct policies, purchased at the same time, each performing a unique role.</p><h4>Plan Combination:</h4><ul><li>Immediate Pension: Jeevan Akshay VII (Plan 857)</li><li>Periodic Survival Benefits: 25 Year Money Back (Plan 721)</li><li>Single Premium Lump Sum: Single Premium Endowment (Plan 717)</li></ul><h4>Illustrative Example:</h4><p>Let's assume the client is Mr. Roy, age 40.</p><table class="combo-table"><tr><th>Component</th><th>Plan Name</th><th>Role</th><th>Premium</th></tr><tr><td>Policy 1</td><td>Jeevan Akshay VII (857)</td><td>Provides immediate, guaranteed pension for 20 years.</td><td>Single Premium (One-time)</td></tr><tr><td>Policy 2</td><td>25 Year Money Back (721)</td><td>Provides survival benefits every 5 years.</td><td>Limited Premium (Pay for 20 years)</td></tr><tr><td>Policy 3</td><td>Single Premium Endowment (717)</td><td>Builds a large, single lump sum corpus.</td><td>Single Premium (One-time)</td></tr></table><h5>Timeline of Your Cash Flows:</h5><p><strong>Phase 1 (Years 1 to 20):</strong> Receives an annual pension from Policy 1, plus large lump sums every 5 years from Policy 2.</p><p><strong>Phase 2 (Year 25):</strong> The two long-term plans mature together, delivering a massive lump sum.</p>`},
-            lifelongSecurity: { title: "Daughter's Lifelong Financial Security", html: `<p>A powerful three-policy combination to provide for a daughter's education, marriage, and lifelong financial independence.</p><h4>Plan Combination:</h4><ul><li>Jeevan Tarun (Plan 734): The Education Fund.</li><li>Jeevan Lakshya (Plan 733): The Marriage Corpus & Safety Net.</li><li>Jeevan Umang (Plan 745): The Lifelong Pension.</li></ul><h4>Illustrative Example:</h4><p>Client: Mr. Gupta, age 30. Daughter: Anjali, age 1.</p><table class="combo-table"><tr><th>Role</th><th>Plan Name</th><th>Life Assured</th><th>Sum Assured</th></tr><tr><td>Education Fund</td><td>Jeevan Tarun (734)</td><td>Daughter</td><td>₹15,00,000</td></tr><tr><td>Marriage Corpus</td><td>Jeevan Lakshya (Plan 733)</td><td>Parent</td><td>₹25,00,000</td></tr><tr><td>Lifelong Pension</td><td>Jeevan Umang (745)</td><td>Daughter</td><td>₹10,00,000</td></tr></table><h5>Benefits for Anjali:</h5><ul><li><strong>Age 20-24:</strong> Receives <strong>₹2,25,000</strong> every year for college.</li><li><strong>Age 25:</strong> Receives a massive lump sum of ~<strong>₹53,00,000</strong> for marriage/settlement.</li><li><strong>From Age 31 For Life:</strong> Receives a guaranteed, tax-free pension of <strong>₹80,000</strong> every year.</li></ul><p><strong>Key Advantage:</strong> The Jeevan Lakshya plan ensures all goals are met even if the parent passes away prematurely. The plan is self-completing.</p>` },
-            futureSecureChild: { title: "Secure Your Child's Future with Guaranteed Payouts", html: `<p>This combination aims to provide guaranteed payouts at key stages of a child's life, along with a life cover for added security.</p><h4>Plan Combination:</h4><ul><li><strong>Children's Money Back Plan (732):</strong> For payouts at ages 18, 20, and 22, with maturity at age 25.</li><li><strong>Jeevan Azad (768):</strong> Limited premium endowment for guaranteed maturity benefit.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Sharma, age 35. | <strong>Child:</strong> 2 years old. | <strong>Goal:</strong> Secure payouts for education and marriage.</p><table class="combo-table"><tr><th>Plan Details</th><th>Children's Money Back (732)</th><th>Jeevan Azad (768)</th></tr><tr><td>Child's Age</td><td>2</td><td>2</td></tr><tr><td>Policy Term</td><td>23 years (Matures at 25)</td><td>16 years (Limited premium)</td></tr><tr><td>Premium Paying Term</td><td>Regular (until child is 25)</td><td>8 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹5,00,000</td><td>₹3,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Child receives 20% of ₹5 Lakh at ages 18, 20, and 22, and 40% + bonuses at age 25 from the Money Back plan.</li><li>Jeevan Azad matures, providing a lump sum.</li></ul><p><strong>Key Advantage:</strong> Combines regular payouts with a guaranteed lump sum, providing comprehensive financial security for the child's future.</p>` },
-            assuredIncomeandProtection: { title: "Assured Income and Whole Life Protection Combination", html: `<p>This combination focuses on providing a steady income stream along with whole life insurance cover for long-term financial security.</p><h4>Plan Combination:</h4><ul><li><strong>20 Year Money Back Plan (720):</strong> Provides payouts every 5 years and maturity benefit.</li><li><strong>Jeevan Anand (715):</strong> Whole life insurance with lump sum at the end of the term and life cover thereafter.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Verma, age 35. | <strong>Goal:</strong> Regular income and life cover for his family.</p><table class="combo-table"><tr><th>Plan Details</th><th>20 Year Money Back (720)</th><th>Jeevan Anand (715)</th></tr><tr><td>Client's Age</td><td>35</td><td>35</td></tr><tr><td>Policy Term</td><td>20 Years</td><td>35 Years</td></tr><tr><td>Premium Paying Term</td><td>15 Years</td><td>35 Years</td></tr><tr><td>Basic Sum Assured</td><td>₹5,00,000</td><td>₹5,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Mr. Verma receives 20% of Sum Assured every 5 years from Money Back, and maturity bonus at the end of 20 years.</li><li>Life cover continues for the whole life and bonus payment to family member after death of policy holder.</li></ul><p><strong>Key Advantage:</strong> Creates a consistent income stream while providing lifelong insurance protection.</p>` },
-            microSavingsandProtection: { title: "Micro Savings with Life Protection for Low-Income Groups", html: `<p>This combination offers small savings opportunities with essential life cover, suitable for individuals with limited incomes.</p><h4>Plan Combination:</h4><ul><li><strong>Micro Bachat (751):</strong> Provides a lump sum on maturity and life cover.</li><li><strong>Saral Jeevan Bima (859):</strong> Pure term insurance for additional life cover at a low cost.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Das, age 30. | <strong>Goal:</strong> Affordable savings and life insurance for his family.</p><table class="combo-table"><tr><th>Plan Details</th><th>Micro Bachat (751)</th><th>Saral Jeevan Bima (859)</th></tr><tr><td>Client's Age</td><td>30</td><td>30</td></tr><tr><td>Policy Term</td><td>15 Years</td><td>30 Years</td></tr><tr><td>Premium Paying Term</td><td>Regular (15 Years)</td><td>Regular (30 Years)</td></tr><tr><td>Basic Sum Assured</td><td>₹2,00,000</td><td>₹5,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Mr. Das saves through Micro Bachat, receiving a lump sum at maturity.</li><li>Saral Jeevan Bima provides an additional life cover of ₹5 Lakh at an affordable premium.</li></ul><p><strong>Key Advantage:</strong> Combines savings and insurance in an accessible and affordable way.</p>` },
-            guaranteedIncomeandLifetimeCover: { title: "Guaranteed Income and Lifetime Cover: A Secure Future", html: `<p>This combination aims to provide guaranteed regular income after a certain age, combined with the security of lifelong insurance coverage.</p><h4>Plan Combination:</h4><ul><li><strong>Jeevan Utsav (771):</strong> Guaranteed additions, survival benefits, and lifelong cover.</li><li><strong>Saral Pension (862):</strong> Immediate annuity plan providing regular income.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. Nair, age 55. | <strong>Goal:</strong> A guaranteed income stream and life cover for his spouse.</p><table class="combo-table"><tr><th>Plan Details</th><th>Jeevan Utsav (771)</th><th>Saral Pension (862)</th></tr><tr><td>Client's Age</td><td>55</td><td>55</td></tr><tr><td>Policy Term</td><td>Whole Life</td><td>Immediate Annuity</td></tr><tr><td>Premium Paying Term</td><td>10 Years</td><td>Single Premium</td></tr><tr><td>Basic Sum Assured</td><td>₹5,00,000</td><td>N/A</td></tr><tr><td>Purchase Price</td><td>N/A</td><td>₹10,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Mr. Nair receives a guaranteed income from Saral Pension immediately.</li><li>Jeevan Utsav provides life cover, guaranteed additions, and survival benefits (after a certain age), offering double benefit.</li></ul><p><strong>Key Advantage:</strong> Guaranteed income combined with life cover provides security. The income and additions can continue throughout policy term.</p>` },
-            childFuturePlanner: { title: "A Comprehensive Plan for Your Child's Future", html: `<p>A well tailored plan to protect your child future by guaranteeing savings and insurance</p><h4>Plan Combination:</h4><ul><li><strong>Amritbaal (774):</strong> Long Term savings for the family.</li><li><strong>Yuva Credit Life (877):</strong> Protection during the loan period.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. and Mrs. Iyer, age 35. | <strong>Child:</strong> Newborn. | <strong>Goal:</strong>  Savings for the future and protection from Debt.</p><table class="combo-table"><tr><th>Plan Details</th><th>Amritbaal (774)</th><th>Yuva Credit Life (877)</th></tr><tr><td>Client's Age</td><td>35</td><td>35</td></tr><tr><td>Investment Amount</td><td>₹8,00,000</td><td>₹2,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Savings for a safe future for your child.</li><li>Life protection from Debt.</li></ul><p><strong>Key Advantage:</strong> Provides life coverage and helps in savings.</p>` },
-            secureLoanSolution: { title: "A plan designed for safety from debt", html: `<p>Provides guarantee from Loan and provides a safety net in case of death</p><h4>Plan Combination:</h4><ul><li><strong>Yuva Credit Life (877):</strong> Protection from Debt.</li><li><strong>Saral Jeevan Bima (859):</strong> protection and savings</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. and Mrs. Patel, age 44. | <strong>Child:</strong> Newborn. | <strong>Goal:</strong>  Security from debt and life protection.</p><table class="combo-table"><tr><th>Plan Details</th><th>Yuva Credit Life (877)</th><th>Saral Jeevan Bima (859)</th></tr><tr><td>Client's Age</td><td>44</td><td>44</td></tr><tr><td>Investment Amount</td><td>₹8,00,000</td><td>₹2,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Protection from Debt.</li><li>A safety net from savings and insurance for family.</li></ul><p><strong>Key Advantage:</strong> Provides guarantee from Loan and provides a safety net in case of death.</p>` },
-            wealthPlusSavings: { title: "A combination to generate wealth", html: `<p>Designed to help with wealth generation and increase savings through investments</p><h4>Plan Combination:</h4><ul><li><strong>Nav Jeevan Shree Single Premium (911):</strong> Savings and investments.</li><li><strong>Yuva Term (875):</strong> Life insurance</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. and Mrs. Kapoor, age 44. | <strong>Child:</strong> Newborn. | <strong>Goal:</strong>  Wealth Generation and protection.</p><table class="combo-table"><tr><th>Plan Details</th><th>Nav Jeevan Shree Single Premium (911)</th><th>Yuva Term (875)</th></tr><tr><td>Client's Age</td><td>44</td><td>44</td></tr><tr><td>Investment Amount</td><td>₹9,00,000</td><td>₹1,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Wealth Generation from secure sources.</li><li>Safeguard you from any risk.</li></ul><p><strong>Key Advantage:</strong> Provides with savings for investments and life insurance cover for savings.</p>` },
-             SecureFutureCombination: { title: "A smart way to secure your future", html: `<p>Providing guarantee with savings and added benefits.</p><h4>Plan Combination:</h4><ul><li><strong>Bima Ratna (764):</strong> Returns with MoneyBack benefits.</li><li><strong>Nav Jeevan Shree (912):</strong> Savings and returns.</li></ul><h4>Illustrative Example:</h4><p><strong>Client:</strong> Mr. and Mrs. Kapoor, age 40. | <strong>Child:</strong> Newborn. | <strong>Goal:</strong> Guarantees savings and money returns.</p><table class="combo-table"><tr><th>Plan Details</th><th>Bima Ratna (764)</th><th>Nav Jeevan Shree (912)</th></tr><tr><td>Client's Age</td><td>40</td><td>40</td></tr><tr><td>Investment Amount</td><td>₹6,00,000</td><td>₹4,00,000</td></tr></table><h5>Scenario:</h5><ul><li>Money returns at Maturity.</li><li>Savings for secure plan.</li></ul><p><strong>Key Advantage:</strong> Provides Money Back benefits with added savings.</p>` },
-goldenStepUp: { 
-                title: "The Golden Years 'Step-Up' Pension", 
-                html: `<p>Ideal for retirees or those with a lump sum who want immediate income that actually increases as they get older to fight inflation.</p>
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>Jeevan Akshay VII (Plan 857):</strong> Provides immediate, guaranteed pension.</li>
-                    <li><strong>Jeevan Utsav Single Premium (Plan 883):</strong> The secondary delayed income engine.</li>
-                </ul>
-                <h4>How It Works:</h4>
-                <p>The investor pays a one-time premium into both plans. Plan 857 starts a monthly pension from next month. Meanwhile, Plan 883 accumulates Guaranteed Additions (₹40/1000) for 10 years. From the 11th year, Plan 883 starts its 10% annual payout, effectively 'stepping up' the total monthly income right when medical or lifestyle costs might increase.</p>
-                <table class="combo-table">
-                    <tr><th>Phase</th><th>Income Source</th><th>Benefit</th></tr>
-                    <tr><td>Year 1 - 10</td><td>Plan 857</td><td>Immediate Regular Pension</td></tr>
-                    <tr><td>Year 11 Onwards</td><td>Plan 857 + 883</td><td>Doubled/Increased Income</td></tr>
-                    <tr><td>Maturity/Death</td><td>Plan 883</td><td>Full Sum Assured + GA to Heirs</td></tr>
-                </table>
-                <p><strong>Key Advantage:</strong> Combines the liquidity of an immediate annuity with the high-yield growth of a whole-life savings plan.</p>` 
-            },
-            royalEstateShield: { 
-                title: "The Royal Estate & Legacy Shield", 
-                html: `<p>Specifically designed for Business Owners and HNIs who want to secure a massive inheritance for their children while enjoying a high-yield lifestyle income.</p>
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>Bima Kavach (Plan 887):</strong> High-value pure protection (Min ₹2 Cr).</li>
-                    <li><strong>Jeevan Utsav Single Premium (Plan 883):</strong> Guaranteed lifetime yield engine.</li>
-                </ul>
-                <h4>The Strategy:</h4>
-                <p>A single investment creates a dual-layered estate. Plan 887 provides a massive, immediate cover of ₹2 Crore+ (with an Increasing SA option). Plan 883 acts as a high-yield 'Debt Fund' alternative, providing 10% of the Sum Assured every year, tax-free under current laws. It ensures the family standard of living never drops, even if the parent is not around.</p>
-                <p><strong>Key Advantage:</strong> Most cost-effective way to create a multi-crore legacy with a one-time payment, offering a better internal rate of return than traditional bank FDs or Bonds.</p>` 
-            },
-marketAnand: { 
-                title: "The 'Infinite Wealth & Legacy' Forever Bridge", 
-                html: `<p><strong>Highlight: Invest approx. ₹550/day and get a Projected ₹85 Lakhs at Age 50 + A Permanent ₹20 Lakhs Family Security that never expires!</strong></p>
-                <p>This is for the person who wants to play the stock market for high returns but doesn't want to leave their family's future to the whims of the market. It bridges aggressive market growth with a lifelong "forever" cover.</p>
-                
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>Endowment Plus (Plan 735):</strong> The Market Engine (ULIP) designed for high wealth creation.</li>
-                    <li><strong>New Jeevan Anand (Plan 715):</strong> The Security Anchor providing life cover even after the policy matures.</li>
-                </ul>
-
-                <h4>How It Works:</h4>
-                <p>You split your investment. One half goes into the stock market (Plan 735) to fight inflation and build a massive corpus. The other half goes into a traditional bonus-earning plan (Plan 715). When you turn 50, you take the big lump sum. However, unlike other plans where the insurance ends, Plan 715 keeps a ₹20 Lakh cover active for the rest of your life for FREE.</p>
-
-                <h4>Illustrative Example:</h4>
-                <p><strong>Client:</strong> Age 30 | <strong>Term:</strong> 20 Years | <strong>Daily Saving:</strong> ~₹550</p>
-                <table class="combo-table">
-                    <tr><th>Plan Details</th><th>Endowment Plus (735)</th><th>Jeevan Anand (715)</th></tr>
-                    <tr><td>Annual Premium</td><td>₹1,00,000</td><td>₹1,00,000</td></tr>
-                    <tr><td>Basic Sum Assured</td><td>₹10,00,000</td><td>₹20,00,000</td></tr>
-                    <tr><td>Market Exposure</td><td>High (Equity Fund)</td><td>Zero (Guaranteed Bonus)</td></tr>
-                </table>
-
-                <h5>Scenario 1: Survival till Maturity (Age 50)</h5>
-                <ul>
-                    <li><strong>From 735 (ULIP):</strong> Approx. <strong>₹45,00,000</strong> (Assumed 12% market growth).</li>
-                    <li><strong>From 715 (Trad):</strong> Approx. <strong>₹40,80,000</strong> (SA + Vested Bonus + FAB).</li>
-                    <li><strong>Total Lumpsum to enjoy: ~₹85.80 Lakhs.</strong></li>
-                    <li><strong>The Legacy Benefit:</strong> After taking ₹85 Lakhs, a <strong>₹20,00,000</strong> life cover continues for life. When the client passes away at age 85, the family gets another ₹20 Lakhs tax-free.</li>
-                </ul>
-
-                <h5>Scenario 2: Unfortunate death in Year 10</h5>
-                <ul>
-                    <li>Family gets ₹20 Lakhs (715 SA) + ₹10 Lakhs (735 SA) + Accrued Bonuses + 735 Fund Value.</li>
-                    <li><strong>Total Payout: ~₹48 Lakhs+</strong> (Immediate financial support).</li>
-                </ul>
-                <p><strong>Key Advantage:</strong> This is the only combo where you can "Eat your cake and have it too"—take the full maturity and still keep the insurance cover alive forever.</p>` 
-            },
-
-            fortuneVault: { 
-                title: "The 'Fortune Vault' (Single Premium Growth + Safety Anchor)", 
-                html: `<p><strong>Highlight: Invest ₹10 Lakhs Once, and get a Projected ₹1 Crore tax-free maturity!</strong></p>
-                <p>Designed for individuals with a lump sum (from property, bonus, or inheritance) who want a "Capital Protector" strategy. This ensures your initial investment is protected by a traditional guarantee while the market multiplies your wealth.</p>
-                
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>Nivesh Plus (Plan 749):</strong> Single Premium High-Growth ULIP (The Wealth Multiplier).</li>
-                    <li><strong>Jeevan Labh (Plan 736):</strong> High-Bonus Limited Pay Plan (The Safety Anchor).</li>
-                </ul>
-
-                <h4>How It Works:</h4>
-                <p>You invest a large sum once into Nivesh Plus. Simultaneously, you start a small limited-pay policy (Jeevan Labh). The Jeevan Labh plan is timed so that its maturity value covers your total cost of investment, making the entire massive growth of the ULIP your "pure profit."</p>
-
-                <h4>Illustrative Example:</h4>
-                <p><strong>Lumpsum:</strong> ₹10,00,000 in Plan 749 | <strong>Annual:</strong> ₹1,00,000 for 10 years in Plan 736.</p>
-                <table class="combo-table">
-                    <tr><th>Plan Details</th><th>Nivesh Plus (749)</th><th>Jeevan Labh (736)</th></tr>
-                    <tr><td>Investment</td><td>₹10,00,000 (Once)</td><td>₹1,00,000 (10 Years)</td></tr>
-                    <tr><td>Policy Term</td><td>25 Years</td><td>16 Years</td></tr>
-                    <tr><td>Sum Assured</td><td>₹12,50,000</td><td>₹20,00,000</td></tr>
-                </table>
-
-                <h5>The Wealth Timeline:</h5>
-                <ul>
-                    <li><strong>At Year 16:</strong> Plan 736 matures. You receive approx. <strong>₹20,00,000</strong>. (You have recovered your total investment of 10L+10L).</li>
-                    <li><strong>At Year 25:</strong> Plan 749 (ULIP) matures. At 12% growth, your ₹10L has grown to approx. <strong>₹80,00,000</strong>.</li>
-                    <li><strong>Total Wealth Created: ~₹1 Crore.</strong></li>
-                </ul>
-                <p><strong>Key Advantage:</strong> This strategy effectively makes your stock market investment "Risk-Free" because the Traditional plan is guaranteed to pay back your total principal.</p>` 
-            },
-
-            ivyLeagueArchitect: { 
-                title: "The 'Ivy League' Child Education Architect", 
-                html: `<p><strong>Highlight: Save ₹500/day and ensure a ₹1 Crore Education Fund for your child, no matter what happens to you.</strong></p>
-                <p>For parents who want the absolute best. This combo provides the high speed of a ULIP to beat education inflation, but adds a "Self-Completing" guarantee that ensures the dream never dies.</p>
-                
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>SIIP (Plan 752):</strong> A low-cost Systematic Investment Plan with 100% mortality charge refund.</li>
-                    <li><strong>Jeevan Lakshya (Plan 733):</strong> The "Kanyadan/Education" plan that pays annual income on death.</li>
-                </ul>
-
-                <h4>How It Works:</h4>
-                <p>SIIP builds the aggressive corpus through monthly market investing. Jeevan Lakshya provides the safety net: if the parent is not there, LIC pays 10% of the SA every year to the child for fees and waives all future premiums for both plans.</p>
-
-                <h4>Illustrative Example:</h4>
-                <p><strong>Client:</strong> Age 30 | <strong>Child:</strong> Newborn | <strong>Total Monthly:</strong> ~₹15,000</p>
-                <table class="combo-table">
-                    <tr><th>Plan Details</th><th>SIIP (752)</th><th>Jeevan Lakshya (733)</th></tr>
-                    <tr><td>Annual Premium</td><td>₹1,00,000</td><td>₹80,000</td></tr>
-                    <tr><td>Policy Term</td><td>21 Years</td><td>21 Years</td></tr>
-                    <tr><td>Guarantees</td><td>Mortality Refund</td><td>Premium Waiver + Annual Income</td></tr>
-                </table>
-
-                <h5>Scenario 1: Parent survives 21 years</h5>
-                <ul>
-                    <li><strong>Total Maturity:</strong> Approx. <strong>₹1.05 Crore</strong> (₹65L from SIIP + ₹40L from Lakshya). This funds a world-class degree.</li>
-                </ul>
-
-                <h5>Scenario 2: Parent passes away in Year 5</h5>
-                <ul>
-                    <li><strong>Immediate Relief:</strong> Family gets death benefit from both plans (~₹30 Lakhs).</li>
-                    <li><strong>Ongoing Support:</strong> LIC pays <strong>₹1,00,000 every year</strong> to the child for 16 years (Total ₹16L) for school fees.</li>
-                    <li><strong>Final Gift:</strong> At Year 21, LIC pays the full <strong>₹1.05 Crore</strong> maturity anyway.</li>
-                </ul>
-                <p><strong>Key Advantage:</strong> The "Self-Completing" feature. This plan survives even if the parent does not.</p>` 
-            },
-
-            zeroLeakagePension: { 
-                title: "The 'Zero-Waste' Professional Retirement Shield", 
-                html: `<p><strong>Highlight: Build a ₹1.2 Crore Retirement Pot with Zero insurance cost leakage!</strong></p>
-                <p>For the professional who hates hidden costs. This combination uses a specific ULIP with NO mortality charges to ensure every single paisa is invested, paired with a Whole-life plan for lifelong income.</p>
-                
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>New Pension Plus (Plan 867):</strong> A ULIP with <strong>NIL Mortality Charges</strong>.</li>
-                    <li><strong>Jeevan Umang (Plan 745):</strong> The 8% Guaranteed for Life engine.</li>
-                </ul>
-
-                <h4>How It Works:</h4>
-                <p>Traditional ULIPs take money for life cover. Plan 867 takes ZERO. This allows your retirement pot to compound much faster. We pair this with Plan 745, which starts a tax-free "second salary" the moment you retire.</p>
-
-                <h4>Illustrative Example:</h4>
-                <p><strong>Investment:</strong> ₹3,00,000/year for 15 years.</p>
-                <table class="combo-table">
-                    <tr><th>Phase</th><th>Pension Plus (867)</th><th>Jeevan Umang (745)</th></tr>
-                    <tr><td>Investment</td><td>₹2,00,000/yr</td><td>₹1,00,000/yr</td></tr>
-                    <tr><td>At Year 15</td><td>Corpus: ~₹60,00,000</td><td>Income Starts: ₹80,000/yr</td></tr>
-                </table>
-
-                <h5>Scenario: Life after Age 55 (Retirement)</h5>
-                <ul>
-                    <li><strong>Immediate Cash:</strong> You can withdraw 60% of the Pension Plus fund (~₹36 Lakhs) tax-free for a world tour or house renovation.</li>
-                    <li><strong>Monthly Income:</strong> You get ₹80,000/year (Umang) + Annuity from the remaining Pension Plus fund (~₹2 Lakhs/year).</li>
-                    <li><strong>Total Annual Pension: ~₹2.80 Lakhs (Guaranteed & Market Linked Mix).</strong></li>
-                </ul>
-                <p><strong>Key Advantage:</strong> Maximum compounding during the work phase and maximum security during the retirement phase.</p>` 
-            },
-
-            niftyEliteEstate: { 
-                title: "The 'Blue-Chip' Family Estate & Shield", 
-                html: `<p><strong>Highlight: Invest ₹400/day and get a ₹1.2 Crore Immediate Protection + Projected ₹1 Crore Wealth.</strong></p>
-                <p>Ideal for the modern high-earner who wants to invest in the Nifty 50 Index (Top 50 companies of India) but needs a massive, solid protection shield for their family.</p>
-                
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>Index Plus (Plan 873):</strong> The Nifty 50 Index-linked investment (ULIP).</li>
-                    <li><strong>New Jeevan Amar (Plan 955):</strong> The high-value pure risk term shield.</li>
-                </ul>
-
-                <h4>How It Works:</h4>
-                <p>You stop trying to "beat the market" and instead "become the market" by tracking the Nifty 50. To ensure the family is never at risk due to market volatility, we add a ₹1 Crore Term Insurance. This is the most cost-effective way to get high growth and high cover.</p>
-
-                <h4>Illustrative Example:</h4>
-                <p><strong>Annual Budget:</strong> ₹1.5 Lakhs | <strong>Age:</strong> 35</p>
-                <table class="combo-table">
-                    <tr><th>Plan Details</th><th>Index Plus (873)</th><th>Jeevan Amar (955)</th></tr>
-                    <tr><td>Investment</td><td>₹1,20,000</td><td>₹30,000</td></tr>
-                    <tr><td>Risk Cover</td><td>₹12,00,000</td><td>₹1,00,00,000 (1 Crore)</td></tr>
-                    <tr><td>Maturity</td><td>Nifty Index Fund Value</td><td>Zero (Pure Protection)</td></tr>
-                </table>
-
-                <h5>Scenario: After 25 Years</h5>
-                <ul>
-                    <li><strong>Wealth:</strong> Your Index Plus fund has grown with the Nifty 50. Estimated Value: <strong>₹95,00,000</strong> (at 12% avg).</li>
-                    <li><strong>Refund:</strong> LIC refunds 100% of the mortality charges from Plan 873 to you!</li>
-                    <li><strong>Family Status:</strong> If anything happened in those 25 years, the family would have received <strong>₹1.12 Crores</strong> immediately.</li>
-                </ul>
-                <p><strong>Key Advantage:</strong> You invest like an institutional investor (Index-linked) but stay protected like a VIP.</p>` 
-            },
-
-            hniWealthLoop: { 
-                title: "The HNI 'Wealth-Reinvestment' Loop", 
-                html: `<p><strong>Highlight: Create a ₹3 Crore Legacy and get ₹15 Lakhs Cash Liquidity every 4 years!</strong></p>
-                <p>Designed for Business Owners who need liquidity. It uses the "Survival Benefits" (Money-back) from a traditional plan to "Top-up" the market-linked plan, creating a compounding loop of wealth.</p>
-                
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>Protection Plus (Plan 886):</strong> High-Value ULIP with 100% charge refund.</li>
-                    <li><strong>Bima Shree (Plan 748):</strong> The Luxury Money-Back plan for HNIs.</li>
-                </ul>
-
-                <h4>How It Works:</h4>
-                <p>Plan 748 pays you huge amounts every 4 years. Instead of letting that money sit in a bank, you reinvest it as a "Top-Up" in Plan 886. Since Plan 886 has very low charges for Top-ups, almost 98% of that money goes straight into the stock market.</p>
-
-                <h4>Illustrative Example:</h4>
-                <p><strong>Annual Investment:</strong> ₹10,00,000 (₹5L in each plan).</p>
-                <table class="combo-table">
-                    <tr><th>Year</th><th>From Bima Shree (748)</th><th>Action</th></tr>
-                    <tr><td>Year 4</td><td>₹7,50,000 Payout</td><td>Reinvest in Plan 886</td></tr>
-                    <tr><td>Year 8</td><td>₹7,50,000 Payout</td><td>Reinvest in Plan 886</td></tr>
-                    <tr><td>Year 12</td><td>₹7,50,000 Payout</td><td>Reinvest in Plan 886</td></tr>
-                </table>
-
-                <h5>The Final Result:</h5>
-                <ul>
-                    <li><strong>Compounding Effect:</strong> By injecting ₹22.5 Lakhs of LIC's own money back into the market, your Plan 886 fund value explodes.</li>
-                    <li><strong>Maturity:</strong> A potential <strong>multi-crore tax-free harvest</strong> at the end of 20 years.</li>
-                    <li><strong>Charge Refund:</strong> Plan 886 returns all insurance costs back to you at maturity.</li>
-                </ul>
-                <p><strong>Key Advantage:</strong> You use LIC's guaranteed payouts to buy more market units, effectively using the company's money to build your personal wealth.</p>` 
-            },
-powerCoupleShield: { 
-                title: "The Power Couple's Asset & Savings Shield", 
-                html: `<p>This combination is specifically designed for professional couples. It combines massive high-value protection for the primary breadwinner with a high-growth savings plan exclusively for the female spouse.</p>
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>Bima Kavach (Plan 887):</strong> Massive life cover for the primary earner (Min ₹2 Cr).</li>
-                    <li><strong>Bima Lakshmi (Plan 881):</strong> High Guaranteed Additions (7%) savings exclusively for females.</li>
-                </ul>
-                <h4>How It Works:</h4>
-                <p>The 887 plan provides Option II (Increasing Sum Assured), which grows by 10% annually to fight inflation. Simultaneously, the 881 plan for the wife provides a 7% Guaranteed Addition on premiums every year, creating a rapid wealth-building engine with flexible money-back options.</p>
-                <table class="combo-table">
-                    <tr><th>Feature</th><th>Bima Kavach (887)</th><th>Bima Lakshmi (881)</th></tr>
-                    <tr><td>Target User</td><td>Male (Primary Earner)</td><td>Female (Spouse)</td></tr>
-                    <tr><td>Benefit</td><td>₹2 Crore+ Protection</td><td>7% Guaranteed Growth</td></tr>
-                    <tr><td>Speciality</td><td>Increasing Risk Cover</td><td>Female-only Wealth Plan</td></tr>
-                </table>
-                <p><strong>Key Advantage:</strong> This ensures that if the husband passes away, the family receives a massive payout, while if both survive, the wife builds a substantial, guaranteed tax-free corpus for herself.</p>` 
-            },
-            digitalHomeShield: { 
-                title: "The Ultimate 'Digital Home' Protection", 
-                html: `<p>Ideal for modern families with home loans. This online-only combination provides the most cost-effective way to secure your house and your family’s future.</p>
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>Digi Credit Life (Plan 878):</strong> Decreasing cover to mirror your home loan balance.</li>
-                    <li><strong>New Tech-Term (Plan 954):</strong> High-value level protection for family lifestyle.</li>
-                </ul>
-                <h4>Scenario:</h4>
-                <p>If you have a ₹1 Crore home loan, Plan 878 ensures that the loan is paid off exactly. Plan 954 provides an additional ₹1 Crore (Level SA) to ensure your family can continue their lifestyle without the breadwinner's income.</p>
-                <p><strong>Key Advantage:</strong> Because both plans are online-only, the premiums are roughly 20-30% lower than offline alternatives, providing maximum 'Bang for your Buck'.</p>` 
-            },
-            starterSafetyNet: { 
-                title: "The Minimalist 'Digital Starter' Pack", 
-                html: `<p>Designed for young earners (age 18-30) who want a heavy life cover but also want a small, guaranteed saving habit.</p>
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>Digi Term (Plan 876):</strong> A pure ₹50 Lakh cover at a very low cost.</li>
-                    <li><strong>Jan Suraksha (Plan 880):</strong> A micro-savings plan with 4% Guaranteed Additions.</li>
-                </ul>
-                <h4>Features:</h4>
-                <ul>
-                    <li><strong>Plan 876:</strong> Purely online, easy to buy via smartphone.</li>
-                    <li><strong>Plan 880:</strong> Provides an 'Auto-Cover' feature—if you pay for 3 years, the policy stays active for 2 more years even if you miss premiums.</li>
-                </ul>
-                <p><strong>Key Advantage:</strong> Provides the security of a large sum assured through Digi Term, while Jan Suraksha acts as a disciplined savings jar with high liquidity (loan available after 1 year).</p>` 
-            },
-            inflationBeater: { 
-                title: "The Inflation-Proof Wealth Multiplier", 
-                html: `<p>This combination uses the unique 'Increasing Sum Assured' logic to ensure your family's safety grows as your standard of living grows.</p>
-                <h4>Plan Combination:</h4>
-                <ul>
-                    <li><strong>New Tech-Term (Plan 954):</strong> Using Option II (Increasing SA).</li>
-                    <li><strong>Bima Lakshmi (Plan 881):</strong> For the female earner/spouse.</li>
-                </ul>
-                <h4>The Growth Engine:</h4>
-                <p>In Plan 954, your risk cover increases by 10% every year from the 6th to the 15th year. In Plan 881, your money-back payouts can be deferred to earn higher interest, perfectly timing wealth with your child’s higher education or marriage.</p>
-                <p><strong>Key Advantage:</strong> This is a 'Set it and Forget it' plan where the benefits grow automatically without needing to buy new policies every few years.</p>` 
-            }
-        };
-
-        const titleList = document.getElementById('title-list');
-        const contentArea = document.getElementById('content-area');
-
-        // Function to display content
-        function displayContent(planKey) {
-            const plan = planData[planKey];
-            if (plan) {
-                contentArea.innerHTML = `<h2>${plan.title}</h2><div class="content">${plan.html}</div>`;
-            } else {
-                contentArea.innerHTML = '<h2>Content Not Found</h2><p>Invalid plan selection.</p>';
-            }
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw-workbox.js')
+                    .then(registration => {
+                        console.log('Workbox service worker registered successfully:', registration);
+                    })
+                    .catch(error => {
+                        console.error('Workbox service worker registration FAILED:', error);
+                    });
+            });
         }
-
-        // Function to create title items
-        function createTitleItem(planKey, plan) {
-            const titleItem = document.createElement('div');
-            titleItem.classList.add('title-item');
-            titleItem.textContent = plan.title;
-            titleItem.addEventListener('click', () => displayContent(planKey));
-            return titleItem;
-        }
-
-        // Populate title list
-        for (const key in planData) {
-            if (planData.hasOwnProperty(key)) {
-                const titleItem = createTitleItem(key, planData[key]);
-                titleList.appendChild(titleItem);
-            }
-        }
-
-        // Optionally, display the first plan's content on page load
-        const firstPlanKey = Object.keys(planData)[0];
-        displayContent(firstPlanKey);  // Show first plan initially
-
-    </script>
-<div class="home-button-container">
-  <a href="/main.html" title="Go to Home">
-    <img src="images/home-icon.png" alt="Home">
-  </a>
-</div>
-<!-- PWA: Register the Workbox Service Worker -->
-<script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw-workbox.js')
-                .then(registration => {
-                    console.log('Workbox service worker registered successfully:', registration);
-                })
-                .catch(error => {
-                    console.error('Workbox service worker registration FAILED:', error);
-                });
-        });
-    }
-</script>  
+    </script> 
 </body>
 </html>

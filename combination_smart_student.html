@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC Smart Student Combo (732 + 768)</title>
+
+<style>
+body{
+  font-family:Segoe UI, Arial, sans-serif;
+  background:#f4f6f9;
+  margin:0;
+  padding:20px;
+  color:#333;
+}
+.container{
+  max-width:1200px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  border-top:6px solid #2563eb; /* Royal Blue for Education/Trust */
+}
+h1{
+  text-align:center;
+  color:#1e40af;
+  margin-bottom:10px;
+}
+.highlight-banner {
+  background: #2563eb;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.usp{
+  background:#eff6ff;
+  border:1px solid #bfdbfe;
+  padding:20px;
+  border-radius:10px;
+  margin:20px 0;
+  font-size:16px;
+}
+.usp strong{
+  color:#1e40af;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:30px;
+}
+th, td{
+  border:1px solid #e5e7eb;
+  padding:14px;
+  vertical-align:top;
+}
+th{
+  background:#1e40af;
+  color:#fff;
+  text-align:center;
+}
+td:first-child{
+  font-weight:600;
+  background:#f0f9ff;
+  width:18%;
+}
+.total-row{
+  background:#ecfeff;
+  font-weight:700;
+}
+.note{
+  margin-top:30px;
+  background:#f0f9ff;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid #bae6fd;
+}
+</style>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="highlight-banner">
+  🎓 Highlight: Get Guaranteed Education Payouts + Pay for only 7 Years (Plan 768)! 🎓
+</div>
+
+<h1>LIC “Smart Student & Parent Security”</h1>
+<p style="text-align:center;color:#555;">
+A Strategic Combination of <strong>Child Money Back (732)</strong> + <strong>Jeevan Azad (768)</strong>
+</p>
+
+<div class="usp">
+<strong>Key USPs at a Glance</strong>
+<ul>
+  <li>✔ <strong>For the Child:</strong> Money Back at Age 18, 20, & 22 for College Fees.</li>
+  <li>✔ <strong>For the Parent:</strong> Guaranteed Lumpsum (Jeevan Azad) at Year 15.</li>
+  <li>✔ <strong>Limited Liability:</strong> Pay premiums for Jeevan Azad for only <strong>7 Years</strong>.</li>
+  <li>✔ <strong>Double Safety:</strong> Premium Waiver (PWB) on Child plan + Life Cover on Parent plan.</li>
+</ul>
+</div>
+
+<!-- PREMIUM & PER-DAY COST USP -->
+<div class="usp" style="margin-top:20px;">
+  <strong>Premium & Daily Cost Breakdown</strong>
+  <ul>
+    <li>
+      <strong>Child Money Back (Plan 732)</strong><br>
+      Yearly Premium: ₹41,000<br>
+      Per Day Cost = <strong>₹113 / day</strong>
+    </li>
+    <li style="margin-top:10px;">
+      <strong>Jeevan Azad (Plan 768)</strong><br>
+      Yearly Premium: ₹44,000 (Pay for 7 Yrs Only)<br>
+      Per Day Cost = <strong>₹121 / day</strong>
+    </li>
+  </ul>
+
+  <hr style="margin:12px 0;">
+
+  <p style="font-size:18px;">
+    <strong>Total Cost Per Day = ₹113 + ₹121 =  
+    <span style="color:#2563eb;">₹234 per day</span></strong>
+  </p>
+
+  <p style="margin-top:8px; font-size:15px;">
+    👉 <strong>Secure your Child's Graduation & Post-Graduation needs today.</strong>
+  </p>
+</div>
+
+<div id="combinationChart" style="width:100%; height:420px; margin:30px 0;"></div>
+
+<table>
+<tr>
+<th>Parameter</th>
+<th>Child Money Back (732)</th>
+<th>Jeevan Azad (768)</th>
+</tr>
+
+<tr>
+<td>Sum Assured (SA)</td>
+<td>₹5,00,000</td>
+<td>₹5,00,000</td>
+</tr>
+
+<tr>
+<td>Ages</td>
+<td>Child: 10 Yrs | Parent: 30 Yrs</td>
+<td>Parent: 30 Yrs</td>
+</tr>
+
+<tr>
+<td>Bonus Rate Taken</td>
+<td>45 per 1000 SA</td>
+<td>N/A (Guaranteed Plan)</td>
+</tr>
+
+<tr>
+<td>Policy Term</td>
+<td>15 Years (Matures at Child Age 25)</td>
+<td>15 Years</td>
+</tr>
+
+<tr>
+<td>Premium Paying Term</td>
+<td>15 Years</td>
+<td><strong>7 Years (Limited)</strong></td>
+</tr>
+
+<tr>
+<td><strong>Survival Benefits<br>(Money Back)</strong></td>
+<td>
+<strong>At Child Age 18 (Year 8):</strong> ₹1,00,000<br>
+<strong>At Child Age 20 (Year 10):</strong> ₹1,00,000<br>
+<strong>At Child Age 22 (Year 12):</strong> ₹1,00,000<br>
+<strong>Total SB: ₹3,00,000</strong>
+</td>
+<td>
+N/A<br>
+(Wealth Accumulates)
+</td>
+</tr>
+
+<tr>
+<td><strong>Maturity Benefit<br>(At Year 15)</strong></td>
+<td>
+40% SA: ₹2,00,000<br>
+Bonus: ₹5,62,500<br>
+FAB: ₹25,000<br>
+<strong>Total: ₹7,87,500</strong>
+</td>
+<td>
+Guaranteed Sum Assured:<br>
+<strong>Total: ₹5,00,000</strong>
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 5 -->
+<tr>
+<td>Death after 5 Years<br>(Parent Dies)</td>
+<td>
+<strong>Premiums Waived (PWB).</strong><br>
+1. No more premiums to be paid.<br>
+2. Child gets ₹1 Lakh at Age 18, 20, 22.<br>
+3. Child gets ₹7.87 Lakhs at Age 25.
+</td>
+<td>
+<strong>Immediate Payout:</strong><br>
+Sum Assured on Death<br>
+<strong>₹5,00,000</strong><br>
+(Policy Terminates)
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 5 yrs)</td>
+<td colspan="2">
+Immediate: <strong>₹5,00,000</strong> (from 768)<br>
++ Future Guaranteed Payouts: <strong>₹10,87,500</strong> (from 732)<br>
+Total Value Secured: <strong>₹15,87,500</strong>
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 10 -->
+<tr>
+<td>Death after 10 Years<br>(Parent Dies)</td>
+<td>
+<strong>Premiums Waived (PWB).</strong><br>
+1. Child gets ₹1 Lakh at Age 22.<br>
+2. Child gets ₹7.87 Lakhs at Age 25.<br>
+*(Age 18 & 20 SBs already received)*
+</td>
+<td>
+<strong>Immediate Payout:</strong><br>
+Sum Assured on Death<br>
+<strong>₹5,00,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 10 yrs)</td>
+<td colspan="2">
+Immediate: <strong>₹5,00,000</strong><br>
++ Future Payouts: <strong>₹8,87,500</strong><br>
+*(Plus ₹2 Lakhs already received as SB)*
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Wealth Created (Survival)</td>
+<td colspan="2">
+1. <strong>₹3,00,000</strong> (Education Fees Age 18-22)<br>
+2. <strong>₹7,87,500</strong> (Child's Higher Ed/Business Fund)<br>
+3. <strong>₹5,00,000</strong> (Parent's Savings from 768)<br>
+<strong>Grand Total: ₹15,87,500</strong>
+</td>
+</tr>
+</table>
+
+
+<!-- FINANCIAL EFFICIENCY RATIOS -->
+<div class="note" style="margin-top:30px; background:#fefce8; border:1px solid #fde68a;">
+  <h3 style="color:#92400e; margin-top:0;">
+    Financial Efficiency Ratios (Premium vs Benefit)
+  </h3>
+
+  <table style="width:100%; border-collapse:collapse; margin-top:15px;">
+    <tr>
+      <th style="background:#78350f; color:#fff;">Plan</th>
+      <th style="background:#78350f; color:#fff;">Total Premium</th>
+      <th style="background:#78350f; color:#fff;">Total Benefit (Mat+SB)</th>
+      <th style="background:#78350f; color:#fff;">Efficiency Ratio</th>
+    </tr>
+
+    <tr>
+      <td><strong>Child Money Back (732)</strong></td>
+      <td>₹6,15,000</td>
+      <td>₹10,87,500</td>
+      <td style="color:#15803d; font-weight:700;">
+        ▲ 1.76
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Jeevan Azad (768)</strong></td>
+      <td>₹3,08,000</td>
+      <td>₹5,00,000</td>
+      <td style="color:#15803d; font-weight:700;">
+        ▲ 1.62
+      </td>
+    </tr>
+  </table>
+
+  <div style="margin-top:15px; font-size:14px; line-height:1.6;">
+    <p>
+      <strong>Why combine a Participating Plan (732) with a Guaranteed Plan (768)?</strong><br>
+      Plan 732 provides <strong>High Growth</strong> (Ratio 1.76) using bonuses to beat inflation for education costs.
+      Plan 768 provides <strong>Certainty</strong> and <strong>Short Commitment</strong> (Pay only 7 years), acting as a guaranteed backup fund.
+    </p>
+  </div>
+</div>
+
+<div class="note">
+<strong>Why this works:</strong><br>
+Education expenses don't come all at once. They are staggered. 
+This plan pays out at <strong>Age 18 (College Admission)</strong>, <strong>Age 20 (Mid-College)</strong>, and <strong>Age 22 (Post-Grad start)</strong>.
+Finally, at <strong>Age 25</strong>, a large corpus helps the child start a business or settle down.
+</div>
+
+</div>
+
+<script>
+google.charts.load('current', {packages:['corechart']});
+google.charts.setOnLoadCallback(drawCombinationChart);
+
+function drawCombinationChart() {
+
+// Chart Logic: 
+// 1. Plan 732: Value starts high (Death Cover), drops as SBs are paid, rises for Maturity.
+// 2. Plan 768: Value is constant Death Cover until Maturity.
+// 3. Total Portfolio.
+
+var data = google.visualization.arrayToDataTable([
+  ['Year', 'Child Money Back (732)', 'Jeevan Azad (768)', 'Total Security Value'],
+  [0,   0,        0,         0],
+  // Year 5: 732 (SA+Bonus~6.1L), 768 (5L)
+  [5,   612500,   500000,    1112500],
+  // Year 8: 732 (SB Paid 1L) - Value still holds future promise
+  [8,   700000,   500000,    1200000],
+  // Year 10: 732 (SB Paid 1L)
+  [10,  750000,   500000,    1250000],
+  // Year 12: 732 (SB Paid 1L)
+  [12,  800000,   500000,    1300000],
+  // Year 15: Maturities
+  [15,  787500,   500000,    1287500] 
+]);
+
+var options = {
+  title: 'Portfolio Value & Security Cover',
+  curveType: 'function',
+  legend: { position: 'bottom' },
+  hAxis: { title: 'Policy Year' },
+  vAxis: {
+    title: 'Value (₹)',
+    format: 'short'
+  },
+  colors: ['#2563eb', '#60a5fa', '#1e3a8a'], // Blues
+  lineWidth: 3,
+  pointSize: 6
+};
+
+var chart = new google.visualization.LineChart(
+  document.getElementById('combinationChart')
+);
+chart.draw(data, options);
+}
+</script>
+
+</body>
+</html>

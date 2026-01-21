@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC Guaranteed Double Wealth (760 + 760)</title>
+
+<style>
+body{
+  font-family:Segoe UI, Arial, sans-serif;
+  background:#f4f6f9;
+  margin:0;
+  padding:20px;
+  color:#333;
+}
+.container{
+  max-width:1200px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  border-top:6px solid #059669; /* Green for Guaranteed Growth */
+}
+h1{
+  text-align:center;
+  color:#047857;
+  margin-bottom:10px;
+}
+.highlight-banner {
+  background: #059669;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.usp{
+  background:#ecfdf5;
+  border:1px solid #6ee7b7;
+  padding:20px;
+  border-radius:10px;
+  margin:20px 0;
+  font-size:16px;
+}
+.usp strong{
+  color:#047857;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:30px;
+}
+th, td{
+  border:1px solid #e5e7eb;
+  padding:14px;
+  vertical-align:top;
+}
+th{
+  background:#047857;
+  color:#fff;
+  text-align:center;
+}
+td:first-child{
+  font-weight:600;
+  background:#f0fdf4;
+  width:18%;
+}
+.total-row{
+  background:#ecfeff;
+  font-weight:700;
+}
+.note{
+  margin-top:30px;
+  background:#f0f9ff;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid #bae6fd;
+}
+</style>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="highlight-banner">
+  🔒 Highlight: 100% Market-Proof! Get ₹19 Lakhs GUARANTEED for just ₹255/day! 🔒
+</div>
+
+<h1>LIC “Guaranteed Double Wealth”</h1>
+<p style="text-align:center;color:#555;">
+A Secured Combination of <strong>Bima Jyoti (Short Term)</strong> + <strong>Bima Jyoti (Long Term)</strong>
+</p>
+
+<div class="usp">
+<strong>Key USPs at a Glance</strong>
+<ul>
+  <li>✔ <strong>100% Guaranteed:</strong> Written guarantee of ₹50 per 1000 SA added every year.</li>
+  <li>✔ <strong>Market Proof:</strong> Returns are fixed. No fluctuation based on market or bonus rates.</li>
+  <li>✔ <strong>Double Payouts:</strong> One lump sum at Year 16 and another at Year 20.</li>
+  <li>✔ <strong>Short Payments:</strong> Pay for 11 & 15 years only, enjoy coverage for longer.</li>
+</ul>
+</div>
+
+<!-- PREMIUM & PER-DAY COST USP -->
+<div class="usp" style="margin-top:20px;">
+  <strong>Premium & Daily Cost Breakdown (Age 30)</strong>
+  <ul>
+    <li>
+      <strong>Policy A (Term 16 Years)</strong><br>
+Sum assured: ₹500000<br>
+      Yearly Premium: ₹53,000 (Pay for 11 Yrs)<br>
+      Per Day Cost = <strong>₹145 / day</strong>
+    </li>
+    <li style="margin-top:10px;">
+      <strong>Policy B (Term 20 Years)</strong><br>
+Sum assured: ₹500000<br>
+      Yearly Premium: ₹40,000 (Pay for 15 Yrs)<br>
+      Per Day Cost = <strong>₹110 / day</strong>
+    </li>
+  </ul>
+
+  <hr style="margin:12px 0;">
+
+  <p style="font-size:18px;">
+    <strong>Total Cost Per Day = ₹145 + ₹110 =  
+    <span style="color:#059669;">₹255 per day</span></strong>
+  </p>
+
+  <p style="margin-top:8px; font-size:15px;">
+    👉 <strong>Complete Peace of Mind with Fixed Tax-Free Returns.</strong>
+  </p>
+</div>
+
+<div id="combinationChart" style="width:100%; height:420px; margin:30px 0;"></div>
+
+<table>
+<tr>
+<th>Parameter</th>
+<th>Policy A (Short Term)</th>
+<th>Policy B (Long Term)</th>
+</tr>
+
+<tr>
+<td>Sum Assured (SA)</td>
+<td>₹5,00,000</td>
+<td>₹5,00,000</td>
+</tr>
+
+<tr>
+<td>Policy Term</td>
+<td>16 Years</td>
+<td>20 Years</td>
+</tr>
+
+<tr>
+<td>Premium Paying Term</td>
+<td><strong>11 Years</strong></td>
+<td><strong>15 Years</strong></td>
+</tr>
+
+<tr>
+<td>Guaranteed Additions (GA)</td>
+<td>₹50 per 1000 SA<br>(Fixed for Term)</td>
+<td>₹50 per 1000 SA<br>(Fixed for Term)</td>
+</tr>
+
+<tr>
+<td>Maturity Benefit<br>(Guaranteed)</td>
+<td>
+At Year 16:<br>
+SA: ₹5,00,000<br>
+Accrued GA: ₹4,00,000<br>
+<strong>Total: ₹9,00,000</strong>
+</td>
+<td>
+At Year 20:<br>
+SA: ₹5,00,000<br>
+Accrued GA: ₹5,00,000<br>
+<strong>Total: ₹10,00,000</strong>
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 5 -->
+<tr>
+<td>Death after 5 Years<br>(Year 5)</td>
+<td>
+SA on Death (125%): ₹6,25,000<br>
+Accrued GA (5 yrs): ₹1,25,000<br>
+<strong>Total: ₹7,50,000</strong>
+</td>
+<td>
+SA on Death (125%): ₹6,25,000<br>
+Accrued GA (5 yrs): ₹1,25,000<br>
+<strong>Total: ₹7,50,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 5 yrs)</td>
+<td colspan="2">
+₹7,50,000 + ₹7,50,000 = <strong>₹15,00,000</strong>
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 10 -->
+<tr>
+<td>Death after 10 Years<br>(Year 10)</td>
+<td>
+SA on Death (125%): ₹6,25,000<br>
+Accrued GA (10 yrs): ₹2,50,000<br>
+<strong>Total: ₹8,75,000</strong>
+</td>
+<td>
+SA on Death (125%): ₹6,25,000<br>
+Accrued GA (10 yrs): ₹2,50,000<br>
+<strong>Total: ₹8,75,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 10 yrs)</td>
+<td colspan="2">
+₹8,75,000 + ₹8,75,000 = <strong>₹17,50,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Wealth Created (Survival)</td>
+<td colspan="2">
+1. <strong>₹9,00,000</strong> at Year 16<br>
+2. <strong>₹10,00,000</strong> at Year 20<br>
+<strong>Total Payout: ₹19,00,000 (Guaranteed)</strong>
+</td>
+</tr>
+</table>
+
+
+<!-- FINANCIAL EFFICIENCY RATIOS -->
+<div class="note" style="margin-top:30px; background:#fefce8; border:1px solid #fde68a;">
+  <h3 style="color:#92400e; margin-top:0;">
+    Financial Efficiency Ratios (Premium vs Benefit)
+  </h3>
+
+  <table style="width:100%; border-collapse:collapse; margin-top:15px;">
+    <tr>
+      <th style="background:#78350f; color:#fff;">Plan</th>
+      <th style="background:#78350f; color:#fff;">Total Premium Paid</th>
+      <th style="background:#78350f; color:#fff;">Guaranteed Maturity</th>
+      <th style="background:#78350f; color:#fff;">Efficiency Ratio</th>
+    </tr>
+
+    <tr>
+      <td><strong>Policy A (16 Yrs)</strong></td>
+      <td>₹5,83,000</td>
+      <td>₹9,00,000</td>
+      <td style="color:#047857; font-weight:700;">
+        ▲ 1.54
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Policy B (20 Yrs)</strong></td>
+      <td>₹6,00,000</td>
+      <td>₹10,00,000</td>
+      <td style="color:#047857; font-weight:700;">
+        ▲ 1.67
+      </td>
+    </tr>
+  </table>
+
+  <div style="margin-top:15px; font-size:14px; line-height:1.6;">
+    <p>
+      <strong>Why are these ratios lower than Endowment plans?</strong><br>
+      Participating plans (like Jeevan Labh) offer higher <em>potential</em> returns (Ratio > 2.0) but depend on future bonuses.
+      <strong>Bima Jyoti offers CERTAINTY.</strong> The ratio of 1.54 - 1.67 is a <strong>guaranteed contract</strong>. You know exactly what you will get, regardless of interest rate falls or market crashes.
+    </p>
+  </div>
+</div>
+
+<div class="note">
+<strong>Why this combination works:</strong><br>
+By splitting the investment into two terms (16 & 20 years), you create a <strong>Laddered Guaranteed Income</strong>. 
+You get funds at different stages of life (e.g., Child's 12th Std & Child's Graduation) without taking any market risk.
+</div>
+
+</div>
+
+<script>
+google.charts.load('current', {packages:['corechart']});
+google.charts.setOnLoadCallback(drawCombinationChart);
+
+function drawCombinationChart() {
+
+// Chart Logic: 
+// Visualizing the Guaranteed Wealth Accumulation / Death Benefit
+// Year 0: 0
+// Year 5: Combined Death Benefit (15L)
+// Year 10: Combined Death Benefit (17.5L)
+// Year 16: Policy A Matures (9L payout), Policy B continues (10L Death cover approx)
+// Year 20: Policy B Matures (10L payout)
+
+var data = google.visualization.arrayToDataTable([
+  ['Year', 'Policy A (Short)', 'Policy B (Long)', 'Total Portfolio Value'],
+  [0,   0,        0,         0],
+  [5,   750000,   750000,    1500000],
+  [10,  875000,   875000,    1750000],
+  // Year 16: Pol A Matures (9L), Pol B Value (Accrued GA+SA ~9L)
+  [16,  900000,   900000,    1800000], 
+  // Year 20: Pol A Ends, Pol B Matures
+  [20,  0,        1000000,   1000000] 
+]);
+
+var options = {
+  title: 'Guaranteed Wealth Accumulation (Death Benefit Value)',
+  curveType: 'function',
+  legend: { position: 'bottom' },
+  hAxis: { title: 'Policy Year' },
+  vAxis: {
+    title: 'Amount (₹)',
+    format: 'short'
+  },
+  colors: ['#059669', '#34d399', '#064e3b'], // Shades of Green for Guarantee
+  lineWidth: 3,
+  pointSize: 6
+};
+
+var chart = new google.visualization.LineChart(
+  document.getElementById('combinationChart')
+);
+chart.draw(data, options);
+}
+</script>
+
+</body>
+</html>

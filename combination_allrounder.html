@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC All-Rounder Portfolio (715 + 720)</title>
+
+<style>
+body{
+  font-family:Segoe UI, Arial, sans-serif;
+  background:#f4f6f9;
+  margin:0;
+  padding:20px;
+  color:#333;
+}
+.container{
+  max-width:1200px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  border-top:6px solid #4338ca; /* Indigo for Stability/Trust */
+}
+h1{
+  text-align:center;
+  color:#3730a3;
+  margin-bottom:10px;
+}
+.highlight-banner {
+  background: #4338ca;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.usp{
+  background:#e0e7ff;
+  border:1px solid #c7d2fe;
+  padding:20px;
+  border-radius:10px;
+  margin:20px 0;
+  font-size:16px;
+}
+.usp strong{
+  color:#3730a3;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:30px;
+}
+th, td{
+  border:1px solid #e5e7eb;
+  padding:14px;
+  vertical-align:top;
+}
+th{
+  background:#3730a3;
+  color:#fff;
+  text-align:center;
+}
+td:first-child{
+  font-weight:600;
+  background:#f5f3ff;
+  width:18%;
+}
+.total-row{
+  background:#ecfeff;
+  font-weight:700;
+}
+.note{
+  margin-top:30px;
+  background:#f0f9ff;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid #bae6fd;
+}
+</style>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="highlight-banner">
+  💰 Highlight: Get ₹3.6 Lakhs Cashback + ₹23.7 Lakhs Wealth + Lifelong Family Protection! 💰
+</div>
+
+<h1>LIC “All-Rounder Portfolio”</h1>
+<p style="text-align:center;color:#555;">
+A Perfect Mix of <strong>Jeevan Anand (715)</strong> + <strong>Money Back 20 Year (720)</strong>
+</p>
+
+<div class="usp">
+<strong>Key USPs at a Glance</strong>
+<ul>
+  <li>✔ <strong>Money Back (720):</strong> Get ₹1.2 Lakhs every 5 years for short-term needs.</li>
+  <li>✔ <strong>Wealth Creation (715):</strong> Huge lump sum maturity at Year 20.</li>
+  <li>✔ <strong>Lifelong Cover (715):</strong> Risk cover of ₹8 Lakhs continues even after Maturity.</li>
+  <li>✔ <strong>Double Bonus:</strong> Both plans earn annual bonuses & FAB.</li>
+</ul>
+</div>
+
+<!-- PREMIUM & PER-DAY COST USP -->
+<div class="usp" style="margin-top:20px;">
+  <strong>Premium & Daily Cost Breakdown (Age 30)</strong>
+  <ul>
+    <li>
+      <strong>Jeevan Anand (715)</strong> | <strong>SA: ₹8,00,000</strong><br>
+      Yearly Premium: ₹48,000<br>
+      Per Day Cost = <strong>₹132 / day</strong>
+    </li>
+    <li style="margin-top:10px;">
+      <strong>Money Back (720)</strong> | <strong>SA: ₹6,00,000</strong><br>
+      Yearly Premium: ₹47,000<br>
+      Per Day Cost = <strong>₹129 / day</strong>
+    </li>
+  </ul>
+
+  <hr style="margin:12px 0;">
+
+  <p style="font-size:18px;">
+    <strong>Total Cost Per Day = ₹132 + ₹129 =  
+    <span style="color:#4338ca;">₹261 per day</span></strong>
+  </p>
+
+  <p style="margin-top:8px; font-size:15px;">
+    👉 <strong>Complete Financial Freedom: Cash flow today, Wealth tomorrow, Safety forever.</strong>
+  </p>
+</div>
+
+<div id="combinationChart" style="width:100%; height:420px; margin:30px 0;"></div>
+
+<table>
+<tr>
+<th>Parameter</th>
+<th>Jeevan Anand (715)</th>
+<th>Money Back 20Y (720)</th>
+</tr>
+
+<tr>
+<td>Sum Assured</td>
+<td>₹8,00,000</td>
+<td>₹6,00,000</td>
+</tr>
+
+<tr>
+<td>Bonus Rate Taken</td>
+<td>45 per 1000 SA</td>
+<td>45 per 1000 SA</td>
+</tr>
+
+<tr>
+<td>Policy Term</td>
+<td>20 Years</td>
+<td>20 Years</td>
+</tr>
+
+<tr>
+<td>Premium Paying Term</td>
+<td>20 Years</td>
+<td>15 Years</td>
+</tr>
+
+<tr>
+<td>Premium Amount</td>
+<td>
+₹48,000 per year<br>
+<strong>Total: ₹9,60,000</strong>
+</td>
+<td>
+₹47,000 per year<br>
+<strong>Total: ₹7,05,000</strong>
+</td>
+</tr>
+
+<tr>
+<td><strong>Survival Benefits<br>(Money Back)</strong></td>
+<td>
+N/A<br>(Wealth Accumulates)
+</td>
+<td>
+<strong>Years 5, 10, 15:</strong><br>
+20% of SA = ₹1,20,000<br>
+Paid 3 times.<br>
+<strong>Total SB: ₹3,60,000</strong>
+</td>
+</tr>
+
+<tr>
+<td><strong>Maturity Benefit<br>(At Year 20)</strong></td>
+<td>
+SA: ₹8,00,000<br>
+Bonus: ₹7,20,000<br>
+FAB: ₹40,000<br>
+<strong>Total: ₹15,60,000</strong><br>
+<span style="font-size:13px; color:#c2410c;">(+ Lifelong Cover of ₹8 Lakhs continues)</span>
+</td>
+<td>
+40% SA: ₹2,40,000<br>
+Bonus: ₹5,40,000<br>
+FAB: ₹30,000<br>
+<strong>Total: ₹8,10,000</strong><br>
+*(Plus ₹3.6L SB already paid)*
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 5 -->
+<tr>
+<td>Death after 5 Years<br>(Year 5)</td>
+<td>
+SA (125%): ₹10,00,000<br>
+Bonus (5 yrs): ₹1,80,000<br>
+<strong>Total: ₹11,80,000</strong>
+</td>
+<td>
+SA (125%): ₹7,50,000<br>
+Bonus (5 yrs): ₹1,35,000<br>
+<strong>Total: ₹8,85,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 5 yrs)</td>
+<td colspan="2">
+₹11,80,000 (715) + ₹8,85,000 (720) = <strong>₹20,65,000</strong>
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 10 -->
+<tr>
+<td>Death after 10 Years<br>(Year 10)</td>
+<td>
+SA (125%): ₹10,00,000<br>
+Bonus (10 yrs): ₹3,60,000<br>
+<strong>Total: ₹13,60,000</strong>
+</td>
+<td>
+SA (125%): ₹7,50,000<br>
+Bonus (10 yrs): ₹2,70,000<br>
+<strong>Total: ₹10,20,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 10 yrs)</td>
+<td colspan="2">
+₹13,60,000 (715) + ₹10,20,000 (720) = <strong>₹23,80,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Wealth Created</td>
+<td colspan="2">
+1. <strong>₹3,60,000</strong> (Money Back from 720)<br>
+2. <strong>₹8,10,000</strong> (Maturity of 720)<br>
+3. <strong>₹15,60,000</strong> (Maturity of 715)<br>
+4. <strong>₹8,00,000</strong> (Lifelong Cover Value)<br>
+<strong>Total Value Proposition: ~₹35.3 Lakhs</strong>
+</td>
+</tr>
+</table>
+
+
+<!-- FINANCIAL EFFICIENCY RATIOS -->
+<div class="note" style="margin-top:30px; background:#fefce8; border:1px solid #fde68a;">
+  <h3 style="color:#92400e; margin-top:0;">
+    Financial Efficiency Ratios (Premium vs Benefit)
+  </h3>
+
+  <table style="width:100%; border-collapse:collapse; margin-top:15px;">
+    <tr>
+      <th style="background:#78350f; color:#fff;">Plan</th>
+      <th style="background:#78350f; color:#fff;">Total Premium</th>
+      <th style="background:#78350f; color:#fff;">Total Benefit (Mat+SB)</th>
+      <th style="background:#78350f; color:#fff;">Efficiency Ratio</th>
+    </tr>
+
+    <tr>
+      <td><strong>Jeevan Anand (715)</strong></td>
+      <td>₹9,60,000</td>
+      <td>₹15,60,000 <br><span style="font-size:11px;">(Excluding Lifelong Cover Value)</span></td>
+      <td style="color:#ea580c; font-weight:700;">
+        ▲ 1.62
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Money Back (720)</strong></td>
+      <td>₹7,05,000</td>
+      <td>₹8.1L (Mat) + ₹3.6L (SB)<br>= ₹11,70,000</td>
+      <td style="color:#15803d; font-weight:700;">
+        ▲ 1.66
+      </td>
+    </tr>
+  </table>
+
+  <div style="margin-top:15px; font-size:14px; line-height:1.6;">
+    <p>
+      <strong>Why this combination?</strong><br>
+      <strong>Plan 720</strong> provides liquidity (1.66x Return + Cashflow) so you don't have to break your investments for small needs.
+      <strong>Plan 715</strong> provides the solid corpus (1.62x Return + Lifelong Cover) ensuring you leave a legacy even after enjoying the maturity.
+    </p>
+  </div>
+</div>
+
+<div class="note">
+<strong>The "Lifelong" Advantage:</strong><br>
+In Plan 715, even after you receive the full ₹15.60 Lakhs at Year 20, your life insurance of <strong>₹8,00,000 continues till death</strong> (Age 100). This acts as a free legacy fund for your nominee.
+</div>
+
+</div>
+
+<script>
+google.charts.load('current', {packages:['corechart']});
+google.charts.setOnLoadCallback(drawCombinationChart);
+
+function drawCombinationChart() {
+
+// Chart Logic: 
+// 1. Jeevan Anand (Growth + Lifelong Cover)
+// 2. Money Back (Liquid Payouts + Maturity)
+// 3. Total Portfolio Value
+
+var data = google.visualization.arrayToDataTable([
+  ['Year', 'Jeevan Anand (715)', 'Money Back (720)', 'Total Portfolio Value'],
+  [0,   0,        0,         0],
+  // Year 5: 715 Value, 720 Value (SB Paid)
+  [5,   1180000,  885000,    2065000],
+  // Year 10: 715 Value, 720 Value (SB Paid)
+  [10,  1360000,  1020000,   2380000],
+  // Year 15: 715 Value, 720 Value (SB Paid)
+  [15,  1540000,  1155000,   2695000],
+  // Year 20: 715 Matures (15.6L), 720 Matures (8.1L)
+  [20,  1560000,  810000,    2370000], 
+  // Year 21: 715 (Lifelong Cover 8L), 720 (Ended)
+  [21,  800000,   0,         800000] 
+]);
+
+var options = {
+  title: 'Portfolio Value & Security Cover',
+  curveType: 'function',
+  legend: { position: 'bottom' },
+  hAxis: { title: 'Policy Year' },
+  vAxis: {
+    title: 'Value (₹)',
+    format: 'short'
+  },
+  colors: ['#4338ca', '#818cf8', '#312e81'], // Indigos
+  lineWidth: 3,
+  pointSize: 6
+};
+
+var chart = new google.visualization.LineChart(
+  document.getElementById('combinationChart')
+);
+chart.draw(data, options);
+}
+</script>
+
+</body>
+</html>

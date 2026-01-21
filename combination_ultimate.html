@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC Ultimate Family Shield (881 + 954)</title>
+
+<style>
+body{
+  font-family:Segoe UI, Arial, sans-serif;
+  background:#f4f6f9;
+  margin:0;
+  padding:20px;
+  color:#333;
+}
+.container{
+  max-width:1200px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  border-top:6px solid #4f46e5; /* Indigo for Unity/Family */
+}
+h1{
+  text-align:center;
+  color:#4338ca;
+  margin-bottom:10px;
+}
+.highlight-banner {
+  background: #4f46e5;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.usp{
+  background:#eef2ff;
+  border:1px solid #c7d2fe;
+  padding:20px;
+  border-radius:10px;
+  margin:20px 0;
+  font-size:16px;
+}
+.usp strong{
+  color:#3730a3;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:30px;
+}
+th, td{
+  border:1px solid #e5e7eb;
+  padding:14px;
+  vertical-align:top;
+}
+th{
+  background:#4338ca;
+  color:#fff;
+  text-align:center;
+}
+td:first-child{
+  font-weight:600;
+  background:#f5f3ff;
+  width:18%;
+}
+.total-row{
+  background:#ecfeff;
+  font-weight:700;
+}
+.note{
+  margin-top:30px;
+  background:#f0f9ff;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid #bae6fd;
+}
+</style>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="highlight-banner">
+  👫 Highlight: ₹9 Crore Husband's Cover + Guaranteed Savings for Wife for ₹312/day! 👫
+</div>
+
+<h1>LIC “The Ultimate Family Shield”</h1>
+<p style="text-align:center;color:#555;">
+A Power Couple Strategy: <strong>Bima Lakshmi (881 - Women)</strong> + <strong>Tech-Term (954 - Men)</strong>
+</p>
+
+<div class="usp">
+<strong>Key USPs at a Glance</strong>
+<ul>
+  <li>✔ <strong>For Him (954):</strong> A massive ₹9 Crore Risk Cover to secure the family's lifestyle.</li>
+  <li>✔ <strong>For Her (881):</strong> Exclusive Guaranteed plan with Money Backs for liquidity.</li>
+  <li>✔ <strong>High Leverage:</strong> Small premium creates a huge estate instantly.</li>
+  <li>✔ <strong>Balanced:</strong> One plan protects against risk, the other builds guaranteed assets.</li>
+</ul>
+</div>
+
+<!-- PREMIUM & PER-DAY COST USP -->
+<div class="usp" style="margin-top:20px;">
+  <strong>Premium & Daily Cost Breakdown (Age 30)</strong>
+  <ul>
+    <li>
+      <strong>Bima Lakshmi (881)</strong> | <span style="color:#db2777; font-weight:bold;">SA: ₹5,00,000 (Wife)</span><br>
+      Yearly Premium: ₹56,000<br>
+      Per Day Cost = <strong>₹155 / day</strong>
+    </li>
+    <li style="margin-top:10px;">
+      <strong>Tech-Term (954)</strong> | <span style="color:#2563eb; font-weight:bold;">SA: ₹9,00,00,000 (Husband)</span><br>
+      Yearly Premium: ₹57,000<br>
+      Per Day Cost = <strong>₹157 / day</strong>
+    </li>
+  </ul>
+
+  <hr style="margin:12px 0;">
+
+  <p style="font-size:18px;">
+    <strong>Total Family Cost = ₹155 + ₹157 =  
+    <span style="color:#4f46e5;">₹312 per day</span></strong>
+  </p>
+
+  <p style="margin-top:8px; font-size:15px;">
+    👉 <strong>Complete Financial Security for both partners.</strong>
+  </p>
+</div>
+
+<div id="combinationChart" style="width:100%; height:420px; margin:30px 0;"></div>
+
+<table>
+<tr>
+<th>Parameter</th>
+<th>Bima Lakshmi (881)</th>
+<th>Tech-Term (954)</th>
+</tr>
+
+<tr>
+<td>Target Profile</td>
+<td><strong>Women (Savings)</strong></td>
+<td><strong>Men (Protection)</strong></td>
+</tr>
+
+<tr>
+<td>Sum Assured</td>
+<td>₹5,00,000</td>
+<td>₹9,00,00,000 (9 Crores)</td>
+</tr>
+
+<tr>
+<td>Plan Type</td>
+<td>Guaranteed Endowment (Money Back)</td>
+<td>Pure Term Assurance</td>
+</tr>
+
+<tr>
+<td>Policy Term</td>
+<td>25 Years</td>
+<td>10 Years</td>
+</tr>
+
+<tr>
+<td>Premium Payment</td>
+<td>Yearly: ₹56,000 (PPT 15)</td>
+<td>Yearly: ₹57,000 (PPT 10)</td>
+</tr>
+
+<tr>
+<td><strong>Survival Benefits<br>(Money Back)</strong></td>
+<td>
+<strong>Option C (15% SA):</strong><br>
+₹75,000 at Years: 4, 8, 12, 16, 20, 24.<br>
+<strong>Total SB: ₹4,50,000</strong>
+</td>
+<td>
+<strong>NIL</strong><br>
+(Pure Risk)
+</td>
+</tr>
+
+<tr>
+<td><strong>Maturity Benefit</strong></td>
+<td>
+At Year 25:<br>
+SA: ₹5,00,000<br>
+Guaranteed Additions: ~₹5,50,000<br>
+<strong>Total: ₹10,50,000</strong>
+</td>
+<td>
+<strong>NIL</strong>
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 5 -->
+<tr>
+<td>Death after 5 Years<br>(Year 5)</td>
+<td>
+Sum Assured on Death (5.6L)<br>
++ Accrued GA (~60k)<br>
+<strong>Total: ₹6,20,000</strong>
+</td>
+<td>
+Level Sum Assured:<br>
+<strong>₹9,00,00,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 5 yrs)</td>
+<td colspan="2">
+₹6.2 Lakhs + ₹9 Crores = <strong>₹9,06,20,000</strong>
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 10 -->
+<tr>
+<td>Death after 10 Years<br>(Year 10)</td>
+<td>
+Sum Assured on Death (5.6L)<br>
++ Accrued GA (~2.5L)<br>
+<strong>Total: ~₹8,10,000</strong>
+</td>
+<td>
+Level Sum Assured:<br>
+<strong>₹9,00,00,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 10 yrs)</td>
+<td colspan="2">
+₹8.1 Lakhs + ₹9 Crores = <strong>₹9,08,10,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Wealth Created (Survival)</td>
+<td colspan="2">
+1. <strong>₹4,50,000</strong> Money Backs to Wife.<br>
+2. <strong>₹10,50,000</strong> Maturity to Wife.<br>
+3. <strong>₹9 Crores</strong> Risk Cover enjoyed by Husband.<br>
+<strong>Total Cash Value: ~₹15,00,000 (Guaranteed)</strong>
+</td>
+</tr>
+</table>
+
+
+<!-- FINANCIAL EFFICIENCY RATIOS -->
+<div class="note" style="margin-top:30px; background:#fefce8; border:1px solid #fde68a;">
+  <h3 style="color:#92400e; margin-top:0;">
+    Financial Efficiency Ratios (Premium vs Benefit)
+  </h3>
+
+  <table style="width:100%; border-collapse:collapse; margin-top:15px;">
+    <tr>
+      <th style="background:#78350f; color:#fff;">Plan</th>
+      <th style="background:#78350f; color:#fff;">Total Premium</th>
+      <th style="background:#78350f; color:#fff;">Primary Benefit</th>
+      <th style="background:#78350f; color:#fff;">Efficiency Ratio</th>
+    </tr>
+
+    <tr>
+      <td><strong>Bima Lakshmi (881)</strong></td>
+      <td>₹8,40,000</td>
+      <td>₹15,00,000 (Mat+SB)</td>
+      <td style="color:#15803d; font-weight:700;">
+        ▲ 1.79 (Guaranteed)
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Tech-Term (954)</strong></td>
+      <td>₹5,70,000</td>
+      <td>₹9,00,00,000 (Cover)</td>
+      <td style="color:#ea580c; font-weight:700;">
+        ▲ 157x (Leverage)
+      </td>
+    </tr>
+  </table>
+
+  <div style="margin-top:15px; font-size:14px; line-height:1.6;">
+    <p>
+      <strong>The Strategy:</strong><br>
+      The husband takes the <strong>Plan 954</strong> to secure the family's future with a massive <strong>157x Leverage</strong> on risk. 
+      The wife takes <strong>Plan 881</strong> to ensure guaranteed savings and regular cash flow (Ratio 1.79) for household needs or children's expenses.
+    </p>
+  </div>
+</div>
+
+<div class="note">
+<strong>Note on Bima Lakshmi (Option C):</strong><br>
+This combination assumes Option C for Bima Lakshmi, which provides 15% of Basic Sum Assured at years 4, 8, 12, 16, 20, and 24.
+</div>
+
+</div>
+
+<script>
+google.charts.load('current', {packages:['corechart']});
+google.charts.setOnLoadCallback(drawCombinationChart);
+
+function drawCombinationChart() {
+
+// Chart Logic: 
+// 1. Bima Lakshmi (Value = Death Benefit including GA)
+// 2. Tech-Term (Flat 9Cr Cover for 10 years, then 0)
+// 3. Total Security Value
+
+var data = google.visualization.arrayToDataTable([
+  ['Year', 'Bima Lakshmi (Wife)', 'Tech-Term (Husband)', 'Total Family Security'],
+  [0,   500000,   90000000,   90500000],
+  // Year 5: 881 (~6.2L), 954 (9Cr)
+  [5,   620000,   90000000,   90620000],
+  // Year 10: 881 (~8.1L), 954 (9Cr) - Last year of Term
+  [10,  810000,   90000000,   90810000],
+  // Year 11: 954 Expired, 881 Continues
+  [11,  850000,   0,          850000],
+  // Year 15: 881 (~9.5L)
+  [15,  950000,   0,          950000], 
+  // Year 25: 881 Matures
+  [25,  1050000,  0,          1050000]
+]);
+
+var options = {
+  title: 'Portfolio Protection & Value (in ₹)',
+  curveType: 'function',
+  legend: { position: 'bottom' },
+  hAxis: { title: 'Policy Year' },
+  vAxis: {
+    title: 'Value (₹)',
+    format: 'short'
+  },
+  colors: ['#db2777', '#2563eb', '#4f46e5'], // Pink, Blue, Indigo
+  lineWidth: 3,
+  pointSize: 6
+};
+
+var chart = new google.visualization.LineChart(
+  document.getElementById('combinationChart')
+);
+chart.draw(data, options);
+}
+</script>
+
+</body>
+</html>

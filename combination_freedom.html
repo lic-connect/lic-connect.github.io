@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC Freedom Portfolio (771 + 862)</title>
+
+<style>
+body{
+  font-family:Segoe UI, Arial, sans-serif;
+  background:#f4f6f9;
+  margin:0;
+  padding:20px;
+  color:#333;
+}
+.container{
+  max-width:1200px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  border-top:6px solid #10b981; /* Emerald Green for Lifetime Income */
+}
+h1{
+  text-align:center;
+  color:#047857;
+  margin-bottom:10px;
+}
+.highlight-banner {
+  background: #10b981;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.usp{
+  background:#ecfdf5;
+  border:1px solid #6ee7b7;
+  padding:20px;
+  border-radius:10px;
+  margin:20px 0;
+  font-size:16px;
+}
+.usp strong{
+  color:#047857;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:30px;
+}
+th, td{
+  border:1px solid #e5e7eb;
+  padding:14px;
+  vertical-align:top;
+}
+th{
+  background:#047857;
+  color:#fff;
+  text-align:center;
+}
+td:first-child{
+  font-weight:600;
+  background:#f0fdf4;
+  width:18%;
+}
+.total-row{
+  background:#ecfeff;
+  font-weight:700;
+}
+.note{
+  margin-top:30px;
+  background:#f0f9ff;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid #bae6fd;
+}
+</style>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="highlight-banner">
+  💸 Highlight: Start with ₹60k/yr Income Immediately → Jumps to ₹1.4 Lakhs/yr later! 💸
+</div>
+
+<h1>LIC “Freedom Portfolio: Income Now & Forever”</h1>
+<p style="text-align:center;color:#555;">
+The Ultimate Income Strategy: <strong>Jeevan Utsav (771)</strong> + <strong>Saral Pension (862)</strong>
+</p>
+
+<div class="usp">
+<strong>Key USPs at a Glance</strong>
+<ul>
+  <li>✔ <strong>Immediate Income (862):</strong> Pension starts from Year 1 itself.</li>
+  <li>✔ <strong>Step-Up Income (771):</strong> Income more than doubles after Premium Paying Term.</li>
+  <li>✔ <strong>100% Guaranteed:</strong> Both plans offer fixed, written guarantees. No market risk.</li>
+  <li>✔ <strong>Legacy Creation:</strong> Capital from both plans is returned to the family upon death.</li>
+</ul>
+</div>
+
+<!-- PREMIUM & PER-DAY COST USP -->
+<div class="usp" style="margin-top:20px;">
+  <strong>Premium & Cost Breakdown (Age 40)</strong>
+  <ul>
+    <li>
+      <strong>Jeevan Utsav (Plan 771)</strong><br>
+      Yearly Premium: ₹54,000 (Payable for 15 Years)<br>
+      Per Day Cost = <strong>₹148 / day</strong>
+    </li>
+    <li style="margin-top:10px;">
+      <strong>Saral Pension (Plan 862)</strong><br>
+      Single Premium: ₹10,00,000 (One-time Investment)<br>
+      <em>(Immediate Annuity Plan)</em>
+    </li>
+  </ul>
+
+  <hr style="margin:12px 0;">
+
+  <p style="font-size:18px;">
+    <strong>Strategic Allocation:</strong> One lump sum for Today + Small SIP for Tomorrow.
+  </p>
+</div>
+
+<div id="combinationChart" style="width:100%; height:420px; margin:30px 0;"></div>
+
+<table>
+<tr>
+<th>Parameter</th>
+<th>Jeevan Utsav (Plan 771)</th>
+<th>Saral Pension (Plan 862)</th>
+</tr>
+
+<tr>
+<td>Sum Assured / Purchase Price</td>
+<td>SA: ₹8,00,000</td>
+<td>Price: ₹10,00,000</td>
+</tr>
+
+<tr>
+<td>Policy Term</td>
+<td>Lifelong (100 - Age 40 = 60 Yrs)</td>
+<td>Lifelong</td>
+</tr>
+
+<tr>
+<td>Premium Paying Term</td>
+<td>15 Years</td>
+<td>Single Premium</td>
+</tr>
+
+<tr>
+<td><strong>Income Benefit<br>(Survival)</strong></td>
+<td>
+<strong>Deferred Income (Starts Year 16):</strong><br>
+10% of SA = ₹80,000 per year<br>
+Payable Lifelong Guaranteed.
+</td>
+<td>
+<strong>Immediate Income (Starts Year 1):</strong><br>
+₹60,000 per year<br>
+Payable Lifelong Guaranteed.
+</td>
+</tr>
+
+<tr>
+<td><strong>Combined Cash Flow</strong></td>
+<td colspan="2" style="background:#fff7ed; text-align:center;">
+<strong>Years 1 to 15:</strong> ₹60,000 / year<br>
+<strong>Years 16 Onwards:</strong> ₹60,000 + ₹80,000 = <strong>₹1,40,000 / year</strong>
+</td>
+</tr>
+
+<tr>
+<td><strong>Maturity / Legacy Benefit</strong></td>
+<td>
+At Death (or Age 100):<br>
+SA (8L) + Guaranteed Additions (4.8L)<br>
+<strong>Total Legacy: ₹12,80,000</strong>
+</td>
+<td>
+At Death:<br>
+Return of Purchase Price<br>
+<strong>Total Legacy: ₹10,00,000</strong>
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 5 -->
+<tr>
+<td>Death after 5 Years<br>(Year 5)</td>
+<td>
+SA (8L) + GA (40x800x5 = 1.6L)<br>
+<strong>Total: ₹9,60,000</strong>
+</td>
+<td>
+Return of Purchase Price:<br>
+<strong>Total: ₹10,00,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 5 yrs)</td>
+<td colspan="2">
+₹9,60,000 (771) + ₹10,00,000 (862) = <strong>₹19,60,000</strong>
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 10 -->
+<tr>
+<td>Death after 10 Years<br>(Year 10)</td>
+<td>
+SA (8L) + GA (40x800x10 = 3.2L)<br>
+<strong>Total: ₹11,20,000</strong>
+</td>
+<td>
+Return of Purchase Price:<br>
+<strong>Total: ₹10,00,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 10 yrs)</td>
+<td colspan="2">
+₹11,20,000 (771) + ₹10,00,000 (862) = <strong>₹21,20,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Wealth Created (Survival)</td>
+<td colspan="2">
+1. <strong>₹60,000/yr</strong> immediately.<br>
+2. <strong>₹1,40,000/yr</strong> from Year 16 till life.<br>
+3. <strong>₹22,80,000</strong> Estate/Legacy left for family.<br>
+*(12.8L from 771 + 10L from 862)*
+</td>
+</tr>
+</table>
+
+
+<!-- FINANCIAL EFFICIENCY RATIOS -->
+<div class="note" style="margin-top:30px; background:#fefce8; border:1px solid #fde68a;">
+  <h3 style="color:#92400e; margin-top:0;">
+    Financial Efficiency Ratios (Premium vs Benefit)
+  </h3>
+
+  <table style="width:100%; border-collapse:collapse; margin-top:15px;">
+    <tr>
+      <th style="background:#78350f; color:#fff;">Plan</th>
+      <th style="background:#78350f; color:#fff;">Total Premium</th>
+      <th style="background:#78350f; color:#fff;">Total Benefit (Inc+Leg)</th>
+      <th style="background:#78350f; color:#fff;">Efficiency Ratio</th>
+    </tr>
+
+    <tr>
+      <td><strong>Jeevan Utsav (771)</strong></td>
+      <td>₹8,10,000</td>
+      <td>~₹32.8 Lakhs<br><span style="font-size:11px;">(Assumed life till 80)</span></td>
+      <td style="color:#15803d; font-weight:700;">
+        ▲ 4.05
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Saral Pension (862)</strong></td>
+      <td>₹10,00,000</td>
+      <td>~₹34.0 Lakhs<br><span style="font-size:11px;">(40 yrs pension + Cap Return)</span></td>
+      <td style="color:#15803d; font-weight:700;">
+        ▲ 3.40
+      </td>
+    </tr>
+  </table>
+
+  <div style="margin-top:15px; font-size:14px; line-height:1.6;">
+    <p>
+      <strong>Why this combination?</strong><br>
+      <strong>Saral Pension (862)</strong> provides stability today. 
+      <strong>Jeevan Utsav (771)</strong> fights inflation for tomorrow.
+      The ratio of ~4.0 on Utsav is incredible because it combines a 10% lifetime yield with a growing death benefit (Guaranteed Additions).
+    </p>
+  </div>
+</div>
+
+<div class="note">
+<strong>The "Income Step-Up" Strategy:</strong><br>
+At Age 40, you start receiving ₹60k/year.
+At Age 56 (when 771 kicks in), your income automatically jumps to ₹1.4 Lakhs/year. This perfectly compensates for inflation or increased medical costs in later years.
+</div>
+
+</div>
+
+<script>
+google.charts.load('current', {packages:['corechart']});
+google.charts.setOnLoadCallback(drawCombinationChart);
+
+function drawCombinationChart() {
+
+// Chart Logic: 
+// 1. Jeevan Utsav (771): Value Increases during PPT (GA accrual), then stays constant or grows slowly.
+// 2. Saral Pension (862): Value is constant (Purchase Price Return).
+// 3. Total Portfolio Value.
+
+var data = google.visualization.arrayToDataTable([
+  ['Year', 'Jeevan Utsav (771)', 'Saral Pension (862)', 'Total Legacy Value'],
+  [0,   0,        1000000,   1000000],
+  // Year 5: 771 (9.6L), 862 (10L)
+  [5,   960000,   1000000,   1960000],
+  // Year 10: 771 (11.2L), 862 (10L)
+  [10,  1120000,  1000000,   2120000],
+  // Year 15: 771 (12.8L - PPT Ends), 862 (10L)
+  [15,  1280000,  1000000,   2280000],
+  // Year 20: Values remain constant (Legacy) while Income is paid out
+  [20,  1280000,  1000000,   2280000],
+  // Year 30
+  [30,  1280000,  1000000,   2280000]
+]);
+
+var options = {
+  title: 'Legacy Value & Death Cover Evolution',
+  curveType: 'function',
+  legend: { position: 'bottom' },
+  hAxis: { title: 'Policy Year' },
+  vAxis: {
+    title: 'Value (₹)',
+    format: 'short'
+  },
+  colors: ['#10b981', '#34d399', '#065f46'], // Greens
+  lineWidth: 3,
+  pointSize: 6
+};
+
+var chart = new google.visualization.LineChart(
+  document.getElementById('combinationChart')
+);
+chart.draw(data, options);
+}
+</script>
+
+</body>
+</html>

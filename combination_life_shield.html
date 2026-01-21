@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC Digital Shield (50L + 50L)</title>
+
+<style>
+body{
+  font-family:Segoe UI, Arial, sans-serif;
+  background:#f4f6f9;
+  margin:0;
+  padding:20px;
+  color:#333;
+}
+.container{
+  max-width:1200px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  border-top:6px solid #06b6d4; /* Cyan for Digital */
+}
+h1{
+  text-align:center;
+  color:#0e7490;
+  margin-bottom:10px;
+}
+.highlight-banner {
+  background: #06b6d4;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.usp{
+  background:#ecfeff;
+  border:1px solid #a5f3fc;
+  padding:20px;
+  border-radius:10px;
+  margin:20px 0;
+  font-size:16px;
+}
+.usp strong{
+  color:#0e7490;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:30px;
+}
+th, td{
+  border:1px solid #e5e7eb;
+  padding:14px;
+  vertical-align:top;
+}
+th{
+  background:#155e75;
+  color:#fff;
+  text-align:center;
+}
+td:first-child{
+  font-weight:600;
+  background:#f0fdfa;
+  width:18%;
+}
+.total-row{
+  background:#ecfeff;
+  font-weight:700;
+}
+.note{
+  margin-top:30px;
+  background:#f0f9ff;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid #bae6fd;
+}
+</style>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="highlight-banner">
+  💻 Highlight: ₹1 Crore Initial Coverage (50L + 50L) for a Single Payment of ~₹85k! 💻
+</div>
+
+<h1>LIC “The Digital Shield”</h1>
+<p style="text-align:center;color:#555;">
+Online Protection: <strong>Digi Credit Life (878)</strong> + <strong>New Tech-Term (954)</strong>
+</p>
+
+<div class="usp">
+<strong>Key USPs at a Glance</strong>
+<ul>
+  <li>✔ <strong>Double Layer Protection:</strong> 50L Loan Cover + 50L Life Cover.</li>
+  <li>✔ <strong>Loan Protection (878):</strong> Decreasing cover to match your outstanding loan liability.</li>
+  <li>✔ <strong>Income Protection (954):</strong> Level cover to secure family's lifestyle.</li>
+  <li>✔ <strong>One-Time Cost:</strong> Pay Single Premium once and forget renewals.</li>
+</ul>
+</div>
+
+<!-- PREMIUM & PER-DAY COST USP -->
+<div class="usp" style="margin-top:20px;">
+  <strong>Premium & Daily Cost Breakdown (Age 30)</strong>
+  <ul>
+    <li>
+      <strong>Digi Credit Life (878)</strong> | <span style="color:#0891b2; font-weight:bold;">Initial SA: ₹50,00,000</span><br>
+      Single Premium: ₹41,000 (Cover for 15 Yrs)<br>
+      Amortized Cost = <strong>₹9 / day</strong>
+    </li>
+    <li style="margin-top:10px;">
+      <strong>New Tech-Term (954)</strong> | <span style="color:#0891b2; font-weight:bold;">SA: ₹50,00,000</span><br>
+      Single Premium: ₹44,367 (Cover for 10 Yrs)<br>
+      Amortized Cost = <strong>₹13 / day</strong>
+    </li>
+  </ul>
+
+  <hr style="margin:12px 0;">
+
+  <p style="font-size:18px;">
+    <strong>Total Amortized Cost = ₹9 + ₹13 =  
+    <span style="color:#155e75;">₹22 per day</span></strong>
+  </p>
+
+  <p style="margin-top:8px; font-size:15px;">
+    👉 <strong>Total One-Time Investment: ₹85,367 for ₹1 Crore Initial Cover.</strong>
+  </p>
+</div>
+
+<div id="combinationChart" style="width:100%; height:420px; margin:30px 0;"></div>
+
+<table>
+<tr>
+<th>Parameter</th>
+<th>Digi Credit Life (878)</th>
+<th>New Tech-Term (954)</th>
+</tr>
+
+<tr>
+<td>Risk Cover Type</td>
+<td><strong>Decreasing Sum Assured</strong><br>(Loan Cover)</td>
+<td><strong>Level Sum Assured</strong><br>(Life Cover)</td>
+</tr>
+
+<tr>
+<td>Initial Sum Assured</td>
+<td>₹50,00,000</td>
+<td>₹50,00,000</td>
+</tr>
+
+<tr>
+<td>Policy Term</td>
+<td>15 Years</td>
+<td>10 Years</td>
+</tr>
+
+<tr>
+<td>Premium Payment</td>
+<td>Single: ₹41,000</td>
+<td>Single: ₹44,367</td>
+</tr>
+
+<tr>
+<td><strong>Maturity Benefit</strong></td>
+<td>
+<strong>NIL</strong><br>
+(Pure Risk)
+</td>
+<td>
+<strong>NIL</strong><br>
+(Pure Risk)
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 5 -->
+<tr>
+<td>Death after 5 Years<br>(Year 5)</td>
+<td>
+<strong>Loan Cover Payout:</strong><br>
+Approx. ₹37,50,000<br>
+*(As per reducing schedule)*
+</td>
+<td>
+<strong>Life Cover Payout:</strong><br>
+₹50,00,000<br>
+*(Fixed Level SA)*
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 5 yrs)</td>
+<td colspan="2">
+₹37.5 Lakhs (Clears Loan) + ₹50 Lakhs (Family Fund) = <strong>₹87,50,000</strong>
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 10 -->
+<tr>
+<td>Death after 10 Years<br>(Year 10)</td>
+<td>
+<strong>Loan Cover Payout:</strong><br>
+Approx. ₹20,00,000<br>
+*(Reduced cover)*
+</td>
+<td>
+<strong>Life Cover Payout:</strong><br>
+₹50,00,000<br>
+*(Last year of cover)*
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 10 yrs)</td>
+<td colspan="2">
+₹20 Lakhs + ₹50 Lakhs = <strong>₹70,00,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Wealth Created (Survival)</td>
+<td colspan="2">
+<strong>Zero Financial Return.</strong><br>
+However, you secure the family against debts and income loss for a very low one-time cost.
+</td>
+</tr>
+</table>
+
+
+<!-- FINANCIAL EFFICIENCY RATIOS -->
+<div class="note" style="margin-top:30px; background:#fefce8; border:1px solid #fde68a;">
+  <h3 style="color:#92400e; margin-top:0;">
+    Financial Efficiency Ratios (Protection Leverage)
+  </h3>
+
+  <table style="width:100%; border-collapse:collapse; margin-top:15px;">
+    <tr>
+      <th style="background:#78350f; color:#fff;">Plan</th>
+      <th style="background:#78350f; color:#fff;">Single Premium</th>
+      <th style="background:#78350f; color:#fff;">Initial Cover</th>
+      <th style="background:#78350f; color:#fff;">Leverage Ratio</th>
+    </tr>
+
+    <tr>
+      <td><strong>Digi Credit (878)</strong></td>
+      <td>₹41,000</td>
+      <td>₹50,00,000</td>
+      <td style="color:#ea580c; font-weight:700;">
+        ▲ 121x
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Tech-Term (954)</strong></td>
+      <td>₹44,367</td>
+      <td>₹50,00,000</td>
+      <td style="color:#15803d; font-weight:700;">
+        ▲ 112x
+      </td>
+    </tr>
+  </table>
+
+  <div style="margin-top:15px; font-size:14px; line-height:1.6;">
+    <p>
+      <strong>How to read this?</strong><br>
+      This shows the power of pure protection. For a combined payment of ~₹85k, you get an immediate risk cover of <strong>₹1 Crore</strong>. That is a leverage of over 100 times your investment.
+    </p>
+  </div>
+</div>
+
+<div class="note">
+<strong>Why this combination works?</strong><br>
+<strong>Plan 878 (Decreasing)</strong> is perfect for covering your Home/Car Loan. As your loan balance reduces, the cover reduces.
+<strong>Plan 954 (Level)</strong> provides a fixed ₹50 Lakhs for your family's daily needs and future goals, regardless of when the claim occurs during the term.
+</div>
+
+</div>
+
+<script>
+google.charts.load('current', {packages:['corechart']});
+google.charts.setOnLoadCallback(drawCombinationChart);
+
+function drawCombinationChart() {
+
+// Chart Logic: 
+// 1. Digi Credit (Starts at 50L, decreases linearly to 0 by year 15)
+// 2. Tech Term (Starts at 50L, stays flat till year 10, then 0)
+// 3. Total Protection
+
+var data = google.visualization.arrayToDataTable([
+  ['Year', 'Digi Credit (Loan Cover)', 'Tech-Term (Life Cover)', 'Total Security'],
+  [0,   5000000,  5000000,    10000000],
+  // Year 5: 878 (~37.5L), 954 (50L)
+  [5,   3750000,  5000000,    8750000],
+  // Year 10: 878 (~20L), 954 (50L)
+  [10,  2000000,  5000000,    7000000],
+  // Year 11: 878 (~13L), 954 (Expired)
+  [11,  1300000,  0,          1300000],
+  // Year 15: 878 (Expired)
+  [15,  0,        0,          0]
+]);
+
+var options = {
+  title: 'Protection Shield Trajectory (Decreasing vs Level)',
+  curveType: 'function',
+  legend: { position: 'bottom' },
+  hAxis: { title: 'Policy Year' },
+  vAxis: {
+    title: 'Cover Amount (₹)',
+    format: 'short'
+  },
+  colors: ['#0891b2', '#06b6d4', '#155e75'], // Cyan Blues
+  lineWidth: 3,
+  pointSize: 6
+};
+
+var chart = new google.visualization.LineChart(
+  document.getElementById('combinationChart')
+);
+chart.draw(data, options);
+}
+</script>
+
+</body>
+</html>

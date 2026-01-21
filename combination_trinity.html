@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC Trinity Combination (717 + 721 + 857)</title>
+
+<style>
+body{
+  font-family:Segoe UI, Arial, sans-serif;
+  background:#f4f6f9;
+  margin:0;
+  padding:20px;
+  color:#333;
+}
+.container{
+  max-width:1200px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  border-top:6px solid #d97706; /* Gold/Amber for 3-in-1 Wealth */
+}
+h1{
+  text-align:center;
+  color:#b45309;
+  margin-bottom:10px;
+}
+.highlight-banner {
+  background: #d97706;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.usp{
+  background:#fffbeb;
+  border:1px solid #fcd34d;
+  padding:20px;
+  border-radius:10px;
+  margin:20px 0;
+  font-size:16px;
+}
+.usp strong{
+  color:#b45309;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:30px;
+}
+th, td{
+  border:1px solid #e5e7eb;
+  padding:14px;
+  vertical-align:top;
+}
+th{
+  background:#b45309;
+  color:#fff;
+  text-align:center;
+}
+td:first-child{
+  font-weight:600;
+  background:#fffdf2;
+  width:15%;
+}
+.total-row{
+  background:#ecfeff;
+  font-weight:700;
+}
+.note{
+  margin-top:30px;
+  background:#f0f9ff;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid #bae6fd;
+}
+</style>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="highlight-banner">
+  🔱 Highlight: Immediate Pension + Periodic Cash Back + Massive Lump Sum! 🔱
+</div>
+
+<h1>LIC “The Trinity: Wealth, Income & Cashflow”</h1>
+<p style="text-align:center;color:#555;">
+The Ultimate Portfolio: <strong>Single Endowment (717)</strong> + <strong>Money Back (721)</strong> + <strong>Jeevan Akshay (857)</strong>
+</p>
+
+<div class="usp">
+<strong>Key USPs at a Glance</strong>
+<ul>
+  <li>✔ <strong>Immediate Income (857):</strong> Start receiving ₹34,000/year from Year 1 itself.</li>
+  <li>✔ <strong>Periodic Liquidity (721):</strong> Get ₹60,000 every 5 years for short-term goals.</li>
+  <li>✔ <strong>Wealth Creation (717):</strong> Get ₹10.3 Lakhs Lump Sum at Year 15.</li>
+  <li>✔ <strong>Triple Efficiency:</strong> Combines Safety, Liquidity, and Returns in one go.</li>
+</ul>
+</div>
+
+<!-- PREMIUM & PER-DAY COST USP -->
+<div class="usp" style="margin-top:20px;">
+  <strong>Premium & Daily Cost Breakdown (Age 30)</strong>
+  <ul>
+    <li>
+      <strong>Plan 717 (Single Premium)</strong>: Single ₹6,00,000 -> <strong>₹73 / day</strong>
+    </li>
+    <li>
+      <strong>Plan 721 (Money Back)</strong>: Sum assured : ₹4,000,00 -></strong>Yearly ₹25,000 -> <strong>₹69 / day</strong>
+    </li>
+    <li>
+      <strong>Plan 857 (Immediate Annuity)</strong>: Single ₹5,00,000 -> <strong>₹93 / day</strong>
+    </li>
+  </ul>
+
+  <hr style="margin:12px 0;">
+
+  <p style="font-size:18px;">
+    <strong>Total Portfolio Allocation =  
+    <span style="color:#b45309;">₹235 per day</span></strong>
+    <span style="font-size:14px; color:#666;"> (Amortized Cost)</span>
+  </p>
+</div>
+
+<div id="combinationChart" style="width:100%; height:420px; margin:30px 0;"></div>
+
+<table>
+<tr>
+<th>Parameter</th>
+<th>Single Endowment (717)</th>
+<th>Money Back 25Y (721)</th>
+<th>Jeevan Akshay (857)</th>
+</tr>
+
+<tr>
+<td>Sum Assured</td>
+<td>₹6,00,000</td>
+<td>₹4,00,000</td>
+<td>N/A (Purchase Price ₹5L)</td>
+</tr>
+
+<tr>
+<td>Bonus Rate Taken</td>
+<td>45 per 1000 SA</td>
+<td>45 per 1000 SA</td>
+<td>N/A (Pension Plan)</td>
+</tr>
+
+<tr>
+<td>Policy Term</td>
+<td>15 Years</td>
+<td>25 Years</td>
+<td>Lifelong</td>
+</tr>
+
+<tr>
+<td>Premium Payment</td>
+<td>Single: ₹4,00,000</td>
+<td>Yearly: ₹25,000 (PPT 20)</td>
+<td>Single: ₹5,00,000</td>
+</tr>
+
+<tr>
+<td><strong>Survival Benefits<br>(Cash Flow)</strong></td>
+<td>
+Accumulates for Maturity.
+</td>
+<td>
+<strong>Years 5, 10, 15, 20:</strong><br>
+₹60,000 (15% SA)<br>
+<strong>Total SB: ₹2,40,000</strong>
+</td>
+<td>
+<strong>Immediate Income:</strong><br>
+₹34,000 per year<br>
+Starting from Year 1<br>
+<strong>Lifelong</strong>
+</td>
+</tr>
+
+<tr>
+<td><strong>Maturity Benefit</strong></td>
+<td>
+At Year 15:<br>
+SA: ₹6L + Bonus + FAB<br>
+<strong>Total: ₹10,30,000</strong>
+</td>
+<td>
+At Year 25:<br>
+Bal SA + Bonus + FAB<br>
+<strong>Total: ₹6,60,000</strong>
+</td>
+<td>
+N/A (Pension continues)
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 5 -->
+<tr>
+<td>Death after 5 Years<br>(Year 5)</td>
+<td>
+SA (6L) + Bonus (1.35L)<br>
+<strong>₹7,35,000</strong>
+</td>
+<td>
+125% SA (5L) + Bonus (90k)<br>
+<strong>₹5,90,000</strong>
+</td>
+<td>
+Return of Purchase Price<br>
+<strong>₹5,00,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 5 yrs)</td>
+<td colspan="3">
+₹7.35L + ₹5.90L + ₹5.00L = <strong>₹18,25,000</strong>
+</td>
+</tr>
+
+<!-- DEATH SCENARIO: YEAR 10 -->
+<tr>
+<td>Death after 10 Years<br>(Year 10)</td>
+<td>
+SA (6L) + Bonus (2.70L)<br>
+<strong>₹8,70,000</strong>
+</td>
+<td>
+125% SA (5L) + Bonus (1.80L)<br>
+<strong>₹6,80,000</strong>
+</td>
+<td>
+Return of Purchase Price<br>
+<strong>₹5,00,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 10 yrs)</td>
+<td colspan="3">
+₹8.70L + ₹6.80L + ₹5.00L = <strong>₹20,50,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Wealth Created</td>
+<td colspan="3">
+1. <strong>₹34,000/yr</strong> Pension Lifelong (Total ~₹13.6L over 40 yrs)<br>
+2. <strong>₹2,40,000</strong> Money Back from 721<br>
+3. <strong>₹10,30,000</strong> Maturity from 717<br>
+4. <strong>₹6,60,000</strong> Maturity from 721<br>
+<strong>Total Value: ~₹32.9 Lakhs</strong>
+</td>
+</tr>
+</table>
+
+
+<!-- FINANCIAL EFFICIENCY RATIOS -->
+<div class="note" style="margin-top:30px; background:#fefce8; border:1px solid #fde68a;">
+  <h3 style="color:#92400e; margin-top:0;">
+    Financial Efficiency Ratios (Premium vs Benefit)
+  </h3>
+
+  <table style="width:100%; border-collapse:collapse; margin-top:15px;">
+    <tr>
+      <th style="background:#78350f; color:#fff;">Plan</th>
+      <th style="background:#78350f; color:#fff;">Total Cost</th>
+      <th style="background:#78350f; color:#fff;">Total Benefit</th>
+      <th style="background:#78350f; color:#fff;">Efficiency Ratio</th>
+    </tr>
+
+    <tr>
+      <td><strong>Single Endow (717)</strong></td>
+      <td>₹4,00,000</td>
+      <td>₹10,30,000</td>
+      <td style="color:#15803d; font-weight:700;">
+        ▲ 2.57
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Money Back (721)</strong></td>
+      <td>₹5,00,000</td>
+      <td>₹11,40,000</td>
+      <td style="color:#15803d; font-weight:700;">
+        ▲ 2.28
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>Jeevan Akshay (857)</strong></td>
+      <td>₹5,00,000</td>
+      <td>~₹13,60,000 (Pension)</td>
+      <td style="color:#15803d; font-weight:700;">
+        ▲ 2.72
+      </td>
+    </tr>
+  </table>
+
+  <div style="margin-top:15px; font-size:14px; line-height:1.6;">
+    <p>
+      <strong>How to read this:</strong><br>
+      This combination is highly efficient because it diversifies your returns. 
+      You get <strong>2.72x</strong> on the pension component (Long Term), 
+      <strong>2.57x</strong> on the Single Premium component (Mid Term), and 
+      <strong>2.28x</strong> on the Money Back component (Short Term Liquidity).
+    </p>
+  </div>
+</div>
+
+<div class="note">
+<strong>Why this works:</strong><br>
+Typically, people struggle to choose between "Regular Income" and "Lump Sum". This plan gives you both.
+The <strong>Pension</strong> pays your bills. The <strong>Money Back</strong> pays for holidays/upgrades every 5 years. The <strong>Endowment</strong> builds your major asset.
+</div>
+
+</div>
+
+<script>
+google.charts.load('current', {packages:['corechart']});
+google.charts.setOnLoadCallback(drawCombinationChart);
+
+function drawCombinationChart() {
+
+// Chart Logic: 
+// Visualizing the Risk Cover / Asset Value of each plan over time.
+// 857 (Jeevan Akshay) is flat 5L (Purchase Price Return).
+// 717 (Single Endow) starts at 4L+, grows to 10.3L.
+// 721 (Money Back) grows, dips at SB, ends at 6.6L.
+
+var data = google.visualization.arrayToDataTable([
+  ['Year', 'Endowment (717)', 'Money Back (721)', 'Pension Corpus (857)'],
+  [0,   400000,   0,         500000],
+  [5,   735000,   590000,    500000],
+  [10,  870000,   680000,    500000],
+  // Year 15: 717 Matures (10.3L), 721 Value grows
+  [15,  1030000,  770000,    500000], 
+  // Year 20: 717 Ended, 721 Value
+  [20,  0,        860000,    500000],
+  // Year 25: 721 Matures
+  [25,  0,        660000,    500000]
+]);
+
+var options = {
+  title: 'Asset Value / Death Benefit Evolution',
+  curveType: 'function',
+  legend: { position: 'bottom' },
+  hAxis: { title: 'Policy Year' },
+  vAxis: {
+    title: 'Value (₹)',
+    format: 'short'
+  },
+  colors: ['#b45309', '#f59e0b', '#78350f'], // Golds and Browns
+  lineWidth: 3,
+  pointSize: 6
+};
+
+var chart = new google.visualization.LineChart(
+  document.getElementById('combinationChart')
+);
+chart.draw(data, options);
+}
+</script>
+
+</body>
+</html>

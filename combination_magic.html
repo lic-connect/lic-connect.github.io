@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC Smart Wealth Shield – Plan Combination (715 + 717)</title>
+
+<style>
+body{
+  font-family:Segoe UI, Arial, sans-serif;
+  background:#f4f6f9;
+  margin:0;
+  padding:20px;
+  color:#333;
+}
+.container{
+  max-width:1200px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  border-top:6px solid #003366;
+}
+h1{
+  text-align:center;
+  color:#003366;
+  margin-bottom:10px;
+}
+.usp{
+  background:#fff7ed;
+  border:1px solid #fbbf24;
+  padding:20px;
+  border-radius:10px;
+  margin:20px 0;
+  font-size:16px;
+}
+.usp strong{
+  color:#92400e;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:30px;
+}
+th, td{
+  border:1px solid #e5e7eb;
+  padding:14px;
+  vertical-align:top;
+}
+th{
+  background:#003366;
+  color:#fff;
+  text-align:center;
+}
+td:first-child{
+  font-weight:600;
+  background:#f8fafc;
+  width:18%;
+}
+.total-row{
+  background:#ecfeff;
+  font-weight:700;
+}
+.note{
+  margin-top:30px;
+  background:#f0f9ff;
+  padding:20px;
+  border-radius:10px;
+  border:1px solid #bae6fd;
+}
+</style>
+
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>LIC “Smart Wealth Shield”</h1>
+<p style="text-align:center;color:#555;">
+A Powerful Combination of <strong>Jeevan Anand (715)</strong> + <strong>Single Premium Endowment (717)</strong>
+</p>
+
+<div class="usp">
+<strong>Key USPs at a Glance</strong>
+<ul>
+  <li>✔ One maturity at <strong>Year 15</strong> + another at <strong>Year 20</strong></li>
+  <li>✔ Lifetime insurance cover even after maturity</li>
+  <li>✔ Balanced mix of liquidity, safety & wealth creation</li>
+  <li>✔ Government-backed assurance by LIC</li>
+</ul>
+</div>
+<!-- PREMIUM & PER-DAY COST USP -->
+<div class="usp" style="margin-top:20px;">
+  <strong>Premium & Daily Cost Breakdown (Age 30)</strong>
+  <ul>
+    <li>
+      <strong>LIC Jeevan Anand (Plan 715)</strong><br>
+      Yearly Premium: ₹34,000<br>
+      Per Day Cost = ₹34,000 ÷ 365 = <strong>₹93.15 / day</strong>
+    </li>
+    <li style="margin-top:10px;">
+      <strong>LIC Single Premium Endowment (Plan 717)</strong><br>
+      Single Premium: ₹3,22,000<br>
+      Spread over 20 years = ₹3,22,000 ÷ 20 = ₹16,100 per year<br>
+      Per Day Cost = ₹16,100 ÷ 365 = <strong>₹44.10 / day</strong>
+    </li>
+  </ul>
+
+  <hr style="margin:12px 0;">
+
+  <p style="font-size:18px;">
+    <strong>Total Cost Per Day = ₹93.15 + ₹44.10 =  
+    <span style="color:#15803d;">₹137.25 per day</span></strong>
+  </p>
+
+  <p style="margin-top:8px; font-size:15px;">
+    👉 <strong>₹137 per day gives lifelong insurance cover of ₹4,00,000  
+    + two guaranteed maturity payouts</strong>
+  </p>
+</div>
+
+<div id="combinationChart" style="width:100%; height:420px; margin:30px 0;"></div>
+
+<table>
+<tr>
+<th>Parameter</th>
+<th>LIC Jeevan Anand (Plan 715)</th>
+<th>LIC Single Premium Endowment (Plan 717)</th>
+</tr>
+
+<tr>
+<td>Sum Assured</td>
+<td>₹4,00,000</td>
+<td>₹6,00,000</td>
+</tr>
+
+<tr>
+<td>Age at Entry</td>
+<td colspan="2">30 Years</td>
+</tr>
+
+
+<tr>
+<td>Policy Term</td>
+<td>15 Years</td>
+<td>20 Years</td>
+</tr>
+
+<tr>
+<td>Premium Type</td>
+<td>Regular Premium</td>
+<td>Single Premium</td>
+</tr>
+
+<tr>
+<td>Premium Amount</td>
+<td>
+₹34,000 per year<br>
+(Payable for 15 years)<br>
+<strong>Total Premium: ₹5,10,000</strong>
+</td>
+<td>
+One-time premium<br>
+<strong>₹3,22,000</strong>
+</td>
+</tr>
+
+<tr>
+<td>Maturity Benefit</td>
+<td>
+At Year 15:<br>
+SA: ₹4,00,000<br>
+Bonus: ₹2,40,000<br>
+FAB: ₹40,000<br>
+<strong>Total: ₹6,80,000</strong><br><br>
+<strong>Life cover of ₹4,00,000 continues for lifetime</strong>
+</td>
+<td>
+At Year 20:<br>
+SA: ₹6,00,000<br>
+Bonus: ₹5,40,000<br>
+FAB: ₹1,00,000<br>
+<strong>Total: ₹12,40,000</strong>
+</td>
+</tr>
+
+<tr>
+<td>Death after 5 Years</td>
+<td>
+SA: ₹4,00,000<br>
+Bonus: ₹1,00,000<br>
+<strong>Total: ₹5,00,000</strong>
+</td>
+<td>
+SA: ₹6,00,000<br>
+Bonus: ₹1,35,000<br>
+<strong>Total: ₹7,35,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 5 yrs)</td>
+<td colspan="2">₹12,35,000</td>
+</tr>
+
+<tr>
+<td>Death after 10 Years</td>
+<td>
+SA: ₹4,00,000<br>
+Bonus: ₹1,80,000<br>
+<strong>Total: ₹5,80,000</strong>
+</td>
+<td>
+SA: ₹6,00,000<br>
+Bonus: ₹2,70,000<br>
+<strong>Total: ₹8,70,000</strong>
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Family Benefit (Death @ 10 yrs)</td>
+<td colspan="2">₹14,50,000</td>
+</tr>
+
+<tr>
+<td>Survival till End</td>
+<td>
+Received at Year 15: ₹6,80,000<br>
+Lifetime Cover: ₹4,00,000
+</td>
+<td>
+Received at Year 20: ₹12,40,000
+</td>
+</tr>
+
+<tr class="total-row">
+<td>Total Wealth Created</td>
+<td colspan="2">
+₹19,20,000 <br>
++ Lifelong Insurance Cover of ₹4,00,000
+</td>
+</tr>
+</table>
+
+
+<!-- FINANCIAL EFFICIENCY RATIOS -->
+<div class="note" style="margin-top:30px; background:#fefce8; border:1px solid #fde68a;">
+  <h3 style="color:#92400e; margin-top:0;">
+    Financial Efficiency Ratios (Premium vs Benefit)
+  </h3>
+
+  <table style="width:100%; border-collapse:collapse; margin-top:15px;">
+    <tr>
+      <th style="background:#78350f; color:#fff;">Plan</th>
+      <th style="background:#78350f; color:#fff;">Total Premium Paid</th>
+      <th style="background:#78350f; color:#fff;">Total Maturity Benefit</th>
+      <th style="background:#78350f; color:#fff;">Efficiency Ratio</th>
+    </tr>
+
+    <tr>
+      <td><strong>LIC Jeevan Anand (715)</strong></td>
+      <td>₹5,10,000</td>
+      <td>₹6,80,000+400000=1080000</td>
+      <td style="color:#ea580c; font-weight:700;">
+        ▲ 2.11
+      </td>
+    </tr>
+
+    <tr>
+      <td><strong>LIC Single Premium Endowment (717)</strong></td>
+      <td>₹3,22,000</td>
+      <td>₹12,40,000</td>
+      <td style="color:#15803d; font-weight:700;">
+        ▲ 3.85
+      </td>
+    </tr>
+  </table>
+
+  <div style="margin-top:15px; font-size:14px; line-height:1.6;">
+    <p>
+      <strong>What does this ratio mean?</strong><br>
+      This ratio shows how efficiently each rupee of premium converts into maturity value.
+    </p>
+
+    <ul>
+      <li>
+        <strong style="color:#ea580c;">Lower Ratio (≈ 2.11)</strong> →
+        Indicates a <strong>protection-heavy plan</strong>.  
+        A significant part of the premium pays for <strong>lifelong insurance cover</strong>,
+        not just returns.
+      </li>
+      <li>
+        <strong style="color:#15803d;">Higher Ratio (≈ 3.85)</strong> →
+        Indicates a <strong>return-efficient plan</strong>.  
+        More of your money works purely towards <strong>wealth creation</strong>.
+      </li>
+   <li>
+  <strong style="color:#0f766e;">Balanced–Strong Ratio (≈ 2.78)</strong> →
+  Indicates a <strong>well-optimised combined strategy</strong>.  
+  This ratio reflects a thoughtful balance where part of the premium
+  secures <strong>lifelong insurance protection</strong>,
+  while the remaining portion works efficiently toward
+  <strong>long-term wealth creation</strong>.
+</li>
+
+    </ul>
+
+    <p>
+      <strong>✔ Which one is better?</strong><br>
+      Neither alone.  
+      <strong>The real power comes from combining both</strong> —  
+      one plan protects your family for life, the other aggressively builds wealth.
+    </p>
+  </div>
+</div>
+
+<div class="note">
+<strong>Why this combination works:</strong><br>
+The customer receives a sizeable payout at Year 15 to handle mid-life goals,
+while another corpus is built till Year 20. Even after enjoying maturity benefits,
+the Jeevan Anand policy continues to protect the family for life.
+</div>
+
+</div>
+
+<script>
+google.charts.load('current', {packages:['corechart']});
+google.charts.setOnLoadCallback(drawCombinationChart);
+
+function drawCombinationChart() {
+
+var data = google.visualization.arrayToDataTable([
+  ['Year', 'Jeevan Anand (715)', 'Single Premium Endowment (717)', 'Total Wealth'],
+  [0,   0,        0,        0],
+  [5,   300000,   360000,   660000],
+  [10,  480000,   600000,   1080000],
+  [15,  680000,   900000,   1580000],
+  [20,  null,     1240000,  1920000]
+]);
+
+var options = {
+  title: 'Cash Flow & Wealth Creation – LIC Smart Wealth Shield',
+  curveType: 'function',
+  legend: { position: 'bottom' },
+  hAxis: { title: 'Policy Year' },
+  vAxis: {
+    title: 'Amount (₹)',
+    format: '₹#,##,###'
+  },
+  colors: ['#003366', '#f0c20b', '#15803d'],
+  lineWidth: 3,
+  pointSize: 6
+};
+
+var chart = new google.visualization.LineChart(
+  document.getElementById('combinationChart')
+);
+chart.draw(data, options);
+}
+</script>
+
+</body>
+</html>
