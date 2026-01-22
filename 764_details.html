@@ -3,63 +3,463 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIC's Bima Ratna (764)</title>
+    <title>LIC Bima Ratna (864)</title>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Zilla+Slab:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        :root { --primary-color: #1f1f1f; --secondary-color: #333333; --accent-color: #daa520; --text-color: #343a40; --bg-color: #f5f5f5; }
-        body { font-family: 'Roboto', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; margin: 0; }
-        .container { max-width: 1100px; margin: 0 auto; }
-        .hero { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; padding: 80px 30px; text-align: center; }
-        .hero .plan-number { font-size: 1.2rem; display: inline-block; padding: 5px 15px; border: 1px solid var(--accent-color); border-radius: 20px; color: var(--accent-color); margin-bottom: 15px; }
-        .hero h1 { font-family: 'Zilla Slab', serif; font-size: 3.8rem; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
-        .hero p { font-size: 1.2rem; max-width: 700px; margin: 15px auto 0; opacity: 0.9; }
-        .main-content { padding: 50px 20px; }
-        .section-title { text-align: center; font-family: 'Zilla Slab', serif; font-size: 2.8rem; margin-bottom: 50px; color: var(--primary-color); }
-        .key-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 60px; }
-        .feature-card { background: #fff; padding: 25px; text-align: center; border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); transition: all 0.3s ease; }
-        .feature-card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
-        .feature-card .icon { font-size: 3rem; color: var(--accent-color); margin-bottom: 15px; }
-        .feature-card h3 { font-size: 1.3rem; margin-bottom: 5px; color: var(--primary-color); }
-        .timeline-section { background-color: #fff; padding: 50px 20px; border-radius: 10px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
-        .timeline-section p { text-align: center; max-width: 700px; margin: -30px auto 40px; font-size: 1.1rem; }
-        .timeline-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .timeline-content { padding: 20px; background: #fafafa; border-radius: 6px; border-left: 5px solid var(--accent-color); }
-        .timeline-content h3 { font-family: 'Zilla Slab', serif; color: var(--primary-color); }
-        .timeline-content .payout { font-size: 1.2rem; font-weight: bold; color: var(--text-color); }
-        .footer { background: var(--primary-color); color: white; text-align: center; padding: 20px; font-size: 0.9rem; }
-        .footer a { color: var(--accent-color); text-decoration: none; font-weight: bold; }
+        :root {
+            --fb-blue: #1877F2;
+            --aquamarine: #7FFFD4;
+            --white: #FFFFFF;
+            --black: #000000;
+            --dark-gray: #333333;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--white);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 40px 20px;
+            /* Geometric Diamond Pattern for "Ratna" theme */
+            background-image: linear-gradient(135deg, #f0f8ff 25%, transparent 25%), 
+                              linear-gradient(225deg, #f0f8ff 25%, transparent 25%), 
+                              linear-gradient(45deg, #f0f8ff 25%, transparent 25%), 
+                              linear-gradient(315deg, #f0f8ff 25%, transparent 25%);
+            background-position: 10px 0, 10px 0, 0 0, 0 0;
+            background-size: 20px 20px;
+            background-repeat: repeat;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- 3D Dashboard Title Box --- */
+        .header-wrapper {
+            text-align: center;
+            margin-bottom: 60px;
+            perspective: 1000px;
+        }
+
+        .page-title {
+            display: inline-block;
+            background: var(--white);
+            padding: 30px 60px;
+            border: 4px solid var(--fb-blue);
+            position: relative;
+            transform: rotateX(10deg);
+            box-shadow: 
+                0 1px 0 var(--fb-blue),
+                0 2px 0 var(--fb-blue),
+                0 3px 0 var(--fb-blue),
+                0 4px 0 var(--fb-blue),
+                0 5px 0 var(--fb-blue),
+                0 15px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .page-title:hover {
+            transform: rotateX(0deg) scale(1.02);
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 50%, rgba(127, 255, 212, 0.2) 100%);
+            pointer-events: none;
+        }
+
+        .page-title h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            margin: 0;
+            color: var(--fb-blue);
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0px var(--aquamarine);
+            line-height: 1;
+        }
+
+        .page-title .subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- Intro Box --- */
+        .intro-box {
+            background: var(--white);
+            border: 3px solid var(--fb-blue);
+            padding: 30px;
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: 10px 10px 0px var(--aquamarine);
+            margin-bottom: 50px;
+        }
+
+        .usp-highlight {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--fb-blue);
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* --- Grid Layouts --- */
+        .section-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--fb-blue);
+            margin-bottom: 30px;
+            border-bottom: 4px solid var(--aquamarine);
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-top: 40px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            border: 2px solid var(--fb-blue);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.2s;
+            box-shadow: 6px 6px 0px var(--fb-blue);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 10px 10px 0px var(--aquamarine);
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--fb-blue);
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin: 0 0 10px 0;
+            color: var(--black);
+        }
+
+        .feature-card p, .feature-card li {
+            font-size: 0.95rem;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* --- Tables --- */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--fb-blue);
+        }
+
+        .styled-table thead tr {
+            background-color: var(--fb-blue);
+            color: var(--white);
+            text-align: left;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .styled-table th, .styled-table td {
+            padding: 12px 15px;
+            border-left: 1px solid #ddd;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f0f8ff;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: var(--aquamarine);
+            color: var(--black);
+            font-weight: 600;
+        }
+
+        /* --- Badge --- */
+        .badge {
+            background-color: var(--aquamarine);
+            color: var(--black);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border: 1px solid var(--fb-blue);
+            display: inline-block;
+            margin: 2px;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            border-top: 3px solid var(--fb-blue);
+            color: var(--fb-blue);
+            font-weight: 600;
+            background: #f9f9f9;
+        }
+
+        .home-btn {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: var(--white);
+            border: 3px solid var(--fb-blue);
+            color: var(--fb-blue);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 4px 4px 0px var(--aquamarine);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .home-btn:hover {
+            transform: scale(1.1);
+            background: var(--fb-blue);
+            color: var(--white);
+            box-shadow: 4px 4px 0px var(--black);
+        }
+
+        @media (max-width: 768px) {
+            .page-title h1 { font-size: 2rem; }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="container">
-            <div class="plan-number">Table No. 764</div>
-            <h1>Bima Ratna</h1>
-            <p>A premium non-linked, non-participating, money back plan with guaranteed additions, designed to provide timely financial support.</p>
-        </div>
-    </div>
-    <div class="main-content">
-        <div class="container">
-            <h2 class="section-title">Exclusive Features</h2>
-            <div class="key-features">
-                <div class="feature-card"><div class="icon"><i class="fas fa-gem"></i></div><h3>Type</h3><p>Premium Money Back</p></div>
-                <div class="feature-card"><div class="icon"><i class="fas fa-hand-holding-usd"></i></div><h3>Min. Sum Assured</h3><p>₹5 Lakhs</p></div>
-                <div class="feature-card"><div class="icon"><i class="fas fa-chart-line"></i></div><h3>Additions</h3><p>Guaranteed</p></div>
-                <div class="feature-card"><div class="icon"><i class="fas fa-hourglass-half"></i></div><h3>Premium Term</h3><p>Term - 4 Years</p></div>
-            </div>
-            <div class="timeline-section">
-                <h2 class="section-title">Scheduled Payouts for Your Needs</h2>
-                <p>Receive a fixed percentage of your Basic Sum Assured at the end of specified durations during the policy term, ensuring you have funds when you need them most.</p>
-                <div class="timeline-grid">
-                    <div class="timeline-content"><h3>Periodic Payouts</h3><p class="payout">A percentage of the Sum Assured is paid as Survival Benefit during the policy term.</p></div>
-                    <div class="timeline-content"><h3>Maturity Benefit</h3><p class="payout">The remaining Sum Assured plus all accrued Guaranteed Additions are paid at maturity.</p></div>
-                </div>
+
+    <a href="index.html" class="home-btn" title="Back to Dashboard">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <div class="container">
+        
+        <!-- Header -->
+        <div class="header-wrapper">
+            <div class="page-title">
+                <i class="fas fa-gem" style="font-size: 3rem; color: var(--fb-blue); margin-bottom: 10px;"></i>
+                <h1>Bima Ratna</h1>
+                <div class="subtitle">Plan No. 864</div>
             </div>
         </div>
+
+        <!-- Introduction -->
+        <div class="intro-box">
+            <span class="usp-highlight">Guaranteed Additions + Money Back</span>
+            <p>
+                A <strong>Non-Linked, Non-Participating</strong> Individual Savings Life Insurance Plan.
+                <br>
+                Exclusive to Bank Partners, Corporate Agents & Brokers.
+                <br><br>
+                <span class="badge">Short Pay</span> <span class="badge">Guaranteed Returns</span> <span class="badge">Liquid Funds</span>
+            </p>
+        </div>
+
+        <!-- 1. Guaranteed Additions Matrix -->
+        <h2 class="section-header">1. Guaranteed Additions (GA)</h2>
+        <div class="feature-grid">
+            <div class="feature-card" style="grid-column: 1 / -1;">
+                <i class="fas fa-arrow-trend-up"></i>
+                <h3>Growing Returns</h3>
+                <p>Guaranteed Additions accrue at the end of each policy year per ₹1,000 Basic Sum Assured (BSA). The rate increases as your policy gets older:</p>
+                <table class="styled-table" style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>Policy Year</th>
+                            <th>Guaranteed Addition (per ₹1000 BSA)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1st to 5th Year</strong></td>
+                            <td>₹ 50</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6th to 10th Year</strong></td>
+                            <td>₹ 55</td>
+                        </tr>
+                        <tr>
+                            <td><strong>11th to 25th Year</strong></td>
+                            <td>₹ 60</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2. Survival & Maturity Benefits -->
+        <h2 class="section-header">2. Survival & Maturity Schedule</h2>
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Policy Term (Years)</th>
+                        <th>Premium Paying Term</th>
+                        <th>Survival Benefit (Money Back)</th>
+                        <th>Maturity Benefit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>15 Years</strong></td>
+                        <td>11 Years</td>
+                        <td><strong>25% of BSA</strong> at end of 13th & 14th Year</td>
+                        <td><strong>50% of BSA</strong> + Accrued GA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>20 Years</strong></td>
+                        <td>16 Years</td>
+                        <td><strong>25% of BSA</strong> at end of 18th & 19th Year</td>
+                        <td><strong>50% of BSA</strong> + Accrued GA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>25 Years</strong></td>
+                        <td>21 Years</td>
+                        <td><strong>25% of BSA</strong> at end of 23rd & 24th Year</td>
+                        <td><strong>50% of BSA</strong> + Accrued GA</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. Death Benefit -->
+        <h2 class="section-header">3. Death Benefit Coverage</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <i class="fas fa-umbrella-beach"></i>
+                <h3>Sum Assured on Death</h3>
+                <p>Higher of:</p>
+                <ul>
+                    <li><strong>125%</strong> of Basic Sum Assured</li>
+                    <li><strong>7 times</strong> of Annualized Premium</li>
+                </ul>
+                <p><em>Plus Accrued Guaranteed Additions.</em></p>
+                <p style="font-size: 0.85rem; color: #666; margin-top:10px;">(Total Death Benefit shall not be less than 105% of total premiums paid).</p>
+            </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-child"></i>
+                <h3>For Minor Lives</h3>
+                <p><strong>Entry Age < 8 Years:</strong> Risk starts 2 years after commencement or at age 8 (whichever is earlier). Death benefit before risk commencement is refund of premiums.</p>
+                <p><strong>Entry Age ≥ 8 Years:</strong> Immediate risk cover.</p>
+            </div>
+        </div>
+
+        <!-- 4. Eligibility -->
+        <h2 class="section-header">4. Eligibility Conditions</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th width="30%">Parameter</th>
+                    <th>Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Minimum Basic SA</strong></td>
+                    <td>₹ 5,00,000 (Multiples of ₹25,000)</td>
+                </tr>
+                <tr>
+                    <td><strong>Maximum Basic SA</strong></td>
+                    <td>No Limit</td>
+                </tr>
+                <tr>
+                    <td><strong>Minimum Entry Age</strong></td>
+                    <td>5 Years (for 15y Term) | 90 Days (for 20/25y Term)</td>
+                </tr>
+                <tr>
+                    <td><strong>Maximum Entry Age</strong></td>
+                    <td>55 Yrs (15y Term) | 50 Yrs (20y Term) | 45 Yrs (25y Term)</td>
+                </tr>
+                <tr>
+                    <td><strong>Maturity Age</strong></td>
+                    <td>Min: 20 Years | Max: 70 Years</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 5. Additional Features (Riders, Settlement, Loan) -->
+        <h2 class="section-header">5. Additional Flexibility</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <i class="fas fa-plus-circle"></i>
+                <h3>5 Optional Riders</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li><span class="badge">Accidental Death & Disability</span></li>
+                    <li><span class="badge">Accident Benefit Rider</span></li>
+                    <li><span class="badge">New Term Assurance</span></li>
+                    <li><span class="badge">Critical Illness</span></li>
+                    <li><span class="badge">Premium Waiver Benefit</span></li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-handshake-simple"></i>
+                <h3>Settlement Options</h3>
+                <p>You can choose to receive <strong>Maturity Benefit</strong> or <strong>Death Benefit</strong> in instalments over <strong>5 years</strong> instead of a lump sum.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <h3>Loan & Paid-Up</h3>
+                <p><strong>Loan:</strong> Available after payment of 2 full years' premiums.</p>
+                <p><strong>Paid-Up Policy:</strong> If less than 2 years' premiums paid, policy lapses. If >2 years paid, it continues with reduced benefits.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>LIC Bima Ratna (UIN: 512N345V01) | Exclusively via Bank Partners & Corp Agents</p>
+            <p style="font-size: 0.8rem; margin-top: 10px;">IRDAI Regn No.: 512</p>
+        </div>
+
     </div>
-    <footer class="footer"><p>Loan and Surrender facilities are available. For more details, visit <a href="#">www.LicAllinOneCalc.com</a>.</p></footer>
+
 </body>
 </html>

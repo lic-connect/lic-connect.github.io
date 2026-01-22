@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIC New Jeevan Amar (955)</title>
+    <title>LIC Nav Jeevan Shree (911)</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,15 +28,16 @@
             color: var(--dark-gray);
             margin: 0;
             padding: 40px 20px;
-            /* Shield Pattern Background for Protection Plan */
+            /* Modern geometric background */
             background-image: 
-                linear-gradient(135deg, #f0f4ff 25%, transparent 25%), 
-                linear-gradient(225deg, #f0f4ff 25%, transparent 25%), 
-                linear-gradient(45deg, #f0f4ff 25%, transparent 25%), 
-                linear-gradient(315deg, #f0f4ff 25%, transparent 25%);
-            background-position: 10px 0, 10px 0, 0 0, 0 0;
-            background-size: 30px 30px;
-            background-repeat: repeat;
+                linear-gradient(30deg, #f0f4ff 12%, transparent 12.5%, transparent 87%, #f0f4ff 87.5%, #f0f4ff),
+                linear-gradient(150deg, #f0f4ff 12%, transparent 12.5%, transparent 87%, #f0f4ff 87.5%, #f0f4ff),
+                linear-gradient(30deg, #f0f4ff 12%, transparent 12.5%, transparent 87%, #f0f4ff 87.5%, #f0f4ff),
+                linear-gradient(150deg, #f0f4ff 12%, transparent 12.5%, transparent 87%, #f0f4ff 87.5%, #f0f4ff),
+                linear-gradient(60deg, #f8fbff 25%, transparent 25.5%, transparent 75%, #f8fbff 75%, #f8fbff),
+                linear-gradient(60deg, #f8fbff 25%, transparent 25.5%, transparent 75%, #f8fbff 75%, #f8fbff);
+            background-size: 40px 70px;
+            background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
         }
 
         .container {
@@ -44,7 +45,7 @@
             margin: 0 auto;
         }
 
-        /* --- 3D Dashboard Title Box --- */
+        /* --- 3D Mirror Title Box --- */
         .header-wrapper {
             text-align: center;
             margin-bottom: 60px;
@@ -64,7 +65,7 @@
                 0 3px 0 var(--fb-blue),
                 0 4px 0 var(--fb-blue),
                 0 5px 0 var(--fb-blue),
-                0 15px 30px rgba(0,0,0,0.2);
+                0 15px 30px rgba(0,0,0,0.15);
             transition: transform 0.3s ease;
         }
 
@@ -72,6 +73,7 @@
             transform: rotateX(0deg) scale(1.02);
         }
 
+        /* Mirror/Glass Effect */
         .page-title::after {
             content: '';
             position: absolute;
@@ -100,7 +102,7 @@
             text-transform: uppercase;
         }
 
-        /* --- Intro Box --- */
+        /* --- Intro & USP --- */
         .intro-box {
             background: var(--white);
             border: 3px solid var(--fb-blue);
@@ -120,7 +122,7 @@
             font-family: 'Orbitron', sans-serif;
         }
 
-        /* --- Grid Layouts --- */
+        /* --- Feature Cards (The Wow Factor) --- */
         .section-header {
             font-family: 'Orbitron', sans-serif;
             font-size: 2rem;
@@ -129,14 +131,13 @@
             border-bottom: 4px solid var(--aquamarine);
             display: inline-block;
             padding-bottom: 5px;
-            margin-top: 40px;
         }
 
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
+            gap: 35px;
+            margin-bottom: 60px;
         }
 
         .feature-card {
@@ -144,16 +145,20 @@
             border: 2px solid var(--fb-blue);
             border-radius: 15px;
             padding: 25px;
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 6px 6px 0px var(--fb-blue);
+            position: relative;
+            overflow: hidden;
             height: 100%;
             display: flex;
             flex-direction: column;
+            justify-content: flex-start;
         }
 
         .feature-card:hover {
             transform: translate(-3px, -3px);
             box-shadow: 10px 10px 0px var(--aquamarine);
+            border-color: var(--black);
         }
 
         .feature-card i {
@@ -164,15 +169,17 @@
 
         .feature-card h3 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin: 0 0 10px 0;
             color: var(--black);
+            line-height: 1.2;
         }
 
-        .feature-card p, .feature-card ul {
+        .feature-card p {
             font-size: 0.95rem;
             color: var(--dark-gray);
             line-height: 1.6;
+            margin-bottom: 10px;
         }
 
         /* --- Tables --- */
@@ -180,7 +187,7 @@
             width: 100%;
             border-collapse: collapse;
             margin: 25px 0;
-            font-size: 0.9em;
+            font-size: 0.95em;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
             border: 2px solid var(--fb-blue);
         }
@@ -202,7 +209,7 @@
         }
 
         .styled-table tbody tr:nth-of-type(even) {
-            background-color: #f0f8ff;
+            background-color: #f1f8ff; 
         }
 
         .styled-table tbody tr:hover {
@@ -211,18 +218,18 @@
             font-weight: 600;
         }
 
-        /* --- Badge --- */
+        /* --- Badges --- */
         .badge {
             background-color: var(--aquamarine);
             color: var(--black);
-            padding: 4px 8px;
+            padding: 4px 10px;
             border-radius: 4px;
             font-weight: bold;
             font-size: 0.8rem;
             text-transform: uppercase;
             border: 1px solid var(--fb-blue);
             display: inline-block;
-            margin: 2px;
+            margin-top: 5px;
         }
 
         /* --- Footer --- */
@@ -236,6 +243,7 @@
             background: #f9f9f9;
         }
 
+        /* Home Button */
         .home-btn {
             position: fixed;
             top: 25px;
@@ -267,6 +275,7 @@
         @media (max-width: 768px) {
             .page-title h1 { font-size: 1.8rem; }
             .feature-grid { grid-template-columns: 1fr; }
+            .styled-table { font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -281,107 +290,78 @@
         <!-- Header -->
         <div class="header-wrapper">
             <div class="page-title">
-                <i class="fas fa-shield-heart" style="font-size: 3rem; color: var(--fb-blue); margin-bottom: 10px;"></i>
-                <h1>Jeevan Amar</h1>
-                <div class="subtitle">Plan No. 955</div>
+                <i class="fas fa-certificate" style="font-size: 2.5rem; color: var(--fb-blue); margin-bottom: 10px;"></i>
+                <h1>Nav Jeevan Shree</h1>
+                <div class="subtitle">Plan No. 911</div>
             </div>
         </div>
 
-        <!-- Introduction -->
+        <!-- Introduction USP -->
         <div class="intro-box">
-            <span class="usp-highlight">Pure Protection. Maximum Cover.</span>
+            <span class="usp-highlight">Single Premium + High Returns</span>
             <p>
-                A <strong>Non-Linked, Without Profit</strong>, Pure Term Assurance Plan.
+                A <strong>Non-Linked, Non-Participating</strong> Individual Savings Plan.
                 <br>
-                Offers special rates for <strong>Non-Smokers</strong> and total flexibility in premium payment.
+                Pay just <strong>once</strong> and enjoy guaranteed additions throughout the policy term.
                 <br><br>
-                <span class="badge">Term: 10-40 Yrs</span> <span class="badge">Min SA: 25 Lakhs</span> <span class="badge">No Max Limit</span>
+                <span class="badge" style="font-size: 1rem;">Guaranteed Addition: ₹85 per ₹1000 SA</span>
             </p>
         </div>
 
         <!-- Major Features Grid -->
-        <h2 class="section-header">Key Highlights</h2>
+        <h2 class="section-header">Power Features</h2>
         <div class="feature-grid">
             
             <div class="feature-card">
-                <i class="fas fa-wallet"></i>
-                <h3>3 Premium Modes</h3>
-                <p>Choose your payment comfort:</p>
-                <ul>
-                    <li><strong>Single Premium</strong></li>
-                    <li><strong>Regular Premium</strong></li>
-                    <li><strong>Limited Premium</strong></li>
-                </ul>
-                <p><em>(Yearly or Half-yearly options available)</em></p>
+                <i class="fas fa-hand-holding-dollar"></i>
+                <h3>Guaranteed Additions</h3>
+                <p>Enjoy a fixed Guaranteed Addition of <strong>₹85 per ₹1000 Basic Sum Assured</strong> for every completed policy year.</p>
+                <p><em>Benefits are fixed irrespective of market experience.</em></p>
             </div>
 
             <div class="feature-card">
-                <i class="fas fa-user-check"></i>
-                <h3>Rate Categories</h3>
-                <p>Premiums are based on your lifestyle:</p>
-                <p><strong>1. Smoker Rates</strong></p>
-                <p><strong>2. Non-Smoker Rates</strong> (Lower Premiums)</p>
-                <p><em>Urinalysis/Cotinine test may be required for Non-Smoker rates.</em></p>
+                <i class="fas fa-1"></i>
+                <h3>Single Premium</h3>
+                <p>One-time payment convenience. No hassle of remembering due dates for future premiums.</p>
+                <span class="badge">Online Rebate: 2%</span>
             </div>
 
             <div class="feature-card">
-                <i class="fas fa-ban"></i>
-                <h3>Pure Term Plan</h3>
-                <p>This is a pure risk plan designed to secure your family.</p>
-                <ul>
-                    <li><strong>Maturity Benefit:</strong> Nil</li>
-                    <li><strong>Loan Facility:</strong> Nil</li>
-                    <li><strong>Surrender:</strong> No value (conditions apply)</li>
-                </ul>
+                <i class="fas fa-shield-halved"></i>
+                <h3>Two Death Benefit Options</h3>
+                <p><strong>Option 1:</strong> 1.25x Single Premium (Higher Entry Age allowed)</p>
+                <p><strong>Option 2:</strong> 10x Single Premium (Higher Tax Benefits)</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-sack-dollar"></i>
+                <h3>Loan & Surrender</h3>
+                <p><strong>Loan:</strong> Available any time after 3 months from issuance.</p>
+                <p><strong>Surrender:</strong> Allowed any time during the policy term.</p>
             </div>
 
         </div>
 
-        <!-- Death Benefit Options -->
-        <h2 class="section-header">Choose Your Death Benefit</h2>
-        <div class="intro-box" style="text-align: left;">
-            <p>You must choose one of the following two options at inception. <br><em>(Note: Option once chosen cannot be altered).</em></p>
-        </div>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <i class="fas fa-arrows-left-right"></i>
-                <h3>Option I: Level Sum Assured</h3>
-                <p>The "Absolute Amount Assured to be paid on Death" remains an amount equal to the <strong>Basic Sum Assured</strong> throughout the policy term.</p>
-            </div>
-
-            <div class="feature-card">
-                <i class="fas fa-arrow-trend-up"></i>
-                <h3>Option II: Increasing Sum Assured</h3>
-                <p><strong>Years 1-5:</strong> Remains equal to Basic Sum Assured.</p>
-                <p><strong>Years 6-15:</strong> Increases by <strong>10%</strong> of Basic SA each year.</p>
-                <p><strong>Year 16 onwards:</strong> Stays constant at <strong>200%</strong> (Double) of Basic SA.</p>
-            </div>
-        </div>
-
-        <!-- Death Benefit Calculation Table -->
-        <h2 class="section-header">How Death Benefit is Calculated</h2>
+        <!-- Death Benefit Detail Table -->
+        <h2 class="section-header">Choose Your Coverage (Options)</h2>
         <table class="styled-table">
             <thead>
                 <tr>
-                    <th>Premium Type</th>
-                    <th>"Sum Assured on Death" is Highest/Higher of:</th>
+                    <th width="20%">Option</th>
+                    <th width="40%">Sum Assured on Death</th>
+                    <th width="40%">Who is this for?</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td><strong>Regular / Limited Premium</strong></td>
-                    <td>
-                        1. <strong>7 times</strong> of Annualized Premium<br>
-                        2. <strong>105%</strong> of all premiums paid till death<br>
-                        3. <strong>Absolute Amount Assured</strong> (Based on Option I or II)
-                    </td>
+                    <td><strong>Option I</strong></td>
+                    <td>Higher of: <br> • 1.25 times Single Premium <br> • Basic Sum Assured</td>
+                    <td>Ideal for those starting late (allows entry up to Age 60).</td>
                 </tr>
                 <tr>
-                    <td><strong>Single Premium</strong></td>
-                    <td>
-                        1. <strong>125%</strong> of Single Premium<br>
-                        2. <strong>Absolute Amount Assured</strong> (Based on Option I or II)
-                    </td>
+                    <td><strong>Option II</strong></td>
+                    <td><strong>10 times</strong> of Single Premium</td>
+                    <td>Ideal for higher tax benefits and maximum risk cover (Max entry Age 40).</td>
                 </tr>
             </tbody>
         </table>
@@ -392,39 +372,57 @@
             <thead>
                 <tr>
                     <th>Parameter</th>
-                    <th>Condition</th>
+                    <th>Limit / Condition</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td><strong>Minimum Entry Age</strong></td>
-                    <td>18 Years (Last Birthday)</td>
+                    <td>30 Days (Completed)</td>
                 </tr>
                 <tr>
                     <td><strong>Maximum Entry Age</strong></td>
-                    <td>65 Years (Last Birthday)</td>
+                    <td>Option I: <strong>60 Years</strong><br>Option II: <strong>40 Years</strong></td>
                 </tr>
                 <tr>
                     <td><strong>Policy Term</strong></td>
-                    <td>10 to 40 Years</td>
+                    <td>Min: 5 Years | Max: 20 Years</td>
                 </tr>
                 <tr>
                     <td><strong>Minimum Sum Assured</strong></td>
-                    <td>₹ 25,00,000</td>
+                    <td>₹1,00,000</td>
                 </tr>
                 <tr>
                     <td><strong>Maximum Sum Assured</strong></td>
                     <td>No Limit (Subject to underwriting)</td>
                 </tr>
-                <tr>
-                    <td><strong>Tax Benefit</strong></td>
-                    <td>Premiums eligible for rebate under Section 80C.</td>
-                </tr>
             </tbody>
         </table>
 
+        <!-- Maturity Benefit -->
+        <div class="intro-box" style="text-align: left; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            <div style="flex: 2; min-width: 300px;">
+                <h3 style="font-family: 'Orbitron'; color: var(--fb-blue);">Maturity Benefit</h3>
+                <p>On survival to the end of the Policy Term, you will receive:</p>
+                <ul style="list-style: none; padding: 0; font-size: 1.1rem;">
+                    <li style="margin-bottom: 10px;">
+                        <i class="fas fa-check-circle" style="color: var(--fb-blue);"></i> 
+                        <strong>Basic Sum Assured</strong>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle" style="color: var(--fb-blue);"></i> 
+                        <strong>Accrued Guaranteed Additions</strong>
+                    </li>
+                </ul>
+                <p style="font-size: 0.9rem; color: #666; margin-top: 15px;">*Settlement Option available to receive maturity in instalments (5/10/15 years).</p>
+            </div>
+            <div style="flex: 1; text-align: center; font-size: 5rem; color: var(--aquamarine); padding: 20px;">
+                <i class="fas fa-trophy"></i>
+            </div>
+        </div>
+
         <div class="footer">
-            <p>LIC New Jeevan Amar (UIN: 512N332V01) | Proposal Forms 300 & 340</p>
+            <p>LIC Nav Jeevan Shree (UIN: 512N390V01) | Available Online & Offline</p>
             <p style="font-size: 0.8rem; margin-top: 10px;">IRDAI Regn No.: 512</p>
         </div>
 
