@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC New Pension Plus (Plan 867) – IRR Report</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-top: 8px solid #003366;
+    }
+
+    h1 {
+      color: #003366;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 2px solid #f0c20b;
+      display: block;
+      padding-bottom: 10px;
+    }
+
+    #inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      background: #f8fafc;
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 25px;
+    }
+
+    .row { display: flex; flex-direction: column; }
+
+    label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      background: #fff;
+    }
+
+    button {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #003366 0%, #00509d 100%);
+      color: white;
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .summary {
+      background: #003366;
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+      line-height: 1.8;
+      font-size: 16px;
+      border-bottom: 5px solid #f0c20b;
+      text-align: center;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 30px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    th {
+      background-color: #f0c20b;
+      color: #003366;
+      padding: 15px;
+      text-align: center;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    td {
+      border-bottom: 1px solid #f1f5f9;
+      padding: 14px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    tr:nth-child(even) { background-color: #f8fafc; }
+
+    .error {
+      grid-column: 1 / -1;
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>LIC New Pension Plus (Plan 867) – IRR Report</h1>
+
+  <div id="inputs">
+    <div class="row">
+      <label>Investment Option:</label>
+      <select id="option" onchange="toggleInputs()">
+        <option value="regular">Regular Premium</option>
+        <option value="single">Single Premium</option>
+      </select>
+    </div>
+    <div class="row"><label>Age at Entry (25-75):</label><input type="number" id="age" value="30" /></div>
+    <div class="row"><label>Policy Term (10-42):</label><input type="number" id="term" value="15" oninput="updatePPT()" /></div>
+    <div class="row"><label>Premium Paying Term:</label><input type="number" id="ppt" readonly style="background:#eee" /></div>
+    <div class="row"><label id="premLabel">Annual Premium (₹):</label><input type="number" id="premium" value="100000" /></div>
+    <div class="row"><label>Expected Growth %:</label><input type="number" id="growth" value="8" /></div>
+    <div class="row"><label>Initial NAV:</label><input type="number" id="initNAV" value="10" readonly /></div>
+    <button onclick="calculate()">Analyze Maturity & Net Yield</button>
+    <div id="err" class="error" style="display:none;"></div>
+  </div>
+
+  <div id="summary" class="summary" style="display:none;"></div>
+  <table id="resultTable" style="display:none;"></table>
+</div>
+
+<script>
+function updatePPT() {
+    const term = +document.getElementById('term').value;
+    const option = document.getElementById('option').value;
+    document.getElementById('ppt').value = (option === 'single') ? 1 : term;
+}
+
+function toggleInputs() {
+    const option = document.getElementById('option').value;
+    document.getElementById('premLabel').innerText = (option === 'single') ? "Single Premium (₹):" : "Annual Premium (₹):";
+    updatePPT();
+}
+
+// --- IRR Solver Logic ---
+function npv(rate, cashflows) {
+    return cashflows.reduce((acc, val, i) => acc + val / Math.pow(1 + rate, i), 0);
+}
+
+function solveIRR(cashflows) {
+    let low = -0.9, high = 1.0, mid = 0;
+    for (let i = 0; i < 40; i++) {
+        mid = (low + high) / 2;
+        if (npv(mid, cashflows) > 0) low = mid;
+        else high = mid;
+    }
+    return mid * 100;
+}
+
+function calculate() {
+    const option = document.getElementById('option').value;
+    const age = +document.getElementById('age').value;
+    const term = +document.getElementById('term').value;
+    const premium = +document.getElementById('premium').value;
+    const growth = +document.getElementById('growth').value / 100;
+
+    const table = document.getElementById('resultTable');
+    const summary = document.getElementById('summary');
+    const err = document.getElementById('err');
+
+    err.style.display = table.style.display = summary.style.display = 'none';
+
+    if (age < 25 || age > 75) { err.innerText = 'Age must be 25–75'; err.style.display='block'; return; }
+    if (term < 10 || term > 42) { err.innerText = 'Term must be 10–42'; err.style.display='block'; return; }
+    if (option === 'regular' && premium < 30000) { err.innerText = 'Min Regular Premium ₹30,000'; err.style.display='block'; return; }
+    if (option === 'single' && premium < 100000) { err.innerText = 'Min Single Premium ₹1,00,000'; err.style.display='block'; return; }
+
+    table.innerHTML = `
+        <tr>
+            <th>Year</th>
+            <th>Age</th>
+            <th>NAV</th>
+            <th>Premium (₹)</th>
+            <th>GA Added (₹)</th>
+            <th>Fund Value (₹)</th>
+            <th>Death Benefit (₹)</th>
+        </tr>`;
+
+    let fundValue = 0, totalPremiumPaid = 0, currentNav = 10; 
+    let cashflows = [];
+
+    // Preserving Original 0.70% FMC logic for compounding accuracy
+    const monthlyGrowth = Math.pow(1 + growth, 1 / 12);
+    const monthlyFMC = Math.pow(1 - 0.0070, 1 / 12); 
+
+    for (let y = 1; y <= term; y++) {
+        let gaRate = 0, gaAmt = 0;
+
+        if (option === 'single') {
+            cashflows.push(y === 1 ? -premium : 0);
+            if (y === 1) { fundValue = premium * (1 - 0.033); totalPremiumPaid = premium; }
+            for (let m = 1; m <= 12; m++) { fundValue *= monthlyGrowth; fundValue *= monthlyFMC; }
+
+            if (y === 6) gaRate = 0.04;
+            else if (y === 10) gaRate = 0.05;
+            else if (y >= 11 && y <= 15) gaRate = 0.0125;
+            else if (y >= 16 && y <= 20) gaRate = 0.015;
+            else if (y >= 21 && y <= 25) gaRate = 0.02;
+            else if (y >= 26 && y <= 30) gaRate = 0.025;
+            else if (y >= 31 && y <= 35) gaRate = 0.03;
+            else if (y >= 36 && y <= 40) gaRate = 0.0375;
+            else if (y >= 41) gaRate = 0.045;
+        } 
+        else {
+            cashflows.push(-premium);
+            let pacRate = y === 1 ? 0.07 : y <= 5 ? (premium >= 50000 ? 0.04 : 0.045) : (premium >= 50000 ? 0.03 : 0.035);
+            const monthlyInvest = (premium * (1 - pacRate)) / 12;
+            totalPremiumPaid += premium;
+
+            for (let m = 1; m <= 12; m++) {
+                fundValue += monthlyInvest;
+                fundValue *= monthlyGrowth; fundValue *= monthlyFMC;
+                if (y <= 5) {
+                    let adminRates = [0.0019, 0.00184, 0.00177, 0.0017, 0.00164];
+                    let adminCaps = [57, 55, 53, 51, 49];
+                    fundValue -= Math.min(premium * adminRates[y-1], adminCaps[y-1]);
+                }
+            }
+            if (y === 6) gaRate = 0.05;
+            else if (y === 10) gaRate = 0.10;
+            else if (y >= 11 && y <= 15) gaRate = 0.04;
+            else if (y >= 16 && y <= 20) gaRate = 0.055;
+            else if (y >= 21 && y <= 25) gaRate = 0.07;
+            else if (y >= 26 && y <= 30) gaRate = 0.0875;
+            else if (y >= 31 && y <= 35) gaRate = 0.1075;
+            else if (y >= 36 && y <= 40) gaRate = 0.13;
+            else if (y >= 41) gaRate = 0.155;
+        }
+
+        gaAmt = premium * gaRate;
+        fundValue += gaAmt;
+        let db = Math.max(fundValue, 1.05 * totalPremiumPaid);
+
+        table.innerHTML += `
+            <tr>
+                <td>${y}</td><td>${age + y - 1}</td><td>${currentNav.toFixed(4)}</td>
+                <td>${(y === 1 || option === 'regular') ? '₹' + premium.toLocaleString('en-IN') : '-'}</td>
+                <td>${gaAmt > 0 ? '₹' + Math.round(gaAmt).toLocaleString('en-IN') : '-'}</td>
+                <td><b>₹${Math.round(fundValue).toLocaleString('en-IN')}</b></td>
+                <td>₹${Math.round(db).toLocaleString('en-IN')}</td>
+            </tr>`;
+        currentNav *= (1 + growth);
+    }
+
+    let ltcg = premium > 250000 ? Math.max(0, (fundValue - totalPremiumPaid) * 0.125) : 0;
+    let netMat = fundValue - ltcg;
+    
+    // Final Net Yield (IRR) Logic
+    let finalCashFlows = [...cashflows, netMat];
+    let finalYield = solveIRR(finalCashFlows);
+
+    summary.innerHTML = `
+        <div style="font-size: 24px; color: #f0c20b; margin-bottom: 10px;">
+            <strong>NET YIELD (IRR AT MATURITY): ${finalYield.toFixed(2)}%</strong>
+        </div>
+        Total Invested: ₹${totalPremiumPaid.toLocaleString('en-IN')} |
+        Gross Maturity: ₹${Math.round(fundValue).toLocaleString('en-IN')} |
+        Net Payout: ₹${Math.round(netMat).toLocaleString('en-IN')}
+    `;
+
+    table.style.display = 'table';
+    summary.style.display = 'block';
+}
+updatePPT();
+</script>
+</body>
+</html>

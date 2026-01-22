@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC Plan 749 – Nivesh Plus Maturity & IRR Report</title>
+
+<style>
+body{ font-family: Segoe UI, Arial; background:#f4f6f9; padding:20px; }
+.container{ max-width:1100px; margin:auto; background:#fff; padding:30px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.1); }
+h1{ text-align:center; color:#003366; border-bottom:3px solid #f0c20b; padding-bottom:10px; }
+.inputs{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; margin-top:20px; }
+label{font-weight:600;font-size:13px;}
+input,select{ padding:10px; border-radius:6px; border:1px solid #ccc; }
+button{ grid-column:1/-1; padding:14px; background:#003366; color:#fff; font-size:17px; border:none; border-radius:8px; cursor:pointer; }
+.error{ grid-column:1/-1; color:#b91c1c; background:#fee2e2; padding:15px; border-radius:8px; text-align:center; font-weight: bold; border: 1px solid #fecaca; margin-top: 10px; display: none;}
+.summary{ margin-top:25px; background:#003366; color:#fff; padding:20px; border-radius:10px; text-align:center; font-size:16px; border-bottom: 5px solid #f0c20b;}
+table{ width:100%; border-collapse:collapse; margin-top:25px; }
+th{ background:#f0c20b; padding:10px; color: #003366; }
+td{ text-align:center; padding:10px; border-bottom:1px solid #eee; }
+#gaDiv { display: none; }
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>LIC Nivesh Plus (Plan 749) – Maturity & IRR Report</h1>
+
+<div class="inputs">
+  <div><label>Age</label><input type="number" id="age" value="30"></div>
+  <div><label>Single Premium (₹)</label><input type="number" id="premium" value="125000"></div>
+  <div><label>Policy Term (years)</label><input type="number" id="term" value="20"></div>
+  <div>
+    <label>Coverage Option</label>
+    <select id="option">
+      <option value="1.25">Option I – 1.25 × Premium</option>
+      <option value="10">Option II – 10 × Premium</option>
+    </select>
+  </div>
+  <div><label>ADDB Sum Assured (₹)</label><input type="number" id="addbSA" value="0"></div>
+  <div><label>ADDB Rate (₹/1000)</label><input type="number" id="addbRate" value="0.50" step="0.01"></div>
+  <div><label>Expected Growth %</label><input type="number" id="growth" value="8"></div>
+  <div>
+    <label>Fund Type:</label>
+    <select id="fundType">
+      <option value="growth">Growth Fund</option>
+      <option value="balanced">Balanced Fund</option>
+      <option value="secured">Secured Fund</option>
+      <option value="bond">Bond Fund</option>
+    </select>
+  </div>
+  <button onclick="calculate()">Calculate Maturity & Net Yield</button>
+  <div id="err" class="error"></div>
+</div>
+
+<div id="summary" class="summary" style="display:none"></div>
+<table id="table"></table>
+
+</div>
+
+<script>
+const MORTALITY = {
+  20:1.20, 21:1.22, 22:1.24, 23:1.26, 24:1.28, 25:1.30, 26:1.33, 27:1.36, 28:1.39, 29:1.42,
+  30:1.46, 31:1.50, 32:1.55, 33:1.60, 34:1.66, 35:1.72, 36:1.79, 37:1.87, 38:1.96, 39:2.06,
+  40:2.17, 41:2.29, 42:2.43, 43:2.58, 44:2.75, 45:2.94, 46:3.15, 47:3.39, 48:3.66, 49:3.97,
+  50:4.32, 51:4.73, 52:5.19, 53:5.73, 54:6.35, 55:7.10
+};
+
+const GA_TABLE = { 6: 0.03, 10: 0.04, 15: 0.05, 20: 0.06, 25: 0.07 };
+const ADMIN_ANNUAL = 150 * 12;
+
+function calculate() {
+  const age = +document.getElementById("age").value;
+  const term = +document.getElementById("term").value;
+  const premium = +document.getElementById("premium").value;
+  const growth = +document.getElementById("growth").value / 100;
+  const addbSA = +document.getElementById("addbSA").value || 0;
+  const addbRate = +document.getElementById("addbRate").value || 0;
+  const option = document.getElementById("option").value;
+
+  const err = document.getElementById("err");
+  const table = document.getElementById("table");
+  const summary = document.getElementById("summary");
+
+  err.style.display = "none"; table.innerHTML = ""; summary.style.display = "none";
+
+  /* ================= VALIDATIONS ================= */
+  if (!age || !term || !premium) { 
+    err.innerText = "❌ Please fill Age, Premium and Term."; 
+    err.style.display = "block"; return; 
+  }
+  if (premium < 125000) { 
+    err.innerText = "❌ Minimum Single Premium allowed is ₹1,25,000."; 
+    err.style.display = "block"; return; 
+  }
+  if (term < 10 || term > 25) { 
+    err.innerText = "❌ Policy Term must be between 10 and 25 years."; 
+    err.style.display = "block"; return; 
+  }
+  if (option === "10" && age > 35) {
+    err.innerText = "❌ Option II (10x Cover) is only available for ages up to 35.";
+    err.style.display = "block"; return;
+  }
+
+  let SA = option === "1.25" ? 1.25 * premium : 10 * premium;
+  let nav = 10;
+  let units = 0;
+  let lastFundValue = 0;
+
+  table.innerHTML = `<tr><th>Year</th><th>Age</th><th>NAV</th><th>GA Added</th><th>Fund Value</th></tr>`;
+
+  /* ================= EXACT ORIGINAL LOGIC ================= */
+  for (let y = 1; y <= term; y++) {
+    let attainedAge = age + y - 1;
+
+    // Logic from Part 1: No PAC deduction here
+    if (y === 1) { units += premium / nav; }
+
+    let rate = MORTALITY[attainedAge] || MORTALITY[55];
+    let fundBefore = units * nav;
+    let sumAtRisk = Math.max(0, SA - fundBefore);
+    let annualMortality = (sumAtRisk * rate) / 1000;
+    let annualADDB = (addbSA * addbRate) / 1000;
+
+    // Exact monthly loop from original calculator
+    for (let m = 0; m < 12; m++) {
+      units -= (annualMortality / 12) / nav;
+      units -= (annualADDB / 12) / nav;
+      units -= (ADMIN_ANNUAL / 12) / nav;
+      if (units < 0) units = 0;
+    }
+
+    let gaAdded = 0;
+    if (GA_TABLE[y]) {
+      gaAdded = premium * GA_TABLE[y];
+      units += gaAdded / nav;
+    }
+
+    let fundValue = units * nav;
+    if (y === term) lastFundValue = fundValue;
+
+    table.innerHTML += `
+      <tr>
+        <td>${y}</td><td>${attainedAge}</td><td>${nav.toFixed(4)}</td>
+        <td>${gaAdded > 0 ? Math.round(gaAdded).toLocaleString("en-IN") : "-"}</td>
+        <td><b>${Math.round(fundValue).toLocaleString("en-IN")}</b></td>
+      </tr>`;
+
+    nav = nav * (1 + growth);
+    nav = Math.round(nav * 10000) / 10000;
+  }
+
+  // Final Payout logic preserved
+  let grossMaturity = lastFundValue;
+  let ltcg = (premium > 250000 && (grossMaturity - premium) > 0) ? (grossMaturity - premium) * 0.125 : 0;
+  let netMaturity = grossMaturity - ltcg;
+
+  // Final Yield Calculation (IRR)
+  let finalNetYield = (Math.pow((netMaturity / premium), (1 / term)) - 1) * 100;
+
+  summary.style.display = "block";
+  summary.innerHTML = `
+    <div style="font-size: 24px; color: #f0c20b; margin-bottom: 10px;">
+        <strong>NET YIELD (IRR AT MATURITY): ${finalNetYield.toFixed(2)}%</strong>
+    </div>
+    Sum Assured: ₹${Math.round(SA).toLocaleString("en-IN")} | Maturity Value: ₹${Math.round(grossMaturity).toLocaleString("en-IN")}
+    <br>
+    Net Payout (After LTCG): ₹${Math.round(netMaturity).toLocaleString("en-IN")}
+  `;
+}
+</script>
+</body>
+</html>

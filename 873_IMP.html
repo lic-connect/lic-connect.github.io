@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC Plan 873 – Index Plus IRR Report</title>
+
+<style>
+body{font-family:Segoe UI,Arial;background:#f2f4f7;padding:20px}
+.container{max-width:1100px;margin:auto;background:#fff;padding:30px;border-radius:14px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);border-top:8px solid #003366}
+h1{text-align:center;color:#003366;border-bottom:3px solid #f0c20b;padding-bottom:10px}
+
+#inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:20px}
+label{font-weight:700;font-size:13px;color:#475569}
+input,select{padding:11px;border-radius:8px;border:1px solid #cbd5e1;font-size:15px}
+button{grid-column:1/-1;padding:16px;font-size:18px;background:#003366;color:#fff;
+border:none;border-radius:8px;font-weight:700;cursor:pointer}
+
+.summary{margin-top:25px;background:#003366;color:#fff;padding:20px;border-radius:10px;
+font-size:15px;text-align:center;line-height:1.8; border-bottom: 5px solid #f0c20b;}
+
+.error{margin-top:15px;background:#fee2e2;color:#b91c1c;padding:12px;border-radius:8px;
+text-align:center;font-weight:700; display:none;}
+
+table{width:100%;border-collapse:collapse;margin-top:30px}
+th{background:#f0c20b;color:#003366;padding:12px;font-size:13px}
+td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:center;font-size:13px}
+tr:nth-child(even){background:#f8fafc}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>LIC Index Plus (Plan 873) – Maturity & IRR Report</h1>
+
+<div id="inputs">
+<div><label>Age at Entry</label><input id="age" type="number" value="30"></div>
+<div><label>Policy Term (Years)</label><input id="term" type="number" value="20"></div>
+<div><label>Annualised Premium (₹)</label><input id="premium" type="number" value="100000"></div>
+
+<div><label>Coverage Option</label>
+<select id="cover">
+<option value="7">Option I – 7 × Premium</option>
+<option value="10" selected>Option II – 10 × Premium</option>
+</select></div>
+
+<div><label>Fund Type</label>
+<select id="bond">
+<option value="flexiGrowth">Flexi Growth</option>
+<option value="flexiSmart">Flexi Smart Growth</option>
+</select></div>
+
+<div><label>ADDB Sum Assured (₹)</label><input id="addbSA" type="number" value="0"></div>
+<div><label>Expected Growth %</label><input id="growth" type="number" value="8"></div>
+<div><label>Initial NAV</label><input value="10.00" readonly></div>
+
+<button onclick="calculate()">Analyze Maturity & Net Yield</button>
+<div id="err" class="error"></div>
+</div>
+
+<div id="summary" class="summary" style="display:none"></div>
+<table id="table"></table>
+</div>
+
+<script>
+const MORTALITY = {
+  18:1.30,19:1.31,20:1.33,21:1.35,22:1.37,23:1.39,24:1.41,25:1.53,26:1.57,27:1.61,
+  28:1.65,29:1.69,30:1.74,31:1.79,32:1.85,33:1.91,34:1.98,35:2.05,36:2.13,37:2.22,
+  38:2.32,39:2.43,40:2.55,41:2.68,42:2.83,43:2.99,44:3.17,45:3.36,46:3.58,47:3.82,
+  48:4.09,49:4.39,50:4.73,51:5.11,52:5.54,53:6.03,54:6.58,55:7.21,56:7.92,57:8.72,
+  58:9.63,59:10.66,60:11.83,61:13.17,62:14.69,63:16.42,64:18.40,65:20.66,66:23.26,
+  67:26.26,68:29.75,69:33.82,70:38.60
+};
+
+// --- IRR Solver Logic ---
+function npv(rate, cashflows) {
+    return cashflows.reduce((acc, val, i) => acc + val / Math.pow(1 + rate, i), 0);
+}
+
+function solveIRR(cashflows) {
+    let low = -0.9, high = 1.0, mid = 0;
+    for (let i = 0; i < 40; i++) {
+        mid = (low + high) / 2;
+        if (npv(mid, cashflows) > 0) low = mid;
+        else high = mid;
+    }
+    return mid * 100;
+}
+
+function calculate() {
+  const age = +document.getElementById("age").value;
+  const term = +document.getElementById("term").value;
+  const premium = +document.getElementById("premium").value;
+  const cover = +document.getElementById("cover").value;
+  const bond = document.getElementById("bond").value;
+  const addbSA = +document.getElementById("addbSA").value || 0;
+  const growth = +document.getElementById("growth").value / 100;
+
+  const err = document.getElementById("err");
+  const table = document.getElementById("table");
+  const summary = document.getElementById("summary");
+
+  err.style.display = "none"; table.innerHTML = ""; summary.style.display = "none";
+
+  if (!age || !term || !premium) { err.innerText = "❌ Enter all fields"; err.style.display = "block"; return; }
+  if (premium < 30000) { err.innerText = "❌ Min Premium ₹30,000"; err.style.display = "block"; return; }
+
+  const SA = premium * cover;
+  const FMC_MONTHLY = (bond === "flexiGrowth" ? 0.0135 : 0.01) / 12;
+  const ADDB_MONTHLY = (addbSA * 0.40 / 1000) / 12;
+
+  let displayNAV = 10.00, accountNAV = 10.00, units = 0, totalGA = 0, totalPremiumPaid = 0, lastFundValue = 0;
+  let cashflows = [];
+
+  table.innerHTML = `<tr><th>Year</th><th>Age</th><th>NAV</th><th>Premium</th><th>Mortality</th><th>GA Added</th><th>Fund Value</th></tr>`;
+
+  for (let y = 1; y <= term; y++) {
+    const attainedAge = age + y - 1;
+    cashflows.push(-premium); // Premium outflow at start of year
+
+    const navToPrint = displayNAV.toFixed(2);
+    let pac = (y === 1) ? 0.08 : (y <= 5 ? 0.055 : 0.04); 
+    units += (premium * (1 - pac)) / accountNAV; 
+    totalPremiumPaid += premium;
+
+    const rate = MORTALITY[attainedAge] || MORTALITY[70];
+    const sar = Math.max(0, SA - (units * accountNAV));
+    const monthlyMort = ((sar * rate) / 1000) / 12;
+    let monthlyAdmin = (y >= 6) ? Math.min((0.0325 * premium / 12), 125) : 0;
+
+    for (let m = 0; m < 12; m++) {
+      accountNAV *= (1 + growth / 12);
+      accountNAV *= (1 - FMC_MONTHLY);
+      units -= (monthlyMort + monthlyAdmin + ADDB_MONTHLY) / accountNAV;
+      if (units < 0) units = 0;
+    }
+
+    let gaAdded = 0;
+    const gaRateTable = (premium < 48000) ? {6:0.03,10:0.06,15:0.12,20:0.15,25:0.18} : {6:0.05,10:0.10,15:0.20,20:0.25,25:0.30};
+    if (gaRateTable[y]) {
+      gaAdded = premium * gaRateTable[y];
+      totalGA += gaAdded;
+    }
+    
+    let fundValue = (units * accountNAV) + totalGA;
+    if (y === term) lastFundValue = fundValue;
+
+    table.innerHTML += `<tr><td>${y}</td><td>${attainedAge}</td><td>${navToPrint}</td><td>${premium.toLocaleString("en-IN")}</td><td>${Math.round(monthlyMort*12).toLocaleString("en-IN")}</td><td>${gaAdded > 0 ? Math.round(gaAdded).toLocaleString("en-IN") : "-"}</td><td><b>${Math.round(fundValue).toLocaleString("en-IN")}</b></td></tr>`;
+    displayNAV *= (1 + growth);
+  }
+
+  let ltcg = (premium > 250000 && (lastFundValue - totalPremiumPaid) > 0) ? (lastFundValue - totalPremiumPaid) * 0.125 : 0;
+  let netPayout = lastFundValue - ltcg;
+
+  // Final Net Yield Calculation
+  let finalCashFlows = [...cashflows, netPayout];
+  let finalYield = solveIRR(finalCashFlows);
+
+  summary.style.display = "block";
+  summary.innerHTML = `
+    <div style="font-size: 24px; color: #f0c20b; margin-bottom: 10px;">
+        <strong>NET YIELD (IRR AT MATURITY): ${finalYield.toFixed(2)}%</strong>
+    </div>
+    Sum Assured: ₹${SA.toLocaleString("en-IN")} | Maturity Value: ₹${Math.round(lastFundValue).toLocaleString("en-IN")}
+    <br>
+    LTCG Tax: ₹${Math.round(ltcg).toLocaleString("en-IN")} | Net Payout: ₹${Math.round(netPayout).toLocaleString("en-IN")}
+  `;
+}
+</script>
+</body>
+</html>

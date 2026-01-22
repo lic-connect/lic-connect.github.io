@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIC Plan 886 - Protection Plus Calculator</title>
+<style>
+    :root {
+        --primary: #003366;
+        --secondary: #f0c20b;
+        --light: #f2f4f7;
+        --text: #334155;
+    }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--light); color: var(--text); padding: 20px; margin: 0; }
+    .container { max-width: 1200px; margin: auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 6px solid var(--primary); }
+    h1 { text-align: center; color: var(--primary); margin-bottom: 5px; }
+    .subtitle { text-align: center; color: #64748b; font-size: 0.9rem; margin-bottom: 25px; }
+    
+    /* Input Grid */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .input-group { display: flex; flex-direction: column; }
+    label { font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 5px; }
+    input, select { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; outline: none; transition: 0.2s; }
+    input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0,51,102,0.1); }
+    
+    button { grid-column: 1 / -1; background: var(--primary); color: #fff; padding: 15px; font-size: 16px; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+    button:hover { background: #002244; transform: translateY(-1px); }
+
+    /* Error Box */
+    .error { display: none; background: #fee2e2; color: #b91c1c; padding: 15px; border-radius: 8px; margin-top: 20px; font-weight: 600; text-align: center; border-left: 5px solid #b91c1c; }
+
+    /* Report Header */
+    .report-header { display: none; margin-top: 30px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 20px; }
+    .report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; text-align: center; }
+    .report-item h4 { margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; }
+    .report-item div { font-size: 20px; font-weight: 800; color: var(--primary); margin-top: 5px; }
+    .ltcg-note { grid-column: 1/-1; font-size: 12px; color: #b91c1c; margin-top: 10px; }
+
+    /* Table */
+    .table-container { overflow-x: auto; margin-top: 20px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th { background: var(--primary); color: #fff; padding: 12px; text-align: right; font-weight: 600; white-space: nowrap; }
+    th:first-child { text-align: center; border-radius: 8px 0 0 0; }
+    th:last-child { border-radius: 0 8px 0 0; }
+    td { padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right; color: #334155; }
+    td:first-child { text-align: center; font-weight: bold; }
+    tr:nth-child(even) { background: #f8fafc; }
+    tr:hover { background: #f1f5f9; }
+
+    /* Explanation Section */
+    .explain-section { margin-top: 40px; padding: 30px; background-color: #fff; border: 1px solid #e1e8ed; border-radius: 12px; font-size: 15px; line-height: 1.8; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .explain-section h2 { color: #003366; margin-top: 0; border-bottom: 3px solid #f0c20b; padding-bottom: 10px; display: inline-block; }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>LIC Protection Plus (Plan 886)</h1>
+    <div class="subtitle">Dynamic Premium & Maturity Calculator</div>
+
+    <div class="grid">
+        <div class="input-group">
+            <label>Age (18-65)</label>
+            <input type="number" id="age" value="30" min="18" max="65" oninput="updateValidation()">
+        </div>
+
+        <div class="input-group">
+            <label>Premium Paying Term (PPT)</label>
+            <select id="ppt" onchange="updateUIState()">
+                <option value="5">5 Years</option>
+                <option value="7">7 Years</option>
+                <option value="10" selected>10 Years</option>
+                <option value="15">15 Years</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Policy Term</label>
+            <select id="term"></select>
+        </div>
+
+        <div class="input-group">
+            <label>Annual Premium (₹)</label>
+            <input type="number" id="premium" value="60000" step="1000" oninput="updateValidation()">
+            <small id="minPremMsg" style="font-size:11px; color:#64748b;"></small>
+        </div>
+
+        <div class="input-group">
+            <label>Sum Assured Multiple</label>
+            <select id="saMultiple"></select>
+            <small id="saLimitMsg" style="color: #64748b; font-size:11px;"></small>
+        </div>
+
+        <div class="input-group">
+            <label>Bond Fund Type</label>
+            <select id="bond">
+                <option value="bond">Bond Fund</option>
+                <option value="secured">Secured Fund</option>
+                <option value="balanced">Balanced Fund</option>
+                <option value="growth" selected>Growth Fund</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>ADDB Sum Assured (₹)</label>
+            <input type="number" id="addb" value="0" placeholder="Max 1 Cr">
+        </div>
+
+        <div class="input-group">
+            <label>Expected Growth (%)</label>
+            <input type="number" id="growth" value="8">
+        </div>
+
+        <button onclick="calculate()">Calculate Maturity</button>
+    </div>
+
+    <div id="errorMsg" class="error"></div>
+
+    <div id="reportHeader" class="report-header">
+        <div class="report-grid">
+            <div class="report-item">
+                <h4>Total Premium</h4>
+                <div id="dispPrem">₹0</div>
+            </div>
+            <div class="report-item">
+                <h4>Sum Assured</h4>
+                <div id="dispSA">₹0</div>
+            </div>
+            <div class="report-item">
+                <h4>Maturity Value</h4>
+                <div id="dispMaturity">₹0</div>
+            </div>
+            <div class="report-item">
+                <h4>Net IRR</h4>
+                <div id="dispIRR" style="color: #16a34a;">0.00%</div>
+            </div>
+        </div>
+        <div id="ltcgMsg" class="ltcg-note"></div>
+    </div>
+
+    <div class="table-container">
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Age</th>
+                    <th>NAV (₹)</th>
+                    <th>Premium (₹)</th>
+                    <th>Alloc. Charges (₹)</th>
+                    <th>Mortality + Admin (₹)</th>
+                    <th>Fund Value (₹)</th>
+                    <th>Death Benefit (₹)</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <!-- Explanation Section -->
+    <div class="explain-section">
+        <h2>Plan No. 886: The Story of Mr. Vikram’s "Wealth Fortress"</h2>
+        <p>Imagine you are building a <strong>"Wealth Fortress"</strong>. You add bricks (money) every year, but you also want a guard (Insurance) to protect it. This is <strong>LIC’s Wealth Plus (Plan 886)</strong>.</p>
+        <div style="background: #fdf6e3; padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #003366;">
+            <ol>
+                <li><strong>Construction Fee:</strong> LIC takes a fee (PAC) before investing.</li>
+                <li><strong>Buying Units:</strong> Your money is converted into units at current NAV.</li>
+                <li><strong>Risk Cover:</strong> LIC provides a Life Cover by cancelling units monthly.</li>
+                <li><strong>Loyalty Bonus:</strong> Guaranteed Additions added at milestones.</li>
+            </ol>
+        </div>
+        <div style="margin-top: 30px; background: #eef6fc; padding: 20px; border-radius: 8px; font-style: italic; border: 1px solid #bcdff1;">
+            <strong>Taxation Note:</strong> If total annual premium exceeds ₹2.5 Lakh, gains are taxed as LTCG (12.5% on profits exceeding ₹1.25L).
+        </div>
+    </div>
+
+    <div class="ulip-disclaimer" style="margin-top:30px; padding:20px; border:1px solid #fbbf24; border-radius:10px; background-color:#fff7ed; color:#92400e; font-size:13px; line-height:1.5;">
+        <strong>Disclaimer:</strong> This calculator is for illustrative purposes only. Actual returns depend on market performance (NAV) and LIC's terms.
+    </div>
+</div>
+
+<script>
+const MORT_886 = {
+    18:1.09, 19:1.13, 20:1.16, 21:1.17, 22:1.17, 23:1.17, 24:1.17, 25:1.17,
+    26:1.17, 27:1.17, 28:1.18, 29:1.20, 30:1.22, 31:1.26, 32:1.30, 33:1.36,
+    34:1.43, 35:1.50, 36:1.59, 37:1.70, 38:1.82, 39:1.95, 40:2.10, 41:2.27,
+    42:2.46, 43:2.68, 44:2.93, 45:3.22, 46:3.56, 47:3.96, 48:4.42, 49:4.95,
+    50:5.55, 51:6.21, 52:6.94, 53:7.72, 54:8.54, 55:9.39, 56:10.27, 57:11.16,
+    58:12.06, 59:12.99, 60:13.95, 61:14.96, 62:16.04, 63:17.21, 64:18.49,
+    65:19.92, 66:21.51, 67:23.29, 68:25.30, 69:27.55, 70:30.07, 71:32.89,
+    72:36.04, 73:39.55, 74:43.45, 75:47.78, 76:52.58, 77:57.90, 78:63.78,
+    79:70.29, 80:77.48, 81:85.42, 82:94.19, 83:103.85, 84:114.50, 85:126.22
+};
+
+function updateUIState() {
+    const ppt = parseInt(document.getElementById("ppt").value);
+    const termSelect = document.getElementById("term");
+    const minPremMsg = document.getElementById("minPremMsg");
+    termSelect.innerHTML = "";
+    let allowedTerms = [];
+    let minPremium = 0;
+
+    if (ppt === 5 || ppt === 7 || ppt === 10) {
+        allowedTerms = [10, 15, 20, 25];
+        minPremium = 60000;
+    } else if (ppt === 15) {
+        allowedTerms = [15, 20, 25];
+        minPremium = 36000;
+    }
+
+    allowedTerms.forEach(val => {
+        let opt = document.createElement("option");
+        opt.value = val;
+        opt.text = val + " Years";
+        termSelect.add(opt);
+    });
+    minPremMsg.textContent = `Min Annual Premium for PPT ${ppt}: ₹${minPremium.toLocaleString('en-IN')}`;
+    updateValidation();
+}
+
+function updateValidation() {
+    const age = parseInt(document.getElementById("age").value);
+    const premium = parseInt(document.getElementById("premium").value);
+    const saSelect = document.getElementById("saMultiple");
+    const saMsg = document.getElementById("saLimitMsg");
+
+    let minMult = 7, maxMult = 10;
+    if (age >= 18 && age <= 30) { minMult = 7; maxMult = 20; } 
+    else if (age >= 31 && age <= 45) { minMult = 7; maxMult = 12; }
+    else if (age >= 46 && age <= 49) { minMult = 7; maxMult = 8; }
+    else if (age === 50) { minMult = 5; maxMult = 8; }
+    else if (age >= 51 && age <= 65) { minMult = 5; maxMult = 7; }
+
+    saSelect.innerHTML = "";
+    for(let i=minMult; i<=maxMult; i++) {
+        let opt = document.createElement("option");
+        opt.value = i;
+        opt.text = i + " times (" + (i*premium).toLocaleString("en-IN") + ")";
+        saSelect.add(opt);
+    }
+    saMsg.textContent = `Allowed: ${minMult}x to ${maxMult}x`;
+}
+
+window.onload = updateUIState;
+
+// IRR Helper
+function calculateIRR(cashFlows) {
+    let irr = 0.1;
+    for (let i = 0; i < 100; i++) {
+        let npv = 0;
+        let dnpv = 0;
+        for (let t = 0; t < cashFlows.length; t++) {
+            npv += cashFlows[t] / Math.pow(1 + irr, t);
+            dnpv -= t * cashFlows[t] / Math.pow(1 + irr, t + 1);
+        }
+        let newIrr = irr - npv / dnpv;
+        if (Math.abs(newIrr - irr) < 0.00001) return newIrr * 100;
+        irr = newIrr;
+    }
+    return irr * 100;
+}
+
+function calculate() {
+    const age = parseInt(document.getElementById("age").value);
+    const ppt = parseInt(document.getElementById("ppt").value);
+    const term = parseInt(document.getElementById("term").value); 
+    const premium = parseFloat(document.getElementById("premium").value);
+    const saMult = parseInt(document.getElementById("saMultiple").value);
+    const addbSA = parseFloat(document.getElementById("addb").value) || 0;
+    const growthRate = parseFloat(document.getElementById("growth").value) / 100;
+
+    const errorDiv = document.getElementById("errorMsg");
+    const tableBody = document.querySelector("#resultTable tbody");
+    const reportHeader = document.getElementById("reportHeader");
+
+    errorDiv.style.display = "none";
+    tableBody.innerHTML = "";
+    
+    if (!age || age < 18 || age > 65) return showError("Age must be between 18 and 65.");
+    let minAnnualPremium = (ppt === 15) ? 36000 : 60000;
+    if (premium < minAnnualPremium) return showError(`Min Premium: ₹${minAnnualPremium}`);
+
+    const basicSA = premium * saMult;
+    const FMC_RATE = 0.0135;
+    const cashFlows = [];
+
+    let units = 0;
+    let nav = 10.00;
+    let totalPremium = 0;
+    let fundValue = 0;
+    let displayNav = 10.00;
+
+    for (let y = 1; y <= term; y++) {
+        const isPremiumYear = y <= ppt;
+        let allocationCharge = 0;
+        
+        if (isPremiumYear) {
+            if (y === 1) allocationCharge = premium * 0.08;
+            else if (y <= 5) allocationCharge = premium * 0.055;
+            else allocationCharge = premium * 0.03;
+            
+            cashFlows.push(-premium);
+            totalPremium += premium;
+        } else {
+            cashFlows.push(0);
+        }
+
+        let investedAmount = isPremiumYear ? (premium - allocationCharge) : 0;
+        units += investedAmount / nav;
+
+        let annualMort = 0, annualAdmin = 0;
+        const monthlyFMC = FMC_RATE / 12;
+        const ADDB_ANNUAL_CHARGE = addbSA * 0.40 / 1000;
+
+        for (let m = 1; m <= 12; m++) {
+            nav = nav * (1 + growthRate / 12 - monthlyFMC);
+            let monthlyAdmin = premium * 0.0025;
+            annualAdmin += monthlyAdmin;
+            
+            let currentFundValue = units * nav;
+            let sar = Math.max(basicSA - currentFundValue, 0);
+            let mortRate = (MORT_886[age + y - 1] || MORT_886[85]);
+            let monthlyMort = (sar * mortRate / 1000) / 12;
+            annualMort += monthlyMort;
+
+            let unitsToCancel = (monthlyAdmin + monthlyMort + (ADDB_ANNUAL_CHARGE/12)) / nav;
+            units = Math.max(units - unitsToCancel, 0);
+        }
+
+        fundValue = units * nav;
+        let deathBenefit = Math.max(basicSA, fundValue, 1.05 * totalPremium) + addbSA;
+        
+        let rowNav = displayNav;
+        displayNav = displayNav * (1 + growthRate);
+
+        tableBody.innerHTML += `<tr>
+            <td>${y}</td><td>${age + y - 1}</td><td>${rowNav.toFixed(2)}</td>
+            <td>${isPremiumYear ? premium.toLocaleString('en-IN') : 0}</td>
+            <td>${Math.round(allocationCharge).toLocaleString('en-IN')}</td>
+            <td>${Math.round(annualMort + annualAdmin + ADDB_ANNUAL_CHARGE).toLocaleString('en-IN')}</td>
+            <td><b>${Math.round(fundValue).toLocaleString('en-IN')}</b></td>
+            <td>${Math.round(deathBenefit).toLocaleString('en-IN')}</td>
+        </tr>`;
+    }
+
+    let ltcgTax = 0;
+    if (premium > 250000) {
+        let gain = fundValue - totalPremium;
+        if (gain > 0) ltcgTax = gain * 0.125;
+    }
+    let netMaturity = fundValue - ltcgTax;
+    
+    // Final Cashflow for IRR
+    cashFlows[cashFlows.length - 1] += netMaturity;
+    let irrVal = calculateIRR(cashFlows);
+
+    document.getElementById("dispPrem").innerText = "₹" + totalPremium.toLocaleString('en-IN');
+    document.getElementById("dispSA").innerText = "₹" + basicSA.toLocaleString('en-IN');
+    document.getElementById("dispMaturity").innerText = "₹" + Math.round(netMaturity).toLocaleString('en-IN');
+    document.getElementById("dispIRR").innerText = irrVal.toFixed(2) + "%";
+    
+    reportHeader.style.display = "block";
+}
+
+function showError(msg) {
+    const el = document.getElementById("errorMsg");
+    el.innerText = "Error: " + msg;
+    el.style.display = "block";
+}
+</script>
+</body>
+</html>

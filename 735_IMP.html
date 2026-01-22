@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC Plan 735 – Endowment Plus IRR Report</title>
+  <style>
+body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-top: 8px solid #003366;
+    }
+
+    h1 {
+      color: #003366;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 2px solid #f0c20b;
+      display: block;
+      padding-bottom: 10px;
+    }
+
+    #inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      background: #f8fafc;
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 25px;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      background: #fff;
+    }
+
+    button {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #003366 0%, #00509d 100%);
+      color: white;
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    .summary {
+      background: #003366;
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+      line-height: 1.8;
+      font-size: 16px;
+      border-bottom: 5px solid #f0c20b;
+      text-align: center;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 30px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th {
+      background-color: #f0c20b;
+      color: #003366;
+      padding: 15px;
+      text-align: center;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    td {
+      border-bottom: 1px solid #f1f5f9;
+      padding: 14px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    tr:nth-child(even) { background-color: #f8fafc; }
+
+    .error {
+      grid-column: 1 / -1;
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+<h1>LIC Plan 735 – Endowment Plus Maturity Report</h1>
+
+<div id="inputs">
+  <div class="row"><label>Age at Entry:</label><input type="number" id="age" value="30"/></div>
+  <div class="row"><label>Policy Term (years):</label><input type="number" id="term" value="20"/></div>
+  <div class="row"><label>Annualised Premium (₹):</label><input type="number" id="premium" value="100000"/></div>
+  <div class="row"><label>ADDB Sum Assured (₹):</label><input type="number" id="addbSA" value="0" /></div>
+  <div class="row"><label>ADDB Rate (per 1k):</label><input type="number" id="addbRate" value="0.50" step="0.01" /></div>
+  <div class="row"><label>Expected Growth %:</label><input type="number" id="growth" value="8" /></div>
+  <div class="row"><label>Initial NAV:</label><input type="number" id="initNAV" value="10" readonly /></div>
+  <button onclick="calculate()">Calculate Maturity & Net Yield</button>
+  <div id="err" class="error" style="display:none"></div>
+</div>
+
+<div id="summary" class="summary"></div>
+<table id="resultTable"></table>
+</div>
+
+<script>
+const MORTALITY = {
+  25:1.53,26:1.57,27:1.61,28:1.65,29:1.69,30:1.74,
+  31:1.79,32:1.85,33:1.91,34:1.98,35:2.05,
+  36:2.13,37:2.22,38:2.32,39:2.43,40:2.55,
+  41:2.68,42:2.83,43:2.99,44:3.17,45:3.36,
+  46:3.58,47:3.82,48:4.09,49:4.39,50:4.73,
+  51:5.11,52:5.54,53:6.03,54:6.58,55:7.21
+};
+
+const ADMIN_ANNUAL = 150 * 12;
+
+// --- IRR Solver (XIRR/Cash-flow logic) ---
+function npv(rate, cashflows) {
+    return cashflows.reduce((acc, val, i) => acc + val / Math.pow(1 + rate, i), 0);
+}
+
+function solveIRR(cashflows) {
+    let low = -0.9, high = 1.0, mid = 0;
+    for (let i = 0; i < 40; i++) {
+        mid = (low + high) / 2;
+        if (npv(mid, cashflows) > 0) low = mid;
+        else high = mid;
+    }
+    return mid * 100;
+}
+
+function calculate() {
+  const age = +document.getElementById('age').value;
+  const term = +document.getElementById('term').value;
+  const premium = +document.getElementById('premium').value;
+  const sa = premium * 10;
+  const addbSA = +document.getElementById('addbSA').value || 0;
+  const addbRate = +document.getElementById('addbRate').value || 0;
+  const growth = +document.getElementById('growth').value / 100;
+  const initNAV = +document.getElementById('initNAV').value;
+
+  const table = document.getElementById('resultTable');
+  const summary = document.getElementById('summary');
+  const err = document.getElementById('err');
+
+  err.style.display = 'none'; table.innerHTML = ''; summary.innerHTML = '';
+  if (!age || !term || !premium) { err.innerText='Required inputs missing'; err.style.display='block'; return; }
+
+  let nav = initNAV;
+  let units = 0;
+  let totalPremiumPaid = 0;
+  let lastFundValue = 0;
+  let cashflows = [];
+
+  table.innerHTML = `<tr><th>Year</th><th>Age</th><th>NAV</th><th>Premium</th><th>Mortality</th><th>Fund Value</th></tr>`;
+
+  for (let y = 1; y <= term; y++) {
+    // Record premium outflow at start of year
+    cashflows.push(-premium);
+
+    let pac = (y === 1) ? 0.075 : (y <= 5 ? 0.05 : 0.03);
+    units += (premium * (1 - pac)) / nav;
+    totalPremiumPaid += premium;
+
+    let attainedAge = age + y - 1;
+    let rate = MORTALITY[attainedAge] || MORTALITY[55];
+    let fundValueBefore = units * nav;
+    let sumAtRisk = Math.max(0, sa - fundValueBefore);
+    let annualMortality = (sumAtRisk * rate) / 1000;
+    let annualADDB = (addbSA * addbRate) / 1000;
+
+    for (let m = 0; m < 12; m++) {
+      units -= (annualMortality / 12) / nav;
+      units -= (ADMIN_ANNUAL / 12) / nav;
+      units -= (annualADDB / 12) / nav;
+      if (units < 0) units = 0;
+    }
+
+    let fundValue = units * nav;
+    if (y === term) lastFundValue = fundValue;
+
+    table.innerHTML += `
+      <tr>
+        <td>${y}</td><td>${attainedAge}</td><td>${nav.toFixed(4)}</td>
+        <td>${premium.toLocaleString('en-IN')}</td>
+        <td>${Math.round(annualMortality).toLocaleString('en-IN')}</td>
+        <td><b>${Math.round(fundValue).toLocaleString('en-IN')}</b></td>
+      </tr>`;
+
+    nav *= (1 + growth);
+  }
+
+  // --- Final Maturity Calculations ---
+  let grossMaturity = lastFundValue;
+  let ltcg = (premium > 250000) ? Math.max(0, (grossMaturity - totalPremiumPaid) * 0.125) : 0;
+  let netMaturity = grossMaturity - ltcg;
+
+  // --- Net Yield Calculation (IRR on the Net Payout) ---
+  // The final cash flow is the net maturity received at time t=term
+  // We add it to the final year's position in the array
+  let finalCashFlows = [...cashflows, netMaturity]; 
+  let finalYield = solveIRR(finalCashFlows);
+
+  summary.innerHTML = `
+    <div style="font-size: 24px; color: #f0c20b; margin-bottom: 10px;">
+        <strong>NET YIELD (IRR AT MATURITY): ${finalYield.toFixed(2)}%</strong>
+    </div>
+    Sum Assured: ₹${sa.toLocaleString('en-IN')}
+    | Gross Maturity: ₹${Math.round(grossMaturity).toLocaleString('en-IN')}
+    <br>
+    LTCG Tax: ₹${Math.round(ltcg).toLocaleString('en-IN')}
+    | Net Payout: ₹${Math.round(netMaturity).toLocaleString('en-IN')}
+  `;
+}
+</script>
+</body>
+</html>
