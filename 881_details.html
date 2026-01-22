@@ -20,6 +20,7 @@
         .card-sidebar .tagline { font-size: 0.9rem; color: var(--accent-color); font-weight: bold; text-transform: uppercase; display: block; margin-top: 10px; }
         .card-content { flex: 1; padding: 50px; }
         .card-content h2 { font-family: 'Oswald', sans-serif; font-size: 2.2rem; color: var(--primary-color); margin-bottom: 15px; }
+        .card-content h3 { font-family: 'Oswald', sans-serif; color: var(--primary-color); margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #f3e5f5; display: inline-block; }
         .exclusive { display: inline-block; background: var(--accent-color); color: white; padding: 4px 15px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-bottom: 20px; }
         .key-info { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 25px 0; }
         .info-item { background: #fdfbff; padding: 18px; border-radius: 15px; box-shadow: inset 0 0 10px rgba(0,0,0,0.02); border: 1px solid #eee; }
@@ -29,8 +30,10 @@
         .opt-card { text-align: center; padding: 15px; border-radius: 12px; background: #e0f2f1; border: 1px solid #b2dfdb; }
         .opt-card h5 { margin: 0 0 5px 0; color: #00796b; font-size: 1rem; }
         .opt-card p { margin: 0; font-size: 0.85rem; font-weight: 600; line-height: 1.3; }
-        .footer { text-align: center; margin-top: 40px; color: #78909c; font-size: 0.9rem; }
-        @media (max-width: 768px) { .plan-card { flex-direction: column; } .survival-options { grid-template-columns: 1fr; } }
+        .detail-list { padding-left: 20px; margin-bottom: 20px; }
+        .detail-list li { margin-bottom: 8px; font-size: 0.9rem; }
+        .footer { text-align: center; margin-top: 40px; color: #78909c; font-size: 0.9rem; padding-bottom: 40px; }
+        @media (max-width: 768px) { .plan-card { flex-direction: column; } .survival-options { grid-template-columns: 1fr; } .key-info { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -41,29 +44,57 @@
                 <h1>Bima Lakshmi</h1>
                 <span class="tagline">Exclusively for Females</span>
                 <div style="margin-top: 40px; font-size: 1.2rem; font-weight: bold;">Plan No. 881</div>
+                <p style="margin-top: 15px; font-size: 0.8rem; opacity: 0.9;">UIN: 512N389V01</p>
             </div>
             <div class="card-content">
                 <div class="exclusive">WOMEN SPECIAL</div>
-                <h2>Empowering Her Future.</h2>
-                <p>A unique savings plan tailored for the women of India, offering a blend of life protection, high guaranteed returns, and flexible liquidity.</p>
+                <h2>Chhoti bachat ko badi banaye</h2>
+                <p>LIC’s Bima Lakshmi is a Non-Par, Non-Linked, Individual, Savings Plan designed exclusively for females. This limited premium payment plan provides life cover, savings, and survival benefits with Guaranteed Additions.</p>
                 
                 <div class="key-info">
-                    <div class="info-item"><strong>Policy Term</strong><span>25 Years</span></div>
+                    <div class="info-item"><strong>Policy Term</strong><span>Fixed 25 Years</span></div>
                     <div class="info-item"><strong>Premium Term</strong><span>7 to 15 Years</span></div>
-                    <div class="info-item"><strong>Guaranteed Add.</strong><span>7% of Premium</span></div>
-                    <div class="info-item"><strong>Min Sum Assured</strong><span>₹2,00,000</span></div>
+                    <div class="info-item"><strong>Entry Age</strong><span>18 (Min) to 50 (Max)</span></div>
+                    <div class="info-item"><strong>Min Sum Assured</strong><span>₹2,00,000 (No Max Limit)</span></div>
+                    <div class="info-item"><strong>Guaranteed Add.</strong><span>7% of Tabular Premium</span></div>
+                    <div class="info-item"><strong>Auto Cover</strong><span>After 3 Yrs Premiums</span></div>
                 </div>
 
-                <h3 style="font-family: 'Oswald', sans-serif; color: var(--primary-color);">Survival Benefit Choices</h3>
+                <h3>Survival Benefit Choices</h3>
+                <p style="font-size: 0.9rem; margin-top: -10px;">Choose one option at the proposal stage (cannot be changed later):</p>
                 <div class="survival-options">
-                    <div class="opt-card"><h5>Option A</h5><p>50% SA at end of PPT</p></div>
-                    <div class="opt-card"><h5>Option B</h5><p>7.5% SA Every 2nd Year</p></div>
-                    <div class="opt-card"><h5>Option C</h5><p>15% SA Every 4th Year</p></div>
+                    <div class="opt-card"><h5>Option A</h5><p>Lump sum: 50% of Basic SA at the end of PPT</p></div>
+                    <div class="opt-card"><h5>Option B</h5><p>7.5% of Basic SA payable every 2nd year (Yr 2 to 24)</p></div>
+                    <div class="opt-card"><h5>Option C</h5><p>15% of Basic SA payable every 4th year (Yr 4 to 24)</p></div>
                 </div>
+
+                <h3>Core Policy Benefits</h3>
+                <ul class="detail-list">
+                    <li><strong>Maturity Benefit:</strong> Sum Assured on Maturity (Equal to Basic Sum Assured) + Accrued Guaranteed Additions.</li>
+                    <li><strong>Death Benefit:</strong> Sum Assured on Death + Accrued Guaranteed Additions. Sum Assured on Death is higher of Basic SA or 10x Tabular Annual Premium. (Min 105% of premiums).</li>
+                    <li><strong>Deferment Option:</strong> You can defer Survival Benefits for 5 years to accumulate interest (Accumulation rate for 2025-26: 6.09% p.a.).</li>
+                    <li><strong>Settlement Option:</strong> Option to receive Maturity/Death benefit in installments over 5, 10, or 15 years.</li>
+                </ul>
+
+                <h3>Incentives & Liquidity</h3>
+                <ul class="detail-list">
+                    <li><strong>High Sum Assured:</strong> Rebates up to 0.50% on Guaranteed Addition rate for high SA (₹25L+).</li>
+                    <li><strong>Online Sale:</strong> Incentive up to 1.50% on Guaranteed Addition rate for direct purchases.</li>
+                    <li><strong>Existing Customer:</strong> Loyalty incentive for existing policyholders or nominees.</li>
+                    <li><strong>Loan Facility:</strong> Available after 1st year completion (provided 1 full year premium paid).</li>
+                </ul>
+
+                <h3>Optional Riders</h3>
+                <ul class="detail-list">
+                    <li>Accidental Death & Disability Benefit Rider / Accident Benefit Rider</li>
+                    <li>New Term Assurance Rider</li>
+                    <li><strong>Female Critical Illness Benefit Rider:</strong> Covers Modules for Cancer, Surgeries, and Pregnancy complications.</li>
+                </ul>
             </div>
         </div>
         <div class="footer">
-            <p>Guaranteed Additions accrue annually throughout the policy term. Loan facility available after 2 years.</p>
+            <p>Guaranteed Additions accrue annually at 7% of Total Tabular Annual Premium throughout the policy term.</p>
+            <p>For more information visit <strong>www.licindia.in</strong></p>
         </div>
     </div>
 </body>

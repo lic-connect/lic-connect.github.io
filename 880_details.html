@@ -21,6 +21,7 @@
         .card-content { flex: 1; padding: 50px; }
         .card-content h2 { font-family: 'Oswald', sans-serif; font-size: 2rem; color: var(--primary-color); margin-bottom: 20px; position: relative; }
         .card-content h2::after { content: ''; display: block; width: 60px; height: 4px; background: var(--accent-color); margin-top: 8px; }
+        .card-content h3 { font-family: 'Oswald', sans-serif; font-size: 1.4rem; color: var(--primary-color); margin: 25px 0 10px; border-left: 4px solid var(--accent-color); padding-left: 15px; }
         .key-info { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
         .info-item { background: #f1f8e9; padding: 20px; border-radius: 12px; border: 1px solid #dcedc8; transition: transform 0.3s ease; }
         .info-item:hover { transform: translateY(-5px); border-color: var(--primary-color); }
@@ -28,8 +29,10 @@
         .info-item span { font-size: 1.1rem; font-weight: 700; color: #1b5e20; }
         .highlight-box { margin-top: 30px; padding: 25px; background: #fff8e1; border-radius: 15px; border-left: 8px solid var(--accent-color); position: relative; }
         .highlight-box h4 { color: #795548; margin: 0 0 10px 0; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
-        .footer { text-align: center; margin-top: 40px; color: #546e7a; font-size: 0.95rem; font-weight: 500; }
-        @media (max-width: 768px) { .plan-card { flex-direction: column; } .card-sidebar { flex-basis: auto; } }
+        .footer { text-align: center; margin-top: 40px; color: #546e7a; font-size: 0.95rem; font-weight: 500; padding-bottom: 40px; }
+        ul.detail-list { padding-left: 20px; margin: 10px 0; }
+        ul.detail-list li { margin-bottom: 8px; font-size: 0.95rem; }
+        @media (max-width: 768px) { .plan-card { flex-direction: column; } .card-sidebar { flex-basis: auto; } .key-info { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -39,25 +42,55 @@
                 <div class="icon"><i class="fas fa-shield-halved"></i></div>
                 <h1>Jan Suraksha</h1>
                 <span class="plan-id">Plan No. 880</span>
+                <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.8;">UIN: 512N388V01</p>
             </div>
             <div class="card-content">
                 <h2>Chhota Premium, Badi Suraksha.</h2>
-                <p>A specialized Micro Insurance plan designed to provide high-value financial protection and savings to everyone at an affordable cost.</p>
+                <p>LIC’s Jan Suraksha is a Non-Par, Non-linked, Individual, Savings, Life Micro Insurance plan which offers a combination of protection and savings. It provides financial support for the family and a guaranteed lump sum at maturity.</p>
+                
                 <div class="key-info">
-                    <div class="info-item"><strong>Sum Assured</strong><span>₹1 Lac - ₹2 Lacs</span></div>
+                    <div class="info-item"><strong>Sum Assured</strong><span>₹1,00,000 - ₹2,00,000</span></div>
                     <div class="info-item"><strong>Policy Term</strong><span>12 to 20 Years</span></div>
-                    <div class="info-item"><strong>Entry Age</strong><span>18 to 55 Years</span></div>
-                    <div class="info-item"><strong>Guaranteed Add.</strong><span>4% of Premium</span></div>
+                    <div class="info-item"><strong>Premium Paying Term</strong><span>Policy Term minus 5 Yrs</span></div>
+                    <div class="info-item"><strong>Min/Max Entry Age</strong><span>18 - 55 Years</span></div>
                 </div>
+
+                <h3>Eligibility & Restrictions</h3>
+                <ul class="detail-list">
+                    <li><strong>Basic Sum Assured Multiples:</strong> ₹5,000</li>
+                    <li><strong>Maximum Maturity Age:</strong> 70 years (65 years for POSP-LI/CPSC-SPV)</li>
+                    <li><strong>Medical Examination:</strong> Not required (available for standard healthy lives)</li>
+                    <li><strong>Maximum Age at Entry (POSP-LI):</strong> 53 years</li>
+                </ul>
+
+                <h3>Policy Benefits</h3>
+                <ul class="detail-list">
+                    <li><strong>Maturity Benefit:</strong> Sum Assured on Maturity (Equal to BSA) + Accrued Guaranteed Additions.</li>
+                    <li><strong>Death Benefit:</strong> Higher of 7 times Annualized Premium or Basic Sum Assured, plus accrued Guaranteed Additions. Minimum 105% of total premiums paid.</li>
+                    <li><strong>Guaranteed Additions:</strong> 4.00% of Total Annualized Premiums accrue at the end of each policy year.</li>
+                </ul>
+
+                <h3>Incentives & Riders</h3>
+                <ul class="detail-list">
+                    <li><strong>High Sum Assured Incentive:</strong> 0.25% increase in GA rate for BSA of ₹2,00,000.</li>
+                    <li><strong>Online Sale Incentive:</strong> 1.00% increase in GA rate for direct online purchases.</li>
+                    <li><strong>Optional Riders:</strong> Accidental Death & Disability Benefit Rider OR Accident Benefit Rider (available on additional premium).</li>
+                </ul>
+
                 <div class="highlight-box">
                     <h4><i class="fas fa-star"></i> Smart Protection Features</h4>
-                    <p><strong>Auto Cover:</strong> Enjoy peace of mind! After 3 full years of premium payment, your risk cover continues for up to 2 years even if you miss a premium.</p>
-                    <p><strong>Loan Facility:</strong> Liquidity is always available after just 1 full year of policy completion.</p>
+                    <p><strong>Auto Cover Period:</strong> 
+                        <br>• After 3-5 years paid: 6 months of cover.
+                        <br>• After 5+ years paid: 2 years of cover.
+                    </p>
+                    <p><strong>Loan Facility:</strong> Available after payment of 1 full year's premium and completion of the first policy year (Up to 80% for in-force, 70% for paid-up).</p>
+                    <p><strong>Grace Period:</strong> 30 days for Y/H/Q modes and 15 days for Monthly mode.</p>
                 </div>
             </div>
         </div>
         <div class="footer">
             <p><i class="fas fa-info-circle"></i> Non-Par, Non-Linked, Individual, Savings, Life Micro Insurance Plan.</p>
+            <p>Premium Payment Modes: Yearly, Half-yearly, Quarterly, Monthly (NACH) or Salary deductions.</p>
         </div>
     </div>
 </body>

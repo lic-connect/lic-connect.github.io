@@ -24,8 +24,15 @@
         .info-item strong { display: block; color: var(--primary-color); font-size: 0.9rem; margin-bottom: 5px; }
         .info-item span { font-size: 1.1rem; font-weight: 700; }
         .alert-box { margin-top: 30px; padding: 15px; background: #e0f7fa; border-left: 5px solid var(--accent-color); }
-        .alert-box h4 { color: var(--accent-color); margin-bottom: 5px; }
+        .alert-box h4 { color: var(--accent-color); margin-bottom: 5px; font-family: 'Oswald', sans-serif; }
+        
+        .details-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9rem; }
+        .details-table th, .details-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .details-table th { background-color: var(--primary-color); color: white; }
+
         .footer { text-align: center; margin-top: 30px; color: #777; font-size: 0.9rem; }
+        .footer a { color: var(--accent-color); text-decoration: none; }
+
         @media (max-width: 768px) {
             .plan-card { flex-direction: column; }
             .card-sidebar { flex-basis: auto; border-radius: 10px 10px 0 0; }
@@ -41,23 +48,47 @@
                 <span class="plan-id">Plan 768</span>
             </div>
             <div class="card-content">
-                <h2>Savings and Protection, Simplified.</h2>
-                <p>A Non-Participating, Limited Premium Endowment plan that offers a guaranteed lump sum at maturity and provides financial protection for your family.</p>
+                <h2>Limited Pay, Guaranteed Savings</h2>
+                <p>A Non-Linked, Non-Participating, Individual Savings Life Insurance plan. The Premium Paying Term (PPT) is always equal to <strong>Policy Term minus 8 years</strong>.</p>
+                
                 <div class="key-info">
-                    <div class="info-item"><strong>Premium Term</strong><span>Policy Term - 8 Years</span></div>
-                    <div class="info-item"><strong>Max. Sum Assured</strong><span>Up to ₹5 Lakhs</span></div>
-                    <div class="info-item"><strong>Plan Type</strong><span>Non-Participating</span></div>
-                    <div class="info-item"><strong>Maturity Benefit</strong><span>Guaranteed Sum Assured</span></div>
+                    <div class="info-item"><strong>Sum Assured</strong><span>₹2L - ₹5L</span></div>
+                    <div class="info-item"><strong>Max Entry Age</strong><span>50 Years</span></div>
+                    <div class="info-item"><strong>Premium Modes</strong><span>Yly, Hly, Qly, Mly</span></div>
+                    <div class="info-item"><strong>Min Maturity Age</strong><span>18 Years</span></div>
                 </div>
+
                 <div class="alert-box">
-                    <h4>Benefit Structure</h4>
-                    <p><strong>On Maturity:</strong> Receive a guaranteed "Sum Assured on Maturity" when the policy term ends.</p>
-                    <p><strong>On Death:</strong> The nominee receives the "Sum Assured on Death", which is the higher of the Basic Sum Assured or 7 times the annual premium.</p>
+                    <h4>Eligibility Conditions</h4>
+                    <table class="details-table">
+                        <tr><th>Policy Term</th><th>PPT</th><th>Min Entry Age</th></tr>
+                        <tr><td>15 Years</td><td>7 Years</td><td>3 Years</td></tr>
+                        <tr><td>16 Years</td><td>8 Years</td><td>2 Years</td></tr>
+                        <tr><td>17 Years</td><td>9 Years</td><td>1 Year</td></tr>
+                        <tr><td>18-20 Years</td><td>10-12 Years</td><td>90 Days</td></tr>
+                    </table>
                 </div>
+
+                <div class="alert-box" style="background-color: #fffde7; border-left-color: #fbc02d;">
+                    <h4 style="color: #fbc02d;">Policy Benefits</h4>
+                    <p><strong>On Maturity:</strong> Guaranteed "Basic Sum Assured".</p>
+                    <p><strong>On Death (After Risk Commencement):</strong> "Sum Assured on Death", which is the higher of:</p>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        <li>Basic Sum Assured</li>
+                        <li>7 times Annualized Premium</li>
+                    </ul>
+                    <p style="font-size: 0.85rem; margin-top: 5px;"><em>(Death Benefit shall not be less than 105% of Total Premiums Paid).</em></p>
+                    <p><strong>On Death (Before Risk Commencement):</strong> Refund of premiums paid (excluding taxes).</p>
+                </div>
+
+                <p style="margin-top: 20px; font-size: 0.9rem;">
+                    <strong>Loan & Surrender:</strong> Available after payment of at least 2 full years' premiums.<br>
+                    <strong>Tax Benefits:</strong> Premiums eligible u/s 80C. Maturity tax-free u/s 10(10D).
+                </p>
             </div>
         </div>
         <div class="footer">
-            <p>Loan and Surrender facilities are available after 2 full years' premium payment.</p>
+            <p>Proposal Forms: 300, 340, 360 | For more info, visit <a href="http://www.LicAllinOneCalc.com" target="_blank">www.LicAllinOneCalc.com</a></p>
         </div>
     </div>
 </body>

@@ -3,67 +3,411 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIC's Micro Bachat (751)</title>
+    <title>LIC Micro Bachat (751)</title>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        :root { --primary-color: #2a9d8f; --accent-color: #f4a261; --bg-color: #e9f5f3; --text-color: #264653; }
-        body { font-family: 'Lato', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.8; margin: 0; }
-        .container { max-width: 1100px; margin: 40px auto; background: white; border-radius: 15px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); overflow: hidden; }
-        .header { padding: 50px 30px; background: var(--primary-color); color: white; text-align: center; }
-        .header h1 { font-family: 'Merriweather', serif; font-size: 3.2rem; margin-bottom: 10px; }
-        .header p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
-        .main-content { padding: 50px 30px; }
-        .section-title { text-align: center; font-family: 'Merriweather', serif; font-size: 2.5rem; margin-bottom: 40px; color: var(--primary-color); position: relative; }
-        .section-title::after { content: ''; width: 60px; height: 3px; background: var(--accent-color); position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%); }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-bottom: 50px; }
-        .feature-box { border: 1px solid #ddd; padding: 20px; border-radius: 8px; text-align: center; }
-        .feature-box .icon { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 10px; }
-        .feature-box h3 { font-size: 1.1rem; color: var(--text-color); margin-bottom: 5px; font-weight: 700; }
-        .feature-box p { font-size: 1rem; color: #555; }
-        .benefits-section { display: flex; gap: 30px; flex-wrap: wrap; }
-        .benefit-card { flex: 1; min-width: 300px; padding: 30px; border-radius: 10px; border-left: 6px solid var(--accent-color); background: #f9f9f9; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .benefit-card h3 { font-family: 'Merriweather', serif; font-size: 1.6rem; color: var(--primary-color); margin-bottom: 15px; }
-        .unique-feature { background-color: #fef5ea; border: 1px solid var(--accent-color); border-radius: 8px; padding: 25px; text-align: center; margin-top: 30px; }
-        .unique-feature h4 { font-family: 'Merriweather', serif; color: var(--primary-color); font-size: 1.4rem; }
-        .unique-feature p { font-size: 1.1rem; }
-        .footer { background: var(--primary-color); color: white; text-align: center; padding: 25px; }
-        .footer a { color: var(--accent-color); text-decoration: none; }
+        :root {
+            --fb-blue: #1877F2;
+            --aquamarine: #7FFFD4;
+            --white: #FFFFFF;
+            --black: #000000;
+            --dark-gray: #333333;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--white);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 40px 20px;
+            /* Coin pattern background for "Bachat" theme */
+            background-image: radial-gradient(circle, #e0eaff 10%, transparent 10%), 
+                              radial-gradient(circle, #e0eaff 10%, transparent 10%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* --- 3D Dashboard Title Box --- */
+        .header-wrapper {
+            text-align: center;
+            margin-bottom: 60px;
+            perspective: 1000px;
+        }
+
+        .page-title {
+            display: inline-block;
+            background: var(--white);
+            padding: 30px 60px;
+            border: 4px solid var(--fb-blue);
+            position: relative;
+            transform: rotateX(10deg);
+            box-shadow: 
+                0 1px 0 var(--fb-blue),
+                0 2px 0 var(--fb-blue),
+                0 3px 0 var(--fb-blue),
+                0 4px 0 var(--fb-blue),
+                0 5px 0 var(--fb-blue),
+                0 15px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .page-title:hover {
+            transform: rotateX(0deg) scale(1.02);
+        }
+
+        /* Mirror/Glass Effect */
+        .page-title::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 50%, rgba(127, 255, 212, 0.15) 100%);
+            pointer-events: none;
+        }
+
+        .page-title h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin: 0;
+            color: var(--fb-blue);
+            text-transform: uppercase;
+            text-shadow: 3px 3px 0px var(--aquamarine);
+            line-height: 1.1;
+        }
+
+        .page-title .subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-top: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: var(--aquamarine);
+            display: inline-block;
+            padding: 2px 10px;
+        }
+
+        /* --- Intro Box --- */
+        .intro-box {
+            background: var(--white);
+            border: 3px solid var(--fb-blue);
+            padding: 30px;
+            text-align: center;
+            border-radius: 20px;
+            box-shadow: 8px 8px 0px var(--aquamarine);
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .usp-highlight {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--fb-blue);
+            display: block;
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* --- Feature Cards --- */
+        .section-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--fb-blue);
+            margin-bottom: 30px;
+            border-bottom: 4px solid var(--aquamarine);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            border: 2px solid var(--fb-blue);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 6px 6px 0px var(--fb-blue);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 10px 10px 0px var(--aquamarine);
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--fb-blue);
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin: 0 0 10px 0;
+            color: var(--black);
+            line-height: 1.2;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        /* --- Tables --- */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95em;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+            border: 2px solid var(--fb-blue);
+        }
+
+        .styled-table thead tr {
+            background-color: var(--fb-blue);
+            color: var(--white);
+            text-align: left;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .styled-table th, .styled-table td {
+            padding: 15px;
+            border-left: 1px solid #ddd;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f1f8ff;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: var(--aquamarine);
+            color: var(--black);
+            font-weight: 600;
+        }
+
+        /* --- Badge --- */
+        .badge {
+            background-color: var(--aquamarine);
+            color: var(--black);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border: 1px solid var(--fb-blue);
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            border-top: 3px solid var(--fb-blue);
+            color: var(--fb-blue);
+            font-weight: 600;
+            background: #f9f9f9;
+        }
+
+        /* Home Button */
+        .home-btn {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: var(--white);
+            border: 3px solid var(--fb-blue);
+            color: var(--fb-blue);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 4px 4px 0px var(--aquamarine);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .home-btn:hover {
+            transform: scale(1.1);
+            background: var(--fb-blue);
+            color: var(--white);
+            box-shadow: 4px 4px 0px var(--black);
+        }
+
+        @media (max-width: 768px) {
+            .page-title h1 { font-size: 1.8rem; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .styled-table { font-size: 0.8rem; }
+        }
     </style>
 </head>
 <body>
+
+    <a href="index.html" class="home-btn" title="Back to Dashboard">
+        <i class="fas fa-home"></i>
+    </a>
+
     <div class="container">
-        <header class="header">
-            <h1>Micro Bachat</h1>
-            <p>A traditional micro-insurance plan that makes savings and protection accessible to everyone, one small step at a time.</p>
-        </header>
-        <main class="main-content">
-            <h2 class="section-title">Plan at a Glance</h2>
-            <div class="features-grid">
-                <div class="feature-box"><div class="icon"><i class="fas fa-piggy-bank"></i></div><h3>Type</h3><p>Micro-Savings</p></div>
-                <div class="feature-box"><div class="icon"><i class="fas fa-calendar-alt"></i></div><h3>Policy Term</h3><p>10 to 15 Years</p></div>
-                <div class="feature-box"><div class="icon"><i class="fas fa-user-check"></i></div><h3>Entry Age</h3><p>18 to 55 Years</p></div>
-                <div class="feature-box"><div class="icon"><i class="fas fa-coins"></i></div><h3>Sum Assured</h3><p>Up to ₹2,00,000</p></div>
+        
+        <!-- Header -->
+        <div class="header-wrapper">
+            <div class="page-title">
+                <i class="fas fa-coins" style="font-size: 2.5rem; color: var(--fb-blue); margin-bottom: 10px;"></i>
+                <h1>Micro Bachat</h1>
+                <div class="subtitle">Plan No. 751</div>
             </div>
-            <div class="unique-feature">
-                <h4><i class="fas fa-gift"></i> The Bachat Benefit: Loyalty Addition</h4>
-                <p>On maturity, or on death after 5 policy years, you receive Loyalty Additions as a reward for staying invested.</p>
+        </div>
+
+        <!-- Introduction USP -->
+        <div class="intro-box">
+            <span class="usp-highlight">Small Savings. Big Security.</span>
+            <p>
+                A <strong>Non-Linked, Participating</strong> Micro-Insurance Plan.
+                <br>
+                Designed specifically for <strong>Low-Income Groups</strong>, this plan offers a dual benefit of protection and savings with affordable premiums.
+                <br><br>
+                <span class="badge">Insurance + Savings</span> <span class="badge">Liquidity</span>
+            </p>
+        </div>
+
+        <!-- Major Features Grid -->
+        <h2 class="section-header">Key Benefits</h2>
+        <div class="feature-grid">
+            
+            <div class="feature-card">
+                <i class="fas fa-shield-halved"></i>
+                <h3>Death Benefit</h3>
+                <p>On unfortunate death during the policy term, the nominee receives the <strong>highest</strong> of:</p>
+                <ul>
+                    <li>Basic Sum Assured</li>
+                    <li>7 times Annualized Premium</li>
+                    <li>105% of Premiums Paid</li>
+                </ul>
+                <p><em>+ Loyalty Addition (if death after 5 years).</em></p>
             </div>
-            <h2 class="section-title" style="margin-top: 50px;">Benefit Structure</h2>
-            <div class="benefits-section">
-                <div class="benefit-card">
-                    <h3>On Maturity</h3>
-                    <p>On surviving the policy term, you receive the Basic Sum Assured along with any accrued Loyalty Additions.</p>
-                </div>
-                <div class="benefit-card">
-                     <h3>On Death</h3>
-                    <p>In case of an unfortunate event, the nominee receives the "Sum Assured on Death", which is the highest of the Basic Sum Assured, 7 times the annual premium, or 105% of all premiums paid.</p>
-                </div>
+
+            <div class="feature-card">
+                <i class="fas fa-piggy-bank"></i>
+                <h3>Maturity Benefit</h3>
+                <p>On survival to the end of the policy term, you receive:</p>
+                <p><strong>Basic Sum Assured + Loyalty Addition (if any).</strong></p>
+                <p>A lump sum amount to support your future financial goals.</p>
             </div>
-        </main>
-        <footer class="footer"><p>Loan facility available after 3 full years' premium payment. Surrender available after 1 year.</p></footer>
+
+            <div class="feature-card">
+                <i class="fas fa-hand-holding-dollar"></i>
+                <h3>Liquidity (Loan)</h3>
+                <p>Available after payment of premiums for at least <strong>3 full years</strong>.</p>
+                <ul>
+                    <li><strong>In-force Policy:</strong> Up to 70% of Surrender Value</li>
+                    <li><strong>Paid-up Policy:</strong> Up to 60% of Surrender Value</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-file-contract"></i>
+                <h3>Surrender Value</h3>
+                <p>You can surrender the policy anytime after paying <strong>one full year's</strong> premium.</p>
+                <p><em>The Guaranteed Surrender Value depends on the policy term and year of surrender.</em></p>
+            </div>
+
+        </div>
+
+        <!-- Eligibility Table -->
+        <h2 class="section-header">Eligibility Criteria</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th width="30%">Parameter</th>
+                    <th>Condition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Sum Assured</strong></td>
+                    <td>Min: ₹1,00,000 | Max: ₹2,00,000</td>
+                </tr>
+                <tr>
+                    <td><strong>Entry Age</strong></td>
+                    <td>18 Years (Completed) to 55 Years (Nearest Birthday)</td>
+                </tr>
+                <tr>
+                    <td><strong>Policy Term</strong></td>
+                    <td>10 to 15 Years</td>
+                </tr>
+                <tr>
+                    <td><strong>Maturity Age</strong></td>
+                    <td>Maximum 70 Years</td>
+                </tr>
+                <tr>
+                    <td><strong>Payment Modes</strong></td>
+                    <td>Yearly, Half-yearly, Quarterly, Monthly (ECS)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Extra Info -->
+        <div class="intro-box" style="text-align: left; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            <div style="flex: 2; min-width: 300px;">
+                <h3 style="font-family: 'Orbitron'; color: var(--fb-blue);">Additional Features</h3>
+                <ul style="list-style: none; padding: 0; font-size: 1rem;">
+                    <li style="margin-bottom: 12px;">
+                        <i class="fas fa-wheelchair" style="color: var(--fb-blue);"></i> 
+                        <strong>Rider:</strong> Accidental Death & Disability Benefit Rider available (up to Age 70).
+                    </li>
+                    <li style="margin-bottom: 12px;">
+                        <i class="fas fa-percent" style="color: var(--fb-blue);"></i> 
+                        <strong>Tax Benefit:</strong> Premiums eligible under Sec 80C. Maturity tax-free under Sec 10(10D).
+                    </li>
+                    <li>
+                        <i class="fas fa-wallet" style="color: var(--fb-blue);"></i> 
+                        <strong>Auto Cover:</strong> Extended risk cover period available if premiums are missed (after certain years).
+                    </li>
+                </ul>
+            </div>
+            <div style="flex: 1; text-align: center; font-size: 4rem; color: var(--aquamarine); padding: 20px;">
+                <i class="fas fa-seedling"></i>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>LIC Micro Bachat (Table 751) | Ideal for small savings & big dreams.</p>
+            <p style="font-size: 0.8rem; margin-top: 10px;">For more information visit www.LicAllinOneCalc.com</p>
+        </div>
+
     </div>
+
 </body>
 </html>

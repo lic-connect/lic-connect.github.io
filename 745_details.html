@@ -15,7 +15,7 @@
         .header { padding: 50px 30px; background: var(--primary-color); color: white; }
         .header-content { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
         .header-text h1 { font-family: 'Merriweather', serif; font-size: 3rem; margin-bottom: 10px; }
-        .header-text p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; }
+        .header-text p { font-size: 1.1rem; opacity: 0.9; max-width: 700px; }
         .header-badge { background: var(--accent-color); color: var(--primary-color); padding: 10px 20px; font-size: 1.5rem; font-weight: 700; border-radius: 8px; }
         .main-content { padding: 50px 30px; }
         .section-title { text-align: center; font-family: 'Merriweather', serif; font-size: 2.5rem; margin-bottom: 40px; color: var(--primary-color); position: relative; }
@@ -37,6 +37,11 @@
         .unique-feature p { font-size: 1.1rem; }
         .footer { background: var(--primary-color); color: white; text-align: center; padding: 25px; }
         .footer a { color: var(--accent-color); text-decoration: none; }
+        
+        /* Helper for the detailed table inside card */
+        .detail-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .detail-table th, .detail-table td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 0.9rem; }
+        .detail-table th { background-color: var(--primary-color); color: white; }
     </style>
 </head>
 <body>
@@ -45,44 +50,101 @@
             <div class="header-content">
                 <div class="header-text">
                     <h1>Jeevan Umang</h1>
-                    <p>A whole life assurance plan that provides a combination of annual income and lump sum protection, covering you until the age of 100.</p>
+                    <p>A non-linked, with-profits whole life assurance plan providing annual survival benefits from the end of the premium paying term till maturity, and a lump sum payment on maturity or death.</p>
                 </div>
                 <div class="header-badge">Plan 745</div>
             </div>
         </header>
         <main class="main-content">
-            <h2 class="section-title">Plan at a Glance</h2>
+            <h2 class="section-title">Key Parameters</h2>
             <div class="features-grid">
                 <div class="feature-box"><div class="icon"><i class="fas fa-infinity"></i></div><h3>Policy Term</h3><p>100 - Entry Age</p></div>
-                <div class="feature-box"><div class="icon"><i class="fas fa-hourglass-end"></i></div><h3>Premium Term</h3><p>15, 20, 25, or 30 Years</p></div>
-                <div class="feature-box"><div class="icon"><i class="fas fa-baby"></i></div><h3>Entry Age</h3><p>90 days to 55 Years</p></div>
-                <div class="feature-box"><i class="fas fa-coins"></i></div><h3>Sum Assured</h3><p>Min. ₹2,00,000</p></div>
+                <div class="feature-box"><div class="icon"><i class="fas fa-hourglass-start"></i></div><h3>Min. Entry Age</h3><p>90 Days (Completed)</p></div>
+                <div class="feature-box"><div class="icon"><i class="fas fa-birthday-cake"></i></div><h3>Maturity Age</h3><p>100 Years</p></div>
+                <div class="feature-box"><div class="icon"><i class="fas fa-wallet"></i></div><h3>Sum Assured</h3><p>Min: ₹2,00,000<br>Max: No Limit</p></div>
+                <div class="feature-box"><div class="icon"><i class="fas fa-credit-card"></i></div><h3>Payment Modes</h3><p>Yly, Hly, Qly, Mly(ECS)</p></div>
+                <div class="feature-box"><div class="icon"><i class="fas fa-user-clock"></i></div><h3>Age at end of PPT</h3><p>Min: 30 Yrs | Max: 70 Yrs</p></div>
             </div>
-            <h2 class="section-title">A Lifetime of Benefits</h2>
+
+            <h2 class="section-title">Eligibility & PPT Options</h2>
             <div class="benefits-section">
                 <div class="benefit-card">
-                    <h3><span class="icon"><i class="fas fa-hand-holding-dollar"></i></span>Guaranteed Annual Income</h3>
-                    <p>After your premium paying term ends, you receive a guaranteed income for life. This includes:</p>
-                    <ul>
-                        <li>An annual payment of <strong>8% of the Basic Sum Assured</strong>.</li>
-                        <li>This survival benefit continues every year until age 100 or until death, whichever is earlier.</li>
-                    </ul>
+                    <h3><span class="icon"><i class="fas fa-list-ol"></i></span>Premium Paying Term (PPT) Limits</h3>
+                    <p>The maximum entry age depends on the PPT chosen:</p>
+                    <table class="detail-table">
+                        <tr>
+                            <th>PPT</th>
+                            <th>Max Entry Age (Nearer Birthday)</th>
+                        </tr>
+                        <tr>
+                            <td>15 Years</td>
+                            <td>55 Years</td>
+                        </tr>
+                        <tr>
+                            <td>20 Years</td>
+                            <td>50 Years</td>
+                        </tr>
+                        <tr>
+                            <td>25 Years</td>
+                            <td>45 Years</td>
+                        </tr>
+                        <tr>
+                            <td>30 Years</td>
+                            <td>40 Years</td>
+                        </tr>
+                    </table>
                 </div>
+                
                 <div class="benefit-card">
-                     <h3><span class="icon"><i class="fas fa-shield-heart"></i></span>On Death or Maturity</h3>
-                    <p>The plan provides a substantial lump sum for your family's future, whenever it's needed.</p>
+                    <h3><span class="icon"><i class="fas fa-hand-holding-dollar"></i></span>Guaranteed Survival Benefit</h3>
+                    <p><strong>8% of Basic Sum Assured</strong> is payable annually on survival.</p>
                     <ul>
-                        <li><strong>On Death:</strong> The nominee receives the Sum Assured on Death + Vested Bonuses + FAB.</li>
-                        <li><strong>On Maturity (at age 100):</strong> The policyholder receives the Basic Sum Assured + Vested Bonuses + FAB.</li>
+                        <li>Starts from the end of the Premium Paying Term.</li>
+                        <li>Continues every year until maturity (Age 100) or death.</li>
+                        <li>This benefit is tax-free.</li>
                     </ul>
                 </div>
             </div>
+
+            <br>
+
+            <div class="benefits-section">
+                <div class="benefit-card">
+                     <h3><span class="icon"><i class="fas fa-shield-heart"></i></span>Death Benefit</h3>
+                    <ul>
+                        <li><strong>Before Commencement of Risk:</strong> Refund of total premiums paid without interest.</li>
+                        <li><strong>After Commencement of Risk:</strong> Sum Assured on Death + Vested Simple Reversionary Bonuses + Final Additional Bonus (if any).</li>
+                    </ul>
+                    <p style="font-size: 0.9rem; background: #fff; padding: 10px; border: 1px solid #eee;">
+                        <strong>"Sum Assured on Death" is the highest of:</strong><br>
+                        1. Basic Sum Assured<br>
+                        2. 7 times of Annualized Premium<br>
+                        3. 105% of all Premiums paid as on date of death
+                    </p>
+                </div>
+
+                <div class="benefit-card">
+                    <h3><span class="icon"><i class="fas fa-plus-circle"></i></span>Riders & Maturity</h3>
+                    <p><strong>Maturity Benefit (at Age 100):</strong></p>
+                    <ul>
+                        <li>Sum Assured + Vested Bonuses + FAB (if any).</li>
+                    </ul>
+                    <p><strong>Riders Available:</strong></p>
+                    <ul>
+                        <li><strong>Accidental Death & Disability Benefit:</strong> Available up to Age 70.</li>
+                        <li><strong>Accident Benefit Rider:</strong> Available during PPT only.</li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="unique-feature">
-                <h4><i class="fas fa-gift"></i> The Umang Advantage: Income + Protection</h4>
-                <p>This plan offers the best of both worlds: a regular, tax-free pension-like income in your later years, and a robust, ever-growing life cover that protects your family throughout your entire life.</p>
+                <h4><i class="fas fa-info-circle"></i> Additional Information</h4>
+                <p><strong>Loan:</strong> Available after payment of 3 full years' premiums.<br>
+                <strong>Surrender:</strong> Allowed after payment of 3 full years' premiums.<br>
+                <strong>Tax Benefit:</strong> Premiums eligible under Sec 80C. Maturity/Survival benefits free under Sec 10(10D).</p>
             </div>
         </main>
-        <footer class="footer"><p>Loan and Surrender Value are available after 2 full years' premium payment. For details, <a href="#">contact us</a>.</p></footer>
+        <footer class="footer"><p>Visit www.LicAllinOneCalc.com for more details.</p></footer>
     </div>
 </body>
 </html>
