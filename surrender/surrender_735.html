@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC Plan 735 – Endowment Plus (Dynamic ULIP Calculator)</title>
+  <style>
+body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-top: 8px solid #003366;
+    }
+
+    h1 {
+      color: #003366;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 2px solid #f0c20b;
+      display: block;
+      padding-bottom: 10px;
+    }
+
+    #inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      background: #f8fafc;
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 25px;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      background: #fff;
+    }
+
+    input:focus {
+      border-color: #003366;
+      box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.15);
+      outline: none;
+    }
+
+    button {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #003366 0%, #00509d 100%);
+      color: white;
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 10px;
+      transition: transform 0.1s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      box-shadow: 0 5px 15px rgba(0, 51, 102, 0.3);
+      filter: brightness(1.1);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .summary {
+      background: #003366;
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+      line-height: 1.8;
+      font-size: 16px;
+      border-bottom: 5px solid #f0c20b;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-weight: 500;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 30px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    th {
+      background-color: #f0c20b;
+      color: #003366;
+      padding: 15px;
+      text-align: center;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    td {
+      border-bottom: 1px solid #f1f5f9;
+      padding: 14px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    tr:nth-child(even) { background-color: #f8fafc; }
+    tr:hover { background-color: #fffde7; } /* Subtle yellow hover highlight */
+
+    .explain {
+      margin-top: 40px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .explain h2 {
+      color: #003366;
+      margin-top: 0;
+      font-size: 20px;
+      border-bottom: 3px solid #f0c20b;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    .error {
+      grid-column: 1 / -1;
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 600;
+      border: 1px solid #fecaca;
+    }
+  </style>
+</head>
+<body>
+
+<h1>LIC New Endowment Plus (Plan 735) – ULIP Calculator</h1>
+
+<div id="inputs">
+  <div class="row"><label>Age at Entry:</label><input type="number" id="age" /></div>
+  <div class="row"><label>Policy Term (years):</label><input type="number" id="term" /></div>
+  <div class="row"><label>Annualised Premium (₹):</label><input type="number" id="premium" /></div>
+<div class="row">
+  <label>ADDB Sum Assured (₹):</label>
+  <input type="number" id="addbSA" value="0" />
+</div>
+
+<div class="row">
+  <label>ADDB Rate (₹ per 1000 p.a.):</label>
+  <input type="number" id="addbRate" value="0.50" step="0.01" />
+</div>
+
+  
+  <div class="row"><label>Expected Growth % (p.a.):</label><input type="number" id="growth" value="8" /></div>
+  <div class="row"><label>Initial NAV:</label><input type="number" id="initNAV" value="10" readonly /></div>
+  <button onclick="calculate()">Calculate</button>
+  <div id="err" class="error"></div>
+</div>
+
+<div id="summary" class="summary"></div>
+
+<table id="resultTable"></table>
+
+<div class="explain">
+  <h2>Plan No. 735: The Story of Mr. Rohan’s "Financial Tree"</h2>
+  <p>Imagine you want to grow a <strong>"Financial Tree"</strong> that not only gives you wealth but also acts as an umbrella (Life Cover) for your family. This is how <strong>LIC’s New Endowment Plus (Plan 735)</strong> works for Mr. Rohan (Age 30), who invests <strong>₹1,00,000 yearly</strong>:</p>
+
+  <div style="background: #fdf6e3; padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #f0c20b;">
+    <ol>
+      <li><strong>The Entry Fee (PAC):</strong> When Rohan pays ₹1,00,000, LIC takes a small "processing fee." In Year 1, this is 7.5%.
+        <br><em>Math: ₹1,00,000 - ₹7,500 (Fee) = <strong>₹92,500</strong> left to invest.</em>
+      </li>
+      
+      <li><strong>Buying the Seeds (NAV):</strong> If the price of one "seed" (Unit) is <strong>₹10</strong>, Rohan gets units in his account.
+        <br><em>Math: ₹92,500 ÷ ₹10 = <strong>9,250 Units</strong> credited.</em>
+      </li>
+
+      <li><strong>The Umbrella & Maintenance (Charges):</strong> Every month, LIC provides a <strong>₹10,00,000 Life Cover</strong>. Instead of asking for cash, they cancel a few units.
+        <br><em>Math: If monthly charges are ₹200 and NAV is ₹11, LIC removes approx. <strong>18 units</strong>.</em>
+      </li>
+
+      <li><strong>The Market Growth:</strong> Over time, the value of each seed (NAV) grows based on market performance. If the NAV grows to <strong>₹50</strong> over 20 years...
+      </li>
+
+      <li><strong>The Harvest (Maturity):</strong> At the end, Rohan gets the total units remaining multiplied by the latest NAV.
+        <br><em>Math: 15,000 Units × ₹50 = <strong>₹7,50,000</strong>.</em>
+      </li>
+    </ol>
+  </div>
+
+  <h2 style="margin-top:30px;">Technical Definitions</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>
+      <p><strong>1. NAV (Net Asset Value):</strong> The daily price of one unit of the fund. It’s the "Market Price" of your investment.</p>
+      <p><strong>2. PAC (Premium Allocation Charge):</strong> The upfront fee deducted from your premium before investment.</p>
+      <p><strong>3. Admin Charges:</strong> A fixed fee deducted monthly for the administration and paperwork of your policy.</p>
+    </div>
+    <div>
+      <p><strong>4. Mortality Charges:</strong> The fee for providing Life Insurance (the "Umbrella"). It depends on your age and sum at risk.</p>
+      <p><strong>5. FMC (Fund Management Charge):</strong> The fee for the fund managers who trade in the market for you.</p>
+      <p><strong>6. GA (Guaranteed Additions):</strong> In Plan 735, returns are market-linked; standard fixed additions are usually not applicable as in traditional plans.</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top:30px;">How Charges are Calculated</h2>
+  <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+    <ul>
+      <li><strong>PAC:</strong> Year 1: 7.5% | Year 2-5: 5% | Year 6+: 3%. (Deducted from Premium).</li>
+      <li><strong>Mortality Charge:</strong> (Sum at Risk × Mortality Rate) / 12000. (Deducted Monthly via Units).</li>
+      <li><strong>Admin Charge:</strong> Fixed amount (approx. ₹30-₹100/month) divided by NAV. (Deducted Monthly via Units).</li>
+      <li><strong>FMC:</strong> 0.70% p.a. of the total fund value. (Adjusted daily in the NAV itself).</li>
+    </ul>
+  </div>
+
+  <h2 style="margin-top:30px;">Types of Funds (Investment Strategy)</h2>
+  <table style="margin-top: 10px;">
+    <tr>
+      <th>Fund Type</th>
+      <th>Risk Profile</th>
+      <th>Equity (Stocks)</th>
+      <th>Debt (Govt/Bonds)</th>
+      <th>Money Market (Cash)</th>
+    </tr>
+    <tr>
+      <td><strong>Bond Fund</strong></td>
+      <td>Low</td>
+      <td>0%</td>
+      <td>60% to 100%</td>
+      <td>0% to 40%</td>
+    </tr>
+    <tr>
+      <td><strong>Secured Fund</strong></td>
+      <td>Lower-Medium</td>
+      <td>15% to 45%</td>
+      <td>45% to 85%</td>
+      <td>0% to 40%</td>
+    </tr>
+    <tr>
+      <td><strong>Balanced Fund</strong></td>
+      <td>Medium</td>
+      <td>30% to 70%</td>
+      <td>30% to 70%</td>
+      <td>0% to 40%</td>
+    </tr>
+    <tr>
+      <td><strong>Growth Fund</strong></td>
+      <td>High</td>
+      <td>40% to 80%</td>
+      <td>20% to 60%</td>
+      <td>0% to 40%</td>
+    </tr>
+  </table>
+    </div>
+  </div>
+<div class="ulip-disclaimer" style="margin-top:30px; padding:20px; border:1px solid #fbbf24; border-radius:10px; background-color:#fff7ed; color:#92400e; font-size:13px; line-height:1.5;">
+    <strong>Disclaimer:</strong> <br>
+    1. The values displayed by this calculator are <strong>indicative only</strong> and meant for <strong>illustrative purposes</strong>. <br>
+    2. Actual premiums, fund values, and maturity benefits may vary based on <strong>LIC’s official calculations, NAV movements, fund performance, taxes, and policy terms</strong>. <br>
+    3. Charges such as <strong>Premium Allocation Charges (PAC), Fund Management Charges (FMC), Mortality Charges, and Admin Charges</strong> are applied as per LIC guidelines and may impact the final benefit. <br>
+    4. Accidental Death & Disability Benefit (ADDB) charges are considered at <strong>₹0.40 per ₹1000 of ADDB SA per annum</strong>. <br>
+    5. This calculator does <strong>not guarantee returns</strong> and should not be treated as financial advice. <br>
+    6. Please refer to the <strong>official LIC brochures and policy documents</strong> for accurate and legally binding information. <br>
+    7. By using this calculator, you acknowledge that LIC or this website/app is not responsible for any discrepancies between the calculated value and actual policy payouts.
+</div>
+
+</div>
+
+<script>
+const MORTALITY = {
+  25:1.53,26:1.57,27:1.61,28:1.65,29:1.69,30:1.74,
+  31:1.79,32:1.85,33:1.91,34:1.98,35:2.05,
+  36:2.13,37:2.22,38:2.32,39:2.43,40:2.55,
+  41:2.68,42:2.83,43:2.99,44:3.17,45:3.36,
+  46:3.58,47:3.82,48:4.09,49:4.39,50:4.73,
+  51:5.11,52:5.54,53:6.03,54:6.58,55:7.21
+};
+
+const ADMIN_ANNUAL = 150 * 12;
+
+function calculate() {
+  const age = +document.getElementById('age').value;
+  const term = +document.getElementById('term').value;
+  const premium = +document.getElementById('premium').value;
+  const sa = premium * 10;
+  const addbSA = +document.getElementById('addbSA').value || 0;
+  const addbRate = +document.getElementById('addbRate').value || 0;
+
+  const growth = +document.getElementById('growth').value / 100;
+  const initNAV = +document.getElementById('initNAV').value;
+
+  const table = document.getElementById('resultTable');
+  const summary = document.getElementById('summary');
+  const err = document.getElementById('err');
+
+  err.innerHTML = '';
+  table.innerHTML = '';
+  summary.innerHTML = '';
+
+  if (!age || !term || !premium || !sa) {
+    err.innerHTML = 'Please fill all inputs';
+    return;
+  }
+
+  if (addbSA > sa) {
+    err.innerHTML = 'ADDB Sum Assured cannot exceed Basic Sum Assured';
+    return;
+  }
+
+  let nav = initNAV;   
+  let units = 0;
+  let totalPremiumPaid = 0;
+  let lastFundValue = 0;
+
+  table.innerHTML = `
+    <tr>
+      <th>Year</th>
+      <th>Age</th>
+      <th>NAV</th>
+      <th>Premium</th>
+      <th>Mortality</th>
+      <th>Fund Value</th>
+      <th>Surrender Value*</th>
+    </tr>`;
+
+  for (let y = 1; y <= term; y++) {
+
+    let pac = (y === 1) ? 0.075 : (y <= 5 ? 0.05 : 0.03);
+    let investible = premium * (1 - pac);
+
+    units += investible / nav;
+    totalPremiumPaid += premium;
+
+    let attainedAge = age + y - 1;
+
+    let rate = MORTALITY[attainedAge] || MORTALITY[55];
+    let fundValueBefore = units * nav;
+    let sumAtRisk = Math.max(0, sa - fundValueBefore);
+    let annualMortality = (sumAtRisk * rate) / 1000;
+
+    let monthlyMortality = annualMortality / 12;
+    let monthlyAdmin = ADMIN_ANNUAL / 12;
+
+    let annualADDB = (addbSA * addbRate) / 1000;
+    let monthlyADDB = annualADDB / 12;
+
+    for (let m = 0; m < 12; m++) {
+      units -= monthlyMortality / nav;
+      units -= monthlyAdmin / nav;
+      units -= monthlyADDB / nav;  
+      if (units < 0) units = 0;
+    }
+
+    let fundValue = units * nav;
+    if (y === term) lastFundValue = fundValue;
+
+    // --- SURRENDER VALUE DISPLAY LOGIC ---
+    let surrenderDisplay = "";
+    if (y <= 5) {
+        // Red "LOCKED" text for the first 5 years
+        surrenderDisplay = `<span style="color: #dc2626; font-weight: bold; font-size: 12px;">LOCKED (5Y)</span>`;
+    } else {
+        // No discontinuance charges after 5 years, display Fund Value in Green
+        surrenderDisplay = `<span style="color: #16a34a; font-weight: bold;">₹${Math.round(fundValue).toLocaleString('en-IN')}</span>`;
+    }
+
+    table.innerHTML += `
+      <tr>
+        <td>${y}</td>
+        <td>${attainedAge}</td>
+        <td>${nav.toFixed(4)}</td>
+        <td>${premium.toLocaleString('en-IN')}</td>
+        <td>${Math.round(annualMortality).toLocaleString('en-IN')}</td>
+        <td><b>${Math.round(fundValue).toLocaleString('en-IN')}</b></td>
+        <td>${surrenderDisplay}</td>
+      </tr>`;
+
+    nav = nav * (1 + growth);
+    nav = Math.round(nav * 10000) / 10000;
+  }
+
+  let grossMaturity = lastFundValue;
+  let ltcg = 0;
+  let netMaturity = grossMaturity;
+
+  if (premium > 250000) {
+    let gain = grossMaturity - totalPremiumPaid;
+    if (gain > 0) {
+      ltcg = gain * 0.125;
+      netMaturity -= ltcg;
+    }
+  }
+
+  summary.innerHTML = `
+    Sum Assured: ₹${sa.toLocaleString('en-IN')}
+    | Final NAV: ${(nav / (1 + growth)).toFixed(4)}
+    | Gross Maturity: ₹${Math.round(grossMaturity).toLocaleString('en-IN')}
+    | LTCG: ₹${Math.round(ltcg).toLocaleString('en-IN')}
+    | Net Maturity: ₹${Math.round(netMaturity).toLocaleString('en-IN')}
+  `;
+}
+</script>
+
+
+
+</body>
+</html>

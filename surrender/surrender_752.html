@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LIC SIIP (Plan 752) – ULIP Calculator</title>
+
+<style>
+body{font-family:Arial;background:#f4f6f9;padding:20px}
+.container{max-width:1200px;margin:auto;background:#fff;padding:25px;border-radius:10px}
+h1{text-align:center;color:#003366}
+.inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}
+label{font-weight:bold;font-size:13px}
+input,select{padding:8px;border-radius:5px;border:1px solid #ccc}
+button{grid-column:1/-1;padding:12px;background:#003366;color:#fff;font-size:16px;border:none;border-radius:6px}
+.error{grid-column:1/-1;color:#b91c1c;background:#fee2e2;padding:10px;text-align:center}
+.summary{margin-top:20px;background:#003366;color:#fff;padding:12px;border-radius:8px;text-align:center}
+table{width:100%;border-collapse:collapse;margin-top:20px}
+th{background:#f0c20b;padding:8px}
+td{text-align:center;padding:8px;border-bottom:1px solid #ddd}
+.footer{margin-top:30px;background:#fafafa;padding:20px;font-size:14px;line-height:1.7}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>LIC SIIP – Plan 752 (ULIP Calculator)</h1>
+
+<div class="inputs">
+  <div><label>Age</label><input type="number" id="age"></div>
+  <div><label>Annual Premium (₹)</label><input type="number" id="premium"></div>
+  <div><label>Policy Term (Years)</label><input type="number" id="term"></div>
+
+  <div>
+    <label>Fund Type</label>
+    <select id="fund">
+      <option value="growth">Growth Fund</option>
+      <option value="balanced">Balanced Fund</option>
+      <option value="secured">Secured Fund</option>
+      <option value="bond">Bond Fund</option>
+    </select>
+  </div>
+
+  <div><label>Expected Growth %</label><input type="number" id="growth" value="8"></div>
+
+  <div><label>ADDB Sum Assured (₹)</label><input type="number" id="addbSA" value="0"></div>
+  <div><label>ADDB Rate (₹/1000)</label><input type="number" id="addbRate" value="0.50" step="0.01"></div>
+
+  <div><label>Initial NAV</label><input type="number" value="10" readonly></div>
+
+  <button onclick="calculate()">Calculate</button>
+  <div id="err" class="error"></div>
+</div>
+
+<div id="summary" class="summary"></div>
+
+<table id="table"></table>
+
+<div class="explain-section" style="margin-top: 40px; padding: 30px; background-color: #fff; border: 1px solid #e1e8ed; border-radius: 12px; font-size: 15px; line-height: 1.8; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+  <h2 style="color: #003366; margin-top: 0; border-bottom: 3px solid #f0c20b; padding-bottom: 10px; display: inline-block;">Plan No. 752: The Story of Mr. Anand’s "Smart Wealth Pot"</h2>
+  <p>Imagine you want a <strong>"Smart Wealth Pot"</strong> where almost every rupee you put in goes straight to work. This is <strong>LIC’s SIIP (Plan 752)</strong>—a Systemic Investment Insurance Plan. Here is how an agent explains it to Mr. Anand (Age 30), who invests <strong>₹1,00,000 every year</strong> for 20 years:</p>
+
+  <div style="background: #fdf6e3; padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #f0c20b;">
+    <ol>
+      <li><strong>The Small Gate (PAC):</strong> Unlike other plans, SIIP has a very low entry fee. If PAC is 5% in Year 1, LIC only takes ₹5,000.
+        <br><em>Math: ₹1,00,000 - ₹5,000 = <strong>₹95,000</strong> invested in the market immediately.</em>
+      </li>
+      
+      <li><strong>The Gold Coins (Units):</strong> If the market price (NAV) is <strong>₹10</strong>, Mr. Anand gets his first batch of units.
+        <br><em>Math: ₹95,000 ÷ ₹10 = <strong>9,500 Units</strong> credited.</em>
+      </li>
+
+      <li><strong>The Monthly Maintenance (Charges):</strong> To keep his <strong>₹10,00,000 Life Cover</strong> active and manage his funds, LIC cancels a few units every month. 
+        <br><em>Math: If charges are ₹200 and NAV is ₹15, LIC cancels <strong>13.33 units</strong>.</em>
+      </li>
+
+      <li><strong>The Loyalty Reward (Guaranteed Additions):</strong> This is the highlight of SIIP! For staying invested, LIC adds "Free Bonus Units" into the pot at the end of years 6, 10, 15, 20, and 25.
+        <br><em>Math: In the 20th year, LIC might add <strong>20% of his annual premium (₹20,000)</strong> as extra units!</em>
+      </li>
+
+      <li><strong>The Final Wealth:</strong> At the end of the term, Mr. Anand sells all his accumulated units (Original + GA) at the final NAV.
+      </li>
+    </ol>
+  </div>
+
+  <h2 style="margin-top:30px; color: #003366;">Key Technical Definitions</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>
+      <p><strong>1. NAV (Net Asset Value):</strong> The current market price of one unit of your chosen fund. This changes daily based on market performance.</p>
+      <p><strong>2. PAC (Premium Allocation Charge):</strong> The fee deducted from your premium. In SIIP, this is lower than traditional ULIPs to ensure more money is invested.</p>
+      <p><strong>3. Admin Charges:</strong> A monthly fee for managing the policy records. In SIIP, these are deducted by cancelling units.</p>
+    </div>
+    <div>
+      <p><strong>4. Mortality Charges:</strong> The cost of the insurance cover. It depends on your age and the difference between your Sum Assured and Fund Value.</p>
+      <p><strong>5. FMC (Fund Management Charge):</strong> The 1.35% annual fee for the expertise of LIC fund managers, deducted daily from the NAV.</p>
+      <p><strong>6. GA (Guaranteed Additions):</strong> Fixed percentages of your annual premium added to your unit fund at specific intervals (6, 10, 15, 20, 25 years).</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top:30px; color: #003366;">How Each Charge is Calculated</h2>
+  <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+    <ul>
+      <li><strong>PAC:</strong> Calculated as a percentage of your annual premium. (e.g., 5% in Yr 1, then reduces to 0% for online or low rates for offline).</li>
+      <li><strong>Mortality Charge:</strong> `(Sum at Risk × Age Rate) / 12000`. This is deducted every month by cancelling units.</li>
+      <li><strong>Admin Charge:</strong> A fixed monthly amount (e.g., ₹150) divided by the current NAV to determine the units to be deducted.</li>
+      <li><strong>FMC:</strong> 1.35% per annum. It is calculated daily using the formula: `(Fund Value × 0.0135) / 365`. This deduction is baked into the NAV.</li>
+      <li><strong>GA:</strong> Calculated as `Annual Premium × GA %`. This amount is converted to units at the NAV of that specific policy anniversary.</li>
+    </ul>
+  </div>
+
+  <h2 style="margin-top:30px; color: #003366;">Investment Fund Options</h2>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+    <tr style="background-color: #f0c20b; color: #003366;">
+      <th style="padding: 10px; border: 1px solid #ddd;">Fund Type</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Risk Profile</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Equity (Stocks)</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Govt / Debt Bonds</th>
+    </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Bond Fund</strong></td>
+      <td style="padding: 10px; border: 1px solid #ddd;">Low</td>
+      <td style="padding: 10px; border: 1px solid #ddd;">0%</td>
+      <td style="padding: 10px; border: 1px solid #ddd;">60% - 100%</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Secured Fund</strong></td>
+      <td style="padding: 10px; border: 1px solid #ddd;">Lower-Medium</td>
+      <td style="padding: 10px; border: 1px solid #ddd;">15% - 55%</td>
+      <td style="padding: 10px; border: 1px solid #ddd;">45% - 85%</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Balanced Fund</strong></td>
+      <td style="padding: 10px; border: 1px solid #ddd;">Medium</td>
+      <td style="padding: 10px; border: 1px solid #ddd;">30% - 70%</td>
+      <td style="padding: 10px; border: 1px solid #ddd;">30% - 70%</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Growth Fund</strong></td>
+      <td style="padding: 10px; border: 1px solid #ddd;">High</td>
+      <td style="padding: 10px; border: 1px solid #ddd;">40% - 80%</td>
+      <td style="padding: 10px; border: 1px solid #ddd;">20% - 60%</td>
+    </tr>
+  </table>
+
+  <div style="margin-top: 30px; background: #eef6fc; padding: 20px; border-radius: 8px; font-style: italic; border: 1px solid #bcdff1;">
+    <strong>Tax Note (Section 10(10D)):</strong> For SIIP policies issued after Feb 2021, if the annual premium exceeds ₹2.5 Lakh, the maturity proceeds are subject to LTCG tax (12.5% on gains), similar to Mutual Funds.
+    </div>
+</div>
+<div class="ulip-disclaimer" style="margin-top:30px; padding:20px; border:1px solid #fbbf24; border-radius:10px; background-color:#fff7ed; color:#92400e; font-size:13px; line-height:1.5;">
+    <strong>Disclaimer:</strong> <br>
+    1. The values displayed by this calculator are <strong>indicative only</strong> and meant for <strong>illustrative purposes</strong>. <br>
+    2. Actual premiums, fund values, and maturity benefits may vary based on <strong>LIC’s official calculations, NAV movements, fund performance, taxes, and policy terms</strong>. <br>
+    3. Charges such as <strong>Premium Allocation Charges (PAC), Fund Management Charges (FMC), Mortality Charges, and Admin Charges</strong> are applied as per LIC guidelines and may impact the final benefit. <br>
+    4. Accidental Death & Disability Benefit (ADDB) charges are considered at <strong>₹0.40 per ₹1000 of ADDB SA per annum</strong>. <br>
+    5. This calculator does <strong>not guarantee returns</strong> and should not be treated as financial advice. <br>
+    6. Please refer to the <strong>official LIC brochures and policy documents</strong> for accurate and legally binding information. <br>
+    7. By using this calculator, you acknowledge that LIC or this website/app is not responsible for any discrepancies between the calculated value and actual policy payouts.
+</div>
+
+</div>
+
+<script>
+/* ===================== CONSTANTS ===================== */
+
+// Premium Allocation Charge
+const PAC_RATE = 0.03;
+
+// FMC (adjusted via NAV)
+const FMC_RATE = 0.0135;
+
+/* ===================== CONSTANTS ===================== */
+
+// Mortality rates (₹ per 1000 SAR)
+const MORTALITY = {
+  0:0.90, 1:0.90, 2:0.90, 3:0.90, 4:0.90, 5:0.90,
+  18:0.90, 19:0.94,
+  20:1.20, 21:1.22, 22:1.24, 23:1.26, 24:1.28,
+  25:1.30, 26:1.33, 27:1.36, 28:1.39, 29:1.42,
+  30:1.46, 31:1.50, 32:1.55, 33:1.60, 34:1.66,
+  35:1.72, 36:1.79, 37:1.87, 38:1.96, 39:2.06,
+  40:2.17, 41:2.29, 42:2.43, 43:2.58, 44:2.75,
+  45:2.94, 46:3.15, 47:3.39, 48:3.66, 49:3.97,
+  50:4.32, 51:4.73, 52:5.19, 53:5.73, 54:6.35,
+  55:7.10, 56:7.92, 57:8.83, 58:9.85, 59:10.98,
+  60:12.25, 61:13.67, 62:15.25, 63:17.01,
+  64:18.97, 65:21.12
+};
+
+// Guaranteed Additions (% of annual premium) - Plan 752 specific
+const GA_TABLE = { 6: 0.05, 10: 0.10, 15: 0.15, 20: 0.20, 25: 0.25 };
+
+/* ===================== CALCULATION ===================== */
+
+function calculate() {
+  const age = +document.getElementById("age").value;
+  const premium = +document.getElementById("premium").value;
+  const term = +document.getElementById("term").value;
+  const growth = +document.getElementById("growth").value / 100;
+  const addbSA = +document.getElementById("addbSA").value || 0;
+  const addbRate = +document.getElementById("addbRate").value || 0;
+
+  const err = document.getElementById("err");
+  const table = document.getElementById("table");
+  const summary = document.getElementById("summary");
+
+  // Reset UI
+  err.innerHTML = ""; table.innerHTML = ""; summary.innerHTML = "";
+
+  /* ================= VALIDATIONS ================= */
+  if (document.getElementById("age").value === "" || !premium || !term) {
+    err.innerHTML = "❌ Please fill Age, Premium, and Term.";
+    return;
+  }
+  if (age < 0 || age > 65) {
+    err.innerHTML = "❌ Age must be between 0 and 65 years.";
+    return;
+  }
+  if (premium < 42000) {
+    err.innerHTML = "❌ Minimum Annual Premium for SIIP is ₹42,000.";
+    return;
+  }
+  if (term < 10 || term > 25) {
+    err.innerHTML = "❌ Policy Term must be between 10 and 25 years.";
+    return;
+  }
+  if (age + term > 85) {
+    err.innerHTML = `❌ Max Maturity age is 85. Current selection matures at ${age + term}.`;
+    return;
+  }
+
+  // Basic Sum Assured Logic for SIIP
+  const SA = age < 55 ? premium * 10 : premium * 7;
+  
+  if (addbSA > SA || addbSA > 10000000) {
+    err.innerHTML = "❌ ADDB Sum Assured cannot exceed Basic SA (Max ₹1 Crore).";
+    return;
+  }
+
+  /* ================= INITIALS ================= */
+  let nav = 10;
+  let units = 0;
+  let lastFund = 0;
+  let currentAdminMonthly = 0;
+
+  table.innerHTML = `
+    <tr>
+      <th>Year</th><th>Age</th><th>NAV</th>
+      <th>GA Added</th><th>Fund Value</th>
+      <th>Surrender Value</th>
+    </tr>`;
+
+  for (let y = 1; y <= term; y++) {
+    const attainedAge = age + y - 1;
+
+    // NAV Growth (Year 1 starts at 10)
+    if (y > 1) { nav = nav * (1 + growth); }
+
+    // Allocation Charge (PAC) - Tiers for SIIP Offline
+    let pacRate = (y === 1) ? 0.08 : (y <= 5 ? 0.055 : 0.03);
+    let investible = premium * (1 - pacRate);
+    units += investible / nav;
+
+    // Mortality & SAR
+    const rate = MORTALITY[attainedAge] || MORTALITY[60];
+    const fundBefore = units * nav;
+    const sar = Math.max(0, SA - fundBefore);
+    const annualMort = (sar * rate) / 1000;
+    
+    // Admin Charge: Yr 1-5: 0 | Yr 6+: 150 Escalating 5%
+    if (y === 6) { currentAdminMonthly = 150; }
+    else if (y > 6) { currentAdminMonthly *= 1.05; }
+
+    const monthlyDeductions = (annualMort / 12) + (currentAdminMonthly) + (((addbSA * addbRate) / 1000) / 12);
+
+    for (let m = 0; m < 12; m++) {
+      units -= monthlyDeductions / nav;
+      if (units < 0) units = 0;
+    }
+
+    // Guaranteed Additions
+    let gaDisplay = "-";
+    if (GA_TABLE[y]) {
+      const gaAmt = premium * GA_TABLE[y];
+      units += gaAmt / nav;
+      gaDisplay = Math.round(gaAmt).toLocaleString("en-IN");
+    }
+
+    const fundValue = units * nav;
+    if (y === term) lastFund = fundValue;
+
+    // Surrender Logic: LOCKED for first 5 years
+    let surrenderDisplay = y <= 5 
+      ? `<span style="color: #b91c1c; font-weight: bold; font-size: 11px;">LOCKED</span>` 
+      : `₹${Math.round(fundValue).toLocaleString("en-IN")}`;
+
+    table.innerHTML += `
+    <tr>
+      <td>${y}</td>
+      <td>${attainedAge}</td>
+      <td>${nav.toFixed(4)}</td>
+      <td>${gaDisplay}</td>
+      <td><b>${Math.round(fundValue).toLocaleString("en-IN")}</b></td>
+      <td>${surrenderDisplay}</td>
+    </tr>`;
+  }
+
+  /* ================= SUMMARY ================= */
+  let ltcg = (premium > 250000 && (lastFund - (premium * term)) > 0) ? (lastFund - (premium * term)) * 0.125 : 0;
+  const deathBenefit = Math.max(SA, lastFund, 1.05 * premium * term);
+
+  summary.innerHTML = `
+    <b>Sum Assured:</b> ₹${Math.round(SA).toLocaleString("en-IN")} |
+    <b>Gross Maturity:</b> ₹${Math.round(lastFund).toLocaleString("en-IN")} |
+    <b>LTCG (12.5%):</b> ₹${Math.round(ltcg).toLocaleString("en-IN")} |
+    <b>Net Maturity:</b> ₹${Math.round(lastFund - ltcg).toLocaleString("en-IN")} |
+    <b>Death Benefit:</b> ₹${Math.round(deathBenefit).toLocaleString("en-IN")}
+  `;
+}
+
+// Element shortcuts
+const ageEl=age,premiumEl=premium,termEl=term,
+      growthEl=growth,addbSAEl=addbSA,addbRateEl=addbRate;
+</script>
+
+</body>
+</html>
