@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABSLI - The Royal Collection</title>
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Palette: No Black. Deep Crimsons, Purples, and Golds */
+            --bg-color: #2a0a12;
+            --card-gradient-term: linear-gradient(135deg, #8E0E00, #1F1C18);
+            --card-gradient-save: linear-gradient(135deg, #4b1248, #f0c27b);
+            --gold-gradient: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --text-light: #fdfdfd;
+            --text-gold: #f4e7be;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(45deg, #3e0e1e, #1a0b2e, #581c0c);
+            background-size: 400% 400%;
+            animation: bgShift 15s ease infinite;
+            min-height: 100vh;
+            color: var(--text-light);
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 20px rgba(191, 149, 63, 0.4);
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: #ffccbc;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* GRID LAYOUT */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+            perspective: 2000px;
+        }
+
+        /* CARD COMPONENT */
+        .card-container {
+            height: 700px; /* Tall to fit 13 points */
+            width: 100%;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(62, 14, 30, 0.6);
+        }
+
+        .card-container.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* FRONT & BACK FACES */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        /* FRONT DESIGN */
+        .card-front {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            /* Shine effect */
+            background: linear-gradient(135deg, rgba(88, 28, 12, 0.8), rgba(42, 10, 18, 0.9));
+        }
+
+        .card-front::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(45deg);
+            animation: shimmer 6s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateY(-30%) translateX(-30%) rotate(45deg); }
+            100% { transform: translateY(30%) translateX(30%) rotate(45deg); }
+        }
+
+        .icon-box {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(191, 149, 63, 0.5));
+        }
+
+        .plan-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .plan-category {
+            font-size: 0.9rem;
+            color: #ffccbc;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border: 1px solid #ffccbc;
+            padding: 5px 15px;
+            border-radius: 50px;
+            margin-bottom: 30px;
+        }
+
+        .tap-hint {
+            margin-top: auto;
+            color: #d4af37;
+            font-size: 0.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* BACK DESIGN */
+        .card-back {
+            background: linear-gradient(to bottom, #2b111b, #1a0b12);
+            transform: rotateY(180deg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .back-header {
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .back-header h3 {
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* DATA LIST SCROLLABLE */
+        .data-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 5px;
+        }
+
+        .data-list::-webkit-scrollbar {
+            width: 5px;
+        }
+        .data-list::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 5px;
+        }
+
+        .data-row {
+            margin-bottom: 12px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            padding-bottom: 5px;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.75rem;
+            color: #ff9e80;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .value {
+            font-size: 0.95rem;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        .usp-highlight {
+            background: rgba(212, 175, 55, 0.15);
+            border-left: 3px solid #d4af37;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; transform: scale(0.95); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0.5; transform: scale(0.95); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .plans-grid { grid-template-columns: 1fr; }
+            .card-container { height: 750px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Aditya Birla Sun Life</h1>
+        <p class="subtitle">The Royal Protection & Wealth Collection</p>
+    </header>
+
+    <div class="plans-grid">
+
+        <!-- 1. ABSLI SUPER TERM PLAN -->
+        <div class="card-container" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="card-front">
+                    <i class="fas fa-shield-alt icon-box"></i>
+                    <div class="plan-title">ABSLI<br>Super Term Plan</div>
+                    <div class="plan-category">Pure Protection</div>
+                    <div class="tap-hint">Tap to Reveal</div>
+                </div>
+                <div class="card-back">
+                    <div class="back-header"><h3>Super Term Details</h3></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Linked, Non-Par, Individual Pure Risk Premium Term Plan.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Min: Subject to Board Approved Underwriting<br>Max: No Limit.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">10 to 40 Years (Max maturity age 70).</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Regular Pay (Equal to Policy Term).</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">Min: 18 Years<br>Max: 55 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Level Sum Assured or Increasing Sum Assured.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Nil (Pure Term).</span></div>
+                        <div class="data-row"><span class="label">8. Survival Benefit</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Sum Assured paid as lump sum.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Accidental Death, Critical Illness, Surgical Care, Hospital Care.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Nil (No surrender value for Regular Pay).</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">Within 5 years of first unpaid premium.</span></div>
+                        <div class="usp-highlight"><span class="label">USP (Who Should Buy)</span><span class="value">Ideal for breadwinners seeking high coverage at nominal cost with option to increase cover over time.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. ABSLI DIGISHIELD PLAN -->
+        <div class="card-container" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="card-front" style="background: linear-gradient(135deg, #2c3e50, #4b1248);">
+                    <i class="fas fa-layer-group icon-box"></i>
+                    <div class="plan-title">ABSLI<br>DigiShield Plan</div>
+                    <div class="plan-category">Customizable Term</div>
+                    <div class="tap-hint">Tap to Reveal</div>
+                </div>
+                <div class="card-back">
+                    <div class="back-header"><h3>DigiShield Details</h3></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Linked, Non-Par Term Insurance with 10 Plan Options.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Min: ₹30 Lakhs<br>Max: No Limit.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">Max up to age 85 (Whole Life Option: to age 100).</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Single, Regular, Limited (5/10/15/20 yrs), or Pay to 60.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">Min: 18 Years<br>Max: 65 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Level/Increasing/Reducing Cover, Return of Premium (ROP), Whole Life.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Nil (Unless ROP option selected).</span></div>
+                        <div class="data-row"><span class="label">8. Survival Benefit</span><span class="value">Return of Premium (if ROP variant chosen).</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Lump sum or Monthly Income or Combination.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Comprehensive list incl. Critical Illness & Accidental Death.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Available for Single/Limited pay and ROP variants.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">Within 5 years.</span></div>
+                        <div class="usp-highlight"><span class="label">USP (Who Should Buy)</span><span class="value">The most flexible plan. Choose Whole Life or ROP. Perfect for those who want coverage tailored to exact life stages.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. ABSLI SARAL JEEVAN BIMA -->
+        <div class="card-container" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="card-front" style="background: linear-gradient(135deg, #1e3c72, #2a5298);">
+                    <i class="fas fa-hand-holding-heart icon-box"></i>
+                    <div class="plan-title">ABSLI<br>Saral Jeevan Bima</div>
+                    <div class="plan-category">Standard Term</div>
+                    <div class="tap-hint">Tap to Reveal</div>
+                </div>
+                <div class="card-back">
+                    <div class="back-header"><h3>Saral Jeevan Details</h3></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Standard Individual Term Life Insurance (IRDAI Mandated).</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Min: ₹5 Lakhs<br>Max: ₹25 Lakhs.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">5 to 40 Years (Max age 70).</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Single, Regular, Limited (5/10 yrs).</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">Min: 18 Years<br>Max: 65 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Standard Terms Only.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">8. Survival Benefit</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Highest of 10x Annual Premium, 105% premiums paid, or Absolute SA.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Accidental Death, Permanent Disability.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Allowed for Single/Limited Pay.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">Within 5 years.</span></div>
+                        <div class="usp-highlight"><span class="label">USP (Who Should Buy)</span><span class="value">Simple, no-fine-print protection for first-time buyers needing basic coverage.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. ABSLI ANMOL SURAKSHA KAWACH -->
+        <div class="card-container" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="card-front" style="background: linear-gradient(135deg, #134e5e, #71b280);">
+                    <i class="fas fa-umbrella icon-box"></i>
+                    <div class="plan-title">ABSLI<br>Anmol Suraksha</div>
+                    <div class="plan-category">Short Term Protection</div>
+                    <div class="tap-hint">Tap to Reveal</div>
+                </div>
+                <div class="card-back">
+                    <div class="back-header"><h3>Anmol Suraksha Details</h3></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Linked, Non-Par, Short Term Pure Risk Premium.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Based on Board Underwriting (Usually Micro/Lower brackets).</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">Short Term (Typically 2 to 5 years).</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Single Pay or Regular Pay.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">Min: 18 Years<br>Max: 55 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Fixed Term.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">8. Survival Benefit</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Sum Assured on Death.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Generally not applicable for short term.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Available for Single Pay (calculated formula).</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">Within 2 years (shorter revival due to short term).</span></div>
+                        <div class="usp-highlight"><span class="label">USP (Who Should Buy)</span><span class="value">Ideal for covering short-term liabilities (like a small loan) or temporary risk exposure.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. ABSLI NISHCHIT AAYUSH PLAN -->
+        <div class="card-container" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="card-front" style="background: linear-gradient(135deg, #cc2b5e, #753a88);">
+                    <i class="fas fa-coins icon-box"></i>
+                    <div class="plan-title">ABSLI<br>Nishchit Aayush</div>
+                    <div class="plan-category">Guaranteed Income</div>
+                    <div class="tap-hint">Tap to Reveal</div>
+                </div>
+                <div class="card-back">
+                    <div class="back-header"><h3>Nishchit Aayush Details</h3></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Linked Non-Par Life Insurance Savings Plan.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Depends on Premium & Age.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">Long Term (Up to 40 years options available).</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">6, 8, 10, 12 years.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">Min: 30 days<br>Max: 55 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Long Term Income (LTI) or Whole Life Income.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Lump Sum Benefit at end of policy term.</span></div>
+                        <div class="data-row"><span class="label">8. Survival Benefit</span><span class="value">Guaranteed Regular Income payouts during the term.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Higher of SA or 105% Premiums. Income continues to nominee in some variants.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Waiver of Premium, Accidental Death.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Allowed after 2 full years' premiums paid.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">Within 5 years.</span></div>
+                        <div class="usp-highlight"><span class="label">USP (Who Should Buy)</span><span class="value">Risk-averse savers wanting a guaranteed second income stream + lump sum maturity.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. ABSLI ASSURED SAVINGS PLAN -->
+        <div class="card-container" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="card-front" style="background: linear-gradient(135deg, #d35400, #f39c12);">
+                    <i class="fas fa-piggy-bank icon-box"></i>
+                    <div class="plan-title">ABSLI<br>Assured Savings</div>
+                    <div class="plan-category">Guaranteed Savings</div>
+                    <div class="tap-hint">Tap to Reveal</div>
+                </div>
+                <div class="card-back">
+                    <div class="back-header"><h3>Assured Savings Details</h3></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Linked, Non-Par Savings Plan.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Depends on Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">15 to 35 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Limited Pay (5 to 20 years options).</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">Min: 30 days<br>Max: 60 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Joint Life Protection option available.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Sum Assured on Maturity + Accrued Guaranteed Additions.</span></div>
+                        <div class="data-row"><span class="label">8. Survival Benefit</span><span class="value">Loyalty Additions (if applicable based on term).</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Sum Assured on Death + Accrued Benefits.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Waiver of Premium, Accidental Death, Critical Illness.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">After 2 full years premiums.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">Within 5 years.</span></div>
+                        <div class="usp-highlight"><span class="label">USP (Who Should Buy)</span><span class="value">For planning specific goals (Education/Marriage) with absolute certainty of returns (Guaranteed Additions).</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. ABSLI AKSHAYA PLAN -->
+        <div class="card-container" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="card-front" style="background: linear-gradient(135deg, #52c234, #061700);">
+                    <i class="fas fa-seedling icon-box"></i>
+                    <div class="plan-title">ABSLI<br>Akshaya Plan</div>
+                    <div class="plan-category">Participating Savings</div>
+                    <div class="tap-hint">Tap to Reveal</div>
+                </div>
+                <div class="card-back">
+                    <div class="back-header"><h3>Akshaya Details</h3></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Participating, Non-Linked, Individual Life Insurance Savings Plan.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Min: ₹2.5 Lakhs (approx)<br>Max: No limit.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">Specific terms (Eg: 25, 30, 35, 40 years).</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Limited Pay options (6, 8, 10, 12, 15 years).</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">Min: 30 days<br>Max: 55 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Cash Bonus payout options (Paid out, Accumulate, or Buy paid-up additions).</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Sum Assured + Terminal Bonus (if any).</span></div>
+                        <div class="data-row"><span class="label">8. Survival Benefit</span><span class="value">Regular Cash Bonuses (Dividends) declared by company.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Sum Assured on Death + Accrued Bonuses.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Standard ABSLI riders available.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Allowed after 2 years.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">Within 5 years.</span></div>
+                        <div class="usp-highlight"><span class="label">USP (Who Should Buy)</span><span class="value">For those who want to participate in company profits via Cash Bonuses while securing life cover. Immediate liquidity option.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function flipCard(cardContainer) {
+            cardContainer.classList.toggle('flipped');
+        }
+    </script>
+</body>
+</html>

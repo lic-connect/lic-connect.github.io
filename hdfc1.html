@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDFC Life - The Grand Collection</title>
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Nunito:wght@300;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --hdfc-red: #ed1c24;
+            --hdfc-blue: #004c8f;
+            --bg-deep: #0f0c29;
+            --bg-grad: linear-gradient(135deg, #302b63, #0f0c29, #24243e);
+            --card-front-grad: linear-gradient(135deg, rgba(237, 28, 36, 0.8), rgba(0, 76, 143, 0.9));
+            --card-back-grad: linear-gradient(135deg, #1a0b2e, #2c003e); /* Deep Purple/Indigo - NO BLACK */
+            --gold: #FFD700;
+            --cyan: #00f2fe;
+            --glass: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-grad);
+            background-size: 400% 400%;
+            animation: galaxyFlow 20s ease infinite;
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes galaxyFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            background: linear-gradient(to right, var(--hdfc-red), #fff, var(--hdfc-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 25px rgba(0, 76, 143, 0.8);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            border: 1px solid var(--cyan);
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 50px;
+            box-shadow: 0 0 15px var(--cyan);
+        }
+
+        /* GRID */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 50px;
+            max-width: 1800px;
+            margin: 0 auto;
+            perspective: 2000px;
+        }
+
+        /* CARD */
+        .card {
+            height: 750px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 76, 143, 0.5);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* FACES */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FRONT DESIGN */
+        .front {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 2;
+            transform: rotateY(0deg);
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+        }
+
+        /* Dynamic Gradients for Front based on JS injection later, defaults here */
+        .front::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(160deg, rgba(237,28,36,0.2), rgba(0,76,143,0.4));
+            z-index: -1;
+        }
+
+        .icon-box {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            color: #fff;
+            filter: drop-shadow(0 0 10px var(--cyan));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float { 0%,100% {transform: translateY(0);} 50% {transform: translateY(-15px);} }
+
+        .plan-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .cat-badge {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .click-hint {
+            padding: 10px 30px;
+            border: 2px solid var(--cyan);
+            color: var(--cyan);
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            background: rgba(0,0,0,0.2);
+        }
+        .card:hover .click-hint { background: var(--cyan); color: #004c8f; box-shadow: 0 0 20px var(--cyan); }
+
+        /* BACK DESIGN */
+        .back {
+            transform: rotateY(180deg);
+            background: var(--card-back-grad);
+            padding: 20px;
+        }
+
+        .back-header {
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-title { color: var(--gold); font-family: 'Cinzel', serif; font-size: 1.1rem; }
+
+        .data-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 8px;
+        }
+
+        /* Custom Scrollbar */
+        .data-list::-webkit-scrollbar { width: 6px; }
+        .data-list::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, var(--hdfc-red), var(--hdfc-blue)); border-radius: 10px; }
+        .data-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+
+        .data-row {
+            margin-bottom: 10px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--cyan);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .value {
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .usp-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--gold);
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .usp-text {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+            text-align: justify;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>HDFC Life</h1>
+        <div class="subtitle">14 Pillars of Financial Freedom</div>
+    </header>
+
+    <div class="grid-container" id="cardGrid">
+        <!-- JS will inject the 14 plans here -->
+    </div>
+
+    <script>
+        // Data for 14 Plans
+        const plans = [
+            {
+                name: "Click 2 Protect Supreme",
+                cat: "Comprehensive Term",
+                icon: "fa-shield-alt",
+                details: {
+                    type: "Non-Linked, Non-Par, Individual Pure Risk Premium Life Insurance.",
+                    sa: "Min: 50 Lakhs | Max: No Limit.",
+                    term: "10 to 85 Years.",
+                    ppt: "Regular, Limited, Single.",
+                    age: "18 to 65 Years.",
+                    option: "Life / Life Plus / Life Goal.",
+                    maturity: "Nil (Unless ROP option chosen).",
+                    sb: "Nil.",
+                    death: "Lump sum or Income.",
+                    riders: "Accidental Death, CI, WOP.",
+                    surrender: "Allowed for Single/Limited Pay.",
+                    revival: "5 Years.",
+                    usp: "This is the flagship term plan designed for the modern breadwinner. It stands out because of its extreme flexibility, allowing you to tailor coverage to changing life stages. <b>Who should buy it?</b> Anyone seeking pure protection but wants options like 'Life Stage Protection' where you can increase cover on marriage or childbirth without medicals. The 'Smart Exit' feature is a major USP, allowing you to exit the policy early and get your premiums back if you feel you no longer need coverage in your later years. It is the ultimate shield for comprehensive family security."
+                }
+            },
+            {
+                name: "Click 2 Protect Elite Plus",
+                cat: "High Value Term",
+                icon: "fa-crown",
+                details: {
+                    type: "Term Insurance Plan.",
+                    sa: "Min: 2 Crores.",
+                    term: "10 to 40 Years.",
+                    ppt: "Limited Pay.",
+                    age: "18 to 60 Years.",
+                    option: "Elite Cover.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "Sum Assured on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Designed specifically for High Net-Worth Individuals (HNIs), this plan offers substantial coverage at highly competitive rates. <b>Who should buy it?</b> Individuals with a high economic value who need significant cover (starting 2 Crores) to protect their lifestyle and legacy. The standout feature is its cost-effectiveness for high sum assured brackets and the simplified underwriting process for elite customers."
+                }
+            },
+            {
+                name: "Click 2 Protect Life",
+                cat: "Term + Income",
+                icon: "fa-user-shield",
+                details: {
+                    type: "Term Insurance with Auto-Balancing.",
+                    sa: "Min: Underwriting Based.",
+                    term: "Whole Life Option available.",
+                    ppt: "Regular / Limited.",
+                    age: "18 to 65 Years.",
+                    option: "Life Protect / Income Plus.",
+                    maturity: "Nil (except ROP).",
+                    sb: "Income payouts (if Income Plus chosen).",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "This plan introduces the concept of 'Auto Balancing' Death and Critical Illness benefits. As you age, the need for life cover might decrease while health risks increase; this plan automatically adjusts cover between Life and CI. <b>Who should buy it?</b> Those worried about both death and critical illness draining savings. The Income Plus option also provides regular income from age 60, acting as a pension supplement."
+                }
+            },
+            {
+                name: "Click 2 Protect Ultimate",
+                cat: "Premium Term",
+                icon: "fa-star",
+                details: {
+                    type: "Pure Term.",
+                    sa: "Flexible.",
+                    term: "Up to 99 Years.",
+                    ppt: "Flexible.",
+                    age: "18 to 65.",
+                    option: "Ultimate Protect.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "SA.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "The 'Ultimate' choice for those who want coverage for their entire life span (up to 99 years). <b>Who should buy it?</b> Individuals looking for legacy planning. By taking a whole life term plan, you essentially guarantee a tax-free payout to your next generation upon your passing, acting as an estate planning tool."
+                }
+            },
+            {
+                name: "Sanchay Legacy",
+                cat: "Whole Life Savings",
+                icon: "fa-infinity",
+                details: {
+                    type: "Non-Par Whole Life Savings.",
+                    sa: "10x Premium.",
+                    term: "Whole Life (100 - Entry Age).",
+                    ppt: "5 to 12 Years.",
+                    age: "3 to 60 Years.",
+                    option: "Life Option.",
+                    maturity: "Return of Premiums at 100.",
+                    sb: "Guaranteed Income till age 99.",
+                    death: "Highest of SA, 105% Prem, or Surrender Value.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "This is a legacy creation tool that provides a guaranteed income stream for your entire life, and then returns the premiums to your nominee. <b>Who should buy it?</b> Perfect for those wanting to create a tax-free passive income stream for retirement while ensuring the principal capital is preserved for their heirs. It bridges the gap between income needs and legacy goals."
+                }
+            },
+            {
+                name: "Sampoorn Samridhi Plus",
+                cat: "Endowment",
+                icon: "fa-seedling",
+                details: {
+                    type: "Participating Endowment.",
+                    sa: "Based on Premium.",
+                    term: "15 to 40 Years.",
+                    ppt: "Limited (Term - 5) or Equal to Term.",
+                    age: "18 to 60 Years.",
+                    option: "Endowment / Endowment with Whole Life.",
+                    maturity: "SA + Reversionary Bonus + Terminal Bonus.",
+                    sb: "Nil.",
+                    death: "SA + Bonuses.",
+                    riders: "Accidental Death.",
+                    surrender: "After 2 Years.",
+                    revival: "5 Years.",
+                    usp: "A traditional plan that participates in the company's profits. <b>Who should buy it?</b> Conservative investors looking to build a corpus over the long term through disciplined savings, with the upside of bonuses declared by HDFC Life. The Whole Life option extends coverage till age 100, adding a legacy component."
+                }
+            },
+            {
+                name: "Uday",
+                cat: "Affordable Savings",
+                icon: "fa-sun",
+                details: {
+                    type: "Non-Linked Participating Savings.",
+                    sa: "Min: 20k.",
+                    term: "12 or 15 Years.",
+                    ppt: "8 or 10 Years.",
+                    age: "18 to 55 Years.",
+                    option: "Standard.",
+                    maturity: "SA + Bonuses.",
+                    sb: "Nil.",
+                    death: "SA on Death + Bonuses.",
+                    riders: "Accident Benefit.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Designed for the mass market and rural segments. <b>Who should buy it?</b> Individuals with lower investable surplus looking for a trusted brand to park their savings with life cover. It offers the dual benefit of savings growth through bonuses and financial protection at an affordable entry point."
+                }
+            },
+            {
+                name: "Guaranteed Savings Plan",
+                cat: "Guaranteed Returns",
+                icon: "fa-piggy-bank",
+                details: {
+                    type: "Non-Par Savings.",
+                    sa: "10x Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "5, 7, 10 Years.",
+                    age: "0 to 60 Years.",
+                    option: "Fixed.",
+                    maturity: "SA + Guaranteed Additions.",
+                    sb: "Nil.",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Offers absolute certainty in uncertain times. <b>Who should buy it?</b> Risk-averse investors planning for fixed goals like a child's education or a down payment on a house. The Guaranteed Additions accrue yearly, ensuring you know exactly how much you will get at maturity, regardless of market conditions."
+                }
+            },
+            {
+                name: "Guaranteed Income Plan",
+                cat: "Income",
+                icon: "fa-hand-holding-usd",
+                details: {
+                    type: "Non-Par Income Plan.",
+                    sa: "10x Premium.",
+                    term: "15 to 30 Years.",
+                    ppt: "7, 10, 12 Years.",
+                    age: "3 to 60 Years.",
+                    option: "Lumpsum / Income.",
+                    maturity: "Lumpsum benefit.",
+                    sb: "Guaranteed Income for payout period.",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Provides a guaranteed salary-like income for a fixed period. <b>Who should buy it?</b> Those looking to supplement their primary income or create a guaranteed stream for expenses like school fees or retirement overheads. It mitigates the risk of interest rate fluctuations by locking in the return rate upfront."
+                }
+            },
+            {
+                name: "SL Crest",
+                cat: "Short Term ULIP",
+                icon: "fa-chart-line",
+                details: {
+                    type: "Unit Linked Plan.",
+                    sa: "10x Premium.",
+                    term: "10 Years.",
+                    ppt: "5 Years (Limited Pay).",
+                    age: "14 to 55 Years.",
+                    option: "Invest.",
+                    maturity: "Fund Value.",
+                    sb: "Nil.",
+                    death: "Higher of SA or Fund.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "A short-duration wealth creation plan. <b>Who should buy it?</b> Investors who want market-linked returns but only want to commit to paying premiums for a short 5-year window, while staying invested for 10 years. It helps in achieving medium-term financial goals with the potential of equity growth."
+                }
+            },
+            {
+                name: "Sampoorn Nivesh",
+                cat: "Flexible ULIP",
+                icon: "fa-layer-group",
+                details: {
+                    type: "Unit Linked Plan.",
+                    sa: "7x or 10x Premium.",
+                    term: "10 to 25 Years.",
+                    ppt: "Regular / Limited / Single.",
+                    age: "0 to 60 Years.",
+                    option: "Classic / Classic Waiver / Pro.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "Accidental Death.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "Highly customizable investment plan offering multiple fund options and loyalty additions. <b>Who should buy it?</b> Savvy investors who want control over their asset allocation (Equity/Debt) and want to benefit from loyalty additions for staying invested long-term. The 'Pro' option offers reduced charges."
+                }
+            },
+            {
+                name: "Classic One",
+                cat: "Single Pay ULIP",
+                icon: "fa-1",
+                details: {
+                    type: "Single Premium ULIP.",
+                    sa: "1.25x or 10x Single Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "Single Pay.",
+                    age: "0 to 60 Years.",
+                    option: "Life / Pro Life.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "N/A.",
+                    usp: "A hassle-free single investment solution. <b>Who should buy it?</b> Those with a lump sum (bonus, inheritance) looking to invest it in the market with tax benefits. The 10x cover variant ensures tax-free maturity under Sec 10(10D), making it a superior alternative to standard mutual funds for long-term wealth."
+                }
+            },
+            {
+                name: "Click 2 Retire",
+                cat: "Pension ULIP",
+                icon: "fa-umbrella-beach",
+                details: {
+                    type: "Unit Linked Pension.",
+                    sa: "Vesting Benefit.",
+                    term: "10 to 35 Years.",
+                    ppt: "Single / Limited / Regular.",
+                    age: "18 to 60 Years.",
+                    option: "Pension Builder.",
+                    maturity: "Vesting Corpus to buy Annuity.",
+                    sb: "Nil.",
+                    death: "Higher of Fund or 105% premiums.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "An online unit-linked pension plan with minimal charges. <b>Who should buy it?</b> Younger individuals starting retirement planning early. It allows you to build a substantial corpus through equity participation, which is mandatory to be used to purchase an annuity (pension) at maturity."
+                }
+            },
+            {
+                name: "Assured Pension Plan",
+                cat: "Annuity",
+                icon: "fa-hands-holding-circle",
+                details: {
+                    type: "Non-Par Deferred Annuity.",
+                    sa: "Based on Premium.",
+                    term: "Vesting Period.",
+                    ppt: "Single / Limited.",
+                    age: "45 to 80 Years.",
+                    option: "Deferred Annuity.",
+                    maturity: "Annuity starts.",
+                    sb: "Lifetime Annuity.",
+                    death: "Purchase Price + Additions (during deferment).",
+                    riders: "N/A.",
+                    surrender: "Allowed.",
+                    revival: "2 Years.",
+                    usp: "Locks in your annuity rate today for income starting tomorrow. <b>Who should buy it?</b> People approaching retirement who fear falling interest rates. By investing now, you guarantee a specific interest rate for life, ensuring your post-retirement lifestyle is immune to market volatility."
+                }
+            }
+        ];
+
+        const grid = document.getElementById('cardGrid');
+
+        plans.forEach((plan, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.setAttribute('onclick', 'this.classList.toggle("flipped")');
+
+            // Category Styling
+            let bgGrad = "";
+            let iconColor = "";
+            if(plan.cat.includes("Term")) { bgGrad = "linear-gradient(135deg, #FF416C, #FF4B2B)"; iconColor = "#fff"; }
+            else if(plan.cat.includes("Savings") || plan.cat.includes("Income") || plan.cat.includes("Endowment")) { bgGrad = "linear-gradient(135deg, #12c2e9, #c471ed, #f64f59)"; iconColor = "#fff"; }
+            else if(plan.cat.includes("ULIP") || plan.cat.includes("Wealth")) { bgGrad = "linear-gradient(135deg, #FDC830, #F37335)"; iconColor = "#fff"; }
+            else { bgGrad = "linear-gradient(135deg, #a8ff78, #78ffd6)"; iconColor = "#333"; }
+
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="front">
+                        <div class="icon-box"><i class="fas ${plan.icon}"></i></div>
+                        <div class="plan-name">${plan.name}</div>
+                        <div class="cat-badge">${plan.cat}</div>
+                        <div class="click-hint">Click to Reveal</div>
+                    </div>
+                    <div class="back">
+                        <div class="back-header">
+                            <span class="back-title">${plan.name}</span>
+                            <i class="fas fa-undo" style="color:#FFD700"></i>
+                        </div>
+                        <div class="data-list">
+                            <div class="data-row"><span class="label">1. Plan Type</span><span class="value">${plan.details.type}</span></div>
+                            <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">${plan.details.sa}</span></div>
+                            <div class="data-row"><span class="label">3. Policy Term</span><span class="value">${plan.details.term}</span></div>
+                            <div class="data-row"><span class="label">4. PPT</span><span class="value">${plan.details.ppt}</span></div>
+                            <div class="data-row"><span class="label">5. Entry Age</span><span class="value">${plan.details.age}</span></div>
+                            <div class="data-row"><span class="label">6. Option</span><span class="value">${plan.details.option}</span></div>
+                            <div class="data-row"><span class="label">7. Maturity</span><span class="value">${plan.details.maturity}</span></div>
+                            <div class="data-row"><span class="label">8. SB</span><span class="value">${plan.details.sb}</span></div>
+                            <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">${plan.details.death}</span></div>
+                            <div class="data-row"><span class="label">10. Riders</span><span class="value">${plan.details.riders}</span></div>
+                            <div class="data-row"><span class="label">11. Surrender</span><span class="value">${plan.details.surrender}</span></div>
+                            <div class="data-row"><span class="label">12. Revival</span><span class="value">${plan.details.revival}</span></div>
+                            <div class="usp-box">
+                                <span class="label" style="color: #FFD700; border:none; margin-bottom:5px;">Salient Features (USP):</span>
+                                <div class="usp-text">${plan.details.usp}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>

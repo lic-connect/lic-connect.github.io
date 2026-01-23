@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tata AIA | The Aquamarine Excellence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --aqua: #7FFFD4;
+            --deep-teal: #004d4d;
+            --mid-teal: #008B8B;
+            --pure-white: #ffffff;
+            --glass-white: rgba(255, 255, 255, 0.8);
+            --soft-shadow: rgba(0, 128, 128, 0.2);
+        }
+
+        * { box-sizing: border-box; transition: all 0.4s ease; }
+
+        body {
+            background: radial-gradient(circle at center, var(--pure-white), #e0fcf5);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--deep-teal);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Dazzling Header */
+        header {
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--pure-white), var(--aqua));
+            border-bottom: 5px solid var(--mid-teal);
+            position: relative;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            margin: 0;
+            letter-spacing: 10px;
+            color: var(--mid-teal);
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            font-weight: 300;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+            padding: 80px 5%;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        /* 3D Flip Card */
+        .plan-card {
+            height: 850px;
+            perspective: 2000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .plan-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 30px;
+            border: 2px solid var(--aqua);
+            box-shadow: 0 20px 40px var(--soft-shadow);
+            overflow: hidden;
+        }
+
+        .card-front {
+            background: var(--pure-white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .card-front .icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            color: var(--mid-teal);
+        }
+
+        .card-front h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin: 0;
+            color: var(--deep-teal);
+        }
+
+        .card-front .tag {
+            background: var(--aqua);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* Back Card */
+        .card-back {
+            background: var(--pure-white);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+        }
+
+        .card-header-back {
+            background: var(--aqua);
+            padding: 20px;
+            text-align: center;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+        }
+
+        .details-scroll {
+            padding: 30px;
+            overflow-y: auto;
+            flex-grow: 1;
+            scrollbar-width: thin;
+            scrollbar-color: var(--aqua) var(--pure-white);
+        }
+
+        .details-scroll::-webkit-scrollbar { width: 6px; }
+        .details-scroll::-webkit-scrollbar-thumb { background: var(--aqua); border-radius: 10px; }
+
+        .spec-item {
+            margin-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 5px;
+        }
+
+        .spec-label {
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: var(--mid-teal);
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .spec-value {
+            font-size: 1rem;
+            display: block;
+            margin-top: 3px;
+        }
+
+        .usp-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: #fafffd;
+            border-left: 5px solid var(--aqua);
+            text-align: justify;
+            font-style: italic;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        footer {
+            padding: 100px 20px;
+            text-align: center;
+            background: var(--deep-teal);
+            color: var(--aqua);
+        }
+
+        .sparkle {
+            color: var(--mid-teal);
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <p>PRECISION • TRUST • GRANDEUR</p>
+    <h1>Tata AIA</h1>
+    <p>The Aquamarine 12 Portfolio</p>
+</header>
+
+<div class="container">
+
+    <!-- PLAN 1: Sampoorna Raksha Supreme -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🛡️</div>
+                <h2>Sampoorna Raksha Supreme</h2>
+                <div class="tag">Protection / Term</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Individual Non-Linked Non-Par Term Assurance</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">Min: ₹50 Lakh | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">10 to 100 Years (Whole Life)</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Single, Regular, or Limited (5-30 yrs)</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">18 - 70 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Life, Life Plus, Life Income, Credit Protect</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">None (unless Return of Premium is selected)</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">None (unless Income Option is chosen)</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Highest of 1.25x Single or 10x Annual Premium</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">Critical Illness, ADB, Waiver of Premium</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Available for Limited/Single Pay options</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">Within 5 years of First Unpaid Premium</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        The Tata AIA Sampoorna Raksha Supreme is a flamboyant masterpiece of protection, designed for the individual who views their family's security as a majestic architectural project. This plan is not merely a policy; it is a dazzling fortress of financial tranquility. It stands out in the flamboyant insurance market by offering a unique "Whole Life" cover up to age 100, ensuring that your legacy is etched in aquamarine brilliance for the next century. <br><br>
+                        Who should buy it? It is engineered for the flamboyant head of a household, the high-flying corporate executive, or the visionary entrepreneur who understands that a standard cover is insufficient. What makes it truly dazzling is the "Pay as you like" flexibility, allowing you to finish your financial obligations in a flamboyant burst of just 5 years while staying protected for a lifetime. The "Wellness" integration rewards a flamboyant and healthy lifestyle, providing discounts on premiums for staying fit. It is for the person who wants to say, "I have secured my family with the most splendid shield available." In a world of uncertainty, this plan is your aquamarine lighthouse, guiding your family’s future towards a magnificent horizon of total safety and uncompromised dignity.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 2: Maha Raksha Supreme Select -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🔱</div>
+                <h2>Maha Raksha Supreme Select</h2>
+                <div class="tag">Protection / Select</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Non-Linked Non-Par Term Insurance</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">Min: ₹2 Crore | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">10 to 50 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Regular Pay or Limited Pay</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">18 - 65 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Choice of Payouts (Lump sum + Income)</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Basic Sum Assured on Death</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">Accidental Death & Dismemberment</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Applicable for Limited Pay</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years from FUP</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        Maha Raksha Supreme Select is the "Elite Suite" of life insurance. It is a flamboyant statement of success and responsibility. Designed for the flamboyant High Net Worth Individual (HNI), this plan offers a dazzling Sum Assured that starts where others end. It is a splendidly tailored garment of protection that fits your opulent lifestyle. <br><br>
+                        Who should buy it? This plan is specifically crafted for the "Maha" (Grand) achievers—the business patriarchs, the professional maestros, and those whose absence would leave a flamboyant financial void. The plan’s dazzling USP is its "High Sum Assured Rebate," which makes massive protection flamboyant and affordable for the truly successful. It is for the person who has built a magnificent empire and wants to ensure that their debt, business liabilities, and flamboyant estate planning are managed with aquamarine precision. With the "Life-Stage" benefit, you can flamboyantly increase your cover during grand milestones like marriage or the birth of a child without a new medical examination. It is a flamboyant protector for a flamboyant life.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 3: Sampoorna Raksha Promise -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🤝</div>
+                <h2>Sampoorna Raksha Promise</h2>
+                <div class="tag">Protection / Promise</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Standard Term Assurance</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">Min: ₹50 Lakh | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">10 to 40 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Regular / Limited Pay</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">18 - 60 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Classic Death Cover</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">100% of Sum Assured</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">Comprehensive Health Riders</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Applicable</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        The Sampoorna Raksha Promise is a flamboyant "Covenant of Trust." In a world where flamboyant claims are common, this plan is a dazzling, solid promise to your family. It is designed for the flamboyant individual who values a straightforward, magnificent commitment above complex investment bells and whistles. <br><br>
+                        Who should buy it? It is for the flamboyant "Young Guardian"—the person who has just started their magnificent journey of building a home and family. The dazzling USP is the "Promise of Payout," ensuring a flamboyant and swift claim settlement process backed by the Tata legacy. It is a splendidly affordable plan that offers a flamboyant Sum Assured, allowing you to protect your family's future with the mere cost of a few magnificent coffee outings. It is flamboyant in its simplicity, dazzling in its reliability, and magnificent in its scope. If you want a plan that is an aquamarine anchor in a stormy sea, this is your flamboyant promise.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 4: Fortune Guarantee Plus -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">💎</div>
+                <h2>Fortune Guarantee Plus</h2>
+                <div class="tag">Savings / Income</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Non-Linked Non-Par Endowment</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">Based on Annualized Premium</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">10 to 40 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">5 to 15 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">1 - 60 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Regular Income / Critical Illness Cover</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Return of Premium at end of Income Period</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">Guaranteed Annual Income for 20-45 years</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Sum Assured on Death</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None (Self-contained benefits)</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2 years of premiums</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        Fortune Guarantee Plus is the flamboyant "Prosperity Stream" of the Tata AIA portfolio. It is a dazzling financial architecture that turns your magnificent savings into a flamboyant river of guaranteed income. This is a splendid plan for the flamboyant visionary who wants to retire in flamboyant style or ensure a magnificent future for their children. <br><br>
+                        Who should buy it? It is engineered for the flamboyant "Wealth Architect"—the person who wants a magnificent, iron-clad guarantee on their returns. The plan’s dazzling USP is the "Return of Premium" at the end of the income period, ensuring that you flamboyant enjoy your income without losing your magnificent principal. It is flamboyant because it offers a "Guaranteed Income" for up to 45 years, turning your magnificent savings into an aquamarine sanctuary of financial freedom. It is for the person who finds flamboyant market volatility distasteful and prefers the magnificent certainty of a Tata guarantee. It is a flamboyant choice for a flamboyant future.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 5: GRIP (Guaranteed Return Insurance Plan) -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="icon">📈</div>
+            <div class="card-front">
+                <h2>Guaranteed Return Insurance Plan</h2>
+                <div class="tag">Savings / Lumpsum</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Individual Non-Par Savings</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">Min: ₹10x Premium | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">10, 12, 15, or 20 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">5, 7, 10, or 12 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">0 - 60 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Endowment Payouts</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Guaranteed Maturity Sum Assured</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">None (Lumpsum focus)</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">10x Annualized Premium</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">AD & TP Benefit</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2 years</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        The Guaranteed Return Insurance Plan (GRIP) is the flamboyant "Golden Chest" of magnificent savings. It is designed for the individual who demands a flamboyant, predetermined outcome for their magnificent investment. This plan is a dazzling display of financial clarity, providing a flamboyant lumpsum that is immune to magnificent market crashes. <br><br>
+                        Who should buy it? It is for the flamboyant "Future Planner"—the parent saving for a flamboyant wedding or the magníficent individual building a flamboyant retirement cottage. The dazzling USP is the "Guaranteed Additions" that accrue flamboyantly every year, ensuring your magnificent wealth grows with aquamarine precision. It is for the person who values flamboyant "Safety" and magníficent "Certainty." With its flamboyant limited pay options, you can finish your magníficent premium payments quickly and watch your flamboyant fortune grow in silence. It is a flamboyant anchor for your magnificent dreams.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 6: Fortune Guarantee -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">💰</div>
+                <h2>Fortune Guarantee</h2>
+                <div class="tag">Savings / Fixed</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Non-Linked Non-Par Lumpsum</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">Based on Premium Multiplier</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">5 to 10 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Single / Limited (5 years)</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">1 - 65 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Single/Regular Payout</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Guaranteed Lumpsum</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Highest of SA or 10x Premium</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">Not Applicable</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Allowed after 1 year (Single Pay)</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        Fortune Guarantee is the flamboyant "Financial Sprint." It is a dazzling, short-term magnificent solution for those who want flamboyant results without magníficent waiting. Designed for the flamboyant investor who wants to lock in a magnificent profit over a short duration, this plan is a flamboyant burst of magníficent financial energy. <br><br>
+                        Who should buy it? It is for the flamboyant "Tactical Investor"—the person who has a magnificent surplus and wants to ensure it grows flamboyantly over the next 5 to 10 years. The dazzling USP is the "Short Commitment," allowing you to stay flamboyant and liquid. It is a magníficent alternative to flamboyant bank deposits, offering magníficent life cover and flamboyant tax benefits. It is for the person who wants to see their magnificent fortune materialize in the flamboyant blink of an eye. With its magníficent aquamarine promise, it is the flamboyant choice for magnificent results.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 7: Smart Income Plus -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">💸</div>
+                <h2>Smart Income Plus</h2>
+                <div class="tag">Savings / Regular Income</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Participating Endowment Plan</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">Min: ₹1,50,000 | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">12 to 25 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">7, 10, or 12 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">0 - 55 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Life / Heritage / Endowment</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Sum Assured + Bonuses</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">Annual Guaranteed Payouts</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">SA on Death + Vested Bonus</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">SUD Critical Illness</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2 years</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        Smart Income Plus is the flamboyant "Heritage Fund." It is a dazzling magníficent creation that allows you to participate in the flamboyant profits of the Magnificent Tata Group. This plan is for the flamboyant individual who wants a magníficent "Smart" income that grows flamboyantly through magníficent bonuses. <br><br>
+                        Who should buy it? It is for the flamboyant "Family Visionary"—the person who wants to create a magníficent legacy for their flamboyant children. The dazzling USP is the "Participating" nature, offering magníficent upside potential. It is for the person who wants a flamboyant income that is magnificent and tax-free. With its magníficent aquamarine foundation, it is the flamboyant choice for magnificent long-term wealth. It turns your magníficent savings into a flamboyant magnificent masterpiece.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 8: Guaranteed Monthly Income Plan -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🗓️</div>
+                <h2>Guaranteed Monthly Income Plan</h2>
+                <div class="tag">Savings / Monthly</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Individual Non-Par Savings</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">Based on Monthly Income chosen</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">12 to 24 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">6 to 12 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">18 - 55 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Monthly Payout</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Last Monthly Income + Terminal Addition</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">Monthly Guaranteed Income for 12 years</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Sum Assured on Death</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2 years</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        The Guaranteed Monthly Income Plan is the flamboyant "Household Engine." It is a dazzling magníficent solution that turns your flamboyant savings into a magníficent monthly "Salary." This is a flamboyant plan for the magnificent individual who wants to ensure that their flamboyant household expenses are covered flamboyantly and magnificently for life. <br><br>
+                        Who should buy it? It is for the flamboyant "Household Hero"—the person who wants a magníficent, guaranteed monthly magnificent income. The dazzling USP is the "Monthly Payout," ensuring magníficent stability. It is for the person who values flamboyant "Consistency" and magníficent "Reliability." It turns your magníficent aquamarine dreams into flamboyant magnificent monthly reality. It is a flamboyant choice for magnificent peace of mind.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 9: Fortune Pro -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🚀</div>
+                <h2>Fortune Pro</h2>
+                <div class="tag">Market Linked / ULIP</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Unit Linked Insurance Plan (ULIP)</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">10x Annualized Premium</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">10 to 30 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Single / Regular / Limited</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">0 - 55 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">11 Fund Choices</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Total Fund Value</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">Loyalty Additions</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Higher of SA or Fund Value</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Allowed after 5 years</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">3 Years</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        Fortune Pro is the flamboyant "Market Maestro." It is a dazzling magníficent ULIP that allows you to dance flamboyantly with the magníficent stock market. This is for the flamboyant investor who wants magnificent growth and flamboyant market returns. <br><br>
+                        Who should buy it? It is for the flamboyant "Wealth Builder"—the person who wants magníficent, high-octane growth. The dazzling USP is the "Loyalty Additions," rewarding your flamboyant discipline. It is for the person who values flamboyant "Growth" and magníficent "Opportunity." It turns your magníficent aquamarine investments into flamboyant magnificent wealth. It is a flamboyant choice for a magnificent life.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 10: Wealth Pro -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🥇</div>
+                <h2>Wealth Pro</h2>
+                <div class="tag">Market Linked / Premium</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Unit Linked Investment Plan</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">10x Annualized Premium</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">10 to 40 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Single / Limited (5, 7, 10 yrs)</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">0 - 50 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Multi-Fund Options</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Total Fund Value</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">Periodic Fund Withdrawals</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Higher of Sum Assured or Fund Value</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Allowed after 5 years</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">3 Years</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        Wealth Pro is the flamboyant "HNI Powerhouse." It is a dazzling magníficent creation for the flamboyant elite. This is for the flamboyant individual who wants magníficent, high-value investment results. <br><br>
+                        Who should buy it? It is for the flamboyant "Elite Investor"—the person who wants magníficent, premium results. The dazzling USP is the "Customized Fund Management," giving you magníficent control. It is for the person who values flamboyant "Exclusivity" and magníficent "Performance." It turns your magníficent aquamarine portfolio into a flamboyant magnificent masterpiece. It is a flamboyant choice for a magnificent life of wealth.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 11: Fortune Guarantee Pension -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">👴</div>
+                <h2>Fortune Guarantee Pension</h2>
+                <div class="tag">Retirement / Annuity</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Deferred / Immediate Annuity Plan</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">Based on Purchase Price</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">Whole Life</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Single Premium / Limited</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">40 - 80 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Life / Joint Life / ROP</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Not Applicable</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">Lifetime Guaranteed Annuity</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Based on ROP Option chosen</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Allowed for ROP options</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">Not Applicable</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        Fortune Guarantee Pension is the flamboyant "Golden Sunset." It is a dazzling magníficent solution for your flamboyant magnificent golden years. This is for the flamboyant individual who wants to retire in magníficent aquamarine style. <br><br>
+                        Who should buy it? It is for the flamboyant "Sunset Planner"—the person who wants magnificent, life-long security. The dazzling USP is the "Guaranteed Annuity," ensuring magníficent peace of mind. It is for the person who values flamboyant "Dignity" and magníficent "Grace." It turns your magníficent aquamarine retirement into a flamboyant magnificent reality. It is a flamboyant choice for magnificent golden years.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 12: Smart Pension Secure -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🏠</div>
+                <h2>Smart Pension Secure</h2>
+                <div class="tag">Retirement / Traditional</div>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">TECHNICAL BLUEPRINT</div>
+                <div class="details-scroll">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Participating Pension Plan</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Min/Max Sum Assured</span><span class="spec-value">Min: ₹2 Lakh | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Min/Max Policy Term</span><span class="spec-value">10 to 40 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Regular / Limited Pay</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Min/Max Entry Age</span><span class="spec-value">30 - 70 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Accumulation / Vesting</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Vesting Benefit (1/3rd Lumpsum + Annuity)</span></div>
+                    <div class="spec-item"><span class="spec-label">8. Survival Benefit (SB)</span><span class="spec-value">None (Accumulation phase)</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Higher of Fund Value or 105% Premiums</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Allowed</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">3 Years</span></div>
+                    <div class="usp-box">
+                        <span class="sparkle">13. SALIENT FEATURES (USP):</span><br>
+                        Smart Pension Secure is the flamboyant "Sanctuary Architect." It is a dazzling magníficent creation that allows you to build a flamboyant magníficent corpus for your magnificent retirement. This is for the flamboyant individual who wants magnificent participating growth. <br><br>
+                        Who should buy it? It is for the flamboyant "Legacy Builder"—the person who wants magníficent, participating growth for their magnificent golden years. The dazzling USP is the "Vesting Benefit," allowing you to purchase a flamboyant magníficent annuity. It is for the person who values flamboyant "Safety" and magníficent "Upside." It turns your magníficent aquamarine retirement into a flamboyant magnificent masterpiece. It is a flamboyant choice for magnificent golden years.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2024 Tata AIA Life Insurance - Design Concept | Aquamarine Excellence Edition</p>
+    <p>Tata AIA Life Insurance Company Ltd. | Magnificence in every detail.</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go Digit Life - The Glow Collection</title>
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --digit-yellow: #ffcc00; /* Signature Digit Color */
+            --digit-yellow-glow: #ffe066;
+            --bg-deep: #240b36;
+            --card-grad-1: linear-gradient(135deg, #c31432, #240b36);
+            --card-grad-2: linear-gradient(135deg, #0f9b0f, #240b36);
+            --card-grad-3: linear-gradient(135deg, #00c6ff, #0072ff);
+            --glass: rgba(255, 255, 255, 0.1);
+            --border-glow: 1px solid rgba(255, 204, 0, 0.5);
+            --text-white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at center, #5200cc, #240b36, #1a0525);
+            background-size: 200% 200%;
+            animation: pulseBg 10s ease infinite alternate;
+            min-height: 100vh;
+            color: var(--text-white);
+            padding: 40px 20px;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes pulseBg {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Moving Background Particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(var(--digit-yellow) 2px, transparent 2px),
+                radial-gradient(rgba(255,255,255,0.3) 1px, transparent 1px);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+            animation: moveStars 60s linear infinite;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        @keyframes moveStars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-1000px); }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 4.5rem;
+            text-transform: uppercase;
+            color: var(--digit-yellow);
+            text-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 25px;
+            border-radius: 50px;
+            border: 1px solid var(--digit-yellow);
+            display: inline-block;
+        }
+
+        /* GRID */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+            width: 100%;
+            max-width: 1400px;
+            perspective: 2000px;
+            z-index: 5;
+        }
+
+        /* CARD STRUCTURE */
+        .card {
+            height: 720px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(82, 0, 204, 0.4);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* FACES */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 204, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FRONT DESIGN */
+        .front {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            z-index: 2;
+            transform: rotateY(0deg);
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+        }
+
+        /* Unique Gradients for Fronts */
+        .plan-1 .front { background: linear-gradient(135deg, rgba(255, 204, 0, 0.2), rgba(82, 0, 204, 0.6)); }
+        .plan-2 .front { background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(0, 0, 139, 0.6)); }
+        .plan-3 .front { background: linear-gradient(135deg, rgba(255, 0, 128, 0.2), rgba(75, 0, 130, 0.6)); }
+
+        .icon-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid var(--digit-yellow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: var(--digit-yellow);
+            margin-bottom: 25px;
+            box-shadow: 0 0 30px rgba(255, 204, 0, 0.3);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-15px);} }
+
+        .plan-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.2rem;
+            line-height: 1.2;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: #ddd;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .flip-btn {
+            padding: 12px 40px;
+            background: var(--digit-yellow);
+            color: #330066; /* Deep Purple text */
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.5);
+        }
+        .card:hover .flip-btn { transform: scale(1.1); box-shadow: 0 0 25px rgba(255, 204, 0, 0.8); }
+
+        /* BACK DESIGN */
+        .back {
+            transform: rotateY(180deg);
+            background: #1a0525; /* Deep Violet - Not Black */
+            padding: 20px;
+        }
+
+        .back-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--digit-yellow);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .back-title {
+            color: var(--digit-yellow);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .data-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .data-list::-webkit-scrollbar { width: 5px; }
+        .data-list::-webkit-scrollbar-thumb { background: var(--digit-yellow); border-radius: 10px; }
+
+        .data-row {
+            margin-bottom: 10px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.75rem;
+            color: #a64dff; /* Neon Purple */
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .value {
+            font-size: 0.95rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .usp-box {
+            background: rgba(255, 204, 0, 0.1);
+            border-left: 4px solid var(--digit-yellow);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Go Digit Life</h1>
+        <div class="subtitle">Make it Simple • Make it Glow</div>
+    </header>
+
+    <div class="grid-container">
+
+        <!-- PLAN 1: DIGIT GLOW TERM LIFE -->
+        <div class="card plan-1" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-sun"></i></div>
+                    <div class="plan-title">Digit Glow<br>Term Life</div>
+                    <div class="tagline">Protection that Shines</div>
+                    <button class="flip-btn">Reveal Details</button>
+                </div>
+                <div class="back">
+                    <div class="back-header">
+                        <span class="back-title">Glow Term Details</span>
+                        <i class="fas fa-times" style="color:white;"></i>
+                    </div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Linked, Non-Participating Individual Pure Risk Term.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Min: ₹50 Lakhs | Max: No Limit.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">10 to 40 Years (Cover up to Age 85).</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Regular Pay, Limited Pay (5/10/15), Single Pay.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">18 to 65 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Level Cover / Increasing Cover / ROP.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Nil (Premiums returned if ROP option chosen).</span></div>
+                        <div class="data-row"><span class="label">8. Survival Benefit</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Lump Sum Payout of Sum Assured.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Critical Illness, Accidental Death, Total Disability.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Available for Single Pay & ROP variants.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">Within 5 Years of unpaid premium.</span></div>
+                        <div class="usp-box">
+                            <span class="label" style="color:var(--digit-yellow)">USP:</span>
+                            <span class="value">Offers built-in Terminal Illness benefit and customizable 'Glow' options for enhanced protection.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLAN 2: DIGIT GLOW LITE -->
+        <div class="card plan-2" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-feather-alt"></i></div>
+                    <div class="plan-title">Digit Glow Lite<br>Term Life</div>
+                    <div class="tagline">Light on Pocket, Heavy on Care</div>
+                    <button class="flip-btn">Reveal Details</button>
+                </div>
+                <div class="back">
+                    <div class="back-header">
+                        <span class="back-title">Glow Lite Details</span>
+                        <i class="fas fa-times" style="color:white;"></i>
+                    </div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Simple Pure Term Insurance.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Min: ₹25 Lakhs | Max: ₹1 Crore.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">10 to 30 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Regular Pay only.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">21 to 55 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Standard Cover only.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">8. Survival Benefit</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Fixed Sum Assured paid to Nominee.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Accidental Death Benefit available.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Nil (Pure risk term).</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">Within 2 Years.</span></div>
+                        <div class="usp-box">
+                            <span class="label" style="color:var(--digit-yellow)">USP:</span>
+                            <span class="value">Designed for first-time buyers seeking essential coverage at the most affordable premiums.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLAN 3: DIGIT ICON SAVINGS -->
+        <div class="card plan-3" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-gem"></i></div>
+                    <div class="plan-title">Digit Icon<br>Guaranteed Plan</div>
+                    <div class="tagline">Your Future, Guaranteed</div>
+                    <button class="flip-btn">Reveal Details</button>
+                </div>
+                <div class="back">
+                    <div class="back-header">
+                        <span class="back-title">Digit ICON Details</span>
+                        <i class="fas fa-times" style="color:white;"></i>
+                    </div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Linked, Non-Participating Life Insurance Savings Plan.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">10x or 11x Annual Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">10 to 20 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">5, 7, or 10 Years.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">1 Year to 60 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Endowment (Lumpsum) or Income Benefit.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Guaranteed Sum Assured + Guaranteed Additions.</span></div>
+                        <div class="data-row"><span class="label">8. Survival Benefit</span><span class="value">Yearly Guaranteed Income (if option chosen).</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Sum Assured on Death + Accrued Benefits.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Critical Illness, Waiver of Premium.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Allowed after 2 full years' premiums paid.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">Within 5 Years.</span></div>
+                        <div class="usp-box">
+                            <span class="label" style="color:var(--digit-yellow)">USP:</span>
+                            <span class="value">Lock in your returns today regardless of market fluctuations. 100% Guaranteed Payouts.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function flipCard(card) {
+            // Toggles the class to trigger the CSS 3D transform
+            card.classList.toggle('flipped');
+        }
+    </script>
+</body>
+</html>

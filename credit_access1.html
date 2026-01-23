@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreditAccess - Sanrakshan Sukshm</title>
+    <!-- Importing Luxury Fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Raleway:wght@300;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #240b36 0%, #c31432 100%);
+            --card-front: linear-gradient(160deg, #512da8, #673ab7);
+            --card-back: linear-gradient(160deg, #2c003e, #590055);
+            --gold: #FFD700;
+            --neon-pink: #ff00cc;
+            --glass: rgba(255, 255, 255, 0.1);
+            --text-light: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: royalFlow 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        @keyframes royalFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Particles Background */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%; height: 100%;
+            background-image: radial-gradient(var(--gold) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            animation: twinkle 5s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 3.5rem;
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
+
+        /* CARD CONTAINER (Perspective) */
+        .card-container {
+            width: 450px;
+            height: 720px;
+            perspective: 2000px; /* Deep perspective for 3D effect */
+            z-index: 10;
+        }
+
+        /* CARD INNER (The Flipper) */
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 30px;
+            box-shadow: 0 0 50px rgba(255, 0, 204, 0.4);
+        }
+
+        /* FLIP STATE */
+        .card-container.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* COMMON FACE STYLES */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 215, 0, 0.5); /* Gold Border */
+            overflow: hidden;
+        }
+
+        /* FRONT DESIGN */
+        .front {
+            background: var(--card-front);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            transform: rotateY(0deg);
+        }
+
+        .front::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 6s infinite;
+        }
+
+        @keyframes shine { to { top: 150%; left: 150%; } }
+
+        .icon-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--gold);
+            border: 2px dashed var(--gold);
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-15px);} }
+
+        .plan-name {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 2.2rem;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .category-tag {
+            background: var(--neon-pink);
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 40px;
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        .flip-btn {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 12px 40px;
+            border-radius: 50px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            z-index: 5;
+        }
+
+        .flip-btn:hover {
+            background: #fff;
+            color: #512da8;
+            box-shadow: 0 0 20px #fff;
+        }
+
+        /* BACK DESIGN */
+        .back {
+            background: var(--card-back);
+            transform: rotateY(180deg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .back-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .back-title {
+            color: var(--gold);
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 1.2rem;
+        }
+
+        .close-icon {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .close-icon:hover { color: var(--neon-pink); transform: rotate(90deg); }
+
+        .details-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* Gold Scrollbar */
+        .details-list::-webkit-scrollbar { width: 6px; }
+        .details-list::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+        .details-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+
+        .detail-item {
+            margin-bottom: 12px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 8px;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--neon-pink);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #fff;
+            line-height: 1.4;
+        }
+
+        .usp-box {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid var(--gold);
+            padding: 10px;
+            border-radius: 0 10px 10px 0;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .card-container { width: 90%; height: 700px; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>CreditAccess</h1>
+        <div class="subtitle">Micro-Insurance • Macro Protection</div>
+    </header>
+
+    <div class="card-container" onclick="flipCard(this)">
+        <div class="card-inner">
+            
+            <!-- FRONT SIDE -->
+            <div class="front">
+                <div class="icon-circle">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <div class="plan-name">Sanrakshan<br>Sukshm</div>
+                <div class="category-tag">Micro Insurance</div>
+                <button class="flip-btn">Unveil Benefits</button>
+            </div>
+
+            <!-- BACK SIDE -->
+            <div class="back">
+                <div class="back-header">
+                    <span class="back-title">Plan Specifications</span>
+                    <i class="fas fa-times close-icon"></i>
+                </div>
+
+                <div class="details-list">
+                    <!-- 1 -->
+                    <div class="detail-item">
+                        <span class="label">1. Plan Type</span>
+                        <span class="value">Non-Linked, Non-Participating, Individual Pure Risk Premium Micro Life Insurance.</span>
+                    </div>
+                    <!-- 2 -->
+                    <div class="detail-item">
+                        <span class="label">2. Sum Assured</span>
+                        <span class="value">Min: ₹10,000<br>Max: ₹2,00,000 (As per Micro Insurance norms).</span>
+                    </div>
+                    <!-- 3 -->
+                    <div class="detail-item">
+                        <span class="label">3. Policy Term</span>
+                        <span class="value">5 to 10 Years.</span>
+                    </div>
+                    <!-- 4 -->
+                    <div class="detail-item">
+                        <span class="label">4. Premium Payment Term</span>
+                        <span class="value">Regular Pay / Single Pay options available.</span>
+                    </div>
+                    <!-- 5 -->
+                    <div class="detail-item">
+                        <span class="label">5. Entry Age</span>
+                        <span class="value">Min: 18 Years<br>Max: 55 Years.</span>
+                    </div>
+                    <!-- 6 -->
+                    <div class="detail-item">
+                        <span class="label">6. Option Type</span>
+                        <span class="value">Single Life Coverage.</span>
+                    </div>
+                    <!-- 7 -->
+                    <div class="detail-item">
+                        <span class="label">7. Maturity Benefit</span>
+                        <span class="value">Nil (Pure Protection Plan).</span>
+                    </div>
+                    <!-- 8 -->
+                    <div class="detail-item">
+                        <span class="label">8. Survival Benefit (SB)</span>
+                        <span class="value">Nil.</span>
+                    </div>
+                    <!-- 9 -->
+                    <div class="detail-item">
+                        <span class="label">9. Death Benefit</span>
+                        <span class="value">Sum Assured on Death paid as a Lump Sum to the Nominee.</span>
+                    </div>
+                    <!-- 10 -->
+                    <div class="detail-item">
+                        <span class="label">10. Riders</span>
+                        <span class="value">Accidental Death Benefit (Optional).</span>
+                    </div>
+                    <!-- 11 -->
+                    <div class="detail-item">
+                        <span class="label">11. Surrender</span>
+                        <span class="value">Allowed for Single Pay (after 1 year) or if premiums paid for >2 years (Limited/Regular).</span>
+                    </div>
+                    <!-- 12 -->
+                    <div class="detail-item">
+                        <span class="label">12. Revival</span>
+                        <span class="value">Within 2 to 5 years from first unpaid premium (depends on policy condition).</span>
+                    </div>
+                    <!-- 13 -->
+                    <div class="usp-box">
+                        <span class="label" style="color: var(--gold);"><i class="fas fa-star"></i> USP: Who Should Buy?</span>
+                        <span class="value">Extremely affordable, low-documentation protection designed for rural households and low-income groups to secure family finances against uncertainty.</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function flipCard(element) {
+            // Toggles the 'flipped' class on the card container
+            element.classList.toggle('flipped');
+        }
+    </script>
+</body>
+</html>

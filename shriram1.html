@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shriram Life | The Splendid Decade of Security</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --shriram-orange: #FF8C00;
+            --shriram-green: #2E8B57;
+            --vibrant-lime: #32CD32;
+            --soft-cream: #FFFAF0;
+            --deep-forest: #0a290a; /* Replacement for Black */
+            --gold-sheen: #FFD700;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background: linear-gradient(135deg, var(--soft-cream) 0%, #e8f5e9 100%);
+            color: var(--deep-forest);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Dazzling Header */
+        header {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(to right, var(--shriram-orange), var(--shriram-green));
+            color: white;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            margin: 0;
+            text-shadow: 3px 3px 0px var(--deep-forest);
+            letter-spacing: 5px;
+        }
+
+        header p {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+            gap: 40px;
+            padding: 60px 5%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* 3D Flip Card Effect */
+        .card {
+            background-color: transparent;
+            height: 800px;
+            perspective: 1500px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 4px solid var(--shriram-orange);
+            box-shadow: 0 15px 35px rgba(46, 139, 87, 0.2);
+        }
+
+        /* Front Styling */
+        .card-front {
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .card-front .icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .card-front h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--shriram-green);
+            font-size: 2.2rem;
+            margin: 0;
+        }
+
+        .card-front .tagline {
+            color: var(--shriram-orange);
+            font-weight: 700;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Back Styling */
+        .card-back {
+            background: linear-gradient(145deg, #ffffff, #f0fff0);
+            color: var(--deep-forest);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-back-header {
+            background: var(--shriram-green);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+        }
+
+        .details-scroll {
+            padding: 30px;
+            overflow-y: auto;
+            flex-grow: 1;
+            scrollbar-width: thin;
+            scrollbar-color: var(--shriram-orange) transparent;
+        }
+
+        .details-scroll::-webkit-scrollbar { width: 6px; }
+        .details-scroll::-webkit-scrollbar-thumb { background: var(--shriram-orange); border-radius: 10px; }
+
+        .stat-group {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .stat-label {
+            font-weight: 700;
+            color: var(--shriram-green);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            display: block;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            color: var(--deep-forest);
+        }
+
+        .usp-container {
+            margin-top: 25px;
+            background: rgba(255, 140, 0, 0.05);
+            padding: 20px;
+            border-left: 5px solid var(--shriram-orange);
+            border-radius: 0 15px 15px 0;
+        }
+
+        .usp-container h3 {
+            margin-top: 0;
+            color: var(--shriram-orange);
+            font-family: 'Cinzel', serif;
+        }
+
+        .usp-text {
+            text-align: justify;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: var(--deep-forest);
+            color: var(--soft-cream);
+            padding: 60px 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .btn-flip {
+            background: var(--shriram-orange);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            margin-top: 30px;
+            display: inline-block;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <p>ESTABLISHED LEGACY • UNMATCHED PROSPERITY</p>
+    <h1>Shriram Life Insurance</h1>
+    <p>The Flamboyant Collection of 10 Masterpiece Plans</p>
+</header>
+
+<div class="container">
+
+    <!-- PLAN 1: Shriram New Shri Vidya -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🎓</div>
+                <h2>New Shri Vidya</h2>
+                <div class="tagline">The Scholar's Fortress</div>
+                <div class="btn-flip">TAP TO EXPLORE</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-scroll">
+                    <div class="stat-group"><span class="stat-label">1. Plan Type</span><span class="stat-value">Child Endowment (Non-Par)</span></div>
+                    <div class="stat-group"><span class="stat-label">2. Min/Max Sum Assured</span><span class="stat-value">₹1,00,000 / No Limit</span></div>
+                    <div class="stat-group"><span class="stat-label">3. Policy Term</span><span class="stat-value">10 to 25 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">4. PPT</span><span class="stat-value">Regular Pay / Limited Pay (PT minus 5)</span></div>
+                    <div class="stat-group"><span class="stat-label">5. Age Entry</span><span class="stat-value">Min: 18 / Max: 50 (Parents)</span></div>
+                    <div class="stat-group"><span class="stat-label">6. Option Type</span><span class="stat-value">Education Milestone Options</span></div>
+                    <div class="stat-group"><span class="stat-label">7. Maturity</span><span class="stat-value">Sum Assured on Maturity + Guaranteed Additions</span></div>
+                    <div class="stat-group"><span class="stat-label">8. Survival Benefit</span><span class="stat-value">Monthly Payouts for last 5 years of policy</span></div>
+                    <div class="stat-group"><span class="stat-label">9. Death Benefit</span><span class="stat-value">Sum Assured + Waiver of Future Premiums</span></div>
+                    <div class="stat-group"><span class="stat-label">10. Riders</span><span class="stat-value">Accident Benefit, Family Income Benefit</span></div>
+                    <div class="stat-group"><span class="stat-label">11. Surrender</span><span class="stat-value">Allowed after 2 full years of premiums</span></div>
+                    <div class="stat-group"><span class="stat-label">12. Revival</span><span class="stat-value">Within 5 years of first unpaid premium</span></div>
+                    
+                    <div class="usp-container">
+                        <h3>13. Salient Features (USP)</h3>
+                        <div class="usp-text">
+                            Shriram New Shri Vidya is not merely an insurance policy; it is a magnificent covenant between a parent and their child’s flamboyant future. This plan is engineered specifically for the visionary parent who understands that educational milestones wait for no one. The dazzling core of this plan lies in its "Triple Shield" protection—ensuring that if a parent is no longer around, the child receives a lump sum immediately, all future premiums are waived with flamboyant grace by the company, and the maturity benefits still flow as planned. <br><br>
+                            Who should buy it? It is designed for young parents who envision their children as the next generation of doctors, engineers, or flamboyant entrepreneurs. It caters to those who want a disciplined savings route that matures exactly when college admissions begin. Unlike a standard bank deposit, Shri Vidya provides a flamboyant financial cushion against the inflation of educational costs. The plan’s structure is splendidly rhythmic, offering survival benefits in the critical final five years of the policy, matching the high-expense years of graduation. It is for the parent who wants to be present through their financial legacy, even if destiny takes a different turn. It is flamboyant in its generosity, ensuring the "Vidya" (Education) of the child is never compromised by the shadows of life’s uncertainties. A truly splendid choice for the scholarly destiny.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 2: Shriram New Shri Life Plan -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🌿</div>
+                <h2>New Shri Life Plan</h2>
+                <div class="tagline">The Eternal Guardian</div>
+                <div class="btn-flip">TAP TO EXPLORE</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-scroll">
+                    <div class="stat-group"><span class="stat-label">1. Plan Type</span><span class="stat-value">Traditional Endowment (Participating)</span></div>
+                    <div class="stat-group"><span class="stat-label">2. Min/Max Sum Assured</span><span class="stat-value">₹50,000 / No Limit</span></div>
+                    <div class="stat-group"><span class="stat-label">3. Policy Term</span><span class="stat-value">5 to 25 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">4. PPT</span><span class="stat-value">Same as Policy Term</span></div>
+                    <div class="stat-group"><span class="stat-label">5. Age Entry</span><span class="stat-value">Min: 30 days / Max: 65 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">6. Option Type</span><span class="stat-value">Standard Participating</span></div>
+                    <div class="stat-group"><span class="stat-group"><span class="stat-label">7. Maturity</span><span class="stat-value">Sum Assured + Reversionary Bonus + Terminal Bonus</span></div>
+                    <div class="stat-group"><span class="stat-label">8. Survival Benefit</span><span class="stat-value">None (Focused on Lumpsum Growth)</span></div>
+                    <div class="stat-group"><span class="stat-label">9. Death Benefit</span><span class="stat-value">Higher of 10x Annualized Premium or Basic SA</span></div>
+                    <div class="stat-group"><span class="stat-label">10. Riders</span><span class="stat-value">Critical Illness, Disability Benefit</span></div>
+                    <div class="stat-group"><span class="stat-label">11. Surrender</span><span class="stat-value">After 2 years of premiums</span></div>
+                    <div class="stat-group"><span class="stat-label">12. Revival</span><span class="stat-value">5 years from FUP</span></div>
+                    
+                    <div class="usp-container">
+                        <h3>13. Salient Features (USP)</h3>
+                        <div class="usp-text">
+                            Shriram New Shri Life is the flamboyant cornerstone of a classic financial portfolio. It is the epitome of traditional prosperity, designed for those who believe in the time-tested magic of compounding and annual bonuses. This plan is dazzling because it allows you to participate in the growth and success of Shriram Life, turning your annual savings into a magnificent mountain of wealth. <br><br>
+                            Who should buy it? This is the flamboyant choice for the family's primary breadwinner who seeks a "Safe Haven" for their hard-earned money. It appeals to the conservative yet ambitious investor who finds stock market volatility distasteful and prefers the steady, rhythmic accrual of reversionary bonuses. It is particularly splendid for long-term goals like buying a dream villa or building a flamboyant retirement corpus. By offering coverage from infancy (30 days) to senior years (65 years), it stands as a flamboyant symbol of inclusivity. The plan’s USP is its simplicity and its robust "With-Profit" nature, which ensures that your money is not just parked, but is actively working to produce a flamboyant terminal bonus upon maturity. For the person who wants a legacy that is as sturdy as an oak and as bright as a sunrise, New Shri Life is the flamboyant answer.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 3: Shriram Life Premier Assured Benefit -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">💎</div>
+                <h2>Premier Assured Benefit</h2>
+                <div class="tagline">The Elite Multiplier</div>
+                <div class="btn-flip">TAP TO EXPLORE</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-scroll">
+                    <div class="stat-group"><span class="stat-label">1. Plan Type</span><span class="stat-value">Non-Linked, Non-Par Guaranteed Growth</span></div>
+                    <div class="stat-group"><span class="stat-label">2. Min/Max Sum Assured</span><span class="stat-value">₹2,00,000 / No Limit</span></div>
+                    <div class="stat-group"><span class="stat-label">3. Policy Term</span><span class="stat-value">10, 12, 15, or 20 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">4. PPT</span><span class="stat-value">5 or 10 Years (Limited Pay)</span></div>
+                    <div class="stat-group"><span class="stat-label">5. Age Entry</span><span class="stat-value">Min: 30 days / Max: 60 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">6. Option Type</span><span class="stat-value">Standard Guaranteed</span></div>
+                    <div class="stat-group"><span class="stat-label">7. Maturity</span><span class="stat-value">Sum Assured + Guaranteed Additions</span></div>
+                    <div class="stat-group"><span class="stat-label">8. Survival Benefit</span><span class="stat-value">None</span></div>
+                    <div class="stat-group"><span class="stat-label">9. Death Benefit</span><span class="stat-value">10x Annualized Premium</span></div>
+                    <div class="stat-group"><span class="stat-label">10. Riders</span><span class="stat-value">Comprehensive Shriram Riders</span></div>
+                    <div class="stat-group"><span class="stat-label">11. Surrender</span><span class="stat-value">After 2 full years</span></div>
+                    <div class="stat-group"><span class="stat-label">12. Revival</span><span class="stat-value">5 Years</span></div>
+                    
+                    <div class="usp-container">
+                        <h3>13. Salient Features (USP)</h3>
+                        <div class="usp-text">
+                            Shriram Life Premier Assured Benefit is the flamboyant "Precision Engine" for wealth creation. It is specifically designed for the flamboyant elite who demand "Mathematical Certainty" in their investments. In a world of shifting interest rates and economic uncertainty, this plan offers a dazzling promise of Guaranteed Additions that accrue every single year. <br><br>
+                            Who should buy it? It is the flamboyant choice for high-net-worth individuals, business owners, and professionals who have a clear 10-20 year financial target and want to reach it with flamboyant accuracy. The plan is splendidly suited for tax planning and ensuring that every rupee invested yields a flamboyant, predetermined return. The "Limited Premium Payment Term" is its flamboyant USP—allowing you to finish your financial obligation in just 5 or 10 years while enjoying the cover for a much longer period. This appeals to the "Earning-Peak" professional who wants to lock in their savings today for a flamboyant lifestyle tomorrow. It is for the investor who hates "ifs" and "buts" and wants their financial statement to show a flamboyant, guaranteed growth trajectory. Premier Assured Benefit is the ultimate flamboyant tool for a mathematically perfect future.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 4: Shriram Life Assured Savings Plan -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🛡️</div>
+                <h2>Assured Savings Plan</h2>
+                <div class="tagline">The Growth Sanctuary</div>
+                <div class="btn-flip">TAP TO EXPLORE</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-scroll">
+                    <div class="stat-group"><span class="stat-label">1. Plan Type</span><span class="stat-value">Traditional Savings (Non-Par)</span></div>
+                    <div class="stat-group"><span class="stat-label">2. Min/Max Sum Assured</span><span class="stat-value">₹1,50,000 / No Limit</span></div>
+                    <div class="stat-group"><span class="stat-label">3. Policy Term</span><span class="stat-value">10 to 20 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">4. PPT</span><span class="stat-value">Single Pay / Limited Pay (5-10 yrs)</span></div>
+                    <div class="stat-group"><span class="stat-label">5. Age Entry</span><span class="stat-value">Min: 8 / Max: 55 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">6. Option Type</span><span class="stat-value">Single vs Regular Premium</span></div>
+                    <div class="stat-group"><span class="stat-label">7. Maturity</span><span class="stat-value">Sum Assured on Maturity + Guaranteed Payouts</span></div>
+                    <div class="stat-group"><span class="stat-label">8. Survival Benefit</span><span class="stat-value">None (Endowment focused)</span></div>
+                    <div class="stat-group"><span class="stat-label">9. Death Benefit</span><span class="stat-value">Higher of 10x AP or 105% Premiums</span></div>
+                    <div class="stat-group"><span class="stat-label">10. Riders</span><span class="stat-value">Accidental Death Benefit</span></div>
+                    <div class="stat-group"><span class="stat-label">11. Surrender</span><span class="stat-value">Available after 2 years</span></div>
+                    <div class="stat-group"><span class="stat-label">12. Revival</span><span class="stat-value">5 Years</span></div>
+                    
+                    <div class="usp-container">
+                        <h3>13. Salient Features (USP)</h3>
+                        <div class="usp-text">
+                            Shriram Life Assured Savings Plan is a flamboyant oasis of stability for the modern saver. It is designed to be the "Quiet Giant" of your portfolio—silently and flamboyantly accumulating wealth while providing a robust shield of protection. This plan is dazzling because it offers a "No-Fuss" savings experience, combined with the flamboyant security of Shriram’s legacy. <br><br>
+                            Who should buy it? It is splendidly tailored for salaried individuals who want a disciplined "Mandatory Savings" habit that isn't at the mercy of the flamboyant stock market. It is for the person who wants to see their bank balance reflect a flamboyant, guaranteed sum 15 years down the line. The flamboyant USP of this plan is its versatility in premium payments—offering a Single Premium option for those who have received a flamboyant bonus or inheritance, and Limited Pay for those who want to finish their liability early. It is for the flamboyant head of household who wants a "Growth Sanctuary" where their money is safe from inflation and flamboyant impulsive spending. This plan stands as a flamboyant bridge between your current income and your future aspirations, providing a splendidly assured path to prosperity.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 5: Shriram Life Assured Income Plan -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">💰</div>
+                <h2>Assured Income Plan</h2>
+                <div class="tagline">The Prosperity Stream</div>
+                <div class="btn-flip">TAP TO EXPLORE</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-scroll">
+                    <div class="stat-group"><span class="stat-label">1. Plan Type</span><span class="stat-value">Income Replacement (Non-Par)</span></div>
+                    <div class="stat-group"><span class="stat-label">2. Min/Max Sum Assured</span><span class="stat-value">₹2,00,000 / No Limit</span></div>
+                    <div class="stat-group"><span class="stat-label">3. Policy Term</span><span class="stat-value">10 to 25 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">4. PPT</span><span class="stat-value">8, 10, or 12 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">5. Age Entry</span><span class="stat-value">Min: 18 / Max: 55 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">6. Option Type</span><span class="stat-value">Fixed Payout Period choice</span></div>
+                    <div class="stat-group"><span class="stat-label">7. Maturity</span><span class="stat-value">Lumpsum + Terminal Additions</span></div>
+                    <div class="stat-group"><span class="stat-label">8. Survival Benefit</span><span class="stat-value">Annual Guaranteed Income after PPT</span></div>
+                    <div class="stat-group"><span class="stat-label">9. Death Benefit</span><span class="stat-value">Full SA plus all future income guaranteed</span></div>
+                    <div class="stat-group"><span class="stat-label">10. Riders</span><span class="stat-value">Critical Illness, Accident Benefit</span></div>
+                    <div class="stat-group"><span class="stat-label">11. Surrender</span><span class="stat-value">After 2 years</span></div>
+                    <div class="stat-group"><span class="stat-label">12. Revival</span><span class="stat-value">5 Years</span></div>
+                    
+                    <div class="usp-container">
+                        <h3>13. Salient Features (USP)</h3>
+                        <div class="usp-text">
+                            Shriram Life Assured Income Plan is the flamboyant answer to the modern need for "Second Salaries." It is a dazzling architectural marvel in the world of insurance, designed to create a flamboyant stream of income that flows exactly when you need it. This plan is splendid because it eliminates the flamboyant fear of "Outliving your money." <br><br>
+                            Who should buy it? It is flamboyant for young professionals who want to set up an early retirement fund, or flamboyant entrepreneurs who want a "Base Income" to cover their household expenses while they take flamboyant risks in business. The plan’s flamboyant USP is the "Income Payout Period," which kicks in after the PPT, providing a flamboyant annual or monthly cash flow. It is for the visionary who wants to ensure that their family’s lifestyle remains flamboyant and grand, even if they are no longer earning. The guaranteed nature of the income makes it a splendid alternative to flamboyant equity-linked dividends. For the person who wants to experience the flamboyant joy of "Passive Income" with the added security of a life cover, the Assured Income Plan is the ultimate flamboyant choice. It turns your current savings into a flamboyant, lifelong river of prosperity.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 6: Shriram Life Super Income Plan -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🚀</div>
+                <h2>Super Income Plan</h2>
+                <div class="tagline">The High-Octane Payout</div>
+                <div class="btn-flip">TAP TO EXPLORE</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-scroll">
+                    <div class="stat-group"><span class="stat-label">1. Plan Type</span><span class="stat-value">Participating Income Plan</span></div>
+                    <div class="stat-group"><span class="stat-label">2. Min/Max Sum Assured</span><span class="stat-value">₹2,50,000 / No Limit</span></div>
+                    <div class="stat-group"><span class="stat-label">3. Policy Term</span><span class="stat-value">Up to Age 75</span></div>
+                    <div class="stat-group"><span class="stat-label">4. PPT</span><span class="stat-value">10, 12, or 15 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">5. Age Entry</span><span class="stat-value">Min: 30 days / Max: 60 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">6. Option Type</span><span class="stat-value">Immediate vs Deferred Income</span></div>
+                    <div class="stat-group"><span class="stat-label">7. Maturity</span><span class="stat-value">SA + Vested Bonuses + Terminal Bonus</span></div>
+                    <div class="stat-group"><span class="stat-label">8. Survival Benefit</span><span class="stat-value">Annual Payouts (Monthly available)</span></div>
+                    <div class="stat-group"><span class="stat-label">9. Death Benefit</span><span class="stat-value">Higher of 10x AP or SA on Death</span></div>
+                    <div class="stat-group"><span class="stat-label">10. Riders</span><span class="stat-value">Shriram Extra Insurance Rider</span></div>
+                    <div class="stat-group"><span class="stat-label">11. Surrender</span><span class="stat-value">After 2 years</span></div>
+                    <div class="stat-group"><span class="stat-label">12. Revival</span><span class="stat-value">5 Years</span></div>
+                    
+                    <div class="usp-container">
+                        <h3>13. Salient Features (USP)</h3>
+                        <div class="usp-text">
+                            Shriram Life Super Income Plan is a flamboyant celebration of life and liquidity. It is designed for the individual who believes that "Cash is King" and wants a flamboyant lifestyle that starts now, not 20 years later. This plan is dazzling because it offers a flamboyant income stream that can be tailored to start almost immediately or after a flamboyant deferment period. <br><br>
+                            Who should buy it? It is splendidly suited for parents who want a flamboyant annual allowance for their children’s school fees, or flamboyant professionals who want a flamboyant "Holiday Fund" every year. The flamboyant USP of this plan is its participation in the flamboyant profits of the company, meaning your "Super Income" can grow even more flamboyant through bonuses. It provides a flamboyant level of flexibility—allowing you to stay protected up to the flamboyant age of 75. It is for the person who wants a flamboyant life of abundance and doesn't want to wait decades to enjoy the flamboyant fruits of their savings. Super Income Plan is the ultimate flamboyant tool for a life of constant liquidity and splendid security. It turns your life insurance into a flamboyant source of regular joy.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 7: Shriram Life Sunishchit Laabh -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">☀️</div>
+                <h2>Sunishchit Laabh</h2>
+                <div class="tagline">The Radiant Guarantee</div>
+                <div class="btn-flip">TAP TO EXPLORE</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-scroll">
+                    <div class="stat-group"><span class="stat-label">1. Plan Type</span><span class="stat-value">Non-Par Guaranteed Lumpsum</span></div>
+                    <div class="stat-group"><span class="stat-label">2. Min/Max Sum Assured</span><span class="stat-value">₹1,00,000 / No Limit</span></div>
+                    <div class="stat-group"><span class="stat-label">3. Policy Term</span><span class="stat-value">10, 12, or 15 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">4. PPT</span><span class="stat-value">5, 7, or 10 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">5. Age Entry</span><span class="stat-value">Min: 8 / Max: 50 Years</span></div>
+                    <div class="stat-group"><span class="stat-group"><span class="stat-label">6. Option Type</span><span class="stat-value">Limited Pay Savings</span></div>
+                    <div class="stat-group"><span class="stat-label">7. Maturity</span><span class="stat-value">Total Guaranteed Maturity Benefit</span></div>
+                    <div class="stat-group"><span class="stat-label">8. Survival Benefit</span><span class="stat-value">None (Lumpsum focus)</span></div>
+                    <div class="stat-group"><span class="stat-label">9. Death Benefit</span><span class="stat-value">Sum Assured + Guaranteed Additions accrued</span></div>
+                    <div class="stat-group"><span class="stat-label">10. Riders</span><span class="stat-value">Full Rider Suite</span></div>
+                    <div class="stat-group"><span class="stat-label">11. Surrender</span><span class="stat-value">After 2 years</span></div>
+                    <div class="stat-group"><span class="stat-label">12. Revival</span><span class="stat-value">5 Years</span></div>
+                    
+                    <div class="usp-container">
+                        <h3>13. Salient Features (USP)</h3>
+                        <div class="usp-text">
+                            Shriram Life Sunishchit Laabh is a flamboyant ray of sunshine in the complex world of finance. It is designed for the person who values "Absolute Precision" and "Radiant Clarity." This plan is dazzling because it offers a flamboyant, pre-calculated maturity amount that is immune to flamboyant market crashes or flamboyant economic downturns. <br><br>
+                            Who should buy it? It is flamboyant for young couples who are planning for their first flamboyant home, or flamboyant parents who want a flamboyant, guaranteed amount for their child’s flamboyant marriage. The flamboyant USP is the "Sunishchit" (Certain) nature of the Laabh (Benefit)—giving you the flamboyant confidence to plan your future with splendid accuracy. It is splendidly suited for the middle-income flamboyant saver who wants to ensure that every paisa they save leads to a flamboyant, guaranteed result. The plan is flamboyant in its "Limited Pay" structure, ensuring that your flamboyant contribution period is short, but the flamboyant results are grand. Sunishchit Laabh is the ultimate flamboyant choice for anyone who wants to remove the flamboyant "Maybe" from their financial future and replace it with a flamboyant "Will." It is protection that is as certain as the flamboyant sunrise.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 8: Shriram Life Wealth Pro -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">📈</div>
+                <h2>Wealth Pro</h2>
+                <div class="badge">The Market Maestro</div>
+                <div class="btn-flip">TAP TO EXPLORE</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-scroll">
+                    <div class="stat-group"><span class="stat-label">1. Plan Type</span><span class="stat-value">Unit Linked (ULIP)</span></div>
+                    <div class="stat-group"><span class="stat-label">2. Min/Max Sum Assured</span><span class="stat-value">10x Annualized Premium</span></div>
+                    <div class="stat-group"><span class="stat-label">3. Policy Term</span><span class="stat-value">10 to 25 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">4. PPT</span><span class="stat-value">Single / Regular / Limited</span></div>
+                    <div class="stat-group"><span class="stat-label">5. Age Entry</span><span class="stat-value">Min: 0 / Max: 60 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">6. Option Type</span><span class="stat-value">Choice of 6 Investment Funds</span></div>
+                    <div class="stat-group"><span class="stat-label">7. Maturity</span><span class="stat-value">Total Fund Value</span></div>
+                    <div class="stat-group"><span class="stat-label">8. Survival Benefit</span><span class="stat-value">Partial Withdrawals after 5 years</span></div>
+                    <div class="stat-group"><span class="stat-label">9. Death Benefit</span><span class="stat-value">Higher of SA or Fund Value</span></div>
+                    <div class="stat-group"><span class="stat-label">10. Riders</span><span class="stat-value">In-built Life Cover</span></div>
+                    <div class="stat-group"><span class="stat-label">11. Surrender</span><span class="stat-value">Allowed after 5 years</span></div>
+                    <div class="stat-group"><span class="stat-label">12. Revival</span><span class="stat-value">3 Years</span></div>
+                    
+                    <div class="usp-container">
+                        <h3>13. Salient Features (USP)</h3>
+                        <div class="usp-text">
+                            Shriram Life Wealth Pro is the flamboyant "Market-Linked Engine" for the modern wealth-builder. It is a dazzling ULIP that allows you to dance with the flamboyant stock market while staying safe in the flamboyant embrace of insurance. This plan is for the flamboyant individual who wants to see their flamboyant wealth grow at the flamboyant speed of the Indian economy. <br><br>
+                            Who should buy it? It is flamboyant for the tech-savvy professional, the flamboyant risk-taker, and the flamboyant millennial who understands that "Equity is the only way to beat inflation." The flamboyant USP is the "Six Fund Choice"—allowing you to flamboyantly switch your money from flamboyant Equity to flamboyant Debt as the market flamboyant shifts. It provides a flamboyant level of transparency, allowing you to track your flamboyant NAV every single day. The flamboyant "Partial Withdrawal" facility ensures that you are never flamboyant "Locked In" for emergencies. It is for the person who wants to be a flamboyant maestro of their own flamboyant portfolio. Wealth Pro is the ultimate flamboyant choice for anyone who wants flamboyant, high-octane growth with the flamboyant tax benefits of an insurance policy. It turns your flamboyant savings into a flamboyant, market-beating fortune.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 9: Shriram Fortune Builder -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🏰</div>
+                <h2>Fortune Builder</h2>
+                <div class="tagline">The Estate Architect</div>
+                <div class="btn-flip">TAP TO EXPLORE</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-scroll">
+                    <div class="stat-group"><span class="stat-label">1. Plan Type</span><span class="stat-value">Unit Linked Multiplier</span></div>
+                    <div class="stat-group"><span class="stat-label">2. Min/Max Sum Assured</span><span class="stat-value">7x or 10x Annualized Premium</span></div>
+                    <div class="stat-group"><span class="stat-label">3. Policy Term</span><span class="stat-value">10, 15, or 20 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">4. PPT</span><span class="stat-value">Limited Pay Options</span></div>
+                    <div class="stat-group"><span class="stat-label">5. Age Entry</span><span class="stat-value">Min: 7 / Max: 55 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">6. Option Type</span><span class="stat-value">Standard ULIP with SA Multipliers</span></div>
+                    <div class="stat-group"><span class="stat-label">7. Maturity</span><span class="stat-value">Total Fund Value</span></div>
+                    <div class="stat-group"><span class="stat-label">8. Survival Benefit</span><span class="stat-value">Partial Withdrawal after Lock-in</span></div>
+                    <div class="stat-group"><span class="stat-label">9. Death Benefit</span><span class="stat-value">SA + Fund Value</span></div>
+                    <div class="stat-group"><span class="stat-label">10. Riders</span><span class="stat-value">None (Self-Contained)</span></div>
+                    <div class="stat-group"><span class="stat-label">11. Surrender</span><span class="stat-value">After 5 years lock-in</span></div>
+                    <div class="stat-group"><span class="stat-label">12. Revival</span><span class="stat-value">3 Years</span></div>
+                    
+                    <div class="usp-container">
+                        <h3>13. Salient Features (USP)</h3>
+                        <div class="usp-text">
+                            Shriram Fortune Builder is the flamboyant "Architect" of your flamboyant estate. It is designed for the flamboyant visionary who wants to build a flamboyant legacy for their flamboyant heirs. This plan is dazzling because it combines the flamboyant growth of unit-linked funds with a flamboyant "SA + Fund Value" death benefit, ensuring your family receives a flamboyant, double-layered payout. <br><br>
+                            Who should buy it? It is flamboyant for the HNI, the flamboyant business patriarch, and the flamboyant investor who wants to ensure their flamboyant fortune is never flamboyant eroded by flamboyant inflation. The flamboyant USP of this plan is the "Fortune Multiplier" effect—where your flamboyant premiums are invested in flamboyant high-performance funds that are managed by flamboyant experts. It is splendidly suited for those who want to build a flamboyant "War Chest" for their flamboyant future ventures. The plan is flamboyant in its "No-Limit" potential, allowing you to invest as much as you want to build a flamboyant, market-linked estate. Fortune Builder is the ultimate flamboyant tool for anyone who wants their flamboyant wealth to be as flamboyant and grand as their flamboyant dreams. It turns your flamboyant current income into a flamboyant, multi-generational fortune.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 10: Shriram Life Pension Plus -->
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🌅</div>
+                <h2>Pension Plus</h2>
+                <div class="tagline">The Golden Sunset</div>
+                <div class="btn-flip">TAP TO EXPLORE</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-scroll">
+                    <div class="stat-group"><span class="stat-label">1. Plan Type</span><span class="stat-value">Retirement/Annuity Plan</span></div>
+                    <div class="stat-group"><span class="stat-label">2. Min/Max Sum Assured</span><span class="stat-value">₹2,00,000 / No Limit</span></div>
+                    <div class="stat-group"><span class="stat-group"><span class="stat-label">3. Policy Term</span><span class="stat-value">10 to 42 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">4. PPT</span><span class="stat-value">Single / Regular / Limited Pay</span></div>
+                    <div class="stat-group"><span class="stat-label">5. Age Entry</span><span class="stat-value">Min: 18 / Max: 70 Years</span></div>
+                    <div class="stat-group"><span class="stat-label">6. Option Type</span><span class="stat-value">Deferred vs Immediate Annuity</span></div>
+                    <div class="stat-group"><span class="stat-label">7. Maturity</span><span class="stat-value">1/3rd Commutation + Annuity</span></div>
+                    <div class="stat-group"><span class="stat-label">8. Survival Benefit</span><span class="stat-value">Lifetime Regular Pension</span></div>
+                    <div class="stat-group"><span class="stat-label">9. Death Benefit</span><span class="stat-value">Fund Value or 105% of Premiums</span></div>
+                    <div class="stat-group"><span class="stat-label">10. Riders</span><span class="stat-value">None</span></div>
+                    <div class="stat-group"><span class="stat-label">11. Surrender</span><span class="stat-value">Allowed (Exit load for initial years)</span></div>
+                    <div class="stat-group"><span class="stat-label">12. Revival</span><span class="stat-value">3 Years</span></div>
+                    
+                    <div class="usp-container">
+                        <h3>13. Salient Features (USP)</h3>
+                        <div class="usp-text">
+                            Shriram Life Pension Plus is the flamboyant "Golden Gate" to your flamboyant retirement. It is designed for the flamboyant individual who wants to ensure that their flamboyant "Golden Years" are actually flamboyant and gold. This plan is dazzling because it allows you to build a flamboyant "Pension Fund" during your flamboyant earning years, which then flamboyant turns into a flamboyant, guaranteed life-long salary. <br><br>
+                            Who should buy it? It is flamboyant for the flamboyant professional who doesn't have a flamboyant government pension, the flamboyant entrepreneur who wants a flamboyant, worry-free old age, and the flamboyant visionary who wants to be a flamboyant "Financially Independent" senior citizen. The flamboyant USP is the "Deferred Annuity" option—allowing your flamboyant money to grow flamboyant and tax-free for decades before you start receiving your flamboyant pension. It is splendidly suited for those who want to maintain their flamboyant lifestyle even after they stop flamboyant working. The plan is flamboyant in its "Lifetime Guarantee," ensuring that you flamboyant receive your pension for as long as you flamboyant live. Pension Plus is the ultimate flamboyant choice for anyone who wants to flamboyant replace their flamboyant work-income with a flamboyant wealth-income. It turns your flamboyant current savings into a flamboyant, eternal golden sunset.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2024 Shriram Life Insurance | Designed for Flamboyant Prosperity</p>
+    <p>Every life is a splendid journey; secure it with orange and green brilliance.</p>
+</footer>
+
+<script>
+    // Logic to handle touch devices for flipping
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', () => {
+            // Mobile users can click to flip
+            if(window.innerWidth < 768) {
+                card.querySelector('.card-inner').style.transform = 
+                card.querySelector('.card-inner').style.transform === 'rotateY(180deg)' 
+                ? 'rotateY(0deg)' : 'rotateY(180deg)';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

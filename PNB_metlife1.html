@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNB MetLife - The Royal Blue Collection</title>
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --metlife-blue: #0061A0;
+            --neon-cyan: #00E5FF;
+            --deep-indigo: #12005e;
+            --bg-grad: linear-gradient(135deg, #051937, #004d7a, #008793, #00bf72);
+            --card-front-grad: linear-gradient(145deg, rgba(0, 97, 160, 0.9), rgba(0, 229, 255, 0.7));
+            --card-back-grad: linear-gradient(145deg, #0a043c, #1f4068); /* Deep Blue/Purple - NO BLACK */
+            --gold: #FFD700;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--bg-grad);
+            background-size: 400% 400%;
+            animation: oceanFlow 15s ease infinite;
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes oceanFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Bubbles Background */
+        .bubbles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: rise 10s infinite linear;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes rise {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100px); }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, var(--neon-cyan), var(--metlife-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            padding: 10px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+        }
+
+        /* GRID */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 50px;
+            max-width: 1600px;
+            margin: 0 auto;
+            perspective: 2000px;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* CARD */
+        .card {
+            height: 750px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0, 40, 80, 0.6);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* FACES */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 25px;
+            overflow: hidden;
+            border: var(--glass-border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FRONT DESIGN */
+        .front {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 2;
+            transform: rotateY(0deg);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+        }
+
+        /* Gradient Borders for Front */
+        .front::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 25px;
+            padding: 2px;
+            background: linear-gradient(45deg, var(--metlife-blue), #fff, var(--neon-cyan));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .icon-box {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.5);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float { 0%,100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
+
+        .plan-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .cat-badge {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.5);
+            margin-bottom: 30px;
+            background: rgba(0, 97, 160, 0.3);
+            font-weight: bold;
+            color: var(--neon-cyan);
+        }
+
+        .flip-btn {
+            padding: 12px 35px;
+            background: linear-gradient(45deg, var(--metlife-blue), #003366);
+            color: #fff;
+            border: 1px solid var(--neon-cyan);
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .card:hover .flip-btn { transform: scale(1.1); box-shadow: 0 0 30px rgba(0, 229, 255, 0.8); background: var(--neon-cyan); color: #003366; }
+
+        /* BACK DESIGN */
+        .back {
+            transform: rotateY(180deg);
+            background: var(--card-back-grad);
+            padding: 20px;
+        }
+
+        .back-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .back-title { color: var(--gold); font-family: 'Cinzel', serif; font-size: 1.1rem; }
+
+        .data-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 8px;
+        }
+
+        /* Custom Scrollbar */
+        .data-list::-webkit-scrollbar { width: 6px; }
+        .data-list::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 10px; }
+        .data-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+
+        .data-row {
+            margin-bottom: 10px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .value {
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .usp-box {
+            background: rgba(0, 229, 255, 0.05);
+            border-left: 3px solid var(--gold);
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .usp-label {
+            display: block;
+            color: var(--gold);
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .usp-text {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+            text-align: justify;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bubbles"></div>
+
+    <header>
+        <h1>PNB MetLife</h1>
+        <div class="subtitle">8 Jewels of Certainty</div>
+    </header>
+
+    <div class="grid-container" id="cardGrid">
+        <!-- JS will inject 8 cards here -->
+    </div>
+
+    <script>
+        const plans = [
+            {
+                name: "DigiProtect Term Plan",
+                cat: "Online Term",
+                icon: "fa-shield-alt",
+                details: {
+                    type: "Individual Pure Risk Term Insurance.",
+                    sa: "Min: 50 Lakhs | Max: No Limit.",
+                    term: "10 to 40 Years.",
+                    ppt: "Regular Pay.",
+                    age: "18 to 50 Years.",
+                    option: "Life / Life Plus.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "Sum Assured.",
+                    riders: "Accidental Death.",
+                    surrender: "Nil.",
+                    revival: "5 Years.",
+                    usp: "**PNB MetLife DigiProtect** is the essential digital shield for the modern family. **Why buy it?** It is an online-exclusive plan, which means you benefit from lower premiums by cutting out intermediary costs. It offers pure, unadulterated protection with a high sum assured, ensuring your family's lifestyle is never compromised. The plan is incredibly straightforward—pay a small premium now to secure a large financial umbrella for your loved ones. It is ideal for tech-savvy individuals looking for a hassle-free, paperless buying experience with the trusted backing of PNB MetLife. It’s the perfect first step in financial planning."
+                }
+            },
+            {
+                name: "Mera Term Plan Plus",
+                cat: "Comprehensive Term",
+                icon: "fa-users-cog",
+                details: {
+                    type: "Flexible Term Plan.",
+                    sa: "Min: 50 Lakhs.",
+                    term: "10 to 99 Years.",
+                    ppt: "Regular / Limited / Single.",
+                    age: "18 to 65 Years.",
+                    option: "Life / Life Plus / Life Partner.",
+                    maturity: "Return of Premium (Option).",
+                    sb: "Nil.",
+                    death: "Sum Assured.",
+                    riders: "CI, Accident, Disability.",
+                    surrender: "Allowed for ROP.",
+                    revival: "5 Years.",
+                    usp: "**Mera Term Plan Plus** is customizable protection at its finest. **USP:** Its defining feature is the 'Joint Life' option, where you can cover your spouse under the same policy, ensuring comprehensive family security in one go. It also offers a 'Return of Premium' option if you outlive the policy, making it a zero-cost safety net. Additionally, the plan provides 'Step Up' options to increase coverage at key life stages like marriage or childbirth. With coverage extending up to age 99, it can also serve as a legacy planning tool. Perfect for breadwinners who want a plan that adapts to their changing life needs."
+                }
+            },
+            {
+                name: "Smart GEM ULIP Plan",
+                cat: "Wealth ULIP",
+                icon: "fa-gem",
+                details: {
+                    type: "Unit Linked Insurance Plan.",
+                    sa: "10x Premium.",
+                    term: "15, 20, 25 Years.",
+                    ppt: "5 Years / Regular.",
+                    age: "0 to 60 Years.",
+                    option: "Wealth / Goal.",
+                    maturity: "Fund Value.",
+                    sb: "Partial Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "**Smart GEM** is for those who want their investments to shine brighter. **Why is it special?** It returns *all* mortality charges and premium allocation charges at maturity, effectively reducing the cost of the plan and boosting your returns. It offers a choice of diverse funds ranging from equity to debt, allowing you to tailor your risk exposure. The plan rewards long-term investors with 'Loyalty Additions' that enhance the fund value. Whether you are planning for a child's education or a dream home, the flexibility to switch funds and make partial withdrawals makes Smart GEM a brilliant choice for wealth creation."
+                }
+            },
+            {
+                name: "Guaranteed Future Plan",
+                cat: "Guaranteed Savings",
+                icon: "fa-lock",
+                details: {
+                    type: "Non-Par Savings.",
+                    sa: "10x Premium.",
+                    term: "12 to 20 Years.",
+                    ppt: "5, 7, 10 Years.",
+                    age: "0 to 60 Years.",
+                    option: "Lumpsum / Income.",
+                    maturity: "Guaranteed Benefit.",
+                    sb: "Guaranteed Income.",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "**Guaranteed Future Plan** is your fortress against market volatility. **The USP:** It guarantees your returns upfront. You know exactly what you will get, regardless of how the stock market performs. You can choose to receive the benefit as a lump sum for big goals or as a guaranteed income stream to supplement your salary or pension. With 'Guaranteed Additions' accruing every year, your money works harder in a safe environment. It is the perfect antidote to anxiety for conservative investors who prioritize capital protection and certainty over high-risk gains."
+                }
+            },
+            {
+                name: "Century Plan",
+                cat: "Whole Life Income",
+                icon: "fa-infinity",
+                details: {
+                    type: "Whole Life Income.",
+                    sa: "Based on Premium.",
+                    term: "Till Age 100.",
+                    ppt: "5 to 15 Years.",
+                    age: "0 to 65 Years.",
+                    option: "Super Income / Future Income.",
+                    maturity: "Return of Premium.",
+                    sb: "Cash Bonuses till 100.",
+                    death: "SA + Bonuses.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "**PNB MetLife Century Plan** promises a lifetime of prosperity. **Why buy it?** It offers income and cover up to age 100. You pay premiums for a limited period, and the plan pays you cash bonuses as a secondary income stream for your entire life. At maturity (age 100) or death, the lump sum is paid out, leaving a substantial legacy for your heirs. It is a participating plan, meaning you share in the company's profits. This plan is ideal for those who want to secure their retirement income while ensuring they leave behind a financial gift for the next generation."
+                }
+            },
+            {
+                name: "Smart Platinum Plus",
+                cat: "Elite ULIP",
+                icon: "fa-trophy",
+                details: {
+                    type: "Unit Linked Plan.",
+                    sa: "10x Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "5 Years to Regular.",
+                    age: "0 to 60 Years.",
+                    option: "Care Managed / Self Managed.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "**Smart Platinum Plus** is designed for the savvy investor who wants life cover till 99 with limited pay. **USP:** It offers a 'Whole Life' option within a ULIP structure, which is rare. It provides a unique 'Life Care Benefit' where future premiums are waived in case of the proposer's death, ensuring the policy continues to grow for the beneficiary (ideal for child plans). It comes with Wealth Boosters to enhance the corpus. This plan perfectly balances the aggressive growth of equity with the safety net of comprehensive insurance features."
+                }
+            },
+            {
+                name: "Super Saver Plan",
+                cat: "Savings + Protection",
+                icon: "fa-piggy-bank",
+                details: {
+                    type: "Participating Endowment.",
+                    sa: "Based on Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "Regular / Limited.",
+                    age: "0 to 60 Years.",
+                    option: "Savings / Savings + Family Care.",
+                    maturity: "SA + Bonuses.",
+                    sb: "Nil.",
+                    death: "SA + Bonuses.",
+                    riders: "Waiver of Premium.",
+                    surrender: "After 2 Years.",
+                    revival: "5 Years.",
+                    usp: "**Super Saver Plan** is a classic endowment plan with a modern twist. **Why choose it?** It offers a 'Family Care' option which ensures that in case of the insured's demise, the family not only gets the Sum Assured immediately but all future premiums are waived, and the policy continues to mature as planned. This ensures the primary goal (like child's education) is never compromised. Being a participating plan, it declares bonuses, allowing your savings to grow with the company's performance. It is the responsible choice for parents."
+                }
+            },
+            {
+                name: "Immediate Annuity Plan",
+                cat: "Pension",
+                icon: "fa-hand-holding-usd",
+                details: {
+                    type: "Non-Par Annuity.",
+                    sa: "Purchase Price.",
+                    term: "Whole Life.",
+                    ppt: "Single Pay.",
+                    age: "30 to 85 Years.",
+                    option: "Life / Joint Life.",
+                    maturity: "Annuity Starts.",
+                    sb: "Guaranteed Pension.",
+                    death: "ROP (Option).",
+                    riders: "N/A.",
+                    surrender: "Allowed (Specific cases).",
+                    revival: "N/A.",
+                    usp: "**Immediate Annuity Plan** guarantees you will never outlive your income. **USP:** You invest a lump sum once, and the plan starts paying you a guaranteed pension for life immediately. It eliminates 'interest rate risk' by locking in the current rate forever. It offers a wide range of options, including 'Joint Life' where your spouse continues to receive the pension after you. With the 'Return of Purchase Price' option, your initial capital is returned to your heirs. It is the ultimate tool for a secure, worry-free retirement."
+                }
+            }
+        ];
+
+        const grid = document.getElementById('cardGrid');
+
+        plans.forEach((plan, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.setAttribute('onclick', 'this.classList.toggle("flipped")');
+
+            // Category color logic
+            let catColor = "";
+            let iconClass = "";
+            if(plan.cat.includes("Term")) { catColor = "#00E5FF"; } // Cyan
+            else if(plan.cat.includes("ULIP")) { catColor = "#FFD700"; } // Gold
+            else if(plan.cat.includes("Savings") || plan.cat.includes("Income")) { catColor = "#e056fd"; } // Purple/Pink
+            else { catColor = "#00ff7f"; } // Green for Pension
+
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="front" style="background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.15)); border-top: 3px solid ${catColor}">
+                        <div class="icon-box" style="box-shadow: 0 0 20px ${catColor}; color: ${catColor}">
+                            <i class="fas ${plan.icon}"></i>
+                        </div>
+                        <div class="plan-name">${plan.name}</div>
+                        <div class="cat-badge" style="color:${catColor}; border-color:${catColor}">${plan.cat}</div>
+                        <button class="flip-btn" style="border-color:${catColor}; color:#fff; background:linear-gradient(45deg, #004d7a, #000)">Reveal Details</button>
+                    </div>
+                    <div class="back">
+                        <div class="back-header">
+                            <span class="back-title" style="color:${catColor}">${plan.name}</span>
+                            <i class="fas fa-undo" style="color:#fff"></i>
+                        </div>
+                        <div class="data-list">
+                            <div class="data-row"><span class="label" style="color:${catColor}">1. Plan Type</span><span class="value">${plan.details.type}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">2. Sum Assured</span><span class="value">${plan.details.sa}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">3. Policy Term</span><span class="value">${plan.details.term}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">4. PPT</span><span class="value">${plan.details.ppt}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">5. Entry Age</span><span class="value">${plan.details.age}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">6. Option</span><span class="value">${plan.details.option}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">7. Maturity</span><span class="value">${plan.details.maturity}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">8. SB</span><span class="value">${plan.details.sb}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">9. Death Benefit</span><span class="value">${plan.details.death}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">10. Riders</span><span class="value">${plan.details.riders}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">11. Surrender</span><span class="value">${plan.details.surrender}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">12. Revival</span><span class="value">${plan.details.revival}</span></div>
+                            
+                            <div class="usp-box" style="border-left-color:${catColor}">
+                                <span class="usp-label" style="color:${catColor}">Salient Features (USP):</span>
+                                <div class="usp-text">${plan.details.usp}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>

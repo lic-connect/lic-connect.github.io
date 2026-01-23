@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Generali - The Grand Collection</title>
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Raleway:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #4a0000 0%, #8E0E00 50%, #1F1C18 100%); /* Deep Red/Gold/Dark Brown - No Black */
+            --glass: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.3);
+            --text-light: #ffffff;
+            --gold: #FFD700;
+            --crimson: #DC143C;
+            
+            /* Category Colors */
+            --term-grad: linear-gradient(135deg, #cb2d3e, #ef473a);
+            --save-grad: linear-gradient(135deg, #DA22FF, #9733EE);
+            --ulip-grad: linear-gradient(135deg, #FF512F, #F09819);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: royalFlow 15s ease infinite;
+            min-height: 100vh;
+            color: var(--text-light);
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes royalFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Animated Background Particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(255, 215, 0, 0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: sparkle 5s infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(220, 20, 60, 0.8);
+            font-style: italic;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            background: rgba(255,255,255,0.1);
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 50px;
+            border: 1px solid var(--gold);
+        }
+
+        /* GRID */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 40px;
+            max-width: 1800px;
+            margin: 0 auto;
+            perspective: 2000px;
+            z-index: 10;
+            position: relative;
+        }
+
+        /* CARD */
+        .card {
+            height: 700px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(100, 0, 0, 0.4);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* FACES */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FRONT */
+        .front {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 2;
+            transform: rotateY(0deg);
+            backdrop-filter: blur(15px);
+            background: var(--glass);
+        }
+
+        .icon-box {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float { 0%,100% {transform: translateY(0);} 50% {transform: translateY(-15px);} }
+
+        .plan-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            color: #fff;
+        }
+
+        .cat-badge {
+            font-size: 0.8rem;
+            padding: 5px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .click-hint {
+            padding: 10px 25px;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            border-radius: 30px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+        .card:hover .click-hint { background: var(--gold); color: #4a0000; font-weight: bold; }
+
+        /* BACK */
+        .back {
+            transform: rotateY(180deg);
+            background: #2b0a1a; /* Deep purple/maroon mix - NO BLACK */
+            padding: 15px;
+        }
+
+        .back-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+        }
+
+        .back-title { font-weight: 700; font-size: 1rem; color: var(--gold); font-family: 'Playfair Display', serif;}
+
+        .data-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 5px;
+        }
+
+        .data-list::-webkit-scrollbar { width: 5px; }
+        .data-list::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+        .data-row {
+            margin-bottom: 8px;
+            border-bottom: 1px dashed rgba(255,255,255,0.15);
+            padding-bottom: 4px;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: #ff9999;
+        }
+
+        .value {
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .usp-box {
+            background: rgba(255, 215, 0, 0.15);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 5px;
+            font-size: 0.85rem;
+            border-left: 3px solid var(--gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Future Generali</h1>
+        <div class="subtitle">15 Masterpieces of Protection & Wealth</div>
+    </header>
+
+    <div class="grid-container" id="cardGrid">
+        <!-- JS will render cards here -->
+    </div>
+
+    <script>
+        // Data Array for 15 Plans
+        const plans = [
+            {
+                name: "Flexi Online Term",
+                cat: "Term Insurance",
+                icon: "fa-laptop",
+                style: "var(--term-grad)",
+                details: {
+                    type: "Individual Pure Risk Premium.",
+                    sa: "Min: 50 Lakhs | Max: No Limit.",
+                    term: "10 to 75 Years (Cover to 85).",
+                    ppt: "Regular / Limited / Single.",
+                    age: "18 to 55 Years.",
+                    option: "Basic / Income Protection.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "Lump Sum or Monthly Income.",
+                    riders: "Accidental Death.",
+                    surrender: "Allowed for Single/Limited Pay.",
+                    revival: "5 Years.",
+                    usp: "Online-exclusive plan with lower premiums and flexible payout options."
+                }
+            },
+            {
+                name: "Care Plus Plan",
+                cat: "Critical Illness Term",
+                icon: "fa-heartbeat",
+                style: "var(--term-grad)",
+                details: {
+                    type: "Term with Critical Illness Benefit.",
+                    sa: "Min: 25 Lakhs.",
+                    term: "10 to 40 Years.",
+                    ppt: "Regular Pay.",
+                    age: "18 to 65 Years.",
+                    option: "Cancer / Heart Cover.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "Sum Assured on Death.",
+                    riders: "Included CI Benefits.",
+                    surrender: "Nil.",
+                    revival: "5 Years.",
+                    usp: "Comprehensive cover against Cancer and Heart ailments along with life cover."
+                }
+            },
+            {
+                name: "Express Term Life",
+                cat: "Fast Track Term",
+                icon: "fa-bolt",
+                style: "var(--term-grad)",
+                details: {
+                    type: "Pure Term Plan.",
+                    sa: "25 Lakhs to 1 Crore.",
+                    term: "10 to 40 Years.",
+                    ppt: "Regular Pay.",
+                    age: "21 to 50 Years.",
+                    option: "Standard.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "Sum Assured.",
+                    riders: "N/A.",
+                    surrender: "Nil.",
+                    revival: "5 Years.",
+                    usp: "Designed for quick issuance with minimal medicals for lower sum assured."
+                }
+            },
+            {
+                name: "Saral Jeevan Bima",
+                cat: "Standard Term",
+                icon: "fa-check-circle",
+                style: "var(--term-grad)",
+                details: {
+                    type: "Standard Term (IRDAI).",
+                    sa: "5 Lakhs to 25 Lakhs.",
+                    term: "5 to 40 Years.",
+                    ppt: "Single / Regular / Limited.",
+                    age: "18 to 65 Years.",
+                    option: "Standard Terms.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "10x Premium or SA.",
+                    riders: "Accident Benefit.",
+                    surrender: "Nil for Regular.",
+                    revival: "5 Years.",
+                    usp: "Simple, standardized protection for first-time buyers."
+                }
+            },
+            {
+                name: "Lifetime Partner",
+                cat: "Whole Life Income",
+                icon: "fa-infinity",
+                style: "var(--save-grad)",
+                details: {
+                    type: "Whole Life Income Plan.",
+                    sa: "Based on Premium.",
+                    term: "Whole Life (Age 100).",
+                    ppt: "Limited Pay (6 to 12 Yrs).",
+                    age: "1 to 55 Years.",
+                    option: "Immediate / Deferred Income.",
+                    maturity: "Sum Assured at 100.",
+                    sb: "Regular Guaranteed Income.",
+                    death: "SA + Bonus (if any).",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Income that continues for your entire life (up to age 100)."
+                }
+            },
+            {
+                name: "New Assured Wealth",
+                cat: "Guaranteed Savings",
+                icon: "fa-coins",
+                style: "var(--save-grad)",
+                details: {
+                    type: "Non-Par Savings.",
+                    sa: "10x Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "5/7/10 Years.",
+                    age: "1 to 60 Years.",
+                    option: "Lumpsum Benefit.",
+                    maturity: "Guaranteed SA + Additions.",
+                    sb: "Nil.",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "High guaranteed returns suitable for risk-averse savers."
+                }
+            },
+            {
+                name: "Assured Wealth Plan",
+                cat: "Savings",
+                icon: "fa-piggy-bank",
+                style: "var(--save-grad)",
+                details: {
+                    type: "Guaranteed Endowment.",
+                    sa: "Multiple of Premium.",
+                    term: "10 to 15 Years.",
+                    ppt: "Limited Pay.",
+                    age: "5 to 50 Years.",
+                    option: "Option 1 (Guarantee).",
+                    maturity: "SA + Guaranteed Additions.",
+                    sb: "Nil.",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Classic guaranteed savings plan for medium-term goals."
+                }
+            },
+            {
+                name: "Term with ROP",
+                cat: "Term + Refund",
+                icon: "fa-undo-alt",
+                style: "var(--term-grad)",
+                details: {
+                    type: "Term with Return of Premium.",
+                    sa: "Min: 10 Lakhs.",
+                    term: "10 to 40 Years.",
+                    ppt: "Regular / Limited.",
+                    age: "18 to 55 Years.",
+                    option: "ROP.",
+                    maturity: "Total Premiums Paid.",
+                    sb: "Nil.",
+                    death: "Sum Assured.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Get protection now and your money back if you survive the term."
+                }
+            },
+            {
+                name: "Money Back Super",
+                cat: "Money Back",
+                icon: "fa-hand-holding-usd",
+                style: "var(--save-grad)",
+                details: {
+                    type: "Participating Money Back.",
+                    sa: "Based on Premium.",
+                    term: "20 Years.",
+                    ppt: "15 Years.",
+                    age: "10 to 50 Years.",
+                    option: "Standard.",
+                    maturity: "40% SA + Bonuses.",
+                    sb: "15% SA every 3 years.",
+                    death: "SA + Bonuses.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Regular liquidity through periodic payouts + Bonus participation."
+                }
+            },
+            {
+                name: "Jan Suraksha Plus",
+                cat: "Micro Insurance",
+                icon: "fa-umbrella",
+                style: "var(--save-grad)",
+                details: {
+                    type: "Low Cost Endowment.",
+                    sa: "Min: 30k | Max: 2 Lakhs.",
+                    term: "5 to 10 Years.",
+                    ppt: "Regular / Single.",
+                    age: "18 to 50 Years.",
+                    option: "Standard.",
+                    maturity: "SA + Additions.",
+                    sb: "Nil.",
+                    death: "SA on Death.",
+                    riders: "N/A.",
+                    surrender: "Allowed.",
+                    revival: "2 Years.",
+                    usp: "Affordable protection and savings for lower income groups."
+                }
+            },
+            {
+                name: "Big Income Multiplier",
+                cat: "Income Plan",
+                icon: "fa-chart-line",
+                style: "var(--save-grad)",
+                details: {
+                    type: "Non-Par Income Plan.",
+                    sa: "Based on Premium.",
+                    term: "14 to 30 Years.",
+                    ppt: "5/7/12 Years.",
+                    age: "3 to 60 Years.",
+                    option: "Income Payout.",
+                    maturity: "Last Income Instalment.",
+                    sb: "Regular Income (Double Payouts in later years).",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Income payouts double after a certain period to beat inflation."
+                }
+            },
+            {
+                name: "Big Dreams Plan",
+                cat: "ULIP",
+                icon: "fa-cloud-meatball",
+                style: "var(--ulip-grad)",
+                details: {
+                    type: "Unit Linked Plan.",
+                    sa: "10x or 7x Premium.",
+                    term: "10 to 30 Years.",
+                    ppt: "Regular / Limited.",
+                    age: "0 to 60 Years.",
+                    option: "Wealth / Retire / Dream.",
+                    maturity: "Fund Value.",
+                    sb: "Partial Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "N/A.",
+                    surrender: "5 Year Lock-in.",
+                    revival: "3 Years.",
+                    usp: "Flexible ULIP focused on creating corpus for big life dreams."
+                }
+            },
+            {
+                name: "Wealth Protect Plan",
+                cat: "ULIP",
+                icon: "fa-shield-virus",
+                style: "var(--ulip-grad)",
+                details: {
+                    type: "Protection Oriented ULIP.",
+                    sa: "High SA Multiples.",
+                    term: "10 to 40 Years.",
+                    ppt: "Regular / Limited.",
+                    age: "18 to 60 Years.",
+                    option: "Gold / Platinum.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "SA + Fund Value (in some options).",
+                    riders: "Available.",
+                    surrender: "5 Year Lock-in.",
+                    revival: "3 Years.",
+                    usp: "Combines market linked returns with enhanced life protection."
+                }
+            },
+            {
+                name: "Dhan Vridhi",
+                cat: "Savings",
+                icon: "fa-seedling",
+                style: "var(--save-grad)",
+                details: {
+                    type: "Non-Par Savings.",
+                    sa: "1.25x to 10x Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "Single / Limited.",
+                    age: "8 to 60 Years.",
+                    option: "Standard.",
+                    maturity: "Guaranteed SA + Additions.",
+                    sb: "Nil.",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Limited pay plan ideal for building a guaranteed lump sum."
+                }
+            },
+            {
+                name: "Bima Advantage Plus",
+                cat: "ULIP",
+                icon: "fa-rocket",
+                style: "var(--ulip-grad)",
+                details: {
+                    type: "Unit Linked Plan.",
+                    sa: "10x to 30x Premium.",
+                    term: "10 to 30 Years.",
+                    ppt: "Regular Pay.",
+                    age: "7 to 65 Years.",
+                    option: "Fixed Portfolio.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "Available.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "High protection ULIP allowing higher insurance coverage multiples."
+                }
+            }
+        ];
+
+        const grid = document.getElementById('cardGrid');
+
+        plans.forEach(plan => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.setAttribute('onclick', 'this.classList.toggle("flipped")');
+
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="front" style="background: ${plan.style}">
+                        <div class="icon-box"><i class="fas ${plan.icon}"></i></div>
+                        <div class="plan-name">${plan.name}</div>
+                        <div class="cat-badge" style="background: rgba(255,255,255,0.2)">${plan.cat}</div>
+                        <div class="click-hint">Click for Details</div>
+                    </div>
+                    <div class="back">
+                        <div class="back-header">
+                            <span class="back-title">${plan.name}</span>
+                            <i class="fas fa-undo" style="color:#FFD700"></i>
+                        </div>
+                        <div class="data-list">
+                            <div class="data-row"><span class="label">1. Plan Type</span><span class="value">${plan.details.type}</span></div>
+                            <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">${plan.details.sa}</span></div>
+                            <div class="data-row"><span class="label">3. Policy Term</span><span class="value">${plan.details.term}</span></div>
+                            <div class="data-row"><span class="label">4. PPT</span><span class="value">${plan.details.ppt}</span></div>
+                            <div class="data-row"><span class="label">5. Entry Age</span><span class="value">${plan.details.age}</span></div>
+                            <div class="data-row"><span class="label">6. Option</span><span class="value">${plan.details.option}</span></div>
+                            <div class="data-row"><span class="label">7. Maturity</span><span class="value">${plan.details.maturity}</span></div>
+                            <div class="data-row"><span class="label">8. SB</span><span class="value">${plan.details.sb}</span></div>
+                            <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">${plan.details.death}</span></div>
+                            <div class="data-row"><span class="label">10. Riders</span><span class="value">${plan.details.riders}</span></div>
+                            <div class="data-row"><span class="label">11. Surrender</span><span class="value">${plan.details.surrender}</span></div>
+                            <div class="data-row"><span class="label">12. Revival</span><span class="value">${plan.details.revival}</span></div>
+                            <div class="usp-box">
+                                <span style="color: #FFD700; font-weight:bold">USP:</span> ${plan.details.usp}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>

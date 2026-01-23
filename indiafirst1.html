@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndiaFirst Life - The Celestial Collection</title>
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Palette - NO BLACK */
+            --bg-deep: #0f0524;
+            --bg-grad: linear-gradient(135deg, #1a0b2e 0%, #002c4e 50%, #2b0f25 100%);
+            --card-grad-1: linear-gradient(160deg, #ff0055, #7700ff);
+            --card-grad-2: linear-gradient(160deg, #00d2ff, #3a7bd5);
+            --card-grad-3: linear-gradient(160deg, #f9d423, #ff4e50);
+            --text-gold: #ffd700;
+            --glass-bg: rgba(255, 255, 255, 0.07);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-grad);
+            background-size: 400% 400%;
+            animation: nebulaFlow 20s ease infinite;
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes nebulaFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Moving Stars Background */
+        .stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            animation: starMove 100s linear infinite;
+            z-index: -1;
+            opacity: 0.6;
+        }
+        
+        @keyframes starMove { to { transform: translateY(-2000px); } }
+
+        header {
+            text-align: center;
+            margin-bottom: 70px;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            color: var(--text-gold);
+            text-transform: uppercase;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            padding: 10px;
+            display: inline-block;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* GRID */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 50px;
+            max-width: 1900px;
+            margin: 0 auto;
+            perspective: 2000px;
+            z-index: 2;
+        }
+
+        /* CARD */
+        .card {
+            height: 750px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(50, 0, 100, 0.5);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* FRONT & BACK */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 25px;
+            overflow: hidden;
+            border: var(--glass-border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FRONT DESIGN */
+        .front {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            z-index: 2;
+            transform: rotateY(0deg);
+        }
+
+        /* Gradient Borders for Front */
+        .front::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 25px;
+            padding: 2px;
+            background: linear-gradient(45deg, #ff00cc, #3333ff, #00ffcc);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .icon-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: #fff;
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse { 0%,100%{transform: scale(1);} 50%{transform: scale(1.05);} }
+
+        .plan-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            background: linear-gradient(to right, #fff, var(--text-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .plan-tag {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ccc;
+            margin-bottom: 40px;
+        }
+
+        .reveal-btn {
+            padding: 12px 35px;
+            border: 1px solid #fff;
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            background: transparent;
+            cursor: pointer;
+        }
+        .card:hover .reveal-btn { background: #fff; color: #1a0b2e; box-shadow: 0 0 20px #fff; }
+
+        /* BACK DESIGN */
+        .back {
+            transform: rotateY(180deg);
+            background: #190033; /* Deep Violet - No Black */
+            padding: 20px;
+        }
+
+        .back-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .back-title { color: var(--text-gold); font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+
+        .data-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 10px;
+        }
+
+        /* Gold Scrollbar */
+        .data-container::-webkit-scrollbar { width: 5px; }
+        .data-container::-webkit-scrollbar-thumb { background: var(--text-gold); border-radius: 10px; }
+        .data-container::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+
+        .data-row {
+            margin-bottom: 8px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 4px;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.75rem;
+            color: #00d2ff;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .value {
+            font-size: 0.95rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .usp-section {
+            margin-top: 15px;
+            background: rgba(255, 215, 0, 0.05);
+            padding: 15px;
+            border-left: 4px solid var(--text-gold);
+            border-radius: 0 10px 10px 0;
+        }
+
+        .usp-header {
+            color: var(--text-gold);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .usp-text {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+            text-align: justify;
+        }
+
+        /* Category Specific Glows */
+        .cat-term .icon-circle { box-shadow: 0 0 30px #00d2ff; color: #00d2ff; border-color: #00d2ff; }
+        .cat-save .icon-circle { box-shadow: 0 0 30px #ff0055; color: #ff0055; border-color: #ff0055; }
+        .cat-ulip .icon-circle { box-shadow: 0 0 30px #00ff00; color: #00ff00; border-color: #00ff00; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+
+    <header>
+        <h1>IndiaFirst Life</h1>
+        <div class="subtitle">17 Constellations of Security</div>
+    </header>
+
+    <div class="grid-container" id="cardGrid">
+        <!-- JS Injection Zone -->
+    </div>
+
+    <script>
+        const plans = [
+            {
+                name: "Elite Term Plan",
+                cat: "cat-term",
+                tag: "Pure Protection",
+                icon: "fa-shield-alt",
+                type: "Non-Linked, Non-Par Pure Risk Term.",
+                sa: "Min: 50 Lakhs | Max: No Limit.",
+                term: "10 to 40 Years (Cover to 99).",
+                ppt: "Regular / Limited / Single.",
+                age: "18 to 65 Years.",
+                option: "Level / Increasing Sum Assured.",
+                maturity: "Nil (Except ROP Option).",
+                sb: "Nil.",
+                death: "Lump Sum.",
+                riders: "Accidental Benefit, CI, WOP.",
+                surrender: "Allowed for Single/ROP.",
+                revival: "5 Years.",
+                usp: "The **IndiaFirst Life Elite Term Plan** is designed for the modern breadwinner who seeks uncompromising protection for their family. It is not just an insurance policy; it is a financial fortress. **Why buy it?** Firstly, it offers coverage up to age 99, ensuring that you leave a legacy for your next generation. Secondly, it provides the flexibility to increase your life cover at key milestones like marriage or childbirth without rigorous medicals. For those who dislike the idea of 'sunk costs' in term insurance, the Return of Premium (ROP) variant ensures you get all your money back if you outlive the policy term. With highly competitive premium rates for non-smokers and high sum assured rebates, it is the elite choice for high-income earners seeking tax-efficient estate planning tools."
+            },
+            {
+                name: "Super Protection Plan",
+                cat: "cat-term",
+                tag: "Term + Income",
+                icon: "fa-user-shield",
+                type: "Term Insurance with Income Benefit.",
+                sa: "Min: 50 Lakhs.",
+                term: "10 to 40 Years.",
+                ppt: "Regular / Limited.",
+                age: "18 to 60 Years.",
+                option: "Lump Sum / Income.",
+                maturity: "Return of Premium available.",
+                sb: "Nil.",
+                death: "Sum Assured on Death.",
+                riders: "Waiver of Premium.",
+                surrender: "Nil (unless ROP).",
+                revival: "5 Years.",
+                usp: "The **Super Protection Plan** addresses the fear of inflation eating into the death benefit. **Who is it for?** This plan is ideal for families who might struggle to manage a large lump sum payout. Instead of just a one-time payment, this plan offers options to receive the death benefit as a monthly income, ensuring your family's lifestyle is maintained, bills are paid, and the kitchen runs smoothly even in your absence. It offers a unique 'Smart' option where the sum assured increases by 5% every year to combat inflation. Furthermore, the plan offers a Return of Premium option, making it a 'free' cost of protection if you survive the term. It bridges the gap between pure protection and income replacement perfectly."
+            },
+            {
+                name: "Saral Jeevan Bima",
+                cat: "cat-term",
+                tag: "Standard Term",
+                icon: "fa-check-circle",
+                type: "Standard Individual Term Life.",
+                sa: "5 Lakhs to 25 Lakhs.",
+                term: "5 to 40 Years.",
+                ppt: "Single / Limited / Regular.",
+                age: "18 to 65 Years.",
+                option: "Standard Terms.",
+                maturity: "Nil.",
+                sb: "Nil.",
+                death: "Highest of 10x Premium or SA.",
+                riders: "Accident Benefit.",
+                surrender: "Nil for Regular Pay.",
+                revival: "5 Years.",
+                usp: "**Saral Jeevan Bima** is the government-mandated standard term plan that cuts through the clutter of complex insurance jargon. **Why choose this?** It is designed for simplicity and trust. Regardless of the insurer, the terms remain the same, making it the easiest plan to understand. It is perfect for first-time insurance buyers or those with a limited budget who need essential life cover. The sum assured ranges from 5 Lakhs to 25 Lakhs, making it highly accessible to the middle class. There are no hidden clauses or confusing exclusions beyond the standard suicide clause. If you want a no-nonsense, straightforward purity of protection that ensures your family gets the claim without hassle, this is the 'Saral' (Simple) choice for you."
+            },
+            {
+                name: "Radiance Smart Invest",
+                cat: "cat-ulip",
+                tag: "Wealth ULIP",
+                icon: "fa-gem",
+                type: "Unit Linked Insurance Plan.",
+                sa: "10x Annual Premium.",
+                term: "10 to 30 Years.",
+                ppt: "5 Years to Policy Term.",
+                age: "0 to 60 Years.",
+                option: "Life / Goal.",
+                maturity: "Fund Value.",
+                sb: "Partial Withdrawals.",
+                death: "Higher of SA or Fund.",
+                riders: "Available.",
+                surrender: "5 Years Lock-in.",
+                revival: "3 Years.",
+                usp: "**Radiance Smart Invest** is a high-octane wealth creation tool for the aggressive investor. **Salient Features:** It combines the safety of life cover with the explosive growth potential of the equity markets. The USP of this plan is its low charge structure and the 'Return of Mortality Charges' feature, where the cost of insurance is added back to your fund value at maturity, maximizing your returns. It offers a wide range of fund options, from pure equity to balanced and debt funds, allowing you to switch strategies based on market conditions. Whether you are planning for a child's education in 15 years or a world tour in 10, the systematic withdrawal options and loyalty additions make this plan a radiant choice for wealth accumulation."
+            },
+            {
+                name: "Money Balance Plan",
+                cat: "cat-ulip",
+                tag: "Balanced ULIP",
+                icon: "fa-balance-scale",
+                type: "Unit Linked Plan.",
+                sa: "10x Premium.",
+                term: "10 to 20 Years.",
+                ppt: "Regular / Limited.",
+                age: "0 to 50 Years.",
+                option: "Automatic Balancing.",
+                maturity: "Fund Value.",
+                sb: "Withdrawals.",
+                death: "Higher of SA or Fund.",
+                riders: "N/A.",
+                surrender: "5 Years.",
+                revival: "3 Years.",
+                usp: "**Money Balance Plan** is the 'Autopilot' for your investments. **Who should buy it?** This plan is perfect for investors who want market returns but do not have the time or expertise to track the stock market daily. Its unique 'Automatic Trigger Based Investment Strategy' automatically shifts your money from equity to debt when the market peaks to book profits, and moves it back to equity when markets are low to buy cheap. This 'Buy Low, Sell High' mechanism is built into the plan algorithm. It takes the emotion out of investing and ensures your portfolio remains balanced, protecting your capital while capturing upside potential. Ideally suited for risk-moderate investors."
+            },
+            {
+                name: "Smart Save Plan",
+                cat: "cat-ulip",
+                tag: "Savings ULIP",
+                icon: "fa-piggy-bank",
+                type: "Unit Linked Plan.",
+                sa: "7x or 10x Premium.",
+                term: "15 or 20 Years.",
+                ppt: "Regular / Limited.",
+                age: "0 to 60 Years.",
+                option: "Standard.",
+                maturity: "Fund Value.",
+                sb: "Nil.",
+                death: "Higher of SA or Fund.",
+                riders: "N/A.",
+                surrender: "5 Years.",
+                revival: "3 Years.",
+                usp: "**Smart Save Plan** is designed to build a corpus through disciplined small savings. **Why is it unique?** It brings the power of institutional investing to the retail saver. Even with smaller premium amounts, you get access to professionally managed funds. The plan offers 'Loyalty Additions' at specific intervals, rewarding you simply for keeping the policy active. It acts as a forced savings mechanism with the added kicker of market-linked returns, which historically beat inflation better than traditional savings accounts. It is ideal for young professionals starting their career who want to cultivate a habit of saving while ensuring they have life cover."
+            },
+            {
+                name: "Guarantee of Life Dreams",
+                cat: "cat-save",
+                tag: "Long Term Income",
+                icon: "fa-star",
+                type: "Non-Linked, Non-Par Savings.",
+                sa: "Based on Premium.",
+                term: "30 or 40 Years.",
+                ppt: "6, 8, 10, 12 Years.",
+                age: "90 Days to 55 Years.",
+                option: "Immediate / Deferred Income.",
+                maturity: "Lump Sum.",
+                sb: "Guaranteed Lifetime Income.",
+                death: "SA + Accrued Benefits.",
+                riders: "Available.",
+                surrender: "Allowed.",
+                revival: "5 Years.",
+                usp: "**G.O.L.D (Guarantee of Life Dreams)** is the crown jewel of long-term income planning. **The USP:** It offers rock-solid, guaranteed income that can last for a lifetime (up to 99 years in some variants) or for a fixed long-term period (30/40 years). In an era of fluctuating interest rates, this plan allows you to lock in a guaranteed rate of return today for decades to come. Whether you want to secure your retirement, fund a child's long-term education, or create a secondary income stream, G.O.L.D provides certainty. The flexibility to choose between immediate income or deferred income makes it customizable to your specific life stage. It creates a 'Pension-like' security without the rigidity of traditional annuity products."
+            },
+            {
+                name: "Fortune Plus Plan",
+                cat: "cat-ulip",
+                tag: "High Growth",
+                icon: "fa-chart-line",
+                type: "Unit Linked Plan.",
+                sa: "10x Premium.",
+                term: "5 to 20 Years.",
+                ppt: "Single / Regular.",
+                age: "0 to 55 Years.",
+                option: "Self Managed.",
+                maturity: "Fund Value.",
+                sb: "Withdrawals.",
+                death: "Higher of SA or Fund.",
+                riders: "N/A.",
+                surrender: "5 Years.",
+                revival: "3 Years.",
+                usp: "**Fortune Plus** is tailored for those who want to aggressively grow their wealth over a medium to long-term horizon. **Salient Features:** This plan is characterized by its high flexibility and liquidity options after the lock-in period. It offers a diverse range of fund options that cater to different risk profiles. The plan structure is designed to minimize allocation charges for higher premium bands, ensuring more of your money goes into investment rather than fees. It is suitable for individuals planning for major mid-life goals like buying a second home or upgrading their lifestyle, offering the potential for high alpha generation through equity exposure."
+            },
+            {
+                name: "Smart Pay Plan",
+                cat: "cat-save",
+                tag: "Short Pay Savings",
+                icon: "fa-wallet",
+                type: "Participating Endowment.",
+                sa: "Based on Premium.",
+                term: "10 to 25 Years.",
+                ppt: "5, 6, 7 Years (Short Pay).",
+                age: "8 to 50 Years.",
+                option: "Standard.",
+                maturity: "SA + Bonuses.",
+                sb: "Nil.",
+                death: "SA + Bonuses.",
+                riders: "Waiver of Premium.",
+                surrender: "2 Years.",
+                revival: "5 Years.",
+                usp: "**Smart Pay Plan** is a participating plan that respects your need to pay premiums for a short duration while enjoying coverage for a longer term. **Why buy it?** You only pay for a limited period (e.g., 5 years), but your savings continue to grow through bonuses for the entire policy term (e.g., 15 years). This 'pay less, get more' structure is perfect for businessmen or professionals with fluctuating income who want to complete their liability quickly. Being a participating plan, it allows you to share in the profits of the company, offering potential upside over guaranteed plans while keeping the capital relatively safe."
+            },
+            {
+                name: "Mahajeevan Plus Plan",
+                cat: "cat-save",
+                tag: "Endowment",
+                icon: "fa-tree",
+                type: "Participating Endowment.",
+                sa: "Min: 1 Lakh.",
+                term: "15 to 20 Years.",
+                ppt: "Regular Pay.",
+                age: "0 to 55 Years.",
+                option: "Standard.",
+                maturity: "SA + Simple Reversionary Bonus.",
+                sb: "Nil.",
+                death: "SA + Bonuses.",
+                riders: "Term Rider available.",
+                surrender: "Allowed.",
+                revival: "5 Years.",
+                usp: "**Mahajeevan Plus** represents the traditional, robust Indian way of saving. **The USP:** It is a classic endowment plan that builds a safe corpus over time through Simple Reversionary Bonuses and Terminal Bonuses. Unlike market-linked plans, the volatility here is smoothed out by the insurer. It creates a disciplined savings habit. The protection component ensures that if the breadwinner passes away, the family receives the full Sum Assured plus accrued bonuses immediately. It is ideal for conservative savers looking to build a corpus for a child’s marriage or their own retirement without exposing their principal to stock market risks."
+            },
+            {
+                name: "Maha Jeevan Plan",
+                cat: "cat-save",
+                tag: "Triple Benefit",
+                icon: "fa-layer-group",
+                type: "Participating Endowment.",
+                sa: "Based on Premium.",
+                term: "15 to 30 Years.",
+                ppt: "Regular.",
+                age: "18 to 55 Years.",
+                option: "Standard.",
+                maturity: "SA + Bonuses.",
+                sb: "Nil.",
+                death: "SA + Bonuses.",
+                riders: "Available.",
+                surrender: "Allowed.",
+                revival: "5 Years.",
+                usp: "**Maha Jeevan** is an earlier iteration of the endowment philosophy, focusing on creating a substantial corpus. **Key Feature:** It is designed to provide financial protection against the three certainties of life: Living too long (Maturity benefit), Dying too young (Death benefit), and major expenses (Loan facility). The plan allows you to take a loan against the policy value, providing liquidity during emergencies. With bonus accumulations compounding over a long tenure (up to 30 years), the final maturity amount can be significantly higher than the premiums paid, serving as a reliable nest egg for your sunset years."
+            },
+            {
+                name: "Long Guaranteed Income",
+                cat: "cat-save",
+                tag: "Guaranteed Income",
+                icon: "fa-route",
+                type: "Non-Par Savings.",
+                sa: "10x Premium.",
+                term: "Up to 99 Years (Income Term).",
+                ppt: "5 to 12 Years.",
+                age: "0 to 60 Years.",
+                option: "Definite / Smart / Benefit.",
+                maturity: "Return of Premium.",
+                sb: "Fixed Annual Income.",
+                death: "Higher of SA or 105% Prem.",
+                riders: "Available.",
+                surrender: "Allowed.",
+                revival: "5 Years.",
+                usp: "**Long Guaranteed Income Plan** is your shield against falling interest rates. **Who should buy it?** Anyone worried that FD rates might drop to 3-4% in the future. This plan allows you to lock in a guaranteed income stream for up to 40 years or even till age 99. The 'Benefit' option offers a Return of Premium at the end of the income term, ensuring your capital remains intact for your heirs while you enjoy the interest. It is effectively a tax-free alternative to fixed deposits and annuities, providing peace of mind and financial independence for retirees or those planning an early retirement."
+            },
+            {
+                name: "Guaranteed Monthly Income",
+                cat: "cat-save",
+                tag: "Monthly Salary",
+                icon: "fa-calendar-check",
+                type: "Non-Par Income Plan.",
+                sa: "10x Premium.",
+                term: "Premium Payment + Payout Period.",
+                ppt: "5 to 13 Years.",
+                age: "18 to 55 Years.",
+                option: "Monthly Payout.",
+                maturity: "Last Income Instalment.",
+                sb: "Monthly Guaranteed Income.",
+                death: "Lump Sum Death Benefit.",
+                riders: "Available.",
+                surrender: "Allowed.",
+                revival: "5 Years.",
+                usp: "**Guaranteed Monthly Income Plan** acts like a second salary for your household. **The USP:** Instead of a yearly lump sum that can be mismanaged, this plan creates a disciplined monthly cash flow. This is specifically designed to cover recurring expenses like utility bills, school fees, or EMI payments. By paying premiums for a few years, you secure a guaranteed monthly paycheck for a fixed tenure. It is an excellent tool for homemakers or freelancers who lack a steady pension, ensuring that the household budget is never disrupted regardless of market conditions."
+            },
+            {
+                name: "POS Cashback Plan",
+                cat: "cat-save",
+                tag: "Money Back",
+                icon: "fa-undo",
+                type: "Non-Linked Non-Par POS.",
+                sa: "Max 25 Lakhs (POS Limit).",
+                term: "10 to 15 Years.",
+                ppt: "Limited Pay.",
+                age: "18 to 55 Years.",
+                option: "Cashback.",
+                maturity: "SA at Maturity.",
+                sb: "Regular Cashbacks.",
+                death: "SA on Death.",
+                riders: "N/A.",
+                surrender: "Allowed.",
+                revival: "5 Years.",
+                usp: "**POS (Point of Sale) Cashback Plan** is designed for instant issuance and guaranteed liquidity. **Why is it unique?** As a POS product, it requires minimal documentation and no medical tests, making it extremely easy to buy. The 'Cashback' feature creates periodic survival benefits, giving you money back at regular intervals during the policy term to meet short-term goals or buy gifts for loved ones. It combines the ease of an over-the-counter product with the seriousness of life insurance guarantees. Ideal for those who want a hassle-free, guaranteed savings plan without the wait."
+            },
+            {
+                name: "CSC Shubhlabh Plan",
+                cat: "cat-save",
+                tag: "Micro Savings",
+                icon: "fa-hand-holding-heart",
+                type: "Variable Insurance Plan.",
+                sa: "Variable.",
+                term: "5 to 10 Years.",
+                ppt: "Regular.",
+                age: "18 to 50 Years.",
+                option: "Standard.",
+                maturity: "Account Value.",
+                sb: "Nil.",
+                death: "Higher of SA or Account Value.",
+                riders: "N/A.",
+                surrender: "Allowed.",
+                revival: "2 Years.",
+                usp: "**CSC Shubhlabh** is a plan designed for financial inclusion, distributed through Common Service Centres (CSC). **The USP:** It is a variable insurance plan where the benefits are linked to an accumulating account value, offering transparency similar to a bank account but with life cover. It is designed for rural and semi-urban populations, allowing them to save small amounts regularly. The plan ensures that even small savings work hard, earning interest while providing a safety net for the family. It is a stepping stone for financial literacy and security for the unbanked sectors of India."
+            },
+            {
+                name: "Micro Bachat Plan",
+                cat: "cat-save",
+                tag: "Micro Insurance",
+                icon: "fa-coins",
+                type: "Non-Par Endowment.",
+                sa: "Max 2 Lakhs.",
+                term: "5 to 15 Years.",
+                ppt: "Regular.",
+                age: "18 to 55 Years.",
+                option: "Standard.",
+                maturity: "SA + Loyalty Additions.",
+                sb: "Nil.",
+                death: "Sum Assured.",
+                riders: "N/A.",
+                surrender: "Allowed.",
+                revival: "5 Years.",
+                usp: "**Micro Bachat Plan** is a champion of affordable savings. **Who should buy it?** It is tailored for low-income households who want to save but cannot commit large amounts. With very low premium requirements, it allows daily wage earners or small business owners to secure their family's future. Despite being a micro-product, it offers 'Loyalty Additions,' incentivizing the policyholder to continue the policy till maturity. It ensures that insurance is not just a privilege of the rich but a right for everyone, protecting the most vulnerable sections of society against the loss of a breadwinner."
+            },
+            {
+                name: "Saral Bachat Bima",
+                cat: "cat-save",
+                tag: "Simple Savings",
+                icon: "fa-seedling",
+                type: "Non-Linked Savings.",
+                sa: "Based on Premium.",
+                term: "10 to 15 Years.",
+                ppt: "5 or 7 Years.",
+                age: "0 to 60 Years.",
+                option: "Standard.",
+                maturity: "SA + Accrued Additions.",
+                sb: "Nil.",
+                death: "SA on Death.",
+                riders: "Available.",
+                surrender: "Allowed.",
+                revival: "5 Years.",
+                usp: "**Saral Bachat Bima** is a straightforward, easy-to-understand savings plan that does exactly what it says: Simple Savings with Insurance. **The USP:** It offers a short premium payment commitment (5 or 7 years) for a longer life cover and savings horizon. It creates a guaranteed corpus through additions declared by the company. This plan is ideal for conservative investors who do not want to track markets or understand complex bonus structures. It offers the peace of mind that comes with knowing your money is safe and growing, while your family is protected. A perfect starter plan for building a disciplined savings habit."
+            }
+        ];
+
+        const grid = document.getElementById('cardGrid');
+
+        plans.forEach((plan, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.setAttribute('onclick', 'this.classList.toggle("flipped")');
+
+            // Assign gradients based on category
+            let frontGrad = "";
+            if (plan.cat === 'cat-term') frontGrad = "var(--card-grad-2)"; // Blue for Term
+            else if (plan.cat === 'cat-ulip') frontGrad = "var(--card-grad-1)"; // Pink/Purple for ULIP
+            else frontGrad = "var(--card-grad-3)"; // Gold/Red for Savings
+
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="front" style="background: ${frontGrad}">
+                        <div class="icon-circle">
+                            <i class="fas ${plan.icon}"></i>
+                        </div>
+                        <div class="plan-title">${plan.name}</div>
+                        <div class="plan-tag">${plan.tag}</div>
+                        <button class="reveal-btn">Click to Reveal</button>
+                    </div>
+                    <div class="back">
+                        <div class="back-header">
+                            <span class="back-title">${plan.name}</span>
+                            <i class="fas fa-undo" style="color:var(--text-gold)"></i>
+                        </div>
+                        <div class="data-container">
+                            <div class="data-row"><span class="label">1. Plan Type</span><span class="value">${plan.type}</span></div>
+                            <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">${plan.sa}</span></div>
+                            <div class="data-row"><span class="label">3. Policy Term</span><span class="value">${plan.term}</span></div>
+                            <div class="data-row"><span class="label">4. PPT</span><span class="value">${plan.ppt}</span></div>
+                            <div class="data-row"><span class="label">5. Entry Age</span><span class="value">${plan.age}</span></div>
+                            <div class="data-row"><span class="label">6. Option</span><span class="value">${plan.option}</span></div>
+                            <div class="data-row"><span class="label">7. Maturity</span><span class="value">${plan.maturity}</span></div>
+                            <div class="data-row"><span class="label">8. Survival Benefit</span><span class="value">${plan.sb}</span></div>
+                            <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">${plan.death}</span></div>
+                            <div class="data-row"><span class="label">10. Riders</span><span class="value">${plan.riders}</span></div>
+                            <div class="data-row"><span class="label">11. Surrender</span><span class="value">${plan.surrender}</span></div>
+                            <div class="data-row"><span class="label">12. Revival</span><span class="value">${plan.revival}</span></div>
+                            
+                            <div class="usp-section">
+                                <span class="usp-header">Salient Features (USP)</span>
+                                <div class="usp-text">${plan.usp}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axis | Max Life - The Elite Collection</title>
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Nunito+Sans:wght@300;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Palette - NO BLACK */
+            --bg-deep: #1a0525;
+            --bg-gradient: linear-gradient(135deg, #2b0a3d 0%, #0f1c3f 100%);
+            --axis-burgundy: #97144d;
+            --max-blue: #00529b;
+            --max-orange: #f37e21;
+            --text-light: #ffffff;
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --card-term: linear-gradient(145deg, rgba(0, 82, 155, 0.7), rgba(0, 30, 60, 0.9));
+            --card-save: linear-gradient(145deg, rgba(151, 20, 77, 0.7), rgba(60, 10, 30, 0.9));
+            --card-ulip: linear-gradient(145deg, rgba(243, 126, 33, 0.7), rgba(100, 40, 0, 0.9));
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-light);
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Animated Background */
+        .background-fx {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(151, 20, 77, 0.3), transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 82, 155, 0.3), transparent 40%);
+            animation: pulseBg 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseBg {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin: 50px 0 80px 0;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(to right, #fff, #f37e21, #97144d, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 4s linear infinite;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        /* SECTION TITLES */
+        .section-header {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto 30px auto;
+            border-left: 5px solid var(--max-orange);
+            padding-left: 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--max-orange);
+            text-shadow: 0 0 10px rgba(243, 126, 33, 0.4);
+        }
+
+        /* GRID LAYOUT */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1600px;
+            margin: 0 auto 80px auto;
+            perspective: 1500px; /* Essential for 3D flip */
+        }
+
+        /* CARD CONTAINER */
+        .card {
+            height: 650px;
+            position: relative;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Shadow is dark but not pure black */
+        }
+
+        /* FLIP CLASS */
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* FACES */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FRONT FACE */
+        .front {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+            z-index: 2;
+            transform: rotateY(0deg);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Category Specific Front Backgrounds */
+        .type-term .front { background: var(--card-term); }
+        .type-save .front { background: var(--card-save); }
+        .type-ulip .front { background: var(--card-ulip); }
+
+        .icon-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        .plan-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .click-hint {
+            margin-top: auto;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 20px;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+
+        .card:hover .click-hint { background: white; color: #333; }
+
+        /* BACK FACE */
+        .back {
+            transform: rotateY(180deg); /* Pre-rotate 180 to prevent inversion */
+            background: #250b36; /* Deep Violet - No Black */
+            padding: 15px;
+        }
+
+        .back-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .back-title { font-size: 1rem; font-weight: 700; color: var(--max-orange); }
+
+        /* DATA LIST */
+        .data-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .data-container::-webkit-scrollbar { width: 4px; }
+        .data-container::-webkit-scrollbar-thumb { background: var(--axis-burgundy); border-radius: 4px; }
+
+        .data-row {
+            margin-bottom: 10px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 4px;
+        }
+
+        .d-label {
+            display: block;
+            font-size: 0.7rem;
+            color: #aaa;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .d-value {
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .usp-box {
+            background: rgba(243, 126, 33, 0.15);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 5px;
+            border-left: 3px solid var(--max-orange);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-fx"></div>
+
+    <header>
+        <h1>Axis Bank | Max Life</h1>
+        <div class="subtitle">Partners in Protection & Wealth Creation</div>
+    </header>
+
+    <!-- SECTION 1: PROTECTION (TERM) -->
+    <div class="section-header">Elite Protection Plans</div>
+    <div class="grid">
+
+        <!-- 1. Smart Term Plan Plus -->
+        <div class="card type-term" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-shield-alt"></i></div>
+                    <div class="plan-title">Smart Term<br>Plan Plus</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Smart Term Plus</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Individual Pure Risk Term Insurance.</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">Min: Underwriting based<br>Max: No Limit.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">10 to 50 Years (Cover to age 85).</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Single, Regular, Limited Pay.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">18 to 60 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Return of Premium (ROP), Increasing Cover.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Nil (Unless ROP chosen).</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Nil.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">Lump sum or Monthly Income.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">Critical Illness, Accident Cover.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">For Single/ROP variants only.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">Within 5 years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Flexible term plan allowing Return of Premium and customization.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Smart Secure Plus -->
+        <div class="card type-term" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-user-shield"></i></div>
+                    <div class="plan-title">Smart Secure<br>Plus Plan</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Smart Secure Plus</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Non-Linked Non-Par Term Plan.</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">Based on income eligibility.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">Cover up to Age 85.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Regular / Limited Pay.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">18 to 65 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Life Cover + Terminal Illness (Built-in).</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Nil (ROP available as add-on).</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Nil.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">100% Sum Assured on Death/Terminal Illness.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">Accelerated Critical Illness.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">Depends on variant.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">Within 5 years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Includes built-in Terminal Illness benefit, paying SA before death if diagnosed.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Smart Total Elite Protection -->
+        <div class="card type-term" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-crown"></i></div>
+                    <div class="plan-title">Smart Total<br>Elite Protection</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Elite Protection</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">HNI Focused Term Plan.</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">Min: ₹2 Crores.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">Up to Age 85.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Limited Pay focus.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">18 to 65 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Enhanced Cover.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Nil.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Nil.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">High SA Payout.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">Comprehensive options.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">Special exit value options.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">Within 5 years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Premium discounts for high sum assured (₹2Cr+), ideal for HNIs.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Saral Jeevan Bima -->
+        <div class="card type-term" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-file-contract"></i></div>
+                    <div class="plan-title">Saral Jeevan<br>Bima</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Saral Jeevan</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Standard Term Plan (IRDAI).</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">₹5L to ₹25L.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">5 to 40 Years.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Single/Regular/Limited.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">18 to 65 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Standard.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Nil.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Nil.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">10x Premium or Absolute SA.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">Accident Benefit.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">Limited/Single pay only.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">Within 5 years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Simplified issuance for first-time buyers with standard terms.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2: SAVINGS & INCOME -->
+    <div class="section-header">Savings & Guaranteed Income</div>
+    <div class="grid">
+
+        <!-- 5. Smart Wealth Plan -->
+        <div class="card type-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-coins"></i></div>
+                    <div class="plan-title">Smart Wealth<br>Plan</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Smart Wealth</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Non-Linked, Non-Par Savings.</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">11x Annual Premium.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">10 to 20 Years.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Limited Pay.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">Min 0 Years (Parents buy).</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Lump Sum or Income variant.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Guaranteed Sum Assured.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Guaranteed Additions.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">SA + Accrued Additions.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">Available.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">After 2 years.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">5 Years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Fully guaranteed returns for specific financial goals like education.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Smart Wealth Income -->
+        <div class="card type-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-hand-holding-usd"></i></div>
+                    <div class="plan-title">Smart Wealth<br>Income Plan</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Wealth Income</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Guaranteed Income Plan.</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">11x Premium.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">Income up to 25/30 years.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">6, 8, 10, 12 years.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">18 to 55 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Early Income or Deferred.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Last Income + ROP.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Annual/Monthly Income.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">SA on Death.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">Available.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">Allowed.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">5 Years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Provides a second income stream that is tax-free and guaranteed.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Smart Fixed-Return Digital -->
+        <div class="card type-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-laptop-code"></i></div>
+                    <div class="plan-title">Fixed-Return<br>Digital Plan</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Digital Fixed Return</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Non-Par Savings (Online Only).</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">1.25x or 10x Premium.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">5 or 10 Years.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Single Pay (Lump sum).</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">18 to 50 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Gold/Platinum variants.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Fully Guaranteed Maturity.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Nil.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">SA on Death.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">N/A.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">Allowed after 1 year.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">N/A (Single Pay).</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Digital-exclusive plan offering FD-beating tax-efficient returns.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Savings Advantage Plan -->
+        <div class="card type-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-piggy-bank"></i></div>
+                    <div class="plan-title">Savings<br>Advantage</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Savings Advantage</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Participating Endowment Plan.</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">Multiple of Premium.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">10 to 30 Years.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Regular/Limited Pay.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">0 to 55 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Bonus utilization options.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">SA + Bonuses + Terminal Bonus.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Accrued Bonuses (if option chosen).</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">SA + Bonuses.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">Waiver of Premium, etc.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">Allowed after 2 years.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">5 Years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Combines guarantee with market participation via company bonuses.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Monthly Income Advantage -->
+        <div class="card type-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-calendar-check"></i></div>
+                    <div class="plan-title">Monthly Income<br>Advantage</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Monthly Income</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Participating Income Plan.</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">Based on PPT/Term.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">15 to 25 Years.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">12 or 15 Years.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">18 to 55 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Income for 10/12 years.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Terminal Bonus.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Monthly Income + Bonus.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">SA on Death + Bonuses.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">3 Riders Available.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">Allowed.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">5 Years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Pays income for 10 years after PPT to supplement lifestyle.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: ULIP & WEALTH -->
+    <div class="section-header">ULIP & Wealth Creation</div>
+    <div class="grid">
+
+        <!-- 10. Flexi Wealth Plus -->
+        <div class="card type-ulip" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-chart-pie"></i></div>
+                    <div class="plan-title">Flexi Wealth<br>Plus</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Flexi Wealth Plus</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Type 1 / Type 2 ULIP.</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">10x Premium (Standard).</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">10 to 30 Years / Whole Life.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Regular/Limited.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">0 to 60 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Wealth or Whole Life Variant.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Fund Value.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Partial Withdrawals.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">Higher of SA or Fund.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">N/A.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">5 Year Lock-in.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">3 Years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Returns mortality charges at maturity, reducing effective cost.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. Flexi Wealth Advantage -->
+        <div class="card type-ulip" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-rocket"></i></div>
+                    <div class="plan-title">Flexi Wealth<br>Advantage</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Wealth Advantage</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Low Charge ULIP.</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">Multiple of Premium.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">10 to Whole Life.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Limited/Regular.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">0 to 60 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Wealth/Whole Life.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Fund Value + Loyalty Additions.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Auto-debit for Systematic Withdrawal.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">SA or Fund Value (as per variant).</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">N/A.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">5 Years.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">3 Years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Return of ALL charges (Mortality + Allocation + Admin) at maturity.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. Fast Track Super -->
+        <div class="card type-ulip" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-tachometer-alt"></i></div>
+                    <div class="plan-title">Fast Track<br>Super Plan</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Fast Track</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">High Growth ULIP.</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">10x Premium.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">10/20 Years.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Regular Pay.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">18 to 50 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">5 Fund Options.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Fund Value.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Nil (Lump sum end).</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">Higher of SA or Fund.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">N/A.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">5 Years.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">3 Years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Simplified ULIP structure for aggressive wealth creation.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. Platinum Wealth Plan -->
+        <div class="card type-ulip" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-gem"></i></div>
+                    <div class="plan-title">Platinum<br>Wealth Plan</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Platinum Wealth</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">HNI ULIP.</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">Based on Premium Band.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">10 to 20 Years.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Regular/Limited.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">18 to 60 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Guaranteed Loyalty Additions.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Fund Value.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Partial Withdrawals.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">SA or Fund Value.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">Partner Care Rider.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">5 Years.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">3 Years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Reduced charges for higher premium bands (Elite/Platinum).</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. Online Savings Plan - Variant 1 -->
+        <div class="card type-ulip" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-wifi"></i></div>
+                    <div class="plan-title">Online Savings<br>(Wealth)</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">OSP - Wealth</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Online ULIP (Zero Allocation).</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">10x Premium.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">10 to 30 Years.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Pay for 5/7/10 years.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">18 to 60 Years.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Variant 1: Wealth Creation.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Fund Value.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Withdrawals allowed.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">Higher of SA or Fund.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">N/A.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">5 Years.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">3 Years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Minimal charges due to online nature, maximizing wealth.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 15. Online Savings Plan - Variant 2 -->
+        <div class="card type-ulip" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-circle"><i class="fas fa-child"></i></div>
+                    <div class="plan-title">Online Savings<br>(Child)</div>
+                    <div class="click-hint">Reveal Details</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">OSP - Child Goal</span><i class="fas fa-undo"></i></div>
+                    <div class="data-container">
+                        <div class="data-row"><span class="d-label">1. Plan Type</span><span class="d-value">Online ULIP (Child Focus).</span></div>
+                        <div class="data-row"><span class="d-label">2. Sum Assured</span><span class="d-value">Higher protection component.</span></div>
+                        <div class="data-row"><span class="d-label">3. Policy Term</span><span class="d-value">Aligned to Child's age.</span></div>
+                        <div class="data-row"><span class="d-label">4. PPT</span><span class="d-value">Regular/Limited.</span></div>
+                        <div class="data-row"><span class="d-label">5. Entry Age</span><span class="d-value">Parent: 18-50.</span></div>
+                        <div class="data-row"><span class="d-label">6. Options</span><span class="d-value">Variant 2: Child Solution.</span></div>
+                        <div class="data-row"><span class="d-label">7. Maturity</span><span class="d-value">Fund Value.</span></div>
+                        <div class="data-row"><span class="d-label">8. SB</span><span class="d-value">Partial Withdrawals for fees.</span></div>
+                        <div class="data-row"><span class="d-label">9. Death Benefit</span><span class="d-value">SA Paid Immediately + Future Premiums Waived.</span></div>
+                        <div class="data-row"><span class="d-label">10. Riders</span><span class="d-value">N/A.</span></div>
+                        <div class="data-row"><span class="d-label">11. Surrender</span><span class="d-value">5 Years.</span></div>
+                        <div class="data-row"><span class="d-label">12. Revival</span><span class="d-value">3 Years.</span></div>
+                        <div class="usp-box"><span class="d-label">USP</span><span class="d-value">Funding of Premium Benefit ensures child's goal is met even if parent is absent.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+    </script>
+</body>
+</html>

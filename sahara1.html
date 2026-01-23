@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahara India Life Insurance | Premium Portfolios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --royal-gold: #D4AF37;
+            --liquid-gold: #FFD700;
+            --midnight-blue: #001F3F; /* Deepest blue, replacing black */
+            --ocean-blue: #003366;
+            --ivory: #FFFFF0;
+            --crimson-accent: #990000;
+        }
+
+        body {
+            background: radial-gradient(circle at top, var(--ocean-blue), var(--midnight-blue));
+            color: var(--ivory);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(212, 175, 55, 0.1));
+        }
+
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4.5rem;
+            color: var(--royal-gold);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            margin: 0;
+            letter-spacing: 8px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            color: var(--liquid-gold);
+            text-transform: uppercase;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+            padding: 50px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* 3D Flip Card Logic */
+        .plan-card {
+            height: 850px;
+            perspective: 2000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .plan-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 30px;
+            border: 3px solid var(--royal-gold);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, var(--ocean-blue), #004080);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .card-front h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--liquid-gold);
+        }
+
+        .icon {
+            font-size: 6rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px var(--royal-gold);
+        }
+
+        .card-back {
+            background: var(--ivory);
+            color: var(--midnight-blue);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-back-header {
+            background: var(--royal-gold);
+            padding: 20px;
+            font-weight: bold;
+            font-size: 1.4rem;
+            text-align: center;
+            color: var(--midnight-blue);
+            font-family: 'Cinzel', serif;
+        }
+
+        .details-content {
+            padding: 30px;
+            overflow-y: auto;
+            flex: 1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .details-content h4 {
+            color: var(--crimson-accent);
+            border-bottom: 2px solid var(--royal-gold);
+            margin: 15px 0 8px 0;
+            text-transform: uppercase;
+            font-size: 1rem;
+        }
+
+        .point {
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .point-label { font-weight: 700; color: var(--ocean-blue); }
+        .point-value { text-align: right; font-weight: 400; width: 60%; }
+
+        .usp-text {
+            background: #fff9e6;
+            padding: 20px;
+            border-left: 5px solid var(--crimson-accent);
+            margin-top: 20px;
+            font-style: italic;
+            text-align: justify;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--ivory); }
+        ::-webkit-scrollbar-thumb { background: var(--royal-gold); border-radius: 10px; }
+
+        footer {
+            text-align: center;
+            padding: 50px;
+            border-top: 1px solid var(--royal-gold);
+            margin-top: 50px;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .badge {
+            background: var(--crimson-accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="subtitle">Experience the Grandeur of Protection</div>
+    <h1>Sahara India Life</h1>
+    <p>8 Flamboyant Pillars of Financial Immortality</p>
+</header>
+
+<div class="container">
+
+    <!-- PLAN 1: SHRESTHA NIVESH -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🔱</div>
+                <h2>Sahara Shrestha Nivesh</h2>
+                <div class="badge">Single Premium Excellence</div>
+                <p>A one-time majestic commitment for a lifetime of security.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-content">
+                    <div class="point"><span class="point-label">1. Plan Type:</span><span class="point-value">Single Premium Endowment</span></div>
+                    <div class="point"><span class="point-label">2. Sum Assured:</span><span class="point-value">Min: ₹50,000 / Max: No Limit</span></div>
+                    <div class="point"><span class="point-label">3. Policy Term:</span><span class="point-value">5 to 10 Years</span></div>
+                    <div class="point"><span class="point-label">4. PPT:</span><span class="point-value">Single Payment Only</span></div>
+                    <div class="point"><span class="point-label">5. Age at Entry:</span><span class="point-value">9 Years to 60 Years</span></div>
+                    <div class="point"><span class="point-label">6. Option Type:</span><span class="point-value">Not Applicable</span></div>
+                    <div class="point"><span class="point-label">7. Maturity:</span><span class="point-value">Sum Assured + Guaranteed Additions</span></div>
+                    <div class="point"><span class="point-label">8. SB:</span><span class="point-value">None (Endowment focus)</span></div>
+                    <div class="point"><span class="point-label">9. Death Benefit:</span><span class="point-value">Higher of Sum Assured or 1.25x Premium</span></div>
+                    <div class="point"><span class="point-label">10. Riders:</span><span class="point-value">Accidental Death & Disability Benefit</span></div>
+                    <div class="point"><span class="point-label">11. Surrender:</span><span class="point-value">Allowed after 1st Year</span></div>
+                    <div class="point"><span class="point-label">12. Revival:</span><span class="point-value">N/A (Single Premium)</span></div>
+                    
+                    <h4>13. Salient Features (USP)</h4>
+                    <div class="usp-text">
+                        The Sahara Shrestha Nivesh is the flamboyant choice for the affluent investor who despises the administrative hassle of recurring payments. This plan is engineered for high-net-worth individuals, entrepreneurs with seasonal windfalls, and professionals receiving substantial performance bonuses. It stands as a beacon of financial efficiency, converting a single lump sum into a powerful, tax-sheltered asset. 
+                        <br><br>
+                        The dazzling USP lies in its "Guaranteed Additions" which ensure that your wealth doesn't just sit—it thrives with mathematical certainty. Who should buy this? It is specifically designed for the visionary who wants to lock in a future goal, such as a child’s master’s degree abroad or a luxury retirement cottage, with a one-time flamboyant stroke of the pen. It eliminates the risk of policy lapse due to forgotten premiums, providing a "set and forget" sanctuary for your capital. In a world of volatile market swings, Shrestha Nivesh offers a flamboyant shield of stability, ensuring that your legacy is both protected and enhanced. It appeals to those who value time as their most precious commodity, offering maximum insurance coverage with zero recurring effort.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 2: SHUBH NIVESH -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">💎</div>
+                <h2>Sahara Shubh Nivesh</h2>
+                <div class="badge">Classic Endowment</div>
+                <p>The golden standard of family legacy.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-content">
+                    <div class="point"><span class="point-label">1. Plan Type:</span><span class="point-value">Endowment with Profits</span></div>
+                    <div class="point"><span class="point-label">2. Sum Assured:</span><span class="point-value">Min: ₹50,000 / Max: No Limit</span></div>
+                    <div class="point"><span class="point-label">3. Policy Term:</span><span class="point-value">15 to 40 Years</span></div>
+                    <div class="point"><span class="point-label">4. PPT:</span><span class="point-value">Same as Policy Term</span></div>
+                    <div class="point"><span class="point-label">5. Age at Entry:</span><span class="point-value">18 Years to 55 Years</span></div>
+                    <div class="point"><span class="point-label">6. Option Type:</span><span class="point-value">Standard Endowment</span></div>
+                    <div class="point"><span class="point-label">7. Maturity:</span><span class="point-value">Sum Assured + Vested Bonuses</span></div>
+                    <div class="point"><span class="point-label">8. SB:</span><span class="point-value">None</span></div>
+                    <div class="point"><span class="point-label">9. Death Benefit:</span><span class="point-value">Sum Assured + Bonuses</span></div>
+                    <div class="point"><span class="point-label">10. Riders:</span><span class="point-value">Critical Illness & ADB</span></div>
+                    <div class="point"><span class="point-label">11. Surrender:</span><span class="point-value">After 3 full years of premium payment</span></div>
+                    <div class="point"><span class="point-label">12. Revival:</span><span class="point-value">Within 5 years of Lapsation</span></div>
+                    
+                    <h4>13. Salient Features (USP)</h4>
+                    <div class="usp-text">
+                        Sahara Shubh Nivesh is the flamboyant cornerstone of a disciplined financial portfolio. This plan is designed for the responsible head of the family who believes in the power of traditional growth and long-term participation in company profits. Its dazzling nature stems from the "With-Profit" feature, where the policyholder becomes a partner in the insurer’s success through annual vested bonuses. 
+                        <br><br>
+                        Who should buy this? It is ideal for young parents (aged 25-35) who are starting to build a protective wall around their family's future. Shubh Nivesh acts as a flamboyant compound-interest engine, turning modest annual savings into a massive mountain of wealth over 15 to 40 years. It is for those who prefer the certainty of an endowment over the chaotic fluctuations of the stock market. This plan is particularly flamboyant in its ability to provide a tax-free maturity corpus under current laws, making it a favorite for long-term tax planning. By choosing Shubh Nivesh, you are not just buying insurance; you are securing a promise that your family's lifestyle will remain magnificent, regardless of life's unpredictable turns. It is the definitive choice for the "Traditional Visionary."
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 3: DHAN SANCHAY -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">💰</div>
+                <h2>Sahara Dhan Sanchay</h2>
+                <div class="badge">Wealth Accumulator</div>
+                <p>Limited commitment for unlimited peace of mind.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-content">
+                    <div class="point"><span class="point-label">1. Plan Type:</span><span class="point-value">Limited PPT Endowment</span></div>
+                    <div class="point"><span class="point-label">2. Sum Assured:</span><span class="point-value">Min: ₹1,00,000 / Max: No Limit</span></div>
+                    <div class="point"><span class="point-label">3. Policy Term:</span><span class="point-value">10, 15, or 20 Years</span></div>
+                    <div class="point"><span class="point-label">4. PPT:</span><span class="point-value">5 or 10 Years</span></div>
+                    <div class="point"><span class="point-label">5. Age at Entry:</span><span class="point-value">18 Years to 50 Years</span></div>
+                    <div class="point"><span class="point-label">6. Option Type:</span><span class="point-value">Choice of PPT duration</span></div>
+                    <div class="point"><span class="point-label">7. Maturity:</span><span class="point-value">Sum Assured + Terminal Additions</span></div>
+                    <div class="point"><span class="point-label">8. SB:</span><span class="point-value">None</span></div>
+                    <div class="point"><span class="point-label">9. Death Benefit:</span><span class="point-value">10x Annualized Premium</span></div>
+                    <div class="point"><span class="point-label">10. Riders:</span><span class="point-value">Sahara Double Benefit Rider</span></div>
+                    <div class="point"><span class="point-label">11. Surrender:</span><span class="point-value">After 2 years (for 5yr PPT)</span></div>
+                    <div class="point"><span class="point-label">12. Revival:</span><span class="point-value">Within 5 years from FUP</span></div>
+                    
+                    <h4>13. Salient Features (USP)</h4>
+                    <div class="usp-text">
+                        Sahara Dhan Sanchay is the flamboyant answer to the modern professional's desire for speed and efficiency. Why pay premiums for a lifetime when you can finish your financial obligation in just 5 or 10 years? This plan is specifically tailored for individuals in high-growth, high-stress sectors like Information Technology, Media, or Startups, where current income is high but long-term career spans may be unpredictable.
+                        <br><br>
+                        The dazzling USP is the "Limited Premium Payment Term." It allows you to utilize your peak earning years to secure a long-term life cover. Who should buy this? Entrepreneurs who have just closed a profitable deal or professionals who have seen a spike in income and want to lock in that success. Dhan Sanchay provides a flamboyant level of freedom; once the short PPT is over, the policy continues to grow silently in the background, providing full life cover. It is a strategic tool for wealth creation that doesn't tether you to a multi-decade debt-like commitment. It is for the "Efficiency Seeker" who wants their money to work as hard and as fast as they do, ensuring that the "Sanchay" (accumulation) is completed while the sun is still shining on their career.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 4: PAY BACK -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🔄</div>
+                <h2>Sahara Pay Back</h2>
+                <div class="badge">Dynamic Liquidity</div>
+                <p>Protection that pays you to live grandly.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-content">
+                    <div class="point"><span class="point-label">1. Plan Type:</span><span class="point-value">Money Back (Anticipated Endowment)</span></div>
+                    <div class="point"><span class="point-label">2. Sum Assured:</span><span class="point-value">Min: ₹75,000 / Max: No Limit</span></div>
+                    <div class="point"><span class="point-label">3. Policy Term:</span><span class="point-value">12, 16, 20, or 24 Years</span></div>
+                    <div class="point"><span class="point-label">4. PPT:</span><span class="point-value">Same as Policy Term</span></div>
+                    <div class="point"><span class="point-label">5. Age at Entry:</span><span class="point-value">15 Years to 50 Years</span></div>
+                    <div class="point"><span class="point-label">6. Option Type:</span><span class="point-value">Fixed Payout Schedule</span></div>
+                    <div class="point"><span class="point-label">7. Maturity:</span><span class="point-value">Balance Sum Assured + Bonuses</span></div>
+                    <div class="point"><span class="point-label">8. SB:</span><span class="point-value">15% to 25% SA every 4th Year</span></div>
+                    <div class="point"><span class="point-label">9. Death Benefit:</span><span class="point-value">Full SA + Bonus (No deduction of SB)</span></div>
+                    <div class="point"><span class="point-label">10. Riders:</span><span class="point-value">Accidental Death Benefit</span></div>
+                    <div class="point"><span class="point-label">11. Surrender:</span><span class="point-value">After 3 years of premiums</span></div>
+                    <div class="point"><span class="point-label">12. Revival:</span><span class="point-value">Within 5 years of FUP</span></div>
+                    
+                    <h4>13. Salient Features (USP)</h4>
+                    <div class="usp-text">
+                        The Sahara Pay Back Jeevan Bima is the flamboyant choice for those who believe that life insurance should be a living benefit, not just a post-mortem one. This plan is designed for individuals who have recurring financial milestones—child’s education levels, home renovations, or periodic business expansions. 
+                        <br><br>
+                        The dazzling USP of this plan is its "Non-Deduction" death benefit. Even if you have already received 75% of your sum assured through survival benefits, in the event of an untimely demise, the nominee receives the FULL 100% sum assured plus bonuses. This is a flamboyant display of generosity that few other financial instruments offer. Who should buy this? It is perfect for parents with young children where school fees increase every few years, or for luxury-conscious individuals who want a "lifestyle fund" that pays out every four years. It provides the psychological comfort of liquidity while maintaining the structural integrity of a long-term life cover. Sahara Pay Back ensures you don't have to choose between your current desires and your future security; it flamboyantly delivers both.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 5: DHANVRIDDHI -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">📈</div>
+                <h2>Sahara Dhanvriddhi</h2>
+                <div class="badge">Growth Accelerator</div>
+                <p>Expanding your capital with regal precision.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-content">
+                    <div class="point"><span class="point-label">1. Plan Type:</span><span class="point-value">Single Premium Non-Linked</span></div>
+                    <div class="point"><span class="point-label">2. Sum Assured:</span><span class="point-value">Choose 5x or 10x Single Premium</span></div>
+                    <div class="point"><span class="point-label">3. Policy Term:</span><span class="point-value">Fixed 10 Years</span></div>
+                    <div class="point"><span class="point-label">4. PPT:</span><span class="point-value">Single Premium</span></div>
+                    <div class="point"><span class="point-label">5. Age at Entry:</span><span class="point-value">8 Years to 50 Years</span></div>
+                    <div class="point"><span class="point-label">6. Option Type:</span><span class="point-value">Multiple SA Multipliers</span></div>
+                    <div class="point"><span class="point-label">7. Maturity:</span><span class="point-value">Guaranteed Maturity Sum Assured</span></div>
+                    <div class="point"><span class="point-label">8. SB:</span><span class="point-value">None</span></div>
+                    <div class="point"><span class="point-label">9. Death Benefit:</span><span class="point-value">Risk Cover based on Multiplier chosen</span></div>
+                    <div class="point"><span class="point-label">10. Riders:</span><span class="point-value">None (Self-contained)</span></div>
+                    <div class="point"><span class="point-label">11. Surrender:</span><span class="point-value">Anytime after 1st Year</span></div>
+                    <div class="point"><span class="point-label">12. Revival:</span><span class="point-value">N/A</span></div>
+                    
+                    <h4>13. Salient Features (USP)</h4>
+                    <div class="usp-text">
+                        Sahara Dhanvriddhi is a flamboyant "Growth Engine" designed for the savvy financial architect. Unlike other endowment plans that focus purely on protection, Dhanvriddhi focuses on the "Vriddhi" (multiplication) of your idle capital. It is the flamboyant alternative to a bank Fixed Deposit, offering significantly higher life cover and potentially better tax-adjusted returns.
+                        <br><br>
+                        The dazzling USP is the ability to choose your Risk Multiplier (5x or 10x). This allows you to calibrate the plan based on whether you want more growth or more protection. Who should buy this? It is ideal for grandparents looking to create a flamboyant "Start-up Fund" for their grandchildren, or for professionals who have just received a large gratuity or inheritance. It provides a flamboyant level of tax efficiency under Section 80C and 10(10D), which makes the final maturity amount vastly more attractive than taxable interest income. For the investor who wants their money to stay "in the fast lane" while remaining shielded by the safety of a traditional life insurance structure, Dhanvriddhi is the ultimate flamboyant vehicle.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 6: SANCHIT -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🌌</div>
+                <h2>Sahara Sanchit</h2>
+                <div class="badge">Adaptive Protection</div>
+                <p>Evolving your security for a changing world.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-content">
+                    <div class="point"><span class="point-label">1. Plan Type:</span><span class="point-value">Variable Insurance Product</span></div>
+                    <div class="point"><span class="point-label">2. Sum Assured:</span><span class="point-value">Min: ₹50,000 / Max: No Limit</span></div>
+                    <div class="point"><span class="point-label">3. Policy Term:</span><span class="point-value">5 to 25 Years</span></div>
+                    <div class="point"><span class="point-label">4. PPT:</span><span class="point-value">Single / Regular / Limited</span></div>
+                    <div class="point"><span class="point-label">5. Age at Entry:</span><span class="point-value">18 Years to 60 Years</span></div>
+                    <div class="point"><span class="point-label">6. Option Type:</span><span class="point-value">Flexible Fund Management</span></div>
+                    <div class="point"><span class="point-label">7. Maturity:</span><span class="point-value">Account Value + Guaranteed Additions</span></div>
+                    <div class="point"><span class="point-label">8. SB:</span><span class="point-value">Partial Withdrawals allowed</span></div>
+                    <div class="point"><span class="point-label">9. Death Benefit:</span><span class="point-value">Higher of SA or Account Value</span></div>
+                    <div class="point"><span class="point-label">10. Riders:</span><span class="point-value">Accidental Benefit</span></div>
+                    <div class="point"><span class="point-label">11. Surrender:</span><span class="point-value">Allowed after 5 years</span></div>
+                    <div class="point"><span class="point-label">12. Revival:</span><span class="point-value">Within 2 years of FUP</span></div>
+                    
+                    <h4>13. Salient Features (USP)</h4>
+                    <div class="usp-text">
+                        Sahara Sanchit is for the flamboyant individual who hates being put in a box. It is a "Variable Insurance" product, meaning it combines the stability of traditional insurance with the flamboyant growth potential of market-linked accounts. It is designed for the modern, digitally-native investor who wants to see their "Account Value" grow in real-time.
+                        <br><br>
+                        The dazzling USP is its "Extreme Flexibility." You can choose your premium payment frequency and even withdraw money partially for emergencies after the lock-in period. Who should buy this? It is the flamboyant partner for young couples who are saving for multiple, non-fixed goals—like a world tour, a career sabbatical, or an unplanned luxury purchase. Sahara Sanchit doesn't dictate your life; it adapts to it. It is for the "Control Enthusiast" who wants to know exactly where every rupee is being invested and how the "Sanchit" (accumulated) fund is performing. It bridges the gap between the old-world security of Sahara and the new-world demand for liquidity and transparency, making it a flamboyant hybrid for the 21st-century citizen.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 7: UTKARSH -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🚀</div>
+                <h2>Sahara Utkarsh</h2>
+                <div class="badge">Market Maestro</div>
+                <p>The zenith of unit-linked wealth creation.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-content">
+                    <div class="point"><span class="point-label">1. Plan Type:</span><span class="point-value">Unit Linked (ULIP)</span></div>
+                    <div class="point"><span class="point-label">2. Sum Assured:</span><span class="point-value">7x to 10x Annualized Premium</span></div>
+                    <div class="point"><span class="point-label">3. Policy Term:</span><span class="point-value">10 to 20 Years</span></div>
+                    <div class="point"><span class="point-label">4. PPT:</span><span class="point-value">Regular / Limited Pay</span></div>
+                    <div class="point"><span class="point-label">5. Age at Entry:</span><span class="point-value">12 Years to 55 Years</span></div>
+                    <div class="point"><span class="point-label">6. Option Type:</span><span class="point-value">Multiple Fund Choices (Equity/Debt)</span></div>
+                    <div class="point"><span class="point-label">7. Maturity:</span><span class="point-value">Total Fund Value</span></div>
+                    <div class="point"><span class="point-label">8. SB:</span><span class="point-value">None (Market Linked)</span></div>
+                    <div class="point"><span class="point-label">9. Death Benefit:</span><span class="point-value">Higher of SA or Fund Value</span></div>
+                    <div class="point"><span class="point-label">10. Riders:</span><span class="point-value">Standard ULIP riders</span></div>
+                    <div class="point"><span class="point-label">11. Surrender:</span><span class="point-value">Allowed after 5-year lock-in</span></div>
+                    <div class="point"><span class="point-label">12. Revival:</span><span class="point-value">Within 3 years of discontinuation</span></div>
+                    
+                    <h4>13. Salient Features (USP)</h4>
+                    <div class="usp-text">
+                        Sahara Utkarsh is the flamboyant choice for the bold market participant. It is not just a policy; it is a financial spaceship designed to take your wealth to the "Utkarsh" (Zenith). This plan is for the aggressive wealth creator who understands that over 10-20 years, the flamboyant growth of the equity market is the only way to beat inflation significantly.
+                        <br><br>
+                        The dazzling USP of Utkarsh is the "Free Switching" facility. If you sense a market downturn, you can flamboyantly move your funds from Equity to Debt with a few clicks, protecting your gains. Who should buy this? High-income professionals in their late 20s or 30s who have a long-term horizon and a high risk-appetite. It offers a flamboyant double-engine growth: the power of the markets and the tax-free status of insurance maturity. Unlike mutual funds where every switch or exit might trigger capital gains tax, Sahara Utkarsh allows you to rebalance your portfolio within the policy tax-free. It is for the "Strategic Wealth Builder" who wants a flamboyant, high-octane investment vehicle with the built-in safety net of a life cover.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 8: SUGAM -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="icon">🌸</div>
+                <h2>Sahara Sugam</h2>
+                <div class="badge">Noble Protection</div>
+                <p>Pure, simple, and flamboyantly inclusive.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">Technical Specifications</div>
+                <div class="details-content">
+                    <div class="point"><span class="point-label">1. Plan Type:</span><span class="point-value">Micro-Insurance Endowment</span></div>
+                    <div class="point"><span class="point-label">2. Sum Assured:</span><span class="point-value">Min: ₹10,000 / Max: ₹50,000</span></div>
+                    <div class="point"><span class="point-label">3. Policy Term:</span><span class="point-value">5 to 15 Years</span></div>
+                    <div class="point"><span class="point-label">4. PPT:</span><span class="point-value">Monthly / Quarterly / Yearly</span></div>
+                    <div class="point"><span class="point-label">5. Age at Entry:</span><span class="point-value">18 Years to 50 Years</span></div>
+                    <div class="point"><span class="point-label">6. Option Type:</span><span class="point-value">Not Applicable</span></div>
+                    <div class="point"><span class="point-label">7. Maturity:</span><span class="point-value">Sum Assured + Loyalty Additions</span></div>
+                    <div class="point"><span class="point-label">8. SB:</span><span class="point-value">None</span></div>
+                    <div class="point"><span class="point-label">9. Death Benefit:</span><span class="point-value">Full Sum Assured</span></div>
+                    <div class="point"><span class="point-label">10. Riders:</span><span class="point-value">In-built Accident Benefit</span></div>
+                    <div class="point"><span class="point-label">11. Surrender:</span><span class="point-value">After 1 year (for 5yr term)</span></div>
+                    <div class="point"><span class="point-label">12. Revival:</span><span class="point-value">Within 5 years of FUP</span></div>
+                    
+                    <h4>13. Salient Features (USP)</h4>
+                    <div class="usp-text">
+                        Sahara Sugam is the flamboyant manifestation of "Financial Dignity for All." While other plans focus on high-ticket investors, Sugam is designed for the massive, hard-working segment of society that needs a "Sugam" (Easy) entry into the world of protection. It is flamboyant in its simplicity and its noble intent.
+                        <br><br>
+                        The dazzling USP is the "No-Frills Accessibility." It doesn't require complex medical exams or extensive documentation, making it a flamboyant tool for rural empowerment. Who should buy this? Small business owners, artisans, farmers, and daily wage earners who want to ensure that their family is never left in a flamboyant crisis. It provides a structured way to save small amounts that eventually blossom into a significant corpus through loyalty additions. It is for the person who values "Haq" (Right) over "Haisiyat" (Status), ensuring that every Indian household, regardless of income level, can have a flamboyant shield of protection. Sahara Sugam is the flamboyant heart of the company, proving that true brilliance lies in making the complex world of insurance easy and inclusive for every citizen.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2024 Sahara India Life Insurance | Redefining Opulence in Security</p>
+    <p style="color: var(--royal-gold); font-family: 'Cinzel', serif;">Designed for the Flamboyant Visionary</p>
+</footer>
+
+</body>
+</html>

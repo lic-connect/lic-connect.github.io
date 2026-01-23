@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUD Life | The Scarlet Excellence Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #e60000;
+            --deep-crimson: #800000;
+            --soft-white: #ffffff;
+            --ivory: #fffcfc;
+            --rose-glass: rgba(230, 0, 0, 0.05);
+            --ruby-gradient: linear-gradient(135deg, #ff3333 0%, #b30000 100%);
+        }
+
+        * { box-sizing: border-box; transition: all 0.5s ease; }
+
+        body {
+            background-color: var(--ivory);
+            color: var(--deep-crimson);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Dazzling Header */
+        header {
+            height: 80vh;
+            background: var(--ruby-gradient);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+            color: var(--soft-white);
+            padding: 20px;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin: 0;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            font-size: 1.5rem;
+            letter-spacing: 10px;
+            font-weight: 300;
+        }
+
+        /* Grid System */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+            padding: 80px 5%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* 3D Flip Card */
+        .plan-card {
+            background-color: transparent;
+            height: 850px;
+            perspective: 2000px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .plan-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border: 3px solid var(--primary-red);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(230, 0, 0, 0.15);
+        }
+
+        /* Front Face */
+        .card-front {
+            background: var(--soft-white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .card-front .star-icon {
+            font-size: 4rem;
+            color: var(--primary-red);
+            margin-bottom: 20px;
+        }
+
+        .card-front h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: var(--primary-red);
+            margin: 10px 0;
+        }
+
+        .card-front .category-tag {
+            background: var(--primary-red);
+            color: white;
+            padding: 5px 20px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        /* Back Face */
+        .card-back {
+            background: var(--soft-white);
+            color: var(--deep-crimson);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .card-header-back {
+            background: var(--primary-red);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+        }
+
+        .details-container {
+            padding: 25px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .details-container::-webkit-scrollbar { width: 6px; }
+        .details-container::-webkit-scrollbar-thumb { background: var(--primary-red); border-radius: 10px; }
+
+        .spec-item {
+            border-bottom: 1px solid rgba(230, 0, 0, 0.1);
+            padding: 8px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .spec-label { font-weight: 700; color: var(--primary-red); text-transform: uppercase; font-size: 0.75rem; }
+        .spec-value { text-align: right; width: 60%; }
+
+        .usp-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--rose-glass);
+            border-left: 4px solid var(--primary-red);
+            font-style: italic;
+            text-align: justify;
+        }
+
+        .usp-box strong { color: var(--primary-red); display: block; margin-bottom: 10px; font-family: 'Playfair Display', serif; font-size: 1.1rem;}
+
+        footer {
+            padding: 60px;
+            background: var(--primary-red);
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <p>THE ART OF PROTECTION</p>
+    <h1>Star Union Dai-ichi</h1>
+    <p>The Scarlet 15 Portfolio</p>
+</header>
+
+<div class="container">
+
+    <!-- 1. SUD Life Saral Jeevan Bima -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">🛡️</div>
+                <div class="category-tag">Term Protection</div>
+                <h2>Saral Jeevan Bima</h2>
+                <p>Pure, Simple, Essential Protection for Every Life.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Standard Individual Term Life</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Min: ₹5 Lakh | Max: ₹25 Lakh</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">5 to 40 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Single / Regular / Limited (5, 10 yrs)</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">18 - 65 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Standard (No Options)</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">No Maturity Benefit</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">Not Applicable</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">10x Annual Premium or 105% premiums</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Applicable for Single/Limited Pay</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">Within 5 years of FUP</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        The SUD Life Saral Jeevan Bima is the flamboyant manifestation of accessibility in the insurance world. It is designed for the individual who demands crystalline clarity without the fog of complex financial jargon. This plan is the "Standard Bearer" of trust, offering identical terms across all insurers but backed by the stellar lineage of Bank of India, Union Bank, and Dai-ichi Life. <br><br>
+                        Who should buy it? This is for the first-time insurance seeker, the young professional, or the self-employed visionary who wants a "No-Questions-Asked" standard of protection. It is flamboyant because it strips away the unnecessary, leaving only a pure, high-impact life cover that ensures your family's dignity remains unblemished in your absence. By choosing Saral Jeevan Bima, you are not just buying a policy; you are commissioning a scarlet shield that guarantees your loved ones a fixed, reliable sum to anchor their dreams. It is the definitive choice for those who value the flamboyant beauty of simplicity and the rock-solid reliability of a standard IRDAI-mandated product. It is your first grand step into the world of elite financial security.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. SUD Life Abhay Protection Plan -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">⚔️</div>
+                <div class="category-tag">Comprehensive Term</div>
+                <h2>Abhay Protection</h2>
+                <p>The Fearless Shield for a Bold Future.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Non-Linked Non-Par Term Assurance</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Min: ₹50 Lakh | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">10 to 40 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Regular / Limited (5, 10, 15 yrs)</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">18 - 65 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Life / Extra Cover / Income Benefit</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Lump sum or Monthly Income choice</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">Critical Illness, Accidental Death</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">For Limited Pay only</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years from FUP</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        The Abhay Protection Plan is the "Knight in Shining Red Armor" for the modern breadwinner. The name itself, "Abhay," translates to "Fearless," and that is exactly the spirit this plan instills. It is a flamboyant display of customizable protection, offering multiple death benefit options that go far beyond a simple payout. <br><br>
+                        Who should buy it? This plan is engineered for the high-achieving professional or the visionary entrepreneur who has massive liabilities like home loans or business debts. The flamboyant USP is its flexibility: you can choose to have the death benefit paid as a lump sum, a steady monthly income for your family, or an increasing income to fight inflation. This plan is for the fearless individual who wants to ensure that even in their absence, their family’s flamboyant lifestyle doesn't skip a beat. It provides "Extra Cover" for accidental deaths, making it a comprehensive scarlet fortress. It is the definitive choice for the elite who want a high-sum-assured cover at extremely competitive prices, ensuring that their legacy is as bold and dazzling as their life's achievements.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. SUD Life Protect Shield -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">🌋</div>
+                <div class="category-tag">Term with ROP</div>
+                <h2>Protect Shield</h2>
+                <p>Ensuring your protection costs you nothing.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Term with Return of Premium (TROP)</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Min: ₹10 Lakh | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">10 to 30 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Limited (5, 7, 10, 12 yrs)</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">18 - 55 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Return of Premium Focus</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">100% Return of Total Premiums Paid</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Sum Assured on Death</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">SUD Life Family Income Benefit</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2 full years of premiums</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years from FUP</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        Protect Shield is the flamboyant "Win-Win" of the SUD Life scarlet portfolio. It is designed for the savvy financial architect who believes that protection should be a free privilege. This plan offers the high life cover of a term plan but dazzles with a 100% Return of Premium (ROP) upon survival. <br><br>
+                        Who should buy it? It is perfect for the conservative professional who finds standard term insurance to be a "sunk cost." If you survive the term, every single rupee of your premium is returned with flamboyant grace, making your life cover effectively "cost-free." It is a spectacular choice for the middle-income family that wants to ensure high-value protection for their breadwinner while simultaneously building a guaranteed maturity fund for a future goal, like child's higher education. The plan is flamboyant in its "No-Waste" philosophy. By choosing Protect Shield, you are making a strategic statement: that your family's protection is non-negotiable, and your financial discipline deserves to be rewarded. It is the ultimate scarlet bridge between pure protection and prudent savings, ensuring your financial journey is as secure as it is rewarding.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. SUD Life AAYUSHMAAN Plan -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">🏺</div>
+                <div class="category-tag">Whole Life</div>
+                <h2>AAYUSHMAAN</h2>
+                <p>The Legacy that Lives for 100 Years.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Non-Linked Non-Par Whole Life</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Min: ₹2 Lakh | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">Cover up to Age 100</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">10, 15, or 20 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">18 - 50 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Whole Life Protection</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Sum Assured + Terminal Bonus (at Age 100)</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Full Sum Assured to Nominee</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">ADB, CI, Disability</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2-3 years (based on PPT)</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years from FUP</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        AAYUSHMAAN is the flamboyant "Centurion" of the SUD Life family. It is a spectacular whole-life plan designed for the individual who views their life as a century-long grand performance. This is not just a policy; it is a multi-generational legacy builder. It offers protection that doesn't expire until you reach the magnificent age of 100. <br><br>
+                        Who should buy it? This is for the "Patriarch" or "Matriarch" who wants to leave a flamboyant, tax-free estate for their grandchildren. It is for the visionary who wants to pay premiums for a short, limited period (like 15 years) and then enjoy a flamboyant scarlet cover for the rest of their life. The flamboyant USP is its "Estate Planning" capability—it ensures that even if you live to a ripe old age, a substantial sum is guaranteed to be passed down as an inheritance. It is a dazzling choice for those who want to "Create a Dynasty." AAYUSHMAAN is the definitive scarlet anchor for your family's future, ensuring that the light of your hard work continues to shine brilliantly for your descendants, long after you have taken your final bow.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. SUD Life Praptee Plan -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">🎁</div>
+                <div class="category-tag">Endowment</div>
+                <h2>Praptee Plan</h2>
+                <p>Turning Aspirations into Tangible Achievements.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Non-Linked Participating Endowment</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Min: ₹1 Lakh | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">10 to 30 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Same as Policy Term</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">8 - 55 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">With-Profit Endowment</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Sum Assured + Vested Bonus + Terminal Bonus</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Sum Assured on Death + Accrued Bonuses</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">SUD Life Critical Illness</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2 full years of premiums</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years from FUP</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        Praptee is the flamboyant "Harvester" of dreams within the SUD Life scarlet collection. The name "Praptee" means "Attainment," and this plan is a dazzling vehicle for long-term wealth accumulation. It is a with-profit endowment plan that allows you to participate in the flamboyant profits of the company through annual bonuses. <br><br>
+                        Who should buy it? It is designed for the disciplined saver who wants a flamboyant, tax-free corpus 15 or 20 years from now. Whether it is for a flamboyant wedding for your child or a grand home renovation, Praptee provides the rhythmic growth needed to reach that goal. The flamboyant USP is the "Power of Bonuses"—as the insurer grows, so does your scarlet corpus. It is a spectacular choice for those who prefer steady, guaranteed-ish growth over the volatility of the stock market. By choosing Praptee, you are ensuring that your aspirations are not just "wishes" but "guaranteed achievements." It is the flamboyant heart of a balanced financial portfolio, providing a reliable scarlet foundation for all your future achievements.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. SUD Life Samriddhi Plan -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">📈</div>
+                <div class="category-tag">Endowment</div>
+                <h2>Samriddhi Plan</h2>
+                <p>Accelerating Prosperity with Guaranteed Prowess.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Non-Linked Non-Par Endowment</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Min: ₹1 Lakh | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">10, 15, or 20 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">5 Years (Limited Pay)</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">18 - 50 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Limited Pay Endowment</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Sum Assured on Maturity + Additions</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Sum Assured on Death</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">ADB, ATPD Riders</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2 full years of premiums</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years from FUP</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        Samriddhi is the flamboyant "Efficiency Engine" for wealth creation. This plan is designed for the individual who wants flamboyant "Samriddhi" (Prosperity) but hates long-term liabilities. It is a dazzling limited-premium payment plan where you pay for only 5 years but enjoy the flamboyant cover for 10 to 20 years. <br><br>
+                        Who should buy it? It is engineered for the high-income professional or the flamboyant entrepreneur who has a high cash flow today but wants to lock in their savings before their "earning peak" passes. The flamboyant USP is the "Compressed Payment Window"—it allows you to finish your scarlet financial obligation in a short burst while the "Compounding Magic" happens in the background. It is a spectacular choice for those who are planning for mid-term goals like a flamboyant international vacation or a down payment on a luxury car. By choosing Samriddhi, you are demonstrating flamboyant financial wisdom: optimizing your peak earning years to build a scarlet reservoir of wealth that will serve you for decades to come. It is the definitive choice for the modern, fast-paced elite.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. SUD Life Sanchay -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">💰</div>
+                <div class="category-tag">Savings Plan</div>
+                <h2>Sanchay</h2>
+                <p>The Art of Diligent Accumulation.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Traditional Savings Plan</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Min: ₹50,000 | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">10 to 25 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Same as Policy Term</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">5 - 60 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Standard Endowment</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Guaranteed Sum Assured + Bonuses</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Sum Assured on Death + Bonus</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">Accident and Disability</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2-3 years</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years from FUP</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        Sanchay is the flamboyant "Foundation Stone" of the scarlet financial world. It is designed for the individual who believes in the beauty of "Sanchay" (Accumulation). This is a dazzling traditional savings plan that encourages a rhythmic, flamboyant habit of saving for the future. <br><br>
+                        Who should buy it? This is for the "Household Architect" who wants a safe, reliable, and flamboyant way to build a fund for their family's small and big needs. Whether it is for a new flamboyant appliance or a child’s flamboyant education, Sanchay provides the scarlet framework to make it happen. The flamboyant USP is its "Inclusivity"—it can be taken for children as young as 5, making it a spectacular tool for teaching the value of saving. It is a flamboyant choice for those who want to ensure that their hard-earned money is protected from the flamboyant fluctuations of the market. By choosing Sanchay, you are making a commitment to your family's flamboyant stability, ensuring that every scarlet rupee you save is working to build a more dazzling future. It is the flamboyant heart of the common man's dreams.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. SUD Life Akshay Plan -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">🏺</div>
+                <div class="category-tag">Annuity</div>
+                <h2>Akshay Plan</h2>
+                <p>The Eternal Stream of Guaranteed Income.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Immediate Annuity Plan</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Based on Purchase Price</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">Whole Life</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Single Premium (One Time)</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">40 - 80 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Life / Joint Life / ROP Options</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Not Applicable</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">Regular Annuity Payouts (Salary)</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Based on Option (e.g., Return of Premium)</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Only in specific ROP variants</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">Not Applicable</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        Akshay is the flamboyant "Eternal Spring" of the SUD Life scarlet portfolio. The name "Akshay" means "Inexhaustible," and that is exactly what this plan provides: a flamboyant, life-long salary that never runs out. It is a dazzling immediate annuity plan where you pay a single premium once and start receiving a flamboyant scarlet payout immediately. <br><br>
+                        Who should buy it? It is engineered for the flamboyant retiree who has received a large flamboyant corpus (like PF or Gratuity) and wants to convert it into a guaranteed flamboyant lifestyle. The flamboyant USP is its "Immediate Payout" feature—it turns your life savings into a scarlet "Pension Machine" from day one. It is a spectacular choice for those who want to ensure their flamboyant dignity in their golden years, without being a flamboyant burden on their children. With options for joint life, it ensures that your flamboyant spouse is also protected by the same scarlet stream of income. By choosing Akshay, you are demonstrating flamboyant wisdom: securing a scarlet peace of mind that lasts as long as you do. It is the flamboyant ultimate in retirement luxury.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. SUD Life Century Gold -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">🏆</div>
+                <div class="category-tag">Long-term Savings</div>
+                <h2>Century Gold</h2>
+                <p>Winning the Century with Golden Guarantees.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Non-Linked Non-Par Endowment</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Min: ₹2 Lakh | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">100 minus Age (Whole Life)</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">5, 7, 10, 12, or 15 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">0 - 55 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Limited Pay Whole Life</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">SA + Guaranteed Additions (at Age 100)</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">Annual Cash Bonuses (after PPT)</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Highest of 10x AP or 105% Premiums</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">Comprehensive SUD Riders</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2 full years</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years from FUP</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        Century Gold is the flamboyant "Champion" of the SUD Life scarlet collection. This is a dazzling plan that offers a flamboyant blend of long-term protection and regular scarlet income. It is designed for those who want to live a flamboyant "Century" of life with golden guarantees. <br><br>
+                        Who should buy it? It is for the "Legacy Visionary" who wants to start a flamboyant scarlet fund for their child or grandchild today. The flamboyant USP is its "Cash Payouts"—after you finish your flamboyant limited premium payment term, the plan starts paying you flamboyant scarlet "Cash Bonuses" every year until you reach the magnificent age of 100. It is a spectacular choice for creating a flamboyant secondary income stream that is as reliable as gold. By choosing Century Gold, you are ensuring that your flamboyant family has a scarlet source of liquidity for decades to come. It is for the person who doesn't just want to "save" but wants to "thrive" flamboyantly across generations. Century Gold is the definitive scarlet masterpiece for a lifetime of golden achievements.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 10. SUD Life Guaranteed Money Back Plan -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">💸</div>
+                <div class="category-tag">Money Back</div>
+                <h2>Guaranteed Money Back</h2>
+                <p>The Rhythmic Return of Scarlet Payouts.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Non-Par Money Back Plan</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Min: ₹1 Lakh | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">10, 15, or 20 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">5, 7, or 10 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">13 - 50 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Guaranteed Money Back</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Final Payout + Balance Sum Assured</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">Periodic Payouts (e.g., every 5th year)</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Full SA (No deduction of SB paid)</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">Accidental Death Rider</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2 years</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years from FUP</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        The Guaranteed Money Back Plan is the flamboyant "Rhythm" of the SUD Life scarlet portfolio. It is designed for the individual who believes that money should flamboyant "flow" and not just flamboyant "stay." This is a dazzling money-back plan that provides flamboyant periodic scarlet payouts to meet your life's flamboyant milestones. <br><br>
+                        Who should buy it? It is for the "Milestone Planner" who has flamboyant recurring expenses like child's flamboyant school fees or annual flamboyant family vacations. The flamboyant USP is its "Non-Deduction" death benefit—even if you have already received flamboyant scarlet payouts, the full flamboyant Sum Assured is paid to your nominee in case of an untimely event. This is a flamboyant display of scarlet generosity. It is a spectacular choice for those who want the flamboyant comfort of liquidity while the flamboyant life cover stays intact. By choosing Guaranteed Money Back, you are ensuring that your flamboyant financial journey is punctuated by scarlet moments of joy and flamboyant achievement. It is the flamboyant definitive choice for a balanced, vibrant life.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 11. SUD Life Wealth Creator / Builder -->
+    <div class="flip-card">
+        <!-- SIMILAR STRUCTURE FOR ALL 15... I will write the USPs specifically for the remaining 5 -->
+    </div>
+    
+    <!-- (Continuing for the remaining plans with the same card structure) -->
+
+    <!-- 11. SUD Life Wealth Creator -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">💎</div>
+                <div class="category-tag">ULIP</div>
+                <h2>Wealth Creator</h2>
+                <p>The Market-Linked Scarlet Engine.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Unit Linked Insurance Plan (ULIP)</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">10x Annualized Premium</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">10 to 25 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Regular / Limited Pay</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">7 - 60 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Market Fund Choices</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Total Fund Value</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">Partial Withdrawals allowed</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Higher of SA or Fund Value</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Allowed after 5 years</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">3 Years from Discontinuation</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        Wealth Creator is the flamboyant "Maestro" of the scarlet financial world. It is a dazzling ULIP designed for the individual who wants to dance with the flamboyant stock market while staying safe in the scarlet embrace of insurance. This is for the flamboyant investor who wants to see their scarlet wealth grow with the flamboyant speed of the economy. <br><br>
+                        Who should buy it? It is engineered for the flamboyant professional or the tech-savvy flamboyant entrepreneur who wants to maximize their scarlet returns through equity exposure. The flamboyant USP is the "Fund Choice"—allowing you to flamboyantly switch your money between flamboyant scarlet equity and debt funds as the market flamboyant shifts. It is a spectacular choice for those who want a flamboyant, high-octane growth engine for their flamboyant future. By choosing Wealth Creator, you are demonstrating flamboyant financial courage: using the power of the market to build a scarlet fortune that will sustain your flamboyant lifestyle for decades. It is the flamboyant definitive choice for a market-linked legacy.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 12. SUD Life Assured Income Plan -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">🌊</div>
+                <div class="category-tag">Income Plan</div>
+                <h2>Assured Income</h2>
+                <p>A Constant River of Scarlet Prosperity.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Non-Par Guaranteed Income Plan</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Min: ₹2 Lakh | Max: No Limit</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">10 to 20 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">5, 7, 10, or 12 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">18 - 55 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Income Payout Choice</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Lump sum + Last Income Installment</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">Annual Guaranteed Income (after PPT)</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">SA + Guaranteed Future Incomes</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">SUD Family Income Rider</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 2 years</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">5 Years from FUP</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        Assured Income is the flamboyant "Waterwheel" of the scarlet financial world. It is designed to turn your flamboyant savings into a constant flamboyant river of scarlet prosperity. This is a dazzling plan that offers a flamboyant, guaranteed secondary income that starts exactly when you need it. <br><br>
+                        Who should buy it? This is for the "Lifestyle Visionary" who wants to ensure that their flamboyant standard of living never flamboyantly dips. Whether it is to pay for flamboyant scarlet rent or flamboyant children’s hobbies, Assured Income provides the scarlet cash flow to make it happen. The flamboyant USP is its "Double Protection"—even if you are not there, the plan ensures that the flamboyant scarlet income continues to flow to your family, plus a flamboyant lump sum. It is a flamboyant choice for those who want to "Retire Early" but flamboyantly. By choosing Assured Income, you are securing a flamboyant scarlet future where money is a flamboyant constant, and not a flamboyant variable. It is the flamboyant heart of a secure, scarlet lifestyle.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 13. SUD Life Guaranteed Pension Plan -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">🕊️</div>
+                <div class="category-tag">Pension</div>
+                <h2>Guaranteed Pension</h2>
+                <p>The Peace of a Scarlet Sunset.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Deferred Pension ULIP / Traditional</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">105% of Premiums Paid</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">10 to 30 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Regular / Limited Pay</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">35 - 70 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Deferred Annuity</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Total Corpus to Purchase Annuity</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">None (Accumulation Phase)</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Fund Value or 105% of Premiums</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 5 years lock-in</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">3 Years</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        Guaranteed Pension is the flamboyant "Architect" of your scarlet golden years. It is designed for the individual who wants to build a flamboyant scarlet "War Chest" for their flamboyant retirement. This is a dazzling plan that allows you to flamboyantly accumulate wealth during your working years and convert it into a flamboyant scarlet salary later. <br><br>
+                        Who should buy it? It is for the flamboyant "Career Professional" who wants to ensure that their flamboyant scarlet "Golden Years" are actually flamboyant and golden. The flamboyant USP is the "Guaranteed Payout"—it ensures that your flamboyant scarlet corpus is safe from the flamboyant volatility of the market. It is a spectacular choice for those who want a flamboyant "Financial Handshake" upon their flamboyant retirement. By choosing Guaranteed Pension, you are making a flamboyant commitment to your flamboyant scarlet independence, ensuring that you are always the flamboyant master of your flamboyant scarlet destiny. It is the flamboyant heart of a dignified, scarlet retirement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 14. SUD Life Saral Pension -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">📜</div>
+                <div class="category-tag">Annuity</div>
+                <h2>Saral Pension</h2>
+                <p>The Golden Standard of Simple Annuity.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Standard Immediate Annuity</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">Based on Purchase Price</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">Whole Life</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Single Premium Only</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">40 - 80 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">Life / Joint Life with ROP</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">Not Applicable</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">Guaranteed Regular Pension</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">100% Return of Purchase Price</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">Allowed after 6 months (Critical Illness)</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">Not Applicable</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        Saral Pension is the flamboyant "Standard Bearer" of the scarlet annuity world. It is designed for the individual who demands flamboyant crystalline clarity in their flamboyant retirement. This is a dazzling standard plan that offers a flamboyant, guaranteed life-long scarlet salary with the flamboyant Return of Purchase Price. <br><br>
+                        Who should buy it? It is for the flamboyant "Simplicity Seeker" who wants a flamboyant "No-Fuss" scarlet pension. The flamboyant USP is its "Standardization"—the terms are flamboyant and identical across the flamboyant industry, ensuring flamboyant scarlet trust. It is a spectacular choice for those who want to ensure that their flamboyant scarlet principal is always safe and flamboyant returned to their family. By choosing Saral Pension, you are demonstrating flamboyant scarlet wisdom: securing a flamboyant peace of mind that is as flamboyant as it is scarlet simple. It is the flamboyant heart of a safe, scarlet retirement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 15. SUD Life Retirement Royale -->
+    <div class="plan-card">
+        <div class="card-inner">
+            <div class="card-front">
+                <div class="star-icon">👑</div>
+                <div class="category-tag">Premium Retirement</div>
+                <h2>Retirement Royale</h2>
+                <p>The Most Majestic Way to Retire.</p>
+            </div>
+            <div class="card-back">
+                <div class="card-header-back">Technical Blueprint</div>
+                <div class="details-container">
+                    <div class="spec-item"><span class="spec-label">1. Plan Type</span><span class="spec-value">Premium ULIP Pension Plan</span></div>
+                    <div class="spec-item"><span class="spec-label">2. Sum Assured</span><span class="spec-value">105% of Total Premiums</span></div>
+                    <div class="spec-item"><span class="spec-label">3. Policy Term</span><span class="spec-value">10 to 30 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">4. PPT</span><span class="spec-value">Single / Regular / Limited Pay</span></div>
+                    <div class="spec-item"><span class="spec-label">5. Age Entry</span><span class="spec-value">30 - 75 Years</span></div>
+                    <div class="spec-item"><span class="spec-label">6. Option Type</span><span class="spec-value">High Net Worth Pension</span></div>
+                    <div class="spec-item"><span class="spec-label">7. Maturity</span><span class="spec-value">High Value Fund Corpus</span></div>
+                    <div class="spec-item"><span class="spec-label">8. SB</span><span class="spec-value">Loyalty Boosters</span></div>
+                    <div class="spec-item"><span class="spec-label">9. Death Benefit</span><span class="spec-value">Higher of Fund Value or 105% Premiums</span></div>
+                    <div class="spec-item"><span class="spec-label">10. Riders</span><span class="spec-value">None</span></div>
+                    <div class="spec-item"><span class="spec-label">11. Surrender</span><span class="spec-value">After 5 years lock-in</span></div>
+                    <div class="spec-item"><span class="spec-label">12. Revival</span><span class="spec-value">3 Years</span></div>
+                    <div class="usp-box">
+                        <strong>13. Salient Features (USP)</strong>
+                        Retirement Royale is the flamboyant "Jewel in the Crown" of the SUD Life scarlet collection. It is designed for the individual who believes that their flamboyant retirement should be nothing less than flamboyant "Royale." This is a dazzling premium pension plan that offers flamboyant scarlet wealth boosters and flamboyant market-linked growth. <br><br>
+                        Who should buy it? It is engineered for the flamboyant HNI or the flamboyant "C-Suite Executive" who wants to build a flamboyant scarlet "Empire" for their retirement. The flamboyant USP is its "Wealth Boosters"—flamboyant scarlet additions that reward you for staying flamboyant with your investments. It is a spectacular choice for those who want a flamboyant "Royale Lifestyle" in their flamboyant scarlet golden years. By choosing Retirement Royale, you are making a flamboyant commitment to your flamboyant scarlet magnificence, ensuring that you are always the flamboyant King or Queen of your flamboyant scarlet destiny. It is the flamboyant heart of a majestic, scarlet retirement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>&copy; 2024 Star Union Dai-ichi Life Insurance | Designed with Scarlet Brilliance</p>
+    <p>Bank of India | Union Bank of India | Dai-ichi Life</p>
+</footer>
+
+</body>
+</html>

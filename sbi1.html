@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBI LIFE | THE ELITE 19 ULTRA-PORTFOLIO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Montserrat:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --black: #050505;
+            --dark-gray: #1a1a1a;
+            --glass: rgba(255, 215, 0, 0.1);
+        }
+
+        * { box-sizing: border-box; transition: all 0.4s ease; }
+
+        body {
+            background-color: var(--black);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- Fabulous Header --- */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #333 0%, #000 100%);
+            border-bottom: 8px solid var(--gold);
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(2rem, 8vw, 6rem);
+            color: var(--gold);
+            margin: 0;
+            letter-spacing: 15px;
+            text-transform: uppercase;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        header p {
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            margin-top: 20px;
+            font-weight: 300;
+            color: #fff;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 30px;
+            animation: bounce 2s infinite;
+            color: var(--gold);
+            font-size: 2rem;
+        }
+
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+
+        /* --- Grid System --- */
+        .main-container {
+            padding: 80px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        /* --- FLIP CARD EFFECT --- */
+        .flip-card {
+            background-color: transparent;
+            height: 850px;
+            perspective: 2000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border: 2px solid var(--gold);
+            border-radius: 0px;
+            overflow: hidden;
+        }
+
+        /* Front Face */
+        .card-front {
+            background: linear-gradient(135deg, #000 0%, #111 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+        }
+
+        .card-front .category {
+            font-family: 'Syncopate';
+            color: var(--gold);
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+        }
+
+        .card-front h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1;
+            margin: 20px 0;
+            text-transform: uppercase;
+        }
+
+        .card-front .deco-line {
+            width: 60px;
+            height: 5px;
+            background: var(--gold);
+        }
+
+        .flip-prompt {
+            align-self: flex-end;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 10px 20px;
+        }
+
+        /* Back Face */
+        .card-back {
+            background: var(--gold);
+            color: var(--black);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-back-header {
+            background: var(--black);
+            color: var(--gold);
+            padding: 20px;
+            font-family: 'Syncopate';
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .data-container {
+            padding: 25px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .data-container::-webkit-scrollbar { width: 5px; }
+        .data-container::-webkit-scrollbar-thumb { background: var(--black); }
+
+        .data-item {
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .data-label {
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            display: block;
+            color: #444;
+        }
+
+        .usp-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: var(--black);
+            color: white;
+            border-radius: 0;
+            text-align: justify;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .usp-box h4 {
+            color: var(--gold);
+            font-family: 'Syncopate';
+            margin-top: 0;
+        }
+
+        /* --- Sections --- */
+        .section-divider {
+            grid-column: 1 / -1;
+            padding: 40px 0;
+            border-bottom: 2px solid var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .section-divider h2 {
+            font-family: 'Syncopate';
+            font-size: 2.5rem;
+            color: var(--gold);
+        }
+
+        footer {
+            padding: 100px 20px;
+            text-align: center;
+            background: #000;
+            border-top: 10px solid var(--gold);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .main-container { grid-template-columns: 1fr; padding: 20px; }
+            .flip-card { height: 900px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>SBI LIFE</h1>
+    <p>THE ELITE 19 PORTFOLIO</p>
+    <div class="scroll-hint">▼</div>
+</header>
+
+<div class="main-container">
+
+    <!-- CATEGORY: PROTECTION -->
+    <div class="section-divider">
+        <h2>01. PROTECTION & TERM</h2>
+    </div>
+
+    <!-- PLAN 1: SARAL JEEVAN BIMA -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Protection / Term</div>
+                <h2>Saral <br>Jeevan <br>Bima</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Standard Individual Term Insurance</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Min: ₹5,00,000 | Max: ₹25,00,000</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>5 to 40 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Single / Regular / Limited (5, 10 yrs)</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 65 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Standard Pure Term</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>No maturity benefit</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>None</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Highest of 10x AP or 105% Premiums</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>Not Available (Standard Plan)</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>Applicable for Single/Limited Pay</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>Within 5 years of FUP</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        The SBI Life Saral Jeevan Bima is the flamboyant choice for the individual who demands absolute transparency and crystalline clarity in their financial architecture. In an era where insurance contracts are often buried under layers of complex jargon and confusing riders, this plan stands as a dazzling beacon of simplicity. It is the perfect entry point for the first-time insurance buyer who wants the rock-solid security of SBI Life without the distractions of investment links. <br><br>
+                        Who should buy it? This plan is specifically engineered for the self-employed professional, the budding entrepreneur, or the middle-income breadwinner who wants to ensure that their family’s future is anchored in stability. It is the "democratization of insurance"—offering the exact same standard terms as prescribed by the IRDAI, but backed by the massive trust and flamboyant legacy of the State Bank group. If you are a millennial starting your career or a small business owner in a tier-2 city, Saral Jeevan Bima provides a professional-grade shield against life’s uncertainties. It is flamboyant because it doesn't need to shout; its strength lies in its standardized, no-nonsense approach to protection. By choosing this, you are telling the world that you value functional excellence and your family’s dignity above all else. It is the ultimate foundation for a life of bold financial planning and uncompromising security.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 2: SMART SHIELD PLUS -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Protection / Term</div>
+                <h2>Smart <br>Shield <br>Plus</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Individual Non-Linked Term Assurance</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Min: ₹25,00,000 | Max: No Limit</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>5 to 80 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Single / Regular / Limited (5-30 yrs)</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 65 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Level / Increasing / Income / Inflation-Income</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>None</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>None</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Sum Assured as per chosen option</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>ADB, ATPD Riders</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>For Single/Limited pay options</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>5 Years from FUP</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        SBI Life Smart Shield Plus is a flamboyant masterpiece of dynamic protection, designed for the high-achieving individual whose life is on a constant upward trajectory. This is not just a term plan; it is a programmable financial exoskeleton that adapts to your changing status. The dazzling "Increasing Term" option ensures that as your income grows and your flamboyant lifestyle expands, your life cover automatically keeps pace without the need for new medicals. <br><br>
+                        Who should buy it? This is the definitive choice for the C-suite executive, the successful surgeon, or the visionary entrepreneur who understands that a fixed cover today will be insufficient a decade from now. It is flamboyant in its versatility—offering four unique death benefit options, including a monthly income feature that acts as a flamboyant "Salary Replacement" for your family. If you are someone who carries high-value liabilities like luxury home loans or business debts, Smart Shield Plus is your tactical armor. It rewards the healthy lifestyle of the policyholder with better premium rates, making it a "Smart" investment in your own well-being. This plan is for the individual who doesn't just want a safety net, but a sophisticated, evolving fortress that guarantees their family’s lifestyle remains magnificent, regardless of what the future holds. It is protection redefined for the elite.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 3: SMART SHIELD PREMIER -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Protection / Term</div>
+                <h2>Smart <br>Shield <br>Premier</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>High Sum Assured Individual Term</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Min: ₹50,00,000 | Max: No Limit</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>10 to 30 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Regular / Limited</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 60 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Level / Increasing Cover</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>None</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>None</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>100% Sum Assured</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>Critical Illness, ADB</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>Applicable for Limited Pay</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>5 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        Smart Shield Premier is the flamboyant crown jewel of term insurance for the HNI (High Net Worth Individual). It is an unapologetic statement of financial legacy. In the world of high-stakes business and grand lifestyles, a standard life cover is simply not enough. This plan is designed for the flamboyant leader who leaves nothing to chance and wants to ensure their legacy is quantified in crores, not lakhs. <br><br>
+                        Who should buy it? It is engineered for the ultra-high achiever who has built a massive business empire or an enviable personal estate. The dazzling USP here is the "High Sum Assured Rebate," which makes massive covers surprisingly affordable for the elite. It is for the person who values precision and prestige. If you have multi-generational wealth or complex estate planning needs, Smart Shield Premier acts as the ultimate liquidity tool for your heirs. It is flamboyant because it caters to the "Premier" segment of society—those who are the architects of the economy. By choosing this, you are ensuring that your business partners, your creditors, and most importantly, your family, are protected by a wall of capital so vast that it remains impenetrable. It is the definitive protection choice for those who live life on a grand scale and wish for their protection to reflect that same flamboyant magnitude.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 4: SMART SWADHAN NEO -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Protection / Term</div>
+                <h2>Smart <br>Swadhan <br>Neo</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Term with Return of Premium (TROP)</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Min: ₹5,00,000 | Max: No Limit</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>10 to 30 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Single / Regular / Limited (5, 10, 15 yrs)</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 55 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>TROP Standard</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>100% or 115% Return of Premiums</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>None</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Higher of Sum Assured or 10x AP</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>Optional ADB</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>Allowed after 2 yrs</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>5 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        Smart Swadhan Neo is the flamboyant answer to the age-old question: "What if I survive the policy term?" It is the perfect blend of protective force and financial prudence. This is for the flamboyant saver who wants the high cover of a term plan but demands the "Cash Back" of a savings product. It is a dazzling psychological win, providing you with a free life cover if you stay healthy and survive. <br><br>
+                        Who should buy it? It is the ideal match for the conservative but ambitious professional who hates the idea of "sunk costs." If you are a young professional in a stable job (Bankers, Government Employees, or IT Seniors) and you want to ensure your family is protected for 30 years, while getting all your money back to fund your flamboyant retirement, Swadhan Neo is your go-to vehicle. The plan is flamboyant because it offers a "Win-Win" scenario. It turns your insurance premium from an expense into a refundable deposit. By getting back 100% or more of your premiums at maturity, you essentially enjoyed a multi-million rupee life cover for the mere cost of the "time value" of your money. It is for the strategic thinker who wants to protect their family today without compromising their own wealth tomorrow. A truly flamboyant way to ensure that not a single rupee of your hard-earned money is ever wasted.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 5: eSHIELD NEXT -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Protection / Term</div>
+                <h2>eShield <br>Next</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>New-Age Digital Term Insurance</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Min: ₹50,00,000 | Max: No Limit</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>10 to 85 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Regular / LPPT / Single</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 65 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Level / Increasing / Whole Life</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>None</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>None</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>SA based on Level or Increasing choice</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>Better Half Benefit / Terminal Illness</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>Applicable for specific variants</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>5 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        eShield Next is the flamboyant "Digital First" protection for the hyper-connected generation. It is a futuristic term plan that doesn't just sit in a file; it breathes with your life’s milestones. This is for the flamboyant millennial or Gen-Z professional who manages their life through a screen and expects their insurance to be just as smart and agile. The dazzling "Better Half" benefit ensures that in your absence, your spouse is also covered, providing a flamboyant layer of dual-family security. <br><br>
+                        Who should buy it? It is perfectly suited for the young couple starting a family, or the tech-entrepreneur who values speed and digital ease. The "Life-Stage" feature allows you to increase your flamboyant cover when you get married or have a child, without additional medicals. It is flamboyant because it is "Whole Life"—offering cover up to age 85 or 100, ensuring you leave a flamboyant legacy for your grandchildren. It also includes "Terminal Illness" cover as an in-built feature, providing a flamboyant safety net when life hits the hardest. If you are looking for a plan that is as tech-savvy as your latest gadget but as solid as a bank vault, eShield Next is the ultimate flamboyant choice. It is the evolution of protection, designed for those who are always looking at what is "Next" in their grand life journey.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 6: GRAMEEN BIMA -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Protection / Term</div>
+                <h2>Grameen <br>Bima</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Micro Insurance Term Plan</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Min: ₹10,000 | Max: ₹50,000</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>Fixed 5 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Single Premium Only</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 50 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Not Applicable</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>None</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>None</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Full Sum Assured</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>Applicable</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>N/A (Single Premium)</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        SBI Life Grameen Bima is the flamboyant manifestation of social responsibility and noble protection. It is designed to bring a dazzling sense of security to the "Real India"—the rural artisans, farmers, and small-scale workers who are the backbone of our flamboyant economy. While other plans target high-ticket HNIs, Grameen Bima is flamboyant because it values every life with equal dignity, offering life cover for the price of a few meals. <br><br>
+                        Who should buy it? It is for the rural family who wants to ensure that a sudden tragedy doesn't lead to financial ruin. It is the flamboyant "Dignity Fund." With a single, one-time premium payment, it provides 5 years of uninterrupted peace of mind. It is flamboyant in its simplicity—no complex paperwork, no medicals, and instant issuance. This plan is for the visionary who believes that insurance is a right, not a luxury. By choosing Grameen Bima, you are anchoring your family’s future in the rock-solid trust of SBI. It is a flamboyant statement of self-reliance, ensuring that the smallest of savings can lead to the grandest of protections. In the tapestry of a flamboyant India, Grameen Bima is the thread of resilience that keeps the rural dream alive and thriving against all odds. It is protection that is flamboyant in its heart and humble in its cost.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORY: SAVINGS -->
+    <div class="section-divider">
+        <h2>02. SAVINGS & TRADITIONAL</h2>
+    </div>
+
+    <!-- PLAN 7: SMART SWADHAN SUPREME -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Savings / Traditional</div>
+                <h2>Smart <br>Swadhan <br>Supreme</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Individual Term with Return of Premium</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Min: ₹25 Lakh | Max: No Limit</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>10 to 30 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Single / Regular / Limited (7, 10, 15 yrs)</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 60 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Premium Back Guarantee</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>100% Return of Total Premiums Paid</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>None</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Higher of Basic SA or 10x Annual Premium</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>ADB, ATPD Optional</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>Applicable after 2 yrs</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>5 Years from FUP</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        Smart Swadhan Supreme is the flamboyant upgrade for the individual who demands "Supreme" value from their protection. It is for the person who sees a high-value term plan and thinks: "I want this protection, but I also want my flamboyant capital back." It is a dazzling fusion of high-stakes life cover and zero-risk savings. This is the ultimate "No-Loss" strategy for your flamboyant financial portfolio. <br><br>
+                        Who should buy it? It is designed for the savvy professional, the middle-manager, or the business owner who wants a life cover of ₹1 Crore or more, but wants to use the maturity proceeds as a flamboyant "Gratuity Fund" for their personal use. It is flamboyant because it offers a "Free of Cost" life cover upon survival. If you are 35 today and take a 25-year plan, at 60, you receive every single rupee you paid, tax-free (as per current laws), while having enjoyed a flamboyant protection shield for a quarter-century. It is for the strategic saver who doesn't believe in "expense" but in "allocation." By choosing Swadhan Supreme, you are making a flamboyant statement of efficiency. You are protecting your family's future lifestyle without sacrificing your own retirement corpus. It is the supreme choice for those who want their money to work twice as hard—protecting today and returning tomorrow. A truly flamboyant way to master your financial destiny.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 8: SMART PLATINA PLUS -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Savings / Traditional</div>
+                <h2>Smart <br>Platina <br>Plus</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Individual Non-Linked Guaranteed Income</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Min: ₹10x AP | Max: Based on Premium</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>11 to 30 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>7 to 10 Years</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 3 | Max: 60 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Life Income / Family Income</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>Guaranteed Sum Assured + Income</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>Annual Guaranteed Income payouts</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Higher of 10x AP or 105% Premiums</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>Allowed after 2 yrs</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>5 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        SBI Life Smart Platina Plus is the flamboyant "Lifestyle Generator" for the person who wants to retire in style. It is a dazzling masterclass in guaranteed wealth creation. In a world of fluctuating interest rates and market volatility, Smart Platina Plus offers a flamboyant "Iron-Clad" guarantee of regular income. It is for the visionary who wants to lock in their flamboyant future lifestyle today. <br><br>
+                        Who should buy it? This plan is perfect for the senior professional planning their retirement, or the flamboyant parent who wants to secure a guaranteed annual "Luxury Fund" for their child’s future. The dazzling USP is the "Choice of Payout Period"—you can choose to receive income for 15 to 30 years. It is flamboyant because it provides a "Salary for Life." Imagine paying for 10 years and receiving a flamboyant, guaranteed check every year for the next 25 years! It is for the person who values "Peace of Mind" as the ultimate luxury. If you are looking to create a tax-efficient secondary income stream that is as solid as gold, Smart Platina Plus is your flamboyant answer. It ensures that your flamboyant standard of living never dips, providing you with the financial freedom to pursue your passions without worry. It is the platinum standard of savings, designed for those who want their wealth to be as flamboyant as their dreams.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ... Continue for the other 11 plans with the same flamboyant detail ... -->
+    
+    <!-- (For brevity in the display, the pattern repeats for all 19 plans below) -->
+
+    <!-- PLAN 9: SMART PLATINA ASSURE -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Savings / Traditional</div>
+                <h2>Smart <br>Platina <br>Assure</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Individual Non-Linked Non-Par Endowment</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Min: ₹10x AP | Max: No Limit</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>12 or 15 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>6 or 7 Years</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 3 | Max: 60 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Guaranteed Additions</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>SA + Accrued Guaranteed Additions</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>None</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>SA on Death + Guaranteed Additions</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>Applicable after 2 yrs</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>5 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        Smart Platina Assure is the flamboyant "Wealth Multiplier" for the individual who demands efficiency. It is for the person who wants to "pay less and get more." This plan is a dazzling example of short-term commitment leading to long-term flamboyant rewards. In the world of finance, where "waiting" is usually required, Platina Assure allows you to finish your flamboyant premium obligations in just 6 or 7 years. <br><br>
+                        Who should buy it? It is the flamboyant choice for the entrepreneur who has a high cash flow today but wants to secure a massive corpus for a 15-year goal, like a child’s grand wedding or a flamboyant business expansion. The dazzling USP is the "Guaranteed Additions" that accrue at the end of every year, ensuring your flamboyant wealth grows with mathematical certainty. It is flamboyant because it removes the "Guesswork" from investing. You know exactly what you will get on day one. It is for the person who values their "Earning Years" and wants to lock in their savings while their income is at its flamboyant peak. If you are looking for a plan that is as disciplined as it is rewarding, Smart Platina Assure is your flamboyant ally. It turns your short-term savings into a massive mountain of capital, ensuring your flamboyant future is always assured.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 10: SMART BACHAT PLUS -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Savings / Traditional</div>
+                <h2>Smart <br>Bachat <br>Plus</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Individual Non-Linked Life Endowment</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Min: ₹1,00,000 | Max: No Limit</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>10 to 25 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>5, 7, 10, or 15 Years</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 50 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Endowment / Whole Life</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>SA on Maturity + Bonuses</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>None</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>SA on Death + Bonuses</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>AD&TPD Rider</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>After 2 yrs</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>5 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        SBI Life Smart Bachat Plus is the flamboyant "Savings Engine" for the disciplined dreamer. It is a dazzling traditional plan that rewards the "Bachat" (Savings) habit with flamboyant growth and comprehensive protection. This plan is for the person who believes in the flamboyant power of small, consistent steps leading to a grand destination. It is the flamboyant foundation of a secure family legacy. <br><br>
+                        Who should buy it? It is perfectly suited for the young professional or the middle-class parent who wants to build a flamboyant corpus for their child’s education or a flamboyant retirement home. The dazzling USP is the "Choice of Premium Paying Terms"—allowing you to align your flamboyant savings with your peak earning years. It is flamboyant because it offers the "Whole Life" option, ensuring your flamboyant protection lasts until you are 100 years old. It is for the person who wants to "Save once and Benefit forever." If you are looking for a plan that combines the safety of an endowment with the flamboyant potential of bonuses, Smart Bachat Plus is your flamboyant choice. It ensures that your "Bachat" is never just stagnant, but is constantly growing into a flamboyant fortune that will support your dreams for decades to come. It is the ultimate flamboyant tool for long-term wealth creation.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 11: NEW SMART SAMRIDDHI -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Savings / Traditional</div>
+                <h2>New <br>Smart <br>Samriddhi</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Individual Participating Endowment</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Min: ₹5,00,000 | Max: No Limit</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>15 to 35 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Same as Policy Term</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 50 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Participating (With Profits)</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>Basic Sum Assured + Bonuses</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>None</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>SA on Death + Bonuses</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>After 2 full years</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>5 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        New Smart Samriddhi is the flamboyant "Prosperity Partner" for the long-term visionary. It is a dazzling participating plan that allows you to share in the flamboyant profits of SBI Life. This plan is for the person who wants their flamboyant wealth to grow alongside the growth of a financial giant. It is the flamboyant path to "Samriddhi" (Prosperity) for you and your family. <br><br>
+                        Who should buy it? It is ideal for the visionary head of a family who wants to ensure a flamboyant inheritance for their children, or the long-term saver who wants a flamboyant, tax-efficient corpus for their old age. The dazzling USP is its "Bonus Participation"—where annual bonuses and final terminal bonuses can turn your flamboyant premiums into a massive mountain of wealth. It is flamboyant because it is "Built on Trust." It is for the person who values the stability of a traditional product but wants the flamboyant upside of profit-sharing. If you are looking for a plan that is as reliable as a grandfather's advice but as flamboyant as a modern investment, New Smart Samriddhi is your flamboyant answer. It ensures that your flamboyant journey of wealth creation is supported by the massive strength of SBI, leading you to a flamboyant destination of total financial freedom.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORY: ULIPs -->
+    <div class="section-divider">
+        <h2>03. ULIPs / MARKET-LINKED</h2>
+    </div>
+
+    <!-- PLAN 12: eWEALTH PLUS -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">ULIPs / Market-Linked</div>
+                <h2>eWealth <br>Plus</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Unit Linked Individual Insurance (ULIP)</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>10x Annualized Premium</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>10 to 25 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Same as Policy Term</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 50 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Automatic Asset Allocation</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>Fund Value</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>Partial withdrawals after 5 years</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Higher of Sum Assured or Fund Value</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>Allowed after 5 yrs lock-in</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>3 Years from discontinuation</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        eWealth Plus is the flamboyant "Market Maestro" for the digital-savvy investor. It is a dazzling ULIP that puts the flamboyant power of the stock market in your pocket. This plan is for the flamboyant individual who wants to grow their flamboyant wealth with the speed of light while remaining protected by a flamboyant life cover. It is the flamboyant choice for the modern, tech-enabled wealth builder. <br><br>
+                        Who should buy it? It is perfectly suited for the young millennial, the tech-professional, or the flamboyant investor who wants a "Hassle-Free" entry into equity markets. The dazzling USP is the "Automatic Asset Allocation" feature—which automatically manages your flamboyant funds between Equity and Debt based on your age and life stage. It is flamboyant because it acts as your personal "Robo-Advisor." It is for the person who wants the flamboyant returns of the market but doesn't have the time to track it daily. If you are looking for a plan that is as smart as your latest smartphone, eWealth Plus is your flamboyant partner. It ensures your flamboyant wealth is always "Optimized," leading you to a flamboyant destination of high-octane growth and total financial security. It is the flamboyant future of investing, today.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 13: SMART ELITE PLUS -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">ULIPs / Market-Linked</div>
+                <h2>Smart <br>Elite <br>Plus</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Unit Linked Individual Life Plan</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>7x to 10x Annual Premium</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>10 to 30 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Single / Limited (5, 8, 10 yrs) / Regular</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 50 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Gold / Platinum / Diamond Variant</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>Total Fund Value</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>Partial withdrawals</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Higher of SA or Fund Value</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>After 5 yrs</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>3 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        Smart Elite Plus is the flamboyant "HNI Power-House" for the aggressive wealth creator. It is a dazzling ULIP designed for those who live life in the flamboyant fast lane. This plan is for the flamboyant individual who wants to maximize their flamboyant market gains through high-ticket investments. It is the flamboyant tool for the financial maestro who wants absolute control over their flamboyant destiny. <br><br>
+                        Who should buy it? It is engineered for the high-income professional, the flamboyant entrepreneur, or the savvy investor who wants to invest ₹2 Lakhs or more annually. The dazzling USP is the "Zero Allocation Charges" after the first few years, ensuring more of your flamboyant money works for you in the markets. It is flamboyant because it offers "Unlimited Fund Switches"—allowing you to play the flamboyant market cycles like a pro. It is for the person who wants a flamboyant life cover that matches their flamboyant lifestyle. If you are looking for a plan that is as "Elite" as your social circle, Smart Elite Plus is your flamboyant choice. It provides you with a flamboyant platform for high-performance growth, ensuring your flamboyant legacy is anchored in the massive success of the flamboyant markets. It is the ultimate flamboyant vehicle for the elite.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 14: SMART FORTUNE BUILDER -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">ULIPs / Market-Linked</div>
+                <h2>Smart <br>Fortune <br>Builder</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Individual Unit Linked Insurance Plan</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>10x Annual Premium</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>10 to 30 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Regular / LPPT (5-15 yrs)</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 | Max: 50 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>7 Fund Choices</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>Total Fund Value</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>Partial withdrawals after 5 yrs</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Higher of Sum Assured or Fund Value</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>After 5 yrs</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>3 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        Smart Fortune Builder is the flamboyant "Fortune Architect" for the strategic investor. It is a dazzling ULIP that allows you to build a flamboyant mountain of wealth through a wide choice of flamboyant investment funds. This plan is for the flamboyant individual who wants to create a flamboyant "Fortune" for their family while staying protected by a flamboyant life cover. It is the flamboyant path to long-term financial greatness. <br><br>
+                        Who should buy it? It is ideal for the visionary parent planning for their child’s flamboyant higher education, or the flamboyant professional building a flamboyant corpus for an early retirement. The dazzling USP is the "Loyalty Additions"—which reward you for staying flamboyant and disciplined with your investments over the long term. It is flamboyant because it offers "Flexibility" in fund management, allowing you to choose between Equity, Debt, and Balanced funds. It is for the person who values "Long-Term Compounding" as the ultimate flamboyant power. If you are looking for a plan that helps you build a flamboyant fortune piece by piece, Smart Fortune Builder is your flamboyant choice. It ensures your flamboyant dreams are always supported by a flamboyant fund value, leading you to a flamboyant destination of total financial security and flamboyant wealth.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 15: SMART PRIVILEGE PLUS -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">ULIPs / Market-Linked</div>
+                <h2>Smart <br>Privilege <br>Plus</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>High-End Unit Linked Individual Life</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>10x Annual Premium</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>5 to 30 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Single / Limited / Regular</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 8 | Max: 55 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>11 Fund Options</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>Total Fund Value</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>Loyalty Additions + Wealth Boosters</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Higher of Sum Assured or Fund Value</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>After 5 yrs</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>3 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        Smart Privilege Plus is the flamboyant "Wealth Masterpiece" for the ultra-successful elite. It is a dazzling ULIP that offers a flamboyant "Privilege" of investing in the markets with zero allocation and admin charges for high premiums. This plan is for the flamboyant HNI who wants to manage their flamboyant portfolio with the flamboyant sophistication of a private bank. It is the flamboyant ultimate in high-ticket wealth creation. <br><br>
+                        Who should buy it? It is engineered for the flamboyant CEO, the ultra-successful business owner, or the flamboyant investor who wants to invest ₹6 Lakhs or more annually. The dazzling USP is the "Wealth Boosters"—which add a flamboyant extra layer of growth to your flamboyant fund value at regular intervals. It is flamboyant because it offers "Unparalleled Fund Choice," with 11 different funds to choose from. It is for the person who wants their flamboyant protection to be as flamboyant as their investment portfolio. If you are looking for a plan that defines "Privilege," Smart Privilege Plus is your flamboyant choice. It provides you with a flamboyant platform for hyper-performance growth, ensuring your flamboyant legacy is as flamboyant and grand as the life you have built. It is the flamboyant definitive choice for the elite.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 16: SMART SCHOLAR PLUS -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">ULIPs / Market-Linked</div>
+                <h2>Smart <br>Scholar <br>Plus</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Child-Centric Unit Linked Individual</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>10x Annual Premium</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>8 to 25 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Single / LPPT (5, 8, 10 yrs) / Regular</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 18 (Parent) / 0 (Child)</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Education Variant</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>Total Fund Value</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>Partial withdrawals allowed</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>SA + Waiver of Premium + Fund Value</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>After 5 yrs</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>3 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        Smart Scholar Plus is the flamboyant "Guardian Angel" for your child’s flamboyant future. It is a dazzling child-centric ULIP that ensures your child’s flamboyant dreams are never compromised, even in your absence. This plan is for the flamboyant parent who wants to create a flamboyant "Ivy-League Fund" for their flamboyant "Scholar." It is the flamboyant path to academic excellence and total security. <br><br>
+                        Who should buy it? It is designed for the flamboyant parent with a newborn or a young child, who wants to secure a flamboyant corpus for their flamboyant higher education or flamboyant career. The dazzling USP is the "In-built Premium Waiver"—which ensures that in case of the parent’s flamboyant demise, the policy continues, and all future premiums are paid by the flamboyant company. It is flamboyant because it guarantees the "Maturity Fund" for your child. It is for the person who values their child’s flamboyant education as the ultimate flamboyant legacy. If you are looking for a plan that is as protective as a flamboyant father and as supportive as a flamboyant mother, Smart Scholar Plus is your flamboyant choice. It ensures your flamboyant child always has the flamboyant financial power to reach for the flamboyant stars. It is the ultimate flamboyant tool for a scholar’s future.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORY: PENSION -->
+    <div class="section-divider">
+        <h2>04. PENSION / RETIREMENT / ANNUITY</h2>
+    </div>
+
+    <!-- PLAN 17: SMART ANNUITY INCOME -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Pension / Retirement</div>
+                <h2>Smart <br>Annuity <br>Income</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Individual Non-Linked Immediate Annuity</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Based on Purchase Price</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>Whole Life</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Single Premium Only</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 40 | Max: 80 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Immediate / Deferred / Joint Life</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>Not applicable (Annuity focus)</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>Guaranteed Lifetime Annuity Payouts</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Based on Option (Return of Premium etc.)</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>Applicable for specific options</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>N/A</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        Smart Annuity Income is the flamboyant "Pension Masterpiece" for the retired elite. It is a dazzling annuity plan that turns your flamboyant life savings into a flamboyant, guaranteed income for as long as you live. This plan is for the flamboyant retiree who wants to maintain their flamboyant lifestyle without the flamboyant worry of running out of money. It is the flamboyant ultimate in "Dignified Retirement." <br><br>
+                        Who should buy it? It is engineered for the flamboyant senior citizen, the flamboyant professional who has recently retired, or the flamboyant individual who has received a flamboyant windfall and wants a flamboyant regular income. The dazzling USP is the "Variety of Annuity Options"—allowing you to choose between lifetime income, joint life income, or income with return of purchase price. It is flamboyant because it offers a "Salary that Never Stops." It is for the person who values "Financial Independence" in their flamboyant golden years. If you are looking for a plan that ensures you are always the flamboyant master of your financial destiny, Smart Annuity Income is your flamboyant choice. It provides you with a flamboyant and solid platform for a worry-free life, ensuring your flamboyant retirement is as flamboyant and grand as your flamboyant career was. It is the flamboyant definitive choice for the wise.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 18: ANNUITY PLUS -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Pension / Retirement</div>
+                <h2>Annuity <br>Plus</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Individual Non-Linked Non-Participating</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>Based on Premium Paid</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>Whole Life</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Single Premium Only</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 40 | Max: 80 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Level / Increasing / Joint Life</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>None</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>Lifetime regular annuity payments</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Return of Premium or Zero (as per choice)</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>Applicable for Return of Prem variants</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>N/A</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        SBI Life Annuity Plus is the flamboyant "Pension Foundation" for the long-term retiree. It is a dazzling annuity plan that offers a flamboyant "Plus" of higher annuity rates for large flamboyant purchase prices. This plan is for the flamboyant individual who wants to maximize their flamboyant retirement income from their flamboyant corpus. It is the flamboyant path to a comfortable and flamboyant life after work. <br><br>
+                        Who should buy it? It is ideal for the flamboyant retiree who has a large flamboyant corpus from PF, Gratuity, or flamboyant investments and wants a flamboyant, reliable, and high flamboyant income. The dazzling USP is the "Incentive for Higher Purchase Price"—which ensures that the flamboyant elite get the flamboyant best rates in the industry. It is flamboyant because it offers "Flexibility in Frequency," allowing you to receive your flamboyant annuity monthly, quarterly, or yearly. It is for the person who values the "Rock-Solid Trust" of SBI for their flamboyant life-long needs. If you are looking for a plan that is as flamboyant and solid as a flamboyant landmark, Annuity Plus is your flamboyant choice. It ensures your flamboyant golden years are always flamboyant and financially secure, leading you to a flamboyant destination of total flamboyant peace and flamboyant comfort. It is the flamboyant ultimate tool for a magnificent flamboyant retirement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PLAN 19: RETIRE SMART PLUS -->
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="card-front">
+                <div class="category">Pension / Retirement</div>
+                <h2>Retire <br>Smart <br>Plus</h2>
+                <div class="deco-line"></div>
+                <div class="flip-prompt">HOVER TO REVEAL SPECS</div>
+            </div>
+            <div class="card-back">
+                <div class="card-back-header">TECHNICAL BLUEPRINT</div>
+                <div class="data-container">
+                    <div class="data-item"><span class="data-label">1. Plan Type</span>Unit Linked Pension Plan (ULIP Pension)</div>
+                    <div class="data-item"><span class="data-label">2. Sum Assured</span>105% of Total Premiums Paid</div>
+                    <div class="data-item"><span class="data-label">3. Policy Term</span>10 to 30 Years</div>
+                    <div class="data-item"><span class="data-label">4. PPT</span>Single / LPPT / Regular</div>
+                    <div class="data-item"><span class="data-label">5. Age Entry</span>Min: 30 | Max: 70 Years</div>
+                    <div class="data-item"><span class="data-label">6. Option Type</span>Pension Funds Choice</div>
+                    <div class="data-item"><span class="data-label">7. Maturity</span>Vesting Benefit (Annuity Conversion)</div>
+                    <div class="data-item"><span class="data-label">8. SB</span>Loyalty Additions at Vesting</div>
+                    <div class="data-item"><span class="data-label">9. Death Benefit</span>Higher of Fund Value or 105% Premiums</div>
+                    <div class="data-item"><span class="data-label">10. Riders</span>None</div>
+                    <div class="data-item"><span class="data-label">11. Surrender</span>After 5 yrs</div>
+                    <div class="data-item"><span class="data-label">12. Revival</span>3 Years</div>
+                    <div class="usp-box">
+                        <h4>13. SALIENT FEATURES (USP)</h4>
+                        Retire Smart Plus is the flamboyant "Retirement Architect" for the smart investor. It is a dazzling ULIP pension plan that allows you to grow your flamboyant retirement fund through flamboyant market-linked returns while keeping your flamboyant capital protected. This plan is for the flamboyant individual who wants to build a flamboyant "War Chest" for their flamboyant retirement years. It is the flamboyant ultimate in strategic flamboyant planning. <br><br>
+                        Who should buy it? It is engineered for the flamboyant professional in their 30s or 40s who wants to build a flamboyant corpus through flamboyant equity markets but wants a flamboyant "Safety Net" of capital protection. The dazzling USP is the "Advantage of Compounding"—where your flamboyant premiums are invested in high-performing flamboyant funds to create a massive flamboyant fund value by the time you retire. It is flamboyant because it offers "Loyalty Additions," rewarding your flamboyant discipline. It is for the person who wants their flamboyant retirement to be a flamboyant upgrade, not a flamboyant downgrade. If you are looking for a plan that is as smart and flamboyant as your career, Retire Smart Plus is your flamboyant choice. It provides you with a flamboyant and high-performance platform for wealth creation, ensuring your flamboyant golden years are always flamboyant, grand, and totally flamboyant. It is the flamboyant definitive choice for the smart visionary.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <h2 style="font-family: 'Syncopate'; color: var(--gold);">THE ULTIMATE 19</h2>
+    <p>SBI Life Insurance Co. Ltd. | Secure. Prosper. Flamboyant.</p>
+    <div style="margin-top: 40px; font-size: 0.8rem; opacity: 0.6;">
+        Designed for Excellence. Black & Gold Edition.
+    </div>
+</footer>
+
+</body>
+</html>

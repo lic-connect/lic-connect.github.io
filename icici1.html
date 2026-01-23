@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICICI Pru - The Royal Collection</title>
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --icici-orange: #F37021;
+            --icici-maroon: #8B0E04;
+            --deep-space: #1a0b2e;
+            --bg-grad: linear-gradient(135deg, #2b0a3d, #510a0a, #1f1c2c);
+            --card-front-grad: linear-gradient(160deg, rgba(139, 14, 4, 0.85), rgba(243, 112, 33, 0.85));
+            --card-back-grad: linear-gradient(160deg, #190033, #330019); /* Deep Purple/Red - NO BLACK */
+            --gold: #FFD700;
+            --glass: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.3);
+            --text-glow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--bg-grad);
+            background-size: 400% 400%;
+            animation: cosmicShift 20s ease infinite;
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes cosmicShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin-bottom: 70px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, var(--gold), var(--icici-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(243, 112, 33, 0.8);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 50px;
+            box-shadow: 0 0 20px var(--icici-orange);
+            backdrop-filter: blur(5px);
+        }
+
+        /* GRID */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 50px;
+            max-width: 1900px;
+            margin: 0 auto;
+            perspective: 2000px;
+        }
+
+        /* CARD */
+        .card {
+            height: 750px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(81, 10, 10, 0.6);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* FACES */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FRONT DESIGN */
+        .front {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 2;
+            transform: rotateY(0deg);
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+        }
+
+        /* Dynamic Gradients for Front injected via JS */
+        
+        .icon-box {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            color: #fff;
+            filter: drop-shadow(0 0 15px var(--gold));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float { 0%,100% {transform: translateY(0);} 50% {transform: translateY(-15px);} }
+
+        .plan-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 10px;
+            width: 80%;
+        }
+
+        .cat-badge {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.5);
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .click-hint {
+            padding: 12px 35px;
+            background: linear-gradient(45deg, var(--icici-orange), #d35400);
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            box-shadow: 0 0 15px var(--icici-orange);
+            margin-top: auto;
+        }
+        .card:hover .click-hint { transform: scale(1.05); }
+
+        /* BACK DESIGN */
+        .back {
+            transform: rotateY(180deg);
+            background: var(--card-back-grad);
+            padding: 20px;
+        }
+
+        .back-header {
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-title { color: var(--gold); font-family: 'Cinzel', serif; font-size: 1.1rem; }
+
+        .data-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 8px;
+        }
+
+        /* Custom Scrollbar */
+        .data-list::-webkit-scrollbar { width: 6px; }
+        .data-list::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, var(--icici-maroon), var(--icici-orange)); border-radius: 10px; }
+        .data-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+
+        .data-row {
+            margin-bottom: 10px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--icici-orange);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .value {
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .usp-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--gold);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 10px 10px 0;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .usp-text {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            color: #f0f0f0;
+            text-align: justify;
+        }
+        
+        .usp-label {
+            display: block;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ICICI Prudential</h1>
+        <div class="subtitle">19 Jewels of Protection & Prosperity</div>
+    </header>
+
+    <div class="grid-container" id="cardGrid">
+        <!-- JS will inject the 19 plans here -->
+    </div>
+
+    <script>
+        const plans = [
+            {
+                name: "ICICI Pru SmartKid 360",
+                cat: "Child ULIP",
+                icon: "fa-child",
+                details: {
+                    type: "Unit Linked Child Plan.",
+                    sa: "10x Premium.",
+                    term: "10 to 25 Years.",
+                    ppt: "Regular / Limited.",
+                    age: "20 to 54 Years (Parent).",
+                    option: "Gold / Silver.",
+                    maturity: "Fund Value.",
+                    sb: "Partial Withdrawals.",
+                    death: "SA + Premium Waiver.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "This is the ultimate financial fortress for your child's dreams. The SmartKid 360 plan is specifically designed to ensure that your child's education and future milestones are funded, no matter what life throws at you. <b>Why is it special?</b> The defining feature is the 'Waiver of Premium' benefit. In the unfortunate event of the parent's demise, the insurance company not only pays the Sum Assured immediately to the family but also <i>pays all future premiums</i> on your behalf into the fund until maturity. This ensures that the corpus you planned for your child's education remains intact and grows as intended. It combines the growth potential of equity markets with the safety net of insurance. With loyalty additions and wealth boosters, it rewards disciplined savings. This plan is ideal for young parents who want to secure their child’s higher education against the risks of inflation and mortality."
+                }
+            },
+            {
+                name: "ICICI Pru Wealth Elite Pro",
+                cat: "HNI ULIP",
+                icon: "fa-gem",
+                details: {
+                    type: "Unit Linked Insurance Plan.",
+                    sa: "7x or 10x Premium.",
+                    term: "10 to 30 Years.",
+                    ppt: "Limited / Single.",
+                    age: "0 to 60 Years.",
+                    option: "Low Cover / High Cover.",
+                    maturity: "Fund Value.",
+                    sb: "Unlimited Withdrawals (post 5 yrs).",
+                    death: "Higher of SA or Fund.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "Wealth Elite Pro is a premium ULIP crafted for High Net-Worth Individuals (HNIs) who demand superior returns and minimal costs. <b>Who should buy it?</b> Investors looking to create substantial wealth with low allocation charges. The plan rewards you for staying invested with 'Wealth Boosters' and 'Loyalty Additions' that significantly enhance the fund value over time. It offers a wide array of fund options, ranging from pure equity to debt, allowing you to tailor your portfolio based on your risk appetite. A standout feature is the option for unlimited free switches between funds, giving you complete control over market movements. With a high entry threshold, the plan ensures that the cost structure is optimized for larger investments, making it more efficient than standard mutual funds for long-term tax-free wealth creation."
+                }
+            },
+            {
+                name: "ICICI Pru Wealth Forever",
+                cat: "Whole Life ULIP",
+                icon: "fa-infinity",
+                details: {
+                    type: "Whole Life ULIP.",
+                    sa: "Multiple of Premium.",
+                    term: "Till Age 99.",
+                    ppt: "7, 10, 15 Years.",
+                    age: "0 to 60 Years.",
+                    option: "Life / Wealth.",
+                    maturity: "Fund Value at 99.",
+                    sb: "Systematic Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "Available.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "Wealth Forever is a unique proposition that combines wealth creation with legacy planning. It is a Whole Life Unit Linked Plan that covers you up to age 99. <b>Why buy it?</b> It creates a tax-free income stream for you during your retirement while preserving a massive corpus for your heirs. The plan allows you to accumulate wealth in your earning years and then withdraw it systematically. What makes it dazzling is the 'Milestone Enhancer' which adds extra units to your fund at specific intervals. It effectively functions as a self-managed pension plan with the upside of equity markets. Perfect for those who want to leave a significant financial legacy for their children or grandchildren while enjoying financial independence in their golden years."
+                }
+            },
+            {
+                name: "ICICI Pru iProtect Smart Plus",
+                cat: "Comprehensive Term",
+                icon: "fa-shield-alt",
+                details: {
+                    type: "Term Insurance.",
+                    sa: "Min: 50 Lakhs.",
+                    term: "Up to 85 Years.",
+                    ppt: "Regular/Limited.",
+                    age: "18 to 65 Years.",
+                    option: "Life / Life Plus.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "Lump sum or Income.",
+                    riders: "CI, Accidental Death.",
+                    surrender: "Nil.",
+                    revival: "5 Years.",
+                    usp: "This is a versatile term plan that goes beyond simple death benefits. iProtect Smart Plus offers 360-degree protection against death, terminal illness, and disability. <b>Key Feature:</b> The built-in Terminal Illness benefit pays out the entire sum assured <i>before</i> death if diagnosed with a terminal condition, providing dignity and financial support when it is needed most. It also offers a 'Smart Exit' benefit, allowing you to return the policy and get your premiums back if you feel you no longer need coverage in your later years. Ideal for breadwinners who want comprehensive security that adapts to life's harshest realities."
+                }
+            },
+            {
+                name: "ICICI Pru Gift Select",
+                cat: "Guaranteed Income",
+                icon: "fa-gift",
+                details: {
+                    type: "Non-Par Savings.",
+                    sa: "10x Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "5 to 12 Years.",
+                    age: "0 to 60 Years.",
+                    option: "Income / Lumpsum.",
+                    maturity: "Guaranteed Payout.",
+                    sb: "Guaranteed Income.",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Gift Select is designed for those who seek absolute certainty in an uncertain world. It is a non-participating plan, meaning the returns are guaranteed upfront and are not subject to market volatility or company profits. <b>Who is it for?</b> It is perfect for goal-based savings like a child’s education fee or a down payment on a home. You can choose to receive the benefit as a lump sum or as a guaranteed regular income. The 'Gift' in the name stands for 'Guaranteed Income for Tomorrow'. With flexible premium payment terms and the option to take income as early as the second year, it provides excellent liquidity and security."
+                }
+            },
+            {
+                name: "ICICI Pru Smart Goal Assure",
+                cat: "Goal ULIP",
+                icon: "fa-bullseye",
+                details: {
+                    type: "ULIP.",
+                    sa: "10x Premium.",
+                    term: "10 to 25 Years.",
+                    ppt: "5/10 Years.",
+                    age: "0 to 60 Years.",
+                    option: "Target Asset Allocation.",
+                    maturity: "Fund Value.",
+                    sb: "Nil.",
+                    death: "Higher of SA or Fund.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "Smart Goal Assure is built for goal-oriented investors who want professional management of their funds. <b>USP:</b> It features an automated portfolio strategy that shifts your money from equity to debt as you approach maturity, protecting your gains from last-minute market crashes. It also includes 'Return of Mortality Charges' and 'Return of Premium Allocation Charges', meaning the cost of insurance is effectively returned to you at maturity. This makes it a very low-cost ULIP compared to older generation plans. Ideal for planning specific time-bound goals like a wedding or college admission."
+                }
+            },
+            {
+                name: "ICICI Pru iProtect Super",
+                cat: "Dynamic Term",
+                icon: "fa-superpowers",
+                details: {
+                    type: "Term Insurance.",
+                    sa: "Flexible.",
+                    term: "Up to 99 Years.",
+                    ppt: "Limited / Regular.",
+                    age: "18 to 65.",
+                    option: "Life / Life Plus.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "Sum Assured.",
+                    riders: "Accident / CI.",
+                    surrender: "Nil.",
+                    revival: "5 Years.",
+                    usp: "iProtect Super is the evolution of term insurance, offering 'Smart Adjust' capabilities. <b>Why buy it?</b> It automatically increases your life cover at key life stages (marriage, childbirth) without the need for fresh medicals. Conversely, as you age and your liabilities decrease, you can choose to decrease the cover to save on premiums. It covers 34 critical illnesses and offers a payout on accidental disability. It is the perfect plan for young professionals who expect their responsibilities and insurance needs to evolve over time."
+                }
+            },
+            {
+                name: "ICICI Pru Saral Jeevan Bima",
+                cat: "Standard Term",
+                icon: "fa-check-circle",
+                details: {
+                    type: "Standard Term.",
+                    sa: "5L to 25 Lakhs.",
+                    term: "5 to 40 Years.",
+                    ppt: "Regular / Limited.",
+                    age: "18 to 65 Years.",
+                    option: "Standard.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "10x Premium.",
+                    riders: "Accident Benefit.",
+                    surrender: "Nil.",
+                    revival: "5 Years.",
+                    usp: "A government-mandated, standardized term plan that cuts through the jargon. <b>USP:</b> Simplicity and Trust. It offers pure life cover with standard terms and conditions applicable across all insurers, making it easy to compare. It is designed for first-time buyers or those with a lower budget who need essential protection without hidden clauses. If you want the trusted brand of ICICI Prudential with a no-frills, straight-forward contract, this is the plan."
+                }
+            },
+            {
+                name: "ICICI Pru Signature Assure",
+                cat: "Endowment",
+                icon: "fa-signature",
+                details: {
+                    type: "Non-Par Endowment.",
+                    sa: "Based on Premium.",
+                    term: "10 to 30 Years.",
+                    ppt: "Limited Pay.",
+                    age: "0 to 60 Years.",
+                    option: "Income / Lump Sum.",
+                    maturity: "Guaranteed SA.",
+                    sb: "Nil.",
+                    death: "Higher of SA or 105% Prem.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Signature Assure is a flexible savings plan that caters to the diverse needs of creating a corpus. It offers tax-efficient returns that are generally higher than traditional fixed deposits. <b>Who should buy it?</b> It is ideal for conservative investors who want to build a tax-free corpus for the future. The plan offers the flexibility to choose the premium payment term and policy term independently. It serves as a great instrument for capital preservation while ensuring life cover, making it a safe harbor for your hard-earned money."
+                }
+            },
+            {
+                name: "iProtect Smart ROP",
+                cat: "Term + Refund",
+                icon: "fa-undo",
+                details: {
+                    type: "Term with Return of Premium.",
+                    sa: "Min: 50 Lakhs.",
+                    term: "10 to 40 Years.",
+                    ppt: "Regular / Limited.",
+                    age: "18 to 60 Years.",
+                    option: "ROP.",
+                    maturity: "Total Premiums Paid.",
+                    sb: "Nil.",
+                    death: "Sum Assured.",
+                    riders: "CI / Accidental.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "For those who dislike the idea of 'wasting' premiums on term insurance if they survive, this plan is the answer. <b>USP:</b> It offers the same robust protection as the standard iProtect Smart but promises to return 100% of the premiums paid at the end of the policy term if the life assured survives. It is essentially free insurance cost-wise, assuming the time value of money is secondary to capital return. Ideally suited for Indians who view insurance as an asset and want a 'money-back' guarantee."
+                }
+            },
+            {
+                name: "Guaranteed Pension Plan",
+                cat: "Deferred Annuity",
+                icon: "fa-wheelchair",
+                details: {
+                    type: "Non-Par Annuity.",
+                    sa: "Based on Premium.",
+                    term: "Deferment 1-10 Yrs.",
+                    ppt: "Single / Limited.",
+                    age: "30 to 80 Years.",
+                    option: "Joint Life / Single.",
+                    maturity: "Annuity Starts.",
+                    sb: "Lifetime Income.",
+                    death: "Purchase Price + Additions.",
+                    riders: "N/A.",
+                    surrender: "Allowed.",
+                    revival: "2 Years.",
+                    usp: "This plan eliminates 'Reinvestment Risk'. In a falling interest rate economy, locking in a high interest rate for life is crucial. <b>USP:</b> You pay now, and after a deferment period, you receive a guaranteed income for life. The rate is locked in at the time of purchase. It offers Joint Life options where the spouse continues to receive the pension after the primary holder's demise. Perfect for retirement planning where certainty of income is prioritized over high-risk growth."
+                }
+            },
+            {
+                name: "ICICI Pru Signature Pension",
+                cat: "Unit Linked Pension",
+                icon: "fa-file-signature",
+                details: {
+                    type: "ULIP Pension.",
+                    sa: "Corpus Builder.",
+                    term: "10 to 30 Years.",
+                    ppt: "Regular / Limited.",
+                    age: "25 to 75 Years.",
+                    option: "Pension.",
+                    maturity: "Vesting Corpus.",
+                    sb: "Nil.",
+                    death: "105% of Premiums.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "A market-linked pension plan that helps you build a massive retirement kitty. <b>USP:</b> It offers 'Capital Guarantee' options where the premiums invested are protected from market downsides. It invests in a mix of equity and debt to beat inflation, unlike traditional pension plans. At maturity (vesting), the accumulated corpus is used to purchase an annuity. It is suitable for those in their 30s and 40s who want to harness the power of compounding equity to ensure a wealthy retirement."
+                }
+            },
+            {
+                name: "ICICI Pru iProtect Supreme",
+                cat: "Elite Term",
+                icon: "fa-chess-king",
+                details: {
+                    type: "Term Insurance.",
+                    sa: "High Value.",
+                    term: "Till Age 99.",
+                    ppt: "Limited Pay.",
+                    age: "18 to 60.",
+                    option: "Life Stage.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "SA.",
+                    riders: "Comprehensive.",
+                    surrender: "Available.",
+                    revival: "5 Years.",
+                    usp: "The Supreme version of protection, designed for the affluent. <b>USP:</b> It combines the best features of all term plans—Whole Life coverage (till 99), Critical Illness benefits, and 'Life Stage' increment. It also introduces 'Smart Pay', where you can finish paying all your premiums in just a few years while enjoying coverage for life. The premium rates are highly competitive for high sum assured brackets, making it the preferred choice for HNIs seeking estate creation."
+                }
+            },
+            {
+                name: "ICICI Pru Savings Suraksha",
+                cat: "Participating Savings",
+                icon: "fa-umbrella",
+                details: {
+                    type: "Endowment.",
+                    sa: "Based on Premium.",
+                    term: "10 to 30 Years.",
+                    ppt: "Limited.",
+                    age: "0 to 60 Years.",
+                    option: "Standard.",
+                    maturity: "SA + G.Additions + Bonuses.",
+                    sb: "Nil.",
+                    death: "SA + Bonuses.",
+                    riders: "Available.",
+                    surrender: "2 Years.",
+                    revival: "5 Years.",
+                    usp: "A balanced plan that offers the safety of Guaranteed Additions along with the upside of Bonuses. <b>USP:</b> It provides a safety net for your capital while allowing it to grow through the company's participating fund. It is a 'With-Profits' plan, meaning if ICICI Prudential does well, you get higher bonuses. Ideal for families looking to save for medium to long-term goals like a child's wedding, where capital protection is as important as growth."
+                }
+            },
+            {
+                name: "Assured Savings Insurance",
+                cat: "Guaranteed Savings",
+                icon: "fa-lock",
+                details: {
+                    type: "Non-Par Savings.",
+                    sa: "10x Premium.",
+                    term: "10 to 15 Years.",
+                    ppt: "Limited Pay.",
+                    age: "0 to 60.",
+                    option: "Lumpsum.",
+                    maturity: "Guaranteed SA + GA.",
+                    sb: "Nil.",
+                    death: "SA.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "A straightforward savings plan with zero ambiguity. <b>USP:</b> Every rupee you get at maturity is known the day you sign the policy. It creates a guaranteed tax-free corpus. The plan focuses on 'Guaranteed Additions' that accrue every year, compounding your wealth safely. It is the perfect antidote to stock market volatility, suitable for conservative investors or for the debt portion of your investment portfolio."
+                }
+            },
+            {
+                name: "ICICI Pru iProtect Smart",
+                cat: "Flagship Term",
+                icon: "fa-shield",
+                details: {
+                    type: "Term Insurance.",
+                    sa: "Min: 50 Lakhs.",
+                    term: "Up to 85 Years.",
+                    ppt: "Regular/Limited.",
+                    age: "18 to 65.",
+                    option: "360 Cover.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "Lump Sum.",
+                    riders: "CI / Accidental.",
+                    surrender: "Nil.",
+                    revival: "5 Years.",
+                    usp: "This is one of India's most popular term plans, often voted the best in class. <b>USP:</b> Its coverage against 34 Critical Illnesses is comprehensive. The payout for Critical Illness is an *accelerated* benefit, meaning it pays out from the life cover immediately upon diagnosis, providing cash for treatment. It covers terminal illness, disability, and death. If you need one plan to cover all base risks of life at a very affordable price, iProtect Smart is the industry benchmark."
+                }
+            },
+            {
+                name: "ICICI Pru Sarv Jana Suraksha",
+                cat: "Micro Insurance",
+                icon: "fa-users",
+                details: {
+                    type: "Micro Term.",
+                    sa: "Min: 50k | Max: 2L.",
+                    term: "5 or 10 Years.",
+                    ppt: "Regular.",
+                    age: "18 to 55.",
+                    option: "Standard.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "Sum Assured.",
+                    riders: "N/A.",
+                    surrender: "Nil.",
+                    revival: "2 Years.",
+                    usp: "A micro-insurance product designed for financial inclusion. <b>USP:</b> Extremely low premiums make it accessible to rural and low-income households. It requires minimal documentation and no medical tests, ensuring that every Indian can afford a financial safety net. It is a pure protection plan aimed at safeguarding families who are most vulnerable to the loss of a breadwinner."
+                }
+            },
+            {
+                name: "ICICI Pru Future Perfect",
+                cat: "Savings",
+                icon: "fa-hourglass-start",
+                details: {
+                    type: "Participating Savings.",
+                    sa: "Based on Premium.",
+                    term: "10 to 25 Years.",
+                    ppt: "Limited.",
+                    age: "0 to 55.",
+                    option: "Standard.",
+                    maturity: "SA + GA + Bonuses.",
+                    sb: "Nil.",
+                    death: "SA + Bonuses.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "Future Perfect lives up to its name by blending guarantees with performance. <b>USP:</b> It offers 'Guaranteed Additions' for the first few years, followed by 'Reversionary Bonuses' and 'Terminal Bonuses'. This structure ensures that your base is secure, while your final payout benefits from the insurer's profits. It is a long-term wealth builder suitable for creating a legacy or funding major life goals with tax-free returns."
+                }
+            },
+            {
+                name: "ICICI Pru Life Time Classic",
+                cat: "Classic ULIP",
+                icon: "fa-landmark",
+                details: {
+                    type: "Unit Linked Plan.",
+                    sa: "10x Premium.",
+                    term: "10 to 25 Years.",
+                    ppt: "Regular Pay.",
+                    age: "0 to 65.",
+                    option: "Wealth.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "Available.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "A flexible ULIP that allows you to change your portfolio strategy as your risk appetite changes. <b>USP:</b> It offers 4 distinct portfolio strategies (Lifecycle based, Target Asset Allocation, etc.). It rewards long-term customers with Loyalty Additions. With the ability to switch between equity and debt funds unlimited times for free, it puts the power of wealth creation in your hands. Ideal for active investors seeking insurance plus investment."
+                }
+            }
+        ];
+
+        const grid = document.getElementById('cardGrid');
+
+        plans.forEach((plan, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.setAttribute('onclick', 'this.classList.toggle("flipped")');
+
+            // Category color logic
+            let catColor = "";
+            if(plan.cat.includes("Term")) catColor = "#F37021"; // Orange
+            else if(plan.cat.includes("ULIP")) catColor = "#00d2ff"; // Blue
+            else if(plan.cat.includes("Savings") || plan.cat.includes("Endowment")) catColor = "#FF007F"; // Pink/Red
+            else catColor = "#FFD700"; // Gold
+
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="front" style="background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.1)); border-top: 3px solid ${catColor}">
+                        <div class="icon-box"><i class="fas ${plan.icon}" style="color:${catColor}"></i></div>
+                        <div class="plan-name">${plan.name}</div>
+                        <div class="cat-badge" style="color:${catColor}; border-color:${catColor}">${plan.cat}</div>
+                        <div class="click-hint">Click to Flip</div>
+                    </div>
+                    <div class="back">
+                        <div class="back-header">
+                            <span class="back-title" style="color:${catColor}">${plan.name}</span>
+                            <i class="fas fa-undo" style="color:#fff"></i>
+                        </div>
+                        <div class="data-list">
+                            <div class="data-row"><span class="label" style="color:${catColor}">1. Plan Type</span><span class="value">${plan.details.type}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">2. Sum Assured</span><span class="value">${plan.details.sa}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">3. Policy Term</span><span class="value">${plan.details.term}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">4. PPT</span><span class="value">${plan.details.ppt}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">5. Entry Age</span><span class="value">${plan.details.age}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">6. Option</span><span class="value">${plan.details.option}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">7. Maturity</span><span class="value">${plan.details.maturity}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">8. SB</span><span class="value">${plan.details.sb}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">9. Death Benefit</span><span class="value">${plan.details.death}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">10. Riders</span><span class="value">${plan.details.riders}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">11. Surrender</span><span class="value">${plan.details.surrender}</span></div>
+                            <div class="data-row"><span class="label" style="color:${catColor}">12. Revival</span><span class="value">${plan.details.revival}</span></div>
+                            <div class="usp-box" style="border-left-color:${catColor}">
+                                <span class="usp-label" style="color:${catColor}">Salient Features (USP):</span>
+                                <div class="usp-text">${plan.details.usp}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>

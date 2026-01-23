@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharti AXA Life - The Dazzling Collection</title>
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #140032, #0f2027, #2c5364);
+            --card-term: linear-gradient(135deg, #009FFF, #ec2F4B);
+            --card-save: linear-gradient(135deg, #8E2DE2, #4A00E0);
+            --card-ulip: linear-gradient(135deg, #F2994A, #F2C94C);
+            --glass: rgba(255, 255, 255, 0.1);
+            --border-glow: rgba(255, 255, 255, 0.5);
+            --text-light: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: bgAnim 15s ease infinite;
+            min-height: 100vh;
+            color: var(--text-light);
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes bgAnim {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #FFD700, #ff6b6b, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #a8c0ff;
+            border-bottom: 1px solid #a8c0ff;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        /* GRID */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+            perspective: 2000px;
+        }
+
+        /* CARD */
+        .card {
+            height: 680px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(74, 0, 224, 0.3);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* FACES */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--border-glow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FRONT DESIGN */
+        .front {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 2;
+            transform: rotateY(0deg);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Category Backgrounds */
+        .cat-term .front { background: linear-gradient(160deg, rgba(0, 198, 255, 0.8), rgba(0, 114, 255, 0.8)); }
+        .cat-save .front { background: linear-gradient(160deg, rgba(255, 0, 153, 0.8), rgba(73, 50, 64, 0.8)); }
+        .cat-ulip .front { background: linear-gradient(160deg, rgba(242, 153, 74, 0.8), rgba(242, 201, 76, 0.8)); }
+
+        .icon-box {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-15px);} }
+
+        .plan-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .category-badge {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .click-hint {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+        .card:hover .click-hint { background: #fff; color: #333; }
+
+        /* BACK DESIGN */
+        .back {
+            transform: rotateY(180deg);
+            background: #1a0b2e; /* Deep purple - NOT BLACK */
+            padding: 15px;
+        }
+
+        .back-header {
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-title { color: #4facfe; font-family: 'Cinzel', serif; }
+
+        .data-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 5px;
+        }
+
+        .data-list::-webkit-scrollbar { width: 5px; }
+        .data-list::-webkit-scrollbar-thumb { background: #4facfe; border-radius: 10px; }
+
+        .data-row {
+            margin-bottom: 8px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 4px;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.7rem;
+            color: #ff6b6b;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .value {
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .usp-box {
+            background: rgba(79, 172, 254, 0.1);
+            border-left: 3px solid #4facfe;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Bharti AXA Life</h1>
+        <div class="subtitle">Jeevan Suraksha ka Naya Nazariya</div>
+    </header>
+
+    <div class="grid-container">
+
+        <!-- 1. Flexi Term Pro -->
+        <div class="card cat-term" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-shield-alt"></i></div>
+                    <div class="plan-title">Flexi Term<br>Pro</div>
+                    <div class="category-badge">Comprehensive Term</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Flexi Term Pro</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Linked, Individual Pure Risk Term.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Min: Underwriting Based | Max: No Limit.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">Cover up to Age 99.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Single, Regular, Limited Pay.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">18 to 65 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Lump Sum / Income Payout.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Nil (Unless ROP chosen).</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Sum Assured on Death.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Critical Illness, Accidental Death.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">For ROP/Single Pay variants.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">5 Years.</span></div>
+                        <div class="usp-box"><span class="value">Flexibility to choose between One-time Payout or Monthly Income to replace lost salary.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Saral Jeevan Bima -->
+        <div class="card cat-term" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-check-circle"></i></div>
+                    <div class="plan-title">Saral Jeevan<br>Bima</div>
+                    <div class="category-badge">Standard Term</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Saral Jeevan</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Standard Term Plan (IRDAI).</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">₹5 Lakhs to ₹25 Lakhs.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">5 to 40 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Regular, Limited, Single.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">18 to 65 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Standard Terms.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Highest of 10x Premium or SA.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Accident Benefit.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Nil for Regular Pay.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">5 Years.</span></div>
+                        <div class="usp-box"><span class="value">Simplified issuance for first-time buyers with standard conditions.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Guaranteed Income Pro -->
+        <div class="card cat-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-hand-holding-usd"></i></div>
+                    <div class="plan-title">Guaranteed<br>Income Pro</div>
+                    <div class="category-badge">Guaranteed Savings</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Guaranteed Income</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Linked, Non-Par Savings.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">10x Annual Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">Short/Long Term Income options.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">5 to 12 Years.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">1 Year to 60 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Deferred Income / Endowment.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Last Income + ROP.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Guaranteed Income Payouts.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">SA on Death.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Available.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">After 2 Years.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">5 Years.</span></div>
+                        <div class="usp-box"><span class="value">Lock in high guaranteed returns to secure future goals like education/pension.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Elite Advantage -->
+        <div class="card cat-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-crown"></i></div>
+                    <div class="plan-title">Elite<br>Advantage</div>
+                    <div class="category-badge">Comprehensive Savings</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Elite Advantage</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Linked, Non-Par Savings.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Based on Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">10 or 12 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">5, 7, or 12 Years.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">18 to 65 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Guaranteed Payouts.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">100% Sum Assured at Maturity.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Guaranteed Payouts 8.5%-9.5% of SA.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">SA on Death.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Hospi Cash.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Allowed.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">5 Years.</span></div>
+                        <div class="usp-box"><span class="value">Offers guaranteed payouts during the term plus a lump sum at maturity.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Super Series -->
+        <div class="card cat-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-layer-group"></i></div>
+                    <div class="plan-title">Super<br>Series</div>
+                    <div class="category-badge">Money Back</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Super Series</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Par Money Back Plan.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Multiple of Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">12, 24, 30 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">6, 12, 15 Years (Half Term).</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">6 to 63 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Increasing Income.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Guaranteed Lump Sum.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Money back payouts in second half of term.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">SA on Death.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Available.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Allowed.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">5 Years.</span></div>
+                        <div class="usp-box"><span class="value">Pay for the first half, receive increasing income in the second half.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Wealth Pro -->
+        <div class="card cat-ulip" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-chart-line"></i></div>
+                    <div class="plan-title">Wealth<br>Pro</div>
+                    <div class="category-badge">Premium ULIP</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Wealth Pro</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Unit Linked Insurance Plan.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">10x Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">10 to 20 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Limited / Regular.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">0 to 55 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Growth / Protect Plus.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Fund Value.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Partial Withdrawals.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Higher of SA or Fund.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">N/A.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">5 Year Lock-in.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">3 Years.</span></div>
+                        <div class="usp-box"><span class="value">Two strategies: Growth (Equity focus) or Protect Plus (Capital protection focus).</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. eFuture Invest -->
+        <div class="card cat-ulip" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-laptop-code"></i></div>
+                    <div class="plan-title">eFuture<br>Invest</div>
+                    <div class="category-badge">Online ULIP</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">eFuture Invest</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Online ULIP (Low Charge).</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">10x Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">10 to 20 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">5 Years to Policy Term.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">18 to 50 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Self-Managed.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Fund Value.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Partial Withdrawals.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Higher of SA or Fund.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">N/A.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">5 Year Lock-in.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">3 Years.</span></div>
+                        <div class="usp-box"><span class="value">Low allocation charges due to online nature, maximizing investment corpus.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Aajeevan Sampatti -->
+        <div class="card cat-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-infinity"></i></div>
+                    <div class="plan-title">Aajeevan<br>Sampatti</div>
+                    <div class="category-badge">Whole Life Savings</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Aajeevan Sampatti</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Participating Whole Life.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Based on Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">Till Age 100.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">10, 15, 20 Years or Upto Age 65.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">91 days to 60 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Bonus Utilization.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">SA + Terminal Bonus at 100.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Annual Cash Bonuses (from year 6).</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">SA + Bonuses.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Available.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Allowed.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">5 Years.</span></div>
+                        <div class="usp-box"><span class="value">Guaranteed annual payout + cash bonuses till age 100.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Dhan Varsha -->
+        <div class="card cat-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-coins"></i></div>
+                    <div class="plan-title">Dhan<br>Varsha</div>
+                    <div class="category-badge">Participating Savings</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Dhan Varsha</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Participating Endowment.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">10x Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">20 or 25 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Limited Pay.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">0 to 55 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Standard.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">SA + Bonuses.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Survival Benefits (Money Back) post PPT.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">SA + Bonuses.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Available.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Allowed.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">5 Years.</span></div>
+                        <div class="usp-box"><span class="value">Combines guaranteed survival benefits with potential bonus earnings.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. Samriddhi -->
+        <div class="card cat-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-seedling"></i></div>
+                    <div class="plan-title">Bharti AXA<br>Samriddhi</div>
+                    <div class="category-badge">Endowment</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Samriddhi</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Participating Endowment.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Multiple of Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">10 to 30 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Regular / Limited.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">91 days to 55 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">N/A.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">SA + Accrued Bonuses.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Nil (Lump sum at end).</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">SA on Death + Bonuses.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Available.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">After 2 Years.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">5 Years.</span></div>
+                        <div class="usp-box"><span class="value">Traditional wealth creation plan for risk-averse investors seeking bonuses.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 11. Secure Savings -->
+        <div class="card cat-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-lock"></i></div>
+                    <div class="plan-title">Secure<br>Savings</div>
+                    <div class="category-badge">Guaranteed Savings</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Secure Savings</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Non-Linked, Non-Par Savings.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Based on Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">15 or 20 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">5, 7, 10 Years.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">0 to 60 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Guaranteed Additions.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">SA + Guaranteed Additions.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Nil.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">SA on Death + Additions.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Available.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Allowed.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">5 Years.</span></div>
+                        <div class="usp-box"><span class="value">Offers Guaranteed Additions up to 10% per annum, increasing the corpus.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. Monthly Income Plan+ -->
+        <div class="card cat-save" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
+                    <div class="plan-title">Monthly<br>Income Plan+</div>
+                    <div class="category-badge">Income</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">MIP +</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Participating Income Plan.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Multiple of Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">15, 20, 30 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">7, 10, 15 Years.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">0 to 55 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Monthly Income.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Accrued Bonuses.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Guaranteed Monthly Income for 8-15 years.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">SA + Bonuses.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">Available.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">Allowed.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">5 Years.</span></div>
+                        <div class="usp-box"><span class="value">Supplements your primary income with a guaranteed monthly paycheck after premium term.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. Future Invest Plan -->
+        <div class="card cat-ulip" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-rocket"></i></div>
+                    <div class="plan-title">Future<br>Invest Plan</div>
+                    <div class="category-badge">Standard ULIP</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Future Invest</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Unit Linked Insurance Plan.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">10x Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">10 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">5 Years (Limited Pay).</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">18 to 60 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Investment Funds.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Fund Value.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Partial Withdrawals.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Higher of SA or Fund.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">N/A.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">5 Year Lock-in.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">3 Years.</span></div>
+                        <div class="usp-box"><span class="value">Short Premium payment term (5 years) with wealth creation focus.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. Grow Wealth -->
+        <div class="card cat-ulip" onclick="flipCard(this)">
+            <div class="card-inner">
+                <div class="front">
+                    <div class="icon-box"><i class="fas fa-tree"></i></div>
+                    <div class="plan-title">Grow<br>Wealth</div>
+                    <div class="category-badge">Long Term ULIP</div>
+                    <div class="click-hint">Click to Reveal</div>
+                </div>
+                <div class="back">
+                    <div class="back-header"><span class="back-title">Grow Wealth</span><i class="fas fa-undo"></i></div>
+                    <div class="data-list">
+                        <div class="data-row"><span class="label">1. Plan Type</span><span class="value">Unit Linked Plan.</span></div>
+                        <div class="data-row"><span class="label">2. Sum Assured</span><span class="value">Multiple of Premium.</span></div>
+                        <div class="data-row"><span class="label">3. Policy Term</span><span class="value">10 to 20 Years.</span></div>
+                        <div class="data-row"><span class="label">4. PPT</span><span class="value">Regular / Limited.</span></div>
+                        <div class="data-row"><span class="label">5. Entry Age</span><span class="value">0 to 65 Years.</span></div>
+                        <div class="data-row"><span class="label">6. Options</span><span class="value">Loyalty Additions.</span></div>
+                        <div class="data-row"><span class="label">7. Maturity</span><span class="value">Fund Value.</span></div>
+                        <div class="data-row"><span class="label">8. SB</span><span class="value">Partial Withdrawals.</span></div>
+                        <div class="data-row"><span class="label">9. Death Benefit</span><span class="value">Higher of SA or Fund.</span></div>
+                        <div class="data-row"><span class="label">10. Riders</span><span class="value">N/A.</span></div>
+                        <div class="data-row"><span class="label">11. Surrender</span><span class="value">5 Year Lock-in.</span></div>
+                        <div class="data-row"><span class="label">12. Revival</span><span class="value">3 Years.</span></div>
+                        <div class="usp-box"><span class="value">Rewards long-term investing with Loyalty Additions and Wealth Boosters.</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pramerica Life - The Crystal Collection</title>
+    <!-- Fonts & Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --pram-blue: #0056b3;
+            --neon-blue: #00f2ff;
+            --neon-pink: #ff00ff;
+            --neon-gold: #ffd700;
+            --deep-space: #050a30;
+            --bg-grad: linear-gradient(125deg, #1a0b2e, #003366, #004d40, #240b36);
+            --card-front: rgba(255, 255, 255, 0.1);
+            --card-back: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Deep Teal - NO BLACK */
+            --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-grad);
+            background-size: 400% 400%;
+            animation: aurora 15s ease infinite;
+            min-height: 100vh;
+            color: #fff;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Stars */
+        .stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.2;
+            z-index: 0;
+            pointer-events: none;
+            animation: twinkle 5s infinite;
+        }
+
+        @keyframes twinkle { 0%,100%{opacity:0.2;} 50%{opacity:0.5;} }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--neon-gold);
+            border: 1px solid var(--neon-gold);
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* GRID */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+            max-width: 1900px;
+            margin: 0 auto;
+            perspective: 2000px;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* CARD */
+        .card {
+            height: 750px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0, 50, 100, 0.6);
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* FACES */
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 25px;
+            overflow: hidden;
+            border: var(--glass-border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FRONT DESIGN */
+        .front {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 2;
+            transform: rotateY(0deg);
+            background: var(--card-front);
+            backdrop-filter: blur(15px);
+        }
+
+        .front::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            border-radius: 25px;
+            background: linear-gradient(45deg, var(--neon-blue), transparent, var(--neon-pink));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .icon-box {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 25px var(--neon-blue);
+            color: #fff;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float { 0%,100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
+
+        .plan-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            line-height: 1.3;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .cat-badge {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.5);
+            margin-bottom: 30px;
+            font-weight: bold;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .flip-btn {
+            padding: 12px 35px;
+            background: linear-gradient(45deg, var(--neon-blue), #007bff);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .card:hover .flip-btn { transform: scale(1.1); box-shadow: 0 0 30px rgba(0, 242, 255, 0.8); }
+
+        /* BACK DESIGN */
+        .back {
+            transform: rotateY(180deg);
+            background: var(--card-back);
+            padding: 20px;
+        }
+
+        .back-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .back-title { color: var(--neon-gold); font-family: 'Cinzel', serif; font-size: 1rem; }
+
+        .data-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 8px;
+        }
+
+        /* Custom Scrollbar */
+        .data-list::-webkit-scrollbar { width: 5px; }
+        .data-list::-webkit-scrollbar-thumb { background: var(--neon-pink); border-radius: 10px; }
+        .data-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+
+        .data-row {
+            margin-bottom: 10px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .value {
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .usp-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--neon-gold);
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .usp-label {
+            display: block;
+            color: var(--neon-gold);
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .usp-text {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+            text-align: justify;
+        }
+
+        /* Category Specific Colors */
+        .cat-term .icon-box { box-shadow: 0 0 30px var(--neon-blue); color: var(--neon-blue); }
+        .cat-save .icon-box { box-shadow: 0 0 30px var(--neon-pink); color: var(--neon-pink); }
+        .cat-ulip .icon-box { box-shadow: 0 0 30px var(--neon-gold); color: var(--neon-gold); }
+        .cat-pen .icon-box { box-shadow: 0 0 30px #00ff00; color: #00ff00; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+
+    <header>
+        <h1>Pramerica Life</h1>
+        <div class="subtitle">17 Gems of Financial Future</div>
+    </header>
+
+    <div class="grid-container" id="cardGrid">
+        <!-- JS will inject 17 cards here -->
+    </div>
+
+    <script>
+        const plans = [
+            {
+                name: "RockSolid Term Insurance",
+                cat: "Term Insurance",
+                style: "cat-term",
+                icon: "fa-mountain",
+                details: {
+                    type: "Individual Pure Risk Term Plan.",
+                    sa: "Min: 50 Lakhs | Max: No Limit.",
+                    term: "10 to 40 Years.",
+                    ppt: "Regular / Limited / Single.",
+                    age: "18 to 65 Years.",
+                    option: "Life / Life Plus.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "Sum Assured.",
+                    riders: "Accidental Death.",
+                    surrender: "Nil (Except Single Pay).",
+                    revival: "5 Years.",
+                    usp: "**Pramerica Life RockSolid Term** lives up to its name by offering a concrete foundation for your family's financial security. **Who should buy it?** It is designed for the breadwinner who wants no ambiguity in their protection plan. The plan is straightforward but robust. The USP lies in its 'Life Stage' protection feature, which allows you to increase your sum assured at critical milestones like marriage or the birth of a child without undergoing fresh medical underwriting. This ensures your cover keeps up with your growing responsibilities. Furthermore, the premium rates are highly competitive for non-smokers. It offers flexibility in payout options—lump sum or monthly income—ensuring your family can manage their cash flow effectively in your absence. It is the bedrock of a sound financial portfolio."
+                }
+            },
+            {
+                name: "Saral Jeevan Bima",
+                cat: "Standard Term",
+                style: "cat-term",
+                icon: "fa-check-circle",
+                details: {
+                    type: "Standard Term Plan.",
+                    sa: "5 Lakhs to 25 Lakhs.",
+                    term: "5 to 40 Years.",
+                    ppt: "Regular / Limited / Single.",
+                    age: "18 to 65 Years.",
+                    option: "Standard.",
+                    maturity: "Nil.",
+                    sb: "Nil.",
+                    death: "10x Premium or SA.",
+                    riders: "Accident Benefit.",
+                    surrender: "Nil.",
+                    revival: "5 Years.",
+                    usp: "**Saral Jeevan Bima** is the government-standardized term plan designed for simplicity and trust. **Why choose this?** It cuts through the jargon. Every insurer offers the same terms, so you are buying Pramerica's service and trust. It is ideal for first-time buyers or those with a limited budget who need essential coverage. The sum assured is capped at 25 Lakhs, making it a low-entry barrier product. There are no hidden exclusions (except suicide clause). If you want pure protection without complications, complex riders, or confusing options, this is the 'Saral' (Simple) choice. It ensures that every Indian household can afford a basic financial safety net."
+                }
+            },
+            {
+                name: "Smart Assure",
+                cat: "Savings",
+                style: "cat-save",
+                icon: "fa-graduation-cap",
+                details: {
+                    type: "Non-Par Endowment.",
+                    sa: "10x Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "Limited Pay.",
+                    age: "8 to 60 Years.",
+                    option: "Standard.",
+                    maturity: "SA + Additions.",
+                    sb: "Nil.",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "**Pramerica Life Smart Assure** is a non-participating endowment plan that offers 'Smart' appreciation of your savings. **The USP:** It provides 'Maturity Additions' that boost your corpus at the end of the term. The plan is designed for goal-based savings, such as funding a child's education or building a retirement nest egg. Since it is non-participating, the benefits are defined upfront, reducing uncertainty. It allows for limited premium payment, meaning you pay for a few years and let the policy grow for the rest of the term. It strikes a balance between insurance protection and disciplined savings."
+                }
+            },
+            {
+                name: "Guaranteed Return on Wealth",
+                cat: "Guaranteed Savings",
+                style: "cat-save",
+                icon: "fa-coins",
+                details: {
+                    type: "Non-Par Savings.",
+                    sa: "Based on Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "5, 7, 10 Years.",
+                    age: "0 to 60 Years.",
+                    option: "Wealth / Income.",
+                    maturity: "Guaranteed Benefit.",
+                    sb: "Guaranteed Additions.",
+                    death: "SA + Accrued Benefits.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "**Guaranteed Return on Wealth (GROW)** is for the conservative investor who demands certainty. **Why buy it?** In a fluctuating market, GROW offers peace of mind by locking in your returns today. You know exactly what you will get at maturity. The plan offers 'Guaranteed Loyalty Additions' each year, which compound your wealth. It is perfect for non-negotiable goals like a child's marriage or buying a house where you cannot afford market risks. The flexibility to choose between a lump sum wealth option or an income option makes it versatile for different life stages."
+                }
+            },
+            {
+                name: "Smart Income",
+                cat: "Income Plan",
+                style: "cat-save",
+                icon: "fa-hand-holding-usd",
+                details: {
+                    type: "Non-Par Income Plan.",
+                    sa: "11x Premium.",
+                    term: "Premium Term + Payout Term.",
+                    ppt: "7, 10, 12 Years.",
+                    age: "3 to 60 Years.",
+                    option: "Regular Income.",
+                    maturity: "Last Income Instalment.",
+                    sb: "Annual Income.",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "**Pramerica Life Smart Income** acts as a secondary salary. **The USP:** It is designed to provide a steady stream of income to meet recurring expenses like school fees or EMI payments. After the premium payment term, you receive a guaranteed annual payout for a fixed period. This creates a financial cushion against income disruption. It is especially useful for freelancers or business owners with variable income, as it smooths out cash flow. The death benefit ensures that even if you are not around, the income stream continues for your family, securing their lifestyle."
+                }
+            },
+            {
+                name: "Magnum Assure",
+                cat: "Savings",
+                style: "cat-save",
+                icon: "fa-chart-line",
+                details: {
+                    type: "Participating Endowment.",
+                    sa: "Based on Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "Limited Pay.",
+                    age: "8 to 55 Years.",
+                    option: "Standard.",
+                    maturity: "SA + Reversionary Bonus.",
+                    sb: "Monthly Payouts (Option).",
+                    death: "SA + Bonuses.",
+                    riders: "Available.",
+                    surrender: "After 2 Years.",
+                    revival: "5 Years.",
+                    usp: "**Magnum Assure** combines the safety of an endowment plan with the growth potential of participating bonuses. **Why is it unique?** It creates a 'Magnum' corpus through the power of compounding bonuses declared by the company. It offers a monthly income option during the payout period, making it suitable for retirees. The plan participates in the profits of Pramerica Life, offering an upside over traditional fixed instruments. It allows you to build a substantial legacy or retirement fund while enjoying life cover throughout the term."
+                }
+            },
+            {
+                name: "RockSolid Future",
+                cat: "Child Plan",
+                style: "cat-save",
+                icon: "fa-child",
+                details: {
+                    type: "Non-Par Child Plan.",
+                    sa: "10x Premium.",
+                    term: "10 to 25 Years.",
+                    ppt: "Limited.",
+                    age: "18 to 50 (Parent).",
+                    option: "Education / Marriage.",
+                    maturity: "Guaranteed Payouts.",
+                    sb: "Milestone Payouts.",
+                    death: "SA + Future Prem Waiver.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "**RockSolid Future** is a dedicated child plan designed to secure your child's dreams. **The USP:** The critical feature is the 'Premium Waiver Benefit' built into the plan. If the parent (proposer) passes away, the Sum Assured is paid immediately, BUT the policy does not end. The company pays all future premiums, and the child receives the planned maturity benefits at the intended time (e.g., age 18 or 21). This ensures that a child's education fund is non-negotiable and protected against the ultimate risk. It offers guaranteed milestone payouts aligned with key educational stages."
+                }
+            },
+            {
+                name: "Flexi Income Plan",
+                cat: "Income",
+                style: "cat-save",
+                icon: "fa-wallet",
+                details: {
+                    type: "Non-Par Savings.",
+                    sa: "Based on Premium.",
+                    term: "Policy Term + Income Term.",
+                    ppt: "Limited Pay.",
+                    age: "3 to 60 Years.",
+                    option: "Flexi Pay.",
+                    maturity: "ROP + Accrued Income.",
+                    sb: "Flexible Income.",
+                    death: "SA on Death.",
+                    riders: "Available.",
+                    surrender: "Allowed.",
+                    revival: "5 Years.",
+                    usp: "**Flexi Income Plan** puts you in control of your cash flow. **USP:** Unlike rigid income plans, this allows you to defer your income payouts. If you don't need the money in a particular year, you can let it accumulate with the insurer and earn interest, withdrawing it later when needed. This creates a 'Cash Bank' facility within your policy. It also offers a Return of Premium at the end of the income term. Perfect for those who want to build an emergency fund that is accessible yet growing."
+                }
+            },
+            {
+                name: "Signature Wealth",
+                cat: "ULIP",
+                style: "cat-ulip",
+                icon: "fa-signature",
+                details: {
+                    type: "Unit Linked Plan.",
+                    sa: "10x Premium.",
+                    term: "10 to 30 Years.",
+                    ppt: "Regular / Limited.",
+                    age: "0 to 60 Years.",
+                    option: "Wealth / Whole Life.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "**Pramerica Life Signature Wealth** is for the discerning investor. **Why buy it?** It offers zero premium allocation charges, meaning 100% of your premium goes into investment from day one. It caters to HNIs by minimizing costs to maximize returns. The plan offers a 'Whole Life' option covering you till age 99, allowing for legacy planning. With a wide array of funds and unlimited free switches, it gives you the agility to capitalize on market movements. It also includes 'Return of Mortality Charges' at maturity, further enhancing the net yield."
+                }
+            },
+            {
+                name: "Smart Invest",
+                cat: "ULIP",
+                style: "cat-ulip",
+                icon: "fa-lightbulb",
+                details: {
+                    type: "Unit Linked Plan.",
+                    sa: "10x Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "5 Years to Regular.",
+                    age: "0 to 65 Years.",
+                    option: "Standard.",
+                    maturity: "Fund Value.",
+                    sb: "Partial Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "**Smart Invest** is an entry-level wealth creation tool. **USP:** It is designed for those starting their investment journey. It offers a balanced approach with options for 'Systematic Transfer' to reduce risk by moving funds from debt to equity systematically. It rewards disciplined payments with 'Persistency Additions'. Whether saving for a car or a vacation, the partial withdrawal facility after 5 years provides liquidity. It balances the need for life cover with the desire for market-linked returns."
+                }
+            },
+            {
+                name: "Super Investment Plan",
+                cat: "ULIP",
+                style: "cat-ulip",
+                icon: "fa-rocket",
+                details: {
+                    type: "High Growth ULIP.",
+                    sa: "7x or 10x Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "Limited Pay.",
+                    age: "8 to 60 Years.",
+                    option: "Aggressive.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "Available.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "**Super Investment Plan** is tailored for aggressive growth. **Who should buy it?** Investors with a higher risk appetite who want to maximize equity exposure. It offers specific 'Super' funds designed to outperform benchmarks. The plan structure encourages staying invested for the long term through 'Loyalty Additions'. It is ideal for mid-term goals like buying a house or funding a business expansion, where capital appreciation is the primary objective over protection."
+                }
+            },
+            {
+                name: "Wealth Enhancer",
+                cat: "Single Pay ULIP",
+                style: "cat-ulip",
+                icon: "fa-gem",
+                details: {
+                    type: "Single Premium ULIP.",
+                    sa: "1.25x or 10x Single Prem.",
+                    term: "5 to 20 Years.",
+                    ppt: "Single Pay.",
+                    age: "0 to 65 Years.",
+                    option: "Wealth.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "N/A.",
+                    usp: "**Wealth Enhancer** is a hassle-free single premium investment. **USP:** Perfect for those with a lump sum (bonus, inheritance) who want to park it in the market without the commitment of recurring payments. The 10x Sum Assured variant ensures tax benefits on maturity (under current laws), making it a superior alternative to FDs or Mutual Funds for tax-conscious investors. It offers low charges and high flexibility, allowing your money to grow tax-efficiently over the policy term."
+                }
+            },
+            {
+                name: "Wealth Maximiser",
+                cat: "ULIP",
+                style: "cat-ulip",
+                icon: "fa-chart-bar",
+                details: {
+                    type: "Unit Linked Plan.",
+                    sa: "10x Premium.",
+                    term: "10 to 25 Years.",
+                    ppt: "Regular / Limited.",
+                    age: "0 to 60 Years.",
+                    option: "Maximiser.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "Available.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "**Wealth Maximiser** focuses on optimizing returns through active management options. **USP:** It allows policyholders to choose from various portfolio strategies, including 'Life Cycle' based asset allocation which automatically shifts funds from equity to debt as you age. This reduces risk as you approach maturity. It is designed to maximize wealth while minimizing volatility. Ideal for individuals who want professional management of their asset allocation without constant monitoring."
+                }
+            },
+            {
+                name: "Wealth + Ace",
+                cat: "ULIP",
+                style: "cat-ulip",
+                icon: "fa-dice-d20",
+                details: {
+                    type: "Unit Linked Plan.",
+                    sa: "10x Premium.",
+                    term: "10 to 20 Years.",
+                    ppt: "5 Years.",
+                    age: "0 to 55 Years.",
+                    option: "Ace.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "Higher of SA or Fund.",
+                    riders: "N/A.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "**Wealth + Ace** is a short-pay ULIP. **Why buy it?** You only pay premiums for 5 years, but the policy continues to grow for a longer term (up to 20 years). This 'pay short, stay long' structure creates a compounding effect. It is perfect for those who want to finish their financial liabilities quickly. The plan includes 'Fund Boosters' added to your account at maturity, rewarding you for completing the policy term."
+                }
+            },
+            {
+                name: "Smart Wealth +",
+                cat: "ULIP",
+                style: "cat-ulip",
+                icon: "fa-plus-circle",
+                details: {
+                    type: "Unit Linked Plan.",
+                    sa: "Variable.",
+                    term: "10 to 20 Years.",
+                    ppt: "Regular.",
+                    age: "0 to 60 Years.",
+                    option: "Plus.",
+                    maturity: "Fund Value.",
+                    sb: "Withdrawals.",
+                    death: "SA or Fund.",
+                    riders: "Available.",
+                    surrender: "5 Years.",
+                    revival: "3 Years.",
+                    usp: "**Smart Wealth +** offers a blend of protection and market-linked returns with an emphasis on loyalty. **USP:** It provides 'Loyalty Additions' starting from the 10th policy year, significantly boosting the corpus for long-term investors. It offers diverse fund options to suit risk appetites from conservative to aggressive. This plan serves as a dual-purpose tool for insurance coverage and wealth accumulation, suitable for planning long-term goals like retirement or children's education."
+                }
+            },
+            {
+                name: "Saral Pension",
+                cat: "Annuity",
+                style: "cat-pen",
+                icon: "fa-umbrella",
+                details: {
+                    type: "Immediate Annuity.",
+                    sa: "Purchase Price.",
+                    term: "Whole Life.",
+                    ppt: "Single Pay.",
+                    age: "40 to 80 Years.",
+                    option: "Life / Joint Life.",
+                    maturity: "Annuity Starts.",
+                    sb: "Lifetime Pension.",
+                    death: "100% ROP.",
+                    riders: "N/A.",
+                    surrender: "Allowed (Critical Illness).",
+                    revival: "N/A.",
+                    usp: "**Pramerica Saral Pension** is the standard Immediate Annuity plan. **Why choose it?** It eliminates decision fatigue. It offers two simple options: Life Annuity with 100% Return of Purchase Price, or Joint Life Annuity with 100% Return of Purchase Price. You invest once, and the pension starts immediately and continues for life. Upon death, the entire invested capital is returned to the nominee. It creates a guaranteed, risk-free income stream for retirees, protecting them from market volatility and interest rate drops."
+                }
+            },
+            {
+                name: "NextGen Pension Plan",
+                cat: "Pension",
+                style: "cat-pen",
+                icon: "fa-hourglass-start",
+                details: {
+                    type: "Deferred Pension.",
+                    sa: "Vesting Corpus.",
+                    term: "10 to 30 Years.",
+                    ppt: "Limited / Regular.",
+                    age: "25 to 65 Years.",
+                    option: "Accumulation.",
+                    maturity: "Buy Annuity.",
+                    sb: "Nil.",
+                    death: "105% Premiums.",
+                    riders: "N/A.",
+                    surrender: "Paid-up.",
+                    revival: "5 Years.",
+                    usp: "**NextGen Pension Plan** is for the forward-thinking individual planning for retirement early. **The USP:** It helps you build a substantial retirement corpus during your earning years. At vesting age (retirement), you use the accumulated corpus to purchase an annuity. It bridges the gap between your working life and retired life. By starting early, you benefit from the power of compounding. It ensures that when you hang up your boots, you don't have to compromise on your lifestyle."
+                }
+            }
+        ];
+
+        const grid = document.getElementById('cardGrid');
+
+        plans.forEach((plan, index) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = function() { this.classList.toggle('flipped'); };
+
+            // Dynamic Styling
+            let accentColor = "";
+            if(plan.style === 'cat-term') accentColor = "var(--neon-blue)";
+            else if(plan.style === 'cat-save') accentColor = "var(--neon-pink)";
+            else if(plan.style === 'cat-ulip') accentColor = "var(--neon-gold)";
+            else accentColor = "#00ff7f"; // Green for Pension
+
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="front" style="border-top: 3px solid ${accentColor}">
+                        <div class="icon-box" style="box-shadow: 0 0 20px ${accentColor}; color: ${accentColor}">
+                            <i class="fas ${plan.icon}"></i>
+                        </div>
+                        <div class="plan-name">${plan.name}</div>
+                        <div class="cat-badge" style="color:${accentColor}; border-color:${accentColor}">${plan.cat}</div>
+                        <button class="flip-btn" style="background: linear-gradient(45deg, ${accentColor}, #000); color:white; border:1px solid ${accentColor}">Reveal Details</button>
+                    </div>
+                    <div class="back">
+                        <div class="back-header">
+                            <span class="back-title" style="color:${accentColor}">${plan.name}</span>
+                            <i class="fas fa-undo" style="color:#fff"></i>
+                        </div>
+                        <div class="data-list">
+                            <div class="data-row"><span class="label" style="color:${accentColor}">1. Plan Type</span><span class="value">${plan.details.type}</span></div>
+                            <div class="data-row"><span class="label" style="color:${accentColor}">2. Sum Assured</span><span class="value">${plan.details.sa}</span></div>
+                            <div class="data-row"><span class="label" style="color:${accentColor}">3. Policy Term</span><span class="value">${plan.details.term}</span></div>
+                            <div class="data-row"><span class="label" style="color:${accentColor}">4. PPT</span><span class="value">${plan.details.ppt}</span></div>
+                            <div class="data-row"><span class="label" style="color:${accentColor}">5. Entry Age</span><span class="value">${plan.details.age}</span></div>
+                            <div class="data-row"><span class="label" style="color:${accentColor}">6. Option</span><span class="value">${plan.details.option}</span></div>
+                            <div class="data-row"><span class="label" style="color:${accentColor}">7. Maturity</span><span class="value">${plan.details.maturity}</span></div>
+                            <div class="data-row"><span class="label" style="color:${accentColor}">8. SB</span><span class="value">${plan.details.sb}</span></div>
+                            <div class="data-row"><span class="label" style="color:${accentColor}">9. Death Benefit</span><span class="value">${plan.details.death}</span></div>
+                            <div class="data-row"><span class="label" style="color:${accentColor}">10. Riders</span><span class="value">${plan.details.riders}</span></div>
+                            <div class="data-row"><span class="label" style="color:${accentColor}">11. Surrender</span><span class="value">${plan.details.surrender}</span></div>
+                            <div class="data-row"><span class="label" style="color:${accentColor}">12. Revival</span><span class="value">${plan.details.revival}</span></div>
+                            
+                            <div class="usp-box" style="border-left-color:${accentColor}">
+                                <span class="usp-label" style="color:${accentColor}">Salient Features (USP):</span>
+                                <div class="usp-text">${plan.details.usp}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>
