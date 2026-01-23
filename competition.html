@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India's Life Insurance Galaxy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Orbitron:wght@900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cosmic-blue: #1a1a40;
+            --nebula-purple: #4b0082;
+            --starlight-gold: #ffd700;
+            --danger-red: #ff3333;
+            --pure-white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --card-front-grad: linear-gradient(135deg, #240b36 0%, #c31432 100%);
+            --card-back-grad: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        }
+
+        body {
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); 
+            /* Deep midnight blue, not black */
+            font-family: 'Rajdhani', sans-serif;
+            color: var(--pure-white);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Twinkling Stars Background */
+        .stars, .twinkling {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%; height: 100%;
+            display: block;
+        }
+        .stars {
+            background: #000 url('http://www.script-tutorials.com/demos/360/images/stars.png') repeat top center;
+            z-index: -2;
+            opacity: 0.6; /* mitigating pure black via opacity */
+        }
+        .twinkling{
+            background: transparent url('http://www.script-tutorials.com/demos/360/images/twinkling.png') repeat top center;
+            z-index: -1;
+            animation: move-twink-back 200s linear infinite;
+        }
+        @keyframes move-twink-back {
+            from {background-position:0 0;}
+            to {background-position:-10000px 5000px;}
+        }
+
+        /* 3D Title */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            perspective: 500px;
+        }
+
+        h1.galaxy-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            text-transform: uppercase;
+            color: var(--pure-white);
+            text-shadow: 
+                0 1px 0 #ccc,
+                0 2px 0 #c9c9c9,
+                0 3px 0 #bbb,
+                0 4px 0 #b9b9b9,
+                0 5px 0 #aaa,
+                0 6px 1px rgba(0,0,0,.1),
+                0 0 5px rgba(0,0,0,.1),
+                0 1px 3px rgba(0,0,0,.3),
+                0 3px 5px rgba(0,0,0,.2),
+                0 5px 10px rgba(0,0,0,.25),
+                0 10px 10px rgba(0,0,0,.2),
+                0 20px 20px rgba(0,0,0,.15),
+                0 0 20px var(--danger-red),
+                0 0 40px var(--danger-red);
+            transform: rotateX(10deg);
+            letter-spacing: 5px;
+            margin: 0;
+        }
+        
+        .sub-title {
+            font-family: 'Cinzel', serif;
+            color: var(--starlight-gold);
+            font-size: 1.5rem;
+            margin-top: 10px;
+            text-shadow: 0 0 10px var(--starlight-gold);
+        }
+
+        /* Comparison Section */
+        .comparison-container {
+            background: rgba(48, 11, 74, 0.7);
+            border: 2px solid var(--starlight-gold);
+            border-radius: 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .comparison-controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            border: 2px solid var(--starlight-gold);
+            background: #2e0944;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            outline: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        select:hover {
+            box-shadow: 0 0 15px var(--starlight-gold);
+        }
+
+        .comp-table {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .comp-card {
+            background: linear-gradient(to bottom, #141e30, #243b55);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .comp-card.lic-card {
+            border: 2px solid var(--danger-red);
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.4);
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 0;
+        }
+        .stat-label { color: #aaa; font-size: 0.9rem; }
+        .stat-val { color: var(--starlight-gold); font-weight: bold; font-size: 1.1rem; text-align: right; }
+
+        /* The Grid */
+        .galaxy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* FLIP CARD STYLES */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 450px;
+            perspective: 1000px; /* Remove this if you don't want the 3D effect */
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(255,255,255,0.2);
+            border-radius: 15px;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .flip-card-front {
+            background: var(--card-front-grad);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .flip-card-back {
+            background: var(--card-back-grad);
+            color: white;
+            transform: rotateY(180deg);
+            border: 2px solid var(--starlight-gold);
+            justify-content: flex-start;
+            padding-top: 20px;
+            overflow-y: auto; /* Scroll if content is too long */
+        }
+
+        /* Scrollbar for back of card */
+        .flip-card-back::-webkit-scrollbar {
+            width: 5px;
+        }
+        .flip-card-back::-webkit-scrollbar-thumb {
+            background: var(--starlight-gold);
+            border-radius: 10px;
+        }
+
+        /* Typography & Data Styling */
+        .company-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            background: -webkit-linear-gradient(#fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .big-stat {
+            margin: 10px 0;
+        }
+        .big-stat .val {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--starlight-gold);
+            line-height: 1;
+            display: block;
+            text-shadow: 2px 2px 4px #5e0e0e;
+        }
+        .big-stat .lbl {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ddd;
+        }
+
+        .detail-grid {
+            width: 100%;
+            padding: 0 15px;
+            text-align: left;
+        }
+        .detail-item {
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 4px;
+        }
+        .detail-item span.lbl {
+            color: #aaa;
+            font-size: 0.8rem;
+            display: block;
+        }
+        .detail-item span.val {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .important-note {
+            background: rgba(255, 51, 51, 0.2);
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            color: #ffcccc;
+            border-left: 3px solid var(--danger-red);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1.galaxy-title { font-size: 2.5rem; }
+            .comp-table { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="twinkling"></div>
+
+<header>
+    <h1 class="galaxy-title">INDIA'S LIFE INSURANCE GALAXY</h1>
+    <div class="sub-title">26 Stars of Protection</div>
+</header>
+
+<!-- Comparison Section -->
+<div class="comparison-container">
+    <div class="comparison-controls">
+        <h2 style="color: var(--starlight-gold); font-family: 'Orbitron'">CELESTIAL COMPARISON</h2>
+        <p>Benchmark: <strong>LIC</strong> vs </p>
+        <select id="compareSelect" onchange="updateComparison()">
+            <!-- Options populated by JS -->
+        </select>
+    </div>
+    
+    <div class="comp-table">
+        <!-- Fixed LIC Card -->
+        <div class="comp-card lic-card">
+            <h3 style="color:var(--danger-red); font-family:'Orbitron'; font-size: 1.5rem; text-align: center;">LIC (The Sun)</h3>
+            <div id="lic-stats"></div>
+        </div>
+        <!-- Variable Challenger Card -->
+        <div class="comp-card">
+            <h3 id="chal-name" style="color:var(--starlight-gold); font-family:'Orbitron'; font-size: 1.5rem; text-align: center;">Select Company</h3>
+            <div id="chal-stats"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Grid of Cards -->
+<div class="galaxy-grid" id="gridContainer">
+    <!-- Cards injected via JS -->
+</div>
+
+<script>
+    // Data Source
+    const insuranceData = [
+        {
+            name: "LIC",
+            share: "57.05%",
+            csr: "98%+",
+            holders: "~290 Million",
+            agents: "14.86 Lakh",
+            branches: "~2,048+",
+            est: "1 Sep 1956",
+            settled: "Millions",
+            chair: "R. Doraiswamy (MD/CEO)",
+            rejected: "~2% or less",
+            hq: "Yogakshema, Mumbai",
+            plans: "40+",
+            price: "₹800–₹820",
+            mcap: "₹5.18 Lakh Cr",
+            note: "The Dominant Market Leader. Guinness Record Holder."
+        },
+        {
+            name: "ACKO Life",
+            share: "0.02%",
+            csr: "99.38%",
+            holders: "Not Disclosed",
+            agents: "N/A (Digital D2C)",
+            branches: "Digital First",
+            est: "11 July 2022",
+            settled: "N/A (New)",
+            chair: "Sandip Goenka (CEO)",
+            rejected: "Low (<1%)",
+            hq: "Bangalore, Karnataka",
+            plans: "2",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Digital-only model, very small market share."
+        },
+        {
+            name: "Aditya Birla SunLife",
+            share: "3.09%",
+            csr: "98.65%",
+            holders: "~20.03 Lakh",
+            agents: "~65,500+",
+            branches: "~430+",
+            est: "2000",
+            settled: "~368,102 (Mortality)",
+            chair: "Kamlesh Rao (CEO)",
+            rejected: "~1-2%",
+            hq: "One World Centre, Mumbai",
+            plans: "7+",
+            price: "AMC Listed (Parent)",
+            mcap: "N/A (Insurer Unlisted)",
+            note: "Strong branch network."
+        },
+        {
+            name: "Ageas Federal",
+            share: "N/A (Mid-tier)",
+            csr: "98.52%",
+            holders: "~5 Million",
+            agents: "~5,000+",
+            branches: "5,000+ (Bank Partner)",
+            est: "2007",
+            settled: "High",
+            chair: "N/A",
+            rejected: "<1.5%",
+            hq: "Lower Parel, Mumbai",
+            plans: "10+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Strong Bancassurance via Federal/IDBI."
+        },
+        {
+            name: "Aviva Life",
+            share: "<1%",
+            csr: "99.07%",
+            holders: "Millions (Est)",
+            agents: "25k - 30k",
+            branches: "~90-95",
+            est: "2000",
+            settled: "30k-50k",
+            chair: "Nainesh Jaisingh",
+            rejected: "~1%",
+            hq: "Gurugram, Haryana",
+            plans: "9+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Small-to-mid private player."
+        },
+        {
+            name: "Axis Max Life",
+            share: "~2.9% (Total)",
+            csr: "99.70%",
+            holders: "~1.79 Crore",
+            agents: "Large Network",
+            branches: "~405",
+            est: "2000",
+            settled: "~20,170 (Death)",
+            chair: "Sumit Madan (CEO)",
+            rejected: "~0.3%",
+            hq: "Gurugram, Haryana",
+            plans: "15+",
+            price: "Parent Listed (MAXF)",
+            mcap: "N/A",
+            note: "Recently rebranded to Axis Max Life."
+        },
+        {
+            name: "Bajaj Allianz",
+            share: "3.72%",
+            csr: "99.29%",
+            holders: "~3.78 Crore",
+            agents: "~1.57 Lakh",
+            branches: "~596",
+            est: "2001",
+            settled: "~13,994 (Indiv)",
+            chair: "CEO Managed",
+            rejected: "~0.7%",
+            hq: "Pune, Maharashtra",
+            plans: "16+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Top tier private insurer."
+        },
+        {
+            name: "Bandhan Life",
+            share: "0.07%",
+            csr: "99.73%",
+            holders: ">3 Lakh",
+            agents: "Digital/Bank Focus",
+            branches: "Limited",
+            est: "2007 (Rebranded 2024)",
+            settled: "High Ratio",
+            chair: "Satishwar Balakrishnan (CEO)",
+            rejected: "~0.27%",
+            hq: "Mumbai, Maharashtra",
+            plans: "13+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Formerly Aegon Life."
+        },
+        {
+            name: "Bharti AXA",
+            share: "0.60%",
+            csr: "99.10%",
+            holders: "N/A",
+            agents: "~60,600",
+            branches: "200+",
+            est: "2005",
+            settled: "Thousands",
+            chair: "N/A",
+            rejected: "<1%",
+            hq: "Goregaon, Mumbai",
+            plans: "14+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Small private player."
+        },
+        {
+            name: "Canara HSBC",
+            share: "1.8%",
+            csr: "99.31%",
+            holders: "~10.51 Million",
+            agents: "Bancassurance Focus",
+            branches: "15,700+ (Bank Partner)",
+            est: "2007",
+            settled: "Thousands",
+            chair: "Anuj Mathur (MD)",
+            rejected: "~0.7%",
+            hq: "Gurugram, Haryana",
+            plans: "14+",
+            price: "₹146–₹149",
+            mcap: "₹14,200 Cr",
+            note: "Listed Oct 2025."
+        },
+        {
+            name: "Credit Access",
+            share: "0.06%",
+            csr: "99.86%",
+            holders: "~17.69 Million (Group)",
+            agents: "Microfinance Partner",
+            branches: "Partner Network",
+            est: "2019 (Ops 2023)",
+            settled: "6,409 Lives",
+            chair: "Gary Raymond Bennett",
+            rejected: "<0.2%",
+            hq: "Bengaluru, Karnataka",
+            plans: "1+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Focus on Micro-insurance/Low income."
+        },
+        {
+            name: "Edelweiss Life",
+            share: "0.18%",
+            csr: "99.29%",
+            holders: "N/A",
+            agents: "~80,628",
+            branches: "~94",
+            est: "2011",
+            settled: "High",
+            chair: "Sumit Rai (MD)",
+            rejected: "~0.7%",
+            hq: "Kurla, Mumbai",
+            plans: "17+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Focus on innovation/customer exp."
+        },
+        {
+            name: "Future Generali",
+            share: "0.36%",
+            csr: "98.08%",
+            holders: "~8.9 Lakh",
+            agents: "N/A",
+            branches: "1,300+ (Locations)",
+            est: "2006",
+            settled: "Thousands",
+            chair: "Alok Rungta (MD)",
+            rejected: "~2%",
+            hq: "Vikhroli, Mumbai",
+            plans: "15+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Also known as Generali Central Life."
+        },
+        {
+            name: "Go Digit Life",
+            share: "0.27%",
+            csr: "99.53%",
+            holders: "6.7 Million",
+            agents: "~6,270",
+            branches: "~36",
+            est: "2021",
+            settled: "~15,596",
+            chair: "Sabyasachi Sarkar (MD)",
+            rejected: "~0.5%",
+            hq: "Pune, Maharashtra",
+            plans: "3+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "New-age digital insurer, rapid growth."
+        },
+        {
+            name: "HDFC Life",
+            share: "11.1%",
+            csr: "99.68%",
+            holders: "~5 Crore",
+            agents: "~2.6 Lakh",
+            branches: "650+",
+            est: "2000",
+            settled: "~19,666 (Indiv)",
+            chair: "Keki M. Mistry",
+            rejected: "~0.3%",
+            hq: "Mahalaxmi, Mumbai",
+            plans: "14+ (60+ Total)",
+            price: "₹710–₹730",
+            mcap: "₹1.6 Lakh Cr",
+            note: "Top 3 Insurer, NIFTY 50 stock."
+        },
+        {
+            name: "ICICI Prudential",
+            share: "11.3%",
+            csr: "99.3%",
+            holders: "Millions (High AUM)",
+            agents: "~2.29 Lakh",
+            branches: "459",
+            est: "2000",
+            settled: "368,102 (Mortality)",
+            chair: "Sandeep Batra",
+            rejected: "~0.7%",
+            hq: "Prabhadevi, Mumbai",
+            plans: "19+",
+            price: "₹638–₹649",
+            mcap: "₹95,000 Cr",
+            note: "First life insurer to list in India."
+        },
+        {
+            name: "IndiaFirst Life",
+            share: "0.90%",
+            csr: "98.22%",
+            holders: "~16 Million",
+            agents: "~1,880 (+Banks)",
+            branches: "~65",
+            est: "2009",
+            settled: "~41,668 (Death)",
+            chair: "Dr. Debadatta Chand",
+            rejected: "~1.8%",
+            hq: "Mumbai, Maharashtra",
+            plans: "17+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "JV with Bank of Baroda."
+        },
+        {
+            name: "Kotak Life",
+            share: "3.51%",
+            csr: "98.61%",
+            holders: ">5 Crore",
+            agents: ">1 Lakh",
+            branches: "339",
+            est: "2000",
+            settled: "High",
+            chair: "Uday Kotak",
+            rejected: "~1.4%",
+            hq: "BKC, Mumbai",
+            plans: "22+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "100% owned by Kotak Mahindra Bank."
+        },
+        {
+            name: "PNB MetLife",
+            share: "1.1%",
+            csr: "99.57%",
+            holders: "N/A",
+            agents: ">36,000",
+            branches: "155",
+            est: "2001",
+            settled: "5,615 (Retail)",
+            chair: "Sameer Bansal (MD)",
+            rejected: "~0.4%",
+            hq: "Bengaluru, Karnataka",
+            plans: "8+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Top 10 private player."
+        },
+        {
+            name: "Pramerica Life",
+            share: "0.71%",
+            csr: "99.18%",
+            holders: "~11.9 Million",
+            agents: "~18,300",
+            branches: "134",
+            est: "2007",
+            settled: "722 (Indiv Death)",
+            chair: "Pankaj Gupta (MD)",
+            rejected: "~0.8%",
+            hq: "Gurugram, Haryana",
+            plans: "17+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Defense personnel coverage focus."
+        },
+        {
+            name: "Reliance Nippon",
+            share: "Top Tier Private",
+            csr: "98.9%",
+            holders: "~10 Million",
+            agents: "~69,000",
+            branches: "713",
+            est: "2001",
+            settled: "5.4 Lakh (Total)",
+            chair: "Ashish Vohra (CEO)",
+            rejected: "<1%",
+            hq: "BKC, Mumbai",
+            plans: "25+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Rebranded as IndusInd Nippon Life."
+        },
+        {
+            name: "Sahara Life",
+            share: "Defunct/Transferred",
+            csr: "N/A",
+            holders: "Transferred",
+            agents: "N/A",
+            branches: "N/A",
+            est: "2000",
+            settled: "N/A",
+            chair: "N/A",
+            rejected: "N/A",
+            hq: "Lucknow, UP",
+            plans: "8 (Historical)",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "CRITICAL: Business taken over by SBI Life per IRDAI order."
+        },
+        {
+            name: "SBI Life",
+            share: "22.3-27.8% (Pvt)",
+            csr: "98.8 - 99.4%",
+            holders: "Millions",
+            agents: "~2.68 Lakh",
+            branches: "1,154",
+            est: "2000",
+            settled: "Millions",
+            chair: "C.S. Setty",
+            rejected: "<1.2%",
+            hq: "Andheri, Mumbai",
+            plans: "19+",
+            price: "₹2000+",
+            mcap: "₹2 Lakh Cr",
+            note: "Leading Private Insurer."
+        },
+        {
+            name: "Shriram Life",
+            share: "Niche",
+            csr: "98.31%",
+            holders: "1.46 Million",
+            agents: "~75,000 (Est)",
+            branches: "478",
+            est: "2005",
+            settled: "4,770 Families",
+            chair: "Casparus Kromhout (MD)",
+            rejected: "~1.7%",
+            hq: "Hyderabad, Telangana",
+            plans: "10+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "Focus on rural/under-served."
+        },
+        {
+            name: "Star Union Dai-ichi",
+            share: "Mid-Tier",
+            csr: "98.84%",
+            holders: "~15 Million",
+            agents: "~3,500",
+            branches: "Bank Network",
+            est: "2007",
+            settled: "High",
+            chair: "Rajiv Mishra",
+            rejected: "~1-2%",
+            hq: "Navi Mumbai",
+            plans: "15+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "JV: BOI, Union Bank, Dai-ichi."
+        },
+        {
+            name: "Tata AIA",
+            share: "3.12%",
+            csr: "99.41%",
+            holders: "~89 Lakh Families",
+            agents: "~1.36 Lakh",
+            branches: "600+",
+            est: "2001",
+            settled: "High",
+            chair: "Saurabh Agrawal",
+            rejected: "<0.6%",
+            hq: "Lower Parel, Mumbai",
+            plans: "12+",
+            price: "Not Listed",
+            mcap: "N/A",
+            note: "High claim performance."
+        }
+    ];
+
+    const gridContainer = document.getElementById('gridContainer');
+    const compareSelect = document.getElementById('compareSelect');
+
+    // Initialize Page
+    function init() {
+        insuranceData.forEach((co, index) => {
+            // 1. Populate Comparison Dropdown (Skip LIC as it's the benchmark)
+            if (co.name !== "LIC") {
+                const opt = document.createElement('option');
+                opt.value = index;
+                opt.innerText = co.name;
+                compareSelect.appendChild(opt);
+            }
+
+            // 2. Create Flip Cards
+            const card = document.createElement('div');
+            card.className = 'flip-card';
+            card.innerHTML = `
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <div class="company-name">${co.name}</div>
+                        <div class="big-stat">
+                            <span class="val">${co.share}</span>
+                            <span class="lbl">Market Share</span>
+                        </div>
+                        <div class="big-stat">
+                            <span class="val">${co.csr}</span>
+                            <span class="lbl">Claim Ratio</span>
+                        </div>
+                        <div class="big-stat">
+                            <span class="val" style="font-size:1.8rem">${co.est}</span>
+                            <span class="lbl">Established</span>
+                        </div>
+                        <div style="margin-top:20px; font-size:0.8rem; color:#ffd700">HOVER FOR DETAILS</div>
+                    </div>
+                    <div class="flip-card-back">
+                        <div class="company-name" style="font-size:1.4rem; border-bottom:1px solid gold; width:90%; margin:0 auto 10px auto;">${co.name}</div>
+                        <div class="detail-grid">
+                            ${createDetailRow('Policy Holders', co.holders)}
+                            ${createDetailRow('Agents', co.agents)}
+                            ${createDetailRow('Branches', co.branches)}
+                            ${createDetailRow('Claims Settled (Yr)', co.settled)}
+                            ${createDetailRow('Rejected (Yr)', co.rejected)}
+                            ${createDetailRow('Chairman/MD', co.chair)}
+                            ${createDetailRow('Total Plans', co.plans)}
+                            ${createDetailRow('Share Price', co.price)}
+                            ${createDetailRow('Market Cap', co.mcap)}
+                            <div class="detail-item">
+                                <span class="lbl">Head Office</span>
+                                <span class="val" style="font-size:0.9rem">${co.hq}</span>
+                            </div>
+                            <div class="important-note">NOTE: ${co.note}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            gridContainer.appendChild(card);
+        });
+
+        // Initialize Comparison with first option
+        updateComparison();
+        renderStats(insuranceData[0], 'lic-stats');
+    }
+
+    function createDetailRow(label, value) {
+        return `
+            <div class="detail-item">
+                <span class="lbl">${label}</span>
+                <span class="val">${value}</span>
+            </div>
+        `;
+    }
+
+    // Render Stats for Comparison Table
+    function renderStats(co, containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = `
+            <div class="stat-row"><span class="stat-label">Market Share</span><span class="stat-val">${co.share}</span></div>
+            <div class="stat-row"><span class="stat-label">Claim Ratio</span><span class="stat-val">${co.csr}</span></div>
+            <div class="stat-row"><span class="stat-label">Policy Holders</span><span class="stat-val">${co.holders}</span></div>
+            <div class="stat-row"><span class="stat-label">Agents</span><span class="stat-val">${co.agents}</span></div>
+            <div class="stat-row"><span class="stat-label">Branches</span><span class="stat-val">${co.branches}</span></div>
+            <div class="stat-row"><span class="stat-label">Est. Date</span><span class="stat-val">${co.est}</span></div>
+            <div class="stat-row"><span class="stat-label">Share Price</span><span class="stat-val">${co.price}</span></div>
+            <div class="stat-row"><span class="stat-label">Market Cap</span><span class="stat-val">${co.mcap}</span></div>
+        `;
+    }
+
+    // Update Comparator
+    window.updateComparison = function() {
+        const index = compareSelect.value;
+        const co = insuranceData[index];
+        document.getElementById('chal-name').innerText = co.name;
+        renderStats(co, 'chal-stats');
+    }
+
+    // Run
+    init();
+
+</script>
+
+</body>
+</html>
