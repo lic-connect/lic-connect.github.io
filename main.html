@@ -507,6 +507,18 @@ button:active, .plan-card:active, .link-card:active {
 
     <!-- MAIN CONTENT -->
     <main class="main-content">
+
+
+
+<!-- Profile Alert Banner -->
+<div id="profileAlert" style="display: none; background: #ff9800; color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: 600;">
+    <i class="fas fa-exclamation-triangle"></i> Your profile is incomplete! 
+    <a href="signup.html" style="color: white; text-decoration: underline; margin-left: 10px;">Complete Signup</a> 
+    to unlock the Digital Card & Policy Vault.
+</div>
+
+
+
         
         <div id="newsTicker">
           <div id="newsText">Loading news...</div>
@@ -722,7 +734,8 @@ button:active, .plan-card:active, .link-card:active {
                 <a href="agents_data.html" class="dashboard-button"><i class="fas fa-user-tie"></i> Agents Data</a>
                 <a href="agents_module.html" class="dashboard-button"><i class="fas fa-briefcase"></i> Agents Module</a>
                 <a href="prospectscorner.html" class="dashboard-button"><i class="fas fa-user-plus"></i> Prospects Corner</a>
-<a href="policy_vault.html" class="dashboard-button">
+<!-- Policy Vault -->
+<a href="javascript:void(0)" onclick="accessPremiumFeature('policy_vault.html')" class="dashboard-button">
     <i class="fas fa-vault"></i> Policy Vault & FPR
 </a>
            <a href="automatic_fetch.html" class="dashboard-button"><i class="fas fa-link"></i> Agent Tracker</a>
@@ -774,8 +787,8 @@ button:active, .plan-card:active, .link-card:active {
              <a href="voice.html" class="dashboard-button highlight-button" style="justify-content: center;"> <i class="fas fa-microphone-alt"></i> Voice Assistant</a>
 
 
-<!-- Add this right below the Voice Assistant button -->
-<a href="digital_card.html" class="dashboard-button highlight-button" style="justify-content: center; background: linear-gradient(135deg, #2ecc71, #27ae60); margin-top: 10px;">
+<!-- Digital Card -->
+<a href="javascript:void(0)" onclick="accessPremiumFeature('digital_card.html')" class="dashboard-button highlight-button">
     <i class="fas fa-address-card"></i> Digital Business Card
 </a>
 
@@ -842,24 +855,47 @@ button:active, .plan-card:active, .link-card:active {
     }
 
     // AUTH LISTENER
-    supabase.auth.onAuthStateChange(async (event, session) => {
-        console.log('Authentication event:', event);
+let isFullProfile = false; // Global variable to track signup status
 
-        if (session && session.user) {
-            // FIX: Improved name logic (Splits email or uses metadata)
-            const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
-            
-            // Update UI
-            const welcomeEl = document.getElementById("welcomeMsg");
-            if(welcomeEl) welcomeEl.textContent = `Welcome, ${name}`;
+supabase.auth.onAuthStateChange(async (event, session) => {
+    if (session && session.user) {
+        const user = session.user;
+        
+        // 1. Check if user exists in the 'signups' table
+        const { data: profile, error } = await supabase
+            .from('signups')
+            .select('full_name')
+            .eq('email', user.email)
+            .single();
 
-            // Trigger data fetches
-            fetchGNews();
-            checkRenewals(); 
-        } else if (event === "SIGNED_OUT" || (!session && event === "INITIAL_SESSION")) {
-            window.location.href = "signup.html";
+        if (profile) {
+            // CASE: User has Signed Up
+            isFullProfile = true;
+            document.getElementById("welcomeMsg").textContent = `Welcome, ${profile.full_name}`;
+            document.getElementById("profileAlert").style.display = 'none';
+        } else {
+            // CASE: User only used Magic Link (Login)
+            isFullProfile = false;
+            document.getElementById("welcomeMsg").textContent = `Welcome, ${user.email.split('@')[0]}`;
+            document.getElementById("profileAlert").style.display = 'block';
         }
-    });
+
+        fetchGNews();
+        checkRenewals();
+    } else {
+        window.location.href = "signup.html";
+    }
+});
+
+// 2. Function to protect premium features
+function accessPremiumFeature(pageUrl) {
+    if (isFullProfile) {
+        window.location.href = pageUrl;
+    } else {
+        alert("🔒 This is a Premium Feature.\n\nPlease complete your Signup with Name and Mobile number to access this.");
+        window.location.href = "signup.html";
+    }
+}
 
     async function handleLogout() {
         await supabase.auth.signOut();
