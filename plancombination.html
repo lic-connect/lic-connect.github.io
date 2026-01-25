@@ -14,35 +14,6 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    const supabase = supabase.createClient(
-      'https://efduqdondmlzmwhfgkfz.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
-    );
-
- async function gatekeeper() {
-    const { data: { session } } = await supabase.auth.getSession();
-    
-    // If not logged in at all, go to signup
-    if (!session) {
-        window.location.replace("signup.html");
-        return;
-    }
-
-    // Check if email is in premium table
-    const { data } = await supabase
-        .from('signups')
-        .select('email')
-        .eq('email', session.user.email);
-
-    if (!data || data.length === 0) {
-        alert("This page requires a Premium Signup.");
-        window.location.replace("main.html");
-    }
-}
-gatekeeper(); // Run it immediately
-</script>
     <style>
         :root {
             --modern-blue: #0077b6;

@@ -735,15 +735,11 @@ button:active, .plan-card:active, .link-card:active {
             <h2>Plan & Policy Tools</h2>
             <div class="button-grid">
                 <a href="plan_features.html" class="dashboard-button"><i class="fas fa-star"></i> Plan Features</a>
-           <a href="javascript:void(0)" onclick="checkPremiumAccess('plancombination.html')" class="dashboard-button">
-    <i class="fas fa-project-diagram"></i> Plan Combination
-</a>
+                <a href="plancombination.html" class="dashboard-button"><i class="fas fa-project-diagram"></i> Plan Combination</a>
                 <a href="comparebygroup.html" class="dashboard-button"><i class="fas fa-balance-scale"></i> Plan Comparison</a>
                 <a href="needs_budget.html" class="dashboard-button"><i class="fas fa-bullseye"></i> Plans as per Need</a>
                 <a href="agents_commission.html" class="dashboard-button"><i class="fas fa-percent"></i> Agents Commission</a>
-              <a href="javascript:void(0)" onclick="checkPremiumAccess('IRR_PAGE.html')" class="dashboard-button">
-    <i class="fas fa-chart-line"></i> IRR Calculation
-</a>
+                <a href="IRR_PAGE.html" class="dashboard-button"><i class="fas fa-chart-line"></i> IRR Calculation</a>
             </div>
         </section>
 
@@ -853,12 +849,6 @@ button:active, .plan-card:active, .link-card:active {
         window.location.href = "signup.html";
       }
     });
-
-
-
-
-
-
 
 
     // --- LOGOUT FUNCTIONALITY (No changes needed) ---
@@ -981,37 +971,6 @@ button:active, .plan-card:active, .link-card:active {
             }
         });
     }
-
-
-
-async function checkPremiumAccess(targetPage) {
-    const { data: { session } } = await supabase.auth.getSession();
-
-    // 1. Check if even logged in
-    if (!session) {
-        alert("Please Login or Signup first.");
-        window.location.href = "signup.html";
-        return;
-    }
-
-    const userEmail = session.user.email;
-
-    // 2. Check if this email exists in the 'signups' table
-    const { data, error } = await supabase
-        .from('signups')
-        .select('email')
-        .eq('email', userEmail);
-
-    // If data is empty, it means they used Magic Link but didn't Signup
-    if (data && data.length > 0) {
-        window.location.href = targetPage;
-    } else {
-        alert("PREMIUM FEATURE: Please complete the Signup form with a password to unlock IRR and Plan Combinations.");
-        window.location.href = "signup.html";
-    }
-}
-
-
 
 async function checkRenewals() {
     const today = new Date();
