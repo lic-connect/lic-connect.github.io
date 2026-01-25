@@ -7,12 +7,12 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-yellow: #FFD700;
-            --dark-yellow: #ccac00;
-            --white: #ffffff;
-            --shadow: rgba(0, 0, 0, 0.1);
-        }
+       :root {
+    --primary-orange: #FF8C00; /* Dark Orange */
+    --dark-orange: #e67e00;    /* Deep Orange for shadows */
+    --white: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -28,8 +28,8 @@
         .title-container {
             background: var(--white);
             padding: 20px 50px;
-            border: 4px solid var(--primary-yellow);
-            box-shadow: 10px 10px 0px var(--primary-yellow);
+            border: 4px solid var(--primary-orange);
+            box-shadow: 10px 10px 0px var(--primary-orange);
             margin-bottom: 50px;
             text-align: center;
         }
@@ -59,7 +59,7 @@
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 10px 30px var(--shadow);
-            border-top: 10px solid var(--primary-yellow);
+            border-top: 10px solid var(--primary-orange);
         }
 
         .section-box {
@@ -84,9 +84,9 @@
         }
 
         select:focus, input:focus {
-            border-color: var(--primary-yellow);
+            border-color: var(--primary-orange);
             outline: none;
-            background-color: #fffef0;
+            background-color: #fffaf0;
         }
 
         .grid-inputs {
@@ -98,7 +98,7 @@
         button {
             width: 100%;
             padding: 15px;
-            background: var(--primary-yellow);
+            background: var(--primary-orange);
             border: none;
             border-radius: 8px;
             font-size: 18px;
@@ -106,11 +106,12 @@
             cursor: pointer;
             margin-top: 20px;
             transition: 0.3s;
-            box-shadow: 0 4px 0 var(--dark-yellow);
+            box-shadow: 0 4px 0 var(--dark-orange);
+color: white; /* Added white text for better contrast on orange */
         }
 
         button:hover {
-            background: var(--dark-yellow);
+            background: var(--dark-orange);
             transform: translateY(-2px);
         }
 
@@ -146,7 +147,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-yellow), #ffa500);
+            background: linear-gradient(90deg, var(--primary-orange), #ff4500);
             width: 0%;
             transition: width 1s ease-in-out;
         }
@@ -159,7 +160,7 @@
         }
 
         .icon-header {
-            color: var(--dark-yellow);
+            color: var(--dark-orange);
             margin-right: 10px;
         }
 
@@ -174,14 +175,15 @@
     margin-bottom: 20px;
     background: var(--white);
     border-radius: 10px;
-    border: 2px solid var(--primary-yellow);
+    border: 2px solid var(--primary-orange);
     overflow: hidden;
 }
 
 .def-toggle {
     width: 100%;
     padding: 15px;
-    background: var(--primary-yellow);
+    background: var(--primary-orange);
+ color: white; /* Added white text */
     border: none;
     font-weight: bold;
     cursor: pointer;
@@ -197,13 +199,50 @@
     margin-top: 15px;
     padding: 15px;
     background: #fffdf0;
-    border-left: 5px solid var(--primary-yellow);
+    border-left: 5px solid var(--primary-orange);
     line-height: 1.6;
 }
 
 .def-display-box h4 { margin-top: 0; color: #333; text-decoration: underline; }
-.def-display-box b { color: #ccac00; }
+.def-display-box b { color: #e67e00; }
 .def-display-box ul { margin: 5px 0; padding-left: 20px; }
+
+
+/* Benefits Section Styling (Crimson Theme) */
+.benefits-container {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    background: var(--white);
+    border-radius: 10px;
+    border: 2px solid #DC143C;
+    overflow: hidden;
+}
+
+.ben-toggle {
+    width: 100%;
+    padding: 15px;
+    background: #DC143C;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+.ben-display-box {
+    margin-top: 15px;
+    padding: 15px;
+    background: #fff5f6;
+    border-left: 5px solid #DC143C;
+    line-height: 1.6;
+}
+
+.ben-display-box h4 { color: #DC143C; margin-top: 0; margin-bottom: 10px; font-size: 1.2rem; border-bottom: 1px solid #ffccd5; }
+.ben-display-box b { color: #8b0000; }
+.ben-display-box .cat-title { font-weight: bold; text-transform: uppercase; font-size: 0.85rem; color: #555; display: block; margin-top: 10px; }
+.ben-display-box ul { margin: 5px 0; padding-left: 20px; }
     </style>
 </head>
 <body>
@@ -232,6 +271,30 @@
 
         <div id="definitionDisplay" class="def-display-box">
             <p style="text-align:center; color:#888;">Select a term above to see the details.</p>
+        </div>
+    </div>
+</div>
+<!-- Benefits Section -->
+<div class="benefits-container">
+    <button class="ben-toggle" onclick="toggleBenSection()">
+        <i class="fa-solid fa-gift icon-header" style="color: white;"></i> Benefits of Various Clubs
+        <i class="fa-solid fa-chevron-down" style="float:right"></i>
+    </button>
+    
+    <div id="benContentWrapper" class="hidden" style="padding: 20px;">
+        <select id="benSelector" onchange="showBenefit()">
+            <option value="" disabled selected>-- Choose a Club to see Benefits --</option>
+            <option value="BM">BM – Branch Manager’s Club</option>
+            <option value="DM">DM – Divisional Manager’s Club</option>
+            <option value="ZM">ZM – Zonal Manager’s Club</option>
+            <option value="CM">CM – Chairman’s Club</option>
+            <option value="MDRT">MDRT – Million Dollar Round Table</option>
+            <option value="COT">COT – Court of the Table</option>
+            <option value="TOT">TOT – Top of the Table</option>
+        </select>
+
+        <div id="benefitDisplay" class="ben-display-box">
+            <p style="text-align:center; color:#888;">Select a club above to see professional and financial rewards.</p>
         </div>
     </div>
 </div>
@@ -457,6 +520,63 @@ function showDefinition() {
     const val = document.getElementById('defSelector').value;
     const display = document.getElementById('definitionDisplay');
     display.innerHTML = definitionsData[val];
+}
+
+
+
+const benefitsData = {
+    BM: `<h4>🟢 BM – Branch Manager’s Club</h4>
+        <span class="cat-title">💼 Professional Benefits</span>
+        <ul><li>Recognition at Branch level</li><li>Priority access to Branch Manager & officials</li><li>Higher service support for proposals</li></ul>
+        <span class="cat-title">💰 Financial Benefits</span>
+        <ul><li>Office allowance</li><li>Telephone / mobile reimbursement</li><li>Promotional & stationery reimbursement</li></ul>`,
+    
+    DM: `<h4>🔵 DM – Divisional Manager’s Club</h4>
+        <span class="cat-title">💼 Professional Benefits</span>
+        <ul><li>Recognition at Divisional Office</li><li>Faster approvals & special handling</li><li>Invitations to divisional conventions</li></ul>
+        <span class="cat-title">💰 Financial Benefits</span>
+        <ul><li>Higher office allowance than BM</li><li>Eligibility for interest-free advances (computer/office)</li></ul>`,
+
+    ZM: `<h4>🟠 ZM – Zonal Manager’s Club</h4>
+        <span class="cat-title">💼 Professional Benefits</span>
+        <ul><li>Recognition at Zonal level</li><li>Direct access to senior officers</li><li>Guest house & travel privileges</li></ul>
+        <span class="cat-title">💰 Financial Benefits</span>
+        <ul><li>Substantial office & promotional allowance</li><li>Vehicle advance eligibility</li><li>Higher medical & insurance benefits</li></ul>`,
+
+    CM: `<h4>🔴 CM – Chairman’s Club</h4>
+        <span class="cat-title">💼 Professional Benefits</span>
+        <ul><li>Recognition by LIC Corporate Office</li><li>Invitations to national / international conventions</li><li>VIP treatment across LIC offices</li></ul>
+        <span class="cat-title">💰 Financial Benefits</span>
+        <ul><li>Highest allowances among LIC clubs</li><li>Housing / car advances at concessional rates</li><li>Group Mediclaim & Term insurance cover</li></ul>`,
+
+    MDRT: `<h4>🏆 MDRT – Million Dollar Round Table</h4>
+        <span class="cat-title">🌟 Professional Benefits</span>
+        <ul><li>International recognition (globally respected)</li><li>Access to global best practices</li></ul>
+        <span class="cat-title">💰 Financial Benefits</span>
+        <ul><li>High income benchmark</li><li>Eligibility for LIC international conventions</li></ul>`,
+
+    COT: `<h4>🥈 COT – Court of the Table</h4>
+        <span class="cat-title">🌟 Professional Benefits</span>
+        <ul><li>Elite subgroup within MDRT</li><li>Exclusive learning & networking sessions</li></ul>
+        <span class="cat-title">💰 Financial Benefits</span>
+        <ul><li>Very high income bracket</li><li>Strong passive renewal income</li></ul>`,
+
+    TOT: `<h4>🥇 TOT – Top of the Table</h4>
+        <span class="cat-title">🌟 Professional Benefits</span>
+        <ul><li>Among top 0.01% advisors worldwide</li><li>Direct access to global thought leaders</li></ul>
+        <span class="cat-title">💰 Financial Benefits</span>
+        <ul><li>Crore-level annual earnings potential</li><li>Premium client base only</li></ul>`
+};
+
+function toggleBenSection() {
+    const wrapper = document.getElementById('benContentWrapper');
+    wrapper.classList.toggle('hidden');
+}
+
+function showBenefit() {
+    const val = document.getElementById('benSelector').value;
+    const display = document.getElementById('benefitDisplay');
+    display.innerHTML = benefitsData[val];
 }
     </script>
 </body>
