@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent Digital Card</title>
+<!-- PWA: Link to the Manifest File -->
+<link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <!-- QR Code Library -->
@@ -246,6 +248,35 @@
     border-radius: 8px;
     font-family: 'Poppins', sans-serif;
 }
+
+
+
+    /* --- HOME BUTTON --- */
+        .home-button-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .home-button-container a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--modern-blue), var(--aquamarine));
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .home-button-container a:hover {
+            transform: scale(1.1) rotate(360deg);
+        }
     </style>
 
 <!-- 1. Load the Supabase Library first -->
@@ -472,6 +503,25 @@ async function shareCard() {
     }
 }
 </script>
+<div class="home-button-container">
+  <a href="/main.html" title="Go to Home">
+    <img src="images/home-icon.png" alt="Home">
+  </a>
+</div>
+<!-- PWA: Register the Workbox Service Worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw-workbox.js')
+                .then(registration => {
+                    console.log('Workbox service worker registered successfully:', registration);
+                })
+                .catch(error => {
+                    console.error('Workbox service worker registration FAILED:', error);
+                });
+        });
+    }
+</script>  
 </body>
 </html>
 
