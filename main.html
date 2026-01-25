@@ -853,26 +853,15 @@ const supabase = window.supabase.createClient(
 async function openLibrary() {
     const { data: { session } } = await supabase.auth.getSession();
     
-    if (!session) {
-        alert("Please login first.");
-        return;
-    }
-
-    // Check if user is in 'signups' table (Premium check)
-    const { data } = await supabase.from('signups').select('email').eq('email', session.user.email);
-
-    if (data && data.length > 0) {
-        // Access Granted
+    if (session && session.user) {
+        // Access Granted: Any logged-in user can enter
         window.location.href = "rule_library.html";
     } else {
-        // Access Denied
-        const proceed = confirm("The Rule Library is a Premium feature. Would you like to Sign Up now to unlock it?");
-        if (proceed) {
-            window.location.href = "signup.html";
-        }
+        // Access Denied: Not logged in at all
+        alert("Please login via Magic Link to access the Rule Library.");
+        window.location.href = "signup.html";
     }
 }
-
     // --- NEWS TICKER SCRIPT (No changes needed) ---
     async function fetchGNews() {
         const newsText = document.getElementById("newsText");
