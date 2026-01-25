@@ -215,24 +215,20 @@ async function handleSignup() {
         }]);
 
         // STEP 2: Handle the Auth Account
-        const { data, error: authError } = await supabase.auth.signUp({
+      const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
             email: email,
             password: password
         });
 
-        // If they already exist from a Magic Link, Supabase returns a specific error
-        if (authError && authError.message.includes("already registered")) {
-            console.log("User exists in Auth, but we just added them to the Premium Table.");
-            // We just need to make sure they have a password now
+        if (loginError) {
+            // If they are a Magic Link user, they might not have a password yet.
+            // We update it then try one more time.
             await supabase.auth.updateUser({ password: password });
-        } else if (authError) {
-            throw authError;
+            await supabase.auth.signInWithPassword({ email: email, password: password });
         }
 
-        // STEP 3: Success!
-        alert("PREMIUM ACCOUNT ACTIVE! Redirecting to Dashboard...");
+        alert("PREMIUM ACCOUNT ACTIVE!");
         window.location.replace("main.html");
-
     } catch (error) {
         console.error('Logic Error:', error);
         alert('Action Failed: ' + error.message);
