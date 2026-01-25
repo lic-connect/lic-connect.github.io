@@ -4,149 +4,232 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIC Connect | Live Rule & Circular Finder</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        :root { --lic-blue: #0055a4; --lic-gold: #f1c40f; }
-        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; margin: 0; padding: 0; }
-        
-        .header { background: var(--lic-blue); color: white; padding: 30px 20px; text-align: center; border-bottom: 5px solid var(--lic-gold); }
-        .container { max-width: 800px; margin: -30px auto 50px; padding: 0 15px; }
-        
-        /* Search Box */
-        .search-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .search-wrapper { display: flex; gap: 10px; }
-        .search-input { flex: 1; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; outline: none; }
-        .search-input:focus { border-color: var(--lic-blue); }
-        .search-btn { background: var(--lic-blue); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: 600; }
 
-        /* Live Results */
+    <style>
+        :root { 
+            --lic-blue: #0055a4; 
+            --lic-gold: #f1c40f; 
+            --bg-gray: #f4f7f6;
+        }
+
+        /* Hide body initially for the security check */
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: var(--bg-gray); 
+            margin: 0; 
+            padding: 0; 
+            display: none; 
+        }
+        
+        /* Header Section */
+        .header { 
+            background: var(--lic-blue); 
+            color: white; 
+            padding: 40px 20px; 
+            text-align: center; 
+            border-bottom: 5px solid var(--lic-gold); 
+        }
+        .header h1 { margin: 0; font-size: 2.2rem; }
+        .header p { opacity: 0.9; margin-top: 10px; }
+
+        /* Search Container */
+        .container { 
+            max-width: 800px; 
+            margin: -30px auto 50px; 
+            padding: 0 15px; 
+        }
+        
+        .search-card { 
+            background: white; 
+            padding: 25px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+        }
+        .search-wrapper { 
+            display: flex; 
+            gap: 10px; 
+        }
+        .search-input { 
+            flex: 1; 
+            padding: 15px; 
+            border: 2px solid #ddd; 
+            border-radius: 10px; 
+            font-size: 1rem; 
+            outline: none; 
+        }
+        .search-input:focus { border-color: var(--lic-blue); }
+        
+        .search-btn { 
+            background: var(--lic-blue); 
+            color: white; 
+            border: none; 
+            padding: 0 25px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            transition: 0.3s;
+        }
+        .search-btn:hover { background: #003d7a; }
+
+        /* Results Display */
         .results-container { margin-top: 30px; }
-        .result-item { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid #2ecc71; animation: fadeIn 0.5s ease; }
-        .result-date { font-size: 0.85rem; color: #e67e22; font-weight: 700; display: block; margin-bottom: 5px; }
-        .result-item h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: #333; }
-        .result-item p { font-size: 0.9rem; color: #666; line-height: 1.5; margin-bottom: 10px; }
-        .source-tag { font-size: 0.75rem; background: #eee; padding: 3px 8px; border-radius: 5px; color: #555; }
-        .link-btn { color: var(--lic-blue); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+        .result-item { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            margin-bottom: 15px; 
+            border-left: 5px solid #2ecc71; 
+            transition: 0.3s;
+            animation: fadeIn 0.5s ease;
+        }
+        .result-item:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        
+        .result-date { 
+            font-size: 0.85rem; 
+            color: #e67e22; 
+            font-weight: 700; 
+            display: block; 
+            margin-bottom: 8px; 
+        }
+        .result-item h3 { margin: 0 0 10px 0; font-size: 1.15rem; color: #333; line-height: 1.4; }
+        .result-item p { font-size: 0.9rem; color: #666; line-height: 1.6; margin-bottom: 15px; }
+        
+        .source-tag { font-size: 0.75rem; background: #f0f2f5; padding: 4px 10px; border-radius: 5px; color: #555; font-weight: 600; }
+        .link-btn { 
+            color: var(--lic-blue); 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+        }
+        .link-btn:hover { text-decoration: underline; }
+
+        .loader { text-align: center; display: none; margin-top: 30px; color: var(--lic-blue); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .loader { text-align: center; display: none; margin-top: 20px; color: var(--lic-blue); }
-/* Add this at the end of your existing <style> */
-body { display: none; } /* Hide page by default */
+
+        /* Mobile Fixes */
+        @media (max-width: 600px) {
+            .search-wrapper { flex-direction: column; }
+            .header h1 { font-size: 1.6rem; }
+            .search-btn { padding: 15px; }
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1><i class="fas fa-satellite-dish"></i> Live Rule Finder</h1>
-        <p>Fetching the latest official circulars & tax updates in real-time</p>
+        <h1><i class="fas fa-satellite-dish"></i> Live Circular Finder</h1>
+        <p>Real-time search for the latest LIC rules & tax updates</p>
     </div>
 
     <div class="container">
+        <!-- Search Box -->
         <div class="search-card">
             <div class="search-wrapper">
-                <input type="text" id="userQuery" class="search-input" placeholder="Type here (e.g. New Tax System, Medical Limit)...">
+                <input type="text" id="userQuery" class="search-input" placeholder="Enter topic (e.g. New Tax Rules, Bonus 2024)...">
                 <button class="search-btn" onclick="fetchLiveResults()">SEARCH</button>
             </div>
-            <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Searching official LIC sources and Indian Financial News...</p>
+            <p style="font-size: 0.75rem; color: #888; margin-top: 12px; text-align: center;">
+                <i class="fas fa-info-circle"></i> Searching official LIC sources and financial news via live RSS feed.
+            </p>
         </div>
 
-        <div id="loader" class="loader"><i class="fas fa-spinner fa-spin fa-2x"></i><p>Scanning the web...</p></div>
-        
-        <div id="resultsArea" class="results-container">
-            <!-- Results will appear here -->
+        <!-- Loading Spinner -->
+        <div id="loader" class="loader">
+            <i class="fas fa-spinner fa-spin fa-3x"></i>
+            <p style="margin-top: 10px; font-weight: 600;">Scanning live databases...</p>
         </div>
+        
+        <!-- Area where results appear -->
+        <div id="resultsArea" class="results-container"></div>
     </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    // 1. Initialize Supabase
-    const supabaseClient = window.supabase.createClient(
-        'https://efduqdondmlzmwhfgkfz.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
-    );
+    <script>
+        // 1. Initialize Supabase (Using a unique name to avoid errors)
+        const supabaseClient = window.supabase.createClient(
+            'https://efduqdondmlzmwhfgkfz.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
+        );
 
-    // 2. The Premium Gatekeeper Function
-    async function checkPremiumAccess() {
-        const { data: { session } } = await supabaseClient.auth.getSession();
-
-        // Check if logged in at all
-        if (!session) {
-            window.location.replace("signup.html");
-            return;
-        }
-
-        // Check if the user is in the 'signups' table (The Premium List)
-        const { data, error } = await supabaseClient
-            .from('signups')
-            .select('email')
-            .eq('email', session.user.email);
-
-        if (data && data.length > 0) {
-            // SUCCESS: User is Premium. Show the page content.
-            document.body.style.display = "block";
-        } else {
-            // FAILURE: Magic Link user but NOT in signup table
-            alert("THIS IS A PREMIUM FEATURE : PLEASE SIGN UP TO ACCESS");
-            window.location.replace("signup.html");
-        }
-    }
-
-    // Run the security check immediately
-    checkPremiumAccess();
-
-    // 3. Your Live Search Function (The one we made earlier)
-    async function fetchLiveResults() {
-        const query = document.getElementById('userQuery').value.trim();
-        const resultsArea = document.getElementById('resultsArea');
-        const loader = document.getElementById('loader');
-
-        if (!query) return alert("Please type a topic to search.");
-
-        resultsArea.innerHTML = '';
-        loader.style.display = 'block';
-
-        const searchQuery = `LIC India ${query} circular or rules`;
-        const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-IN&gl=IN&ceid=IN:en`;
-        const apiEndpoint = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-
-        try {
-            const response = await fetch(apiEndpoint);
-            const data = await response.json();
-            loader.style.display = 'none';
-
-            if (data.items && data.items.length > 0) {
-                resultsArea.innerHTML = data.items.map(item => {
-                    const pubDate = new Date(item.pubDate).toLocaleDateString('en-IN', {
-                        day: 'numeric', month: 'long', year: 'numeric'
-                    });
-
-                    return `
-                        <div class="result-item">
-                            <span class="result-date"><i class="far fa-calendar-alt"></i> Published: ${pubDate}</span>
-                            <h3>${item.title}</h3>
-                            <p>${item.description.replace(/<[^>]*>?/gm, '').substring(0, 150)}...</p>
-                            <div style="display:flex; justify-content:space-between; align-items:center;">
-                                <span class="source-tag">${item.source}</span>
-                                <a href="${item.link}" target="_blank" class="link-btn">READ FULL CIRCULAR <i class="fas fa-external-link-alt"></i></a>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
+        // 2. Simple Access Check: Just ensure user is logged in
+        async function checkAccess() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) {
+                // If not logged in, kick to signup
+                window.location.replace("signup.html");
             } else {
-                resultsArea.innerHTML = '<p style="text-align:center;">No live circulars found. Try different keywords.</p>';
+                // If logged in, reveal the page
+                document.body.style.display = "block";
             }
-        } catch (error) {
-            loader.style.display = 'none';
-            resultsArea.innerHTML = '<p style="color:red; text-align:center;">Error connecting to live feed.</p>';
         }
-    }
+        checkAccess();
 
-    // Allow pressing "Enter"
-    document.getElementById('userQuery').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') fetchLiveResults();
-    });
-</script>
+        // 3. Live Search Engine Logic
+        async function fetchLiveResults() {
+            const query = document.getElementById('userQuery').value.trim();
+            const resultsArea = document.getElementById('resultsArea');
+            const loader = document.getElementById('loader');
+
+            if (!query) return alert("Please type a topic to search.");
+
+            // Reset UI
+            resultsArea.innerHTML = '';
+            loader.style.display = 'block';
+
+            // Google News RSS Search Query
+            const searchQuery = `LIC India ${query} circular or rules`;
+            const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-IN&gl=IN&ceid=IN:en`;
+            
+            // RSS to JSON API (Same as news ticker)
+            const apiEndpoint = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+            try {
+                const response = await fetch(apiEndpoint);
+                const data = await response.json();
+                
+                loader.style.display = 'none';
+
+                if (data.items && data.items.length > 0) {
+                    resultsArea.innerHTML = data.items.map(item => {
+                        // Clean the date format
+                        const pubDate = new Date(item.pubDate).toLocaleDateString('en-IN', {
+                            day: 'numeric', month: 'long', year: 'numeric'
+                        });
+
+                        // Remove HTML tags from description
+                        const cleanDesc = item.description.replace(/<[^>]*>?/gm, '').substring(0, 180);
+
+                        return `
+                            <div class="result-item">
+                                <span class="result-date"><i class="far fa-calendar-alt"></i> Published: ${pubDate}</span>
+                                <h3>${item.title}</h3>
+                                <p>${cleanDesc}...</p>
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <span class="source-tag"><i class="fas fa-newspaper"></i> ${item.source}</span>
+                                    <a href="${item.link}" target="_blank" class="link-btn">READ MORE <i class="fas fa-external-link-alt"></i></a>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    resultsArea.innerHTML = '<p style="text-align:center; padding: 20px;">No live circulars found for this topic. Try broader keywords like "Tax" or "LIC Bonus".</p>';
+                }
+            } catch (error) {
+                loader.style.display = 'none';
+                resultsArea.innerHTML = '<p style="color:red; text-align:center;">Error connecting to live feed. Check your internet.</p>';
+                console.error("Fetch error:", error);
+            }
+        }
+
+        // Allow pressing "Enter" key to search
+        document.getElementById('userQuery').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') fetchLiveResults();
+        });
+    </script>
 </body>
 </html>

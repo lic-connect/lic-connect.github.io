@@ -87,12 +87,7 @@
     <div class="input-group"><input type="text" id="signupCountry" placeholder="Country"/><i class="fas fa-globe"></i></div>
     <div class="input-group"><input type="text" id="signupProfession" placeholder="Profession" /><i class="fas fa-briefcase"></i></div>
     <div class="input-group"><input type="text" id="signupIncome" placeholder="Annual Income" /><i class="fas fa-rupee-sign"></i></div>
-<div class="input-group">
-    <input type="password" id="signupPassword" placeholder="Set Password" required />
-    <i class="fas fa-lock"></i>
-</div>
-<!-- Change this line -->
-<button class="submit-button" onclick="handleSignup()">Unlock Premium Features</button>
+    <button class="submit-button" onclick="handleSignup()">Signup with Magic Link</button>
   </div>
 </div>
 
@@ -191,49 +186,40 @@
     
     // --- RELIABLE MAGIC LINK SIGNUP (with full validation) ---
 async function handleSignup() {
-    const email = document.getElementById('signupEmail').value.trim();
-    const fullName = document.getElementById('signupName').value.trim();
-    const password = document.getElementById('signupPassword').value.trim();
+        const email = document.getElementById('signupEmail').value;
+        const fullName = document.getElementById('signupName').value;
 
-    if (!email || !fullName || !password) {
-        return alert("Name, Email, and Password are required.");
-    }
-
-    try {
-        // STEP 1: Insert into the 'signups' table FIRST
-        // This works even if the user already exists in Supabase Auth
-        const { error: dbError } = await supabase.from('signups').insert([{ 
-            email: email, 
-            full_name: fullName,
-            gender: document.getElementById('signupGender').value,
-            mobile: document.getElementById('signupMobile').value,
-            city: document.getElementById('signupCity').value,
-            state: document.getElementById('signupState').value,
-            country: document.getElementById('signupCountry').value,
-            profession: document.getElementById('signupProfession').value,
-            annual_income: document.getElementById('signupIncome').value
-        }]);
-
-        // STEP 2: Handle the Auth Account
-      const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password
-        });
-
-        if (loginError) {
-            // If they are a Magic Link user, they might not have a password yet.
-            // We update it then try one more time.
-            await supabase.auth.updateUser({ password: password });
-            await supabase.auth.signInWithPassword({ email: email, password: password });
+        if (!email || !fullName) {
+            return alert("Please fill in at least your Name and Email.");
         }
+        
+        // ✅ THE FIX: This URL is now dynamic.
+        const redirectURL = window.location.origin + '/main.html';
+        console.log("Redirecting Signup to:", redirectURL); // For debugging
 
-        alert("PREMIUM ACCOUNT ACTIVE!");
-        window.location.replace("main.html");
-    } catch (error) {
-        console.error('Logic Error:', error);
-        alert('Action Failed: ' + error.message);
+        try {
+            const { error: insertError } = await supabase.from('signups').insert({ 
+                full_name: fullName, email: email, gender: document.getElementById('signupGender').value,
+                mobile: document.getElementById('signupMobile').value, city: document.getElementById('signupCity').value,
+                state: document.getElementById('signupState').value, country: document.getElementById('signupCountry').value,
+                profession: document.getElementById('signupProfession').value, annual_income: document.getElementById('signupIncome').value
+            });
+            if (insertError) throw insertError;
+
+            const { error: magicLinkError } = await supabase.auth.signInWithOtp({
+                email: email,
+                options: { emailRedirectTo: redirectURL }
+            });
+            if (magicLinkError) throw magicLinkError;
+            
+            showMessage('Signup successful! Please check your email to verify and log in.');
+            clearSignupForm();
+            setTimeout(() => { showForm('loginForm'); }, 2000);
+        } catch (error) {
+            console.error('An error occurred during signup:', error);
+            alert('Signup Failed: ' + error.message);
+        }
     }
-}
 </script>
 <!-- PWA Service Worker Registration -->
 <script>
