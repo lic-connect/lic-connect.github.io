@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Target Tracker - Insurance Club</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-yellow: #FFD700;
+            --dark-yellow: #ccac00;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 3D Mirror Title Styling */
+        .title-container {
+            background: var(--white);
+            padding: 20px 50px;
+            border: 4px solid var(--primary-yellow);
+            box-shadow: 10px 10px 0px var(--primary-yellow);
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .title-3d {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #333;
+            text-transform: uppercase;
+            position: relative;
+            margin: 0;
+            /* 3D Text Shadow */
+            text-shadow: 
+                1px 1px 0px #ccc,
+                2px 2px 0px #bbb,
+                3px 3px 0px #aaa,
+                4px 4px 0px #999;
+            /* Mirror Effect */
+            -webkit-box-reflect: below -15px linear-gradient(transparent, rgba(0,0,0,0.1));
+        }
+
+        /* Main Card */
+        .tracker-card {
+            background: var(--white);
+            width: 100%;
+            max-width: 800px;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px var(--shadow);
+            border-top: 10px solid var(--primary-yellow);
+        }
+
+        .section-box {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--primary-yellow);
+            outline: none;
+            background-color: #fffef0;
+        }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-yellow);
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            box-shadow: 0 4px 0 var(--dark-yellow);
+        }
+
+        button:hover {
+            background: var(--dark-yellow);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+
+        /* Progress Bar Styles */
+        .results-container {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .progress-group {
+            margin-bottom: 20px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .progress-bg {
+            background: #eee;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-yellow), #ffa500);
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+
+        .status-text {
+            font-size: 0.95rem;
+            color: #555;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .icon-header {
+            color: var(--dark-yellow);
+            margin-right: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+/* Definitions Section Styling */
+.definitions-container {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    background: var(--white);
+    border-radius: 10px;
+    border: 2px solid var(--primary-yellow);
+    overflow: hidden;
+}
+
+.def-toggle {
+    width: 100%;
+    padding: 15px;
+    background: var(--primary-yellow);
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+#defContentWrapper {
+    padding: 20px;
+}
+
+.def-display-box {
+    margin-top: 15px;
+    padding: 15px;
+    background: #fffdf0;
+    border-left: 5px solid var(--primary-yellow);
+    line-height: 1.6;
+}
+
+.def-display-box h4 { margin-top: 0; color: #333; text-decoration: underline; }
+.def-display-box b { color: #ccac00; }
+.def-display-box ul { margin: 5px 0; padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="title-container">
+        <h1 class="title-3d">Target Tracker</h1>
+    </div>
+
+<!-- Important Definitions Section -->
+<div class="definitions-container">
+    <button class="def-toggle" onclick="toggleDefSection()">
+        <i class="fa-solid fa-book-open icon-header"></i> Important Definitions 
+        <i class="fa-solid fa-chevron-down" style="float:right"></i>
+    </button>
+    
+    <div id="defContentWrapper" class="hidden">
+        <select id="defSelector" onchange="showDefinition()">
+            <option value="" disabled selected>-- Choose a Definition --</option>
+            <option value="netLives">1. Net Lives</option>
+            <option value="inForce">2. In-Force Lives</option>
+            <option value="renewalComm">3. Renewal Commission</option>
+            <option value="fyc">4. First Year Commission (FYC)</option>
+            <option value="fyp">5. First Year Premium (FYP)</option>
+            <option value="annualInc">6. Annual Income (MDRT)</option>
+        </select>
+
+        <div id="definitionDisplay" class="def-display-box">
+            <p style="text-align:center; color:#888;">Select a term above to see the details.</p>
+        </div>
+    </div>
+</div>
+
+    <div class="tracker-card">
+        <!-- Dropdown Selector -->
+        <div class="section-box">
+            <label><i class="fa-solid fa-trophy icon-header"></i>Select Target Level</label>
+            <select id="targetType" onchange="toggleSections()">
+                <option value="" disabled selected>-- Choose your Goal --</option>
+                <optgroup label="LIC Club Membership">
+                    <option value="BM">BM Club</option>
+                    <option value="DM">DM Club</option>
+                    <option value="ZM">ZM Club</option>
+                    <option value="CM">CM Club</option>
+                </optgroup>
+                <optgroup label="Global Recognition">
+                    <option value="MDRT">MDRT</option>
+                    <option value="COT">COT</option>
+                    <option value="TOT">TOT</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <!-- Part 1: Club Membership Inputs -->
+        <div id="clubInputs" class="hidden">
+            <div class="grid-inputs">
+                <div class="section-box">
+                    <label><i class="fa-solid fa-calendar icon-header"></i>Financial Year</label>
+                    <input type="text" placeholder="e.g. 2024-25">
+                </div>
+                <div class="section-box">
+                    <label><i class="fa-solid fa-users icon-header"></i>Net Lives</label>
+                    <input type="number" id="netLives" placeholder="0">
+                </div>
+                <div class="section-box">
+                    <label><i class="fa-solid fa-id-card icon-header"></i>In-Force Lives</label>
+                    <input type="number" id="inForce" placeholder="0">
+                </div>
+                <div class="section-box">
+                    <label><i class="fa-solid fa-indian-rupee-sign icon-header"></i>Renewal Commission</label>
+                    <input type="number" id="renewalComm" placeholder="0">
+                </div>
+                <div class="section-box">
+                    <label><i class="fa-solid fa-indian-rupee-sign icon-header"></i>First Year Commission</label>
+                    <input type="number" id="fycClub" placeholder="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Part 2: MDRT/COT/TOT Inputs -->
+        <div id="mdrtInputs" class="hidden">
+            <div class="grid-inputs">
+                <div class="section-box">
+                    <label><i class="fa-solid fa-money-bill-trend-up icon-header"></i>FY Commission (₹)</label>
+                    <input type="number" id="fycGlobal" placeholder="0">
+                </div>
+                <div class="section-box">
+                    <label><i class="fa-solid fa-sack-dollar icon-header"></i>FY Premium (₹)</label>
+                    <input type="number" id="fypGlobal" placeholder="0">
+                </div>
+                <div class="section-box" style="grid-column: span 2;">
+                    <label><i class="fa-solid fa-wallet icon-header"></i>Annual Income (₹)</label>
+                    <input type="number" id="incomeGlobal" placeholder="0">
+                </div>
+            </div>
+        </div>
+
+        <button onclick="calculateProgress()">CALCULATE PROGRESS</button>
+
+        <!-- Results Output -->
+        <div id="results" class="results-container">
+            <h3 id="resultTitle">Your Progress</h3>
+            <div id="progressBarsContainer">
+                <!-- Progress bars will be injected here by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Eligibility Data
+        const data = {
+            BM: { nl: 15, ifl: 150, rc: 50000, fyc: 35000 },
+            DM: { nl: 20, ifl: 250, rc: 90000, fyc: 60000 },
+            ZM: { nl: 30, ifl: 400, rc: 140000, fyc: 140000 },
+            CM: { nl: 40, ifl: 600, rc: 200000, fyc: 200000 },
+            MDRT: { fyc: 734200, fyp: 2936800, inc: 1271600 },
+            COT: { fyc: 2202600, fyp: 8810400, inc: 3814800 },
+            TOT: { fyc: 4405200, fyp: 17620800, inc: 7629600 }
+        };
+
+        function toggleSections() {
+            const type = document.getElementById('targetType').value;
+            const clubSec = document.getElementById('clubInputs');
+            const mdrtSec = document.getElementById('mdrtInputs');
+            const results = document.getElementById('results');
+            
+            results.style.display = 'none';
+            
+            if (['BM', 'DM', 'ZM', 'CM'].includes(type)) {
+                clubSec.classList.remove('hidden');
+                mdrtSec.classList.add('hidden');
+            } else {
+                clubSec.classList.add('hidden');
+                mdrtSec.classList.remove('hidden');
+            }
+        }
+
+        function createProgressBar(label, current, target, isCurrency) {
+            let percent = Math.min((current / target) * 100, 100);
+            let remaining = target - current;
+            let status = "";
+
+            if (remaining > 0) {
+                let formattedRemaining = isCurrency ? "₹" + remaining.toLocaleString('en-IN') : remaining;
+                status = `You need ${formattedRemaining} more to reach target.`;
+            } else {
+                status = "Goal Achieved! 🎉";
+                percent = 100;
+            }
+
+            // For MDRT types, we'll use the "65% toward..." format requested
+            const type = document.getElementById('targetType').value;
+            if (['MDRT', 'COT', 'TOT'].includes(type)) {
+                status = `You are ${percent.toFixed(1)}% toward ${type}`;
+            }
+
+            return `
+                <div class="progress-group">
+                    <div class="progress-label">
+                        <span>${label}</span>
+                        <span>${percent.toFixed(1)}%</span>
+                    </div>
+                    <div class="progress-bg">
+                        <div class="progress-fill" style="width: ${percent}%"></div>
+                    </div>
+                    <div class="status-text">${status}</div>
+                </div>
+            `;
+        }
+
+        function calculateProgress() {
+            const type = document.getElementById('targetType').value;
+            const container = document.getElementById('progressBarsContainer');
+            const results = document.getElementById('results');
+            
+            if (!type) {
+                alert("Please select a target level first.");
+                return;
+            }
+
+            container.innerHTML = "";
+            results.style.display = 'block';
+            document.getElementById('resultTitle').innerText = `Progress for ${type}`;
+
+            if (['BM', 'DM', 'ZM', 'CM'].includes(type)) {
+                const target = data[type];
+                const nl = Number(document.getElementById('netLives').value);
+                const ifl = Number(document.getElementById('inForce').value);
+                const rc = Number(document.getElementById('renewalComm').value);
+                const fyc = Number(document.getElementById('fycClub').value);
+
+                container.innerHTML += createProgressBar("Net Lives", nl, target.nl, false);
+                container.innerHTML += createProgressBar("In-Force Lives", ifl, target.ifl, false);
+                container.innerHTML += createProgressBar("Renewal Commission", rc, target.rc, true);
+                container.innerHTML += createProgressBar("First Year Commission", fyc, target.fyc, true);
+            } else {
+                const target = data[type];
+                const fyc = Number(document.getElementById('fycGlobal').value);
+                const fyp = Number(document.getElementById('fypGlobal').value);
+                const inc = Number(document.getElementById('incomeGlobal').value);
+
+                container.innerHTML += createProgressBar("First Year Commission", fyc, target.fyc, true);
+                container.innerHTML += createProgressBar("First Year Premium", fyp, target.fyp, true);
+                container.innerHTML += createProgressBar("Annual Income", inc, target.inc, true);
+            }
+        }
+
+const definitionsData = {
+    netLives: `<h4>Net Lives</h4>
+        <b>Definition:</b> Number of new individual lives (policies) procured by an agent during a qualifying year, after excluding cancellations/free-look cases.<br>
+        <b>In simple words:</b> How many new people you insured this year.<br>
+        <b>Includes:</b> <ul><li>New individual policies issued</li><li>Lives covered under individual plans</li></ul>
+        <b>Excludes:</b> <ul><li>Cancelled policies / Free-look</li><li>Revived old policies</li></ul>`,
+    
+    inForce: `<h4>In-Force Lives</h4>
+        <b>Definition:</b> Total number of policies currently active (not lapsed) under an agent’s agency as on a specific date.<br>
+        <b>In simple words:</b> How many clients’ policies are still alive today.<br>
+        <b>Includes:</b> <ul><li>Policies from previous years</li><li>Current year policies up to date</li></ul>
+        <b>Excludes:</b> <ul><li>Lapsed / Foreclosed policies</li><li>Surrendered policies</li></ul>`,
+
+    renewalComm: `<h4>Renewal Commission</h4>
+        <b>Definition:</b> Commission earned by an agent on renewal premiums paid after the first policy year.<br>
+        <b>In simple words:</b> Commission you earn when old clients continue paying premiums.<br>
+        <b>Includes:</b> <ul><li>2nd year onwards premiums</li><li>Regular premium policies</li></ul>
+        <b>Excludes:</b> <ul><li>First premium commission</li><li>Single premium (usually no renewal)</li></ul>`,
+
+    fyc: `<h4>First Year Commission (FYC)</h4>
+        <b>Definition:</b> Commission paid on the first premium of new policies issued during a qualifying year.<br>
+        <b>In simple words:</b> Your commission from new business done this year.<br>
+        <b>Includes:</b> <ul><li>Commission on first premium</li><li>Single-premium commission</li><li>Eligible bonuses</li></ul>
+        <b>Excludes:</b> <ul><li>Renewal / Revival commission</li><li>Arrears</li></ul>`,
+
+    fyp: `<h4>First Year Premium (FYP)</h4>
+        <b>Definition:</b> Total premium actually paid for new policies issued during the qualifying year.<br>
+        <b>In simple words:</b> Total new business premium collected this year.<br>
+        <b>Includes:</b> <ul><li>First year regular premium</li><li>Full single premium</li></ul>
+        <b>Excludes:</b> <ul><li>Renewal premiums</li><li>Top-ups</li></ul>`,
+
+    annualInc: `<h4>Annual Income (for MDRT)</h4>
+        <b>Definition:</b> Total commission-based income earned by an agent during the MDRT qualifying year.<br>
+        <b>In simple words:</b> Your total insurance earnings in one year.<br>
+        <b>Includes:</b> <ul><li>FYC & Renewal Commission</li><li>Performance incentives / allowances</li></ul>
+        <b>Excludes:</b> <ul><li>Non-insurance income</li><li>Gifts / Loans</li></ul>`
+};
+
+function toggleDefSection() {
+    const wrapper = document.getElementById('defContentWrapper');
+    wrapper.classList.toggle('hidden');
+}
+
+function showDefinition() {
+    const val = document.getElementById('defSelector').value;
+    const display = document.getElementById('definitionDisplay');
+    display.innerHTML = definitionsData[val];
+}
+    </script>
+</body>
+</html>
