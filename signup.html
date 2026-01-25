@@ -88,7 +88,6 @@
     <div class="input-group"><input type="text" id="signupProfession" placeholder="Profession" /><i class="fas fa-briefcase"></i></div>
     <div class="input-group"><input type="text" id="signupIncome" placeholder="Annual Income" /><i class="fas fa-rupee-sign"></i></div>
 <!-- ... (previous fields like Income) ... -->
-    <div class="input-group"><input type="text" id="signupIncome" placeholder="Annual Income" /><i class="fas fa-rupee-sign"></i></div>
 
     <!-- INSERT THE NEW CODE BELOW THIS LINE -->
     <div class="input-group">
@@ -201,11 +200,11 @@ async function handleSignup() {
     const fullName = document.getElementById('signupName').value.trim();
 
     if (!email || !password || !fullName) {
-        return alert("Name, Email, and Password are required for a Premium Account.");
+        return alert("Name, Email, and Password are required.");
     }
 
     try {
-        // STEP 1: Create the User in Supabase Auth (Email + Password)
+        // 1. Create the account
         const { data: authData, error: authError } = await supabase.auth.signUp({
             email: email,
             password: password
@@ -213,7 +212,7 @@ async function handleSignup() {
 
         if (authError) throw authError;
 
-        // STEP 2: Add to your 'signups' table (This is the Premium Flag)
+        // 2. Insert into signups table (THE PREMIUM FLAG)
         const { error: insertError } = await supabase.from('signups').insert({ 
             full_name: fullName, 
             email: email, 
@@ -228,15 +227,10 @@ async function handleSignup() {
 
         if (insertError) throw insertError;
         
-        // Success!
-        showMessage('Premium Account Created! You can now access all features.');
-        clearSignupForm();
-        
-        // Wait a second then go to main
-        setTimeout(() => { window.location.href = "main.html"; }, 2000);
+        // 3. FORCE REDIRECT TO MAIN (No setTimeouts, just go)
+        window.location.replace("main.html");
 
     } catch (error) {
-        console.error('Signup error:', error);
         alert('Signup Failed: ' + error.message);
     }
 }
