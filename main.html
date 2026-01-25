@@ -765,6 +765,9 @@ button:active, .plan-card:active, .link-card:active {
                 <a href="lic-competitors1.html" class="dashboard-button"><i class="fas fa-fist-raised"></i> LIC Competitors</a>
                 <a href="competition.html" class="dashboard-button"><i class="fas fa-chart-pie"></i> Competitors Snapshot</a>
                  <a href="HLV.html" class="dashboard-button" style="grid-column: 1 / -1; justify-content: center;"><i class="fas fa-link"></i> HLV Funda</a>
+<a href="javascript:void(0)" onclick="openLibrary()" class="dashboard-button highlight-button" style="background: #2c3e50; color: #fff; margin-top: 10px;">
+    <i class="fas fa-university"></i> LIC Rule Library (Premium)
+</a>
              <a href="voice.html" class="dashboard-button highlight-button" style="justify-content: center;"> <i class="fas fa-microphone-alt"></i> Voice Assistant</a>
 
 
@@ -857,6 +860,30 @@ button:active, .plan-card:active, .link-card:active {
       document.getElementById("logoutMsg").textContent = `Logging out...`;
       // The onAuthStateChange listener above will automatically handle the redirect.
     }
+
+
+async function openLibrary() {
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+        alert("Please login first.");
+        return;
+    }
+
+    // Check if user is in 'signups' table (Premium check)
+    const { data } = await supabase.from('signups').select('email').eq('email', session.user.email);
+
+    if (data && data.length > 0) {
+        // Access Granted
+        window.location.href = "rule_library.html";
+    } else {
+        // Access Denied
+        const proceed = confirm("The Rule Library is a Premium feature. Would you like to Sign Up now to unlock it?");
+        if (proceed) {
+            window.location.href = "signup.html";
+        }
+    }
+}
 
     // --- NEWS TICKER SCRIPT (No changes needed) ---
     async function fetchGNews() {

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Rule Library</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        h1 { color: #0055a4; text-align: center; }
+        .search-box { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ddd; font-size: 1rem; margin-bottom: 20px; box-sizing: border-box; }
+        .rule-card { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid #0055a4; }
+        .rule-card .category { font-size: 0.8rem; background: #eef4ff; color: #0055a4; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+        .rule-card h3 { margin: 10px 0; color: #333; }
+        .rule-card p { color: #666; font-size: 0.95rem; }
+        .rule-card .note { font-size: 0.85rem; color: #e67e22; font-weight: 600; margin-top: 10px; display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-book-open"></i> LIC Rule Library</h1>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search rules (e.g. Tax, Medical, Revival)..." oninput="filterRules()">
+        <div id="libraryContainer">Loading library...</div>
+    </div>
+
+    <script>
+        const supabase = window.supabase.createClient('https://efduqdondmlzmwhfgkfz.supabase.co
+', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44');
+        let allRules = [];
+
+        async function fetchLibrary() {
+            const { data, error } = await supabase.from('lic_library').select('*');
+            if (data) {
+                allRules = data;
+                displayRules(allRules);
+            }
+        }
+
+        function displayRules(rules) {
+            const container = document.getElementById('libraryContainer');
+            if (rules.length === 0) {
+                container.innerHTML = "<p>No rules found matching your search.</p>";
+                return;
+            }
+            container.innerHTML = rules.map(rule => `
+                <div class="rule-card">
+                    <span class="category">${rule.category}</span>
+                    <h3>${rule.title}</h3>
+                    <p>${rule.description}</p>
+                    <span class="note"><i class="fas fa-info-circle"></i> ${rule.important_note}</span>
+                </div>
+            `).join('');
+        }
+
+        function filterRules() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allRules.filter(r => 
+                r.title.toLowerCase().includes(term) || 
+                r.category.toLowerCase().includes(term) ||
+                r.description.toLowerCase().includes(term)
+            );
+            displayRules(filtered);
+        }
+
+        fetchLibrary();
+    </script>
+</body>
+</html>
