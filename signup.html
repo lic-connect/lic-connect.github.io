@@ -203,36 +203,32 @@ async function handleSignup() {
         return alert("Name, Email, and Password are required.");
     }
 
-    try {
-        // 1. Create the account
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-            email: email,
-            password: password
-        });
+    // 1. Create the Auth Account
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: email,
+        password: password
+    });
 
-        if (authError) throw authError;
+    if (authError) return alert("Auth Error: " + authError.message);
 
-        // 2. Insert into signups table (THE PREMIUM FLAG)
-        const { error: insertError } = await supabase.from('signups').insert({ 
-            full_name: fullName, 
-            email: email, 
-            gender: document.getElementById('signupGender').value,
-            mobile: document.getElementById('signupMobile').value, 
-            city: document.getElementById('signupCity').value,
-            state: document.getElementById('signupState').value, 
-            country: document.getElementById('signupCountry').value,
-            profession: document.getElementById('signupProfession').value, 
-            annual_income: document.getElementById('signupIncome').value
-        });
+    // 2. Insert into the signups table (This marks them as Premium)
+    const { error: dbError } = await supabase.from('signups').insert([{ 
+        email: email, 
+        full_name: fullName,
+        gender: document.getElementById('signupGender').value,
+        mobile: document.getElementById('signupMobile').value,
+        city: document.getElementById('signupCity').value,
+        state: document.getElementById('signupState').value,
+        country: document.getElementById('signupCountry').value,
+        profession: document.getElementById('signupProfession').value,
+        annual_income: document.getElementById('signupIncome').value
+    }]);
 
-        if (insertError) throw insertError;
-        
-        // 3. FORCE REDIRECT TO MAIN (No setTimeouts, just go)
-        window.location.replace("main.html");
+    if (dbError) return alert("Database Error: " + dbError.message);
 
-    } catch (error) {
-        alert('Signup Failed: ' + error.message);
-    }
+    // 3. Success - Force jump to main.html
+    alert("Premium Account Created! Redirecting...");
+    window.location.replace("main.html"); 
 }
 </script>
 <!-- PWA Service Worker Registration -->
