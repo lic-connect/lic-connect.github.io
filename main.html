@@ -735,11 +735,15 @@ button:active, .plan-card:active, .link-card:active {
             <h2>Plan & Policy Tools</h2>
             <div class="button-grid">
                 <a href="plan_features.html" class="dashboard-button"><i class="fas fa-star"></i> Plan Features</a>
-                <a href="plancombination.html" class="dashboard-button"><i class="fas fa-project-diagram"></i> Plan Combination</a>
+           <a href="javascript:void(0)" onclick="checkPremiumAccess('plancombination.html')" class="dashboard-button">
+    <i class="fas fa-project-diagram"></i> Plan Combination
+</a>
                 <a href="comparebygroup.html" class="dashboard-button"><i class="fas fa-balance-scale"></i> Plan Comparison</a>
                 <a href="needs_budget.html" class="dashboard-button"><i class="fas fa-bullseye"></i> Plans as per Need</a>
                 <a href="agents_commission.html" class="dashboard-button"><i class="fas fa-percent"></i> Agents Commission</a>
-                <a href="IRR_PAGE.html" class="dashboard-button"><i class="fas fa-chart-line"></i> IRR Calculation</a>
+              <a href="javascript:void(0)" onclick="checkPremiumAccess('IRR_PAGE.html')" class="dashboard-button">
+    <i class="fas fa-chart-line"></i> IRR Calculation
+</a>
             </div>
         </section>
 
@@ -849,6 +853,42 @@ button:active, .plan-card:active, .link-card:active {
         window.location.href = "signup.html";
       }
     });
+
+
+
+
+
+async function checkPremiumAccess(targetPage) {
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+        alert("Please use the Magic Link to enter the app first.");
+        return;
+    }
+
+    // Check if this user exists in your 'signups' table
+    const { data, error } = await supabase
+        .from('signups')
+        .select('email')
+        .eq('email', session.user.email)
+        .single();
+
+    if (data) {
+        // User found in 'signups' table -> Grant Access
+        window.location.href = targetPage;
+    } else {
+        // User is logged in via Magic Link but NOT in 'signups' table
+        const proceed = confirm("IRR & Plan Combinations are Premium Features. Would you like to Sign Up now to unlock them?");
+        if (proceed) {
+            window.location.href = "signup.html";
+        }
+    }
+}
+
+
+
+
+
 
 
     // --- LOGOUT FUNCTIONALITY (No changes needed) ---
