@@ -50,7 +50,32 @@
     </style>
 </head>
 <body>
+<script>
+    // THE GUARD SCRIPT
+    async function guardPremiumPage() {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (!session) {
+            // No login session? Go to signup
+            window.location.href = "signup.html";
+            return;
+        }
 
+        // Check if they actually have a profile in 'signups'
+        const { data: profile } = await supabase
+            .from('signups')
+            .select('email')
+            .eq('email', session.user.email)
+            .single();
+
+        if (!profile) {
+            // Logged in but no signup data? Send to signup
+            alert("Please complete your signup first!");
+            window.location.href = "signup.html";
+        }
+    }
+    guardPremiumPage();
+</script>
 <div class="vault-container">
     <h2><i class="fas fa-shield-alt"></i> Policy Vault</h2>
     

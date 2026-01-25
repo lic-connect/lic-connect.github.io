@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5RMKYLCCX0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-5RMKYLCCX0');
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent Digital Card</title>
@@ -258,6 +249,32 @@
     </style>
 </head>
 <body>
+<script>
+    // THE GUARD SCRIPT
+    async function guardPremiumPage() {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (!session) {
+            // No login session? Go to signup
+            window.location.href = "signup.html";
+            return;
+        }
+
+        // Check if they actually have a profile in 'signups'
+        const { data: profile } = await supabase
+            .from('signups')
+            .select('email')
+            .eq('email', session.user.email)
+            .single();
+
+        if (!profile) {
+            // Logged in but no signup data? Send to signup
+            alert("Please complete your signup first!");
+            window.location.href = "signup.html";
+        }
+    }
+    guardPremiumPage();
+</script>
 
  <div class="card-container">
     <!-- Navigation & Edit -->
@@ -442,6 +459,5 @@ async function shareCard() {
 </script>
 </body>
 </html>
-
 
 

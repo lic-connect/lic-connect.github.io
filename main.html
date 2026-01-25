@@ -857,45 +857,50 @@ button:active, .plan-card:active, .link-card:active {
         console.log("Checking renewals...");
     }
 
-    // AUTH LISTENER
-let isFullProfile = false; // Global variable to track signup status
+let isFullProfile = false;
 
-supabase.auth.onAuthStateChange(async (event, session) => {
+async function checkUserSession() {
+    // 1. Get the current session immediately (faster than waiting for onAuthStateChange)
+    const { data: { session } } = await supabase.auth.getSession();
+    
     if (session && session.user) {
         const user = session.user;
         
-        // 1. Check if user exists in the 'signups' table
-        const { data: profile, error } = await supabase
+        // 2. Check if user exists in the 'signups' table
+        const { data: profile } = await supabase
             .from('signups')
             .select('full_name')
             .eq('email', user.email)
             .single();
 
         if (profile) {
-            // CASE: User has Signed Up
             isFullProfile = true;
             document.getElementById("welcomeMsg").textContent = `Welcome, ${profile.full_name}`;
             document.getElementById("profileAlert").style.display = 'none';
         } else {
-            // CASE: User only used Magic Link (Login)
             isFullProfile = false;
             document.getElementById("welcomeMsg").textContent = `Welcome, ${user.email.split('@')[0]}`;
             document.getElementById("profileAlert").style.display = 'block';
         }
-
+        
+        // Start other data loads
         fetchGNews();
         checkRenewals();
     } else {
+        // Only redirect if there is definitely NO session
         window.location.href = "signup.html";
     }
-});
+}
 
-// 2. Function to protect premium features
+// Run the check on load
+checkUserSession();
+
+// Function to handle premium clicks
 function accessPremiumFeature(pageUrl) {
     if (isFullProfile) {
         window.location.href = pageUrl;
     } else {
-        alert("🔒 This is a Premium Feature.\n\nPlease complete your Signup with Name and Mobile number to access this.");
+        alert("🔒 This is a Premium Feature.\n\nPlease complete your Signup to access this.");
         window.location.href = "signup.html";
     }
 }
