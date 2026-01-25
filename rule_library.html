@@ -3,99 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIC Rule Library</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>LIC Connect | Live Rule & Circular Finder</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: auto; }
-        h1 { color: #0055a4; text-align: center; }
-        .search-box { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ddd; font-size: 1rem; margin-bottom: 20px; box-sizing: border-box; }
-        .rule-card { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid #0055a4; }
-        .rule-card .category { font-size: 0.8rem; background: #eef4ff; color: #0055a4; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
-        .rule-card h3 { margin: 10px 0; color: #333; }
-        .rule-card p { color: #666; font-size: 0.95rem; }
-        .rule-card .note { font-size: 0.85rem; color: #e67e22; font-weight: 600; margin-top: 10px; display: block; }
+        :root { --lic-blue: #0055a4; --lic-gold: #f1c40f; }
+        body { font-family: 'Poppins', sans-serif; background: #f4f7f6; margin: 0; padding: 0; }
+        
+        .header { background: var(--lic-blue); color: white; padding: 30px 20px; text-align: center; border-bottom: 5px solid var(--lic-gold); }
+        .container { max-width: 800px; margin: -30px auto 50px; padding: 0 15px; }
+        
+        /* Search Box */
+        .search-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .search-wrapper { display: flex; gap: 10px; }
+        .search-input { flex: 1; padding: 15px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; outline: none; }
+        .search-input:focus { border-color: var(--lic-blue); }
+        .search-btn { background: var(--lic-blue); color: white; border: none; padding: 0 25px; border-radius: 10px; cursor: pointer; font-weight: 600; }
+
+        /* Live Results */
+        .results-container { margin-top: 30px; }
+        .result-item { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid #2ecc71; animation: fadeIn 0.5s ease; }
+        .result-date { font-size: 0.85rem; color: #e67e22; font-weight: 700; display: block; margin-bottom: 5px; }
+        .result-item h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: #333; }
+        .result-item p { font-size: 0.9rem; color: #666; line-height: 1.5; margin-bottom: 10px; }
+        .source-tag { font-size: 0.75rem; background: #eee; padding: 3px 8px; border-radius: 5px; color: #555; }
+        .link-btn { color: var(--lic-blue); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .loader { text-align: center; display: none; margin-top: 20px; color: var(--lic-blue); }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1><i class="fas fa-book-open"></i> LIC Rule Library</h1>
-        <input type="text" id="searchInput" class="search-box" placeholder="Search rules (e.g. Tax, Medical, Revival)..." oninput="filterRules()">
-        <div id="libraryContainer">Loading library...</div>
+
+    <div class="header">
+        <h1><i class="fas fa-satellite-dish"></i> Live Rule Finder</h1>
+        <p>Fetching the latest official circulars & tax updates in real-time</p>
     </div>
 
-<script>
-    // 1. Rename the constant to supabaseClient to avoid the error
-    const supabaseClient = window.supabase.createClient(
-        'https://efduqdondmlzmwhfgkfz.supabase.co',
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
-    );
-
-    let allRules = [];
-
-    // 2. Add the Gatekeeper logic (to keep it Premium)
-    async function gatekeeper() {
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        if (!session) {
-            window.location.replace("signup.html");
-            return;
-        }
-
-        const { data } = await supabaseClient
-            .from('signups')
-            .select('email')
-            .eq('email', session.user.email);
-
-        if (!data || data.length === 0) {
-            alert("This is a Premium Feature. Please fill out the Signup form to access.");
-            window.location.replace("main.html");
-        }
-    }
-    gatekeeper();
-
-    // 3. Updated fetch function using the new 'supabaseClient' name
-    async function fetchLibrary() {
-        const { data, error } = await supabaseClient.from('lic_library').select('*');
-        if (error) {
-            console.error('Fetch error:', error.message);
-            document.getElementById('libraryContainer').innerHTML = "<p>Error loading library data.</p>";
-            return;
-        }
-        if (data) {
-            allRules = data;
-            displayRules(allRules);
-        }
-    }
-
-    function displayRules(rules) {
-        const container = document.getElementById('libraryContainer');
-        if (rules.length === 0) {
-            container.innerHTML = "<p>No rules found matching your search.</p>";
-            return;
-        }
-        container.innerHTML = rules.map(rule => `
-            <div class="rule-card">
-                <span class="category">${rule.category}</span>
-                <h3>${rule.title}</h3>
-                <p>${rule.description}</p>
-                <span class="note"><i class="fas fa-info-circle"></i> ${rule.important_note}</span>
+    <div class="container">
+        <div class="search-card">
+            <div class="search-wrapper">
+                <input type="text" id="userQuery" class="search-input" placeholder="Type here (e.g. New Tax System, Medical Limit)...">
+                <button class="search-btn" onclick="fetchLiveResults()">SEARCH</button>
             </div>
-        `).join('');
-    }
+            <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Searching official LIC sources and Indian Financial News...</p>
+        </div>
 
-    function filterRules() {
-        const term = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = allRules.filter(r => 
-            r.title.toLowerCase().includes(term) || 
-            r.category.toLowerCase().includes(term) ||
-            r.description.toLowerCase().includes(term)
-        );
-        displayRules(filtered);
-    }
+        <div id="loader" class="loader"><i class="fas fa-spinner fa-spin fa-2x"></i><p>Scanning the web...</p></div>
+        
+        <div id="resultsArea" class="results-container">
+            <!-- Results will appear here -->
+        </div>
+    </div>
 
-    fetchLibrary();
-</script>
+    <script>
+        async function fetchLiveResults() {
+            const query = document.getElementById('userQuery').value.trim();
+            const resultsArea = document.getElementById('resultsArea');
+            const loader = document.getElementById('loader');
+
+            if (!query) return alert("Please type a topic to search.");
+
+            // 1. Show UI Loading
+            resultsArea.innerHTML = '';
+            loader.style.display = 'block';
+
+            // 2. Build the Live Search URL (Searching LIC India & Tax sites)
+            // We use the Google News RSS Search with specific keywords
+            const searchQuery = `LIC India ${query} circular or rules`;
+            const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-IN&gl=IN&ceid=IN:en`;
+            
+            // 3. Convert RSS to JSON using the same service as your news ticker
+            const apiEndpoint = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+            try {
+                const response = await fetch(apiEndpoint);
+                const data = await response.json();
+                
+                loader.style.display = 'none';
+
+                if (data.items && data.items.length > 0) {
+                    resultsArea.innerHTML = data.items.map(item => {
+                        // Format the date
+                        const pubDate = new Date(item.pubDate).toLocaleDateString('en-IN', {
+                            day: 'numeric', month: 'long', year: 'numeric'
+                        });
+
+                        return `
+                            <div class="result-item">
+                                <span class="result-date"><i class="far fa-calendar-alt"></i> Published: ${pubDate}</span>
+                                <h3>${item.title}</h3>
+                                <p>${item.description.replace(/<[^>]*>?/gm, '').substring(0, 150)}...</p>
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <span class="source-tag">${item.source}</span>
+                                    <a href="${item.link}" target="_blank" class="link-btn">READ FULL CIRCULAR <i class="fas fa-external-link-alt"></i></a>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    resultsArea.innerHTML = '<p style="text-align:center;">No live circulars found for this topic. Try different keywords.</p>';
+                }
+            } catch (error) {
+                loader.style.display = 'none';
+                console.error("Fetch error:", error);
+                resultsArea.innerHTML = '<p style="color:red; text-align:center;">Error connecting to live feed. Please try again.</p>';
+            }
+        }
+
+        // Allow pressing "Enter" to search
+        document.getElementById('userQuery').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') fetchLiveResults();
+        });
+    </script>
 </body>
 </html>
