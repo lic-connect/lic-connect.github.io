@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5RMKYLCCX0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-5RMKYLCCX0');
-</script>
   <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
@@ -352,46 +343,89 @@ button:active { transform: scale(0.96); filter: brightness(0.9); }
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
     );
 
+// 1. Updated to handle numeric types correctly (prevents "" error)
   function getFieldValues() {
-  const fields = [
-    'name','policy_number','plan_no','policy_name','date_of_birth','age',
-    'address','mobile_number','email',
-    'policy_term','ppt','sum_assured','premium','mode_of_premium','date_of_commencement',
-    'maturity_date','maturity_amount','death_benefit','bonus','fab','sb_details',
-    'loan_details','revival_details','surrender_value','paid_up_value','remarks'
-  ];
-  const values = {};
-  // We just take exactly what is in the box, whether it's "₹3000" or ""
-  fields.forEach(id => values[id] = document.getElementById(id).value);
-  return values;
-}
+    const fields = [
+      'name','policy_number','plan_no','policy_name','date_of_birth','age',
+      'address','mobile_number','email',
+      'policy_term','ppt','sum_assured','premium','mode_of_premium','date_of_commencement',
+      'maturity_date','maturity_amount','death_benefit','bonus','fab','sb_details',
+      'loan_details','revival_details','surrender_value','paid_up_value','remarks'
+    ];
+    
+    // List of columns that are Numeric in Supabase
+    const numericFields = ['age', 'policy_term', 'ppt', 'sum_assured', 'premium', 'maturity_amount', 'death_benefit', 'bonus', 'fab', 'paid_up_value'];
+    
+    const values = {};
+    fields.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        const val = element.value.trim();
+        if (numericFields.includes(id)) {
+          // If field is empty, send null. If it has a value, convert to Number.
+          values[id] = val === "" ? null : Number(val);
+        } else {
+          values[id] = val || null;
+        }
+      }
+    });
+    return values;
+  }
 
-    window.insertData = async function () {
-      const values = getFieldValues();
-      const { error } = await supabase.from('policyholder').insert([values]);
-      if (error) alert('Insert Error: ' + error.message);
-      else alert('Inserted successfully');
-    };
+  window.insertData = async function () {
+    const values = getFieldValues();
+    if (!values.policy_number) return alert("Policy Number is required.");
+    
+    const { error } = await supabase.from('policyholder').insert([values]);
+    if (error) alert('Insert Error: ' + error.message);
+    else {
+      alert('Inserted successfully');
+      clearLookup();
+    }
+  };
 
-    window.updateData = async function () {
-      const values = getFieldValues();
-      const { error } = await supabase
-        .from('policyholder')
-        .update(values)
-        .eq('policy_number', values.policy_number);
-      if (error) alert('Update Error: ' + error.message);
-      else alert('Updated successfully');
-    };
+  // 2. Updated with .select() to verify Ownership
+  window.updateData = async function () {
+    const values = getFieldValues();
+    if (!values.policy_number) return alert("Please fetch a policy first.");
 
-    window.deleteData = async function () {
-      const { policy_number } = getFieldValues();
-      const { error } = await supabase
-        .from('policyholder')
-        .delete()
-        .eq('policy_number', policy_number);
-      if (error) alert('Delete Error: ' + error.message);
-      else alert('Deleted successfully');
-    };
+    const { data, error } = await supabase
+      .from('policyholder')
+      .update(values)
+      .eq('policy_number', values.policy_number)
+      .select(); // <--- This returns data only if the user owns the record
+
+    if (error) {
+      alert('Update Error: ' + error.message);
+    } else if (data && data.length > 0) {
+      alert('UPDATED SUCCESSFULLY');
+    } else {
+      alert('PERMISSION DENIED: You can only edit records you created.');
+    }
+  };
+
+  // 3. Updated with .select() and confirmation
+  window.deleteData = async function () {
+    const { policy_number } = getFieldValues();
+    if (!policy_number) return alert("Please fetch a policy first.");
+
+    if (!confirm(`Are you sure you want to delete policy ${policy_number}?`)) return;
+
+    const { data, error } = await supabase
+      .from('policyholder')
+      .delete()
+      .eq('policy_number', policy_number)
+      .select(); // <--- This returns data only if the user owns the record
+
+    if (error) {
+      alert('Delete Error: ' + error.message);
+    } else if (data && data.length > 0) {
+      alert('DELETED SUCCESSFULLY');
+      clearLookup();
+    } else {
+      alert('PERMISSION DENIED: You cannot delete records you did not create.');
+    }
+  };
 
     window.fetchData = async function () {
       const { policy_number } = getFieldValues();
@@ -1116,5 +1150,4 @@ function autoCalculateBenefits() {
     }
 </script>  
 </body>
-
 </html>
