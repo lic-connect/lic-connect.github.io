@@ -823,46 +823,49 @@ button:active, .plan-card:active, .link-card:active {
       'https://efduqdondmlzmwhfgkfz.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
     );
-    // This function runs automatically and waits for login events to complete.
-    supabase.auth.onAuthStateChange( async (event, session) => {
-      console.log('Authentication event:', event, session);
 
-      if (event === "INITIAL_SESSION" || event === "SIGNED_IN") {
+    // FIX: Define these functions inside this block so the code below can find them
+    async function fetchGNews() {
+        const newsText = document.getElementById("newsText");
+        try {
+            const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fnews.google.com%2Frss%2Fsearch%3Fq%3Dlife%2520insurance%2520india%26hl%3Den-IN%26gl%3DIN%26ceid%3DIN%3Aen');
+            const data = await res.json();
+            if (data.items) {
+                newsText.innerHTML = data.items.map(n => `<a href="${n.link}" target="_blank">${n.title}</a>`).join('');
+            }
+        } catch (e) { newsText.textContent = "News currently unavailable"; }
+    }
+
+    async function checkRenewals() {
+        // Your logic for renewals here
+        console.log("Checking renewals...");
+    }
+
+    // AUTH LISTENER
+    supabase.auth.onAuthStateChange(async (event, session) => {
+        console.log('Authentication event:', event);
+
         if (session && session.user) {
-          // USER IS LOGGED IN or has just logged in.
-          // The page will remain, and we will update the welcome message.
-          const user = session.user;
+            // FIX: Improved name logic (Splits email or uses metadata)
+            const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+            
+            // Update UI
+            const welcomeEl = document.getElementById("welcomeMsg");
+            if(welcomeEl) welcomeEl.textContent = `Welcome, ${name}`;
 
-          // Now that we have the user, fetch their name from the 'profiles' table if it exists
-          // NOTE: Your current setup saves to 'signups' table, not 'profiles'. 
-          // We will just use the email for the welcome message for now.
-          const name = user.email;
-
-          document.getElementById("welcomeMsg").textContent = `Welcome, ${name}`;
-
-          // Now that we know the user is logged in, we can fetch the news.
-          fetchGNews();
-
- // ADD THIS LINE HERE:
-          checkRenewals(); 
-        } else {
-          // If for some reason there's no session, redirect.
-          window.location.href = "signup.html";
+            // Trigger data fetches
+            fetchGNews();
+            checkRenewals(); 
+        } else if (event === "SIGNED_OUT" || (!session && event === "INITIAL_SESSION")) {
+            window.location.href = "signup.html";
         }
-      } else if (event === "SIGNED_OUT") {
-        // USER HAS SIGNED OUT
-        // Redirect them to the signup page.
-        window.location.href = "signup.html";
-      }
     });
 
-
-    // --- LOGOUT FUNCTIONALITY (No changes needed) ---
     async function handleLogout() {
-      await supabase.auth.signOut();
-      document.getElementById("logoutMsg").textContent = `Logging out...`;
-      // The onAuthStateChange listener above will automatically handle the redirect.
+        await supabase.auth.signOut();
+        // Redirect is handled by onAuthStateChange above
     }
+
 
 
 async function openLibrary() {
