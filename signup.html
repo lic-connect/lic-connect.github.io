@@ -185,36 +185,65 @@
     }
     
     // --- RELIABLE MAGIC LINK SIGNUP (with full validation) ---
-async function handleSignup() {
+// --- SEAMLESS MAGIC LINK SIGNUP ---
+    async function handleSignup() {
         const email = document.getElementById('signupEmail').value;
         const fullName = document.getElementById('signupName').value;
+        const mobile = document.getElementById('signupMobile').value;
 
         if (!email || !fullName) {
             return alert("Please fill in at least your Name and Email.");
         }
         
-        // ✅ THE FIX: This URL is now dynamic.
         const redirectURL = window.location.origin + '/main.html';
-        console.log("Redirecting Signup to:", redirectURL); // For debugging
 
         try {
+            // 1. Save Lead Data to your custom table
             const { error: insertError } = await supabase.from('signups').insert({ 
-                full_name: fullName, email: email, gender: document.getElementById('signupGender').value,
-                mobile: document.getElementById('signupMobile').value, city: document.getElementById('signupCity').value,
-                state: document.getElementById('signupState').value, country: document.getElementById('signupCountry').value,
-                profession: document.getElementById('signupProfession').value, annual_income: document.getElementById('signupIncome').value
+                full_name: fullName, 
+                email: email, 
+                gender: document.getElementById('signupGender').value,
+                mobile: mobile, 
+                city: document.getElementById('signupCity').value,
+                state: document.getElementById('signupState').value, 
+                country: document.getElementById('signupCountry').value,
+                profession: document.getElementById('signupProfession').value, 
+                annual_income: document.getElementById('signupIncome').value
             });
             if (insertError) throw insertError;
 
+            // 2. Send Magic Link AND save the Name in Supabase Auth Metadata
             const { error: magicLinkError } = await supabase.auth.signInWithOtp({
                 email: email,
-                options: { emailRedirectTo: redirectURL }
+                options: { 
+                    emailRedirectTo: redirectURL,
+                    data: { 
+                        full_name: fullName,
+                        phone_number: mobile
+                    }
+                }
             });
             if (magicLinkError) throw magicLinkError;
             
-            showMessage('Signup successful! Please check your email to verify and log in.');
-            clearSignupForm();
-            setTimeout(() => { showForm('loginForm'); }, 2000);
+            // 3. UI CHANGE: Instead of switching tabs, show a high-visibility success message
+            const container = document.querySelector('.container');
+            container.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <i class="fas fa-paper-plane" style="font-size: 4rem; color: var(--accent-green); margin-bottom: 20px;"></i>
+                    <h2 style="color: var(--accent-green);">Check Your Email!</h2>
+                    <p style="font-size: 1.1rem; color: white;">We have sent a secure login link to:<br><b>${email}</b></p>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-top: 20px; font-size: 0.9rem;">
+                        <p>1. Open your email app.<br>
+                        2. Click the <b>"Log in"</b> button in the email.<br>
+                        3. You will be taken straight to your dashboard.</p>
+                    </div>
+                    <p style="margin-top: 20px; font-size: 0.8rem; opacity: 0.7;">Check your Spam folder if you don't see it in 1 minute.</p>
+                </div>
+            `;
+            
+            // Scroll to top so they see the message
+            window.scrollTo(0, 0);
+
         } catch (error) {
             console.error('An error occurred during signup:', error);
             alert('Signup Failed: ' + error.message);
