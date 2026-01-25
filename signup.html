@@ -87,6 +87,10 @@
     <div class="input-group"><input type="text" id="signupCountry" placeholder="Country"/><i class="fas fa-globe"></i></div>
     <div class="input-group"><input type="text" id="signupProfession" placeholder="Profession" /><i class="fas fa-briefcase"></i></div>
     <div class="input-group"><input type="text" id="signupIncome" placeholder="Annual Income" /><i class="fas fa-rupee-sign"></i></div>
+<div class="input-group">
+    <input type="password" id="signupPassword" placeholder="Set Password" required />
+    <i class="fas fa-lock"></i>
+</div>
     <button class="submit-button" onclick="handleSignup()">Signup with Magic Link</button>
   </div>
 </div>
@@ -206,10 +210,11 @@ async function handleSignup() {
             });
             if (insertError) throw insertError;
 
-            const { error: magicLinkError } = await supabase.auth.signInWithOtp({
-                email: email,
-                options: { emailRedirectTo: redirectURL }
-            });
+         const { error: authError } = await supabase.auth.signUp({ 
+    email, 
+    password: document.getElementById('signupPassword').value, 
+    options: { emailRedirectTo: window.location.origin + '/main.html' } 
+});
             if (magicLinkError) throw magicLinkError;
             
             showMessage('Signup successful! Please check your email to verify and log in.');
