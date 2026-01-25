@@ -32,6 +32,8 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         .loader { text-align: center; display: none; margin-top: 20px; color: var(--lic-blue); }
+/* Add this at the end of your existing <style> */
+body { display: none; } /* Hide page by default */
     </style>
 </head>
 <body>
@@ -57,65 +59,94 @@
         </div>
     </div>
 
-    <script>
-        async function fetchLiveResults() {
-            const query = document.getElementById('userQuery').value.trim();
-            const resultsArea = document.getElementById('resultsArea');
-            const loader = document.getElementById('loader');
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // 1. Initialize Supabase
+    const supabaseClient = window.supabase.createClient(
+        'https://efduqdondmlzmwhfgkfz.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
+    );
 
-            if (!query) return alert("Please type a topic to search.");
+    // 2. The Premium Gatekeeper Function
+    async function checkPremiumAccess() {
+        const { data: { session } } = await supabaseClient.auth.getSession();
 
-            // 1. Show UI Loading
-            resultsArea.innerHTML = '';
-            loader.style.display = 'block';
-
-            // 2. Build the Live Search URL (Searching LIC India & Tax sites)
-            // We use the Google News RSS Search with specific keywords
-            const searchQuery = `LIC India ${query} circular or rules`;
-            const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-IN&gl=IN&ceid=IN:en`;
-            
-            // 3. Convert RSS to JSON using the same service as your news ticker
-            const apiEndpoint = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-
-            try {
-                const response = await fetch(apiEndpoint);
-                const data = await response.json();
-                
-                loader.style.display = 'none';
-
-                if (data.items && data.items.length > 0) {
-                    resultsArea.innerHTML = data.items.map(item => {
-                        // Format the date
-                        const pubDate = new Date(item.pubDate).toLocaleDateString('en-IN', {
-                            day: 'numeric', month: 'long', year: 'numeric'
-                        });
-
-                        return `
-                            <div class="result-item">
-                                <span class="result-date"><i class="far fa-calendar-alt"></i> Published: ${pubDate}</span>
-                                <h3>${item.title}</h3>
-                                <p>${item.description.replace(/<[^>]*>?/gm, '').substring(0, 150)}...</p>
-                                <div style="display:flex; justify-content:space-between; align-items:center;">
-                                    <span class="source-tag">${item.source}</span>
-                                    <a href="${item.link}" target="_blank" class="link-btn">READ FULL CIRCULAR <i class="fas fa-external-link-alt"></i></a>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                } else {
-                    resultsArea.innerHTML = '<p style="text-align:center;">No live circulars found for this topic. Try different keywords.</p>';
-                }
-            } catch (error) {
-                loader.style.display = 'none';
-                console.error("Fetch error:", error);
-                resultsArea.innerHTML = '<p style="color:red; text-align:center;">Error connecting to live feed. Please try again.</p>';
-            }
+        // Check if logged in at all
+        if (!session) {
+            window.location.replace("signup.html");
+            return;
         }
 
-        // Allow pressing "Enter" to search
-        document.getElementById('userQuery').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') fetchLiveResults();
-        });
-    </script>
+        // Check if the user is in the 'signups' table (The Premium List)
+        const { data, error } = await supabaseClient
+            .from('signups')
+            .select('email')
+            .eq('email', session.user.email);
+
+        if (data && data.length > 0) {
+            // SUCCESS: User is Premium. Show the page content.
+            document.body.style.display = "block";
+        } else {
+            // FAILURE: Magic Link user but NOT in signup table
+            alert("THIS IS A PREMIUM FEATURE : PLEASE SIGN UP TO ACCESS");
+            window.location.replace("signup.html");
+        }
+    }
+
+    // Run the security check immediately
+    checkPremiumAccess();
+
+    // 3. Your Live Search Function (The one we made earlier)
+    async function fetchLiveResults() {
+        const query = document.getElementById('userQuery').value.trim();
+        const resultsArea = document.getElementById('resultsArea');
+        const loader = document.getElementById('loader');
+
+        if (!query) return alert("Please type a topic to search.");
+
+        resultsArea.innerHTML = '';
+        loader.style.display = 'block';
+
+        const searchQuery = `LIC India ${query} circular or rules`;
+        const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(searchQuery)}&hl=en-IN&gl=IN&ceid=IN:en`;
+        const apiEndpoint = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+        try {
+            const response = await fetch(apiEndpoint);
+            const data = await response.json();
+            loader.style.display = 'none';
+
+            if (data.items && data.items.length > 0) {
+                resultsArea.innerHTML = data.items.map(item => {
+                    const pubDate = new Date(item.pubDate).toLocaleDateString('en-IN', {
+                        day: 'numeric', month: 'long', year: 'numeric'
+                    });
+
+                    return `
+                        <div class="result-item">
+                            <span class="result-date"><i class="far fa-calendar-alt"></i> Published: ${pubDate}</span>
+                            <h3>${item.title}</h3>
+                            <p>${item.description.replace(/<[^>]*>?/gm, '').substring(0, 150)}...</p>
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <span class="source-tag">${item.source}</span>
+                                <a href="${item.link}" target="_blank" class="link-btn">READ FULL CIRCULAR <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                resultsArea.innerHTML = '<p style="text-align:center;">No live circulars found. Try different keywords.</p>';
+            }
+        } catch (error) {
+            loader.style.display = 'none';
+            resultsArea.innerHTML = '<p style="color:red; text-align:center;">Error connecting to live feed.</p>';
+        }
+    }
+
+    // Allow pressing "Enter"
+    document.getElementById('userQuery').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') fetchLiveResults();
+    });
+</script>
 </body>
 </html>
