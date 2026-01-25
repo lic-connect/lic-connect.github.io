@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5RMKYLCCX0"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-5RMKYLCCX0');
-</script>
+<head>
     <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
@@ -316,16 +307,28 @@ body {
         document.getElementById('fetchAgencyCode').value = '';
     };
 
-    const getFormData = () => {
-        const data = {};
-        formFields.forEach(fieldId => {
-            if (fieldId !== 'id' && fieldId !== 'created_at') {
-                const element = document.getElementById(fieldId);
-                if (element) { data[fieldId] = element.value || null; }
+const getFormData = () => {
+    const data = {};
+    formFields.forEach(fieldId => {
+        // Skip read-only fields for the data object
+        if (fieldId !== 'id' && fieldId !== 'created_at') {
+            const element = document.getElementById(fieldId);
+            if (element) {
+                const value = element.value.trim();
+                
+                // Handle Numeric Fields to prevent "invalid input syntax for type numeric"
+                const numericFields = ['total_policyholders', 'total_premium', 'total_commission'];
+                if (numericFields.includes(fieldId)) {
+                    data[fieldId] = value === "" ? null : Number(value);
+                } else {
+                    // Handle Text/Date/Email fields
+                    data[fieldId] = value || null;
+                }
             }
-        });
-        return data;
-    };
+        }
+    });
+    return data;
+};
 
     const populateForm = (data) => {
         if (!data) return;
@@ -363,25 +366,61 @@ body {
         else { displayStatus('Agent inserted successfully!'); clearForm(); }
     });
 
-    document.getElementById('updateBtn').addEventListener('click', async () => {
-        const agencyCode = document.getElementById('agency_code').value.trim();
-        if (!agencyCode) { displayStatus('Fetch an agent first before updating.', true); return; }
-        const updatedData = getFormData();
-        const { error } = await db.from('agents').update(updatedData).eq('agency_code', agencyCode);
-        if (error) { displayStatus(`Error updating agent: ${error.message}`, true); } 
-        else { displayStatus('Agent updated successfully!'); }
-    });
+  document.getElementById('updateBtn').addEventListener('click', async () => {
+    const agencyCode = document.getElementById('agency_code').value.trim();
+    if (!agencyCode) { 
+        displayStatus('Fetch an agent first before updating.', true); 
+        return; 
+    }
+
+    const updatedData = getFormData();
+    
+    // We add .select() to verify if the update actually happened
+    const { data, error } = await db
+        .from('agents')
+        .update(updatedData)
+        .eq('agency_code', agencyCode)
+        .select(); 
+
+    if (error) { 
+        displayStatus(`Error updating agent: ${error.message}`, true); 
+    } 
+    else if (data && data.length > 0) {
+        displayStatus('AGENT UPDATED SUCCESSFULLY!'); 
+    } else {
+        // If data is empty, it means RLS blocked the update
+        displayStatus('PERMISSION DENIED: You can only edit agents that you created.', true);
+    }
+});
 
     document.getElementById('deleteBtn').addEventListener('click', async () => {
-        const agencyCode = document.getElementById('agency_code').value.trim();
-        if (!agencyCode) { displayStatus('Fetch an agent first before deleting.', true); return; }
-        const confirmed = confirm(`Are you sure you want to delete agent with code '${agencyCode}'? This action cannot be undone.`);
-        if (confirmed) {
-            const { error } = await db.from('agents').delete().eq('agency_code', agencyCode);
-            if (error) { displayStatus(`Error deleting agent: ${error.message}`, true); } 
-            else { displayStatus('Agent deleted successfully!'); clearForm(); }
+    const agencyCode = document.getElementById('agency_code').value.trim();
+    if (!agencyCode) { 
+        displayStatus('Fetch an agent first before deleting.', true); 
+        return; 
+    }
+
+    const confirmed = confirm(`Are you sure you want to delete agent with code '${agencyCode}'?`);
+    if (confirmed) {
+        // We add .select() to verify if the delete actually happened
+        const { data, error } = await db
+            .from('agents')
+            .delete()
+            .eq('agency_code', agencyCode)
+            .select();
+
+        if (error) { 
+            displayStatus(`Error deleting agent: ${error.message}`, true); 
+        } 
+        else if (data && data.length > 0) {
+            displayStatus('AGENT DELETED SUCCESSFULLY!'); 
+            clearForm(); 
+        } else {
+            // If data is empty, it means RLS blocked the deletion
+            displayStatus('PERMISSION DENIED: You cannot delete an agent you did not create.', true);
         }
-    });
+    }
+});
 
     document.addEventListener('DOMContentLoaded', () => {
         const today = new Date();
@@ -411,5 +450,4 @@ body {
     }
 </script>  
 </body>
-
 </html>
