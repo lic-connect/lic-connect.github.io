@@ -91,7 +91,8 @@
     <input type="password" id="signupPassword" placeholder="Set Password" required />
     <i class="fas fa-lock"></i>
 </div>
-    <button class="submit-button" onclick="handleSignup()">Signup with Magic Link</button>
+<!-- Change this line -->
+<button class="submit-button" onclick="handleSignup()">Unlock Premium Features</button>
   </div>
 </div>
 
@@ -195,46 +196,46 @@ async function handleSignup() {
     const password = document.getElementById('signupPassword').value.trim();
 
     if (!email || !fullName || !password) {
-        return alert("Please fill in Name, Email, and Password.");
+        return alert("Name, Email, and Password are required.");
     }
-    
-    const redirectURL = window.location.origin + '/main.html';
 
     try {
-        // 1. Insert into your custom 'signups' table (This unlocks Premium)
-        const { error: insertError } = await supabase.from('signups').insert({ 
-            full_name: fullName, 
+        // STEP 1: Insert into the 'signups' table FIRST
+        // This works even if the user already exists in Supabase Auth
+        const { error: dbError } = await supabase.from('signups').insert([{ 
             email: email, 
+            full_name: fullName,
             gender: document.getElementById('signupGender').value,
-            mobile: document.getElementById('signupMobile').value, 
+            mobile: document.getElementById('signupMobile').value,
             city: document.getElementById('signupCity').value,
-            state: document.getElementById('signupState').value, 
+            state: document.getElementById('signupState').value,
             country: document.getElementById('signupCountry').value,
-            profession: document.getElementById('signupProfession').value, 
+            profession: document.getElementById('signupProfession').value,
             annual_income: document.getElementById('signupIncome').value
-        });
-        
-        if (insertError) throw insertError;
+        }]);
 
-        // 2. Create the Auth Account with Password
-        const { error: authError } = await supabase.auth.signUp({
+        // STEP 2: Handle the Auth Account
+        const { data, error: authError } = await supabase.auth.signUp({
             email: email,
-            password: password,
-            options: { emailRedirectTo: redirectURL }
+            password: password
         });
 
-        if (authError) throw authError;
-        
-        // Success
-        showMessage('Signup successful! Redirecting to dashboard...');
-        clearSignupForm();
-        
-        // Force jump to main.html
-        setTimeout(() => { window.location.href = "main.html"; }, 1500);
+        // If they already exist from a Magic Link, Supabase returns a specific error
+        if (authError && authError.message.includes("already registered")) {
+            console.log("User exists in Auth, but we just added them to the Premium Table.");
+            // We just need to make sure they have a password now
+            await supabase.auth.updateUser({ password: password });
+        } else if (authError) {
+            throw authError;
+        }
+
+        // STEP 3: Success!
+        alert("PREMIUM ACCOUNT ACTIVE! Redirecting to Dashboard...");
+        window.location.replace("main.html");
 
     } catch (error) {
-        console.error('An error occurred during signup:', error);
-        alert('Signup Failed: ' + error.message);
+        console.error('Logic Error:', error);
+        alert('Action Failed: ' + error.message);
     }
 }
 </script>
