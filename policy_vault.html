@@ -48,34 +48,49 @@
     }
 }
     </style>
-</head>
-<body>
+<!-- 1. Load the Supabase Library first -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
+
 <script>
-    // THE GUARD SCRIPT
+    // 2. Initialize Supabase (Use your EXACT URL and Key from main.html)
+    const supabase = window.supabase.createClient(
+        'https://efduqdondmlzmwhfgkfz.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
+    );
+
+    // 3. The Guard Script: Run this immediately to check login
     async function guardPremiumPage() {
-        const { data: { session } } = await supabase.auth.getSession();
+        // Look for existing login session
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
         if (!session) {
-            // No login session? Go to signup
+            console.log("No session found, redirecting...");
             window.location.href = "signup.html";
             return;
         }
 
-        // Check if they actually have a profile in 'signups'
-        const { data: profile } = await supabase
+        // Check if they have a signup record
+        const { data: profile, error: profileError } = await supabase
             .from('signups')
             .select('email')
             .eq('email', session.user.email)
             .single();
 
         if (!profile) {
-            // Logged in but no signup data? Send to signup
-            alert("Please complete your signup first!");
+            alert("Please complete your full Signup to use this feature!");
             window.location.href = "signup.html";
+        } else {
+            console.log("Access Granted for:", profile.email);
+            // You can now load the rest of your page content safely
         }
     }
+
+    // Start the check
     guardPremiumPage();
 </script>
+</head>
+<body>
+
 <div class="vault-container">
     <h2><i class="fas fa-shield-alt"></i> Policy Vault</h2>
     
