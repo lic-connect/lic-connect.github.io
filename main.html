@@ -820,51 +820,40 @@ button:active, .plan-card:active, .link-card:active {
 <script>
 <script>
     // --- SUPABASE CLIENT INITIALIZATION ---
-    const supabase = window.supabase.createClient(
+       // --- SUPABASE CLIENT INITIALIZATION ---
+const supabase = window.supabase.createClient(
       'https://efduqdondmlzmwhfgkfz.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
     );
-    // This function runs automatically and waits for login events to complete.
-    supabase.auth.onAuthStateChange( async (event, session) => {
-      console.log('Authentication event:', event, session);
 
-      if (event === "INITIAL_SESSION" || event === "SIGNED_IN") {
+    async function initDashboard() {
+        // Get the session once
+        const { data: { session }, error } = await supabase.auth.getSession();
+
         if (session && session.user) {
-          // USER IS LOGGED IN or has just logged in.
-          // The page will remain, and we will update the welcome message.
-          const user = session.user;
-
-          // Now that we have the user, fetch their name from the 'profiles' table if it exists
-          // NOTE: Your current setup saves to 'signups' table, not 'profiles'. 
-          // We will just use the email for the welcome message for now.
-          const name = user.email;
-
-          document.getElementById("welcomeMsg").textContent = `Welcome, ${name}`;
-
-          // Now that we know the user is logged in, we can fetch the news.
-          fetchGNews();
-
- // ADD THIS LINE HERE:
-          checkRenewals(); 
+            console.log("Session found for:", session.user.email);
+            document.getElementById("welcomeMsg").textContent = `Welcome, ${session.user.email}`;
+            
+            // Load your features
+            if (typeof fetchGNews === 'function') fetchGNews();
+            if (typeof checkRenewals === 'function') checkRenewals();
         } else {
-          // If for some reason there's no session, redirect.
-          window.location.href = "signup.html";
+            console.log("No session. Redirecting in 3 seconds...");
+            // We give it a long 3 seconds so you can see if the name appears
+            setTimeout(() => {
+                window.location.href = "signup.html";
+            }, 3000);
         }
-      } else if (event === "SIGNED_OUT") {
-        // USER HAS SIGNED OUT
-        // Redirect them to the signup page.
-        window.location.href = "signup.html";
-      }
-    });
-
-
-    // --- LOGOUT FUNCTIONALITY (No changes needed) ---
-    async function handleLogout() {
-      await supabase.auth.signOut();
-      document.getElementById("logoutMsg").textContent = `Logging out...`;
-      // The onAuthStateChange listener above will automatically handle the redirect.
     }
 
+    // Run this the moment the page loads
+    initDashboard();
+
+    // Handle Logout
+    async function handleLogout() {
+        await supabase.auth.signOut();
+        window.location.href = "signup.html";
+    }
 
 
 async function openLibrary() {
