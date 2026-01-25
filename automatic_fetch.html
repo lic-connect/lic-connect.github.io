@@ -412,45 +412,62 @@ button:active, .plan-card:active {
     }
 
     // 3. UPDATE
+   // 3. UPDATE (Modified with .select() for security check)
     async function handleUpdate() {
         const formValues = getFormValues();
         if (!formValues.Policy_number) return resultDiv.innerHTML = '<p class="error-message">❌ Policy Number is required to identify the record to update.</p>';
 
         try {
-            // We don't want to update the primary key, so we remove it from the object.
+            // Remove primary key from the update object
             const { Policy_number, ...updateValues } = formValues;
 
-            const { error } = await supabaseClient
+            const { data, error } = await supabaseClient
                 .from('automatic_fetch')
                 .update(updateValues)
-                .eq('Policy_number', Policy_number);
+                .eq('Policy_number', Policy_number)
+                .select(); // <--- CRITICAL: Returns data only if user owns the record
 
             if (error) throw error;
-            resultDiv.innerHTML = '<p class="success-message">✅ Record updated successfully!</p>';
+
+            // Check if any row was actually updated
+            if (data && data.length > 0) {
+                resultDiv.innerHTML = '<p class="success-message">✅ Record updated successfully!</p>';
+            } else {
+                // This runs if RLS blocked the user or the policy doesn't exist
+                resultDiv.innerHTML = '<p class="error-message">❌ PERMISSION DENIED: You can only edit records you created.</p>';
+            }
         } catch (error) {
             resultDiv.innerHTML = `<p class="error-message">❌ Update failed: ${error.message}</p>`;
             console.error('Update Error:', error);
         }
     }
 
-    // 4. DELETE
+  // 4. DELETE (Modified with .select() for security check)
     async function handleDelete() {
         const policyNo = document.getElementById('policyNo').value.trim();
         if (!policyNo) return resultDiv.innerHTML = '<p class="error-message">❌ Please enter a Policy Number to delete.</p>';
         
-        if (!confirm(`Are you sure you want to delete the record for policy ${policyNo}? This cannot be undone.`)) {
-            return; // User cancelled
+        if (!confirm(`Are you sure you want to delete the record for policy ${policyNo}?`)) {
+            return; 
         }
 
         try {
-            const { error } = await supabaseClient
+            const { data, error } = await supabaseClient
                 .from('automatic_fetch')
                 .delete()
-                .eq('Policy_number', policyNo);
+                .eq('Policy_number', policyNo)
+                .select(); // <--- CRITICAL: Returns data only if user owns the record
 
             if (error) throw error;
-            resultDiv.innerHTML = '<p class="success-message">✅ Record deleted successfully!</p>';
-            clearForm();
+
+            // Check if any row was actually deleted
+            if (data && data.length > 0) {
+                resultDiv.innerHTML = '<p class="success-message">✅ Record deleted successfully!</p>';
+                clearForm();
+            } else {
+                // This runs if RLS blocked the deletion
+                resultDiv.innerHTML = '<p class="error-message">❌ PERMISSION DENIED: You cannot delete records you did not create.</p>';
+            }
         } catch (error) {
             resultDiv.innerHTML = `<p class="error-message">❌ Delete failed: ${error.message}</p>`;
             console.error('Delete Error:', error);
