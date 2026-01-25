@@ -26,45 +26,76 @@
         <div id="libraryContainer">Loading library...</div>
     </div>
 
-    <script>
-        const supabase = window.supabase.createClient ('https://efduqdondmlzmwhfgkfz.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44');
-        let allRules = [];
+<script>
+    // 1. Rename the constant to supabaseClient to avoid the error
+    const supabaseClient = window.supabase.createClient(
+        'https://efduqdondmlzmwhfgkfz.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44'
+    );
 
-        async function fetchLibrary() {
-            const { data, error } = await supabase.from('lic_library').select('*');
-            if (data) {
-                allRules = data;
-                displayRules(allRules);
-            }
+    let allRules = [];
+
+    // 2. Add the Gatekeeper logic (to keep it Premium)
+    async function gatekeeper() {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+            window.location.replace("signup.html");
+            return;
         }
 
-        function displayRules(rules) {
-            const container = document.getElementById('libraryContainer');
-            if (rules.length === 0) {
-                container.innerHTML = "<p>No rules found matching your search.</p>";
-                return;
-            }
-            container.innerHTML = rules.map(rule => `
-                <div class="rule-card">
-                    <span class="category">${rule.category}</span>
-                    <h3>${rule.title}</h3>
-                    <p>${rule.description}</p>
-                    <span class="note"><i class="fas fa-info-circle"></i> ${rule.important_note}</span>
-                </div>
-            `).join('');
-        }
+        const { data } = await supabaseClient
+            .from('signups')
+            .select('email')
+            .eq('email', session.user.email);
 
-        function filterRules() {
-            const term = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allRules.filter(r => 
-                r.title.toLowerCase().includes(term) || 
-                r.category.toLowerCase().includes(term) ||
-                r.description.toLowerCase().includes(term)
-            );
-            displayRules(filtered);
+        if (!data || data.length === 0) {
+            alert("This is a Premium Feature. Please fill out the Signup form to access.");
+            window.location.replace("main.html");
         }
+    }
+    gatekeeper();
 
-        fetchLibrary();
-    </script>
+    // 3. Updated fetch function using the new 'supabaseClient' name
+    async function fetchLibrary() {
+        const { data, error } = await supabaseClient.from('lic_library').select('*');
+        if (error) {
+            console.error('Fetch error:', error.message);
+            document.getElementById('libraryContainer').innerHTML = "<p>Error loading library data.</p>";
+            return;
+        }
+        if (data) {
+            allRules = data;
+            displayRules(allRules);
+        }
+    }
+
+    function displayRules(rules) {
+        const container = document.getElementById('libraryContainer');
+        if (rules.length === 0) {
+            container.innerHTML = "<p>No rules found matching your search.</p>";
+            return;
+        }
+        container.innerHTML = rules.map(rule => `
+            <div class="rule-card">
+                <span class="category">${rule.category}</span>
+                <h3>${rule.title}</h3>
+                <p>${rule.description}</p>
+                <span class="note"><i class="fas fa-info-circle"></i> ${rule.important_note}</span>
+            </div>
+        `).join('');
+    }
+
+    function filterRules() {
+        const term = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = allRules.filter(r => 
+            r.title.toLowerCase().includes(term) || 
+            r.category.toLowerCase().includes(term) ||
+            r.description.toLowerCase().includes(term)
+        );
+        displayRules(filtered);
+    }
+
+    fetchLibrary();
+</script>
 </body>
 </html>
