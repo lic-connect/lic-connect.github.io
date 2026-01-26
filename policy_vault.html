@@ -149,10 +149,9 @@
 </div>
 
 <script>
-    // Initialize Supabase (Use your existing credentials)
-    const supabase = window.supabase.createClient('https://efduqdondmlzmwhfgkfz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44');
 
- async function uploadPolicy() {
+
+    async function uploadPolicy() {
         // 1. Select Elements
         const btn = document.querySelector('.btn-upload');
         const fileInput = document.getElementById('policyFile');
@@ -170,16 +169,15 @@
         const originalText = btn.innerText;
 
         try {
-            // 3. UI Feedback (Disable button to prevent double-click)
+            // 3. UI Feedback
             btn.innerText = "Uploading...";
             btn.disabled = true;
 
-            // 4. Get User Session (Required for security)
+            // 4. Get User Session
             const { data: { user } } = await supabase.auth.getUser();
             if (!user) throw new Error("You must be logged in to upload.");
 
             // 5. Upload to Storage
-            // Filename format: UserID/Timestamp_CleanName
             const cleanName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
             const filePath = `${user.id}/${Date.now()}_${cleanName}`;
 
@@ -198,7 +196,7 @@
             const { error: dbError } = await supabase
                 .from('policies')
                 .insert([{
-                    user_id: user.id,          // Link record to user
+                    user_id: user.id,
                     client_name: clientInput.value,
                     policy_number: pNoInput.value,
                     due_date: dDateInput.value,
@@ -212,18 +210,18 @@
 
         } catch (error) {
             console.error("Upload Error:", error);
-            alert("❌ Upload Failed: " + (error.message || error.error_description || "Unknown Error"));
+            alert("❌ Upload Failed: " + (error.message || "Unknown Error"));
         } finally {
-            // Reset Button
             btn.innerText = originalText;
             btn.disabled = false;
         }
     }
+
     async function loadPolicies() {
         const tbody = document.getElementById('policyTableBody');
         tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Loading...</td></tr>';
 
-        // 1. Get Current User to filter data
+        // 1. Get Current User
         const { data: { user } } = await supabase.auth.getUser();
         
         if (!user) {
@@ -235,7 +233,7 @@
         const { data, error } = await supabase
             .from('policies')
             .select('*')
-            .eq('user_id', user.id) // <--- This line ensures privacy
+            .eq('user_id', user.id)
             .order('due_date', { ascending: true });
 
         if (error) {
@@ -244,19 +242,18 @@
             return;
         }
 
-        // 3. Clear loading message
-        tbody.innerHTML = '';
+        tbody.innerHTML = ''; // Clear loading message
 
         if (data.length === 0) {
             tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">No policies found. Upload one above!</td></tr>';
             return;
         }
         
-        // 4. Populate Table
+        // 3. Populate Table
         data.forEach(p => {
-            // Check if due in the current month AND year
             const today = new Date();
             const due = new Date(p.due_date);
+            // Check if due in current month and year
             const isDue = (due.getMonth() === today.getMonth()) && (due.getFullYear() === today.getFullYear());
 
             tbody.innerHTML += `
@@ -265,7 +262,7 @@
                     <td>${p.policy_number}</td>
                     <td class="${isDue ? 'status-due' : ''}">
                         ${p.due_date} 
-                        ${isDue ? '⚠️ <span style="font-size:0.8em">(Due Now)</span>' : ''}
+                        ${isDue ? '⚠️' : ''}
                     </td>
                     <td>
                         <a href="${p.file_url}" target="_blank" class="file-link">
@@ -277,7 +274,7 @@
         });
     }
 
-    // Call the function to load data
+    // Call load function
     loadPolicies();
 </script>
 <div class="home-button-container">
