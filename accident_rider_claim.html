@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Rider & Accident Claim Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* UI Theme: Strictly Blue and White */
+            --bg-color: #f0f7ff; 
+            --card-bg: #ffffff;
+            --text-main: #002d5a;
+            --text-light: #0056b3;
+            --accent-blue: #0056b3; 
+            --shadow-out: 10px 10px 20px #d0e1f9, -10px -10px 20px #ffffff;
+            --shadow-in: inset 5px 5px 10px #d0e1f9, inset -5px -5px 10px #ffffff;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        /* --- 3D MIRROR TITLE --- */
+        .title-container {
+            perspective: 1000px;
+            margin: 50px auto 80px auto;
+            text-align: center;
+            width: fit-content;
+        }
+
+        .title-box {
+            border: 4px solid var(--accent-blue);
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0, 86, 179, 0.15);
+            transform: rotateX(10deg);
+            transform-style: preserve-3d;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        h1.main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin: 0;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 1px 1px 0px #b3d7ff, 2px 2px 0px #b3d7ff, 4px 4px 0px #0056b3, 5px 5px 10px rgba(0, 86, 179, 0.2);
+            position: relative;
+        }
+
+        h1.main-title::after {
+            content: "RIDER CLAIM PROCESS";
+            position: absolute;
+            top: 100%;
+            left: 0; right: 0;
+            transform: scaleY(-0.6) translateY(-20px);
+            opacity: 0.2;
+            filter: blur(2px);
+            background: linear-gradient(to bottom, rgba(0, 86, 179, 0), rgba(0, 86, 179, 1));
+            -webkit-background-clip: text;
+            color: transparent;
+            pointer-events: none;
+        }
+
+        /* --- INPUT SECTION --- */
+        .input-card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: var(--shadow-out);
+            margin-bottom: 40px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent-blue);
+            padding-left: 15px;
+            text-transform: uppercase;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: var(--shadow-in);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: #333;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            box-shadow: 0 0 0 2px var(--accent-blue);
+        }
+
+        #dynamicDocSection {
+            margin-top: 30px;
+            display: none;
+            background: #f8fbff;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #cce5ff;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 86, 179, 0.05);
+        }
+
+        .checkbox-item input {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent-blue);
+        }
+
+        .btn-analyze {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+            background: var(--accent-blue);
+            color: white;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 86, 179, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100%;
+        }
+
+        .btn-analyze:hover {
+            transform: translateY(-3px);
+            background: #004085;
+        }
+
+        /* --- OUTPUT SECTION --- */
+        .output-card {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: var(--shadow-out);
+            border-top: 5px solid var(--accent-blue);
+            animation: fadeIn 1s ease;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .result-box {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .result-box h3 {
+            margin-top: 0;
+            color: var(--accent-blue);
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .result-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #002d5a;
+        }
+
+        .progress-container {
+            background: #e6f0ff;
+            border-radius: 20px;
+            height: 25px;
+            width: 100%;
+            margin: 10px 0;
+            overflow: hidden;
+            box-shadow: inset 2px 2px 5px rgba(0, 86, 179, 0.1);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #3395ff, var(--accent-blue));
+            height: 100%;
+            width: 0%;
+            border-radius: 20px;
+            transition: width 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            margin-top: 5px;
+        }
+        .status-red { background: #d63031; }
+        .status-green { background: #00b894; }
+        .status-yellow { background: #0056b3; }
+
+        /* --- CASE STUDY (SOLID BLACK) --- */
+        .case-study {
+            margin-top: 30px;
+            background: #000000 !important;
+            color: #ffffff !important;
+            padding: 35px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .case-study h3 {
+            color: #3395ff;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .case-study::before {
+            content: "\f10d";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 4rem;
+            opacity: 0.1;
+            color: #fff;
+        }
+
+        .action-btn-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-print { background: #0056b3; }
+        .btn-share { background: #002d5a; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 768px) {
+            h1.main-title { font-size: 2rem; }
+            .input-card, .output-card { padding: 20px; }
+        }
+
+        @media print {
+            .action-btn-group, .btn-analyze { display: none !important; }
+            body { background: white; }
+            .container { padding: 0; }
+            .input-card, .output-card { box-shadow: none; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="title-container">
+            <div class="title-box">
+                <h1 class="main-title">LIC RIDER /<br>ACCIDENT</h1>
+            </div>
+        </div>
+
+        <!-- INPUT SECTION -->
+        <div class="input-card">
+            <div class="section-header">RIDER CLAIM INPUT DETAILS</div>
+            <form id="riderForm" onsubmit="event.preventDefault(); processRider();">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Policy Holder Name</label>
+                        <input type="text" id="phName" placeholder="Enter Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nominee Name</label>
+                        <input type="text" id="nomineeName" placeholder="Enter Nominee Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Relation with Nominee</label>
+                        <input type="text" id="relation" placeholder="e.g. Wife, Son, Mother" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Policy Number</label>
+                        <input type="number" id="policyNo" placeholder="9 Digits" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rider Type</label>
+                        <select id="riderType" required onchange="updateDocList()">
+                            <option value="">-- Select Rider Benefit --</option>
+                            <option value="adb">Accidental Death Benefit (ADB)</option>
+                            <option value="addb">Accidental Disability Benefit (AD&DB)</option>
+                            <option value="ci">Critical Illness Rider (CI)</option>
+                            <option value="pwb">Premium Waiver Benefit (PWB)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Was FIR Lodged?</label>
+                        <select id="firStatus">
+                            <option value="yes">Yes, FIR available</option>
+                            <option value="no">No FIR / Medical Cause</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Dynamic Documents Checkbox Area -->
+                <div id="dynamicDocSection">
+                    <div class="section-header" style="font-size:1.2rem; border-color:#0056b3; margin-bottom:15px;">
+                        Requirement Checklist
+                    </div>
+                    <div class="checkbox-group" id="checkboxContainer"></div>
+                </div>
+
+                <button type="submit" class="btn-analyze">Analyze Rider Settlement</button>
+            </form>
+        </div>
+
+        <!-- OUTPUT SECTION -->
+        <div id="outputSection" class="output-card">
+            <div class="section-header">RIDER SETTLEMENT ANALYSIS</div>
+            
+            <div class="result-grid">
+                <div class="result-box">
+                    <h3>Policyholder</h3>
+                    <div class="result-value" id="resPhName">--</div>
+                </div>
+                <div class="result-box">
+                    <h3>Nominee (Relation)</h3>
+                    <div class="result-value" id="resNomDetails">--</div>
+                </div>
+                <div class="result-box">
+                    <h3>Scenario Identification</h3>
+                    <div class="result-value" id="outType">--</div>
+                    <div style="font-size:0.9rem; color:#666; margin-top:5px;" id="outDesc"></div>
+                </div>
+
+                <div class="result-box">
+                    <h3>Expected Timeline</h3>
+                    <div class="result-value" id="outTimeline">--</div>
+                </div>
+
+                <div class="result-box" style="grid-column: 1 / -1;">
+                    <h3>Submission Requirements</h3>
+                    <ul id="outDocList" style="padding-left:20px; color:#444; margin-top:10px;"></ul>
+                </div>
+
+                <div class="result-box" style="grid-column: 1 / -1;">
+                    <h3>Readiness Status</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar">0%</div>
+                    </div>
+                    <div id="readinessBadge" class="status-badge status-red">NOT READY</div>
+                </div>
+
+                <div class="result-box" style="grid-column: 1 / -1; border-left-color: #d63031;">
+                    <h3>Common Rejection Reasons</h3>
+                    <ul id="outRejections" style="padding-left:20px; color:#c0392b; font-size:0.9rem; font-weight: 600;"></ul>
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS SECTION -->
+            <div class="result-box" style="grid-column: 1 / -1; background: transparent; border: none; padding: 0;">
+                <div class="action-btn-group">
+                    <button class="action-btn btn-print" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print Full Page
+                    </button>
+                    <button class="action-btn btn-share" onclick="shareReport()">
+                        <i class="fas fa-share-alt"></i> Share Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Case Study -->
+            <div class="case-study" id="caseStudyBox">
+                <h3><i class="fas fa-book-open"></i> Rider Case Narrative (500+ Words)</h3>
+                <div id="caseStudyText" style="line-height: 1.8; font-size: 0.95rem; color: #ccc;">
+                    --
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const riderScenarios = {
+            adb: {
+                type: "ACCIDENTAL DEATH BENEFIT (ADB)",
+                desc: "Payout of additional Accidental Sum Assured along with Basic Benefit.",
+                timeline: "30-45 Days after Final Police Report",
+                docs: ["Form 3783 (Rider Claim)", "Certified FIR Copy", "Post-Mortem Report", "Police Inquest Report", "Valid Driving License"],
+                rejections: ["Presence of alcohol in PMR", "No valid DL while driving", "Delayed FIR lodging", "Death due to medical illness during accident"],
+                caseStudy: (ph, nom, rel) => `
+                    <strong>Subject Profile: Mr. ${ph} | Nominee: ${nom} (${rel})</strong><br><br>
+                    
+                    Mr. ${ph}, an active professional and the primary breadwinner, held an LIC New Endowment policy with a Sum Assured of ₹25,00,000 and an equal Accidental Death Benefit (ADB) Rider. While returning from a business trip late at night, his vehicle suffered a massive mechanical failure, leading to a fatal crash. His ${rel}, ${nom}, was left with the immense task of navigating a "Double Payout" claim.
+                    <br><br>
+                    The first hurdle was the F.I.R. (First Information Report). In accidental claims, LIC strictly follows the principle of "External, Violent, and Visible Means." Without a clear police record stating the crash was accidental, the rider benefit remains locked. ${nom} had to coordinate with the local police station to secure a certified copy of the Inquest Report. 
+                    <br><br>
+                    A technical conflict arose during the Post-Mortem Report (PMR) analysis. The report mentioned "Congestion in the Lungs," which the claims department initially flagged as a potential pre-existing medical condition (like a heart attack before the crash). If ${ph} had died of a heart attack *while* driving, the crash is considered secondary, and the ADB rider is rejected. This required the family to procure a "Chemical Examiner's Report" to prove that the cause of death was strictly trauma-induced by the collision.
+                    <br><br>
+                    Furthermore, LIC’s legal team scrutinized the Driving License of Mr. ${ph}. Under the ADB terms, if the life assured is driving a vehicle without a valid license or on an expired one, the accident benefit is forfeited. Fortunately, ${ph} had renewed his license just months prior. 
+                    <br><br>
+                    The investigation took 50 days, involving site visits by an LIC-deputed surveyor who verified the wreckage. The "Police Final Report" was the final piece of the puzzle. Once submitted, LIC released the Basic SA of ₹25 Lakhs and the additional ₹25 Lakhs for the Rider. This case underscores that for nominees like ${nom}, documentation is not just a formality—it is the legal defense of the claim. Without the FIR and PMR consistency, a ₹50 Lakh settlement could have easily been halved.
+                `
+            },
+            addb: {
+                type: "ACCIDENTAL DISABILITY BENEFIT (AD&DB)",
+                desc: "Waiver of future premiums plus monthly disability income payout.",
+                timeline: "180 Days (Waiting period to confirm permanency)",
+                docs: ["Disability Certificate (Govt Medical Board)", "Accident FIR", "Original Hospital Records", "X-Rays/MRI Proof", "Employer Certificate"],
+                rejections: ["Partial Disability (LIC only covers Total)", "Disability not due to accident", "Recovery observed within 180 days"],
+                caseStudy: (ph, nom, rel) => `
+                    <strong>Subject Profile: Mr. ${ph} | Beneficiary: ${nom} (${rel})</strong><br><br>
+                    
+                    Mr. ${ph}, a dedicated factory supervisor, met with a catastrophic industrial accident involving high-voltage machinery. The trauma resulted in the permanent loss of use of both his legs. His ${rel}, ${nom}, reached out to LIC to claim the Accidental Disability Benefit (AD&DB). In LIC’s lexicon, "Total and Permanent Disability" is defined very strictly as the loss of two limbs, two eyes, or one limb and one eye. 
+                    <br><br>
+                    The most difficult part for Mr. ${ph} and ${nom} was the mandatory "180-Day Observation Period." LIC does not settle disability claims immediately. They wait six months to ensure that medical science cannot reverse the condition. During this time, the family faced severe financial strain. However, once the period passed, ${ph} had to appear before a Government District Medical Board. 
+                    <br><br>
+                    A common rejection reason here is the "Partial Disability" clause. If ${ph} had lost only one leg, LIC would not have triggered the AD&DB rider. Since he met the "Two-Limb" criteria, the benefit was two-fold. First, all future premiums for his policy were waived—the policy would continue to earn bonuses without ${ph} paying a single rupee. Second, the Sum Assured was scheduled to be paid out in 120 equal monthly installments (the Disability Income).
+                    <br><br>
+                    The branch clerk initially raised an objection regarding the "Employer Certificate," questioning if the accident was due to ${ph}'s own negligence. ${nom} had to provide the factory's safety audit report to prove it was a mechanical failure. This highlights the "Proof of Accident" requirement that goes beyond just medical papers. 
+                    <br><br>
+                    Ultimately, Mr. ${ph} started receiving his monthly disability income. This case serves as a vital lesson: Disability claims are a test of endurance. Nominees like ${nom} must ensure that the "Accident FIR" is linked directly to the "Medical Disability Certificate" to prove the "Proximate Cause." This rider saved the policy from lapsing and provided a life-sustaining income stream when ${ph}'s salary stopped.
+                `
+            },
+            ci: {
+                type: "CRITICAL ILLNESS RIDER (CI)",
+                desc: "Lump sum payout on diagnosis of one of 15 covered major illnesses.",
+                timeline: "30-Day Survival Period + 15 Days Scrutiny",
+                docs: ["Specialist Diagnosis Report", "Histopathology Report", "Hospital Discharge Summary", "Treating Doctor's Statement", "Original Scan Reports"],
+                rejections: ["Illness diagnosed within 90-day waiting period", "Death within 30 days of diagnosis", "Condition doesn't meet technical definition"],
+                caseStudy: (ph, nom, rel) => `
+                    <strong>Subject Profile: Ms. ${ph} | Nominee: ${nom} (${rel})</strong><br><br>
+                    
+                    Ms. ${ph}, a bank manager and mother, was diagnosed with Stage II Malignant Breast Cancer during a routine checkup. She had wisely opted for the Critical Illness (CI) Rider with a ₹10,00,000 benefit. Her ${rel}, ${nom}, assisted her in the claim filing. The CI rider is a "Living Benefit," meaning the money is paid to the policyholder to fund treatment, not after death.
+                    <br><br>
+                    The first challenge was the "90-Day Waiting Period." If ${ph} had been diagnosed within the first three months of taking the policy, the claim would have been rejected under the "Pre-existing" clause. Since she was in the fourth year of her policy, this was cleared. However, the next hurdle was the "30-Day Survival Period." Under LIC rules, the life assured must survive for at least 30 days *after* the date of diagnosis. If ${ph} had passed away on day 20, the CI rider would pay zero. 
+                    <br><br>
+                    The technical scrutiny was intense. LIC’s Chief Medical Officer reviewed the biopsy and histopathology reports. Every illness in the CI rider has a specific "Technical Definition." For cancer, it must be "Malignant" and show "Invasion of Tissue." If it had been a "Carcinoma-in-situ" (non-invasive), the claim would have been rejected. ${nom} had to ensure the oncologist provided a detailed report matching the exact terminology in the LIC policy bond.
+                    <br><br>
+                    A conflict occurred regarding the "Treatment Records." LIC requested the primary care physician's notes from three years ago to see if the symptoms were hidden earlier. This is a standard "Non-disclosure" check. Once cleared, the ₹10 Lakhs was paid as a lump sum. 
+                    <br><br>
+                    This payout allowed ${ph} to afford specialized immunotherapy that wasn't covered by her basic health insurance. This case highlights that for ${nom} and ${ph}, the CI rider is a "Wealth Protector." It ensures that a health crisis does not wipe out the family savings. The success of the claim rested entirely on the "Pathological Evidence" and the "Survival Period" fulfillment.
+                `
+            },
+            pwb: {
+                type: "PREMIUM WAIVER BENEFIT (PWB)",
+                desc: "Future premiums waived if Proposer dies; policy continues for the child.",
+                timeline: "15-20 Days (Processed with Proposer's Death Claim)",
+                docs: ["Proposer's Death Certificate", "Relationship Proof", "Child's Birth Certificate", "Original Policy Bond", "Claim Form-Rider"],
+                rejections: ["Rider not opted during proposal", "Policy in lapsed condition on death", "Proposer age above 70 at death"],
+                caseStudy: (ph, nom, rel) => `
+                    <strong>Subject Profile: Late Mr. ${ph} | Child (LA): ${nom} (${rel})</strong><br><br>
+                    
+                    Mr. ${ph} had purchased a Jeevan Tarun policy for his young son, ${nom}. He opted for the Premium Waiver Benefit (PWB) rider, a small addition to the premium that acts as a "Self-Completing" mechanism for the policy. Tragically, Mr. ${ph} passed away due to a viral complication when the policy was only in its third year. The child, ${nom}, was the life assured, but the father was the proposer.
+                    <br><br>
+                    The ${rel} (usually the mother or guardian) visited the LIC branch. In a standard policy, if the proposer dies, the family must continue paying the premiums, or the policy lapses. However, because of the PWB rider, the "Premium Waiver" was triggered. This meant that the ₹40,000 annual premium was no longer required to be paid by the family. 
+                    <br><br>
+                    LIC’s internal system updated the policy status to "PWB-Claimed." The policy would now stay "In-Force" automatically for the next 15 years. It would continue to earn the same "Simple Reversionary Bonus" and "Final Additional Bonus" as if Mr. ${ph} was still paying the premiums. This is the most emotional rider LIC offers—it ensures the father’s dream for ${nom}'s education is fulfilled even in his absence. 
+                    <br><br>
+                    The branch clerk performed a "Relationship Audit" to ensure the proposer was indeed the parent/guardian. A major hurdle arose when they found the policy had been "Revived" just six months before the death. LIC scrutinized the "Declaration of Good Health" to ensure ${ph} hadn't hidden his illness during the revival. Once the "Early Death" investigation was cleared, the waiver was approved. 
+                    <br><br>
+                    At age 25, ${nom} will receive the full Sum Assured and 20 years of bonuses. The total value of the "Waiver" for the family was ₹6,00,000 in saved premiums. This case proves that PWB is not an option—it is a necessity for every parent. It turns a piece of paper into a guaranteed future. For ${nom}, the policy remained a gift from his father that never stopped growing.
+                `
+            }
+        };
+
+        function updateDocList() {
+            const type = document.getElementById('riderType').value;
+            const container = document.getElementById('checkboxContainer');
+            const section = document.getElementById('dynamicDocSection');
+
+            if (!type) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            container.innerHTML = '';
+
+            const scenario = riderScenarios[type];
+            scenario.docs.forEach((doc, index) => {
+                const div = document.createElement('div');
+                div.className = 'checkbox-item';
+                div.innerHTML = `
+                    <input type="checkbox" id="doc_${index}" onchange="updateReadiness()">
+                    <label for="doc_${index}">${doc}</label>
+                `;
+                container.appendChild(div);
+            });
+            updateReadiness();
+        }
+
+        function updateReadiness() {
+            const checkboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
+            const total = checkboxes.length;
+            if (total === 0) return;
+            const checked = Array.from(checkboxes).filter(c => c.checked).length;
+            const percent = Math.round((checked / total) * 100);
+            
+            const bar = document.getElementById('progressBar');
+            const badge = document.getElementById('readinessBadge');
+
+            bar.style.width = percent + '%';
+            bar.innerText = percent + '%';
+
+            if (percent < 100) {
+                badge.className = 'status-badge status-yellow';
+                badge.innerText = 'INCOMPLETE DOCUMENTS';
+            } else {
+                badge.className = 'status-badge status-green';
+                badge.innerText = 'READY FOR BRANCH FILING';
+            }
+        }
+
+        function processRider() {
+            const typeKey = document.getElementById('riderType').value;
+            const ph = document.getElementById('phName').value;
+            const nom = document.getElementById('nomineeName').value;
+            const rel = document.getElementById('relation').value;
+
+            if (!typeKey || !ph || !nom || !rel) {
+                alert("Please complete all Policyholder and Nominee fields.");
+                return;
+            }
+
+            const data = riderScenarios[typeKey];
+            
+            // Populate Results
+            document.getElementById('resPhName').innerText = ph;
+            document.getElementById('resNomDetails').innerText = nom + " (" + rel + ")";
+            document.getElementById('outType').innerText = data.type;
+            document.getElementById('outDesc').innerText = data.desc;
+            document.getElementById('outTimeline').innerText = data.timeline;
+
+            const docListEl = document.getElementById('outDocList');
+            docListEl.innerHTML = '';
+            data.docs.forEach(doc => {
+                const li = document.createElement('li');
+                li.innerText = doc;
+                docListEl.appendChild(li);
+            });
+
+            const rejListEl = document.getElementById('outRejections');
+            rejListEl.innerHTML = '';
+            data.rejections.forEach(rej => {
+                const li = document.createElement('li');
+                li.innerText = rej;
+                rejListEl.appendChild(li);
+            });
+
+            // Populate Narrative
+            document.getElementById('caseStudyText').innerHTML = data.caseStudy(ph, nom, rel);
+
+            document.getElementById('outputSection').style.display = 'block';
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function shareReport() {
+            const ph = document.getElementById('phName').value;
+            const type = document.getElementById('outType').innerText;
+            const text = `📋 LIC Rider Claim Analysis for ${ph}\nScenario: ${type}\nStatus: ${document.getElementById('readinessBadge').innerText}\n\nTrack your accidental benefit readiness in the app!`;
+            
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'LIC Rider Settlement Report',
+                        text: text
+                    });
+                } catch (err) {
+                    console.log('Error sharing:', err);
+                }
+            } else {
+                alert("Share feature is available on mobile devices.");
+            }
+        }
+    </script>
+</body>
+</html>

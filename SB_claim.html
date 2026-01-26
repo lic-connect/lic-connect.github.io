@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Survival Benefit (SB) Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* UI Theme: Strictly Blue and White */
+            --bg-color: #f0f7ff; 
+            --card-bg: #ffffff;
+            --text-main: #002d5a;
+            --text-light: #0056b3;
+            --accent-blue: #0056b3; 
+            --shadow-out: 10px 10px 20px #d0e1f9, -10px -10px 20px #ffffff;
+            --shadow-in: inset 5px 5px 10px #d0e1f9, inset -5px -5px 10px #ffffff;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        /* --- 3D MIRROR TITLE --- */
+        .title-container {
+            perspective: 1000px;
+            margin: 50px auto 80px auto;
+            text-align: center;
+            width: fit-content;
+        }
+
+        .title-box {
+            border: 4px solid var(--accent-blue);
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0, 86, 179, 0.15);
+            transform: rotateX(10deg);
+            transform-style: preserve-3d;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        h1.main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin: 0;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 1px 1px 0px #b3d7ff, 2px 2px 0px #b3d7ff, 4px 4px 0px #0056b3, 5px 5px 10px rgba(0, 86, 179, 0.2);
+            position: relative;
+        }
+
+        h1.main-title::after {
+            content: "SURVIVAL BENEFIT CLAIM";
+            position: absolute;
+            top: 100%;
+            left: 0; right: 0;
+            transform: scaleY(-0.6) translateY(-20px);
+            opacity: 0.2;
+            filter: blur(2px);
+            background: linear-gradient(to bottom, rgba(0, 86, 179, 0), rgba(0, 86, 179, 1));
+            -webkit-background-clip: text;
+            color: transparent;
+            pointer-events: none;
+        }
+
+        /* --- INPUT SECTION --- */
+        .input-card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: var(--shadow-out);
+            margin-bottom: 40px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent-blue);
+            padding-left: 15px;
+            text-transform: uppercase;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: var(--shadow-in);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: #333;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            box-shadow: 0 0 0 2px var(--accent-blue);
+        }
+
+        #dynamicDocSection {
+            margin-top: 30px;
+            display: none;
+            background: #f8fbff;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #cce5ff;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 86, 179, 0.05);
+        }
+
+        .checkbox-item input {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent-blue);
+        }
+
+        .btn-analyze {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+            background: var(--accent-blue);
+            color: white;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 86, 179, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100%;
+        }
+
+        .btn-analyze:hover {
+            transform: translateY(-3px);
+            background: #004085;
+        }
+
+        /* --- OUTPUT SECTION --- */
+        .output-card {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: var(--shadow-out);
+            border-top: 5px solid var(--accent-blue);
+            animation: fadeIn 1s ease;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .result-box {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .result-box h3 {
+            margin-top: 0;
+            color: var(--accent-blue);
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .result-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #002d5a;
+        }
+
+        .progress-container {
+            background: #e6f0ff;
+            border-radius: 20px;
+            height: 25px;
+            width: 100%;
+            margin: 10px 0;
+            overflow: hidden;
+            box-shadow: inset 2px 2px 5px rgba(0, 86, 179, 0.1);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #3395ff, var(--accent-blue));
+            height: 100%;
+            width: 0%;
+            border-radius: 20px;
+            transition: width 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            margin-top: 5px;
+        }
+        .status-red { background: #d63031; }
+        .status-green { background: #00b894; }
+        .status-yellow { background: #0056b3; }
+
+        /* --- CASE STUDY (SOLID BLACK) --- */
+        .case-study {
+            margin-top: 30px;
+            background: #000000 !important;
+            color: #ffffff !important;
+            padding: 35px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .case-study h3 {
+            color: #3395ff;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .case-study::before {
+            content: "\f10d";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 4rem;
+            opacity: 0.1;
+            color: #fff;
+        }
+
+        .action-btn-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-print { background: #0056b3; }
+        .btn-share { background: #002d5a; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 768px) {
+            h1.main-title { font-size: 2rem; }
+            .input-card, .output-card { padding: 20px; }
+        }
+
+        /* Printing Specifics */
+        @media print {
+            .action-btn-group, .btn-analyze { display: none !important; }
+            body { background: white; }
+            .container { padding: 0; }
+            .input-card, .output-card { box-shadow: none; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="title-container">
+            <div class="title-box">
+                <h1 class="main-title">LIC SURVIVAL<br>BENEFIT</h1>
+            </div>
+        </div>
+
+        <!-- INPUT SECTION -->
+        <div class="input-card">
+            <div class="section-header">SB CLAIM INPUT DETAILS</div>
+            <form id="sbForm" onsubmit="event.preventDefault(); processSB();">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Policy Holder Name</label>
+                        <input type="text" id="phName" placeholder="Enter Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nominee Name</label>
+                        <input type="text" id="nomineeName" placeholder="Enter Nominee Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Relation with Nominee</label>
+                        <input type="text" id="relation" placeholder="e.g. Wife, Son, Mother" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Policy Number (720/721/732/734/748/764)</label>
+                        <input type="number" id="policyNo" placeholder="9 Digits" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Survival Benefit Scenario</label>
+                        <select id="sbScenario" required onchange="updateDocList()">
+                            <option value="">-- Select Scenario --</option>
+                            <option value="auto">Automatic SB (Bank Registered)</option>
+                            <option value="manual">Manual SB (Bank Not Updated)</option>
+                            <option value="lapsed">SB Due - Policy Lapsed</option>
+                            <option value="post_death">SB Due - LA Deceased</option>
+                            <option value="multiple">Multiple SBs (Overdue Case)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Policy Status</label>
+                        <select id="policyStatus">
+                            <option value="inforce">In-Force (All premiums paid)</option>
+                            <option value="lapsed">Lapsed (Grace period over)</option>
+                            <option value="paidup">Paid-Up (Terminated but has value)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Dynamic Documents Checkbox Area -->
+                <div id="dynamicDocSection">
+                    <div class="section-header" style="font-size:1.2rem; border-color:#0056b3; margin-bottom:15px;">
+                        Requirement Checklist
+                    </div>
+                    <div class="checkbox-group" id="checkboxContainer"></div>
+                </div>
+
+                <button type="submit" class="btn-analyze">Analyze SB Settlement</button>
+            </form>
+        </div>
+
+        <!-- OUTPUT SECTION -->
+        <div id="outputSection" class="output-card">
+            <div class="section-header">SB SETTLEMENT REPORT</div>
+            
+            <div class="result-grid">
+                <div class="result-box">
+                    <h3>Policyholder</h3>
+                    <div class="result-value" id="resPhName">--</div>
+                </div>
+                <div class="result-box">
+                    <h3>Nominee (Relation)</h3>
+                    <div class="result-value" id="resNomDetails">--</div>
+                </div>
+                <div class="result-box">
+                    <h3>Identified SB Type</h3>
+                    <div class="result-value" id="outType">--</div>
+                    <div style="font-size:0.9rem; color:#666; margin-top:5px;" id="outDesc"></div>
+                </div>
+
+                <div class="result-box">
+                    <h3>Processing Timeline</h3>
+                    <div class="result-value" id="outTimeline">--</div>
+                </div>
+
+                <div class="result-box" style="grid-column: 1 / -1;">
+                    <h3>Submission Requirements</h3>
+                    <ul id="outDocList" style="padding-left:20px; color:#444; margin-top:10px;"></ul>
+                </div>
+
+                <div class="result-box" style="grid-column: 1 / -1;">
+                    <h3>Claim Readiness Status</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar">0%</div>
+                    </div>
+                    <div id="readinessBadge" class="status-badge status-red">NOT READY</div>
+                </div>
+
+                <div class="result-box" style="grid-column: 1 / -1; border-left-color: #d63031;">
+                    <h3>Common Rejection Reasons</h3>
+                    <ul id="outRejections" style="padding-left:20px; color:#c0392b; font-size:0.9rem; font-weight: 600;"></ul>
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS SECTION -->
+            <div class="result-box" style="grid-column: 1 / -1; background: transparent; border: none; padding: 0;">
+                <div class="action-btn-group">
+                    <button class="action-btn btn-print" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print Full Page
+                    </button>
+                    <button class="action-btn btn-share" onclick="shareReport()">
+                        <i class="fas fa-share-alt"></i> Share Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Case Study -->
+            <div class="case-study" id="caseStudyBox">
+                <h3><i class="fas fa-book-open"></i> SB Real-Life Case Study (500+ Words)</h3>
+                <div id="caseStudyText" style="line-height: 1.8; font-size: 0.95rem; color: #ccc;">
+                    --
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sbScenarios = {
+            auto: {
+                type: "AUTOMATIC SB (BANK REGISTERED)",
+                desc: "Direct NEFT credit to the bank account registered in LIC's Master record.",
+                timeline: "On the exact SB Due Date",
+                docs: [
+                    "No physical documents needed if NEFT is already in 'Y' status",
+                    "Verification of Active Bank Account",
+                    "Policy must be in-force"
+                ],
+                rejections: [
+                    "IFSC Change: Bank mergers causing old IFSC to be invalid.",
+                    "Account Closed: SB attempted to a closed or dormant account.",
+                    "Lapsed Status: Policy was not in-force on the SB due date.",
+                    "Signature Mismatch: If the system triggers a random verification audit."
+                ],
+                caseStudy: (ph, nom, rel) => `
+                    <strong>The Case of Mr. ${ph} and his ${rel}, ${nom}: The Hidden Banking Obstacle</strong><br><br>
+                    
+                    The story begins with Mr. ${ph}, a highly disciplined professional who purchased a 20-Year Money Back Plan (Plan 720) with a Sum Assured of ₹15,00,000 to secure the future of his ${rel}, ${nom}. As per the plan's structure, a Survival Benefit (SB) equivalent to 20% of the Sum Assured (₹3,00,000) was scheduled to be paid at the end of the 5th, 10th, and 15th years. Mr. ${ph} had provided his bank details during the proposal stage five years ago and was confident that the "Automatic" payout would happen without a hitch.
+                    <br><br>
+                    However, behind the scenes of the LIC centralized payment system, a digital failure was brewing. In the five years since the policy was issued, the banking sector had undergone a massive consolidation. Mr. ${ph}'s original bank, a localized branch, had been merged into a massive public sector bank. While his account number remained the same, the most critical piece of digital data—the IFSC Code—had been completely replaced. LIC’s "Annuity & SB Master" system, which triggers payments 30 days before the due date, attempted to push the ₹3,00,000 credit using the old IFSC code stored in the master records.
+                    <br><br>
+                    On the anniversary date, Mr. ${ph} and his ${rel} ${nom} waited for the credit notification, but none came. Instead, the transaction entered a "Failed" status in the LIC server and the money was moved into the branch's "Suspense Account." This is a common pain point for thousands of policyholders who assume that "Automatic" means "zero maintenance." Ramesh did not receive an SMS alert because his mobile number had also changed, and he hadn't updated his profile.
+                    <br><br>
+                    The situation caused significant stress at home. ${nom} had planned to use this money for higher education admissions. Mr. ${ph} eventually had to take a day off to visit the LIC Branch. The clerk identified that the payment had returned due to "No Such Branch (IFSC Mismatch)." To resolve this, a fresh NEFT Mandate was required. Mr. ${ph} had to provide a cancelled cheque with his name printed on it and his new IFSC code. 
+                    <br><br>
+                    Furthermore, the system triggered a random "Signature Verification" check. LIC periodically audits high-value auto-payments to prevent fraud. The signature Mr. ${ph} used on the new mandate form slightly differed from his 5-year-old proposal signature. This added another layer of delay as the branch requested a bank-attestation of his signature. 
+                    <br><br>
+                    Ultimately, after ten days of administrative follow-ups, the status of the SB was updated to "Cleared" and the credit was released. This case illustrates that even the best automated systems in LIC require the policyholder to perform a "Data Audit" every few years. For agents and policyholders, the takeaway is clear: ensure the bank IFSC and mobile number are current, especially after bank mergers, to avoid the transition from an "Auto" payout to a "Manual" struggle.
+                `
+            },
+            manual: {
+                type: "MANUAL SB CLAIM (BANK NOT UPDATED)",
+                desc: "Manual filing required due to missing bank details or signature verification.",
+                timeline: "10-15 Working Days after submission",
+                docs: [
+                    "Survival Benefit Discharge Form (Form 3825 equivalent)",
+                    "Original Policy Bond (for verification only)",
+                    "Cancelled Cheque with Name Printed",
+                    "Self-attested PAN and Aadhaar",
+                    "Signature Attestation (if signature differs from proposal)"
+                ],
+                rejections: [
+                    "Signature Mismatch: Signatures on the discharge form not matching the 10-year-old proposal.",
+                    "Third-Party Bank: Account not in the name of the policyholder.",
+                    "No PAN: SB amount > ₹1 Lakh requires a PAN for high-value clearance."
+                ],
+                caseStudy: (ph, nom, rel) => `
+                    <strong>The Manual Documentation Struggle of Ms. ${ph}</strong><br><br>
+                    
+                    Ms. ${ph} had purchased a Single Premium Money Back policy (Bima Bachat - Plan 748) nearly nine years ago. She had appointed ${nom} (her ${rel}) as the primary beneficiary. Since she had dealt with an old agent who was no longer in the business, her bank details were never digitally captured in LIC’s database. As the 9th-year Survival Benefit of ₹4,00,000 approached, she received a physical "SB Discharge Voucher" via post from her base branch.
+                    <br><br>
+                    The first obstacle ${ph} faced was the sheer technicality of the Discharge Voucher. Many policyholders, including ${ph}, mistakenly believe this form is just a notification. In reality, it is a legal receipt. By signing it, she acknowledges that she is alive and that upon payment, LIC is discharged of its liability for that specific installment. When she visited the branch to submit the form, she found that her current signature had evolved significantly since her 30s. The digital scan of her proposal form showed a cursive signature, while her current style was more block-based.
+                    <br><br>
+                    The branch clerk immediately flagged this as a "Signature Mismatch." For a ₹4 Lakh payout, the clerk could not take a risk. ${ph} was asked to go to her bank and get her signature attested on a bank-authorized letterhead. This required two trips to the bank and waiting for the manager’s approval. This physical loop is what makes manual claims so exhausting for policyholders who live far from their base branches.
+                    <br><br>
+                    Next came the bank proof requirement. Ananya provided a photocopy of her passbook. However, the clerk rejected it because the passbook was handwritten and the ink was faded. LIC's internal "Claims Manual" strictly mandates a "Cancelled Cheque with Name Printed" or a "System-generated Passbook copy" to ensure the account number is 100% accurate. Ananya had to order a new chequebook, which delayed the claim by another 7 days.
+                    <br><br>
+                    Furthermore, since the SB amount was over ₹1,00,000, the branch insisted on a PAN card copy for High-Value reporting. ${ph} realized her PAN was not linked to her policy. This required her to fill out an additional KYC update form. The nominee, ${nom}, assisted her in compiling all these documents into a single docket.
+                    <br><br>
+                    Once the docket was submitted, it moved through the "Maker-Checker" workflow. A clerk entered the data, an Assistant Administrative Officer verified it, and the Branch Manager finally authorized the digital voucher. After 14 working days of back-and-forth, the funds were finally credited via NEFT. This case highlights that manual SB claims are often a test of patience. The lesson for policyholders like ${ph} is to register NEFT details through the LIC Portal at least six months before an SB becomes due to avoid the "Paperwork Trap."
+                `
+            },
+            lapsed: {
+                type: "SB DUE - POLICY LAPSED",
+                desc: "SB is 'withheld' by the system because the policy is not in-force.",
+                timeline: "7-10 Days after Revival",
+                docs: [
+                    "Revival / Quoted Premium Receipt",
+                    "DGH (Declaration of Good Health) if required",
+                    "SB Discharge Form",
+                    "NEFT Mandate"
+                ],
+                rejections: [
+                    "Non-Revival: SB cannot be paid if the policy is in a 'Lapsed' state.",
+                    "Partial Payment: Attempting to revive without paying the full interest/fine.",
+                    "Status Lag: Policy status takes 24 hours to sync after premium payment."
+                ],
+                caseStudy: (ph, nom, rel) => `
+                    <strong>Mr. ${ph}: The Myth of "Automatic Premium Adjustment"</strong><br><br>
+                    
+                    Mr. ${ph} held a Money Back policy (Plan 721) where a 15% SB of ₹90,000 was due in the 8th year. His ${rel}, ${nom}, was the nominee. During a period of financial hardship, Mr. ${ph} had missed two half-yearly premiums of ₹12,000 each. By the time the SB was due, his policy had technically lapsed. Mr. ${ph} was under the impression that LIC would simply deduct the missing ₹24,000 from his ₹90,000 SB and pay him the balance of ₹66,000. 
+                    <br><br>
+                    This is perhaps the most common misconception in LIC Money Back policies. When ${ph} checked his account on the due date, it was empty. He visited the branch with ${nom} to complain. The Branch Manager explained the "In-Force Status Rule": LIC's system is automated. If the policy status is anything other than "In-Force" (Premiums paid up to date), the SB voucher is never even created. The system "withholds" the benefit entirely. 
+                    <br><br>
+                    To unlock his ₹90,000, Mr. ${ph} had to first "Revive" the policy. This involved paying the two missing premiums plus a 9.5% per annum late fee. The total outgo for him was approximately ₹26,500. He also had to sign a "Declaration of Good Health" (DGH) to prove he was still eligible for the life cover intended for ${nom}. This felt like a financial double-burden—he had to pay money to get his own money back.
+                    <br><br>
+                    The agent intervened and helped ${ph} understand that the "Protection Contract" for his ${rel} ${nom} must be restored first. Once the cash counter accepted the revival premium, the policy status shifted to "In-Force." However, there is a "Status Sync Lag." It took 24 hours for the "Revival Module" to communicate with the "Claims Module."
+                    <br><br>
+                    On the third day, the SB Voucher was manually triggered by the clerk. Because it was an "Overdue SB," it required higher authority approval from the Divisional Office's server. It took 8 days for the system to process the NEFT. 
+                    <br><br>
+                    This case highlights a vital strategic lesson: **SB is the best tool to restore life cover.** While ${ph} had to pay to revive, he received a much larger amount back shortly after, and his protection for ${nom} was fully restored. Agents must educate policyholders that if they let their policy lapse, they are effectively locking their own savings. Always keep the policy active to ensure the SB arrives as a "reward" rather than a "recovery effort."
+                `
+            },
+            post_death: {
+                type: "SB DUE - LA DECEASED",
+                desc: "SB is NOT payable after death. It is merged into the Death Claim.",
+                timeline: "Settled with Death Claim (30-45 Days)",
+                docs: [
+                    "Death Certificate (Original)",
+                    "Claim Form A (Claimant Statement)",
+                    "Original Policy Bond",
+                    "Nominee Bank Details",
+                    "Relationship Proof (Aadhaar of Nominee)"
+                ],
+                rejections: [
+                    "Double Claiming: Nominee attempting to claim SB separately from the death claim.",
+                    "SB date after death date: SB is a survival benefit only.",
+                    "Lapse on Death: If the policy was not in force at the time of death."
+                ],
+                caseStudy: (ph, nom, rel) => `
+                    <strong>The Daughter's Legal Journey: ${nom} and the Case of the Late Mr. ${ph}</strong><br><br>
+                    
+                    Mr. ${ph} had purchased a Money Back policy specifically to fund the higher education of his ${rel}, ${nom}. An installment of the Survival Benefit (SB) was due on December 20, 2023. Tragically, Mr. ${ph} passed away on November 10, 2023. His ${rel}, ${nom}, visited the branch in late December, hoping to receive the SB installment her father had promised would help with her semester fees.
+                    <br><br>
+                    She was met with a difficult legal reality. The Branch Manager explained the "Existence Principle." A Survival Benefit is a reward for the policyholder *surviving* to a specific date. Since Mr. ${ph} passed away before the due date, that specific SB installment was technically cancelled. Instead, the contract had shifted from a "Survival" agreement to a "Protection" agreement. 
+                    <br><br>
+                    ${nom} was confused and felt that the Dec 20th money was being "lost." The manager sat her down and explained the math: While the SB of ₹1,00,000 was cancelled, the "Death Benefit" was now triggered, which amounted to 125% of the Sum Assured plus all accrued bonuses. This total amount was significantly larger than the SB. However, the documentation for this was far more intensive.
+                    <br><br>
+                    Since this was no longer a survival payout, ${nom} had to provide the Original Death Certificate, her father's Original Policy Bond, and "Claim Form A." She also had to undergo KYC verification. Because her father had died "Early" (within 3 years of policy start), LIC conducted a standard investigation to ensure there was no pre-existing illness. This added a 30-day delay to her payout.
+                    <br><br>
+                    The system internally "Suppressed" the SB voucher for Dec 20th to prevent a double-payout error. If ${ph} had died on Dec 21st (just one day after the SB date), ${nom} would have received BOTH the SB (as his heir) and the death claim. This timing is a frequent point of frustration for nominees.
+                    <br><br>
+                    Ultimately, ${nom} received the full death claim of ₹18,50,000. This case serves as a critical educational tool for nominees: **SB and Death Benefits are mutually exclusive.** After death, the survival milestones are ignored, and the focus shifts to the full protection payout. It is essential for beneficiaries to understand that the "Survival" part of the policy dies with the policyholder, and they must immediately pivot to the Death Claim process.
+                `
+            },
+            multiple: {
+                type: "MULTIPLE SBs (OVERDUE CASE)",
+                desc: "Settlement of two or more 'missed' SB installments in a single transaction.",
+                timeline: "15-20 Days",
+                docs: [
+                    "Combined SB Discharge Form",
+                    "Original Policy Bond",
+                    "Confirmed Bank NEFT Details",
+                    "KYC Documents (High Value Audit)"
+                ],
+                rejections: [
+                    "Interest Expectation: LIC does not pay interest on 'Unclaimed' SBs.",
+                    "Dormant Master: Policy master needs manual unlocking if SBs are very old.",
+                    "Partial Claim: Attempting to claim one SB while another remains pending."
+                ],
+                caseStudy: (ph, nom, rel) => `
+                    <strong>The Forgotten Wealth of Mr. ${ph} and his ${rel} ${nom}</strong><br><br>
+                    
+                    Mr. ${ph} was a businessman who had moved across three different states for work over the last 15 years. In the chaos of his relocation, he had forgotten about an old LIC Money Back plan (Plan 764) he had taken in his hometown. He had appointed his ${rel}, ${nom}, as the nominee. One day, while clearing an old bank locker, he found the original bond and realized he had missed not one, but *three* Survival Benefits (Year 5, Year 10, and Year 15).
+                    <br><br>
+                    Totaling ₹6,00,000, these "Unclaimed SBs" were sitting in LIC's dormant ledgers. Anil went to the branch with ${nom} to retrieve his funds. He expected that LIC would pay him interest on the ₹6 Lakhs since they had held his money for over a decade. However, he learned a hard lesson: Under LIC's "Unclaimed Funds Policy," no interest is payable on Survival Benefits that remain unclaimed due to the policyholder's failure to provide bank details.
+                    <br><br>
+                    The retrieval process was complex. Because the SBs were so old, the "Annuity Master" record for his policy had been marked as "Dormant" to prevent cyber-fraud. The clerk had to initiate a "Master Unlocking" request through the Divisional Office. This took five working days just for the system to become ready for a new entry.
+                    <br><br>
+                    Since the amount was ₹6,00,000, it triggered a "Special Audit." LIC required a "Letter of Continuity" and a "Recent Photograph with the Policy Bond." The branch had to ensure that the Mr. ${ph} standing before them was the same person who took the policy 15 years ago. His ${rel} ${nom} also had to update her KYC as the nominee.
+                    <br><br>
+                    The clerk prepared a "Consolidated Voucher" that bundled all three SB installments into a single NEFT transaction. This manual bundling required the Branch Manager’s special "Digital Key" for authorization. 
+                    <br><br>
+                    Finally, the money hit Anil's account. While he received the full ₹6 Lakhs, he realized that due to inflation, the value of the Year-5 SB had significantly eroded. This case highlights the "Inertia Cost" of forgotten policies. Agents must perform "Policy Audits" for their clients every 2-3 years to ensure no Survival Benefits are left "Unclaimed" in LIC’s vaults. The money is safe, but it is not growing.
+                `
+            }
+        };
+
+        function updateDocList() {
+            const type = document.getElementById('sbScenario').value;
+            const container = document.getElementById('checkboxContainer');
+            const section = document.getElementById('dynamicDocSection');
+
+            if (!type) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            container.innerHTML = '';
+
+            const scenario = sbScenarios[type];
+            scenario.docs.forEach((doc, index) => {
+                const div = document.createElement('div');
+                div.className = 'checkbox-item';
+                div.innerHTML = `
+                    <input type="checkbox" id="doc_${index}" onchange="updateReadiness()">
+                    <label for="doc_${index}">${doc}</label>
+                `;
+                container.appendChild(div);
+            });
+            updateReadiness();
+        }
+
+        function updateReadiness() {
+            const checkboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
+            const total = checkboxes.length;
+            const checked = Array.from(checkboxes).filter(c => c.checked).length;
+            const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
+            
+            const bar = document.getElementById('progressBar');
+            const badge = document.getElementById('readinessBadge');
+
+            bar.style.width = percent + '%';
+            bar.innerText = percent + '%';
+
+            if (percent < 100) {
+                badge.className = 'status-badge status-yellow';
+                badge.innerText = 'INCOMPLETE';
+            } else {
+                badge.className = 'status-badge status-green';
+                badge.innerText = 'READY FOR NEFT';
+            }
+        }
+
+        function processSB() {
+            const typeKey = document.getElementById('sbScenario').value;
+            const ph = document.getElementById('phName').value;
+            const nom = document.getElementById('nomineeName').value;
+            const rel = document.getElementById('relation').value;
+
+            if (!typeKey || !ph || !nom || !rel) {
+                alert("Please fill all Policyholder and Nominee details.");
+                return;
+            }
+
+            const data = sbScenarios[typeKey];
+            
+            // Populate Result Fields
+            document.getElementById('resPhName').innerText = ph;
+            document.getElementById('resNomDetails').innerText = nom + " (" + rel + ")";
+            document.getElementById('outType').innerText = data.type;
+            document.getElementById('outDesc').innerText = data.desc;
+            document.getElementById('outTimeline').innerText = data.timeline;
+
+            const docListEl = document.getElementById('outDocList');
+            docListEl.innerHTML = '';
+            data.docs.forEach(doc => {
+                const li = document.createElement('li');
+                li.innerText = doc;
+                docListEl.appendChild(li);
+            });
+
+            const rejListEl = document.getElementById('outRejections');
+            rejListEl.innerHTML = '';
+            data.rejections.forEach(rej => {
+                const li = document.createElement('li');
+                li.innerText = rej;
+                rejListEl.appendChild(li);
+            });
+
+            // Populate Case Study using names
+            document.getElementById('caseStudyText').innerHTML = data.caseStudy(ph, nom, rel);
+
+            document.getElementById('outputSection').style.display = 'block';
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function shareReport() {
+            const ph = document.getElementById('phName').value;
+            const status = document.getElementById('readinessBadge').innerText;
+            const text = `📋 LIC Survival Benefit Report for ${ph}\nStatus: ${status}\nNominee: ${document.getElementById('nomineeName').value}\n\nDownload the full report in the app!`;
+            
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'LIC SB Settlement Analysis',
+                        text: text
+                    });
+                } catch (err) {
+                    console.log('Error sharing:', err);
+                }
+            } else {
+                alert("Sharing is supported on mobile devices. Please use 'Print Full Page' to save as PDF on desktop.");
+            }
+        }
+    </script>
+</body>
+</html>

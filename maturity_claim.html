@@ -1,0 +1,673 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Maturity Claim Process</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* UI Theme: Blue and White */
+            --bg-color: #f0f7ff; 
+            --card-bg: #ffffff;
+            --text-main: #002d5a;
+            --text-light: #0056b3;
+            --accent-blue: #0056b3; 
+            --shadow-out: 10px 10px 20px #d0e1f9, -10px -10px 20px #ffffff;
+            --shadow-in: inset 5px 5px 10px #d0e1f9, inset -5px -5px 10px #ffffff;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        /* --- 3D MIRROR TITLE --- */
+        .title-container {
+            perspective: 1000px;
+            margin: 50px auto 80px auto;
+            text-align: center;
+            width: fit-content;
+        }
+
+        .title-box {
+            border: 4px solid var(--accent-blue);
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0, 86, 179, 0.15);
+            transform: rotateX(10deg);
+            transform-style: preserve-3d;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        h1.main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin: 0;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 1px 1px 0px #b3d7ff, 2px 2px 0px #b3d7ff, 4px 4px 0px #0056b3, 5px 5px 10px rgba(0, 86, 179, 0.2);
+            position: relative;
+        }
+
+        h1.main-title::after {
+            content: "MATURITY CLAIM PROCESS";
+            position: absolute;
+            top: 100%;
+            left: 0; right: 0;
+            transform: scaleY(-0.6) translateY(-20px);
+            opacity: 0.2;
+            filter: blur(2px);
+            background: linear-gradient(to bottom, rgba(0, 86, 179, 0), rgba(0, 86, 179, 1));
+            -webkit-background-clip: text;
+            color: transparent;
+            pointer-events: none;
+        }
+
+        /* --- INPUT SECTION --- */
+        .input-card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: var(--shadow-out);
+            margin-bottom: 40px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent-blue);
+            padding-left: 15px;
+            text-transform: uppercase;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: var(--shadow-in);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: #333;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            box-shadow: 0 0 0 2px var(--accent-blue);
+        }
+
+        #dynamicDocSection {
+            margin-top: 30px;
+            display: none;
+            background: #f8fbff;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #cce5ff;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 86, 179, 0.05);
+        }
+
+        .checkbox-item input {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent-blue);
+        }
+
+        .btn-analyze {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+            background: var(--accent-blue);
+            color: white;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 86, 179, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100%;
+        }
+
+        .btn-analyze:hover {
+            transform: translateY(-3px);
+            background: #004085;
+        }
+
+        /* --- OUTPUT SECTION --- */
+        .output-card {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: var(--shadow-out);
+            border-top: 5px solid var(--accent-blue);
+            animation: fadeIn 1s ease;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .result-box {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .result-box h3 {
+            margin-top: 0;
+            color: var(--accent-blue);
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .result-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #002d5a;
+        }
+
+        .progress-container {
+            background: #e6f0ff;
+            border-radius: 20px;
+            height: 25px;
+            width: 100%;
+            margin: 10px 0;
+            overflow: hidden;
+            box-shadow: inset 2px 2px 5px rgba(0, 86, 179, 0.1);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #3395ff, var(--accent-blue));
+            height: 100%;
+            width: 0%;
+            border-radius: 20px;
+            transition: width 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            margin-top: 5px;
+        }
+        .status-red { background: #d63031; }
+        .status-green { background: #00b894; }
+        .status-yellow { background: #0056b3; }
+
+        /* --- CASE STUDY (BLACK BACKGROUND) --- */
+        .case-study {
+            margin-top: 30px;
+            background: #000000 !important;
+            color: #ffffff !important;
+            padding: 35px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+
+        .case-study h3 {
+            color: #3395ff;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .case-study::before {
+            content: "\f10d";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 4rem;
+            opacity: 0.1;
+            color: #fff;
+        }
+
+        .action-btn-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-print { background: #0056b3; }
+        .btn-share { background: #002d5a; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 768px) {
+            h1.main-title { font-size: 2rem; }
+            .input-card, .output-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="title-container">
+            <div class="title-box">
+                <h1 class="main-title">LIC MATURITY<br>CLAIM</h1>
+            </div>
+        </div>
+
+        <!-- INPUT SECTION -->
+        <div class="input-card">
+            <div class="section-header">POLICY MATURITY DETAILS</div>
+            <form id="maturityForm" onsubmit="event.preventDefault(); processMaturity();">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Policy Holder Name</label>
+                        <input type="text" id="phName" placeholder="As per Policy Bond" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Policy Number</label>
+                        <input type="number" id="policyNo" placeholder="9 Digits" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Maturity Date</label>
+                        <input type="date" id="maturityDate" required onchange="updateDocList()">
+                    </div>
+                    <div class="form-group">
+                        <label>Claim Type</label>
+                        <select id="maturityType" required onchange="updateDocList()">
+                            <option value="">-- Select Maturity Type --</option>
+                            <option value="normal">Normal Maturity (Survival)</option>
+                            <option value="moneyback">Money Back (Final Maturity)</option>
+                            <option value="ulip">ULIP Vesting / Maturity</option>
+                            <option value="nominee_maturity">Maturity to Nominee (LA Deceased)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sum Assured (Optional)</label>
+                        <input type="number" id="sumAssured" placeholder="Base Sum Assured">
+                    </div>
+                    <div class="form-group">
+                        <label>Bank Account Number</label>
+                        <input type="text" id="accNo" placeholder="For NEFT Transfer">
+                    </div>
+                    <div class="form-group">
+                        <label>IFSC Code</label>
+                        <input type="text" id="ifsc" placeholder="Bank Branch IFSC">
+                    </div>
+                    <div class="form-group">
+                        <label>PAN Card Number</label>
+                        <input type="text" id="pan" placeholder="Mandatory if > 1 Lakh">
+                    </div>
+                </div>
+
+                <!-- Dynamic Documents Checkbox Area -->
+                <div id="dynamicDocSection">
+                    <div class="section-header" style="font-size:1.2rem; border-color:#0056b3; margin-bottom:15px;">
+                        Maturity Document Checklist
+                    </div>
+                    <div class="checkbox-group" id="checkboxContainer"></div>
+                </div>
+
+                <button type="submit" class="btn-analyze">Verify Maturity Process</button>
+            </form>
+        </div>
+
+        <!-- OUTPUT SECTION -->
+        <div id="outputSection" class="output-card">
+            <div class="section-header">MATURITY SETTLEMENT REPORT</div>
+            
+            <div class="result-grid">
+                <div class="result-box">
+                    <h3>Identified Maturity Scenario</h3>
+                    <div class="result-value" id="outType">--</div>
+                    <div style="font-size:0.9rem; color:#666; margin-top:5px;" id="outDesc"></div>
+                </div>
+
+                <div class="result-box">
+                    <h3>Processing Timeline</h3>
+                    <div class="result-value" id="outTimeline">--</div>
+                </div>
+
+                <div class="result-box" style="grid-column: 1 / -1;">
+                    <h3>Submission Requirements</h3>
+                    <ul id="outDocList" style="padding-left:20px; color:#444; margin-top:10px;"></ul>
+                </div>
+
+                <div class="result-box" style="grid-column: 1 / -1;">
+                    <h3>Claim Readiness Status</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar">0%</div>
+                    </div>
+                    <div id="readinessBadge" class="status-badge status-red">NOT READY</div>
+                </div>
+
+                <div class="result-box">
+                    <h3>Common Delay Reasons</h3>
+                    <ul id="outDelays" style="padding-left:20px; color:#c0392b; font-size:0.9rem;"></ul>
+                </div>
+            </div>
+
+            <div class="result-box" style="grid-column: 1 / -1; background: transparent; border: none; padding: 0;">
+                <div class="action-btn-group">
+                    <button class="action-btn btn-print" onclick="window.print()">
+                        <i class="fas fa-print"></i> Save as PDF
+                    </button>
+                    <button class="action-btn btn-share" onclick="shareReport()">
+                        <i class="fas fa-share-alt"></i> Share Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Case Study -->
+            <div class="case-study" id="caseStudyBox">
+                <h3><i class="fas fa-book-open"></i> Detailed Maturity Case Study</h3>
+                <div id="caseStudyText" style="line-height: 1.8; font-size: 0.95rem; color: #ccc;">
+                    --
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const maturityScenarios = {
+            normal: {
+                type: "NORMAL MATURITY SETTLEMENT",
+                desc: "Standard survival benefit payout at the end of the policy term.",
+                timeline: "15-30 Days before Maturity Date",
+                docs: [
+                    "Original Policy Bond (Mandatory)",
+                    "LIC Discharge Form (Form No. 3825)",
+                    "NEFT Mandate Form with Cancelled Cheque",
+                    "Self-attested Aadhaar & PAN Card",
+                    "Recent Photograph of Policyholder",
+                    "Re-KYC Form (if policy is very old)"
+                ],
+                delays: [
+                    "Signature mismatch on Discharge Form",
+                    "Old bank account details in LIC records",
+                    "Missing Original Bond"
+                ],
+                caseStudy: `
+                    <strong>Subject Profile:</strong> Mr. Arvind Mehta, age 55, a government employee.<br>
+                    <strong>Policy Details:</strong> New Endowment Plan (Table 814), Sum Assured: ₹10,00,000, Term: 20 years.<br><br>
+                    
+                    <strong>1. Pre-Maturity Planning:</strong> Mr. Mehta had been paying premiums for 20 years. As the policy neared its maturity date (March 15, 2024), he received a 'Maturity Intimation' letter from LIC two months in advance. This letter is the first crucial step, alerting the policyholder to begin document compilation. However, many policyholders ignore this, leading to last-minute rushes.<br><br>
+
+                    <strong>2. The Documentation Phase:</strong> Arvind visited his branch with the original policy bond. The bond is the most critical document; without it, an indemnity bond is required, which delays the process by 30 days. He was given Form 3825 (The Discharge Voucher). This form is a legal receipt acknowledging that upon payment, LIC is discharged of all liabilities. A major hurdle Arvind faced was his signature. Having signed the proposal form 20 years ago, his current signature had evolved. The branch manager requested a 'Signature Attestation' from his bank to verify his identity.<br><br>
+
+                    <strong>3. Calculation of Payout:</strong> The maturity amount consists of the Sum Assured + Accumulated Simple Reversionary Bonuses + Final Additional Bonus (FAB). For Mr. Mehta, the SA was ₹10 Lakhs. The bonus rate for Table 814 over 20 years averaged ₹42 per thousand per year, totaling ₹8,40,000. The FAB, applicable for 20-year terms, added another ₹70,000. The gross payout was calculated at ₹19,10,000.<br><br>
+
+                    <strong>4. The NEFT/Digital Workflow:</strong> LIC no longer issues physical cheques for maturity. Arvind provided a cancelled cheque with his name printed on it. This is mandatory to prevent 'wrong-credit' errors. The branch processed the 'Maturity Master' entry in their Integrated New Operating System (e-Feap). This entry locks the payout calculation and flags any outstanding policy loans. Arvind had an old loan of ₹50,000 which was automatically deducted along with interest from the final amount.<br><br>
+
+                    <strong>5. Resolution and Settlement:</strong> After the signature was verified and the loan adjusted, the net amount of ₹18,45,000 was scheduled for release. On the morning of March 15, 2024 (the exact maturity date), Arvind received an SMS notification. The funds were credited via NEFT at 11:00 AM. <br><br>
+
+                    <strong>6. Final Conclusion:</strong> This case highlights the 'Grand Finale' of a disciplined savings journey. The keys to success were responding to the intimation letter early, ensuring bank KYC was updated, and keeping the original bond safe. For agents, this is the best time to suggest 'Re-investment' of the maturity proceeds into a pension plan like Jeevan Akshay.`
+            },
+            moneyback: {
+                type: "MONEY BACK - FINAL MATURITY",
+                desc: "Final installment of Sum Assured + full accumulated bonuses.",
+                timeline: "20-30 Days before Maturity Date",
+                docs: [
+                    "Original Policy Bond",
+                    "Discharge Form (Form 3825)",
+                    "NEFT Mandate & Bank Proof",
+                    "ID/Address Proof",
+                    "Summary of previous SB Payouts"
+                ],
+                delays: [
+                    "Unclaimed previous Survival Benefits (SB)",
+                    "Loan adjustments against final bonus",
+                    "IFSC code changes due to bank mergers"
+                ],
+                caseStudy: `
+                    <strong>Subject Profile:</strong> Mrs. Sunita Rao, age 48, a small business owner.<br>
+                    <strong>Policy Details:</strong> 20-Year Money Back Plan (Table 820), Sum Assured: ₹5,00,000.<br><br>
+
+                    <strong>1. The Liquidity Journey:</strong> Unlike Endowment plans, Mrs. Rao's policy paid her 20% of the Sum Assured (₹1 Lakh) every 5th, 10th, and 15th year. She had already received ₹3 Lakhs over the last 15 years. Now, in the 20th year, she was eligible for the remaining 40% of the SA plus the *entire* bonus earned over 20 years.<br><br>
+
+                    <strong>2. The Surprise Hurdle:</strong> Upon visiting the branch, Sunita found that her 10th-year Survival Benefit (SB) was still showing as 'Unclaimed' in the LIC portal. She had changed her bank account 10 years ago and the cheque had returned to the branch. LIC rules state that final maturity cannot be settled if previous installments are 'hanging' in the system. She had to submit a 'Request for Re-issue' for the old SB along with the final maturity documents.<br><br>
+
+                    <strong>3. Technical Calculations:</strong> The final payout was 40% of SA (₹2,00,000) + Total Bonus (20 years x SA x Rate). For Table 820, the bonus is calculated on the *Full Sum Assured* (₹5 Lakhs), not the remaining balance. This is a common point of confusion for policyholders. Her total bonus amounted to ₹4,20,000. Total expected: ₹6,20,000.<br><br>
+
+                    <strong>4. Document Scrutiny:</strong> The branch clerk noticed that Sunita’s PAN card was not linked to her policy. Under Section 194DA of the Income Tax Act, if the maturity proceeds are not exempt under 10(10D), TDS at 5% is applicable on the 'Income' portion. Since her annual premium was less than 10% of SA, her payout was exempt, but the PAN was still required to clear the 'High Value' payout threshold (>₹1 Lakh).<br><br>
+
+                    <strong>5. Workflow and Approval:</strong> Because Sunita had an unclaimed SB from the past, the file required approval from the 'Manager (Claims)' at the Divisional Office. The local branch scanned the documents and uploaded them to the 'Electronic Document Management System' (EDMS). This digital shift has reduced the time for DO approval from weeks to 48 hours.<br><br>
+
+                    <strong>6. Final Settlement:</strong> The unclaimed SB of ₹1 Lakh (plus minor interest for the delay) and the final maturity of ₹6,20,000 were processed. She received two separate NEFT credits on her maturity date. This case demonstrates the importance of tracking Survival Benefits. If she hadn't claimed the old SB, her final maturity would have been delayed indefinitely. It also proves that Money Back plans offer a 'Lump Sum' bonus at the end that often exceeds the base SA installments.`
+            },
+            ulip: {
+                type: "ULIP VESTING / MATURITY",
+                desc: "Market-linked fund value payout. No fixed bonus.",
+                timeline: "30 Days before Vesting Date",
+                docs: [
+                    "Vesting Discharge Form",
+                    "Original Policy Bond",
+                    "Latest Fund Statement",
+                    "Bank Account Proof",
+                    "PAN Card (Mandatory for ULIPs)"
+                ],
+                delays: [
+                    "NAV fluctuation on the date of maturity",
+                    "Switching requests pending near maturity",
+                    "Incorrect IFSC for large value transfers"
+                ],
+                caseStudy: `
+                    <strong>Subject Profile:</strong> Mr. Sameer Khanna, age 40, IT professional.<br>
+                    <strong>Policy Details:</strong> LIC SIIP (Plan 852), Annual Premium: ₹1,00,000, Term: 10 Years.<br><br>
+
+                    <strong>1. The Market Linkage:</strong> Mr. Khanna’s policy was a Unit Linked Insurance Plan (ULIP). Unlike traditional plans, there is no guaranteed bonus. The maturity value depends entirely on the Net Asset Value (NAV) of the chosen fund (Growth/Balanced/Bond) on the exact date of maturity. Sameer was invested 100% in the 'Growth Fund'.<br><br>
+
+                    <strong>2. NAV Timing Strategy:</strong> LIC rules dictate that the units are liquidated at the NAV of the 'Maturity Date' provided the papers are submitted in advance. If the maturity date falls on a Sunday or public holiday, the NAV of the next working day is applied. Sameer was worried about a market dip. He submitted his papers 30 days early to ensure there were no 'Administrative Defaults' that might delay the unit liquidation.<br><br>
+
+                    <strong>3. The Mortality Charge Refund:</strong> A unique feature of LIC's SIIP is the 'Refund of Mortality Charges'. Throughout the 10 years, LIC deducted charges for the life cover. Upon maturity (survival), these charges are added back to the fund value. For Sameer, this added approximately ₹22,000 to his final unit count. Many policyholders are unaware of this 'loyalty' feature.<br><br>
+
+                    <strong>4. Document Processing:</strong> Sameer’s discharge form was slightly different from the traditional Form 3825. It included a 'Fund Liquidation' clause. He also had to ensure his Aadhaar was linked to his PAN (as per current SEBI/IRDAI guidelines for market-linked products). The branch used the 'NAV Locking' tool to ensure that his units were 'Marked for Maturity' and could not be switched to other funds in the final 15 days.<br><br>
+
+                    <strong>5. Settlement Workflow:</strong> On the maturity date, the system calculated: (Total Units + Mortality Refund Units) x Closing NAV. Total Units: 18,500. NAV: ₹58.20. Fund Value: ₹10,76,700. Since this was a ULIP with premiums below ₹2.5 Lakhs (old rule), the entire amount was tax-free under 10(10D).<br><br>
+
+                    <strong>6. Final Outcome:</strong> The money was credited within 4 working days after the maturity date. This delay is standard for ULIPs as units must be sold in the market and funds settled. Sameer’s case highlights the need for fund monitoring. If he had switched to a 'Bond Fund' 6 months before maturity, he could have protected his gains from the 2% market dip that happened just 3 days before his policy matured.`
+            },
+            nominee_maturity: {
+                type: "MATURITY TO NOMINEE (DEATH CASE)",
+                desc: "Settlement where the Life Assured died but the claim wasn't settled or policy continued.",
+                timeline: "30-45 Days (Requires verification)",
+                docs: [
+                    "Original Policy Bond",
+                    "Death Certificate of Life Assured",
+                    "Nominee ID & Bank Proof",
+                    "Form No. 3783 (Claimant Statement)",
+                    "Succession Certificate (if no nomination)"
+                ],
+                delays: [
+                    "Nominee name mismatch with ID",
+                    "Dispute among legal heirs",
+                    "Death not intimated to LIC previously"
+                ],
+                caseStudy: `
+                    <strong>Subject Profile:</strong> Late Mr. Rajesh Iyer (LA) and his son, Aditya Iyer (Nominee).<br>
+                    <strong>Policy Details:</strong> Jeevan Labh (Table 936), Sum Assured: ₹20,00,000.<br><br>
+
+                    <strong>1. The Unusual Context:</strong> Mr. Rajesh Iyer passed away in the 14th year of a 16-year policy. The family had intimated the death and received the 'Death Sum Assured' (Basic SA). However, under the specific terms of some LIC plans (or if the death happened just days before maturity), a 'Final Maturity' component involving vested bonuses might still be payable to the nominee upon the 'Expiry of the Term'.<br><br>
+
+                    <strong>2. The Documentation Hurdle:</strong> Aditya, the son, had to prove he was the valid nominee listed in the 'Master Record'. He discovered that his father had originally nominated his mother, who had also passed away. This created a 'Dead Nomination' scenario. Aditya had to provide a 'Certified Copy of Legal Heirship' and a 'No-Objection Certificate' (NOC) from his elder sister to receive the maturity proceeds.<br><br>
+
+                    <strong>3. Verification of Identity:</strong> LIC requested Aditya to provide an 'Indemnity Bond' because the original policy bond was lost during the family’s relocation after the father's death. Losing the bond in a death-maturity case is a major complication. Aditya had to publish a 'Loss of Policy' notice in a local newspaper and wait 15 days for any objections before LIC would process the claim.<br><br>
+
+                    <strong>4. Payout Structure:</strong> The maturity benefit in this case consisted of the 'Vested Reversionary Bonus' for 16 years + 'Final Additional Bonus'. Since the death claim (SA) was already paid, this second payout was essentially the 'Wealth Accumulation' part of the policy. The total bonus amounted to ₹12,40,000. <br><br>
+
+                    <strong>5. Legal Scrutiny:</strong> The file was referred to the 'Legal Cell' of the Divisional Office. They verified the 'Death Certificate' against the 'Cremation Report' to ensure there was no fraud. In nominee cases, LIC is extremely cautious to avoid paying the wrong person, which could lead to litigation from other legal heirs.<br><br>
+
+                    <strong>6. Final Conclusion:</strong> After 45 days of legal vetting and the indemnity bond period, the ₹12.4 Lakhs was credited to Aditya’s account. This case serves as a vital reminder for policyholders to **Update Nominations**. If Rajesh had changed the nominee to his son immediately after his wife’s death, Aditya would have received the money in 15 days instead of 45. It also highlights that even after a death claim is paid, there might be residual maturity bonuses in long-term plans.`
+            }
+        };
+
+        function updateDocList() {
+            const type = document.getElementById('maturityType').value;
+            const container = document.getElementById('checkboxContainer');
+            const section = document.getElementById('dynamicDocSection');
+
+            if (!type) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            container.innerHTML = '';
+
+            const scenario = maturityScenarios[type];
+            scenario.docs.forEach((doc, index) => {
+                const div = document.createElement('div');
+                div.className = 'checkbox-item';
+                div.innerHTML = `
+                    <input type="checkbox" id="doc_${index}" onchange="updateReadiness()">
+                    <label for="doc_${index}">${doc}</label>
+                `;
+                container.appendChild(div);
+            });
+            updateReadiness();
+        }
+
+        function updateReadiness() {
+            const checkboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
+            const total = checkboxes.length;
+            const checked = Array.from(checkboxes).filter(c => c.checked).length;
+            const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
+            
+            const bar = document.getElementById('progressBar');
+            const badge = document.getElementById('readinessBadge');
+
+            bar.style.width = percent + '%';
+            bar.innerText = percent + '%';
+
+            if (percent < 100) {
+                badge.className = 'status-badge status-yellow';
+                badge.innerText = 'INCOMPLETE';
+            } else {
+                badge.className = 'status-badge status-green';
+                badge.innerText = 'READY TO SUBMIT';
+            }
+        }
+
+        function processMaturity() {
+            const typeKey = document.getElementById('maturityType').value;
+            if (!typeKey) {
+                alert("Please select Maturity Type.");
+                return;
+            }
+
+            const data = maturityScenarios[typeKey];
+            document.getElementById('outType').innerText = data.type;
+            document.getElementById('outDesc').innerText = data.desc;
+            document.getElementById('outTimeline').innerText = data.timeline;
+
+            const docListEl = document.getElementById('outDocList');
+            docListEl.innerHTML = '';
+            data.docs.forEach(doc => {
+                const li = document.createElement('li');
+                li.innerText = doc;
+                docListEl.appendChild(li);
+            });
+
+            const delayListEl = document.getElementById('outDelays');
+            delayListEl.innerHTML = '';
+            data.delays.forEach(d => {
+                const li = document.createElement('li');
+                li.innerText = d;
+                delayListEl.appendChild(li);
+            });
+
+            document.getElementById('caseStudyText').innerHTML = data.caseStudy;
+            document.getElementById('outputSection').style.display = 'block';
+            document.getElementById('outputSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function shareReport() {
+            const text = `📋 *LIC MATURITY CLAIM REPORT*\n\nType: ${document.getElementById('outType').innerText}\nTimeline: ${document.getElementById('outTimeline').innerText}\n\nCheck your maturity readiness in our app!`;
+            if (navigator.share) {
+                await navigator.share({ title: 'LIC Maturity Report', text: text });
+            } else {
+                alert("Share feature only available on mobile devices.");
+            }
+        }
+    </script>
+</body>
+</html>

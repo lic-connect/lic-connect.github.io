@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Death Claim Process</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+<style>
+        :root {
+            /* UI Theme: Blue and White Only */
+            --bg-color: #f0f7ff; 
+            --card-bg: #ffffff;
+            --text-main: #002d5a;
+            --text-light: #0056b3;
+            --accent-grey: #0056b3; /* Primary Blue */
+            --silver-gradient: linear-gradient(145deg, #ffffff, #e6f0ff);
+            --shadow-out: 10px 10px 20px #d0e1f9, -10px -10px 20px #ffffff;
+            --shadow-in: inset 5px 5px 10px #d0e1f9, inset -5px -5px 10px #ffffff;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        /* --- 3D MIRROR TITLE --- */
+        .title-container {
+            perspective: 1000px;
+            margin: 50px auto 80px auto;
+            text-align: center;
+            width: fit-content;
+        }
+
+        .title-box {
+            border: 4px solid var(--accent-grey);
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0, 86, 179, 0.15);
+            transform: rotateX(10deg);
+            transform-style: preserve-3d;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        h1.main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin: 0;
+            color: var(--accent-grey);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 
+                1px 1px 0px #b3d7ff,
+                2px 2px 0px #b3d7ff,
+                3px 3px 0px #80bdff,
+                4px 4px 0px #0056b3,
+                5px 5px 10px rgba(0, 86, 179, 0.2);
+            position: relative;
+        }
+
+        h1.main-title::after {
+            content: "DEATH CLAIM PROCESS";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            transform: scaleY(-0.6) translateY(-20px);
+            opacity: 0.2;
+            filter: blur(2px);
+            background: linear-gradient(to bottom, rgba(0, 86, 179, 0), rgba(0, 86, 179, 1));
+            -webkit-background-clip: text;
+            color: transparent;
+            pointer-events: none;
+        }
+
+        /* --- INPUT SECTION --- */
+        .input-card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: var(--shadow-out);
+            margin-bottom: 40px;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .section-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-grey);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent-grey);
+            padding-left: 15px;
+            text-transform: uppercase;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: var(--text-light);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: var(--shadow-in);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: #333;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            background: #ffffff;
+            box-shadow: 0 0 0 2px var(--accent-grey);
+        }
+
+        #dynamicDocSection {
+            margin-top: 30px;
+            display: none;
+            background: #f8fbff;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #cce5ff;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 86, 179, 0.05);
+        }
+
+        .checkbox-item input {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent-grey);
+        }
+
+        /* --- BUTTON --- */
+        .btn-analyze {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+            background: var(--accent-grey);
+            color: white;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 86, 179, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100%;
+        }
+
+        .btn-analyze:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 86, 179, 0.3);
+            background: #004085;
+        }
+
+        /* --- OUTPUT SECTION --- */
+        .output-card {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: var(--shadow-out);
+            border-top: 5px solid var(--accent-grey);
+            animation: fadeIn 1s ease;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .result-box {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid var(--accent-grey);
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .result-box h3 {
+            margin-top: 0;
+            color: var(--accent-grey);
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .result-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #002d5a;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #e6f0ff;
+            border-radius: 20px;
+            height: 25px;
+            width: 100%;
+            margin: 10px 0;
+            overflow: hidden;
+            box-shadow: inset 2px 2px 5px rgba(0, 86, 179, 0.1);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #3395ff, var(--accent-grey));
+            height: 100%;
+            width: 0%;
+            border-radius: 20px;
+            transition: width 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            margin-top: 5px;
+        }
+        .status-red { background: #d63031; }
+        .status-green { background: #00b894; }
+        .status-yellow { background: #0056b3; }
+
+        /* CASE STUDY: NO CHANGE (CRIMSON RED) */
+        .case-study {
+            margin-top: 30px;
+             background: #000000 !important;  /* Original Crimson Red */
+            color: white !important;
+            padding: 25px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        .case-study::before {
+            content: "\f10d";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 4rem;
+            opacity: 0.15;
+            color: white;
+        }
+
+        .download-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px dashed var(--accent-grey);
+            color: var(--accent-grey);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        .download-btn:hover {
+            background: var(--accent-grey);
+            color: white;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            h1.main-title { font-size: 2rem; }
+            .title-box { padding: 15px; }
+            .input-card, .output-card { padding: 20px; }
+        }
+
+        .action-btn-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: white;
+        }
+
+        .btn-print { background: #0056b3; }
+        .btn-share { background: #004085; }
+        
+        @media print {
+            .action-btn-group, .btn-analyze {
+                display: none !important;
+            }
+            body {
+                background: white;
+            }
+            .input-card, .output-card {
+                box-shadow: none;
+                border: 1px solid #cce5ff;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- 3D Mirrored Title -->
+        <div class="title-container">
+            <div class="title-box">
+                <h1 class="main-title">DEATH CLAIM<br>PROCESS</h1>
+            </div>
+        </div>
+
+        <!-- INPUT SECTION -->
+        <div class="input-card">
+            <div class="section-header">INPUT DETAILS</div>
+            <form id="claimForm" onsubmit="event.preventDefault(); processClaim();">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Policy Holder Name</label>
+                        <input type="text" id="phName" placeholder="Enter Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Policy Number</label>
+                        <input type="number" id="policyNo" placeholder="9 Digits" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Agent Name</label>
+                        <input type="text" id="agentName" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Agent Code</label>
+                        <input type="text" id="agentCode" placeholder="Code">
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Commencement (DOC)</label>
+                        <input type="date" id="docDate" required onchange="checkDates()">
+                        <small style="font-size:0.7rem; color:#888;">Required to calculate 'Early Claim' status</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Death</label>
+                        <input type="date" id="dodDate" required onchange="checkDates()">
+                    </div>
+                    <div class="form-group">
+                        <label>Cause of Death</label>
+                        <select id="causeDeath" required onchange="updateDocList()">
+                            <option value="">-- Select Cause --</option>
+                            <option value="natural">Natural / Illness</option>
+                            <option value="accidental">Accidental</option>
+                            <option value="nri">NRI / Foreign Death</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nominee Name & Relation</label>
+                        <input type="text" id="nomineeDetails" placeholder="e.g. Wife, Son">
+                    </div>
+                    <div class="form-group" style="grid-column: 1/-1;">
+                        <label>Notes</label>
+                        <textarea rows="2" placeholder="Any specific details..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Dynamic Documents Checkbox Area -->
+                <div id="dynamicDocSection">
+                    <div class="section-header" style="font-size:1.2rem; border-color:#888; margin-bottom:15px;">
+                        Document Readiness Checklist
+                    </div>
+                    <div class="checkbox-group" id="checkboxContainer">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-analyze">Analyze Claim</button>
+            </form>
+        </div>
+
+        <!-- OUTPUT SECTION -->
+        <div id="outputSection" class="output-card">
+            <div class="section-header">CLAIM ANALYSIS REPORT</div>
+            
+            <div class="result-grid">
+                <!-- Claim Type -->
+                <div class="result-box">
+                    <h3>Identified Claim Type</h3>
+                    <div class="result-value" id="outClaimType">--</div>
+                    <div style="font-size:0.9rem; color:#666; margin-top:5px;" id="outClaimDesc"></div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="result-box">
+                    <h3>Expected Timeline</h3>
+                    <div class="result-value" id="outTimeline">--</div>
+                </div>
+
+                <!-- Required Docs List -->
+                <div class="result-box" style="grid-column: 1 / -1;">
+                    <h3>Exact Documents Required</h3>
+                    <ul id="outDocList" style="padding-left:20px; color:#444; margin-top:10px;"></ul>
+                </div>
+
+                <!-- Readiness -->
+                <div class="result-box" style="grid-column: 1 / -1;">
+                    <h3>Claim Readiness Status</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar">0%</div>
+                    </div>
+                    <div id="readinessBadge" class="status-badge status-red">NOT READY</div>
+                </div>
+
+                <!-- Rejection Reasons -->
+                <div class="result-box">
+                    <h3>Common Rejection Reasons</h3>
+                    <ul id="outRejections" style="padding-left:20px; color:#c0392b; font-size:0.9rem;"></ul>
+                </div>
+            </div>
+
+<!-- ACTION BUTTONS SECTION -->
+            <div class="result-box" style="grid-column: 1 / -1; background: transparent; border: none; padding: 0;">
+                <div class="action-btn-group">
+                    <button class="action-btn btn-print" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print Full Page
+                    </button>
+                    <button class="action-btn btn-share" onclick="shareReport()">
+                        <i class="fas fa-share-alt"></i> Share Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Case Study -->
+            <div class="case-study" id="caseStudyBox">
+                <h3 style="border-bottom:1px solid rgba(255,255,255,0.3); padding-bottom:10px; margin-top:0;">
+                    <i class="fas fa-book-open"></i> Real Life Case Study
+                </h3>
+                <div id="caseStudyText" style="font-style: italic; line-height: 1.6;">
+                    --
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // DATA OBJECTS
+     const claimScenarios = {
+            early: {
+                type: "OPTION 1: EARLY CLAIM (Death < 3 Years)",
+                desc: "This is the most scrutinized category. Investigation is mandatory under Section 45.",
+                timeline: "30 - 90 Days (Investigation Phase)",
+                docs: [
+                    "Original Policy Bond",
+                    "Claim Form A (Claimant Statement)",
+                    "Death Certificate (Original)",
+                    "Nominee ID & Bank Proof",
+                    "Claim Form B (Medical Attendant)",
+                    "Hospital Treatment Papers (Past 3-5 Years)",
+                    "Employer Certificate (Form D - if employed)",
+                    "Proposal Form Copy (for verification)"
+                ],
+                rejections: [
+                    "Non-disclosure of pre-existing illness (Diabetes/BP, etc.)",
+                    "Mismatch in medical history vs Proposal",
+                    "Fraudulent Suppression of Material Facts"
+                ],
+                caseStudy: `
+                    <strong>Subject Profile:</strong> Mr. Rajesh Verma, Age 35.<br>
+                    <strong>Policy Details:</strong> LIC Tech Term (Table 954), Sum Assured ₹50 Lakhs. Policy taken 18 months prior to death.<br><br>
+                    
+                    <strong>1. The Background & Incident:</strong><br>
+                    Mr. Verma, a software engineer, purchased a pure term insurance policy to secure his family. He passed the standard medical tele-mer (telephonic medical interview) at the time of the proposal, stating he had no history of smoking or chronic illness. Eighteen months later, on a Tuesday evening, he complained of severe chest pain and collapsed at home. He was rushed to a nearby multispecialty hospital but was declared brought dead due to a massive cardiac arrest.<br><br>
+
+                    <strong>2. The Claim Submission (The "Early Claim" Trigger):</strong><br>
+                    Since the death occurred within 3 years of policy issuance, this was flagged as an "Early Claim." The nominee (his wife) submitted the standard documents: Death Certificate and Form A. However, the Branch Office immediately requested additional requirements: Form B (Medical Attendant's Certificate), Form C (Burial Certificate), and Form D (Employer's Certificate to check leave records). They specifically asked for his hospital records for the last 5 years.<br><br>
+
+                    <strong>3. The Investigation Process:</strong><br>
+                    LIC assigned an external investigating officer. The officer visited the hospital to verify the "Brought Dead" certificate and checked the emergency room admission notes. Crucially, the officer visited Mr. Verma's office. The Form D (Employer Certificate) revealed that Mr. Verma had taken 15 days of medical leave two years prior (before taking the policy) for "Hypertension treatment."<br><br>
+
+                    <strong>4. The Hurdle & Scrutiny:</strong><br>
+                    The claims department pulled out the original Proposal Form. In the specific question "Do you suffer from High Blood Pressure?", Mr. Verma had answered "NO." This created a discrepancy. The claim was temporarily withheld on grounds of "Suppression of Material Fact." The investigator then visited the family doctor who treated him for hypertension.<br><br>
+
+                    <strong>5. The Resolution:</strong><br>
+                    The family doctor provided a statement that while Mr. Verma had stress-induced BP issues, it was not chronic hypertension requiring daily medication at the time of the proposal, and the leave was largely for rest. Furthermore, the cause of death (Cardiac Arrest) can happen even without chronic BP history. The Zonal Claims Review Committee analyzed the case. They determined that while there was a minor non-disclosure regarding the leave, it was not done with fraudulent intent to deceive the underwriter regarding a life-threatening condition. <br><br>
+
+                    <strong>6. Final Outcome:</strong><br>
+                    The claim was approved on an ex-gratia basis after 75 days of scrutiny. The nominee received the full ₹50 Lakhs via NEFT. This case highlights the vital importance of disclosing even minor medical leaves during the proposal stage to avoid such delays.`
+            },
+            nonEarly: {
+                type: "OPTION 2: NON-EARLY CLAIM (Death > 3 Years)",
+                desc: "Smoothest category. Protected by Section 45 (Called into question only for fraud).",
+                timeline: "15 - 30 Days",
+                docs: [
+                    "Original Policy Bond",
+                    "Claim Form A",
+                    "Death Certificate (Original)",
+                    "Nominee KYC (Aadhar/PAN)",
+                    "Bank Passbook/Cancelled Cheque",
+                    "Discharge Summary (if hospitalized)"
+                ],
+                rejections: [
+                    "Nominee disputes / Legal Heir issues",
+                    "Policy in Lapsed condition at time of death",
+                    "Missing Original Bond (requires Indemnity Bond)"
+                ],
+                caseStudy: `
+                    <strong>Subject Profile:</strong> Mrs. Savitri Devi, Age 52.<br>
+                    <strong>Policy Details:</strong> LIC Jeevan Anand (Table 715), Sum Assured ₹5 Lakhs. Policy duration: 9 Years.<br><br>
+
+                    <strong>1. The Background & Incident:</strong><br>
+                    Mrs. Devi had been a disciplined policyholder for nearly a decade. She had taken the Jeevan Anand policy to ensure a legacy for her daughter. At age 52, she developed complications related to pneumonia and was hospitalized for two weeks. Unfortunately, she passed away in the hospital due to respiratory failure. Since the policy had completed 9 years, it fell under the "Non-Early" category.<br><br>
+
+                    <strong>2. The Claim Submission:</strong><br>
+                    The agent assisted the daughter (nominee) in compiling the simplified document set. Unlike early claims, Form B (Medical attendant) and Form C were not strictly scrutinized for pre-existing history because Section 45 of the Insurance Act prohibits the insurer from calling the policy into question after 3 years, except in cases of proven flagrant fraud.<br><br>
+
+                    <strong>3. The Process:</strong><br>
+                    The agent submitted the Original Policy Bond, the Death Certificate issued by the Municipality, and Form A. A copy of the bank passbook was attached. The Branch Manager verified the policy status. It was "In-Force" with all premiums paid up to date. The calculations were straightforward: Base Sum Assured (₹5 Lakhs) + Vested Simple Reversionary Bonuses for 9 years + Final Additional Bonus (FAB) if applicable.<br><br>
+
+                    <strong>4. The Internal Workflow:</strong><br>
+                    The claim file moved from the "Receipt" department to the "Claims" department within the branch. No external investigation was triggered. The only verification done was matching the signature of the nominee with the KYC documents provided and verifying the bank account details via a penny-drop test.<br><br>
+
+                    <strong>5. The Resolution:</strong><br>
+                    The claim was sanctioned at the Branch level itself (since the SA was within the Branch Manager's authority limit). The calculation sheet showed: ₹5,00,000 (SA) + ₹2,16,000 (approx accumulated Bonus). Total payout: ₹7,16,000.<br><br>
+
+                    <strong>6. Final Outcome:</strong><br>
+                    The amount was credited to the daughter's savings account on the 18th day after submission. This case demonstrates the liquidity and reliability of LIC policies when maintained for the long term. The process was paperless for the customer after the initial submission.`
+            },
+            accidental: {
+                type: "OPTION 3: ACCIDENTAL DEATH CLAIM",
+                desc: "Double Benefit Scenario: Base SA + Accidental Benefit Sum Assured.",
+                timeline: "30 - 45 Days (Dependent on Police Reports)",
+                docs: [
+                    "Original Policy Bond",
+                    "Claim Form A",
+                    "Death Certificate",
+                    "Nominee KYC & Bank Details",
+                    "F.I.R. (First Information Report) - Mandatory",
+                    "Post-Mortem Report (PMR) - Mandatory",
+                    "Police Final Report / Charge Sheet",
+                    "Driving License (if the deceased was driving)"
+                ],
+                rejections: [
+                    "Accident Rider not opted in policy",
+                    "Intoxication / Alcohol found in PMR",
+                    "Rider Lapsed (even if Base plan active)",
+                    "Death not due to accident (e.g., heart attack while driving)"
+                ],
+                caseStudy: `
+                    <strong>Subject Profile:</strong> Mr. Arjun Singh, Age 42.<br>
+                    <strong>Policy Details:</strong> LIC New Endowment (Table 914) with Accidental Death & Disability Benefit (AD&DB) Rider. Base SA: ₹10 Lakhs.<br><br>
+
+                    <strong>1. The Background & Incident:</strong><br>
+                    Mr. Singh was returning home from work on his two-wheeler when he was struck by a speeding truck on the highway. He died on the spot. The police arrived, registered an F.I.R., and sent the body for a Post-Mortem examination to the government hospital.<br><br>
+
+                    <strong>2. The Claim Submission (The "Double" Claim):</strong><br>
+                    This claim is unique because it involves two payouts: The Natural Death payout (Base SA) and the Accidental payout (Rider SA). The nominee submitted the standard death documents immediately. However, for the Accident Benefit, LIC specifically required the F.I.R. and the Post-Mortem Report (PMR).<br><br>
+
+                    <strong>3. The Hurdles (Police Documentation):</strong><br>
+                    The Base SA (₹10 Lakhs + Bonus) was processed relatively quickly (within 20 days) as the death was confirmed. However, the Accidental Benefit (additional ₹10 Lakhs) was kept "Pending." The LIC claims department needed to rule out two things: Suicide and Intoxication. The Post-Mortem report came back clean (no alcohol content). However, the "Police Final Report" (Charge Sheet) was delayed by the police station.<br><br>
+
+                    <strong>4. The Scrutiny:</strong><br>
+                    LIC verified the Driving License of Mr. Singh to ensure he was authorized to drive the vehicle. If he had been driving without a license, the Accident claim would have been rejected. The license was valid. Once the family obtained the Final Report from the police court, stating it was a clear road accident caused by the truck driver, they submitted it to the branch.<br><br>
+
+                    <strong>5. The Resolution:</strong><br>
+                    Upon receiving the Police Final Report, the Accident Benefit was unlocked. The system processed the additional ₹10 Lakhs. <br><br>
+
+                    <strong>6. Final Outcome:</strong><br>
+                    <strong>Payout 1 (Day 20):</strong> ₹14.5 Lakhs (Base SA + Bonus).<br>
+                    <strong>Payout 2 (Day 45):</strong> ₹10 Lakhs (Accident Rider SA).<br>
+                    Total Payout: ₹24.5 Lakhs. This case highlights that while the basic claim is fast, the accidental portion relies heavily on external government documentation (Police/Hospital), which agents must help the family procure.`
+            },
+            nri: {
+                type: "OPTION 4: NRI / FOREIGN DEATH CLAIM",
+                desc: "High Scrutiny. Documents must be attested by Indian Embassy/Consulate.",
+                timeline: "30 - 60 Days",
+                docs: [
+                    "Original Policy Bond",
+                    "Claim Form A",
+                    "Death Certificate (Issued by Foreign Authority)",
+                    "Attestation by Indian Embassy (Mandatory)",
+                    "Passport & Visa Copy of Deceased",
+                    "Treatment Records (Foreign Hospital)",
+                    "Indian Bank Account Proof of Nominee",
+                    "Cremation/Burial Certificate"
+                ],
+                rejections: [
+                    "Documents submitted without Embassy Attestation",
+                    "Nominee does not have an NRO/Savings account in India",
+                    "Resident status not disclosed at proposal time"
+                ],
+                caseStudy: `
+                    <strong>Subject Profile:</strong> Mr. John D'souza, Age 45, Resident of UAE.<br>
+                    <strong>Policy Details:</strong> LIC Money Back Plan. Policy taken 6 years ago during a visit to India.<br><br>
+
+                    <strong>1. The Background & Incident:</strong><br>
+                    Mr. D'souza had been working in Dubai for 10 years. He bought an LIC policy while on vacation in Kerala. While in Dubai, he suffered a sudden stroke and passed away in a local Dubai hospital. The family wanted to process the claim in India.<br><br>
+
+                    <strong>2. The Claim Submission (The "Attestation" Challenge):</strong><br>
+                    The biggest hurdle in NRI claims is that LIC cannot verify foreign documents directly. The death certificate was issued in Arabic/English by the UAE Health Authority. The family initially sent just the photocopy to the Indian branch. It was immediately rejected with a memo: "Attestation by Indian Consulate Required."<br><br>
+
+                    <strong>3. The Process:</strong><br>
+                    The original Death Certificate had to be taken to the Indian Consulate in Dubai. The Consulate verified the genuineness and stamped it. The family also had to get the translation of the Arabic burial permit certified. Additionally, LIC required the copy of the Passport and Visa pages to verify that he was a legal resident there and not traveling for medical tourism (which might indicate pre-existing illness).<br><br>
+
+                    <strong>4. The Banking/Forex Rule:</strong><br>
+                    The nominee (his wife) lived in India. LIC can only pay claim amounts in Indian Rupees (INR) to a bank account in India. The agent ensured the wife submitted her local Indian Savings account details. If the nominee had also been an NRI, they would have needed an NRO account.<br><br>
+
+                    <strong>5. The Resolution:</strong><br>
+                    Once the physical docket with the Consulate Seal reached the home branch in Kerala, it was sent to the Divisional Office (DO) because foreign death claims usually require higher authority approval than a Branch Manager. The DO verified the passport stamps against the policy commencement date to ensure he was actually in India when he bought the policy (or had completed NRI formalities correctly).<br><br>
+
+                    <strong>6. Final Outcome:</strong><br>
+                    The claim was settled in 45 days. The delay was primarily due to the logistics of getting documents attested in UAE and couriered to India. The full Sum Assured + Bonus was credited to the wife's Indian account. This highlights the absolute necessity of Embassy Attestation for any death occurring outside Indian borders.`
+            }
+        };
+
+        // FUNCTIONS
+
+        function checkDates() {
+            const cause = document.getElementById('causeDeath').value;
+            if(cause) updateDocList();
+        }
+
+        // Logic to determine scenario
+        function getScenario() {
+            const cause = document.getElementById('causeDeath').value;
+            const doc = new Date(document.getElementById('docDate').value);
+            const dod = new Date(document.getElementById('dodDate').value);
+            
+            // Basic validation
+            if (!cause || isNaN(doc) || isNaN(dod)) return null;
+
+            // Priority 1: NRI
+            if (cause === 'nri') return 'nri';
+
+            // Priority 2: Accidental
+            if (cause === 'accidental') return 'accidental';
+
+            // Priority 3: Time Calculation (Natural/Illness)
+            // Calculate difference in years
+            let diffYears = (dod - doc) / (1000 * 60 * 60 * 24 * 365.25);
+            
+            if (diffYears < 3) return 'early';
+            return 'nonEarly';
+        }
+
+        // Populate Checkboxes dynamically
+        function updateDocList() {
+            const scenarioKey = getScenario();
+            const container = document.getElementById('checkboxContainer');
+            const section = document.getElementById('dynamicDocSection');
+
+            if (!scenarioKey) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+            container.innerHTML = ''; // Clear existing
+
+            const data = claimScenarios[scenarioKey];
+            
+            data.docs.forEach((doc, index) => {
+                const div = document.createElement('div');
+                div.className = 'checkbox-item';
+                div.innerHTML = `
+                    <input type="checkbox" id="doc_${index}" onchange="updateReadiness()">
+                    <label for="doc_${index}">${doc}</label>
+                `;
+                container.appendChild(div);
+            });
+            updateReadiness(); // Reset bar
+        }
+
+        // Update Progress Bar
+        function updateReadiness() {
+            const checkboxes = document.querySelectorAll('#checkboxContainer input[type="checkbox"]');
+            const total = checkboxes.length;
+            const checked = Array.from(checkboxes).filter(c => c.checked).length;
+            
+            const percent = total === 0 ? 0 : Math.round((checked / total) * 100);
+            
+            const bar = document.getElementById('progressBar');
+            const badge = document.getElementById('readinessBadge');
+
+            bar.style.width = percent + '%';
+            bar.innerText = percent + '%';
+
+            if (percent < 50) {
+                badge.className = 'status-badge status-red';
+                badge.innerText = 'NOT READY';
+            } else if (percent < 100) {
+                badge.className = 'status-badge status-yellow';
+                badge.innerText = 'PARTIALLY READY';
+            } else {
+                badge.className = 'status-badge status-green';
+                badge.innerText = 'READY TO SUBMIT';
+            }
+        }
+
+        // Main Process Function
+        function processClaim() {
+            const scenarioKey = getScenario();
+            if (!scenarioKey) {
+                alert("Please ensure Date of Commencement, Date of Death, and Cause are filled.");
+                return;
+            }
+
+            const data = claimScenarios[scenarioKey];
+
+            // Populate Output
+            document.getElementById('outClaimType').innerText = data.type;
+            document.getElementById('outClaimDesc').innerText = data.desc;
+            document.getElementById('outTimeline').innerText = data.timeline;
+            
+            // List Docs in Output
+            const docListEl = document.getElementById('outDocList');
+            docListEl.innerHTML = '';
+            data.docs.forEach(doc => {
+                const li = document.createElement('li');
+                li.innerText = doc;
+                docListEl.appendChild(li);
+            });
+
+            // List Rejections
+            const rejListEl = document.getElementById('outRejections');
+            rejListEl.innerHTML = '';
+            data.rejections.forEach(reason => {
+                const li = document.createElement('li');
+                li.innerText = reason;
+                rejListEl.appendChild(li);
+            });
+
+            // Case Study
+            document.getElementById('caseStudyText').innerHTML = data.caseStudy;
+
+            // Show Output with animation
+            const outputSection = document.getElementById('outputSection');
+            outputSection.style.display = 'block';
+            outputSection.scrollIntoView({ behavior: 'smooth' });
+        }
+// --- MISSING SHARE FUNCTION ---
+        async function shareReport() {
+            // 1. Gather Data
+            const claimType = document.getElementById('outClaimType').innerText;
+            const timeline = document.getElementById('outTimeline').innerText;
+            const readiness = document.getElementById('readinessBadge').innerText;
+            const docs = document.getElementById('outDocList').innerText;
+            
+            // 2. Format the Message for WhatsApp/Text
+            const textMessage = `📋 *LIC DEATH CLAIM REPORT*\n\n` +
+                `🔴 *Type:* ${claimType}\n` +
+                `⏳ *Timeline:* ${timeline}\n` +
+                `🚦 *Status:* ${readiness}\n\n` +
+                `*Required Documents:*\n${docs}\n\n` +
+                `_Generated via LIC Connect_`;
+
+            const shareData = {
+                title: 'LIC Death Claim Analysis',
+                text: textMessage
+            };
+
+            // 3. Trigger Native Sharing
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                } else {
+                    // Fallback for Desktop/Old Browsers
+                    alert("Sharing is supported on mobile devices. On desktop, please use the 'Print Full Page' button to Save as PDF.");
+                }
+            } catch (err) {
+                console.log('Error sharing:', err);
+            }
+        }
+
+    </script>
+</body>
+</html>
