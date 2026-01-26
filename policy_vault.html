@@ -152,55 +152,132 @@
     // Initialize Supabase (Use your existing credentials)
     const supabase = window.supabase.createClient('https://efduqdondmlzmwhfgkfz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVmZHVxZG9uZG1sem13aGZna2Z6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4MDcxNjUsImV4cCI6MjA2NDM4MzE2NX0.M-D0eUjlCxc-vZtT3LdbWJJgLDZ-ScHQkZH69kU6d44');
 
-    async function uploadPolicy() {
-        const file = document.getElementById('policyFile').files[0];
-        const client = document.getElementById('clientName').value;
-        const pNo = document.getElementById('policyNo').value;
-        const dDate = document.getElementById('dueDate').value;
+ async function uploadPolicy() {
+        // 1. Select Elements
+        const btn = document.querySelector('.btn-upload');
+        const fileInput = document.getElementById('policyFile');
+        const clientInput = document.getElementById('clientName');
+        const pNoInput = document.getElementById('policyNo');
+        const dDateInput = document.getElementById('dueDate');
 
-        if (!file || !client) return alert("Please fill all fields");
+        // 2. Validate Inputs
+        if (!fileInput.files.length || !clientInput.value || !pNoInput.value || !dDateInput.value) {
+            alert("⚠️ Please fill all fields and select a PDF file.");
+            return;
+        }
 
-        const fileName = `${Date.now()}_${file.name}`;
-        
-        // 1. Upload to Supabase Storage
-        const { data: storageData, error: storageError } = await supabase.storage
-            .from('policy-vault')
-            .upload(fileName, file);
+        const file = fileInput.files[0];
+        const originalText = btn.innerText;
 
-        if (storageError) return alert("Upload Error: " + storageError.message);
+        try {
+            // 3. UI Feedback (Disable button to prevent double-click)
+            btn.innerText = "Uploading...";
+            btn.disabled = true;
 
-        // 2. Get Public URL
-        const { data: urlData } = supabase.storage.from('policy-vault').getPublicUrl(fileName);
+            // 4. Get User Session (Required for security)
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) throw new Error("You must be logged in to upload.");
 
-        // 3. Save to Database
-        const { error: dbError } = await supabase.from('policies').insert([{
-            client_name: client,
-            policy_number: pNo,
-            due_date: dDate,
-            file_url: urlData.publicUrl
-        }]);
+            // 5. Upload to Storage
+            // Filename format: UserID/Timestamp_CleanName
+            const cleanName = file.name.replace(/[^a-zA-Z0-9.]/g, '_');
+            const filePath = `${user.id}/${Date.now()}_${cleanName}`;
 
-        if (dbError) alert(dbError.message);
-        else location.reload();
+            const { error: storageError } = await supabase.storage
+                .from('policy-vault')
+                .upload(filePath, file);
+
+            if (storageError) throw storageError;
+
+            // 6. Get Public Link
+            const { data: urlData } = supabase.storage
+                .from('policy-vault')
+                .getPublicUrl(filePath);
+
+            // 7. Insert into Database
+            const { error: dbError } = await supabase
+                .from('policies')
+                .insert([{
+                    user_id: user.id,          // Link record to user
+                    client_name: clientInput.value,
+                    policy_number: pNoInput.value,
+                    due_date: dDateInput.value,
+                    file_url: urlData.publicUrl
+                }]);
+
+            if (dbError) throw dbError;
+
+            alert("✅ Policy Uploaded Successfully!");
+            window.location.reload();
+
+        } catch (error) {
+            console.error("Upload Error:", error);
+            alert("❌ Upload Failed: " + (error.message || error.error_description || "Unknown Error"));
+        } finally {
+            // Reset Button
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
     }
-
     async function loadPolicies() {
-        const { data, error } = await supabase.from('policies').select('*').order('due_date', { ascending: true });
         const tbody = document.getElementById('policyTableBody');
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Loading...</td></tr>';
+
+        // 1. Get Current User to filter data
+        const { data: { user } } = await supabase.auth.getUser();
         
+        if (!user) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">Please login to view policies.</td></tr>';
+            return;
+        }
+
+        // 2. Fetch policies ONLY for this user
+        const { data, error } = await supabase
+            .from('policies')
+            .select('*')
+            .eq('user_id', user.id) // <--- This line ensures privacy
+            .order('due_date', { ascending: true });
+
+        if (error) {
+            console.error(error);
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red">Error loading data.</td></tr>';
+            return;
+        }
+
+        // 3. Clear loading message
+        tbody.innerHTML = '';
+
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">No policies found. Upload one above!</td></tr>';
+            return;
+        }
+        
+        // 4. Populate Table
         data.forEach(p => {
-            const isDue = new Date(p.due_date).getMonth() === new Date().getMonth();
+            // Check if due in the current month AND year
+            const today = new Date();
+            const due = new Date(p.due_date);
+            const isDue = (due.getMonth() === today.getMonth()) && (due.getFullYear() === today.getFullYear());
+
             tbody.innerHTML += `
                 <tr>
                     <td>${p.client_name}</td>
                     <td>${p.policy_number}</td>
-                    <td class="${isDue ? 'status-due' : ''}">${p.due_date} ${isDue ? '⚠️' : ''}</td>
-                    <td><a href="${p.file_url}" target="_blank" class="file-link"><i class="fas fa-file-pdf"></i> View</a></td>
+                    <td class="${isDue ? 'status-due' : ''}">
+                        ${p.due_date} 
+                        ${isDue ? '⚠️ <span style="font-size:0.8em">(Due Now)</span>' : ''}
+                    </td>
+                    <td>
+                        <a href="${p.file_url}" target="_blank" class="file-link">
+                            <i class="fas fa-file-pdf"></i> View Doc
+                        </a>
+                    </td>
                 </tr>
             `;
         });
     }
 
+    // Call the function to load data
     loadPolicies();
 </script>
 <div class="home-button-container">
