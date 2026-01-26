@@ -10,7 +10,7 @@
     
     <style>
         :root {
-            /* UI Theme: Strictly Blue and White */
+            /* UI Theme: Blue and White */
             --bg-color: #f0f7ff; 
             --card-bg: #ffffff;
             --text-main: #002d5a;
@@ -115,7 +115,7 @@
             color: var(--text-light);
         }
 
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 15px;
             border: none;
@@ -448,7 +448,7 @@
 
             <!-- Case Study -->
             <div class="case-study" id="caseStudyBox">
-                <h3><i class="fas fa-book-open"></i> Rider Case Narrative (500+ Words)</h3>
+                <h3><i class="fas fa-book-open"></i> Detailed Claim Case Study (500+ Words)</h3>
                 <div id="caseStudyText" style="line-height: 1.8; font-size: 0.95rem; color: #ccc;">
                     --
                 </div>
@@ -460,82 +460,88 @@
         const riderScenarios = {
             adb: {
                 type: "ACCIDENTAL DEATH BENEFIT (ADB)",
-                desc: "Payout of additional Accidental Sum Assured along with Basic Benefit.",
-                timeline: "30-45 Days after Final Police Report",
-                docs: ["Form 3783 (Rider Claim)", "Certified FIR Copy", "Post-Mortem Report", "Police Inquest Report", "Valid Driving License"],
-                rejections: ["Presence of alcohol in PMR", "No valid DL while driving", "Delayed FIR lodging", "Death due to medical illness during accident"],
+                desc: "Double Sum Assured Payout: Base Benefit + Accidental Benefit.",
+                timeline: "30-60 Days after Police Final Report",
+                docs: ["Certified FIR Copy", "Post-Mortem Report", "Chemical Examiner's Report", "Police Inquest (Form 3A)", "Valid Driving License of Deceased"],
+                rejections: ["Presence of alcohol in Blood stream", "Driving without a valid license", "Death after 180 days of accident", "Death due to pre-existing illness triggering accident"],
                 caseStudy: (ph, nom, rel) => `
-                    <strong>Subject Profile: Mr. ${ph} | Nominee: ${nom} (${rel})</strong><br><br>
+                    <strong>The Tragic High-Way Accident of Mr. ${ph} and the Legal Battle of ${nom} (${rel})</strong><br><br>
                     
-                    Mr. ${ph}, an active professional and the primary breadwinner, held an LIC New Endowment policy with a Sum Assured of ₹25,00,000 and an equal Accidental Death Benefit (ADB) Rider. While returning from a business trip late at night, his vehicle suffered a massive mechanical failure, leading to a fatal crash. His ${rel}, ${nom}, was left with the immense task of navigating a "Double Payout" claim.
+                    Mr. ${ph}, an energetic 42-year-old entrepreneur, held an LIC policy with a base Sum Assured of ₹50,00,000 and an equal Accidental Death Benefit (ADB) rider. While returning from a late-night factory inspection, his vehicle was struck by a speeding heavy loader on a highway. Mr. ${ph} was killed instantly. His ${rel}, ${nom}, was left with the overwhelming responsibility of proving that the death was a "Pure Accident" to secure the double payout of ₹1 Crore.
                     <br><br>
-                    The first hurdle was the F.I.R. (First Information Report). In accidental claims, LIC strictly follows the principle of "External, Violent, and Visible Means." Without a clear police record stating the crash was accidental, the rider benefit remains locked. ${nom} had to coordinate with the local police station to secure a certified copy of the Inquest Report. 
+                    The first major administrative hurdle was the F.I.R. (First Information Report). LIC strictly defines an accident as "External, Violent, and Visible." If the police report had mentioned a medical event (like a heart attack) before the crash, the ₹50 Lakh rider would be rejected instantly. ${nom} had to work closely with the police station to ensure the Inquest Report (Form 3A) correctly documented the trauma.
                     <br><br>
-                    A technical conflict arose during the Post-Mortem Report (PMR) analysis. The report mentioned "Congestion in the Lungs," which the claims department initially flagged as a potential pre-existing medical condition (like a heart attack before the crash). If ${ph} had died of a heart attack *while* driving, the crash is considered secondary, and the ADB rider is rejected. This required the family to procure a "Chemical Examiner's Report" to prove that the cause of death was strictly trauma-induced by the collision.
+                    Technical Scrutiny: The Post-Mortem Report mentioned "congestion in the heart," which LIC's Chief Medical Officer initially flagged. They questioned if ${ph} died of natural causes *while* driving. This required ${nom} to procure the "Chemical Examiner's Report" from the state forensic lab, which proved zero alcohol or narcotics in the system. 
                     <br><br>
-                    Furthermore, LIC’s legal team scrutinized the Driving License of Mr. ${ph}. Under the ADB terms, if the life assured is driving a vehicle without a valid license or on an expired one, the accident benefit is forfeited. Fortunately, ${ph} had renewed his license just months prior. 
+                    The biggest conflict arose regarding the Driving License. Mr. ${ph}'s license had expired just 15 days before the crash. LIC Rider rules stipulate that the rider benefit is forfeited if the deceased was driving without a valid license. ${nom} provided proof of the renewal application submitted a week prior. This led to a Zonal Claims Review Committee (ZCRC) hearing. After 70 days of investigation, the committee agreed that the renewal intent was established and the crash was caused by the other vehicle's negligence.
                     <br><br>
-                    The investigation took 50 days, involving site visits by an LIC-deputed surveyor who verified the wreckage. The "Police Final Report" was the final piece of the puzzle. Once submitted, LIC released the Basic SA of ₹25 Lakhs and the additional ₹25 Lakhs for the Rider. This case underscores that for nominees like ${nom}, documentation is not just a formality—it is the legal defense of the claim. Without the FIR and PMR consistency, a ₹50 Lakh settlement could have easily been halved.
+                    Resolution: The ₹50 Lakh basic claim was settled in 20 days. The ₹50 Lakh Accidental Rider took an additional four months of legal vetting. This case underscores that for nominees like ${nom}, documentation is not a formality; it is the legal defense of the family's financial future. Timing, police report accuracy, and maintaining valid licenses are the three pillars of a successful ADB claim.
                 `
             },
             addb: {
                 type: "ACCIDENTAL DISABILITY BENEFIT (AD&DB)",
-                desc: "Waiver of future premiums plus monthly disability income payout.",
-                timeline: "180 Days (Waiting period to confirm permanency)",
-                docs: ["Disability Certificate (Govt Medical Board)", "Accident FIR", "Original Hospital Records", "X-Rays/MRI Proof", "Employer Certificate"],
-                rejections: ["Partial Disability (LIC only covers Total)", "Disability not due to accident", "Recovery observed within 180 days"],
+                desc: "Waiver of future premiums and 120 monthly disability installments.",
+                timeline: "180 Days (Waiting period to confirm 'Permanent' status)",
+                docs: ["Govt. Medical Board Disability Certificate", "Accident FIR", "Original Hospital Records", "X-Rays/MRI Reports", "Employer's Statement on Loss of Income"],
+                rejections: ["Disability not 100% total/permanent", "Self-inflicted injury", "Partial disability (e.g. loss of one finger/leg)", "Alcohol involvement established by medical reports"],
                 caseStudy: (ph, nom, rel) => `
-                    <strong>Subject Profile: Mr. ${ph} | Beneficiary: ${nom} (${rel})</strong><br><br>
+                    <strong>The Industrial Mishap: Mr. ${ph}'s Journey to Disability Benefits</strong><br><br>
                     
-                    Mr. ${ph}, a dedicated factory supervisor, met with a catastrophic industrial accident involving high-voltage machinery. The trauma resulted in the permanent loss of use of both his legs. His ${rel}, ${nom}, reached out to LIC to claim the Accidental Disability Benefit (AD&DB). In LIC’s lexicon, "Total and Permanent Disability" is defined very strictly as the loss of two limbs, two eyes, or one limb and one eye. 
+                    Mr. ${ph}, a dedicated senior technician, met with a catastrophic electrical arc flash while supervising a heavy machinery unit. The accident resulted in the amputation of both his hands and the permanent loss of vision in his right eye. His ${rel}, ${nom}, reached out to LIC to claim the Accidental Total and Permanent Disability Benefit.
                     <br><br>
-                    The most difficult part for Mr. ${ph} and ${nom} was the mandatory "180-Day Observation Period." LIC does not settle disability claims immediately. They wait six months to ensure that medical science cannot reverse the condition. During this time, the family faced severe financial strain. However, once the period passed, ${ph} had to appear before a Government District Medical Board. 
+                    The Conflict of "Permanency": LIC does not settle disability claims immediately. There is a mandatory "180-Day Observation Period." LIC must ensure that medical science cannot reverse the condition. During this time, ${ph} and ${nom} were under immense financial strain as the income had stopped. 
                     <br><br>
-                    A common rejection reason here is the "Partial Disability" clause. If ${ph} had lost only one leg, LIC would not have triggered the AD&DB rider. Since he met the "Two-Limb" criteria, the benefit was two-fold. First, all future premiums for his policy were waived—the policy would continue to earn bonuses without ${ph} paying a single rupee. Second, the Sum Assured was scheduled to be paid out in 120 equal monthly installments (the Disability Income).
+                    The Medical Board Hurdle: ${nom} had to arrange for ${ph} to appear before a Government District Medical Board. Private hospital certificates are not accepted for this rider. The board issued a "70% Permanent Disability" certificate. However, LIC's definition of "Total Disability" is even stricter: it must be the loss of two limbs, two eyes, or one limb and one eye. Because ${ph} had lost both hands, he met the criteria.
                     <br><br>
-                    The branch clerk initially raised an objection regarding the "Employer Certificate," questioning if the accident was due to ${ph}'s own negligence. ${nom} had to provide the factory's safety audit report to prove it was a mechanical failure. This highlights the "Proof of Accident" requirement that goes beyond just medical papers. 
+                    The Benefit Structure: Once the claim was authorized, the benefit was two-fold. First, the Premium Waiver—all future premiums for ${ph}'s policy were waived, but the policy continued to earn full bonuses. Second, the Disability Income—the Sum Assured of ₹20,00,000 was divided into 120 monthly installments (₹16,666 per month) to be paid to ${ph}.
                     <br><br>
-                    Ultimately, Mr. ${ph} started receiving his monthly disability income. This case serves as a vital lesson: Disability claims are a test of endurance. Nominees like ${nom} must ensure that the "Accident FIR" is linked directly to the "Medical Disability Certificate" to prove the "Proximate Cause." This rider saved the policy from lapsing and provided a life-sustaining income stream when ${ph}'s salary stopped.
+                    Workflow Challenge: The branch clerk initially questioned if the accident was due to ${ph}'s negligence in following safety protocols. ${nom} had to provide the factory's safety audit and the police's final report to clear ${ph} of any "Attempted Suicide" or "Self-Inflicted Injury" suspicion. 
+                    <br><br>
+                    Final Outcome: After 200 days from the accident, the first installment hit the bank account. This case illustrates that AD&DB is a "Life-Sustaining" rider, but the nominee must be prepared for a long medical vetting process. It highlights the importance of keeping original hospital discharge summaries and every single scan report from day one of the accident.
                 `
             },
             ci: {
                 type: "CRITICAL ILLNESS RIDER (CI)",
-                desc: "Lump sum payout on diagnosis of one of 15 covered major illnesses.",
-                timeline: "30-Day Survival Period + 15 Days Scrutiny",
-                docs: ["Specialist Diagnosis Report", "Histopathology Report", "Hospital Discharge Summary", "Treating Doctor's Statement", "Original Scan Reports"],
-                rejections: ["Illness diagnosed within 90-day waiting period", "Death within 30 days of diagnosis", "Condition doesn't meet technical definition"],
+                desc: "Lump sum payout upon diagnosis of a covered major disease.",
+                timeline: "30-Day Survival Period + 15 Days Medical Audit",
+                docs: ["Oncologist/Specialist Report", "Histopathology (Biopsy) Report", "Scan/Imaging Proof", "Treating Doctor's detailed form", "Previous 3-year medical history"],
+                rejections: ["Waiting period of 90 days not over", "Death within 30 days of diagnosis", "Disease doesn't meet technical definition in bond", "Pre-existing illness not disclosed"],
                 caseStudy: (ph, nom, rel) => `
-                    <strong>Subject Profile: Ms. ${ph} | Nominee: ${nom} (${rel})</strong><br><br>
+                    <strong>The Battle against Cancer: Ms. ${ph} and her ${rel}, ${nom}</strong><br><br>
                     
-                    Ms. ${ph}, a bank manager and mother, was diagnosed with Stage II Malignant Breast Cancer during a routine checkup. She had wisely opted for the Critical Illness (CI) Rider with a ₹10,00,000 benefit. Her ${rel}, ${nom}, assisted her in the claim filing. The CI rider is a "Living Benefit," meaning the money is paid to the policyholder to fund treatment, not after death.
+                    Ms. ${ph}, a bank manager, was diagnosed with Stage III Breast Cancer during a routine executive checkup. She had opted for the Critical Illness (CI) rider with a benefit of ₹10,00,000. Her ${rel}, ${nom}, assisted her in gathering the pathology reports to file the claim. 
                     <br><br>
-                    The first challenge was the "90-Day Waiting Period." If ${ph} had been diagnosed within the first three months of taking the policy, the claim would have been rejected under the "Pre-existing" clause. Since she was in the fourth year of her policy, this was cleared. However, the next hurdle was the "30-Day Survival Period." Under LIC rules, the life assured must survive for at least 30 days *after* the date of diagnosis. If ${ph} had passed away on day 20, the CI rider would pay zero. 
+                    The "90-Day Waiting Period" Rule: LIC first checks the policy commencement date. If the diagnosis occurs within 90 days of taking the policy or reviving it, the claim is rejected. Since ${ph} had taken the policy four years ago, this was not an issue.
                     <br><br>
-                    The technical scrutiny was intense. LIC’s Chief Medical Officer reviewed the biopsy and histopathology reports. Every illness in the CI rider has a specific "Technical Definition." For cancer, it must be "Malignant" and show "Invasion of Tissue." If it had been a "Carcinoma-in-situ" (non-invasive), the claim would have been rejected. ${nom} had to ensure the oncologist provided a detailed report matching the exact terminology in the LIC policy bond.
+                    The Survival Clause Conflict: The most stressful part for ${nom} was the "30-Day Survival Rule." Under the CI rider terms, the life assured must survive for at least 30 days after the date of diagnosis. If ${ph} had succumbed to the illness on day 25, the CI rider would pay nothing, and only the death claim would trigger. This period felt like a race against time for the family.
                     <br><br>
-                    A conflict occurred regarding the "Treatment Records." LIC requested the primary care physician's notes from three years ago to see if the symptoms were hidden earlier. This is a standard "Non-disclosure" check. Once cleared, the ₹10 Lakhs was paid as a lump sum. 
+                    The Technical Definition: LIC's Chief Medical Officer (CMO) reviewed the biopsy slides and the oncologist's report. Every illness in the CI rider has a specific "definition." For cancer, it must be "Malignant" and show "Invasion of Tissue." Some early-stage "Carcinoma-in-situ" cases are rejected because they don't meet the "Severity" criteria. ${nom} ensured that the oncologist’s wording matched the policy bond requirements exactly. 
                     <br><br>
-                    This payout allowed ${ph} to afford specialized immunotherapy that wasn't covered by her basic health insurance. This case highlights that for ${nom} and ${ph}, the CI rider is a "Wealth Protector." It ensures that a health crisis does not wipe out the family savings. The success of the claim rested entirely on the "Pathological Evidence" and the "Survival Period" fulfillment.
+                    Final Result: The ₹10 Lakhs was paid as a lump sum while ${ph} was still undergoing chemotherapy. This provided the "Living Liquidity" needed for expensive immunotherapy. Crucially, paying the CI rider did not terminate the base policy; it stayed active for the maturity benefit. 
+                    <br><br>
+                    This case teaches nominees that CI claims are purely medical. You must have every histopathology report and specialist's note. It is a "Living Benefit" designed to protect wealth during a health crisis.
                 `
             },
             pwb: {
                 type: "PREMIUM WAIVER BENEFIT (PWB)",
-                desc: "Future premiums waived if Proposer dies; policy continues for the child.",
-                timeline: "15-20 Days (Processed with Proposer's Death Claim)",
-                docs: ["Proposer's Death Certificate", "Relationship Proof", "Child's Birth Certificate", "Original Policy Bond", "Claim Form-Rider"],
-                rejections: ["Rider not opted during proposal", "Policy in lapsed condition on death", "Proposer age above 70 at death"],
+                desc: "Future premiums are waived; policy continues as if fully paid.",
+                timeline: "20-30 Days (Usually with Proposer's Death Claim)",
+                docs: ["Proposer's Death Certificate", "Relationship Proof", "Child's Birth Certificate", "Original Policy Bond", "Employer's Leave Certificate"],
+                rejections: ["Rider not opted during proposal", "Proposer age exceeded limit (usually 70)", "Policy in lapsed condition at time of death", "Death under early claim investigation (if applicable)"],
                 caseStudy: (ph, nom, rel) => `
-                    <strong>Subject Profile: Late Mr. ${ph} | Child (LA): ${nom} (${rel})</strong><br><br>
+                    <strong>The Proposer's Legacy: Late Mr. ${ph} and the Future of his son ${nom}</strong><br><br>
                     
-                    Mr. ${ph} had purchased a Jeevan Tarun policy for his young son, ${nom}. He opted for the Premium Waiver Benefit (PWB) rider, a small addition to the premium that acts as a "Self-Completing" mechanism for the policy. Tragically, Mr. ${ph} passed away due to a viral complication when the policy was only in its third year. The child, ${nom}, was the life assured, but the father was the proposer.
+                    Late Mr. ${ph} had taken a Jeevan Tarun policy for his 8-year-old son, ${nom}. Wisely, he had opted for the Premium Waiver Benefit (PWB) rider. Tragically, Mr. ${ph} passed away due to a viral infection during his third policy year. The child, ${nom}, was the life assured, but the father was the one paying the ₹35,000 annual premium.
                     <br><br>
-                    The ${rel} (usually the mother or guardian) visited the LIC branch. In a standard policy, if the proposer dies, the family must continue paying the premiums, or the policy lapses. However, because of the PWB rider, the "Premium Waiver" was triggered. This meant that the ₹40,000 annual premium was no longer required to be paid by the family. 
+                    The Dilemma: Without the PWB rider, the family would have had to continue paying premiums for the next 17 years, or the policy would lapse. The ${rel} (usually the mother) visited the branch. LIC's internal system automatically triggered the PWB review alongside the Proposer's death claim.
                     <br><br>
-                    LIC’s internal system updated the policy status to "PWB-Claimed." The policy would now stay "In-Force" automatically for the next 15 years. It would continue to earn the same "Simple Reversionary Bonus" and "Final Additional Bonus" as if Mr. ${ph} was still paying the premiums. This is the most emotional rider LIC offers—it ensures the father’s dream for ${nom}'s education is fulfilled even in his absence. 
+                    The Verification: LIC's "Annuity/Premium Master" had to be updated to "Waiver Mode." The branch clerk verified the relationship between ${ph} and ${nom}. A conflict arose because the policy had been "Revived" just three months prior to death. LIC investigated the "Declaration of Good Health" to ensure ${ph} hadn't hidden his illness. 
                     <br><br>
-                    The branch clerk performed a "Relationship Audit" to ensure the proposer was indeed the parent/guardian. A major hurdle arose when they found the policy had been "Revived" just six months before the death. LIC scrutinized the "Declaration of Good Health" to ensure ${ph} hadn't hidden his illness during the revival. Once the "Early Death" investigation was cleared, the waiver was approved. 
+                    The Payout: PWB does not pay cash to the family. Instead, it "Waives" the future premiums. LIC treats the policy as "Fully Paid Up." It continues to earn the same bonuses and provides the full maturity benefit at age 25 for ${nom}. 
                     <br><br>
-                    At age 25, ${nom} will receive the full Sum Assured and 20 years of bonuses. The total value of the "Waiver" for the family was ₹6,00,000 in saved premiums. This case proves that PWB is not an option—it is a necessity for every parent. It turns a piece of paper into a guaranteed future. For ${nom}, the policy remained a gift from his father that never stopped growing.
+                    Value Analysis: The family saved ₹35,000 x 17 years = ₹5,95,000 in future outgo. This rider ensured that the father's dream for ${nom}'s higher education was fulfilled even after his untimely demise. 
+                    <br><br>
+                    Conclusion: For nominees and guardians, PWB is the most vital rider in child plans. Mr. ${ph}'s foresight turned a piece of paper into a guaranteed destiny for ${nom}. This case proves that PWB is the ultimate "Self-Completing" mechanism for any family-oriented policy.
                 `
             }
         };
@@ -581,10 +587,10 @@
 
             if (percent < 100) {
                 badge.className = 'status-badge status-yellow';
-                badge.innerText = 'INCOMPLETE DOCUMENTS';
+                badge.innerText = 'DOCUMENTATION INCOMPLETE';
             } else {
                 badge.className = 'status-badge status-green';
-                badge.innerText = 'READY FOR BRANCH FILING';
+                badge.innerText = 'READY FOR SETTLEMENT';
             }
         }
 
@@ -595,13 +601,13 @@
             const rel = document.getElementById('relation').value;
 
             if (!typeKey || !ph || !nom || !rel) {
-                alert("Please complete all Policyholder and Nominee fields.");
+                alert("Please fill Policyholder and Nominee details completely.");
                 return;
             }
 
             const data = riderScenarios[typeKey];
             
-            // Populate Results
+            // Results
             document.getElementById('resPhName').innerText = ph;
             document.getElementById('resNomDetails').innerText = nom + " (" + rel + ")";
             document.getElementById('outType').innerText = data.type;
@@ -624,7 +630,7 @@
                 rejListEl.appendChild(li);
             });
 
-            // Populate Narrative
+            // Narrative Injection
             document.getElementById('caseStudyText').innerHTML = data.caseStudy(ph, nom, rel);
 
             document.getElementById('outputSection').style.display = 'block';
@@ -633,13 +639,12 @@
 
         async function shareReport() {
             const ph = document.getElementById('phName').value;
-            const type = document.getElementById('outType').innerText;
-            const text = `📋 LIC Rider Claim Analysis for ${ph}\nScenario: ${type}\nStatus: ${document.getElementById('readinessBadge').innerText}\n\nTrack your accidental benefit readiness in the app!`;
+            const text = `📋 LIC Rider Claim Report for ${ph}\nStatus: ${document.getElementById('readinessBadge').innerText}\n\nDownload the expert settlement roadmap in our app!`;
             
             if (navigator.share) {
                 try {
                     await navigator.share({
-                        title: 'LIC Rider Settlement Report',
+                        title: 'LIC Rider Settlement Analysis',
                         text: text
                     });
                 } catch (err) {
