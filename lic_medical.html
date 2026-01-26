@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Underwriting Wizard</title>
+    <style>
+        :root {
+            --parrot-green: #32CD32;
+            --neon-green: #39FF14;
+            --dark-green: #006400;
+            --white: #ffffff;
+            --light-gray: #f4fdf4;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--white) 0%, #e0fce0 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Dazzling Header */
+        header {
+            background: linear-gradient(90deg, var(--dark-green) 0%, var(--parrot-green) 50%, var(--dark-green) 100%);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: slideDown 1s ease-out;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            font-weight: 300;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: -30px auto 50px auto;
+            position: relative;
+            z-index: 10;
+            padding: 0 15px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--parrot-green);
+            animation: fadeInUp 1s ease-out;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h2.section-title {
+            color: var(--dark-green);
+            border-bottom: 2px solid var(--parrot-green);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styling */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark-green);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--parrot-green);
+            box-shadow: 0 0 8px rgba(50, 205, 50, 0.3);
+            outline: none;
+        }
+
+        /* Button */
+        .btn-check {
+            background: linear-gradient(45deg, var(--parrot-green), var(--dark-green));
+            color: var(--white);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+        }
+
+        .btn-check:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(50, 205, 50, 0.4);
+        }
+
+        /* Results Section */
+        #resultsSection {
+            display: none;
+        }
+
+        .result-box {
+            background: #f0fff0;
+            border: 2px dashed var(--parrot-green);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .result-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark-green);
+            margin-bottom: 15px;
+        }
+
+        .conclusion-text {
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            background: rgba(255,255,255,0.8);
+            padding: 15px;
+            border-left: 5px solid var(--parrot-green);
+        }
+
+        .golden-rule {
+            background: #fffbe6;
+            border: 2px solid #ffd700;
+            color: #b8860b;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        /* Definitions Section */
+        .definitions {
+            background: var(--dark-green);
+            color: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 3rem;
+        }
+
+        .def-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .def-item h4 {
+            color: var(--neon-green);
+            margin-bottom: 5px;
+        }
+
+        .def-item p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+            50% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+        }
+
+        .badge-eligible {
+            background-color: var(--parrot-green);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .badge-medical {
+            background-color: #ff4500;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>LIC Connect</h1>
+    <p>Medical & Non-Medical Underwriting Calculator</p>
+</header>
+
+<div class="container">
+    
+    <!-- GOLDEN RULE -->
+    <div class="golden-rule">
+        👉 THE GOLDEN RULE: Non-Medical eligibility is decided FIRST. Medical tests are decided ONLY if the case is NOT eligible for Non-Medical.
+    </div>
+
+    <!-- PART I: INPUTS -->
+    <div class="card">
+        <h2 class="section-title">I. Client Details & Non-Medical Rules</h2>
+        <form id="uwForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Age (Years)</label>
+                    <input type="number" id="age" min="0" max="100" placeholder="e.g. 30" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Transgender">Transgender</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>SUC (Sum Under Consideration)</label>
+                    <input type="number" id="suc" placeholder="e.g. 1000000" required>
+                    <small style="color: #666;">Enter numerical value (e.g., 500000)</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Age Proof (SAP/NSAP)</label>
+                    <select id="ageProof">
+                        <option value="SAP">Standard Age Proof (SAP)</option>
+                        <option value="NSAP-1">NSAP-I (Max Term 25)</option>
+                        <option value="NSAP-2">NSAP-II (Max Term 25)</option>
+                        <option value="NSAP-3">NSAP-III (Max Term 25)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="category" onchange="updateProfessions()">
+                        <option value="NMG">Non-Medical General (Others)</option>
+                        <option value="NMS">Non-Medical Special (NMS)</option>
+                        <option value="NM_PROF">Non-Medical Professional</option>
+                        <option value="NM_STUDENT">Non-Medical Major Students</option>
+                        <option value="NM_MINOR">Non-Medical Minor Children</option>
+                        <option value="NM_NRI">Non-Medical NRI Professionals</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Profession</label>
+                    <select id="profession">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+            </div>
+            
+            <button type="button" class="btn-check" onclick="calculateEligibility()">Check Eligibility</button>
+        </form>
+    </div>
+
+    <!-- OUTPUT SECTION -->
+    <div id="resultsSection">
+        
+        <!-- NON MEDICAL RESULT -->
+        <div id="nmResultCard" class="card" style="display:none; border-color: var(--parrot-green);">
+            <h2 class="section-title">Result: Non-Medical Eligibility</h2>
+            <div class="result-header">
+                ELIGIBILITY FOR NON MEDICAL : <span id="nmStatus"></span>
+            </div>
+            <div id="nmMaxLimitBox">
+                <strong>MAXIMUM SUM ASSURED ALLOWED:</strong> ₹<span id="nmLimit"></span>
+            </div>
+            <br>
+            <div class="conclusion-text" id="nmConclusion">
+                <!-- Text injected by JS -->
+            </div>
+        </div>
+
+        <!-- MEDICAL RESULT -->
+        <div id="medicalResultCard" class="card" style="display:none; border-color: #ff4500;">
+            <h2 class="section-title">II. Medical Rules (Required)</h2>
+            <p style="color: #666;">Since the proposal does not fit within Non-Medical limits, the following Medical Tests are required:</p>
+            
+            <div class="result-box">
+                <h3 style="margin-top:0;">Medical Tests Required:</h3>
+                <p id="medicalTestsList" style="font-weight: bold; color: #d32f2f; font-size: 1.2rem;"></p>
+            </div>
+
+            <div class="conclusion-text" id="medicalConclusion">
+                <!-- Text injected by JS -->
+            </div>
+        </div>
+
+    </div>
+
+<!-- DEFINITIONS -->
+    <div class="definitions">
+        <h2 style="color: var(--white); border-bottom: 2px solid var(--neon-green); padding-bottom: 15px; margin-top: 0; text-transform: uppercase; letter-spacing: 1px;">Important Definitions & Rules</h2>
+        
+        <div class="def-grid">
+            <!-- 1. SAP -->
+            <div class="def-item">
+                <h4>1. Standard Age Proof (SAP)</h4>
+                <p>These are the "Gold Standard" documents. They allow for higher Maximum Sum Assured limits.</p>
+                <ul style="margin: 5px 0; padding-left: 20px; font-size: 0.9rem;">
+                    <li>School/College Leaving Certificate (SSC/HSC)</li>
+                    <li>Municipal Birth Certificate</li>
+                    <li>Passport</li>
+                    <li>PAN Card</li>
+                    <li>Service Register (Govt/PSU/Defence)</li>
+                    <li>Baptism Certificate</li>
+                </ul>
+            </div>
+
+            <!-- 2. NSAP-I -->
+            <div class="def-item">
+                <h4>2. NSAP-I (Non-Standard I)</h4>
+                <p>Accepted widely but restricts the Max Policy Term (usually to 25 years). Used when exact DOB is not on a "Standard" doc.</p>
+                <ul style="margin: 5px 0; padding-left: 20px; font-size: 0.9rem;">
+                    <li>Driving License (Standard Issue)</li>
+                    <li>ESI Card</li>
+                    <li>Service Record (Private Limited Companies)</li>
+                    <li>Marriage Certificate (if age is mentioned)</li>
+                </ul>
+            </div>
+
+            <!-- 3. NSAP-II -->
+            <div class="def-item">
+                <h4>3. NSAP-II (Non-Standard II)</h4>
+                <p>Secondary identification documents. Often attracts lower Sum Assured limits.</p>
+                <ul style="margin: 5px 0; padding-left: 20px; font-size: 0.9rem;">
+                    <li>Aadhar Card (If full DOB is NOT verified or original not seen)</li>
+                    <li>Voter ID Card (EPIC)</li>
+                    <li>Ration Card (with name and age)</li>
+                </ul>
+            </div>
+
+            <!-- 4. NSAP-III -->
+            <div class="def-item">
+                <h4>4. NSAP-III (Non-Standard III)</h4>
+                <p>The weakest form of age proof. Allowed only for very small Sum Assured.</p>
+                <ul style="margin: 5px 0; padding-left: 20px; font-size: 0.9rem;">
+                    <li>Self-Declaration (Standard Format)</li>
+                    <li>Village Panchayat Certificate</li>
+                    <li>Horoscope (sometimes treated as NSAP-III depending on plan)</li>
+                </ul>
+            </div>
+
+         <!-- 5. AGE MATH (Detailed Example) -->
+            <div class="def-item" style="grid-column: span 1; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 15px; border: 2px solid var(--neon-green);">
+                <h4 style="color: var(--white); text-decoration: underline; margin-top: 0;">5. Age Calculation Explained (NBD vs LBD)</h4>
+                
+                <p style="margin-bottom: 10px; color: var(--off-white);"><strong>The LIC Rule:</strong> Look at the gap between the <em>Last Birthday</em> and the <em>Date of Proposal</em>. If the gap is <strong>less than 6 months</strong>, stick to the lower age. If it is <strong>6 months or more</strong>, jump to the next age.</p>
+                
+                <div style="background: var(--white); color: #333; padding: 15px; border-radius: 10px; font-size: 0.95rem; box-shadow: inset 0 0 10px rgba(0,0,0,0.1);">
+                    <strong>Specific Example:</strong><br>
+                    📅 <em>Date of Birth:</em> <strong>15th Jan 1991</strong><br>
+                    📝 <em>Date of Proposal:</em> <strong>26th Jan 2026</strong><br>
+                    <hr style="border-top: 2px dashed #ccc; margin: 10px 0;">
+                    
+                    <div style="margin-bottom: 10px;">
+                        <strong style="color: var(--dark-green);">1. LBD (Last Birthday): 35 Years</strong><br>
+                        <em>Why?</em> The birthday that just passed was 15th Jan 2026. <br>
+                        (2026 - 1991 = 35). This is his completed age.
+                    </div>
+
+                    <div style="margin-bottom: 10px;">
+                        <strong style="color: var(--dark-green);">2. Next Birthday: 36 Years</strong><br>
+                        <em>Why?</em> The upcoming birthday is 15th Jan 2027. He will turn 36 then.
+                    </div>
+
+                    <div>
+                        <strong style="color: #d32f2f; font-size: 1.1rem;">3. NBD (Nearer Birthday): 35 Years</strong><br>
+                        <em>Why?</em> Count the days from the Last Birthday (15th Jan) to Proposal Date (26th Jan).<br>
+                        <strong>Gap = 11 Days.</strong><br>
+                        Since 11 days is <strong>less than 6 months</strong>, he is "Nearer" to 35 than he is to 36.<br>
+                        <span style="background: var(--parrot-green); color: white; padding: 2px 5px; border-radius: 4px; font-weight: bold;">Final Age for Insurance = 35</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 6. SUC -->
+            <div class="def-item">
+                <h4>6. SUC (Sum Under Consideration)</h4>
+                <p>This is the figure used to determine Medical Tests. It is NOT just the current policy amount.</p>
+                <p><strong>Formula:</strong></p>
+                <div style="background: rgba(255,255,255,0.1); padding: 5px; border-left: 3px solid var(--neon-green);">
+                   (Rated SA of Current Proposal) <br>+<br> (Total SA of all policies taken in last 2 Full Years)
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 5px;"><em>Note: Exclude Term Rider SA unless specified.</em></p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<script>
+    // Data Sources for Professions
+  const professions = {
+        'NMG': [
+            'Salaried (Non-gazetted/Non-PSU)', 
+            'Clerks / Office Assistants', 
+            'Sales Staff / Showroom Staff', 
+            'Small Shop Owners', 
+            'Small Traders', 
+            'Drivers (Non-commercial heavy risk)', 
+            'Technicians (Non-hazardous)', 
+            'Private Company Staff (Ordinary roles)', 
+            'Daily Wage Earners (Documented income)', 
+            'Pensioners', 
+            'Retired Persons (Non-hazardous)', 
+            'Housewives (Female Category-III)'
+        ],
+        'NMS': [
+            'Central / State Govt Employees', 
+            'PSU Employees', 
+            'Bank Employees', 
+            'Insurance Company Employees', 
+            'Defence (Non-combat roles)', 
+            'Public Sector Teachers', 
+            'Large Corporate Salaried Staff', 
+            'Reputed MNC Employees', 
+            'Semi-government Employees', 
+            'Autonomous Body Employees'
+        ],
+        'NM_PROF': [
+            'Chartered Accountant (CA)', 
+            'Cost Accountant (ICWA)', 
+            'Company Secretary (CS)', 
+            'Doctors (MBBS / MD / BDS / AYUSH)', 
+            'Engineers (Degree Holders)', 
+            'Architects', 
+            'Lawyers / Advocates', 
+            'Chartered Engineers', 
+            'Professors / Lecturers', 
+            'Computer Professionals', 
+            'Software Engineers', 
+            'Management Consultants', 
+            'Actuaries', 
+            'LIC Agents (Confirmed)'
+        ],
+        'NM_STUDENT': [
+            'Student (MBBS / Medical)', 
+            'Student (Engineering)', 
+            'Student (Law)', 
+            'Student (CA / CS / CMA)', 
+            'Student (MBA / MCA)', 
+            'Student (Chartered Programs)', 
+            'Student (Govt-recognised University)'
+        ],
+        'NM_MINOR': [
+            'Minor Child (0 to 17 years)'
+        ],
+        'NM_NRI': [
+            'NRI Doctor', 
+            'NRI Engineer', 
+            'NRI Architect', 
+            'NRI IT Professional', 
+            'NRI Chartered Accountant', 
+            'NRI Management Consultant', 
+            'NRI Professor', 
+            'NRI Researcher', 
+            'NRI Corporate Executive'
+        ]
+    };
+
+    // Initialize dropdown
+    function updateProfessions() {
+        const cat = document.getElementById('category').value;
+        const profSelect = document.getElementById('profession');
+        profSelect.innerHTML = '';
+        
+        professions[cat].forEach(prof => {
+            const option = document.createElement('option');
+            option.value = prof;
+            option.textContent = prof;
+            profSelect.appendChild(option);
+        });
+    }
+
+    // Run once on load
+    updateProfessions();
+
+    function formatCurrency(num) {
+        return new Intl.NumberFormat('en-IN').format(num);
+    }
+
+    function calculateEligibility() {
+        // Inputs
+        const age = parseInt(document.getElementById('age').value);
+        const gender = document.getElementById('gender').value;
+        const suc = parseInt(document.getElementById('suc').value);
+        const ageProof = document.getElementById('ageProof').value;
+        const category = document.getElementById('category').value;
+        const categoryText = document.getElementById('category').options[document.getElementById('category').selectedIndex].text;
+        const profession = document.getElementById('profession').value;
+
+        // Reset display
+        document.getElementById('resultsSection').style.display = 'block';
+        document.getElementById('nmResultCard').style.display = 'block';
+        document.getElementById('medicalResultCard').style.display = 'none';
+
+        // Logic Variables
+        let maxNM = 0;
+        let eligible = false;
+        let failReason = "";
+
+        // ------------------------------------------
+        // NON-MEDICAL LOGIC
+        // ------------------------------------------
+
+        // 1. Non-Medical General (Others)
+        if (category === 'NMG') {
+            if (age >= 18 && age <= 35) {
+                if (ageProof === 'SAP' || ageProof === 'NSAP-1') maxNM = 500000;
+                else if (ageProof === 'NSAP-2') maxNM = 300000;
+                else maxNM = 200000;
+            } else if (age >= 36 && age <= 45) {
+                if (ageProof === 'SAP' || ageProof === 'NSAP-1') maxNM = 300000;
+                else if (ageProof === 'NSAP-2') maxNM = 200000;
+                else maxNM = 150000;
+            } else if (age >= 46 && age <= 50) {
+                if (ageProof === 'SAP' || ageProof === 'NSAP-1') maxNM = 200000;
+                else maxNM = 125000;
+            } else {
+                maxNM = 0; // Over 50 not allowed usually in NMG
+            }
+        }
+
+        // 2. Non-Medical Special (NMS) - Requires SAP usually
+        else if (category === 'NMS') {
+            if (ageProof !== 'SAP') {
+                maxNM = 0;
+                failReason = "Requires Standard Age Proof.";
+            } else {
+                if (age <= 35) maxNM = 2000000; // 20 Lacs
+                else if (age <= 45) maxNM = 1500000;
+                else if (age <= 50) maxNM = 500000;
+            }
+        }
+
+        // 3. Non-Medical Professional - Requires SAP
+        else if (category === 'NM_PROF') {
+            if (ageProof !== 'SAP') {
+                maxNM = 0;
+                failReason = "Requires Standard Age Proof.";
+            } else {
+                if (age <= 35) maxNM = 2500000; // 25 Lacs
+                else if (age <= 45) maxNM = 1500000;
+                else if (age <= 50) maxNM = 500000;
+            }
+        }
+
+        // 4. Major Students
+        else if (category === 'NM_STUDENT') {
+            if (age >= 18 && age <= 25) {
+                maxNM = 1500000;
+            } else {
+                maxNM = 0;
+                failReason = "Age must be 18-25 for NM Students.";
+            }
+        }
+
+        // 5. Minor Children
+        else if (category === 'NM_MINOR') {
+            if (age <= 9) maxNM = 2500000;
+            else if (age <= 17) maxNM = 800000;
+            else {
+                maxNM = 0;
+                failReason = "Age must be 0-17.";
+            }
+        }
+
+        // 6. NRI
+        else if (category === 'NM_NRI') {
+             if (ageProof !== 'SAP') {
+                maxNM = 0;
+                failReason = "Requires Standard Age Proof.";
+            } else {
+                if (age <= 35) maxNM = 2000000;
+                else if (age <= 45) maxNM = 1500000;
+                else if (age <= 50) maxNM = 500000;
+            }
+        }
+
+        // Determine Final Eligibility
+        if (maxNM > 0 && suc <= maxNM) {
+            eligible = true;
+        }
+
+        // ------------------------------------------
+        // RENDER NON-MEDICAL OUTPUT
+        // ------------------------------------------
+        const nmStatusEl = document.getElementById('nmStatus');
+        const nmLimitEl = document.getElementById('nmLimit');
+        const nmConclusionEl = document.getElementById('nmConclusion');
+
+        if (eligible) {
+            nmStatusEl.innerHTML = "<span class='badge-eligible'>YES</span>";
+            nmStatusEl.style.color = "var(--parrot-green)";
+            nmLimitEl.innerText = formatCurrency(maxNM);
+            
+            nmConclusionEl.innerHTML = `
+                The person aged <strong>${age} yrs</strong> belonging to the <strong>${categoryText}</strong> category 
+                with a profession as a <strong>${profession}</strong> is eligible for <strong>NON MEDICAL</strong> (${categoryText}).
+            `;
+            
+            // Hide Medical part
+            document.getElementById('medicalResultCard').style.display = 'none';
+        } else {
+            nmStatusEl.innerHTML = "<span class='badge-medical'>NO</span>";
+            nmLimitEl.innerText = formatCurrency(maxNM) + (failReason ? ` (${failReason})` : "");
+            
+            nmConclusionEl.innerHTML = `
+                The person is <strong>NOT ELIGIBLE</strong> for Non-Medical for the requested SUC of ₹${formatCurrency(suc)}. 
+                <br>Please fill up part II (Medical Rules).
+            `;
+
+            // ------------------------------------------
+            // RENDER MEDICAL OUTPUT (PART II)
+            // ------------------------------------------
+            document.getElementById('medicalResultCard').style.display = 'block';
+            
+            // Logic for Medical Tests (Based on Image 3 - Special Medical Report Chart)
+            let tests = "";
+
+            if (age <= 35) {
+                if (suc <= 200000) tests = "Nil"; // Often not possible due to min sum assured but per chart
+                else if (suc <= 1500000) tests = "Nil (Generally)"; // Simplification based on generic chart, actual depends on exact plan
+                else if (suc <= 3500000) tests = "FBS, Lipidogram, Elisa for HIV, Hb%";
+                else if (suc <= 5000000) tests = "Rest ECG, SBT-13, RUA, Hb%";
+                else tests = "Rest ECG, Haemogram, SBT-13, RUA. (Special Report)";
+            } 
+            else if (age <= 45) {
+                if (suc <= 1000000) tests = "Nil (Generally)";
+                else if (suc <= 1500000) tests = "Lipidogram, FBS, RUA, Elisa for HIV, Hb%";
+                else if (suc <= 3500000) tests = "Rest ECG, SBT-13, RUA, Hb%";
+                else if (suc <= 5000000) tests = "Rest ECG, Haemogram, SBT-13, RUA, CTMT";
+                else tests = "Rest ECG, Haemogram, SBT-13, RUA, CTMT, HbA1c";
+            }
+            else if (age <= 55) {
+                if (suc <= 200000) tests = "Nil";
+                else if (suc <= 500000) tests = "Rest ECG, FBS";
+                else if (suc <= 1000000) tests = "Rest ECG, Lipidogram, FBS, RUA, Hb%";
+                else if (suc <= 1500000) tests = "Rest ECG, SBT-13, RUA, Hb%";
+                else if (suc <= 3500000) tests = "Rest ECG, Haemogram, SBT-13, RUA, CTMT";
+                else tests = "Rest ECG, Haemogram, SBT-13, RUA, CTMT, HbA1c, Chest X-Ray";
+            }
+            else { // 56 and above
+                if (suc <= 200000) tests = "Rest ECG, FBS";
+                else if (suc <= 500000) tests = "Rest ECG, Lipidogram, FBS, RUA, Hb%";
+                else if (suc <= 1000000) tests = "Rest ECG, Lipidogram, FBS, RUA, Hb%";
+                else tests = "Rest ECG, Haemogram, SBT-13, RUA, CTMT, HbA1c, Chest X-Ray";
+            }
+
+            document.getElementById('medicalTestsList').innerText = tests;
+            document.getElementById('medicalConclusion').innerHTML = `
+                The person aged <strong>${age} yrs</strong> belonging to the <strong>${categoryText}</strong> category 
+                with a profession as a <strong>${profession}</strong> has to undergo a medical for the following tests: 
+                <strong>${tests}</strong>.
+            `;
+        }
+
+        // Scroll to results
+        document.getElementById('resultsSection').scrollIntoView({behavior: 'smooth'});
+    }
+</script>
+
+</body>
+</html>
