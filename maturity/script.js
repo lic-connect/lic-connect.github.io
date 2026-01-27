@@ -83,15 +83,15 @@ document.addEventListener('DOMContentLoaded', function () {
             minTerm: 13, maxTerm: 25, calcPPT: (t) => t - 3 
         },
         // 8. Jeevan Tarun
-        '734': { 
+      '734': { 
             name: "Jeevan Tarun", type: 'Money Back', 
-            summary: "A limited premium plan for children with multiple survival benefit options.",
+            summary: "A child plan with 4 Survival Benefit options (0%, 5%, 10%, 15% SB). <strong>Note: This calculator assumes Option 4 (15% SB) for maturity estimation purposes.</strong>",
             benefits: { 
-                onDeath: "125% of Sum Assured + Vested Bonuses + FAB.", 
-                onSurvival: "Survival benefits based on chosen option (0%, 5%, 10%, or 15% of SA) from age 20 to 24. Maturity at 25." 
+                onDeath: "125% of Sum Assured + Bonus.", 
+                onSurvival: "Survival Benefits per Option 4 (15% SA/yr) + Maturity (25% SA + Bonus)." 
             }, 
             rules: { death: 'standard_death_bonus', maturity: 'money_back_bonus_child' },
-            minTerm: 13, maxTerm: 25, calcPPT: (t) => t - 5 // Approx logic
+            minTerm: 13, maxTerm: 25, calcPPT: (t) => t - 5 
         },
         // 9. Endowment Plus (ULIP)
         '735': { 
@@ -137,10 +137,10 @@ document.addEventListener('DOMContentLoaded', function () {
             calcPPT: (t) => t - 4 
         },
         // 13. Nivesh Plus
-        '749': { 
+      '749': { 
             name: "Nivesh Plus", type: 'ULIP', 
-            summary: "Single Premium Unit Linked Plan.",
-            benefits: { onDeath: "Higher of SA or Fund Value.", onSurvival: "Fund Value." }, 
+            summary: "Single Premium ULIP. <strong>Note: For calculation, please enter the Basic Sum Assured corresponding to your chosen Option (Option 1: 1.25x Premium or Option 2: 10x Premium).</strong>",
+            benefits: { onDeath: "Higher of Entered SA or Fund Value.", onSurvival: "Fund Value." }, 
             rules: { death: 'single_premium_ulip_logic', maturity: 'fund_value_plus_ga' },
             minTerm: 10, maxTerm: 25, calcPPT: (t) => 1 
         },
@@ -153,10 +153,10 @@ document.addEventListener('DOMContentLoaded', function () {
             minTerm: 10, maxTerm: 15, calcPPT: (t) => t 
         },
         // 15. SIIP
-        '752': { 
+      '752': { 
             name: "SIIP", type: 'ULIP', 
-            summary: "Systematic Investment Insurance Plan with Mortality Refund.",
-            benefits: { onDeath: "Higher of SA or Fund Value.", onSurvival: "Fund Value + Mortality Charges Refund + GA." }, 
+            summary: "Unit Linked Plan. <strong>Note: Please enter the Basic Sum Assured based on your chosen cover option (Option 1: 7x Premium or Option 2: 10x Premium).</strong>",
+            benefits: { onDeath: "Higher of Entered SA or Fund Value.", onSurvival: "Fund Value + Mortality Refund." }, 
             rules: { death: 'ulip_risk_logic', maturity: 'fund_value_plus_refund_plus_ga' },
             minTerm: 10, maxTerm: 25, calcPPT: (t) => t 
         },
@@ -200,13 +200,14 @@ document.addEventListener('DOMContentLoaded', function () {
             minTerm: 15, maxTerm: 20, calcPPT: (t) => t - 8 
         },
         // 20. Jeevan Utsav
-        '771': { 
+      '771': { 
             name: "Jeevan Utsav", type: 'Whole Life', 
-            summary: "Limited Premium Whole Life plan with 10% Income Benefit and GA (Rs. 40/1000).",
-            benefits: { onDeath: "Sum Assured on Death + Accrued GA.", onSurvival: "10% of SA Income + Maturity (SA + GA)." }, 
+            summary: "Whole Life Plan. <strong>Note: This calculator shows the Total Accrued Benefit. It assumes 'Flexi Income Benefit' where income is accumulated and not withdrawn annually.</strong>",
+            benefits: { onDeath: "Sum Assured + Accrued GA.", onSurvival: "Accumulated Income + Maturity (SA + GA)." }, 
             rules: { death: 'ga_death_40', maturity: 'ga_maturity_40_income' },
             minTerm: 100, maxTerm: 100, pptMin: 5, pptMax: 16 
         },
+
         // 21. Amritbaal
         '774': {
             name: "Amritbaal", type: 'Endowment',
@@ -311,10 +312,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // 33. Bima Lakshmi
         '881': { 
             name: "Bima Lakshmi", type: 'Money Back', 
-            summary: "Women-only plan with flexible survival benefits.",
+            summary: "Women-only plan. <strong>Note: The Maturity Result below displays 'Basic SA + Guaranteed Additions'. Periodic Survival Benefits (under Options A, B, or C) are paid separately during the term and are NOT added to the final maturity figure here.</strong>",
             benefits: { 
                 onDeath: "Sum Assured on Death + Accrued GA.", 
-                onSurvival: "Option A: 50% SA at end of PPT. \nOption B: 7.5% SA/yr starting 2 yrs after PPT. \nOption C: 15% SA every 2 yrs starting 2 yrs after PPT." 
+                onSurvival: "Maturity: Basic SA + GA. (Survival Payouts depend on Option A/B/C chosen)." 
             }, 
             rules: { death: 'sa_plus_ga', maturity: 'sa_plus_ga' },
             minSA: 200000,
@@ -322,12 +323,12 @@ document.addEventListener('DOMContentLoaded', function () {
             pptMin: 7, pptMax: 15
         },
         // 34. Jeevan Utsav SP
-        '883': { 
+      '883': { 
             name: "Jeevan Utsav SP", type: 'Whole Life', 
-            summary: "Single Premium Whole Life with GA (Rs. 40/1000) and Income Benefit.",
+            summary: "Single Premium Whole Life. <strong>Note: This calculator assumes 'Flexi Income Option' where the 10% Income is accumulated in the policy and paid as a lump sum at end, rather than withdrawn yearly.</strong>",
             benefits: { 
                 onDeath: "Higher of BSA or 1.25x Single Premium + Accrued GA.", 
-                onSurvival: "10% SA Income for Life + Maturity (SA + GA)." 
+                onSurvival: "Accumulated Income + Maturity (SA + GA)." 
             }, 
             rules: { death: 'utsav_sp', maturity: 'utsav_sp' },
             minTerm: 100, maxTerm: 100, calcPPT: (t) => 1 
@@ -341,13 +342,14 @@ document.addEventListener('DOMContentLoaded', function () {
             minTerm: 10, maxTerm: 40, calcPPT: (t) => t 
         },
         // 36. Bima Kavach
-        '887': { 
+     '887': { 
             name: "Bima Kavach", type: 'Term', 
-            summary: "Term Assurance with Level or Increasing Sum Assured options.",
-            benefits: { onDeath: "Level SA or Increasing SA (Day 1 to Yr 5: Level, Yr 6-15: +10%/yr).", onSurvival: "Nil." }, 
+            summary: "Pure Risk Plan. <strong>Note: If Death Benefit is selected, this calculator assumes 'Option II: Increasing Sum Assured' (SA increases by 10% from Yr 6-15). If 'Level Sum Assured' is desired, the actual benefit will be lower (constant Basic SA).</strong>",
+            benefits: { onDeath: "Increasing Sum Assured Logic Applied.", onSurvival: "Nil (Pure Term Plan)." }, 
             rules: { death: '887_logic', maturity: 'term_plan' },
             minTerm: 10, maxTerm: 40, calcPPT: (t) => t 
         },
+
         // 37. Nav Jeevan Shree SP
         '911': {
             name: "Nav Jeevan Shree SP", type: 'Single Premium',
@@ -365,18 +367,18 @@ document.addEventListener('DOMContentLoaded', function () {
             minTerm: 10, maxTerm: 25, calcPPT: (t) => t
         },
         // 39. New Tech Term
-        '954': { 
+       '954': { 
             name: "New Tech Term", type: 'Term', 
-            summary: "Online Pure Term Assurance Plan.",
-            benefits: { onDeath: "Sum Assured on Death.", onSurvival: "Nil." }, 
+            summary: "Online Term Plan. <strong>Note: Calculation assumes 'Option I: Level Sum Assured'. If 'Increasing Sum Assured' is chosen, the Death Benefit will differ in later years.</strong>",
+            benefits: { onDeath: "Basic Sum Assured.", onSurvival: "Nil." }, 
             rules: { death: 'term_plan', maturity: 'term_plan' },
             minTerm: 10, maxTerm: 40, calcPPT: (t) => t 
         },
         // 40. Jeevan Amar
-        '955': { 
+   '955': { 
             name: "Jeevan Amar", type: 'Term', 
-            summary: "Offline Pure Term Assurance Plan.",
-            benefits: { onDeath: "Sum Assured on Death.", onSurvival: "Nil." }, 
+            summary: "Offline Term Plan. <strong>Note: Calculation assumes 'Option I: Level Sum Assured'.</strong>",
+            benefits: { onDeath: "Basic Sum Assured.", onSurvival: "Nil." }, 
             rules: { death: 'term_plan', maturity: 'term_plan' },
             minTerm: 10, maxTerm: 40, calcPPT: (t) => t 
         }
