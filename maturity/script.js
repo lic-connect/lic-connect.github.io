@@ -11,27 +11,35 @@ document.addEventListener('DOMContentLoaded', function () {
         '774': { name: "LIC's Amritbaal", type: 'Endowment', summary: "A non-participating savings plan for children with Guaranteed Additions.", benefits: { onDeath: "Sum Assured on Death + Guaranteed Additions. Not less than 105% of premiums paid.", onSurvival: "Basic Sum Assured + Guaranteed Additions." }, rules: { death: 'ga_death', maturity: 'ga_maturity' } },
         '760': { name: "LIC's Bima Jyoti", type: 'Endowment', summary: "A Non-participating, limited premium plan with Guaranteed Additions of Rs. 50 per 1000 SA.", benefits: { onDeath: "Sum Assured on Death + Accrued Guaranteed Additions.", onSurvival: "Basic Sum Assured + Guaranteed Additions." }, rules: { death: 'ga_death_50', maturity: 'ga_maturity_50' } },
         '768': { name: "LIC's Jeevan Azad", type: 'Endowment', summary: "A limited premium, non-participating Endowment plan.", benefits: { onDeath: "Sum Assured on Death (higher of Basic SA or 7x Annual Premium). Not less than 105% of premiums paid.", onSurvival: "Basic Sum Assured." }, rules: { death: 'standard_death_no_bonus', maturity: 'sa_only' } },
-'880': { 
-    name: "LIC's Jan Suraksha", 
-    type: 'Micro Insurance', 
-    summary: "A Non-Par, Non-linked, Life Micro Insurance plan providing protection and savings for low-income groups with fixed Guaranteed Additions.", 
-    benefits: { 
-        onDeath: "Sum Assured on Death + Accrued Guaranteed Additions. 'Sum Assured on Death' is higher of 7 times of Annualised Premium or Basic Sum Assured (subject to minimum 105% of total premiums paid).", 
-        onSurvival: "Basic Sum Assured + Accrued Guaranteed Additions. (Note: Guaranteed Additions accrue at a fixed rate of 4% of total annualized premiums each year)." 
-    }, 
-    rules: { death: 'sa_plus_ga', maturity: 'sa_plus_ga' } 
-},
+ '880': {
+            name: "LIC's Jan Suraksha",
+            type: 'Micro Insurance',
+            summary: "Micro insurance with fixed GA of 4% of premium.",
+            benefits: { onDeath: "Higher of 7x AP or BSA + GA.", onSurvival: "BSA + Accrued GA." },
+            rules: { death: 'sa_plus_ga', maturity: 'sa_plus_ga' },
+            minSA: 100000,
+            maxSA: 200000,
+            allowedTerms: [12, 13, 14, 15, 16, 17, 18, 19, 20], // Range 12-20
+            calcPPT: (t) => t - 5 // Logic: PPT is Term minus 5
+        },
 
-'881': { 
-    name: "LIC's Bima Lakshmi", 
-    type: 'Money Back / Savings', 
-    summary: "A Non-Par, Female-only Savings Plan offering Life Cover and flexible Survival Benefits via 3 options (A, B, or C) with fixed Guaranteed Additions.", 
-    benefits: { 
-        onDeath: "Sum Assured on Death + Accrued Guaranteed Additions. 'Sum Assured on Death' is higher of Basic Sum Assured or 10 times of Tabular Annual Premium adjusted by modal factor.", 
-        onSurvival: "Maturity: Basic Sum Assured + Accrued Guaranteed Additions. Survival Benefits: Paid based on chosen option (Option A: 50% SA at end of PPT; Option B: 7.5% SA every 2 years; Option C: 15% SA every 4 years)." 
-    }, 
-    rules: { death: 'sa_plus_ga', maturity: 'sa_plus_ga' } 
-},
+
+ '881': { 
+            name: "LIC's Bima Lakshmi", 
+            type: 'Money Back / Savings', 
+            summary: "A Non-Par, Female-only Savings Plan with 3 Survival Benefit Options.", 
+            benefits: { 
+                onDeath: "Sum Assured on Death + Accrued GA.", 
+                onSurvival: "Maturity: Basic SA + Accrued GA.\nSurvival Options:\n1. Option A: 50% SA at end of PPT.\n2. Option B: 7.5% SA every year starting 2 years after PPT.\n3. Option C: 15% SA every 2 years starting 2 years after PPT." 
+            }, 
+            rules: { death: 'sa_plus_ga', maturity: 'sa_plus_ga' },
+            minSA: 200000,
+            allowedTerms: [25], // Fixed term
+            // PPT is flexible (7 to 15), so we don't autofill specific number, we set range
+            pptMin: 7,
+            pptMax: 15
+        },
+
         
         // Whole Life Plans
         '745': { name: "LIC's Jeevan Umang", type: 'Whole Life', summary: "A non-linked, with-profits whole life plan with survival benefits.", benefits: { onDeath: "Sum Assured on Death + Bonuses. Death benefit not less than 105% of premiums paid.", onSurvival: "8% of Basic SA annually after PPT. At maturity (age 100) or death, Basic SA + Bonuses + FAB is paid." }, rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' } },
@@ -47,7 +55,21 @@ document.addEventListener('DOMContentLoaded', function () {
             rules: { death: 'utsav_sp', maturity: 'utsav_sp' } 
         },
         // Money Back Plans
-        '748': { name: "LIC’s Bima Shree", type: 'Money Back', summary: "A limited premium money back plan for HNI with Guaranteed Additions.", benefits: { onDeath: "Sum Assured on Death + Accrued GA.", onSurvival: "Periodic survival benefits. At maturity, remaining SA + GA + Loyalty Addition." }, rules: { death: 'ga_death', maturity: 'money_back_ga' } },
+  '748': { 
+            name: "LIC’s Bima Shree", 
+            type: 'Money Back', 
+            summary: "A limited premium money back plan for High Net-worth Individuals.", 
+            benefits: { 
+                onDeath: "Sum Assured on Death + Accrued GA.", 
+                onSurvival: "Survival Benefits based on Term:\n14y Term: 30% BSA (10th & 12th yr).\n16y Term: 35% BSA (12th & 14th yr).\n18y Term: 40% BSA (14th & 16th yr).\n20y Term: 45% BSA (16th & 18th yr).\n24y Term: 45% BSA (20th & 22nd yr).\n28y Term: 45% BSA (24th & 26th yr)." 
+            }, 
+            rules: { death: 'ga_death', maturity: 'money_back_ga' },
+            // Validation & Dropdown Data
+            minSA: 1000000,
+            allowedTerms: [14, 16, 18, 20, 24, 28], // Dropdown options
+            calcPPT: (t) => t - 4 // Logic: PPT is Term minus 4
+        },
+
         '720': { name: "LIC's New Money Back Plan-20 Yrs", type: 'Money Back', summary: "A 20-year money back plan with periodic payouts.", benefits: { onDeath: "Sum Assured on Death (125% of SA or 7x AP) + Bonuses. Not less than 105% of premiums.", onSurvival: "20% of SA at years 5, 10, 15. At maturity (year 20), 40% of SA + Bonuses." }, rules: { death: 'mb_death', maturity: 'money_back_bonus_20' } },
         '721': { name: "LIC's New Money Back Plan-25 Yrs", type: 'Money Back', summary: "A 25-year money back plan with periodic payouts.", benefits: { onDeath: "Sum Assured on Death (125% of SA or 7x AP) + Bonuses. Not less than 105% of premiums.", onSurvival: "15% of SA at years 5, 10, 15, 20. At maturity (year 25), 40% of SA + Bonuses." }, rules: { death: 'mb_death', maturity: 'money_back_bonus_25' } },
         '732': { name: "LIC's New Children's Money Back Plan", type: 'Money Back', summary: "A money back plan for children, with payouts at specific ages.", benefits: { onDeath: "Sum Assured on Death + Bonuses.", onSurvival: "20% of SA at ages 18, 20, 22. At maturity (age 25), 40% of SA + Bonuses." }, rules: { death: 'standard_death_bonus', maturity: 'money_back_bonus_child' } },
@@ -214,6 +236,79 @@ document.addEventListener('DOMContentLoaded', function () {
         planDetailsContainer.style.display = 'block';
     }
 
+
+
+
+
+
+
+// --- Helper 1: Populate Policy Term Dropdown based on Plan ---
+    function updatePolicyInputUI() {
+        const planId = planSelector.value;
+        const plan = planData[planId];
+        policyTermInput.innerHTML = '<option value="">Select Term</option>'; // Reset
+        pptInput.value = '';
+        pptInput.readOnly = false;
+        pptInput.style.backgroundColor = '#fff';
+
+        if (!plan) return;
+
+        // 1. Generate Dropdown Options
+        let terms = [];
+        if (plan.allowedTerms) {
+            terms = plan.allowedTerms; // Specific terms (e.g., 748, 881, 880)
+        } else {
+            // Default range for standard plans (e.g., 10 to 35) if not specified
+            for(let i=10; i<=35; i++) terms.push(i);
+        }
+
+        terms.forEach(t => {
+            let opt = document.createElement('option');
+            opt.value = t;
+            opt.textContent = `${t} Years`;
+            policyTermInput.appendChild(opt);
+        });
+    }
+
+    // --- Helper 2: Auto-calculate PPT when Term changes ---
+    function autoFillPPT() {
+        const planId = planSelector.value;
+        const plan = planData[planId];
+        const term = parseInt(policyTermInput.value);
+
+        if (!plan || !term) return;
+
+        // Logic A: Fixed calculation (e.g., 748, 880, 733, 768)
+        if (plan.calcPPT) {
+            pptInput.value = plan.calcPPT(term);
+            pptInput.readOnly = true;
+            pptInput.style.backgroundColor = '#e9ecef'; // Grey out to indicate auto-filled
+        }
+        // Logic B: Flexible Range (e.g., 881)
+        else if (plan.pptMin && plan.pptMax) {
+            pptInput.value = ''; // User must enter
+            pptInput.placeholder = `Enter between ${plan.pptMin} - ${plan.pptMax}`;
+            pptInput.readOnly = false;
+            pptInput.style.backgroundColor = '#fff';
+        } 
+        // Logic C: Default (Regular Premium, PPT = Term)
+        else {
+            pptInput.value = term;
+            // You can leave it editable or make it readonly depending on preference
+            // pptInput.readOnly = true; 
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 function calculateBenefits() {
         const planId = planSelector.value;
         if (!planId) {
@@ -235,10 +330,49 @@ function calculateBenefits() {
         const bonusRate = parseFloat(bonusRateInput.value) || 0; 
         const fabRate = parseFloat(fabRateInput.value) || 0;
         
-        if (sa === 0 || term === 0 || ppt === 0 || annualPremium === 0) {
-            alert('Please fill in Sum Assured, Term, PPT, and Annual Premium.');
+ // ... inside calculateBenefits() ...
+
+
+
+
+
+        // --- VALIDATION BLOCK START ---
+        // 1. Check Mandatory Fields
+        if (sa === 0 || isNaN(term) || isNaN(ppt) || annualPremium === 0) {
+            alert('Error: Please fill in Sum Assured, Policy Term, PPT, and Premium.');
             return;
         }
+
+        // 2. Sum Assured Range Validation
+        if (plan.minSA && sa < plan.minSA) {
+            alert(`Error: Minimum Sum Assured for ${plan.name} is ₹${plan.minSA.toLocaleString('en-IN')}`);
+            return;
+        }
+        if (plan.maxSA && sa > plan.maxSA) {
+            alert(`Error: Maximum Sum Assured for ${plan.name} is ₹${plan.maxSA.toLocaleString('en-IN')}`);
+            return;
+        }
+
+        // 3. PPT Range Validation (Specific for plans like 881)
+        if (plan.pptMin && (ppt < plan.pptMin || ppt > plan.pptMax)) {
+            alert(`Error: For ${plan.name}, Premium Paying Term must be between ${plan.pptMin} and ${plan.pptMax} years.`);
+            return;
+        }
+        
+        // 4. Bima Shree (748) Specific Check
+        if (planId === '748' && ppt !== (term - 4)) {
+             alert(`Error: For Bima Shree, PPT must be exactly 4 years less than Policy Term.`);
+             return;
+        }
+        // --- VALIDATION BLOCK END ---
+
+        // ... continue with let completedYears = term; ...
+
+
+
+
+
+
 
         let completedYears = term;
         // Logic for Death Benefit Calculation Duration
@@ -528,10 +662,16 @@ function calculateBenefits() {
         resultsContainer.style.display = 'block';
         setTimeout(() => { resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
     }
-    // --- Event Listeners ---
+// --- Event Listeners ---
     planSelector.addEventListener('change', () => {
         displayPlanDetails(planSelector.value);
-        resultsContainer.style.display = 'none'; // Hide old results
+        updatePolicyInputUI(); // <--- NEW: Populates the Policy Term dropdown based on plan
+        resultsContainer.style.display = 'none'; 
+    });
+
+    // NEW LISTENER: Triggers auto-fill of PPT when Policy Term is selected
+    policyTermInput.addEventListener('change', () => {
+        autoFillPPT(); 
     });
     
     deathBenefitToggle.addEventListener('change', () => {
