@@ -2,168 +2,172 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // --- DATA STORE: All plan details parsed from your .txt files ---
     // Note: This is a simplified, structured representation for calculation purposes.
+  // --- DATA STORE: All 40 Plans with Corrected Ranges & Validation ---
     const planData = {
-        // Endowment Plans
-        '714': { name: "LIC's New Endowment Plan", type: 'Endowment', summary: "A regular premium, non-linked, with-profits Endowment Plan.", benefits: { onDeath: "Sum Assured + Vested Bonus + FAB. Or 7 times of Annualized Premium, or 105% of all Premiums paid, whichever is higher.", onSurvival: "Basic Sum Assured + Vested Bonus + FAB." }, rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' } },
-        '715': { name: "LIC's New Jeevan Anand", type: 'Endowment', summary: "A non-linked, with-profits Endowment plan offering the dual benefit of protection and savings.", benefits: { onDeath: "125% of Basic SA or 7 times of Annualized Premium (whichever is higher) + bonuses. Death benefit will not be less than 105% of all premiums paid.", onSurvival: "Basic Sum Assured + Vested Bonus + FAB. Risk cover continues even after maturity." }, rules: { death: 'ja_death', maturity: 'sa_plus_bonus' } },
-        '733': { name: "LIC's Jeevan Lakshya", type: 'Endowment', summary: "A limited premium paying, with-profits Endowment Assurance plan.", benefits: { onDeath: "Annual Income Benefit (10% of SA) until maturity, then 110% of SA + Bonuses + FAB on the original maturity date.", onSurvival: "Basic Sum Assured + Vested Bonus + FAB." }, rules: { death: 'jeevan_lakshya', maturity: 'sa_plus_bonus' } },
-        '736': { name: "LIC's Jeevan Labh", type: 'Endowment', summary: "A limited premium, non-linked, with-profits Endowment plan.", benefits: { onDeath: "Sum Assured on Death (higher of Basic SA or 7x Annual Premium) + Bonuses + FAB. Not less than 105% of premiums paid.", onSurvival: "Basic Sum Assured + Vested Bonus + FAB." }, rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' } },
-        '774': { name: "LIC's Amritbaal", type: 'Endowment', summary: "A non-participating savings plan for children with Guaranteed Additions.", benefits: { onDeath: "Sum Assured on Death + Guaranteed Additions. Not less than 105% of premiums paid.", onSurvival: "Basic Sum Assured + Guaranteed Additions." }, rules: { death: 'ga_death', maturity: 'ga_maturity' } },
-        '760': { name: "LIC's Bima Jyoti", type: 'Endowment', summary: "A Non-participating, limited premium plan with Guaranteed Additions of Rs. 50 per 1000 SA.", benefits: { onDeath: "Sum Assured on Death + Accrued Guaranteed Additions.", onSurvival: "Basic Sum Assured + Guaranteed Additions." }, rules: { death: 'ga_death_50', maturity: 'ga_maturity_50' } },
-        '768': { name: "LIC's Jeevan Azad", type: 'Endowment', summary: "A limited premium, non-participating Endowment plan.", benefits: { onDeath: "Sum Assured on Death (higher of Basic SA or 7x Annual Premium). Not less than 105% of premiums paid.", onSurvival: "Basic Sum Assured." }, rules: { death: 'standard_death_no_bonus', maturity: 'sa_only' } },
- '880': {
-            name: "LIC's Jan Suraksha",
-            type: 'Micro Insurance',
-            summary: "Micro insurance with fixed GA of 4% of premium.",
-            benefits: { onDeath: "Higher of 7x AP or BSA + GA.", onSurvival: "BSA + Accrued GA." },
-            rules: { death: 'sa_plus_ga', maturity: 'sa_plus_ga' },
-            minSA: 100000,
-            maxSA: 200000,
-            allowedTerms: [12, 13, 14, 15, 16, 17, 18, 19, 20], // Range 12-20
-            calcPPT: (t) => t - 5 // Logic: PPT is Term minus 5
+        // === ENDOWMENT & SAVINGS ===
+        '714': { 
+            name: "New Endowment", type: 'Endowment', 
+            benefits: { onDeath: "Sum Assured + Bonus + FAB", onSurvival: "SA + Bonus + FAB" }, 
+            rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' },
+            minTerm: 12, maxTerm: 35, calcPPT: (t) => t // PPT equals Term
         },
-
-
- '881': { 
-            name: "LIC's Bima Lakshmi", 
-            type: 'Money Back / Savings', 
-            summary: "A Non-Par, Female-only Savings Plan with 3 Survival Benefit Options.", 
-            benefits: { 
-                onDeath: "Sum Assured on Death + Accrued GA.", 
-                onSurvival: "Maturity: Basic SA + Accrued GA.\nSurvival Options:\n1. Option A: 50% SA at end of PPT.\n2. Option B: 7.5% SA every year starting 2 years after PPT.\n3. Option C: 15% SA every 2 years starting 2 years after PPT." 
-            }, 
+        '715': { 
+            name: "Jeevan Anand", type: 'Endowment', 
+            benefits: { onDeath: "125% SA + Bonus", onSurvival: "SA + Bonus" }, 
+            rules: { death: 'ja_death', maturity: 'sa_plus_bonus' },
+            minTerm: 15, maxTerm: 35, calcPPT: (t) => t 
+        },
+        '717': { 
+            name: "Single Premium Endowment", type: 'Single Premium', 
+            benefits: { onDeath: "SA + Bonus", onSurvival: "SA + Bonus" }, 
+            rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' },
+            minTerm: 10, maxTerm: 25, calcPPT: (t) => 1 // Single Pay
+        },
+        '733': { 
+            name: "Jeevan Lakshya", type: 'Endowment', 
+            benefits: { onDeath: "Income + 110% SA + Bonus", onSurvival: "SA + Bonus" }, 
+            rules: { death: 'jeevan_lakshya', maturity: 'sa_plus_bonus' },
+            minTerm: 13, maxTerm: 25, calcPPT: (t) => t - 3 // PPT is Term - 3
+        },
+        '734': { 
+            name: "Jeevan Tarun", type: 'Money Back', 
+            benefits: { onDeath: "125% SA + Bonus", onSurvival: "Survival % Options" }, 
+            rules: { death: 'standard_death_bonus', maturity: 'money_back_bonus_child' },
+            minTerm: 13, maxTerm: 25, calcPPT: (t) => t - 5 // Approx logic for child plan
+        },
+        '736': { 
+            name: "Jeevan Labh", type: 'Endowment', 
+            benefits: { onDeath: "SA + Bonus", onSurvival: "SA + Bonus" }, 
+            rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' },
+            allowedTerms: [16, 21, 25], 
+            pptMap: { 16: 10, 21: 15, 25: 16 } 
+        },
+        '751': { 
+            name: "Micro Bachat", type: 'Micro Insurance', 
+            benefits: { onDeath: "SA + Loyalty", onSurvival: "SA + Loyalty" }, 
+            rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' },
+            minTerm: 10, maxTerm: 15, calcPPT: (t) => t 
+        },
+        '760': { 
+            name: "Bima Jyoti", type: 'Endowment', 
+            benefits: { onDeath: "SA + GA", onSurvival: "SA + GA" }, 
+            rules: { death: 'ga_death_50', maturity: 'ga_maturity_50' },
+            minTerm: 15, maxTerm: 20, calcPPT: (t) => t - 5 
+        },
+        '764': { 
+            name: "Bima Ratna", type: 'Money Back', 
+            benefits: { onDeath: "125% SA + GA", onSurvival: "Money Back + GA" }, 
+            rules: { death: 'ga_death_50', maturity: 'money_back_ga' },
+            allowedTerms: [15, 20, 25],
+            pptMap: { 15: 11, 20: 16, 25: 21 }
+        },
+        '768': { 
+            name: "Jeevan Azad", type: 'Endowment', 
+            benefits: { onDeath: "SA", onSurvival: "SA" }, 
+            rules: { death: 'sa_only', maturity: 'sa_only' },
+            minTerm: 15, maxTerm: 20, calcPPT: (t) => t - 8 
+        },
+        '774': {
+            name: "Amritbaal", type: 'Endowment',
+            benefits: { onDeath: "SA + GA", onSurvival: "SA + GA" },
+            rules: { death: 'ga_death', maturity: 'ga_maturity' },
+            minTerm: 5, maxTerm: 25, pptMin: 1, pptMax: 7 // 1 is Single Premium
+        },
+        '880': { 
+            name: "Jan Suraksha", type: 'Micro Insurance', 
+            benefits: { onDeath: "Higher of 7x AP or BSA + GA", onSurvival: "BSA + GA" }, 
+            rules: { death: 'sa_plus_ga', maturity: 'sa_plus_ga' },
+            minSA: 100000, maxSA: 200000,
+            allowedTerms: [12, 13, 14, 15, 16, 17, 18, 19, 20], 
+            calcPPT: (t) => t - 5
+        },
+        '881': { 
+            name: "Bima Lakshmi", type: 'Money Back', 
+            benefits: { onDeath: "SA + GA", onSurvival: "Option A/B/C" }, 
             rules: { death: 'sa_plus_ga', maturity: 'sa_plus_ga' },
             minSA: 200000,
-            allowedTerms: [25], // Fixed term
-            // PPT is flexible (7 to 15), so we don't autofill specific number, we set range
-            pptMin: 7,
-            pptMax: 15
+            allowedTerms: [25], 
+            pptMin: 7, pptMax: 15
+        },
+        '911': {
+            name: "Nav Jeevan Shree SP", type: 'Single Premium',
+            benefits: { onDeath: "SA + Loyalty", onSurvival: "SA + Loyalty" },
+            rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' },
+            minTerm: 10, maxTerm: 25, calcPPT: (t) => 1
+        },
+        '912': {
+            name: "Nav Jeevan Shree", type: 'Endowment',
+            benefits: { onDeath: "SA + Loyalty", onSurvival: "SA + Loyalty" },
+            rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' },
+            minTerm: 10, maxTerm: 25, calcPPT: (t) => t
         },
 
-        
-        // Whole Life Plans
-        '745': { name: "LIC's Jeevan Umang", type: 'Whole Life', summary: "A non-linked, with-profits whole life plan with survival benefits.", benefits: { onDeath: "Sum Assured on Death + Bonuses. Death benefit not less than 105% of premiums paid.", onSurvival: "8% of Basic SA annually after PPT. At maturity (age 100) or death, Basic SA + Bonuses + FAB is paid." }, rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' } },
-        '771': { name: "LIC's Jeevan Utsav", type: 'Whole Life', summary: "A whole life plan with guaranteed additions and lifetime guaranteed income.", benefits: { onDeath: "Sum Assured on Death + Guaranteed Additions.", onSurvival: "10% of Basic SA as annual income for life. On maturity (age 100), SA + GAs." }, rules: { death: 'ga_death_40', maturity: 'ga_maturity_40_income' } },
- '883': { 
-            name: "LIC's Jeevan Utsav Single Premium", 
-            type: 'Whole Life', 
-            summary: "Single Premium plan with Guaranteed Additions of ₹40 per 1000 SA.", 
-            benefits: { 
-                onDeath: "Higher of BSA or 1.25x SP + Accrued GAs.", 
-                onSurvival: "Maturity (Age 100): Higher of SA or 1.25x SP + Accrued GAs." 
-            }, 
-            rules: { death: 'utsav_sp', maturity: 'utsav_sp' } 
+        // --- MONEY BACK ---
+        '720': { 
+            name: "Money Back 20 Yrs", type: 'Money Back', 
+            rules: { death: 'mb_death', maturity: 'money_back_bonus_20' },
+            allowedTerms: [20], calcPPT: (t) => 15 
         },
-        // Money Back Plans
-  '748': { 
-            name: "LIC’s Bima Shree", 
-            type: 'Money Back', 
-            summary: "A limited premium money back plan for High Net-worth Individuals.", 
-            benefits: { 
-                onDeath: "Sum Assured on Death + Accrued GA.", 
-                onSurvival: "Survival Benefits based on Term:\n14y Term: 30% BSA (10th & 12th yr).\n16y Term: 35% BSA (12th & 14th yr).\n18y Term: 40% BSA (14th & 16th yr).\n20y Term: 45% BSA (16th & 18th yr).\n24y Term: 45% BSA (20th & 22nd yr).\n28y Term: 45% BSA (24th & 26th yr)." 
-            }, 
+        '721': { 
+            name: "Money Back 25 Yrs", type: 'Money Back', 
+            rules: { death: 'mb_death', maturity: 'money_back_bonus_25' },
+            allowedTerms: [25], calcPPT: (t) => 20 
+        },
+        '732': { 
+            name: "Children's Money Back", type: 'Money Back', 
+            rules: { death: 'standard_death_bonus', maturity: 'money_back_bonus_child' },
+            allowedTerms: [25], calcPPT: (t) => t // PPT is usually term or waived
+        },
+        '748': { 
+            name: "Bima Shree", type: 'Money Back', 
+            benefits: { onDeath: "125% SA + GA", onSurvival: "Money Back" }, 
             rules: { death: 'ga_death', maturity: 'money_back_ga' },
-            // Validation & Dropdown Data
             minSA: 1000000,
-            allowedTerms: [14, 16, 18, 20, 24, 28], // Dropdown options
-            calcPPT: (t) => t - 4 // Logic: PPT is Term minus 4
+            allowedTerms: [14, 16, 18, 20, 24, 28],
+            calcPPT: (t) => t - 4 
         },
 
-        '720': { name: "LIC's New Money Back Plan-20 Yrs", type: 'Money Back', summary: "A 20-year money back plan with periodic payouts.", benefits: { onDeath: "Sum Assured on Death (125% of SA or 7x AP) + Bonuses. Not less than 105% of premiums.", onSurvival: "20% of SA at years 5, 10, 15. At maturity (year 20), 40% of SA + Bonuses." }, rules: { death: 'mb_death', maturity: 'money_back_bonus_20' } },
-        '721': { name: "LIC's New Money Back Plan-25 Yrs", type: 'Money Back', summary: "A 25-year money back plan with periodic payouts.", benefits: { onDeath: "Sum Assured on Death (125% of SA or 7x AP) + Bonuses. Not less than 105% of premiums.", onSurvival: "15% of SA at years 5, 10, 15, 20. At maturity (year 25), 40% of SA + Bonuses." }, rules: { death: 'mb_death', maturity: 'money_back_bonus_25' } },
-        '732': { name: "LIC's New Children's Money Back Plan", type: 'Money Back', summary: "A money back plan for children, with payouts at specific ages.", benefits: { onDeath: "Sum Assured on Death + Bonuses.", onSurvival: "20% of SA at ages 18, 20, 22. At maturity (age 25), 40% of SA + Bonuses." }, rules: { death: 'standard_death_bonus', maturity: 'money_back_bonus_child' } },
+        // --- WHOLE LIFE ---
+        '745': { 
+            name: "Jeevan Umang", type: 'Whole Life', 
+            rules: { death: 'standard_death_bonus', maturity: 'sa_plus_bonus' },
+            minTerm: 15, maxTerm: 55, pptMin: 15, pptMax: 30 
+        },
+        '771': { 
+            name: "Jeevan Utsav", type: 'Whole Life', 
+            rules: { death: 'ga_death_40', maturity: 'ga_maturity_40_income' },
+            minTerm: 100, maxTerm: 100, pptMin: 5, pptMax: 16 
+        },
+        '883': { 
+            name: "Jeevan Utsav SP", type: 'Whole Life', 
+            rules: { death: 'utsav_sp', maturity: 'utsav_sp' },
+            minTerm: 100, maxTerm: 100, calcPPT: (t) => 1 
+        },
 
-//ULIP PLANS
-'735': { 
-    name: "LIC's New Endowment Plus", 
-    type: 'Unit Linked (ULIP)', 
-    summary: "A regular premium, unit-linked plan combining insurance and market-linked wealth creation.", 
-    benefits: { 
-      onDeath: "Before Risk Commencement: Unit Fund Value. After Risk Commencement: Highest of (Basic Sum Assured less partial withdrawals, Unit Fund Value, or 105% of total premiums received).", 
-      onSurvival: "Unit Fund Value as on the Date of Maturity." 
-    }, 
-    rules: { death: 'ulip_risk_logic', maturity: 'fund_value_only' } 
-  },
+        // --- TERM ASSURANCE ---
+        '887': { name: "Bima Kavach", type: 'Term', rules: { death: '887_logic', maturity: 'term_plan' }, minTerm: 10, maxTerm: 40, calcPPT: (t) => t },
+        '955': { name: "Jeevan Amar", type: 'Term', rules: { death: 'term_plan', maturity: 'term_plan' }, minTerm: 10, maxTerm: 40, calcPPT: (t) => t },
+        '859': { name: "Saral Jeevan Bima", type: 'Term', rules: { death: 'term_plan', maturity: 'term_plan' }, minTerm: 5, maxTerm: 40, calcPPT: (t) => t },
+        '875': { name: "Yuva Term", type: 'Term', rules: { death: 'term_plan', maturity: 'term_plan' }, minTerm: 15, maxTerm: 40, calcPPT: (t) => t },
+        '876': { name: "Digi Term", type: 'Term', rules: { death: 'term_plan', maturity: 'term_plan' }, minTerm: 10, maxTerm: 40, calcPPT: (t) => t },
+        '954': { name: "New Tech Term", type: 'Term', rules: { death: 'term_plan', maturity: 'term_plan' }, minTerm: 10, maxTerm: 40, calcPPT: (t) => t },
+        // Credit Life (Decreasing Term)
+        '877': { name: "Yuva Credit Life", type: 'Term', rules: { death: 'term_plan', maturity: 'term_plan' }, minTerm: 5, maxTerm: 30, calcPPT: (t) => t },
+        '878': { name: "Digi Credit Life", type: 'Term', rules: { death: 'term_plan', maturity: 'term_plan' }, minTerm: 5, maxTerm: 30, calcPPT: (t) => t },
 
-  '749': { 
-    name: "LIC's Nivesh Plus", 
-    type: 'Single Premium ULIP', 
-    summary: "A single premium unit-linked plan offering two types of death cover options and guaranteed additions.", 
-    benefits: { 
-      onDeath: "Before Risk Commencement: Unit Fund Value. After Risk Commencement: Higher of (Basic Sum Assured less partial withdrawals or Unit Fund Value).", 
-      onSurvival: "Unit Fund Value + Guaranteed Additions." 
-    }, 
-    rules: { death: 'single_premium_ulip_logic', maturity: 'fund_value_plus_ga' } 
-  },
+        // --- ULIP ---
+        '735': { name: "Endowment Plus", type: 'ULIP', rules: { death: 'ulip_risk_logic', maturity: 'fund_value_only' }, minTerm: 10, maxTerm: 20, calcPPT: (t) => t },
+        '749': { name: "Nivesh Plus", type: 'ULIP', rules: { death: 'single_premium_ulip_logic', maturity: 'fund_value_plus_ga' }, minTerm: 10, maxTerm: 25, calcPPT: (t) => 1 },
+        '752': { name: "SIIP", type: 'ULIP', rules: { death: 'ulip_risk_logic', maturity: 'fund_value_plus_refund_plus_ga' }, minTerm: 10, maxTerm: 25, calcPPT: (t) => t },
+        '867': { name: "New Pension Plus", type: 'Pension', rules: { death: 'pension_ulip_logic', maturity: 'vesting_annuitisation' }, minTerm: 10, maxTerm: 42, calcPPT: (t) => t },
+        '873': { name: "Index Plus", type: 'ULIP', rules: { death: 'ulip_risk_logic', maturity: 'fund_value_only' }, minTerm: 10, maxTerm: 25, calcPPT: (t) => t },
+        '886': { name: "Protection Plus", type: 'ULIP', rules: { death: 'high_cover_ulip_logic', maturity: 'fund_value_plus_refund' }, minTerm: 10, maxTerm: 40, calcPPT: (t) => t },
 
-  '752': { 
-    name: "LIC's SIIP", 
-    type: 'Unit Linked (ULIP)', 
-    summary: "A systematic investment plan providing life cover and a unique refund of mortality charges feature.", 
-    benefits: { 
-      onDeath: "Before Risk Commencement: Unit Fund Value. After Risk Commencement: Highest of (Basic Sum Assured less partial withdrawals, Unit Fund Value, or 105% of total premiums received).", 
-      onSurvival: "Unit Fund Value + Refund of Mortality Charges + Guaranteed Additions." 
-    }, 
-    rules: { death: 'ulip_risk_logic', maturity: 'fund_value_plus_refund_plus_ga' } 
-  },
-
-  '867': { 
-    name: "LIC's New Pension Plus", 
-    type: 'Unit Linked Pension', 
-    summary: "A unit-linked individual pension plan designed to build a retirement corpus through market growth.", 
-    benefits: { 
-      onDeath: "Higher of (Unit Fund Value or 105% of total premiums received). Proceeds must be used for annuity as per IRDAI rules.", 
-      onSurvival: "Vesting Benefit: Unit Fund Value (utilized to purchase annuity, with up to 60% commutation allowed)." 
-    }, 
-    rules: { death: 'pension_ulip_logic', maturity: 'vesting_annuitisation' } 
-  },
-
-  '873': { 
-    name: "LIC's Index Plus", 
-    type: 'Unit Linked (ULIP)', 
-    summary: "A unit-linked plan specifically investing in NSE Nifty 50 or Nifty 100 indices.", 
-    benefits: { 
-      onDeath: "Before Risk Commencement: Unit Fund Value. After Risk Commencement: Highest of (Basic Sum Assured less partial withdrawals, Unit Fund Value, or 105% of total premiums received).", 
-      onSurvival: "Unit Fund Value + Refund of Mortality Charges + Guaranteed Additions." 
-    }, 
-    rules: { death: 'ulip_risk_logic', maturity: 'fund_value_plus_refund_plus_ga' } 
-  },
-
-  '886': { 
-    name: "LIC's Protection Plus", 
-    type: 'Unit Linked (ULIP)', 
-    summary: "A high-cover unit-linked savings plan with flexible premium terms and mortality charge refund.", 
-    benefits: { 
-      onDeath: "Highest of (Basic Sum Assured, Unit Fund Value, or 105% of total premiums received).", 
-      onSurvival: "Base Premium Fund Value + Top-up Fund Value + Refund of Mortality Charges." 
-    }, 
-    rules: { death: 'high_cover_ulip_logic', maturity: 'fund_value_plus_refund' } 
-  },
-        
-        // Term Assurance Plans
-'887': { 
-    name: "LIC's Bima Kavach", 
-    type: 'Term', 
-    summary: "A high-value pure risk, non-linked, non-participating plan with options for Increasing Sum Assured and cover up to age 100.", 
-    benefits: { 
-        onDeath: "Sum Assured on Death is paid (Level or Increasing SA depending on the option chosen).", 
-        onSurvival: "No maturity benefit is payable." 
-    }, 
-    rules: { 
-        death: '887_logic', 
-        maturity: 'term_plan' 
-    } 
-  },
-        '955': { name: "LIC's New Jeevan Amar", type: 'Term', summary: "A pure risk, non-linked, non-profit term assurance plan.", benefits: { onDeath: "Sum Assured on Death is paid.", onSurvival: "No maturity benefit is payable." }, rules: { death: 'term_plan', maturity: 'term_plan' } },
-        '859': { name: "LIC's Saral Jeevan Bima", type: 'Term', summary: "A standardized pure risk term assurance plan.", benefits: { onDeath: "Sum Assured on Death is paid.", onSurvival: "No maturity benefit is payable." }, rules: { death: 'term_plan', maturity: 'term_plan' } },
-        '875': { name: "LIC's Yuva Term", type: 'Term', summary: "A pure risk, non-linked, non-profit term assurance plan.", benefits: { onDeath: "Sum Assured on Death is paid.", onSurvival: "No maturity benefit is payable." }, rules: { death: 'term_plan', maturity: 'term_plan' } },
-        '954': { name: "LIC's New Tech-Term", type: 'Term', summary: "An online pure risk, non-linked, non-profit term assurance plan.", benefits: { onDeath: "Sum Assured on Death is paid.", onSurvival: "No maturity benefit is payable." }, rules: { death: 'term_plan', maturity: 'term_plan' } },
-
-        // Other plan types can be added here following the same structure.
-        // For ULIP & Pension plans, calculation is complex and depends on fund value/annuity rates, so we'll show details but simplify calculations.
-        '749': { name: "LIC's Nivesh Plus", type: 'ULIP', summary: "A Unit Linked, non-participating, single premium plan.", benefits: { onDeath: "Higher of Basic SA or Unit Fund Value.", onSurvival: "Unit Fund Value." }, rules: { death: 'ulip', maturity: 'ulip' } },
-        '857': { name: "LIC's Jeevan Akshay-VII", type: 'Pension', summary: "An immediate annuity plan with multiple payout options.", benefits: { onDeath: "Varies by option chosen.", onSurvival: "Annuity payments for life." }, rules: { death: 'pension', maturity: 'pension' } },
+        // --- PENSION / ANNUITY ---
+        '758': { name: "Jeevan Shanti", type: 'Pension', rules: { death: 'pension', maturity: 'pension' }, minTerm: 1, maxTerm: 12, calcPPT: (t) => 1 }, // Deferment Period
+        '857': { name: "Jeevan Akshay VII", type: 'Pension', rules: { death: 'pension', maturity: 'pension' }, minTerm: 0, maxTerm: 0, calcPPT: (t) => 1 }, // Immediate
+        '862': { name: "Saral Pension", type: 'Pension', rules: { death: 'pension', maturity: 'pension' }, minTerm: 0, maxTerm: 0, calcPPT: (t) => 1 }, // Immediate
+        '879': { name: "Smart Pension", type: 'Pension', rules: { death: 'pension', maturity: 'pension' }, minTerm: 0, maxTerm: 0, calcPPT: (t) => 1 }, // Immediate
     };
 
     const planSelector = document.getElementById('planSelector');
@@ -242,60 +246,81 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-// --- Helper 1: Populate Policy Term Dropdown based on Plan ---
+// --- Helper: Populate Term Dropdown ---
     function updatePolicyInputUI() {
         const planId = planSelector.value;
         const plan = planData[planId];
-        policyTermInput.innerHTML = '<option value="">Select Term</option>'; // Reset
+        
+        // Reset Dropdown
+        policyTermInput.innerHTML = '';
+        
+        // Reset PPT
         pptInput.value = '';
         pptInput.readOnly = false;
         pptInput.style.backgroundColor = '#fff';
+        pptInput.placeholder = "Auto-filled or Enter PPT";
 
         if (!plan) return;
 
-        // 1. Generate Dropdown Options
-        let terms = [];
+        // 1. Generate Options based on Plan Data
         if (plan.allowedTerms) {
-            terms = plan.allowedTerms; // Specific terms (e.g., 748, 881, 880)
+            // Specific terms (e.g., 736: 16,21,25 or 748: 14,16,18...)
+            plan.allowedTerms.forEach(t => {
+                let opt = document.createElement('option');
+                opt.value = t;
+                opt.textContent = t + " Years";
+                policyTermInput.add(opt);
+            });
+        } else if (plan.minTerm && plan.maxTerm) {
+            // Range of terms (e.g., 714: 12-35, 715: 15-35)
+            for (let i = plan.minTerm; i <= plan.maxTerm; i++) {
+                let opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = i + " Years";
+                policyTermInput.add(opt);
+            }
         } else {
-            // Default range for standard plans (e.g., 10 to 35) if not specified
-            for(let i=10; i<=35; i++) terms.push(i);
+            // Fallback
+            let opt = document.createElement('option');
+            opt.text = "Select Plan First";
+            policyTermInput.add(opt);
         }
 
-        terms.forEach(t => {
-            let opt = document.createElement('option');
-            opt.value = t;
-            opt.textContent = `${t} Years`;
-            policyTermInput.appendChild(opt);
-        });
+        // Trigger PPT update immediately for the first option
+        autoFillPPT();
     }
-
     // --- Helper 2: Auto-calculate PPT when Term changes ---
+// --- Helper: Auto-Fill PPT based on Term ---
     function autoFillPPT() {
         const planId = planSelector.value;
         const plan = planData[planId];
         const term = parseInt(policyTermInput.value);
 
-        if (!plan || !term) return;
+        if (!plan || isNaN(term)) return;
 
-        // Logic A: Fixed calculation (e.g., 748, 880, 733, 768)
-        if (plan.calcPPT) {
+        // Logic 1: Specific Mapping (e.g., 736: 16->10, 21->15)
+        if (plan.pptMap) {
+            pptInput.value = plan.pptMap[term] || '';
+            pptInput.readOnly = true;
+            pptInput.style.backgroundColor = '#e9ecef';
+        }
+        // Logic 2: Calculated Formula (e.g., 748: t-4, 880: t-5, 714: t)
+        else if (plan.calcPPT) {
             pptInput.value = plan.calcPPT(term);
             pptInput.readOnly = true;
-            pptInput.style.backgroundColor = '#e9ecef'; // Grey out to indicate auto-filled
+            pptInput.style.backgroundColor = '#e9ecef';
         }
-        // Logic B: Flexible Range (e.g., 881)
+        // Logic 3: Range (e.g., 881: 7 to 15, Amritbaal)
         else if (plan.pptMin && plan.pptMax) {
-            pptInput.value = ''; // User must enter
-            pptInput.placeholder = `Enter between ${plan.pptMin} - ${plan.pptMax}`;
+            pptInput.value = '';
             pptInput.readOnly = false;
             pptInput.style.backgroundColor = '#fff';
+            pptInput.placeholder = `Enter ${plan.pptMin} - ${plan.pptMax}`;
+            pptInput.setAttribute('min', plan.pptMin);
+            pptInput.setAttribute('max', plan.pptMax);
         } 
-        // Logic C: Default (Regular Premium, PPT = Term)
         else {
-            pptInput.value = term;
-            // You can leave it editable or make it readonly depending on preference
-            // pptInput.readOnly = true; 
+            pptInput.value = term; // Default regular premium
         }
     }
 
@@ -336,38 +361,31 @@ function calculateBenefits() {
 
 
 
-        // --- VALIDATION BLOCK START ---
-        // 1. Check Mandatory Fields
+// ... inside calculateBenefits ...
+
+        // --- VALIDATION START ---
+        // 1. Basic Empty Check
         if (sa === 0 || isNaN(term) || isNaN(ppt) || annualPremium === 0) {
             alert('Error: Please fill in Sum Assured, Policy Term, PPT, and Premium.');
             return;
         }
 
-        // 2. Sum Assured Range Validation
+        // 2. Sum Assured Range Check
         if (plan.minSA && sa < plan.minSA) {
-            alert(`Error: Minimum Sum Assured for ${plan.name} is ₹${plan.minSA.toLocaleString('en-IN')}`);
+            alert(`Error: Minimum Sum Assured for this plan is ₹${plan.minSA.toLocaleString('en-IN')}`);
             return;
         }
         if (plan.maxSA && sa > plan.maxSA) {
-            alert(`Error: Maximum Sum Assured for ${plan.name} is ₹${plan.maxSA.toLocaleString('en-IN')}`);
+            alert(`Error: Maximum Sum Assured for this plan is ₹${plan.maxSA.toLocaleString('en-IN')}`);
             return;
         }
 
-        // 3. PPT Range Validation (Specific for plans like 881)
+        // 3. PPT Range Check (For flexible plans like 881)
         if (plan.pptMin && (ppt < plan.pptMin || ppt > plan.pptMax)) {
-            alert(`Error: For ${plan.name}, Premium Paying Term must be between ${plan.pptMin} and ${plan.pptMax} years.`);
+            alert(`Error: Premium Paying Term must be between ${plan.pptMin} and ${plan.pptMax} years.`);
             return;
         }
-        
-        // 4. Bima Shree (748) Specific Check
-        if (planId === '748' && ppt !== (term - 4)) {
-             alert(`Error: For Bima Shree, PPT must be exactly 4 years less than Policy Term.`);
-             return;
-        }
-        // --- VALIDATION BLOCK END ---
-
-        // ... continue with let completedYears = term; ...
-
+        // --- VALIDATION END ---
 
 
 
