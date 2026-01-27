@@ -407,30 +407,42 @@ document.addEventListener('DOMContentLoaded', function () {
     const bonusResult = document.getElementById('bonusResult');
     const resultNotes = document.getElementById('result-notes');
 
-    function populatePlanSelector() {
-        const categories = {
-            'Endowment': [], 'Whole Life': [], 'Money Back': [], 
-            'Term': [], 'ULIP': [], 'Pension': []
-        };
+   function populatePlanSelector() {
+        const planSelector = document.getElementById('planSelector');
+        // Reset dropdown
+        planSelector.innerHTML = '<option value="">-- Choose a Plan to Begin --</option>';
 
-        for (const planId in planData) {
-            const plan = planData[planId];
-            if (categories[plan.type]) {
-                categories[plan.type].push({ id: planId, name: plan.name });
+        // Define preferred display order
+        const displayOrder = [
+            'Endowment', 'Single Premium', 'Money Back', 'Whole Life', 
+            'Term', 'ULIP', 'Pension', 'Pension ULIP', 'Micro Insurance'
+        ];
+
+        // Group all plans by their 'type' property
+        const groupedPlans = {};
+        for (const [id, plan] of Object.entries(planData)) {
+            if (!groupedPlans[plan.type]) {
+                groupedPlans[plan.type] = [];
             }
+            groupedPlans[plan.type].push({ id: id, name: plan.name });
         }
-        
-        for (const categoryName in categories) {
-            const optgroup = document.createElement('optgroup');
-            optgroup.label = `--- ${categoryName} Plans ---`;
-            categories[categoryName].forEach(plan => {
-                const option = document.createElement('option');
-                option.value = plan.id;
-                option.textContent = `${plan.id} - ${plan.name}`;
-                optgroup.appendChild(option);
-            });
-            planSelector.appendChild(optgroup);
-        }
+
+        // Loop through order and create Option Groups
+        displayOrder.forEach(type => {
+            if (groupedPlans[type]) {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = `--- ${type} Plans ---`;
+                
+                groupedPlans[type].forEach(plan => {
+                    const option = document.createElement('option');
+                    option.value = plan.id;
+                    option.textContent = `${plan.id} - ${plan.name}`;
+                    optgroup.appendChild(option);
+                });
+                
+                planSelector.appendChild(optgroup);
+            }
+        });
     }
 
     function displayPlanDetails(planId) {
