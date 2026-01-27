@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Bima Shree 748 Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #e0e0e0;
+            --card-bg: #ffffff;
+            --black: #1a1a1a;
+            --grey: #7f8c8d;
+            --light-grey: #f5f6fa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            perspective: 1500px;
+        }
+
+        /* 3D Box Container */
+        .calculator-3d-box {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            transform-style: preserve-3d;
+            transform: rotateX(5deg);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            padding: 40px;
+            border: 1px solid rgba(0,0,0,0.05);
+            /* Mirror Reflection Effect */
+            -webkit-box-reflect: below 2px linear-gradient(transparent, transparent, rgba(255,255,255,0.2));
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--black);
+            padding-bottom: 10px;
+        }
+
+        .header h1 { color: var(--black); font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .input-group { position: relative; display: flex; flex-direction: column; }
+        .input-group label { font-size: 11px; font-weight: 700; color: var(--black); margin-bottom: 5px; text-transform: uppercase; }
+        .input-group i { position: absolute; right: 15px; top: 35px; color: var(--grey); }
+
+        input, select {
+            padding: 12px 15px;
+            border: 2px solid #edeff2;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: 0.3s;
+            background: var(--light-grey);
+        }
+
+        input:focus, select:focus { border-color: var(--black); background: white; }
+
+        /* Benefit Toggle Switch */
+        .toggle-section {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 50px;
+        }
+
+        .toggle-container {
+            display: flex;
+            width: 350px;
+            height: 45px;
+            background: var(--black);
+            border-radius: 25px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+            transition: 0.3s;
+            font-size: 12px;
+        }
+
+        .toggle-btn.active { color: var(--black); }
+
+        .slider {
+            position: absolute;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: #fff;
+            border-radius: 25px;
+            transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1;
+        }
+
+        .calc-btn {
+            grid-column: 1 / -1;
+            background: var(--black);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .calc-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+        /* Results Area */
+        #results {
+            margin-top: 30px;
+            display: none;
+            padding: 25px;
+            background: var(--light-grey);
+            border-radius: 15px;
+            border-left: 5px solid var(--black);
+            animation: slideIn 0.5s ease;
+        }
+
+        .res-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd; }
+        .res-row:last-of-type { border: none; background: var(--black); color: white; padding: 15px; border-radius: 8px; margin-top: 10px; }
+        .res-val { font-weight: 700; }
+
+        .formula { font-size: 10px; color: #777; text-align: center; margin-top: 15px; font-style: italic; }
+
+        .error-msg { color: #e74c3c; font-size: 11px; font-weight: 700; margin-top: 5px; display: none; }
+
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-s { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid var(--black); background: transparent; cursor: pointer; font-weight: 700; }
+        .btn-s:hover { background: var(--black); color: white; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="calculator-3d-box">
+    <div class="header">
+        <h1>LIC PLAN NO 748 - BIMA SHREE</h1>
+        <p>Premium Money Back & Maturity Calculator</p>
+    </div>
+
+    <div class="input-grid">
+        <div class="input-group">
+            <label>Name of Policy Holder</label>
+            <input type="text" id="name" placeholder="Enter Name">
+            <i class="fas fa-user"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Age at Entry (8-55 Yrs)</label>
+            <input type="number" id="age" value="30">
+            <i class="fas fa-birthday-cake"></i>
+            <span id="age-err" class="error-msg">Check age limits for term</span>
+        </div>
+
+        <div class="input-group">
+            <label>Sum Assured (Min 10,00,000)</label>
+            <input type="number" id="sa" value="1000000" step="100000">
+            <i class="fas fa-shield-alt"></i>
+            <span id="sa-err" class="error-msg">Min Sum Assured is 10 Lacs</span>
+        </div>
+
+        <div class="input-group">
+            <label>Policy Term</label>
+            <select id="term" onchange="syncPPT()">
+                <option value="14">14 Years</option>
+                <option value="16">16 Years</option>
+                <option value="18">18 Years</option>
+                <option value="20">20 Years</option>
+            </select>
+            <i class="fas fa-clock"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Premium Paying Term (PPT)</label>
+            <input type="number" id="ppt" value="10" readonly>
+            <i class="fas fa-hourglass-half"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Premium Mode</label>
+            <select id="mode">
+                <option value="1">Yearly</option>
+                <option value="0.51">Half-Yearly</option>
+                <option value="0.26">Quarterly</option>
+                <option value="0.089">Monthly</option>
+            </select>
+            <i class="fas fa-wallet"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Annual Premium (Entered)</label>
+            <input type="number" id="premium" value="108584">
+            <i class="fas fa-rupee-sign"></i>
+        </div>
+
+        <div class="input-group">
+            <label>LA Rate (Expected Rate)</label>
+            <input type="number" id="la_rate" value="150" placeholder="Per 1000 SA">
+            <i class="fas fa-chart-line"></i>
+        </div>
+
+        <div class="toggle-section">
+            <div class="toggle-container" onclick="handleToggle()">
+                <div id="slider" class="slider"></div>
+                <div id="btn-mat" class="toggle-btn active">SURVIVAL (MATURITY)</div>
+                <div id="btn-death" class="toggle-btn">DEATH BENEFIT</div>
+            </div>
+        </div>
+
+        <div class="input-group" id="death_ui" style="display:none; grid-column: 1 / -1;">
+            <label>Policy Year of Death</label>
+            <input type="number" id="death_yr" value="6">
+            <i class="fas fa-calendar-times"></i>
+        </div>
+
+        <button class="calc-btn" onclick="calculate()">
+            <i class="fas fa-calculator"></i> Calculate Final Benefit
+        </button>
+    </div>
+
+    <div id="results">
+        <div id="res-content"></div>
+        <div class="btn-group">
+            <button class="btn-s" onclick="window.print()">Print PDF</button>
+            <button class="btn-s" onclick="alert('Shared successfully')">Share PDF</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function syncPPT() {
+        const term = parseInt(document.getElementById('term').value);
+        document.getElementById('ppt').value = term - 4;
+    }
+
+    let isDeath = false;
+    function handleToggle() {
+        isDeath = !isDeath;
+        const slider = document.getElementById('slider');
+        const deathUI = document.getElementById('death_ui');
+        const bMat = document.getElementById('btn-mat');
+        const bDeath = document.getElementById('btn-death');
+
+        if(isDeath) {
+            slider.style.left = '50%';
+            deathUI.style.display = 'block';
+            bDeath.classList.add('active');
+            bMat.classList.remove('active');
+        } else {
+            slider.style.left = '0';
+            deathUI.style.display = 'none';
+            bMat.classList.add('active');
+            bDeath.classList.remove('active');
+        }
+    }
+
+    function calculate() {
+        const name = document.getElementById('name').value || "Valued Client";
+        const age = parseInt(document.getElementById('age').value);
+        const sa = parseFloat(document.getElementById('sa').value);
+        const term = parseInt(document.getElementById('term').value);
+        const ppt = term - 4;
+        const premium = parseFloat(document.getElementById('premium').value);
+        const laRate = parseFloat(document.getElementById('la_rate').value);
+        const deathYr = parseInt(document.getElementById('death_yr').value);
+
+        // Term specific validations
+        const maxAge = { 14: 55, 16: 51, 18: 48, 20: 45 };
+        if (age > maxAge[term]) { alert(`Max age for ${term} yr term is ${maxAge[term]}`); return; }
+        if (sa < 1000000) { alert("Min Sum Assured is 10 Lacs"); return; }
+
+        // Guaranteed Addition (GA) Logic: 50 for first 5 yrs, 55 thereafter
+        let accruedGA = 0;
+        const gaYears = isDeath ? Math.min(deathYr, ppt) : ppt;
+        for(let i=1; i<=gaYears; i++) {
+            accruedGA += (i <= 5) ? (sa/1000 * 50) : (sa/1000 * 55);
+        }
+
+        // Loyalty Addition (LA) Logic: Applicable after 5 years
+        let finalLA = 0;
+        if (isDeath && deathYr > 5) finalLA = (sa/1000 * (laRate / term * deathYr)); // Pro-rata estimate
+        if (!isDeath) finalLA = (sa/1000 * laRate);
+
+        let html = `<h3>Plan 748 Report: ${name}</h3><br>`;
+
+        if(!isDeath) {
+            // Maturity: % of SA based on term (Page 3)
+            const matPct = { 14: 0.40, 16: 0.30, 18: 0.20, 20: 0.10 };
+            const maturitySA = sa * matPct[term];
+            const finalPayable = maturitySA + accruedGA + finalLA;
+
+            html += `
+                <div class="res-row"><span>Basic Sum Assured:</span><span class="res-val">₹ ${sa.toLocaleString()}</span></div>
+                <div class="res-row"><span>Sum Assured on Maturity (${matPct[term]*100}%):</span><span class="res-val">₹ ${maturitySA.toLocaleString()}</span></div>
+                <div class="res-row"><span>Accrued Guaranteed Addition (GA):</span><span class="res-val">₹ ${accruedGA.toLocaleString()}</span></div>
+                <div class="res-row"><span>Loyalty Addition (LA):</span><span class="res-val">₹ ${finalLA.toLocaleString()}</span></div>
+                <div class="res-row"><span>Total Premium Paid (Excl. Tax):</span><span class="res-val">₹ ${(premium * ppt).toLocaleString()}</span></div>
+                <div class="res-row"><span>FINAL BENEFIT PAYABLE:</span><span class="res-val">₹ ${finalPayable.toLocaleString()}</span></div>
+                <div class="formula">Formula: Maturity SA + Accrued GA (50/55 Rate) + Loyalty Addition</div>
+            `;
+        } else {
+            // Death Benefit Logic (Page 2)
+            const saOnDeath = Math.max(1.25 * sa, 7 * premium);
+            const totalPaidTillDeath = premium * Math.min(deathYr, ppt);
+            const baseDeathClaim = Math.max(saOnDeath, 1.05 * totalPaidTillDeath);
+            const finalDeathPayable = baseDeathClaim + accruedGA + finalLA;
+
+            html += `
+                <div class="res-row"><span>Sum Assured on Death (125% of BSA):</span><span class="res-val">₹ ${baseDeathClaim.toLocaleString()}</span></div>
+                <div class="res-row"><span>Accrued GA till Year ${deathYr}:</span><span class="res-val">₹ ${accruedGA.toLocaleString()}</span></div>
+                <div class="res-row"><span>Loyalty Addition (Applicable > 5yrs):</span><span class="res-val">₹ ${finalLA.toLocaleString()}</span></div>
+                <div class="res-row"><span>Total Premium Paid till Death:</span><span class="res-val">₹ ${totalPaidTillDeath.toLocaleString()}</span></div>
+                <div class="res-row"><span>FINAL DEATH BENEFIT:</span><span class="res-val">₹ ${finalDeathPayable.toLocaleString()}</span></div>
+                <div class="formula">Formula: Higher of(125% BSA, 7x Prem, 105% Paid) + GA + LA</div>
+            `;
+        }
+
+        document.getElementById('res-content').innerHTML = html;
+        document.getElementById('results').style.display = 'block';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

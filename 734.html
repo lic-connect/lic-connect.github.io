@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Plan 734 - Jeevan Tarun Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --lic-red: #d63031;
+            --lic-black: #2d3436;
+            --white: #ffffff;
+            --grey-bg: #f5f6fa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: radial-gradient(circle at center, #4b0000, #000);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
+            perspective: 1500px;
+        }
+
+        /* 3D Box & Mirror Effect */
+        .calculator-3d-box {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            background: var(--white);
+            border-radius: 30px;
+            transform-style: preserve-3d;
+            transform: rotateX(6deg);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            padding: 50px;
+            border: 1px solid rgba(255,255,255,0.2);
+            /* Mirror Reflection Effect */
+            -webkit-box-reflect: below 2px linear-gradient(transparent, transparent, rgba(255,255,255,0.15));
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 5px solid var(--lic-red);
+            padding-bottom: 15px;
+        }
+
+        .header h1 { color: var(--lic-black); font-size: 28px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .header p { color: var(--lic-red); font-weight: 700; font-size: 15px; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .input-group { position: relative; display: flex; flex-direction: column; }
+        .input-group label { font-size: 11px; font-weight: 800; color: var(--lic-black); margin-bottom: 8px; text-transform: uppercase; }
+        .input-group i { position: absolute; right: 15px; top: 40px; color: var(--lic-red); font-size: 18px; }
+
+        input, select {
+            padding: 15px 18px;
+            border: 2px solid #edeff2;
+            border-radius: 15px;
+            font-size: 15px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.3s ease;
+            background: var(--grey-bg);
+        }
+
+        input:focus, select:focus { border-color: var(--lic-red); background: #fff; box-shadow: 0 0 15px rgba(214, 48, 49, 0.2); }
+
+        /* Benefit Toggle Switch */
+        .toggle-section {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            margin: 25px 0;
+            background: #fff5f5;
+            padding: 15px;
+            border-radius: 60px;
+        }
+
+        .toggle-case {
+            display: flex;
+            width: 420px;
+            height: 55px;
+            background: var(--lic-black);
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .toggle-opt {
+            flex: 1;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--lic-red);
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .toggle-opt.active { color: #fff; }
+        .slider {
+            position: absolute;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: var(--lic-red);
+            border-radius: 30px;
+            transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1;
+        }
+
+        .calc-btn {
+            grid-column: 1 / -1;
+            background: var(--lic-black);
+            color: white;
+            border: none;
+            padding: 22px;
+            border-radius: 20px;
+            font-size: 22px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .calc-btn:hover { background: var(--lic-red); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(214, 48, 49, 0.4); }
+
+        /* Results Panel */
+        #results {
+            margin-top: 50px;
+            display: none;
+            background: #fffbfb;
+            padding: 40px;
+            border-radius: 25px;
+            border: 4px solid var(--lic-red);
+            animation: bounceIn 0.8s ease;
+        }
+
+        .res-line { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 2px dashed #eee; }
+        .res-line:last-of-type { border: none; background: var(--lic-red); color: white; padding: 25px; border-radius: 20px; margin-top: 20px; }
+        .res-label { font-weight: 600; font-size: 16px; }
+        .res-val { font-weight: 800; font-size: 22px; }
+
+        .formula-box {
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+            margin-top: 25px;
+            font-style: italic;
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .action-btns { display: flex; gap: 20px; margin-top: 40px; }
+        .btn-foot { flex: 1; padding: 18px; border-radius: 15px; border: 2px solid var(--lic-black); background: transparent; color: var(--lic-black); font-weight: 800; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-foot:hover { background: var(--lic-black); color: white; }
+
+        @keyframes bounceIn { from { opacity: 0; transform: translateY(100px); } to { opacity: 1; transform: translateY(0); } }
+        .error-hint { color: var(--lic-red); font-size: 11px; font-weight: 700; margin-top: 5px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="calculator-3d-box">
+    <div class="header">
+        <h1>LIC-PLAN NO 734-JEEVAN TARUN</h1>
+        <p>THE ULTIMATE CHILD EDUCATION & MATURITY CALCULATOR</p>
+    </div>
+
+    <div class="input-grid">
+        <div class="input-group">
+            <label>Policy Holder (Child's Name)</label>
+            <input type="text" id="p_name" placeholder="Full Name">
+            <i class="fas fa-child"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Age at Entry (0-12 Yrs)</label>
+            <input type="number" id="p_age" value="5" onchange="autoPopulate()">
+            <i class="fas fa-calendar-day"></i>
+            <span id="age-err" class="error-hint">Age must be 0 to 12 years</span>
+        </div>
+
+        <div class="input-group">
+            <label>Sum Assured (Min 75,000)</label>
+            <input type="number" id="p_sa" value="200000" step="5000">
+            <i class="fas fa-coins"></i>
+            <span id="sa-err" class="error-hint">Min Sum Assured is ₹75,000</span>
+        </div>
+
+        <div class="input-group">
+            <label>Maturity Option</label>
+            <select id="p_option">
+                <option value="1">Option 1: 100% Maturity (No Money Back)</option>
+                <option value="0.75">Option 2: 75% Maturity (5% SB for 5 Yrs)</option>
+                <option value="0.5">Option 3: 50% Maturity (10% SB for 5 Yrs)</option>
+                <option value="0.25">Option 4: 25% Maturity (15% SB for 5 Yrs)</option>
+            </select>
+            <i class="fas fa-list-ul"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Policy Term (Fixed till age 25)</label>
+            <input type="number" id="p_term" disabled>
+            <i class="fas fa-hourglass-start"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Premium Paying Term (PPT)</label>
+            <input type="number" id="p_ppt" disabled>
+            <i class="fas fa-hourglass-half"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Premium Mode</label>
+            <select id="p_mode">
+                <option value="yly">Yearly</option>
+                <option value="hly">Half-Yearly</option>
+                <option value="qly">Quarterly</option>
+                <option value="mly">Monthly (NACH)</option>
+                <option value="single">Single Premium</option>
+            </select>
+            <i class="fas fa-wallet"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Annual Premium (Entered)</label>
+            <input type="number" id="p_prem" value="11682">
+            <i class="fas fa-indian-rupee-sign"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Bonus Rate (Default 42)</label>
+            <input type="number" id="p_bonus" value="42">
+            <i class="fas fa-chart-line"></i>
+        </div>
+
+        <div class="input-group">
+            <label>FAB Rate (Default 20)</label>
+            <input type="number" id="p_fab" value="20">
+            <i class="fas fa-plus-circle"></i>
+        </div>
+
+        <div class="toggle-section">
+            <div class="toggle-case" onclick="switchView()">
+                <div class="slider" id="slider"></div>
+                <div class="toggle-opt active" id="opt_m">SURVIVAL (MATURITY)</div>
+                <div class="toggle-opt" id="opt_d">DEATH BENEFIT</div>
+            </div>
+        </div>
+
+        <div class="input-group" id="death_occurrence" style="display:none; grid-column: 1 / -1;">
+            <label>Policy Year of Death</label>
+            <input type="number" id="p_death_yr" value="10">
+            <i class="fas fa-calendar-xmark"></i>
+        </div>
+
+        <button class="calc-btn" onclick="calculateBenefits()">
+            <i class="fas fa-calculator"></i> Calculate Wow Factor
+        </button>
+    </div>
+
+    <div id="results">
+        <div id="res_body"></div>
+        <div class="action-btns">
+            <button class="btn-foot" onclick="window.print()"><i class="fas fa-print"></i> Print PDF</button>
+            <button class="btn-foot" onclick="alert('Ready to Share PDF!')"><i class="fas fa-share-nodes"></i> Share PDF</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function autoPopulate() {
+        const age = parseInt(document.getElementById('p_age').value);
+        if(!isNaN(age)) {
+            document.getElementById('p_term').value = 25 - age;
+            document.getElementById('p_ppt').value = 20 - age;
+        }
+    }
+    autoPopulate();
+
+    let isDeathActive = false;
+    function switchView() {
+        isDeathActive = !isDeathActive;
+        const slider = document.getElementById('slider');
+        const deathUI = document.getElementById('death_occurrence');
+        if(isDeathActive) {
+            slider.style.left = '50%';
+            deathUI.style.display = 'block';
+            document.getElementById('opt_d').classList.add('active');
+            document.getElementById('opt_m').classList.remove('active');
+        } else {
+            slider.style.left = '0';
+            deathUI.style.display = 'none';
+            document.getElementById('opt_m').classList.add('active');
+            document.getElementById('opt_d').classList.remove('active');
+        }
+    }
+
+    function calculateBenefits() {
+        const name = document.getElementById('p_name').value || "The Child";
+        const age = parseInt(document.getElementById('p_age').value);
+        const sa = parseFloat(document.getElementById('p_sa').value);
+        const term = 25 - age;
+        const ppt = 20 - age;
+        const maturityOpt = parseFloat(document.getElementById('p_option').value);
+        const prem = parseFloat(document.getElementById('p_prem').value);
+        const bonusR = parseFloat(document.getElementById('p_bonus').value);
+        const fabR = parseFloat(document.getElementById('p_fab').value);
+        const deathYr = parseInt(document.getElementById('p_death_yr').value);
+
+        // Validation
+        let hasError = false;
+        if(age < 0 || age > 12) { document.getElementById('age-err').style.display='block'; hasError=true; }
+        else document.getElementById('age-err').style.display='none';
+        if(sa < 75000) { document.getElementById('sa-err').style.display='block'; hasError=true; }
+        else document.getElementById('sa-err').style.display='none';
+        if(hasError) return;
+
+        const totalBonus = (sa / 1000) * bonusR * (isDeathActive ? deathYr : term);
+        const fab = (term >= 15 && sa >= 200000) ? (sa / 1000) * fabR : 0;
+        
+        let html = `<h3>Plan 734 Report for ${name}</h3><br>`;
+
+        if(!isDeathActive) {
+            // Maturity Logic: Sum Assured % based on Option + Bonuses
+            const maturitySA = sa * maturityOpt;
+            const finalMaturity = maturitySA + totalBonus + fab;
+            const totalPaid = prem * ppt;
+
+            html += `
+                <div class="res-line"><span class="res-label">Basic Sum Assured:</span><span class="res-val">₹ ${sa.toLocaleString()}</span></div>
+                <div class="res-line"><span class="res-label">Maturity Sum Assured (${maturityOpt*100}%):</span><span class="res-val">₹ ${maturitySA.toLocaleString()}</span></div>
+                <div class="res-line"><span class="res-label">Total Accrued Bonus:</span><span class="res-val">₹ ${totalBonus.toLocaleString()}</span></div>
+                <div class="res-line"><span class="res-label">Final Additional Bonus (FAB):</span><span class="res-val">₹ ${fab.toLocaleString()}</span></div>
+                <div class="res-line"><span class="res-label">Total Premium Paid (approx):</span><span class="res-val">₹ ${totalPaid.toLocaleString()}</span></div>
+                <div class="res-line"><span class="res-label">FINAL MATURITY BENEFIT:</span><span class="res-val">₹ ${finalMaturity.toLocaleString()}</span></div>
+                <div class="formula-box">Formula: [Maturity % of SA] + [Accrued Bonus] + [FAB]</div>
+            `;
+        } else {
+            // Risk Commencement logic: Age < 8, risk starts after 2 yrs or turns 8.
+            const riskStartsAfter = Math.min(2, Math.max(0, 8 - age));
+            const isRiskCommenced = (deathYr >= riskStartsAfter) || (age >= 8);
+            const totalPaidTillDeath = prem * deathYr;
+
+            if(!isRiskCommenced) {
+                html += `
+                    <div class="res-line" style="background:#ff7675; color:white; border-radius:15px;"><span class="res-label">Death Status:</span><span class="res-val">Before Risk Commencement</span></div>
+                    <div class="res-line"><span class="res-label">Refund of Premiums Paid:</span><span class="res-val">₹ ${totalPaidTillDeath.toLocaleString()}</span></div>
+                    <div class="res-line"><span class="res-label">FINAL DEATH BENEFIT:</span><span class="res-val">₹ ${totalPaidTillDeath.toLocaleString()}</span></div>
+                    <div class="formula-box">Note: Since Risk had not commenced, total premiums paid are refunded.</div>
+                `;
+            } else {
+                // Death Benefit After Risk: Max(125% SA, 7x Annual Prem) + Bonus + FAB
+                const saOnDeath = Math.max(1.25 * sa, 7 * prem);
+                const finalDeath = saOnDeath + totalBonus + fab;
+
+                html += `
+                    <div class="res-line" style="background:var(--lic-red); color:white; border-radius:15px;"><span class="res-label">Death Status:</span><span class="res-val">After Risk Commencement</span></div>
+                    <div class="res-line"><span class="res-label">Sum Assured on Death:</span><span class="res-val">₹ ${saOnDeath.toLocaleString()}</span></div>
+                    <div class="res-line"><span class="res-label">Bonus Accrued till Year ${deathYr}:</span><span class="res-val">₹ ${totalBonus.toLocaleString()}</span></div>
+                    <div class="res-line"><span class="res-label">Final Additional Bonus (if any):</span><span class="res-val">₹ ${fab.toLocaleString()}</span></div>
+                    <div class="res-line"><span class="res-label">Total Premiums Paid till Death:</span><span class="res-val">₹ ${totalPaidTillDeath.toLocaleString()}</span></div>
+                    <div class="res-line"><span class="res-label">FINAL DEATH BENEFIT:</span><span class="res-val">₹ ${finalDeath.toLocaleString()}</span></div>
+                    <div class="formula-box">Formula: [Sum Assured on Death] + [Vested Bonuses] + [FAB]</div>
+                `;
+            }
+        }
+
+        document.getElementById('res_body').innerHTML = html;
+        document.getElementById('results').style.display = 'block';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
