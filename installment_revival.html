@@ -118,10 +118,12 @@
                 <option value="745">745-Jeevan Umang</option>
                 <option value="748">748-Bima Shree</option>
                 <option value="751">751-Micro Bachat</option>
+                <option value="760">760-Bima jyoti</option>
                 <option value="764">764-Bima Ratna</option>
                 <option value="768">768-Jeevan Azad</option>
                 <option value="771">771-Jeevan Utsav</option>
                 <option value="774">774-Amrit Baal</option>
+                <option value="880">880-Jan suraksha</option>
                 <option value="881">881-Bima Lakshmi</option>
                 <option value="912">912-Nav Jeevan Shree</option>
             </select>
@@ -198,7 +200,7 @@
 
     function calculateInstalmentRevival() {
         const planNum = document.getElementById('planNumber').value;
-        const eligiblePlans = ['714', '715', '720', '721', '732', '733', '734', '736', '745', '748', '751', '764', '768', '771', '774', '881', '912'];
+        const eligiblePlans = ['714', '715', '720', '721', '732', '733', '734', '736', '745', '748', '751', '760','764', '768', '771', '774', '880','881', '912'];
         
         if (!eligiblePlans.includes(planNum)) {
             alert("NOT ELIGIBLE FOR INSTALLMENT CUM REVIVAL.");

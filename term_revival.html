@@ -122,7 +122,8 @@
         <div class="input-group">
             <label>Plan Name</label>
             <select id="planName" onchange="document.getElementById('planNumber').value = this.value">
-                <option value="875">875 – Yuva Term</option>
+            <option value="859">859 – Saral jeevan bima</option>    
+<option value="875">875 – Yuva Term</option>
                 <option value="876">876 – Digi Term</option>
                 <option value="877">877 – Yuva Credit Life</option>
                 <option value="878">878 – Digi Credit Life</option>
@@ -180,7 +181,7 @@
 
     function calculateTermRevival() {
         const planNum = document.getElementById('planNumber').value;
-        const termPlans = ['875', '876', '877', '878', '887', '954', '955'];
+        const termPlans = ['859','875', '876', '877', '878', '887', '954', '955'];
 
         if (!termPlans.includes(planNum)) {
             alert("NOT ELIGIBLE FOR TERM REVIVAL CALCULATOR.");
