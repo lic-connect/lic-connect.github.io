@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Revival Calculator | Aquamarine Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --aqua-light: #e0fff4;
+            --aqua-main: #7FFFD4;
+            --aqua-dark: #45b39d;
+            --aqua-deep: #206d5d;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, var(--white) 0%, var(--aqua-light) 50%, var(--aqua-main) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            color: var(--aqua-deep);
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 2px 2px 0px var(--white);
+        }
+
+        .header p {
+            color: var(--aqua-dark);
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 45px;
+            perspective: 1000px;
+        }
+
+        .revival-btn {
+            position: relative;
+            width: 400px;
+            padding: 20px;
+            font-size: 15px;
+            font-weight: 800;
+            text-decoration: none;
+            text-align: center;
+            text-transform: uppercase;
+            color: var(--aqua-deep);
+            background: var(--white);
+            border: 2px solid var(--aqua-main);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            
+            /* 3D Depth */
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 0 var(--aqua-main), 0 20px 30px rgba(32, 109, 93, 0.2);
+            
+            /* Mirror Effect */
+            -webkit-box-reflect: below 2px linear-gradient(transparent, rgba(255, 255, 255, 0.2));
+        }
+
+        .revival-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: var(--aqua-light);
+            box-shadow: 0 15px 0 var(--aqua-dark), 0 25px 40px rgba(32, 109, 93, 0.3);
+        }
+
+        .revival-btn:active {
+            transform: translateY(8px);
+            box-shadow: 0 2px 0 var(--aqua-dark);
+        }
+
+        .terminology-trigger {
+            margin-top: 120px;
+            padding: 15px 40px;
+            background: var(--white);
+            color: var(--aqua-deep);
+            border: 3px solid var(--aqua-deep);
+            border-radius: 50px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(32, 109, 93, 0.2);
+        }
+
+        .terminology-trigger:hover {
+            background: var(--aqua-deep);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        /* Full Screen Overlay for Terminologies */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 1000;
+            padding: 50px;
+            overflow-y: auto;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .overlay-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .close-btn {
+            position: fixed;
+            top: 30px; right: 50px;
+            font-size: 40px;
+            cursor: pointer;
+            color: var(--aqua-deep);
+            font-weight: bold;
+        }
+
+        .term-section {
+            margin-bottom: 60px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid var(--aqua-light);
+        }
+
+        .term-section h2 {
+            color: var(--aqua-deep);
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            background: var(--aqua-light);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+        }
+
+        .term-section p {
+            color: #444;
+            line-height: 1.8;
+            font-size: 15px;
+            text-align: justify;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 600px) {
+            .revival-btn { width: 100%; }
+            .header h1 { font-size: 2rem; }
+            .overlay { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <p>Life Insurance Corporation</p>
+        <h1>Revival Portal</h1>
+    </div>
+
+    <div class="button-container">
+        <a href="ordinary_revival.html" class="revival-btn">Ordinary Revival</a>
+        <a href="special_revival.html" class="revival-btn">Special Revival</a>
+        <a href="SB_revival.html" class="revival-btn">Survival Benefit Cum Revival</a>
+        <a href="loan_revival.html" class="revival-btn">Loan Cum Revival</a>
+        <a href="installment_revival.html" class="revival-btn">Installment Cum Revival</a>
+        <a href="term_revival.html" class="revival-btn">Term Plans Revival</a>
+        <a href="ulip_revival.html" class="revival-btn">ULIP Plans Revival</a>
+    </div>
+
+    <button class="terminology-trigger" onclick="toggleOverlay(true)">📖 IMPORTANT TERMINOLOGIES</button>
+
+    <!-- Detailed Information Overlay -->
+    <div id="infoOverlay" class="overlay">
+        <span class="close-btn" onclick="toggleOverlay(false)">&times;</span>
+        <div class="overlay-content">
+            <h1 style="color: var(--aqua-deep); margin-bottom: 40px; font-size: 40px; text-align: center;">Revival Schemes Explained</h1>
+
+            <div class="term-section">
+                <h2>1. Ordinary Revival</h2>
+                <p>
+                    Ordinary Revival is the primary and most frequent method used to reinstate a life insurance policy that has lapsed due to the non-payment of premiums within the allowed grace period. When a policyholder misses the premium payment, the policy loses its "in-force" status, and the risk cover is suspended. To bring the policy back to its full operational state, the policyholder must pay all the accumulated unpaid premiums from the First Unpaid Premium (FUP) date up to the current date. However, simply paying the premiums is not enough; LIC charges interest on these delayed payments to compensate for the loss of fund growth during the lapse period. The interest rate is determined by LIC periodically and usually hovers between 9% and 9.5% per annum. <br><br>
+                    In addition to the financial requirement, Ordinary Revival often necessitates a proof of continued insurability. Depending on the duration the policy has remained in a lapsed state and the total sum at risk, the policyholder may be required to submit a Declaration of Good Health (DGH) or undergo a fresh medical examination by an LIC-authorized medical examiner. The objective is to ensure that the risk profile of the life assured has not significantly deteriorated since the policy was first issued. If the health status is found satisfactory, the corporation approves the revival, and all the benefits, including bonuses for the lapse period, are restored. This scheme is applicable to almost all traditional plans, including Endowment, Whole Life, and Money Back policies, provided the revival happens within five years of the FUP.
+                </p>
+            </div>
+
+            <div class="term-section">
+                <h2>2. Special Revival</h2>
+                <p>
+                    The Special Revival scheme is a unique facility offered by LIC to policyholders who find it financially impossible to pay a large amount of accumulated arrears and interest in one go. Unlike Ordinary Revival, where the original date of commencement (DOC) remains unchanged, Special Revival effectively treats the policy as a "new" contract. Under this scheme, the date of commencement is shifted forward by a period equal to the duration the policy remained in a lapsed state. For instance, if a policy has been lapsed for two years, the DOC will be shifted two years into the future. This results in the "erasing" of the unpaid premium debt, as those missed years are moved out of the current timeline. <br><br>
+                    However, Special Revival is not a simple reset. It is a decision-based framework where the corporation evaluates the policy's potential. To be eligible, the policy must not have completed a certain duration (usually less than 3 years), and it can only be revived once under this scheme. The policyholder must pay the difference between the old premium and the new premium (since the age of the assured has increased, the new premium will be higher). A nominal revival fee is charged, but the heavy burden of back-dated interest is waived. This is a vital tool for preventing policy attrition among low-income groups. The decision to grant Special Revival rests with high-ranking officers like the Branch Manager or Divisional Manager, who consider the reason for the lapse and the medical risk before approval. It is a lifeline for those who want to keep their insurance cover but cannot afford the massive penalty of a long-term lapse.
+                </p>
+            </div>
+
+            <div class="term-section">
+                <h2>3. Survival Benefit Cum Revival</h2>
+                <p>
+                    Survival Benefit (SB) Cum Revival is a specialized reinstatement method designed exclusively for "Money Back" and "Jeevan Tarun" type policies. These policies are structured to pay out a percentage of the Sum Assured to the policyholder at fixed intervals (e.g., every 5 years) as a survival benefit. If a policy lapses, any Survival Benefit that was supposed to be paid during the lapse period is withheld by the corporation. Under the SB-cum-Revival scheme, LIC allows the policyholder to use these withheld survival benefits to pay off the revival arrears. <br><br>
+                    The mathematical logic is a direct offset: Step one involves calculating the "Total Dues," which includes the sum of all missed premiums plus the ordinary interest accrued on those premiums. Step two identifies the "SB Due" to the policyholder. If the SB amount is greater than the Total Dues, the policy is revived automatically to an in-force status, and the excess cash is refunded to the policyholder. If the SB amount is less than the Total Dues, the policyholder only needs to pay the net difference (Total Dues minus SB). This scheme is highly beneficial because the corporation does not charge any interest on the Survival Benefit amount while it is held in their accounts, but they allow it to be used at its full face value to clear debts. It simplifies the revival process for the policyholder by reducing the out-of-pocket cash requirement significantly, often making the revival "free" if the withheld SB is large enough to cover the missed premiums.
+                </p>
+            </div>
+
+            <div class="term-section">
+                <h2>4. Loan Cum Revival</h2>
+                <p>
+                    Loan Cum Revival is a highly effective financial maneuver for reviving policies that have already acquired a "Surrender Value." In traditional LIC policies, after premiums have been paid for at least two full years (under current rules), the policy gains a cash value. The policyholder is then entitled to take a loan against this value. When such a policy lapses, the policyholder can apply for a loan specifically for the purpose of revival. The corporation calculates the maximum loan admissible based on the Surrender Value that would be available on the date of revival. <br><br>
+                    The procedure involves three distinct steps. First, the Branch Office computes the Total Revival Dues (unpaid premiums + interest). Second, they calculate the available loan amount. If the available loan is sufficient to cover the revival dues, the policy is reinstated without the policyholder having to pay any cash for the premiums. The revival dues are simply added to the policy's loan account. However, LIC has a strict rule: any outstanding interest on an *existing* loan must be cleared in cash before this scheme can be utilized. This ensures that the loan-to-value ratio remains within safe limits. This method is essentially using the policy's own equity to save itself. It is the preferred choice for long-term policyholders who have a high accumulated value but are facing a temporary liquidity crunch. Once revived, the policy continues to earn bonuses, which often exceed the interest charged on the loan, making it a sound financial decision.
+                </p>
+            </div>
+
+            <div class="term-section">
+                <h2>5. Installment Cum Revival</h2>
+                <p>
+                    Installment Cum Revival is a compassionate scheme introduced by LIC to help policyholders who are suffering from extreme financial hardship but are eager to maintain their life insurance protection. When a policy lapses for a long duration, the "Ordinary Revival" amount (premiums plus interest) can become a daunting sum that the individual cannot pay at once. This scheme allows the total arrears to be broken down into smaller, manageable installments. The process begins with the "Initial Calculation," where the corporation determines the total debt up to the date of approval. This sum is then divided by the number of installments granted by the authority (usually 6 to 12 monthly or quarterly installments). <br><br>
+                    There is a critical difference in how interest is handled here. While the initial interest is calculated up to the approval date, "Ongoing Interest" is also charged on the reducing balance of the principal arrears. Each time an installment is paid, the balance decreases, and the interest for the next period is calculated on this lower amount. The policy is technically considered "revived" once the installment plan is approved and the first installment is paid, but the full risk cover and the right to claim full benefits are subject to the regular payment of these installments. If the policyholder defaults on the installment plan, the policy may lapse again. This scheme requires special approval from the Senior Branch Manager and is usually reserved for cases where the policyholder can prove a genuine inability to pay the full amount immediately, such as medical emergencies in the family or loss of employment.
+                </p>
+            </div>
+
+            <div class="term-section">
+                <h2>6. Term Plans Revival</h2>
+                <p>
+                    Revival of Term Insurance plans (like Jeevan Amar, Tech Term, or Yuva Term) follows a much stricter and more risk-focused protocol than traditional endowment plans. Since Term Plans are "Pure Risk" products with no maturity value or surrender value, the corporation’s only concern is the mortality risk of the life assured. When a term plan lapses, the policyholder must pay all missed premiums plus interest. The interest calculation is identical to the Ordinary Revival method, using the daily overdue rate. However, the "Wow Factor" for Term Plan revival is the underwriting. <br><br>
+                    Because there is no savings element to buffer the risk, LIC often requires a full medical report (FMR) even for shorter lapse durations. The company needs to be absolutely certain that the life assured has not developed any chronic illnesses or lifestyle risks (like smoking) during the period the policy was inactive. In many cases, if the health profile has changed, LIC may reject the revival altogether or offer it with an "Extra Premium" (rating up). Furthermore, for plans like Digi-Term or Tech-Term, the revival is often processed through an online portal where digital health declarations are analyzed by automated underwriting engines. Unlike endowment plans, there is no "Loan Cum Revival" or "SB Cum Revival" option here because there is no cash value to leverage. It is a binary process: pay the arrears, prove your health, and restore your protection.
+                </p>
+            </div>
+
+            <div class="term-section">
+                <h2>7. ULIP Plans Revival</h2>
+                <p>
+                    Unit Linked Insurance Plans (ULIPs), such as Nivesh Plus or SIIP, have a completely different revival logic known as "Reinstatement." In a ULIP, the premiums are invested in market-linked funds. If a premium is missed, the policy enters a "Discontinued" state. The fund value is then moved from the active investment funds (like Growth or Balanced) into a "Discontinued Policy Fund" (DPF), where it earns a minimum guaranteed interest rate (usually 4%) and is charged a small management fee. The Reinstatement Amount consists of the sum of all unpaid premiums plus any applicable charges, such as policy administration fees or mortality charges that were missed. <br><br>
+                    Crucially, LIC does **not** charge back-dated interest on the unpaid premiums of a ULIP. Instead, the "penalty" is the lost opportunity of market growth. To revive the policy, the policyholder must initiate the process within a 5-year window from the date of the First Unpaid Premium. Once reinstated, the money in the Discontinued Policy Fund, along with the fresh premiums paid, is moved back into the market funds chosen by the policyholder at the prevailing Net Asset Value (NAV). Reinstatement of a ULIP is more about "re-entering the market" than "paying a debt." It is a vital process for those who want to continue their investment journey and benefit from rupee-cost averaging, especially if the market has performed well during the lapse period.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleOverlay(show) {
+            const overlay = document.getElementById('infoOverlay');
+            overlay.style.display = show ? 'block' : 'none';
+            document.body.style.overflow = show ? 'hidden' : 'auto';
+        }
+    </script>
+</body>
+</html>

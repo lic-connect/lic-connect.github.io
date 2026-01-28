@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordinary Revival Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --parrot-green: #6BBF59;
+            --dark-green: #4A8C3F;
+            --white: #ffffff;
+            --light-gray: #f2f7f2;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: #eef2ee;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculator-card {
+            width: 100%;
+            max-width: 800px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            padding: 30px;
+            border: 1px solid #ddd;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 3px solid var(--parrot-green);
+            padding-bottom: 10px;
+        }
+
+        .header h1 { color: var(--dark-green); font-size: 22px; text-transform: uppercase; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 12px; font-weight: 700; color: #444; margin-bottom: 5px; }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-weight: 600;
+            background: var(--light-gray);
+        }
+
+        input:focus, select:focus { border-color: var(--parrot-green); background: #fff; outline: none; }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0 10px 0;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .section-header h3 { font-size: 14px; color: var(--dark-green); text-transform: uppercase; }
+
+        .premium-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 40px;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-add {
+            background: var(--dark-green);
+            color: white;
+            padding: 5px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .btn-remove { background: #ff5e5e; color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+        .calc-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--parrot-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #results {
+            margin-top: 20px;
+            display: none;
+            padding: 20px;
+            background: #f0f9f0;
+            border-radius: 8px;
+            border: 1px solid var(--parrot-green);
+        }
+
+        .res-line { display: flex; justify-content: space-between; padding: 5px 0; font-weight: 600; }
+        .grand-total { font-size: 20px; color: var(--dark-green); border-top: 2px solid var(--parrot-green); margin-top: 10px; padding-top: 10px; }
+
+        .formula-tag { font-size: 11px; color: #666; font-style: italic; margin-top: 10px; display: block; background: #fff; padding: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="calculator-card">
+    <div class="header">
+        <h1>Ordinary Revival Calculator</h1>
+    </div>
+
+    <!-- Basic Policy Details -->
+    <div class="input-grid">
+        <div class="input-group">
+            <label>Plan Name</label>
+            <select id="planName" onchange="updatePlanNumber()">
+                <option value="714">714-New Endowment</option>
+                <option value="715">715-Jeevan Anand</option>
+                <option value="717">717-Single Premium</option>
+                <option value="720">720-Money Back 20 Yrs</option>
+                <option value="721">721-Money Back 25 Yrs</option>
+                <option value="732">732-Child Money Back</option>
+                <option value="733">733-Jeevan Lakshya</option>
+                <option value="734">734-Jeevan Tarun</option>
+                <option value="736">736-Jeevan Labh</option>
+                <option value="745">745-Jeevan Umang</option>
+                <option value="748">748-Bima Shree</option>
+                <option value="751">751-Micro Bachat</option>
+                <option value="760">760-Bima Jyoti</option>
+                <option value="764">764-Bima Ratna</option>
+                <option value="768">768-Jeevan Azad</option>
+                <option value="771">771-Jeevan Utsav</option>
+                <option value="774">774-Amrit Baal</option>
+                <option value="859">859-Saral Jeevan Bima</option>
+                <option value="875">875-Yuva Term</option>
+                <option value="876">876-Digi Term</option>
+                <option value="877">877-Yuva Credit Life</option>
+                <option value="878">878-Digi Credit Life</option>
+                <option value="880">880-Jan Suraksha</option>
+                <option value="881">881-Bima Lakshmi</option>
+                <option value="883">883-Jeevan Utsav SP</option>
+                <option value="887">887-Bima Kavach</option>
+                <option value="911">911-Nav Jeevan Shree SP</option>
+                <option value="912">912-Nav Jeevan Shree</option>
+                <option value="954">954-New Tech Term</option>
+                <option value="955">955-Jeevan Amar</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Plan Number</label>
+            <input type="text" id="planNumber" value="714" readonly>
+        </div>
+        <div class="input-group">
+            <label>Interest Rate (% p.a.)</label>
+            <input type="number" id="interestRate" step="0.01" value="9.50">
+        </div>
+        <div class="input-group">
+            <label>Revival Date</label>
+            <input type="date" id="revivalDate">
+        </div>
+    </div>
+
+    <!-- Dynamic Premium Entry -->
+    <div class="section-header">
+        <h3>Unpaid Installments</h3>
+        <button class="btn-add" onclick="addRow()">+ Add Installment</button>
+    </div>
+
+    <div id="premium-container">
+        <!-- Dynamic Rows Added Here -->
+    </div>
+
+    <button class="calc-btn" onclick="calculate()">Calculate Revival Amount</button>
+
+    <div id="results">
+        <div class="res-line"><span>Total Unpaid Premiums:</span><span id="outPrem">₹ 0.00</span></div>
+        <div class="res-line"><span>Total Interest:</span><span id="outInt">₹ 0.00</span></div>
+        <div class="res-line grand-total"><span>Total to be Paid:</span><span id="outGrand">₹ 0.00</span></div>
+        
+        <div class="formula-tag">
+            <strong>Formula:</strong> Total Interest = Σ (Premium × Rate × Days overdue / 365)
+        </div>
+    </div>
+</div>
+
+<script>
+    // Initial setup
+    document.getElementById('revivalDate').valueAsDate = new Date();
+    addRow();
+
+    function updatePlanNumber() {
+        document.getElementById('planNumber').value = document.getElementById('planName').value;
+    }
+
+    function addRow() {
+        const div = document.createElement('div');
+        div.className = 'premium-row';
+        div.innerHTML = `
+            <input type="number" class="p-amt" placeholder="Premium Amt">
+            <input type="date" class="p-due">
+            <button class="btn-remove" onclick="this.parentElement.remove()">X</button>
+        `;
+        document.getElementById('premium-container').appendChild(div);
+    }
+
+    function calculate() {
+        const planNum = document.getElementById('planNumber').value;
+        
+        // Single Premium Check
+        const spPlans = ['717', '883', '911'];
+        if (spPlans.includes(planNum)) {
+            alert("Ordinary revival not applicable for Single Premium plans (717, 883, 911)");
+            return;
+        }
+
+        const revDateStr = document.getElementById('revivalDate').value;
+        const rate = parseFloat(document.getElementById('interestRate').value);
+        if (!revDateStr) { alert("Enter Revival Date"); return; }
+        
+        const revivalDate = new Date(revDateStr);
+        const amts = document.querySelectorAll('.p-amt');
+        const dues = document.querySelectorAll('.p-due');
+
+        let sumPremiums = 0;
+        let sumInterest = 0;
+        let validEntries = 0;
+
+        amts.forEach((input, i) => {
+            const val = parseFloat(input.value);
+            const dueStr = dues[i].value;
+
+            if (!isNaN(val) && dueStr) {
+                const dueDate = new Date(dueStr);
+                if (dueDate < revivalDate) {
+                    const days = Math.ceil(Math.abs(revivalDate - dueDate) / (1000 * 60 * 60 * 24));
+                    sumInterest += (val * (rate / 100) * days) / 365;
+                    sumPremiums += val;
+                    validEntries++;
+                }
+            }
+        });
+
+        if (validEntries === 0) {
+            alert("Please enter valid premium amounts and due dates (Due dates must be before revival date)");
+            return;
+        }
+
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('outPrem').innerText = "₹ " + sumPremiums.toLocaleString('en-IN', {minimumFractionDigits:2});
+        document.getElementById('outInt').innerText = "₹ " + sumInterest.toLocaleString('en-IN', {minimumFractionDigits:2});
+        document.getElementById('outGrand').innerText = "₹ " + (sumPremiums + sumInterest).toLocaleString('en-IN', {minimumFractionDigits:2});
+    }
+</script>
+
+</body>
+</html>

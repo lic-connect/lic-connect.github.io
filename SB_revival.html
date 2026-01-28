@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Benefit Cum Revival Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --lic-yellow: #f1da31;
+            --dark-yellow: #c2a700;
+            --white: #ffffff;
+            --soft-yellow: #fff9db;
+            --text-dark: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: #fdfdfd;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculator-card {
+            width: 100%;
+            max-width: 850px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            border: 2px solid var(--lic-yellow);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: var(--lic-yellow);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .header h1 { color: #000; font-size: 22px; font-weight: 700; text-transform: uppercase; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 11px; font-weight: 700; color: #555; margin-bottom: 5px; text-transform: uppercase; }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #fafafa;
+        }
+
+        input:focus { border-color: var(--dark-yellow); outline: none; background: #fff; }
+
+        .sb-panel {
+            background: var(--soft-yellow);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid var(--lic-yellow);
+        }
+
+        .sb-panel h3 { font-size: 13px; color: #000; margin-bottom: 10px; text-transform: uppercase; }
+
+        .premium-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 40px;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-add { background: #000; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .btn-remove { background: #ff5e5e; color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+        .calc-btn {
+            width: 100%;
+            padding: 16px;
+            background: #000;
+            color: var(--lic-yellow);
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .calc-btn:hover { background: #333; }
+
+        #results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .res-box {
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            border: 2px solid #eee;
+        }
+
+        .res-line { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px solid #f2f2f2; }
+        .res-line.highlight { background: var(--soft-yellow); padding: 10px; border-radius: 5px; font-weight: 700; border: none; font-size: 18px; margin-top: 10px; }
+
+        .note {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            .premium-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator-card">
+    <div class="header">
+        <h1>Survival Benefit Cum Revival</h1>
+    </div>
+
+    <div class="input-grid">
+        <div class="input-group">
+            <label>Plan Name</label>
+            <select id="planName" onchange="document.getElementById('planNumber').value = this.value">
+                <option value="714">714-New Endowment</option>
+                <option value="715">715-Jeevan Anand</option>
+                <option value="717">717-Single Premium</option>
+                <option value="720">720-Money Back 20 Yrs</option>
+                <option value="721">721-Money Back 25 Yrs</option>
+                <option value="732">732-Child Money Back</option>
+                <option value="733">733-Jeevan Lakshya</option>
+                <option value="734">734-Jeevan Tarun</option>
+                <option value="736">736-Jeevan Labh</option>
+                <option value="745">745-Jeevan Umang</option>
+                <option value="748">748-Bima Shree</option>
+                <option value="751">751-Micro Bachat</option>
+                <option value="760">760-Bima Jyoti</option>
+                <option value="764">764-Bima Ratna</option>
+                <option value="768">768-Jeevan Azad</option>
+                <option value="771">771-Jeevan Utsav</option>
+                <option value="774">774-Amrit Baal</option>
+                <option value="859">859-Saral Jeevan Bima</option>
+                <option value="875">875-Yuva Term</option>
+                <option value="876">876-Digi Term</option>
+                <option value="877">877-Yuva Credit Life</option>
+                <option value="878">878-Digi Credit Life</option>
+                <option value="880">880-Jan Suraksha</option>
+                <option value="881">881-Bima Lakshmi</option>
+                <option value="883">883-Jeevan Utsav SP</option>
+                <option value="887">887-Bima Kavach</option>
+                <option value="911">911-Nav Jeevan Shree SP</option>
+                <option value="912">912-Nav Jeevan Shree</option>
+                <option value="954">954-New Tech Term</option>
+                <option value="955">955-Jeevan Amar</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Plan No.</label>
+            <input type="text" id="planNumber" value="714" readonly>
+        </div>
+        <div class="input-group">
+            <label>Revival Date</label>
+            <input type="date" id="revivalDate">
+        </div>
+        <div class="input-group">
+            <label>Interest Rate (%)</label>
+            <input type="number" id="intRate" value="9.50" step="0.01">
+        </div>
+    </div>
+
+    <!-- SB Adjustment Section -->
+    <div class="sb-panel">
+        <h3>Adjustment Dues</h3>
+        <div class="input-group" style="max-width: 300px;">
+            <label>Survival Benefit (SB) Due (₹)</label>
+            <input type="number" id="sbAmt" placeholder="Enter SB amount" value="0">
+        </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <span style="font-size:12px; font-weight:700; color:#555; text-transform: uppercase;">Unpaid Premiums</span>
+        <button class="btn-add" onclick="addRow()">+ Add Installment</button>
+    </div>
+
+    <div id="premium-container"></div>
+
+    <button class="calc-btn" onclick="calculateSBCumRevival()">Process SB-cum-Revival</button>
+
+    <div id="results">
+        <div class="res-box">
+            <div class="res-line"><span>Ordinary Dues (Prem + Int):</span><span id="outTotalDues">₹ 0.00</span></div>
+            <div class="res-line"><span>Survival Benefit (SB) Adjusted:</span><span id="outSBAjusted">- ₹ 0.00</span></div>
+            
+            <div id="paymentArea">
+                <div class="res-line highlight"><span>Net Revival Amount to Pay:</span><span id="outNetPayable">₹ 0.00</span></div>
+            </div>
+
+            <div id="refundArea" style="display:none;">
+                <div class="res-line highlight" style="background: #e8f5e9; color: #2e7d32;"><span>Excess SB (Refund to Policyholder):</span><span id="outRefund">₹ 0.00</span></div>
+            </div>
+        </div>
+        <p class="note">Note: SB is adjusted against the total dues. No interest is calculated on the SB amount itself.</p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('revivalDate').valueAsDate = new Date();
+    addRow();
+
+    function addRow() {
+        const div = document.createElement('div');
+        div.className = 'premium-row';
+        div.innerHTML = `
+            <input type="number" class="p-amt" placeholder="Premium Amt">
+            <input type="date" class="p-due">
+            <button class="btn-remove" onclick="this.parentElement.remove()">X</button>
+        `;
+        document.getElementById('premium-container').appendChild(div);
+    }
+function calculateSBCumRevival() {
+    // 1. Get the plan number
+    const planNum = document.getElementById('planNumber').value;
+    
+    // 2. Define eligible plans
+    const eligibleSBPlans = ['720', '721', '732', '734', '745', '748', '764'];
+
+    // 3. Eligibility Check
+    if (!eligibleSBPlans.includes(planNum)) {
+        alert("This plan is not eligible for SB cum revival. Only Money Back, Child Money Back, Jeevan Tarun, Jeevan Umang, Bima Shree, and Bima Ratna plans are eligible.");
+        return;
+    }
+
+    // 4. Get Inputs
+    const revivalDateStr = document.getElementById('revivalDate').value;
+    if (!revivalDateStr) { alert("Select Revival Date"); return; }
+    
+    const revivalDate = new Date(revivalDateStr);
+    const rate = parseFloat(document.getElementById('intRate').value) / 100;
+    const sbDue = parseFloat(document.getElementById('sbAmt').value) || 0;
+
+    const amts = document.querySelectorAll('.p-amt');
+    const dues = document.querySelectorAll('.p-due');
+
+    let totalUnpaid = 0;
+    let totalInterest = 0;
+    let count = 0;
+
+    // 5. Individual Interest Calculation (LIC Logic)
+    amts.forEach((input, i) => {
+        const amt = parseFloat(input.value);
+        const dueStr = dues[i].value;
+
+        if (!isNaN(amt) && dueStr) {
+            const dueDate = new Date(dueStr);
+            if (dueDate < revivalDate) {
+                const days = Math.ceil(Math.abs(revivalDate - dueDate) / (1000 * 60 * 60 * 24));
+                totalInterest += (amt * rate * days) / 365;
+                totalUnpaid += amt;
+                count++;
+            }
+        }
+    });
+
+    if (count === 0) {
+        alert("Please enter premium details.");
+        return;
+    }
+
+    // 6. SB Adjustment Calculation
+    const totalDues = totalUnpaid + totalInterest;
+    const netPayable = Math.max(0, totalDues - sbDue);
+    const excessSB = Math.max(0, sbDue - totalDues);
+
+    // 7. Display Results
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('outTotalDues').innerText = "₹ " + totalDues.toLocaleString('en-IN', {minimumFractionDigits:2});
+    document.getElementById('outSBAjusted').innerText = "- ₹ " + sbDue.toLocaleString('en-IN', {minimumFractionDigits:2});
+
+    if (sbDue >= totalDues) {
+        document.getElementById('paymentArea').style.display = 'none';
+        document.getElementById('refundArea').style.display = 'block';
+        document.getElementById('outRefund').innerText = "₹ " + excessSB.toLocaleString('en-IN', {minimumFractionDigits:2});
+    } else {
+        document.getElementById('paymentArea').style.display = 'block';
+        document.getElementById('refundArea').style.display = 'none';
+        document.getElementById('outNetPayable').innerText = "₹ " + netPayable.toLocaleString('en-IN', {minimumFractionDigits:2});
+    }
+    
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>

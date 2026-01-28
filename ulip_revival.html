@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULIP Plans Revival Calculator - LIC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --modern-blue: #0054a6;
+            --light-blue: #e8f0f8;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+            --danger: #d9534f;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculator-card {
+            width: 100%;
+            max-width: 850px;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 35px;
+            border-top: 8px solid var(--modern-blue);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 { color: var(--modern-blue); font-size: 22px; font-weight: 700; text-transform: uppercase; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 11px; font-weight: 700; color: #666; margin-bottom: 5px; text-transform: uppercase; }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input:focus { border-color: var(--modern-blue); outline: none; }
+
+        .charge-panel {
+            background: var(--light-blue);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #d1d9e6;
+        }
+
+        .premium-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 40px;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-add { background: var(--modern-blue); color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .btn-remove { background: var(--danger); color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+        .calc-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--modern-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        #results {
+            margin-top: 25px;
+            display: none;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid var(--modern-blue);
+            border-radius: 8px;
+        }
+
+        .res-line { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f2f2f2; }
+        .grand-total { font-size: 20px; font-weight: 700; color: var(--modern-blue); border-top: 2px solid var(--modern-blue); margin-top: 10px; padding-top: 10px; border-bottom: none; }
+
+        .info-box {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #555;
+            background: #fdfae6;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #f1da31;
+        }
+
+        @media (max-width: 600px) { .premium-row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="calculator-card">
+    <div class="header">
+        <h1>ULIP Plans Revival Calculator</h1>
+    </div>
+
+    <div class="input-grid">
+        <div class="input-group">
+            <label>Plan Name</label>
+            <select id="planName" onchange="updatePlanDetails()">
+                <option value="735">735 - New Endowment Plus</option>
+                <option value="749">749 - Nivesh Plus (Single Prem)</option>
+                <option value="752">752 - SIIP</option>
+                <option value="867">867 - New Pension Plus</option>
+                <option value="873">873 - Index Plus</option>
+                <option value="886">886 - Protection Plus</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Plan No.</label>
+            <input type="text" id="planNumber" value="735" readonly>
+        </div>
+        <div class="input-group">
+            <label>Revival Date</label>
+            <input type="date" id="revivalDate">
+        </div>
+    </div>
+
+    <div class="charge-panel">
+        <div class="input-group" style="max-width: 300px;">
+            <label>Total Applicable Charges (₹)</label>
+            <input type="number" id="otherCharges" value="0" placeholder="Admin/Mortality fees">
+        </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <span style="font-size:12px; font-weight:700; color:var(--modern-blue);">UNPAID PREMIUMS</span>
+        <button class="btn-add" id="addBtn" onclick="addRow()">+ Add Premium</button>
+    </div>
+
+    <div id="premium-container"></div>
+
+    <button class="calc-btn" onclick="calculateULIPRevival()">Calculate Reinstatement Amount</button>
+
+    <div id="results">
+        <div class="res-line"><span>Total Missed Premiums:</span><span id="outPrem">₹ 0.00</span></div>
+        <div class="res-line"><span>Applicable Charges:</span><span id="outCharges">₹ 0.00</span></div>
+        <div class="res-line grand-total"><span>Reinstatement Amount:</span><span id="outGrand">₹ 0.00</span></div>
+        
+        <div class="info-box">
+            <strong>ULIP Rules Implemented:</strong>
+            <ul style="margin-left: 20px; margin-top: 5px;">
+                <li>No interest is charged on unpaid premiums for ULIP plans.</li>
+                <li>Revival must be within 5 years of First Unpaid Premium (FUP).</li>
+                <li>Fund Value will be moved from Discontinued Fund to opted Investment Fund upon approval.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('revivalDate').valueAsDate = new Date();
+    addRow();
+
+    function updatePlanDetails() {
+        const plan = document.getElementById('planName').value;
+        document.getElementById('planNumber').value = plan;
+        
+        // If Single Premium plan, restrict adding more rows
+        const isSP = (plan === '749'); 
+        const container = document.getElementById('premium-container');
+        if(isSP) {
+            container.innerHTML = '';
+            addRow();
+            document.getElementById('addBtn').style.display = 'none';
+        } else {
+            document.getElementById('addBtn').style.display = 'block';
+        }
+    }
+
+    function addRow() {
+        const div = document.createElement('div');
+        div.className = 'premium-row';
+        div.innerHTML = `
+            <input type="number" class="p-amt" placeholder="Premium Amt" min="1">
+            <input type="date" class="p-due">
+            <button class="btn-remove" onclick="this.parentElement.remove()">X</button>
+        `;
+        document.getElementById('premium-container').appendChild(div);
+    }
+
+    function calculateULIPRevival() {
+        const planNum = document.getElementById('planNumber').value;
+        const revivalDate = new Date(document.getElementById('revivalDate').value);
+        const charges = parseFloat(document.getElementById('otherCharges').value) || 0;
+
+        const amts = document.querySelectorAll('.p-amt');
+        const dues = document.querySelectorAll('.p-due');
+
+        let sumUnpaid = 0;
+        let validRows = 0;
+        let isExpired = false;
+
+        amts.forEach((input, i) => {
+            const amt = parseFloat(input.value);
+            const dueStr = dues[i].value;
+
+            if (isNaN(amt) || amt <= 0 || !dueStr) return; 
+
+            const dueDate = new Date(dueStr);
+
+if (dueDate > revivalDate) { 
+                alert("Premium due date cannot be after revival date"); 
+                return; 
+            }
+            
+            // Check 5-year limit
+            const yearsDiff = (revivalDate - dueDate) / (1000 * 60 * 60 * 24 * 365.25);
+            if (yearsDiff > 5) {
+                isExpired = true;
+            }
+
+            sumUnpaid += amt;
+            validRows++;
+        });
+
+        if (isExpired) {
+            alert("ERROR: Reinstatement failed. ULIP plans cannot be revived after 5 years from the date of First Unpaid Premium (FUP).");
+            return;
+        }
+
+        if (validRows === 0) {
+            alert("Please enter valid premium amounts.");
+            return;
+        }
+
+        const grandTotal = sumUnpaid + charges;
+
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('outPrem').innerText = "₹ " + sumUnpaid.toLocaleString('en-IN', {minimumFractionDigits: 2});
+        document.getElementById('outCharges').innerText = "₹ " + charges.toLocaleString('en-IN', {minimumFractionDigits: 2});
+        document.getElementById('outGrand').innerText = "₹ " + grandTotal.toLocaleString('en-IN', {minimumFractionDigits: 2});
+
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

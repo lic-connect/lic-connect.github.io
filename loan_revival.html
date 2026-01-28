@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Cum Revival Calculator - LIC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --lic-orange: #ff9f43;
+            --dark-orange: #e67e22;
+            --white: #ffffff;
+            --soft-orange: #fff4e6;
+            --text-dark: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculator-card {
+            width: 100%;
+            max-width: 900px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+            padding: 35px;
+            border-top: 10px solid var(--lic-orange);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 { color: var(--dark-orange); font-size: 24px; font-weight: 700; text-transform: uppercase; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 11px; font-weight: 700; color: #555; margin-bottom: 5px; text-transform: uppercase; }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input:focus { border-color: var(--lic-orange); outline: none; box-shadow: 0 0 5px rgba(255,159,67,0.3); }
+
+        .loan-panel {
+            background: var(--soft-orange);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid var(--lic-orange);
+        }
+
+        .loan-panel h3 { font-size: 13px; color: var(--dark-orange); margin-bottom: 15px; text-transform: uppercase; }
+
+        .premium-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 40px;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-add { background: var(--dark-orange); color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .btn-remove { background: #ff5e5e; color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+        .calc-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--dark-orange);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .calc-btn:hover { background: #d35400; transform: translateY(-2px); }
+
+        #results {
+            margin-top: 30px;
+            display: none;
+            padding: 25px;
+            background: #fff;
+            border-radius: 10px;
+            border: 2px solid var(--lic-orange);
+            animation: fadeIn 0.5s;
+        }
+
+        .res-line { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f2f2f2; font-size: 14px;}
+        .highlight-box { 
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background: var(--soft-orange);
+            font-weight: 700;
+        }
+
+        .rule-badge {
+            font-size: 10px;
+            color: #d9534f;
+            background: #fdf2f2;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 600px) { .premium-row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="calculator-card">
+    <div class="header">
+        <h1>Loan Cum Revival Calculator</h1>
+    </div>
+
+    <div class="input-grid">
+        <div class="input-group">
+            <label>Plan Name</label>
+            <select id="planName" onchange="document.getElementById('planNumber').value = this.value">
+                <option value="714">714-New Endowment</option>
+                <option value="715">715-Jeevan Anand</option>
+                <option value="717">717-Single Premium</option>
+                <option value="720">720-Money Back 20 Yrs</option>
+                <option value="721">721-Money Back 25 Yrs</option>
+                <option value="732">732-Child Money Back</option>
+                <option value="733">733-Jeevan Lakshya</option>
+                <option value="734">734-Jeevan Tarun</option>
+                <option value="736">736-Jeevan Labh</option>
+                <option value="745">745-Jeevan Umang</option>
+                <option value="748">748-Bima Shree</option>
+                <option value="751">751-Micro Bachat</option>
+                <option value="760">760-Bima Jyoti</option>
+                <option value="764">764-Bima Ratna</option>
+                <option value="768">768-Jeevan Azad</option>
+                <option value="771">771-Jeevan Utsav</option>
+                <option value="774">774-Amrit Baal</option>
+                <option value="859">859-Saral Jeevan Bima</option>
+                <option value="875">875-Yuva Term</option>
+                <option value="876">876-Digi Term</option>
+                <option value="877">877-Yuva Credit Life</option>
+                <option value="878">878-Digi Credit Life</option>
+                <option value="880">880-Jan Suraksha</option>
+                <option value="881">881-Bima Lakshmi</option>
+                <option value="883">883-Jeevan Utsav SP</option>
+                <option value="887">887-Bima Kavach</option>
+                <option value="911">911-Nav Jeevan Shree SP</option>
+                <option value="912">912-Nav Jeevan Shree</option>
+                <option value="954">954-New Tech Term</option>
+                <option value="955">955-Jeevan Amar</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Plan No.</label>
+            <input type="text" id="planNumber" value="714" readonly>
+        </div>
+        <div class="input-group">
+            <label>Revival Date</label>
+            <input type="date" id="revivalDate">
+        </div>
+        <div class="input-group">
+            <label>Rev. Int. Rate (%)</label>
+            <input type="number" id="intRate" value="9.50" step="0.01">
+        </div>
+    </div>
+
+    <!-- Loan Data Section -->
+    <div class="loan-panel">
+        <h3>Loan Eligibility Details</h3>
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Eligible Loan Value (₹)</label>
+                <input type="number" id="eligibleLoan" placeholder="Max Loan possible">
+            </div>
+            <div class="input-group">
+                <label>Existing Loan Principal (₹)</label>
+                <input type="number" id="existingLoan" value="0">
+            </div>
+            <div class="input-group">
+                <label>Loan Interest Due (₹)</label>
+                <input type="number" id="loanInterest" value="0">
+                <span class="rule-badge">Must be 0 to proceed</span>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <span style="font-size:12px; font-weight:700; color:#444; text-transform: uppercase;">Unpaid Premiums</span>
+        <button class="btn-add" onclick="addRow()">+ Add Installment</button>
+    </div>
+
+    <div id="premium-container"></div>
+
+    <button class="calc-btn" onclick="calculateLoanRevival()">Process Loan-cum-Revival</button>
+
+    <div id="results">
+        <div class="res-line"><span>Total Dues (Prem + Int):</span><span id="outTotalDues">₹ 0.00</span></div>
+        <div class="res-line"><span>Net Loan Available:</span><span id="outNetLoan">₹ 0.00</span></div>
+        
+        <div class="highlight-box">
+            <div class="res-line" style="border:none"><span>Revival Amount to Pay Now:</span><span id="outCashPayable" style="color:#d35400">₹ 0.00</span></div>
+            <div class="res-line" style="border:none; margin-top:5px; padding-top:5px; border-top:1px dashed #ccc;"><span>New Loan Balance:</span><span id="outNewLoan">₹ 0.00</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('revivalDate').valueAsDate = new Date();
+    addRow();
+
+    function addRow() {
+        const div = document.createElement('div');
+        div.className = 'premium-row';
+        div.innerHTML = `
+            <input type="number" class="p-amt" placeholder="Premium Amt">
+            <input type="date" class="p-due">
+            <button class="btn-remove" onclick="this.parentElement.remove()">X</button>
+        `;
+        document.getElementById('premium-container').appendChild(div);
+    }
+
+    function calculateLoanRevival() {
+        const planNum = document.getElementById('planNumber').value;
+        
+        // 1. Plan Eligibility Check
+        const eligiblePlans = ['714', '715', '720', '721', '732', '733', '734', '736', '745', '748', '751', '760', '764', '768', '771', '774', '881', '912'];
+        if (!eligiblePlans.includes(planNum)) {
+            alert("NOT ELIGIBLE FOR LOAN CUM REVIVAL. Plan must acquire Surrender Value and not be a Term/Pure Risk plan.");
+            return;
+        }
+
+        // 2. Loan Interest Rule Check
+        const loanInt = parseFloat(document.getElementById('loanInterest').value) || 0;
+        if (loanInt > 0) {
+            alert("LIC RULE: Outstanding Loan Interest must be cleared first via cash before applying for Loan-cum-Revival.");
+            return;
+        }
+
+        const revivalDate = new Date(document.getElementById('revivalDate').value);
+        const rate = parseFloat(document.getElementById('intRate').value) / 100;
+        const eligLoan = parseFloat(document.getElementById('eligibleLoan').value) || 0;
+        const existLoan = parseFloat(document.getElementById('existingLoan').value) || 0;
+
+        if (eligLoan <= 0) { alert("Please enter a valid Eligible Loan Value."); return; }
+
+        const amts = document.querySelectorAll('.p-amt');
+        const dues = document.querySelectorAll('.p-due');
+
+        let totalUnpaid = 0;
+        let totalInterest = 0;
+        let count = 0;
+
+        amts.forEach((input, i) => {
+            const amt = parseFloat(input.value);
+            const dueStr = dues[i].value;
+            if (!isNaN(amt) && dueStr) {
+                const dueDate = new Date(dueStr);
+                if (dueDate < revivalDate) {
+                    const days = Math.ceil(Math.abs(revivalDate - dueDate) / (1000 * 60 * 60 * 24));
+                    totalInterest += (amt * rate * days) / 365;
+                    totalUnpaid += amt;
+                    count++;
+                }
+            }
+        });
+
+        if (count === 0) { alert("Enter premium details."); return; }
+
+        // Core LIC Logic
+        const totalRevivalDues = totalUnpaid + totalInterest;
+        const availableLoanHeadroom = eligLoan - existLoan - loanInt;
+
+        let cashPayable = 0;
+        let finalLoanBalance = 0;
+
+        if (availableLoanHeadroom >= totalRevivalDues) {
+            cashPayable = 0;
+            finalLoanBalance = existLoan + totalRevivalDues;
+        } else {
+            cashPayable = totalRevivalDues - availableLoanHeadroom;
+            finalLoanBalance = eligLoan;
+        }
+
+        // Output
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('outTotalDues').innerText = "₹ " + totalRevivalDues.toLocaleString('en-IN', {minimumFractionDigits:2});
+        document.getElementById('outNetLoan').innerText = "₹ " + availableLoanHeadroom.toLocaleString('en-IN', {minimumFractionDigits:2});
+        document.getElementById('outCashPayable').innerText = "₹ " + cashPayable.toLocaleString('en-IN', {minimumFractionDigits:2});
+        document.getElementById('outNewLoan').innerText = "₹ " + finalLoanBalance.toLocaleString('en-IN', {minimumFractionDigits:2});
+
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

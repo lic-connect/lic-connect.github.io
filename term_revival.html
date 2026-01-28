@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Term Plan Revival Calculator - LIC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --modern-blue: #0054a6;
+            --light-blue: #e8f0f8;
+            --accent-blue: #003d7a;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculator-card {
+            width: 100%;
+            max-width: 800px;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 35px;
+            border-top: 8px solid var(--modern-blue);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 { color: var(--modern-blue); font-size: 22px; font-weight: 700; text-transform: uppercase; }
+        .header p { font-size: 13px; color: #666; margin-top: 5px; }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 11px; font-weight: 700; color: #666; margin-bottom: 5px; text-transform: uppercase; }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input:focus { border-color: var(--modern-blue); outline: none; }
+
+        .premium-section {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .premium-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 40px;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-add { background: var(--modern-blue); color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .btn-remove { background: #ff5e5e; color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+        .calc-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--modern-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .calc-btn:hover { background: var(--accent-blue); }
+
+        #results {
+            margin-top: 25px;
+            display: none;
+            padding: 20px;
+            background: var(--light-blue);
+            border-radius: 8px;
+            border-left: 5px solid var(--modern-blue);
+        }
+
+        .res-line { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .grand-total { font-size: 18px; font-weight: 700; color: var(--modern-blue); border-top: 2px solid var(--modern-blue); margin-top: 10px; padding-top: 10px; border-bottom: none; }
+
+        @media (max-width: 600px) { .premium-row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="calculator-card">
+    <div class="header">
+        <h1>Revival Calculator for Term Plans</h1>
+        <p>Official LIC Interest Logic for Pure Risk Plans</p>
+    </div>
+
+    <div class="input-grid">
+        <div class="input-group">
+            <label>Plan Name</label>
+            <select id="planName" onchange="document.getElementById('planNumber').value = this.value">
+                <option value="875">875 – Yuva Term</option>
+                <option value="876">876 – Digi Term</option>
+                <option value="877">877 – Yuva Credit Life</option>
+                <option value="878">878 – Digi Credit Life</option>
+                <option value="887">887 – Bima Kavach</option>
+                <option value="954">954 – New Tech Term</option>
+                <option value="955">955 – Jeevan Amar</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Plan No.</label>
+            <input type="text" id="planNumber" value="875" readonly>
+        </div>
+        <div class="input-group">
+            <label>Revival Date</label>
+            <input type="date" id="revivalDate">
+        </div>
+        <div class="input-group">
+            <label>Interest Rate (% p.a.)</label>
+            <input type="number" id="intRate" value="9.50" step="0.01">
+        </div>
+    </div>
+
+    <div class="premium-section">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <span style="font-size:12px; font-weight:700; color:var(--modern-blue);">UNPAID PREMIUMS</span>
+            <button class="btn-add" onclick="addRow()">+ Add Premium</button>
+        </div>
+        <div id="premium-container"></div>
+    </div>
+
+    <button class="calc-btn" onclick="calculateTermRevival()">Calculate Total Dues</button>
+
+    <div id="results">
+        <div class="res-line"><span>Total Unpaid Premiums:</span><span id="outPrem">₹ 0.00</span></div>
+        <div class="res-line"><span>Total Interest (Day-wise):</span><span id="outInt">₹ 0.00</span></div>
+        <div class="res-line grand-total"><span>Total Amount for Revival:</span><span id="outGrand">₹ 0.00</span></div>
+    </div>
+</div>
+
+<script>
+    // Set default date
+    document.getElementById('revivalDate').valueAsDate = new Date();
+    addRow();
+
+    function addRow() {
+        const div = document.createElement('div');
+        div.className = 'premium-row';
+        div.innerHTML = `
+            <input type="number" class="p-amt" placeholder="Premium Amt" min="1">
+            <input type="date" class="p-due">
+            <button class="btn-remove" onclick="this.parentElement.remove()">X</button>
+        `;
+        document.getElementById('premium-container').appendChild(div);
+    }
+
+    function calculateTermRevival() {
+        const planNum = document.getElementById('planNumber').value;
+        const termPlans = ['875', '876', '877', '878', '887', '954', '955'];
+
+        if (!termPlans.includes(planNum)) {
+            alert("NOT ELIGIBLE FOR TERM REVIVAL CALCULATOR.");
+            return;
+        }
+
+        const revivalDate = new Date(document.getElementById('revivalDate').value);
+        const rate = parseFloat(document.getElementById('intRate').value) / 100;
+        
+        const amts = document.querySelectorAll('.p-amt');
+        const dues = document.querySelectorAll('.p-due');
+
+        let sumUnpaid = 0;
+        let sumInterest = 0;
+        let validRows = 0;
+
+        amts.forEach((input, i) => {
+            const amt = parseFloat(input.value);
+            const dueStr = dues[i].value;
+
+            // Validation: Skip rows with non-positive premiums or missing dates
+            if (isNaN(amt) || amt <= 0 || !dueStr) return; 
+
+            const dueDate = new Date(dueStr);
+            if (dueDate < revivalDate) {
+                const days = Math.ceil(Math.abs(revivalDate - dueDate) / (1000 * 60 * 60 * 24));
+                sumInterest += (amt * rate * days) / 365;
+                sumUnpaid += amt;
+                validRows++;
+            }
+        });
+
+        if (validRows === 0) {
+            alert("Please enter valid premium amounts (>0) and ensure due dates are before revival date.");
+            return;
+        }
+
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('outPrem').innerText = "₹ " + sumUnpaid.toLocaleString('en-IN', {minimumFractionDigits: 2});
+        document.getElementById('outInt').innerText = "₹ " + sumInterest.toLocaleString('en-IN', {minimumFractionDigits: 2});
+        document.getElementById('outGrand').innerText = "₹ " + (sumUnpaid + sumInterest).toLocaleString('en-IN', {minimumFractionDigits: 2});
+
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

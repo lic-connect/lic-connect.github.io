@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Revival Calculator - LIC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --modern-blue: #0054a6;
+            --light-blue: #e8f0f8;
+            --accent-blue: #003d7a;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculator-card {
+            width: 100%;
+            max-width: 900px;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            padding: 40px;
+            border-top: 8px solid var(--modern-blue);
+        }
+
+        .header {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .header h1 { color: var(--modern-blue); font-size: 24px; font-weight: 700; border-bottom: 1px solid #eee; padding-bottom: 10px;}
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 11px; font-weight: 700; color: #666; margin-bottom: 5px; text-transform: uppercase; }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        input:focus { border-color: var(--modern-blue); outline: none; box-shadow: 0 0 5px rgba(0,84,166,0.2); }
+
+        .concession-panel {
+            background: var(--light-blue);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #d1d9e6;
+        }
+
+        .concession-panel h3 { font-size: 13px; color: var(--modern-blue); margin-bottom: 15px; text-transform: uppercase; }
+
+        .premium-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 40px;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-add { background: var(--modern-blue); color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .btn-remove { background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+        .calc-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--modern-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .calc-btn:hover { background: var(--accent-blue); }
+
+        #results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .res-box {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .res-line { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; }
+        .res-line.grand-total { border-top: 2px solid var(--modern-blue); margin-top: 10px; font-size: 18px; font-weight: 700; color: var(--modern-blue); }
+
+        .disclaimer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #d9534f;
+            background: #fff5f5;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #d9534f;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .premium-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator-card">
+    <div class="header">
+        <h1>Special Revival Calculator</h1>
+    </div>
+
+    <div class="input-grid">
+        <div class="input-group">
+            <label>Plan Name</label>
+            <select id="planName" onchange="document.getElementById('planNumber').value = this.value">
+                <option value="714">714-New Endowment</option>
+                <option value="715">715-Jeevan Anand</option>
+                <option value="717">717-Single Premium</option>
+                <option value="720">720-Money Back 20 Yrs</option>
+                <option value="721">721-Money Back 25 Yrs</option>
+                <option value="732">732-Child Money Back</option>
+                <option value="733">733-Jeevan Lakshya</option>
+                <option value="734">734-Jeevan Tarun</option>
+                <option value="736">736-Jeevan Labh</option>
+                <option value="745">745-Jeevan Umang</option>
+                <option value="748">748-Bima Shree</option>
+                <option value="751">751-Micro Bachat</option>
+                <option value="760">760-Bima Jyoti</option>
+                <option value="764">764-Bima Ratna</option>
+                <option value="768">768-Jeevan Azad</option>
+                <option value="771">771-Jeevan Utsav</option>
+                <option value="774">774-Amrit Baal</option>
+                <option value="859">859-Saral Jeevan Bima</option>
+                <option value="875">875-Yuva Term</option>
+                <option value="876">876-Digi Term</option>
+                <option value="877">877-Yuva Credit Life</option>
+                <option value="878">878-Digi Credit Life</option>
+                <option value="880">880-Jan Suraksha</option>
+                <option value="881">881-Bima Lakshmi</option>
+                <option value="883">883-Jeevan Utsav SP</option>
+                <option value="887">887-Bima Kavach</option>
+                <option value="911">911-Nav Jeevan Shree SP</option>
+                <option value="912">912-Nav Jeevan Shree</option>
+                <option value="954">954-New Tech Term</option>
+                <option value="955">955-Jeevan Amar</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Plan No.</label>
+            <input type="text" id="planNumber" value="714" readonly>
+        </div>
+        <div class="input-group">
+            <label>Revival Date</label>
+            <input type="date" id="revivalDate">
+        </div>
+        <div class="input-group">
+            <label>Ord. Interest Rate (%)</label>
+            <input type="number" id="baseRate" value="9.50" step="0.01">
+        </div>
+    </div>
+
+    <!-- Concession Panel (The framework part) -->
+    <div class="concession-panel">
+        <h3>Concession Framework (Special Revival)</h3>
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Interest Waiver (₹)</label>
+                <input type="number" id="waiverAmt" placeholder="0.00" value="0">
+            </div>
+            <div class="input-group">
+                <label>Flat Penalty (₹)</label>
+                <input type="number" id="penaltyAmt" placeholder="0.00" value="0">
+            </div>
+            <div class="input-group">
+                <label>Approval Auth.</label>
+                <select id="auth">
+                    <option>Branch Manager</option>
+                    <option>Divisional Manager</option>
+                    <option>Zonal Manager</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <span style="font-size:14px; font-weight:700; color:#444;">UNPAID INSTALLMENTS</span>
+        <button class="btn-add" onclick="addRow()">+ Add Installment</button>
+    </div>
+
+    <div id="premium-container"></div>
+
+    <button class="calc-btn" onclick="calculateSpecialRevival()">Calculate Special Revival</button>
+
+    <div id="results">
+        <div class="res-box">
+            <div class="res-line"><span>Total Unpaid Premiums:</span><span id="outPrem">₹ 0.00</span></div>
+            <div class="res-line"><span>Full Ordinary Interest:</span><span id="outOrdInt">₹ 0.00</span></div>
+            <div class="res-line" style="color:#d9534f"><span>Less: Interest Waiver:</span><span id="outWaiver">- ₹ 0.00</span></div>
+            <div class="res-line"><span>Add: Flat Penalty:</span><span id="outPenalty">+ ₹ 0.00</span></div>
+            <div class="res-line grand-total"><span>Revival Amount to Pay:</span><span id="outGrand">₹ 0.00</span></div>
+        </div>
+        
+        <div class="disclaimer">
+            ⚠️ Special Revival amount is indicative and subject to approval by competent LIC authority.
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('revivalDate').valueAsDate = new Date();
+    addRow();
+
+    function addRow() {
+        const div = document.createElement('div');
+        div.className = 'premium-row';
+        div.innerHTML = `
+            <input type="number" class="p-amt" placeholder="Premium Amt">
+            <input type="date" class="p-due">
+            <button class="btn-remove" onclick="this.parentElement.remove()">X</button>
+        `;
+        document.getElementById('premium-container').appendChild(div);
+    }
+
+    function calculateSpecialRevival() {
+        const planNum = document.getElementById('planNumber').value;
+        const spPlans = ['717', '883', '911'];
+        
+        if (spPlans.includes(planNum)) {
+            alert("Ordinary/Special revival not applicable for Single Premium plans");
+            return;
+        }
+
+        const revivalDate = new Date(document.getElementById('revivalDate').value);
+        const baseRate = parseFloat(document.getElementById('baseRate').value) / 100;
+        const waiver = parseFloat(document.getElementById('waiverAmt').value) || 0;
+        const penalty = parseFloat(document.getElementById('penaltyAmt').value) || 0;
+
+        const amts = document.querySelectorAll('.p-amt');
+        const dues = document.querySelectorAll('.p-due');
+
+        let totalPremiums = 0;
+        let ordinaryInterest = 0;
+        let count = 0;
+
+        amts.forEach((input, i) => {
+            const amt = parseFloat(input.value);
+            const dueStr = dues[i].value;
+
+            if (!isNaN(amt) && dueStr) {
+                const dueDate = new Date(dueStr);
+                if (dueDate < revivalDate) {
+                    const days = Math.ceil(Math.abs(revivalDate - dueDate) / (1000 * 60 * 60 * 24));
+                    ordinaryInterest += (amt * baseRate * days) / 365;
+                    totalPremiums += amt;
+                    count++;
+                }
+            }
+        });
+
+        if (count === 0) {
+            alert("Please enter premium details.");
+            return;
+        }
+
+        // Special Revival Calculation
+        let concessionalInterest = Math.max(0, ordinaryInterest - waiver);
+        let grandTotal = totalPremiums + concessionalInterest + penalty;
+
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('outPrem').innerText = "₹ " + totalPremiums.toLocaleString('en-IN', {minimumFractionDigits:2});
+        document.getElementById('outOrdInt').innerText = "₹ " + ordinaryInterest.toLocaleString('en-IN', {minimumFractionDigits:2});
+        document.getElementById('outWaiver').innerText = "- ₹ " + waiver.toLocaleString('en-IN', {minimumFractionDigits:2});
+        document.getElementById('outPenalty').innerText = "+ ₹ " + penalty.toLocaleString('en-IN', {minimumFractionDigits:2});
+        document.getElementById('outGrand').innerText = "₹ " + grandTotal.toLocaleString('en-IN', {minimumFractionDigits:2});
+        
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
