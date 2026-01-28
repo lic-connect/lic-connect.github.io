@@ -3,393 +3,338 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIC Jeevan Utsav 771 Calculator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Surrender Value Calculator - Plan 771</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #7FFFD4; /* Aquamarine */
-            --bg: #1a1a1a;
-            --card-bg: #ffffff;
-            --black: #1a1a1a;
-            --grey: #7f8c8d;
-            --light-grey: #f5f6fa;
+            --lic-grey: #444444;
+            --light-grey: #f4f4f4;
+            --border-grey: #cccccc;
+            --white: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
         body {
-            background-color: var(--bg);
+            background: #e9e9e9;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
-            perspective: 1500px;
+            padding: 20px;
         }
 
-        /* 3D Box Container */
-        .calculator-3d-box {
-            position: relative;
+        .calculator-card {
             width: 100%;
             max-width: 900px;
-            background: var(--card-bg);
-            border-radius: 20px;
-            transform-style: preserve-3d;
-            transform: rotateX(5deg);
-            box-shadow: 0 20px 60px rgba(127, 255, 212, 0.3);
-            padding: 40px;
-            border: 1px solid rgba(0,0,0,0.05);
-            /* Mirror Reflection Effect */
-            -webkit-box-reflect: below 2px linear-gradient(transparent, transparent, rgba(255,255,255,0.2));
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 35px;
+            border-top: 10px solid var(--lic-grey);
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 3px solid var(--primary);
-            padding-bottom: 10px;
-        }
-
-        .header h1 { color: var(--black); font-size: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { color: var(--lic-grey); font-size: 24px; text-transform: uppercase; }
+        .header p { font-weight: 700; color: #666; font-size: 13px; }
 
         .input-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .input-group { position: relative; display: flex; flex-direction: column; }
-        .input-group label { font-size: 11px; font-weight: 700; color: var(--black); margin-bottom: 5px; text-transform: uppercase; }
-        .input-group i { position: absolute; right: 15px; top: 35px; color: var(--grey); }
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-size: 11px; font-weight: 700; color: #555; margin-bottom: 5px; text-transform: uppercase; }
 
         input, select {
-            padding: 12px 15px;
-            border: 2px solid #edeff2;
-            border-radius: 10px;
+            padding: 10px;
+            border: 1px solid var(--border-grey);
+            border-radius: 6px;
             font-size: 14px;
             font-weight: 600;
-            outline: none;
-            transition: 0.3s;
-            background: var(--light-grey);
-        }
-
-        input:focus, select:focus { border-color: var(--primary); background: white; }
-
-        /* Benefit Toggle Switch */
-        .toggle-section {
-            grid-column: 1 / -1;
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            background: #f0f0f0;
-            padding: 10px;
-            border-radius: 50px;
-        }
-
-        .toggle-container {
-            display: flex;
-            width: 350px;
-            height: 45px;
-            background: var(--black);
-            border-radius: 25px;
-            position: relative;
-            cursor: pointer;
-            overflow: hidden;
-        }
-
-        .toggle-btn {
-            flex: 1;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: #fff;
-            transition: 0.3s;
-            font-size: 12px;
-        }
-
-        .toggle-btn.active { color: var(--black); }
-
-        .slider {
-            position: absolute;
-            left: 0;
-            width: 50%;
-            height: 100%;
-            background: var(--primary);
-            border-radius: 25px;
-            transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 1;
         }
 
         .calc-btn {
-            grid-column: 1 / -1;
-            background: var(--black);
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            padding: 18px;
-            border-radius: 10px;
+            width: 100%;
+            padding: 16px;
+            background: var(--lic-grey);
+            color: white;
+            border: none;
+            border-radius: 8px;
             font-size: 18px;
-            font-weight: 800;
+            font-weight: 700;
             cursor: pointer;
-            transition: 0.3s;
             text-transform: uppercase;
         }
 
-        .calc-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(127, 255, 212, 0.3); background: var(--primary); color: var(--black); }
-
-        /* Results Area */
-        #results {
-            margin-top: 30px;
-            display: none;
-            padding: 25px;
-            background: var(--light-grey);
-            border-radius: 15px;
-            border-left: 5px solid var(--primary);
-            animation: slideIn 0.5s ease;
+        #results { margin-top: 30px; display: none; }
+        .summary-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            border-radius: 8px;
         }
+        .summary-item { font-size: 11px; font-weight: 700; color: #777; }
+        .summary-item span { display: block; font-weight: 700; color: var(--lic-grey); font-size: 16px; margin-top: 5px; }
 
-        .res-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #ddd; }
-        .res-row:last-of-type { border: none; background: var(--black); color: var(--primary); padding: 15px; border-radius: 8px; margin-top: 10px; }
-        .res-val { font-weight: 700; }
-
-        .formula { font-size: 10px; color: #777; text-align: center; margin-top: 15px; font-style: italic; }
-
-        .error-msg { color: #e74c3c; font-size: 11px; font-weight: 700; margin-top: 5px; display: none; }
-
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        .btn-s { flex: 1; padding: 10px; border-radius: 5px; border: 1px solid var(--black); background: transparent; cursor: pointer; font-weight: 700; }
-        .btn-s:hover { background: var(--black); color: var(--primary); }
-
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .table-container { overflow-x: auto; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { background: var(--lic-grey); color: white; padding: 10px; text-align: left; text-transform: uppercase; font-size: 11px; }
+        td { padding: 10px; border-bottom: 1px solid #eee; font-weight: 600; }
+        .highlight-text { color: #2e7d32; font-size: 20px; }
+        .text-right { text-align: right; }
+        .disclaimer { font-size: 11px; color: #888; margin-top: 15px; font-style: italic; line-height: 1.4; }
     </style>
 </head>
 <body>
 
-<div class="calculator-3d-box">
+<div class="calculator-card">
     <div class="header">
-        <h1>LIC PLAN NO 771 - JEEVAN UTSAV</h1>
-        <p>Whole Life Income & Maturity Calculator</p>
+        <h1>Surrender Value Calculator</h1>
+        <p>PLAN NO 771 - JEEVAN UTSAV</p>
     </div>
-
-    <div class="input-grid">
-        <div class="input-group">
-            <label>Name of Policy Holder</label>
-            <input type="text" id="name" placeholder="Enter Name">
-            <i class="fas fa-user"></i>
-        </div>
-
-        <div class="input-group">
-            <label>Age at Entry (0-65 Yrs)</label>
-            <input type="number" id="age" value="30">
-            <i class="fas fa-birthday-cake"></i>
-            <span id="age-err" class="error-msg">Check age limits for chosen PPT</span>
-        </div>
-
-        <div class="input-group">
-            <label>Sum Assured (Min 5,00,000)</label>
-            <input type="number" id="sa" value="500000" step="25000">
-            <i class="fas fa-shield-alt"></i>
-            <span id="sa-err" class="error-msg">Min Sum Assured is 5 Lacs</span>
-        </div>
-
-        <div class="input-group">
-            <label>Policy Term</label>
-            <select id="term" onchange="syncPPT()">
-                <option value="100">Whole Life (Age 100)</option>
-            </select>
-            <i class="fas fa-clock"></i>
-        </div>
-
-     <div class="input-group">
-    <label>Premium Paying Term (PPT)</label>
-    <select id="ppt">
-        <option value="5">5 Years</option>
-        <option value="6">6 Years</option>
-        <option value="7">7 Years</option>
-        <option value="8">8 Years</option>
-        <option value="9">9 Years</option>
-        <option value="10" selected>10 Years</option>
-        <option value="11">11 Years</option>
-        <option value="12">12 Years</option>
-        <option value="13">13 Years</option>
-        <option value="14">14 Years</option>
-        <option value="15">15 Years</option>
-        <option value="16">16 Years</option>
-    </select>
-    <i class="fas fa-hourglass-half"></i>
+<!-- ADD THIS: Error Message Container -->
+<div id="errorBox" style="display:none; background:#fee; color:#b00; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #fcc; font-size:13px; font-weight:600;">
+    <div id="errorList"></div>
 </div>
 
+    <div class="input-grid">
+<!-- ADD THIS: Age field (Put this inside the <div class="input-grid">) -->
+<div class="input-group">
+    <label>Age at Entry (Years)</label>
+    <input type="number" id="age" placeholder="Min 0 to 8 (depends on PPT)">
+</div>
         <div class="input-group">
-            <label>Premium Mode</label>
-            <select id="mode">
-                <option value="1">Yearly</option>
-                <option value="0.51">Half-Yearly</option>
-                <option value="0.26">Quarterly</option>
-                <option value="0.089">Monthly</option>
-            </select>
-            <i class="fas fa-wallet"></i>
+            <label>Commencement Date</label>
+            <input type="date" id="doc" required>
         </div>
-
         <div class="input-group">
-            <label>Annual Premium (Entered)</label>
-            <input type="number" id="premium" value="72600">
-            <i class="fas fa-indian-rupee-sign"></i>
+            <label>PPT (5 to 16 Yrs)</label>
+            <input type="number" id="ppt" min="5" max="16" value="10">
         </div>
-
         <div class="input-group">
-            <label>GA Rate (Default 40)</label>
-            <input type="number" id="ga_rate" value="40" placeholder="Per 1000 SA">
-            <i class="fas fa-chart-line"></i>
+            <label>Sum Assured</label>
+            <input type="number" id="sa" placeholder="Min 5,00,000">
         </div>
-
-        <div class="toggle-section">
-            <div class="toggle-container" onclick="handleToggle()">
-                <div id="slider" class="slider"></div>
-                <div id="btn-mat" class="toggle-btn active">SURVIVAL (MATURITY)</div>
-                <div id="btn-death" class="toggle-btn">DEATH BENEFIT</div>
-            </div>
+        <div class="input-group">
+            <label>Annual Premium (Excl. Tax)</label>
+            <input type="number" id="premium" placeholder="e.g. 55000">
         </div>
-
-        <div class="input-group" id="death_ui" style="display:none; grid-column: 1 / -1;">
-            <label>Policy Year of Death</label>
-            <input type="number" id="death_yr" value="15">
-            <i class="fas fa-calendar-times"></i>
-        </div>
-
-        <button class="calc-btn" onclick="calculate()">
-            <i class="fas fa-calculator"></i> Calculate Final Benefit
-        </button>
     </div>
 
+    <button class="calc-btn" onclick="calculate771()">Calculate Surrender Value</button>
+
     <div id="results">
-        <div id="res-content"></div>
-        <div class="btn-group">
-            <button class="btn-s" onclick="window.print()">Print PDF</button>
-            <button class="btn-s" onclick="alert('Shared successfully')">Share PDF</button>
+        <div class="summary-box">
+            <div class="summary-item">Policy Duration <span><span id="resYear">0</span> Years</span></div>
+            <div class="summary-item">Total Accrued GA <span><span id="resGA">₹ 0</span></span></div>
+            <div class="summary-item">Paid-up Value <span><span id="resPU">₹ 0</span></span></div>
+            <div class="summary-item">Final Payable SV <span><span id="resFinal" class="highlight-text">₹ 0</span></span></div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Calculation Method</th>
+                        <th>Factors Used</th>
+                        <th class="text-right">Calculated Value</th>
+                    </tr>
+                </thead>
+                <tbody id="detailsBody">
+                </tbody>
+            </table>
+        </div>
+        <div class="disclaimer">
+            * Note: Jeevan Utsav GA (₹40 per 1000 SA) is credited at the end of each policy year during PPT. 
+            GSV is based on total premiums paid. SSV uses Paid-up SA plus Proportionate GA logic.
         </div>
     </div>
 </div>
 
 <script>
-    function syncPPT() {
-        // PPT logic for Plan 771 is flexible between 5-16 years
-        // Structure maintained as per request.
+    // DATA TABLES FOR PLAN 771
+ const gsv_p_data = [
+    {"Term": 1, "Val": 0.0000}, {"Term": 2, "Val": 0.3000}, {"Term": 3, "Val": 0.3500},
+    {"Term": 4, "Val": 0.5000}, {"Term": 5, "Val": 0.5000}, {"Term": 6, "Val": 0.5000},
+    {"Term": 7, "Val": 0.5000}, {"Term": 8, "Val": 0.5170}, {"Term": 9, "Val": 0.5330},
+    {"Term": 10, "Val": 0.5500}, {"Term": 11, "Val": 0.5600}, {"Term": 12, "Val": 0.5700},
+    {"Term": 13, "Val": 0.5800}, {"Term": 14, "Val": 0.5900}, {"Term": 15, "Val": 0.6000},
+    {"Term": 16, "Val": 0.6100}, {"Term": 17, "Val": 0.6200}, {"Term": 18, "Val": 0.6300},
+    {"Term": 19, "Val": 0.6400}, {"Term": 20, "Val": 0.6500}, {"Term": 21, "Val": 0.6600},
+    {"Term": 22, "Val": 0.6700}, {"Term": 23, "Val": 0.6800}, {"Term": 24, "Val": 0.6900},
+    {"Term": 25, "Val": 0.7000}, {"Term": 26, "Val": 0.7100}, {"Term": 27, "Val": 0.7200},
+    {"Term": 28, "Val": 0.7300}, {"Term": 29, "Val": 0.7400}, {"Term": 30, "Val": 0.7500},
+    {"Term": 35, "Val": 0.7800}, {"Term": 40, "Val": 0.8200}, {"Term": 45, "Val": 0.8600},
+    {"Term": 50, "Val": 0.9000}
+];
+
+const gsv_ga_data = [
+    {"Term": 1, "Val": 0.0000}, {"Term": 2, "Val": 0.0000}, {"Term": 3, "Val": 0.1500},
+    {"Term": 4, "Val": 0.1540}, {"Term": 5, "Val": 0.1580}, {"Term": 6, "Val": 0.1620},
+    {"Term": 7, "Val": 0.1660}, {"Term": 8, "Val": 0.1700}, {"Term": 9, "Val": 0.1750},
+    {"Term": 10, "Val": 0.1800}, {"Term": 11, "Val": 0.1840}, {"Term": 12, "Val": 0.1880},
+    {"Term": 13, "Val": 0.1920}, {"Term": 14, "Val": 0.1960}, {"Term": 15, "Val": 0.2000},
+    {"Term": 16, "Val": 0.2040}, {"Term": 17, "Val": 0.2080}, {"Term": 18, "Val": 0.2120},
+    {"Term": 19, "Val": 0.2160}, {"Term": 20, "Val": 0.2200}, {"Term": 21, "Val": 0.2260},
+    {"Term": 22, "Val": 0.2320}, {"Term": 23, "Val": 0.2380}, {"Term": 24, "Val": 0.2440},
+    {"Term": 25, "Val": 0.2500}, {"Term": 26, "Val": 0.2560}, {"Term": 27, "Val": 0.2620},
+    {"Term": 28, "Val": 0.2680}, {"Term": 29, "Val": 0.2740}, {"Term": 30, "Val": 0.2800},
+    {"Term": 40, "Val": 0.3150}, {"Term": 50, "Val": 0.3500}
+];
+const ssv_factor_data = [
+    {"Term": 1, "Val": 0.1200}, {"Term": 2, "Val": 0.1260}, {"Term": 3, "Val": 0.1320},
+    {"Term": 4, "Val": 0.1380}, {"Term": 5, "Val": 0.1450}, {"Term": 6, "Val": 0.1520},
+    {"Term": 7, "Val": 0.1590}, {"Term": 8, "Val": 0.1660}, {"Term": 9, "Val": 0.1730},
+    {"Term": 10, "Val": 0.1800}, {"Term": 11, "Val": 0.1890}, {"Term": 12, "Val": 0.1980},
+    {"Term": 13, "Val": 0.2070}, {"Term": 14, "Val": 0.2170}, {"Term": 15, "Val": 0.2280},
+    {"Term": 16, "Val": 0.2390}, {"Term": 17, "Val": 0.2510}, {"Term": 18, "Val": 0.2630},
+    {"Term": 19, "Val": 0.2760}, {"Term": 20, "Val": 0.2800}, {"Term": 21, "Val": 0.2940},
+    {"Term": 22, "Val": 0.3080}, {"Term": 23, "Val": 0.3220}, {"Term": 24, "Val": 0.3370},
+    {"Term": 25, "Val": 0.3520}, {"Term": 26, "Val": 0.3680}, {"Term": 27, "Val": 0.3840},
+    {"Term": 28, "Val": 0.4010}, {"Term": 29, "Val": 0.4180}, {"Term": 30, "Val": 0.4200},
+    {"Term": 31, "Val": 0.4360}, {"Term": 32, "Val": 0.4520}, {"Term": 33, "Val": 0.4680},
+    {"Term": 34, "Val": 0.4840}, {"Term": 35, "Val": 0.5000}, {"Term": 36, "Val": 0.5200},
+    {"Term": 37, "Val": 0.5400}, {"Term": 38, "Val": 0.5600}, {"Term": 39, "Val": 0.5800},
+    {"Term": 40, "Val": 0.6000}, {"Term": 41, "Val": 0.6240}, {"Term": 42, "Val": 0.6480},
+    {"Term": 43, "Val": 0.6720}, {"Term": 44, "Val": 0.6960}, {"Term": 45, "Val": 0.7200},
+    {"Term": 46, "Val": 0.7460}, {"Term": 47, "Val": 0.7720}, {"Term": 48, "Val": 0.7980},
+    {"Term": 49, "Val": 0.8240}, {"Term": 50, "Val": 0.8500}
+];
+
+    function getFactor(data, year) {
+        let rows = data.filter(x => x.Term <= year);
+        if (rows.length === 0) return 0;
+        return rows[rows.length - 1].Val;
     }
 
-    let isDeath = false;
-    function handleToggle() {
-        isDeath = !isDeath;
-        const slider = document.getElementById('slider');
-        const deathUI = document.getElementById('death_ui');
-        const bMat = document.getElementById('btn-mat');
-        const bDeath = document.getElementById('btn-death');
+    const fmt = (n) => "₹ " + Math.round(n).toLocaleString('en-IN');
 
-        if(isDeath) {
-            slider.style.left = '50%';
-            deathUI.style.display = 'block';
-            bDeath.classList.add('active');
-            bMat.classList.remove('active');
-        } else {
-            slider.style.left = '0';
-            deathUI.style.display = 'none';
-            bMat.classList.add('active');
-            bDeath.classList.remove('active');
+    function calculate771() {
+// --- ADD VALIDATION LOGIC START ---
+    const ageVal = parseInt(document.getElementById('age').value);
+    const pptVal = parseInt(document.getElementById('ppt').value);
+    const saVal = parseFloat(document.getElementById('sa').value);
+    const errBox = document.getElementById('errorBox');
+    const errList = document.getElementById('errorList');
+    
+    errBox.style.display = "none";
+    errList.innerHTML = "";
+    let errors = [];
+
+    // 1. Sum Assured Validation (Brochure Page 3: Min 5,00,000)
+    if (isNaN(saVal) || saVal < 500000) {
+        errors.push("• Minimum Sum Assured is ₹ 5,00,000.");
+    } else {
+        // Multiples Validation (Brochure Page 3 table)
+        if (saVal <= 2400000 && saVal % 25000 !== 0) {
+            errors.push("• For SA up to 24L, use multiples of ₹ 25,000.");
+        } else if (saVal > 2400000 && saVal % 100000 !== 0) {
+            errors.push("• For SA above 24L, use multiples of ₹ 1,00,000.");
         }
     }
 
-    function calculate() {
-        const name = document.getElementById('name').value || "Valued Client";
-        const age = parseInt(document.getElementById('age').value);
-        const sa = parseFloat(document.getElementById('sa').value);
+    // 2. PPT Range Validation (Brochure Page 2: 5 to 16 years)
+    if (isNaN(pptVal) || pptVal < 5 || pptVal > 16) {
+        errors.push("• Premium Paying Term (PPT) must be between 5 and 16 years.");
+    }
+
+    // 3. Entry Age vs PPT Validation (Brochure Page 3 Table)
+    const minAgeMap = { 5:8, 6:8, 7:8, 8:8, 9:7, 10:6, 11:5, 12:4, 13:3, 14:2, 15:1, 16:0 };
+    const maxAgeMap = { 5:65, 6:65, 7:65, 8:65, 9:65, 10:65, 11:64, 12:63, 13:62, 14:61, 15:60, 16:59 };
+
+    if (!isNaN(pptVal) && !isNaN(ageVal)) {
+        if (ageVal < minAgeMap[pptVal]) errors.push(`• For ${pptVal} year PPT, Minimum Entry Age is ${minAgeMap[pptVal]} years.`);
+        if (ageVal > maxAgeMap[pptVal]) errors.push(`• For ${pptVal} year PPT, Maximum Entry Age is ${maxAgeMap[pptVal]} years.`);
+        // Max ceasing age check (Page 3: Max ceasing age 75)
+        if (ageVal + pptVal > 75) errors.push("• Premium ceasing age (Entry Age + PPT) cannot exceed 75 years.");
+    }
+
+    if (errors.length > 0) {
+        errList.innerHTML = errors.join("<br>");
+        errBox.style.display = "block";
+        document.getElementById('results').style.display = "none";
+        window.scrollTo(0, 0); // Scroll to top to show errors
+        return; 
+    }
+    // --- ADD VALIDATION LOGIC END ---
+        const docVal = document.getElementById('doc').value;
         const ppt = parseInt(document.getElementById('ppt').value);
+        const sa = parseFloat(document.getElementById('sa').value);
         const premium = parseFloat(document.getElementById('premium').value);
-        const gaRate = parseFloat(document.getElementById('ga_rate').value);
-        const deathYr = parseInt(document.getElementById('death_yr').value);
 
-        // Technical Validations
-        document.getElementById('age-err').style.display = 'none';
-        document.getElementById('sa-err').style.display = 'none';
+        if(!docVal || isNaN(sa) || isNaN(premium)) return alert("Please fill all details.");
 
-     
-        
-        // Age limits based on PPT (Page 3 of PDF)
-       // Technical Age Limits Matrix from PDF Page 3
-const ageLimits = {
-    5: { min: 8, max: 65 },
-    6: { min: 8, max: 65 },
-    7: { min: 8, max: 65 },
-    8: { min: 8, max: 65 },
-    9: { min: 7, max: 65 },
-    10: { min: 6, max: 65 },
-    11: { min: 5, max: 64 },
-    12: { min: 4, max: 63 },
-    13: { min: 3, max: 62 },
-    14: { min: 2, max: 61 },
-    15: { min: 1, max: 60 },
-    16: { min: 0, max: 59 }
-};
-
-const limits = ageLimits[ppt];
-
-// 1. Entry Age Validation
-if (age < limits.min || age > limits.max) {
-    const errMsg = age < limits.min ? `Min Age for PPT ${ppt} is ${limits.min}` : `Max Age for PPT ${ppt} is ${limits.max}`;
-    document.getElementById('age-err').innerText = errMsg;
-    document.getElementById('age-err').style.display = 'block';
-    return;
-}
-
-// 2. Max Premium Ceasing Age Validation (Must not exceed 75)
-if ((age + ppt) > 75) {
-    document.getElementById('age-err').innerText = `Max Premium Ceasing Age is 75 (Current: ${age + ppt})`;
-    document.getElementById('age-err').style.display = 'block';
-    return;
-}
-
-// 3. Sum Assured Validation
-if (sa < 500000) {
-    document.getElementById('sa-err').style.display = 'block';
-    return;
-}
-
-        // GA Calculation: Rs 40 per 1000 SA during PPT
-        const accruedGA = (sa / 1000) * gaRate * ppt;
-        const totalPaid = premium * ppt;
-
-        let html = `<h3>Plan 771 Report: ${name}</h3><br>`;
-
-        if(!isDeath) {
-            const finalBenefit = sa + accruedGA;
-            html += `
-                <div class="res-row"><span>Basic Sum Assured:</span><span class="res-val">₹ ${sa.toLocaleString()}</span></div>
-                <div class="res-row"><span>Accrued Guaranteed Additions (GA):</span><span class="res-val">₹ ${accruedGA.toLocaleString()}</span></div>
-                <div class="res-row"><span>Total Premium Paid (during PPT):</span><span class="res-val">₹ ${totalPaid.toLocaleString()}</span></div>
-                <div class="res-row"><span>Lifetime Income (10% of SA):</span><span class="res-val">₹ ${(sa * 0.1).toLocaleString()} / Year</span></div>
-                <div class="res-row"><span>FINAL BENEFIT PAYABLE (At Age 100):</span><span class="res-val">₹ ${finalBenefit.toLocaleString()}</span></div>
-                <div class="formula">Formula: Basic Sum Assured + Total Accrued GA</div>
-            `;
-        } else {
-            // Death Benefit Logic (Page 4)
-            const gaTillDeath = (deathYr <= ppt) ? ((sa / 1000) * gaRate * deathYr) : accruedGA;
-            const saOnDeath = Math.max(sa, 7 * premium);
-            const totalPaidTillDeath = premium * Math.min(deathYr, ppt);
-            const baseDeathClaim = Math.max(saOnDeath, 1.05 * totalPaidTillDeath);
-            const finalDeathPayable = baseDeathClaim + gaTillDeath;
-
-            html += `
-                <div class="res-row"><span>Basic Sum Assured:</span><span class="res-val">₹ ${sa.toLocaleString()}</span></div>
-                <div class="res-row"><span>Accrued GA till Year ${deathYr}:</span><span class="res-val">₹ ${gaTillDeath.toLocaleString()}</span></div>
-                <div class="res-row"><span>Total Premium Paid till Death:</span><span class="res-val">₹ ${totalPaidTillDeath.toLocaleString()}</span></div>
-                <div class="res-row"><span>FINAL DEATH BENEFIT:</span><span class="res-val">₹ ${finalDeathPayable.toLocaleString()}</span></div>
-                <div class="formula">Formula: Max(BSA, 7x Prem, 105% Paid) + Accrued GA</div>
-            `;
+        const doc = new Date(docVal);
+        const today = new Date();
+        let yearsCompleted = today.getFullYear() - doc.getFullYear();
+        if (today.getMonth() < doc.getMonth() || (today.getMonth() === doc.getMonth() && today.getDate() < doc.getDate())) {
+            yearsCompleted--;
         }
 
-        document.getElementById('res-content').innerHTML = html;
-        document.getElementById('results').style.display = 'block';
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        const resDiv = document.getElementById('results');
+        if(yearsCompleted < 2) {
+            resDiv.style.display = "block";
+            document.getElementById('detailsBody').innerHTML = "<tr><td colspan='3' style='color:red; text-align:center;'>Minimum 2 full years' premiums required for Surrender Value.</td></tr>";
+            return;
+        }
+
+        // LIC RULES FOR PLAN 771
+        const premCount = Math.min(yearsCompleted, ppt);
+
+        // 1. GA Calculation (₹40 per 1000 SA per annum during PPT)
+        const totalGA = (sa / 1000) * 40 * premCount;
+
+        // 2. GSV Calculation
+        const gpFact = getFactor(gsv_p_data, yearsCompleted);
+        const ggaFact = getFactor(gsv_ga_data, yearsCompleted);
+        const totalPremiumsPaid = premium * premCount;
+        
+        // Note: For Plan 771, GSV usually applies to all premiums paid without 1st yr deduction in latest circulars
+        const totalGSV = (totalPremiumsPaid * gpFact) + (totalGA * ggaFact);
+
+        // 3. SSV Calculation
+        // Paid-up SA = Basic SA * (Paid / PPT)
+        const paidUpSA = sa * (premCount / ppt);
+        
+        // Proportionate GA = Total Vested GA * (Paid / PPT)
+        const paidUpGA = totalGA * (premCount / ppt);
+        
+        const ssvFact = getFactor(ssv_factor_data, yearsCompleted);
+        const totalSSV = (paidUpSA + paidUpGA) * ssvFact;
+
+        const finalSV = Math.max(totalGSV, totalSSV);
+
+        // Update UI
+        document.getElementById('resYear').innerText = yearsCompleted;
+        document.getElementById('resGA').innerText = fmt(totalGA);
+        document.getElementById('resPU').innerText = fmt(paidUpSA);
+        document.getElementById('resFinal').innerText = fmt(finalSV);
+
+        document.getElementById('detailsBody').innerHTML = `
+            <tr>
+                <td><b>Guaranteed (GSV)</b><br><small>(Total Prem x GP) + (GA x GAF)</small></td>
+                <td>GP: ${gpFact.toFixed(4)}<br>GAF: ${ggaFact.toFixed(4)}</td>
+                <td class="text-right">${fmt(totalGSV)}</td>
+            </tr>
+            <tr>
+                <td><b>Special (SSV)</b><br><small>(Paid-up SA + Prop. GA) x Factor</small></td>
+                <td>Factor: ${ssvFact.toFixed(4)}</td>
+                <td class="text-right">${fmt(totalSSV)}</td>
+            </tr>
+            <tr style="background:#f9f9f9">
+                <td colspan="2"><b>Final Payable (Higher of GSV/SSV)</b></td>
+                <td class="text-right highlight-text"><b>${fmt(finalSV)}</b></td>
+            </tr>
+        `;
+
+        resDiv.style.display = "block";
     }
 </script>
 

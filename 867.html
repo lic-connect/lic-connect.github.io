@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LIC New Pension Plus (Plan 867) – ULIP Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-top: 8px solid #003366;
+    }
+
+    h1 {
+      color: #003366;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 2px solid #f0c20b;
+      display: block;
+      padding-bottom: 10px;
+    }
+
+    #inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      background: #f8fafc;
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 25px;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      background: #fff;
+    }
+
+    input:focus {
+      border-color: #003366;
+      box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.15);
+      outline: none;
+    }
+
+    button {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #003366 0%, #00509d 100%);
+      color: white;
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 10px;
+      transition: transform 0.1s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      box-shadow: 0 5px 15px rgba(0, 51, 102, 0.3);
+      filter: brightness(1.1);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .summary {
+      background: #003366;
+      color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+      line-height: 1.8;
+      font-size: 16px;
+      border-bottom: 5px solid #f0c20b;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-weight: 500;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 30px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+
+    th {
+      background-color: #f0c20b;
+      color: #003366;
+      padding: 15px;
+      text-align: center;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    td {
+      border-bottom: 1px solid #f1f5f9;
+      padding: 14px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    tr:nth-child(even) { background-color: #f8fafc; }
+    tr:hover { background-color: #fffde7; }
+
+    .explain {
+      margin-top: 40px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .explain h2 {
+      color: #003366;
+      margin-top: 0;
+      font-size: 20px;
+      border-bottom: 3px solid #f0c20b;
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    .error {
+      grid-column: 1 / -1;
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 600;
+      border: 1px solid #fecaca;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>LIC New Pension Plus (Plan 867)</h1>
+
+  <div id="inputs">
+    <div class="row">
+      <label>Investment Option:</label>
+      <select id="option" onchange="toggleInputs()">
+        <option value="regular">Regular Premium</option>
+        <option value="single">Single Premium</option>
+      </select>
+    </div>
+    <div class="row"><label>Age at Entry (25-75):</label><input type="number" id="age" value="30" /></div>
+    <div class="row"><label>Policy Term (10-42):</label><input type="number" id="term" value="15" oninput="updatePPT()" /></div>
+    <div class="row"><label>Premium Paying Term:</label><input type="number" id="ppt" readonly style="background:#eee" /></div>
+    <div class="row"><label id="premLabel">Annual Premium (₹):</label><input type="number" id="premium" value="100000" /></div>
+    
+    <div class="row">
+      <label>Fund Type:</label>
+      <select id="fundType">
+        <option value="growth">Pension Growth Fund</option>
+        <option value="balanced">Pension Balanced Fund</option>
+        <option value="secured">Pension Secured Fund</option>
+        <option value="bond">Pension Bond Fund</option>
+      </select>
+    </div>
+
+    <div class="row"><label>Expected Growth % (p.a.):</label><input type="number" id="growth" value="8" /></div>
+    <div class="row"><label>Initial NAV:</label><input type="number" id="initNAV" value="10" readonly /></div>
+    
+    <button onclick="calculate()">Calculate Pension Benefit</button>
+    <div id="err" class="error" style="display:none;"></div>
+  </div>
+
+  <div id="summary" class="summary" style="display:none;"></div>
+
+  <table id="resultTable" style="display:none;"></table>
+
+<div class="explain">
+  <h2>Plan No. 867: The Story of Mr. Suresh’s "Retirement Power-Bank"</h2>
+  <p>Imagine you want to build a <strong>"Retirement Power-Bank"</strong> that stores energy (wealth) specifically for your old age. This is <strong>LIC’s New Pension Plus (Plan 867)</strong>. Here is how an agent explains it to Mr. Suresh (Age 30), who invests <strong>₹1,00,000 every year</strong>:</p>
+
+  <div style="background: #fdf6e3; padding: 20px; border-radius: 10px; margin: 15px 0; border-left: 5px solid #003366;">
+    <ol>
+      <li><strong>The Entry Gate (PAC):</strong> Out of Suresh's ₹1,00,000, LIC takes a small processing fee. In Year 1, this is 7%.
+        <br><em>Math: ₹1,00,000 - ₹7,000 = <strong>₹93,000</strong> goes into his retirement fund.</em>
+      </li>
+      
+      <li><strong>Buying the Retirement Coins (Units):</strong> If the NAV is <strong>₹10</strong>, Suresh gets his first set of units.
+        <br><em>Math: ₹93,000 ÷ ₹10 = <strong>9,300 Units</strong>.</em>
+      </li>
+
+      <li><strong>The "Zero-Waste" Advantage (No Mortality):</strong> Most ULIPs charge for life insurance. But here, there are <strong>NIL Mortality Charges</strong>. This means no units are cancelled for "insurance cover," allowing the power-bank to charge faster!
+      </li>
+
+      <li><strong>The Retirement Booster (GA):</strong> To reward Suresh for staying consistent, LIC adds "Free Coins" (Guaranteed Additions) at Year 6, Year 10, and <strong>every single year</strong> from the 11th year onwards.
+        <br><em>Math: In Year 15, LIC adds 15.5% of his premium = <strong>₹15,500 worth of free units</strong> added to his pot.</em>
+      </li>
+
+      <li><strong>The Golden Harvest (Vesting):</strong> When Suresh retires, he uses this massive pot to buy a "Pension Pipe" (Annuity) that pays him a monthly income for life.
+      </li>
+    </ol>
+  </div>
+
+  <h2 style="margin-top:30px; color: #003366;">Key Technical Definitions</h2>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div>
+      <p><strong>1. NAV (Net Asset Value):</strong> The daily price of one unit of the Pension Fund. This tracks the performance of the stocks and bonds.</p>
+      <p><strong>2. PAC (Premium Allocation Charge):</strong> The processing fee deducted from your premium. In Plan 867, it is 7% in Yr 1, 4% in Yrs 2-5, and 3% thereafter.</p>
+      <p><strong>3. Admin Charges:</strong> A fixed monthly fee for maintaining your pension account, deducted by cancelling units.</p>
+    </div>
+    <div>
+      <p><strong>4. FMC (Fund Management Charge):</strong> The 1.35% annual fee for LIC’s investment experts, adjusted daily within the NAV.</p>
+      <p><strong>5. GA (Guaranteed Additions):</strong> Extra money added to your fund by LIC at specific intervals to boost your retirement corpus.</p>
+      <p><strong>6. Assured Benefit:</strong> On death before retirement, LIC guarantees to pay 105% of all premiums paid or the Fund Value (whichever is higher).</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top:30px; color: #003366;">How Charges are Calculated</h2>
+  <div style="background: #f8fafc; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;">
+    <ul>
+      <li><strong>PAC:</strong> Deducted from your premium before investment. (e.g., Year 1: 7%, Year 2-5: 4%, Year 6+: 3%).</li>
+      <li><strong>Mortality Charge:</strong> <strong>NIL / Zero.</strong> This plan does not deduct any charges for life insurance cover.</li>
+      <li><strong>Admin Charge:</strong> A fixed monthly fee (e.g., ₹100 per month) converted into units at the current NAV and cancelled from your fund.</li>
+      <li><strong>FMC:</strong> 1.35% per year of the Fund Value. Calculated as: `(Fund Value × 0.0135) / 365` and deducted daily before the NAV is published.</li>
+      <li><strong>GA:</strong> Calculated as a % of your <strong>Annual Premium</strong>. For example, at Year 6 it's 5%, at Year 10 it's 10%, and it increases every year thereafter.</li>
+    </ul>
+  </div>
+
+  <h2 style="margin-top:30px; color: #003366;">Retirement Fund Options (Where your money grows)</h2>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+    <tr style="background-color: #f0c20b; color: #003366;">
+      <th style="padding: 10px; border: 1px solid #ddd;">Fund Type</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Risk Profile</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Equity (Stocks)</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Govt / Debt Bonds</th>
+    </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Pension Bond Fund</strong></td>
+      <td>Low Risk</td>
+      <td>0%</td>
+      <td>60% - 100%</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Pension Secured Fund</strong></td>
+      <td>Lower-Medium</td>
+      <td>10% - 40%</td>
+      <td>60% - 90%</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Pension Balanced Fund</strong></td>
+      <td>Medium</td>
+      <td>30% - 70%</td>
+      <td>30% - 70%</td>
+    </tr>
+    <tr>
+      <td style="padding: 10px; border: 1px solid #ddd;"><strong>Pension Growth Fund</strong></td>
+      <td>High Risk</td>
+      <td>40% - 100%</td>
+      <td>0% - 60%</td>
+    </tr>
+  </table>
+
+  <div style="margin-top: 30px; background: #fff7ed; padding: 20px; border-radius: 8px; font-style: italic; border: 1px solid #fbbf24; color: #92400e;">
+    <strong>Crucial Note:</strong> As per IRDAI pension rules, you can withdraw only up to 60% of the maturity (vesting) amount as a tax-free lump sum. The remaining 40% (minimum) must be used to purchase a pension plan (annuity) to provide you with a regular monthly income.
+  </div>
+  </div>
+<div class="ulip-disclaimer" style="margin-top:30px; padding:20px; border:1px solid #fbbf24; border-radius:10px; background-color:#fff7ed; color:#92400e; font-size:13px; line-height:1.5;">
+    <strong>Disclaimer:</strong> <br>
+    1. The values displayed by this calculator are <strong>indicative only</strong> and meant for <strong>illustrative purposes</strong>. <br>
+    2. Actual premiums, fund values, and maturity benefits may vary based on <strong>LIC’s official calculations, NAV movements, fund performance, taxes, and policy terms</strong>. <br>
+    3. Charges such as <strong>Premium Allocation Charges (PAC), Fund Management Charges (FMC), Mortality Charges, and Admin Charges</strong> are applied as per LIC guidelines and may impact the final benefit. <br>
+    4. Accidental Death & Disability Benefit (ADDB) charges are considered at <strong>₹0.40 per ₹1000 of ADDB SA per annum</strong>. <br>
+    5. This calculator does <strong>not guarantee returns</strong> and should not be treated as financial advice. <br>
+    6. Please refer to the <strong>official LIC brochures and policy documents</strong> for accurate and legally binding information. <br>
+    7. By using this calculator, you acknowledge that LIC or this website/app is not responsible for any discrepancies between the calculated value and actual policy payouts.
+</div>
+
+</div>
+
+<script>
+function updatePPT() {
+    const term = +document.getElementById('term').value;
+    const option = document.getElementById('option').value;
+    document.getElementById('ppt').value = (option === 'single') ? 1 : term;
+}
+
+function toggleInputs() {
+    const option = document.getElementById('option').value;
+    document.getElementById('premLabel').innerText =
+        (option === 'single') ? "Single Premium (₹):" : "Annual Premium (₹):";
+    updatePPT();
+}
+
+function calculate() {
+    const option = document.getElementById('option').value;
+    const ageInput = document.getElementById('age').value;
+    const termInput = document.getElementById('term').value;
+    const premiumInput = document.getElementById('premium').value;
+    const growth = +document.getElementById('growth').value / 100;
+
+    const age = +ageInput;
+    const term = +termInput;
+    const premium = +premiumInput;
+
+    const table = document.getElementById('resultTable');
+    const summary = document.getElementById('summary');
+    const err = document.getElementById('err');
+
+    // Reset UI
+    err.style.display = table.style.display = summary.style.display = 'none';
+
+    /* =========================================
+       VALIDATIONS (Plan 867 Rules)
+       ========================================= */
+    if (ageInput === "" || termInput === "" || premiumInput === "") {
+        err.innerText = "❌ Please enter Age, Term and Premium.";
+        err.style.display = 'block'; return;
+    }
+    if (age < 25 || age > 75) {
+        err.innerText = "❌ Entry Age must be between 25 and 75.";
+        err.style.display = 'block'; return;
+    }
+    if (term < 10 || term > 42) {
+        err.innerText = "❌ Policy Term must be between 10 and 42.";
+        err.style.display = 'block'; return;
+    }
+    if (age + term < 35 || age + term > 85) {
+        err.innerText = `❌ Vesting Age (Age + Term) must be 35 to 85. Currently: ${age + term}`;
+        err.style.display = 'block'; return;
+    }
+    if (option === 'regular' && premium < 30000) {
+        err.innerText = "❌ Minimum Regular Premium is ₹30,000.";
+        err.style.display = 'block'; return;
+    }
+    if (option === 'single' && premium < 100000) {
+        err.innerText = "❌ Minimum Single Premium is ₹1,00,000.";
+        err.style.display = 'block'; return;
+    }
+
+    /* =========================================
+       CALCULATION LOGIC (Original Preserved)
+       ========================================= */
+    table.innerHTML = `
+        <tr>
+            <th>Year</th>
+            <th>Age</th>
+            <th>NAV</th>
+            <th>Premium (₹)</th>
+            <th>GA Added (₹)</th>
+            <th>Fund Value (₹)</th>
+            <th>Surrender Value</th>
+        </tr>`;
+
+    let fundValue = 0;
+    let totalPremiumPaid = 0;
+    let currentNav = 10; 
+
+    const monthlyGrowth = Math.pow(1 + growth, 1 / 12);
+    const monthlyFMC = Math.pow(1 - 0.0070, 1 / 12); 
+
+    for (let y = 1; y <= term; y++) {
+        let gaRate = 0;
+        let gaAmt = 0;
+
+        if (option === 'single') {
+            if (y === 1) {
+                fundValue = premium * (1 - 0.033);
+                totalPremiumPaid = premium;
+            }
+            for (let m = 1; m <= 12; m++) {
+                fundValue *= monthlyGrowth;
+                fundValue *= monthlyFMC;
+            }
+            if (y === 6) gaRate = 0.04;
+            else if (y === 10) gaRate = 0.05;
+            else if (y >= 11 && y <= 15) gaRate = 0.0125;
+            else if (y >= 16 && y <= 20) gaRate = 0.015;
+            else if (y >= 21 && y <= 25) gaRate = 0.02;
+            else if (y >= 26 && y <= 30) gaRate = 0.025;
+            else if (y >= 31 && y <= 35) gaRate = 0.03;
+            else if (y >= 36 && y <= 40) gaRate = 0.0375;
+            else if (y >= 41) gaRate = 0.045;
+        } 
+        else {
+            let pacRate = y === 1 ? 0.07 :
+                y <= 5 ? (premium >= 50000 ? 0.04 : 0.045) :
+                (premium >= 50000 ? 0.03 : 0.035);
+
+            const monthlyInvest = (premium * (1 - pacRate)) / 12;
+            totalPremiumPaid += premium;
+
+            for (let m = 1; m <= 12; m++) {
+                fundValue += monthlyInvest;
+                fundValue *= monthlyGrowth;
+                fundValue *= monthlyFMC;
+                if (y <= 5) {
+                    let adminRates = [0.0019, 0.00184, 0.00177, 0.0017, 0.00164];
+                    let adminCaps = [57, 55, 53, 51, 49];
+                    let monthlyAdmin = Math.min(premium * adminRates[y-1], adminCaps[y-1]);
+                    fundValue -= monthlyAdmin;
+                }
+            }
+            if (y === 6) gaRate = 0.05;
+            else if (y === 10) gaRate = 0.10;
+            else if (y >= 11 && y <= 15) gaRate = 0.04;
+            else if (y >= 16 && y <= 20) gaRate = 0.055;
+            else if (y >= 21 && y <= 25) gaRate = 0.07;
+            else if (y >= 26 && y <= 30) gaRate = 0.0875;
+            else if (y >= 31 && y <= 35) gaRate = 0.1075;
+            else if (y >= 36 && y <= 40) gaRate = 0.13;
+            else if (y >= 41) gaRate = 0.155;
+        }
+
+        gaAmt = premium * gaRate;
+        fundValue += gaAmt;
+
+        // --- NEW: Surrender Logic (Locked for 5 years) ---
+        let surrenderDisplay = y <= 5 
+            ? `<span style="color: #dc2626; font-weight: bold; font-size: 11px;">LOCKED</span>` 
+            : `₹${Math.round(fundValue).toLocaleString("en-IN")}`;
+
+        table.innerHTML += `
+            <tr>
+                <td>${y}</td>
+                <td>${age + y - 1}</td>
+                <td>${currentNav.toFixed(4)}</td>
+                <td>${(y === 1 || option === 'regular') ? '₹' + premium.toLocaleString('en-IN') : '-'}</td>
+                <td>${gaAmt > 0 ? '₹' + Math.round(gaAmt).toLocaleString('en-IN') : '-'}</td>
+                <td><b>₹${Math.round(fundValue).toLocaleString('en-IN')}</b></td>
+                <td>${surrenderDisplay}</td>
+            </tr>`;
+        
+        currentNav *= (1 + growth);
+    }
+
+    let ltcg = premium > 250000 ? Math.max(0, (fundValue - totalPremiumPaid) * 0.125) : 0;
+
+    summary.innerHTML = `
+        <b>Total Invested:</b> ₹${totalPremiumPaid.toLocaleString('en-IN')} |
+        <b>Retirement Corpus:</b> ₹${Math.round(fundValue).toLocaleString('en-IN')} |
+        <span style="color:#f0c20b"><b>Net (After LTCG):</b> ₹${Math.round(fundValue - ltcg).toLocaleString('en-IN')}</span>
+    `;
+
+    table.style.display = 'table';
+    summary.style.display = 'block';
+}
+
+updatePPT();
+</script>
+
+</body>
+</html>

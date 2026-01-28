@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surrender Value Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7FFFD4; /* Aquamarine */
+            --primary-dark: #45cea2;
+            --secondary: #ffffff; /* White */
+            --text-color: #2c3e50;
+            --shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        body {
+            background-color: #f0fdfa; /* Very light aquamarine tint */
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-color);
+            padding-bottom: 50px;
+        }
+
+        header {
+            width: 100%;
+            padding: 40px 0;
+            background: var(--secondary);
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* 3D Title Styling */
+        .title-3d {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            text-transform: uppercase;
+            color: var(--primary-dark);
+            margin: 0;
+            letter-spacing: 2px;
+            text-shadow: 
+                1px 1px 0px #fff,
+                2px 2px 0px #eee,
+                3px 3px 0px #ddd,
+                4px 4px 0px #ccc,
+                5px 5px 10px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 600px) {
+            .title-3d { font-size: 1.8rem; }
+        }
+
+        .dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        /* 3D Dashboard Button */
+        .plan-btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 15px 30px;
+            background-color: var(--primary);
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.05);
+            /* 3D Effect Shadow */
+            box-shadow: 0 6px 0px var(--primary-dark), 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .plan-btn i {
+            margin-right: 20px;
+            font-size: 1.4rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .plan-btn:hover {
+            transform: translateY(2px);
+            box-shadow: 0 4px 0px var(--primary-dark), 0 6px 15px rgba(0,0,0,0.1);
+            background-color: #a7ffe4;
+        }
+
+        .plan-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0px var(--primary-dark);
+        }
+
+        .plan-btn span {
+            margin-left: auto;
+            background: rgba(255,255,255,0.5);
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        /* Terminology Section */
+        .term-container {
+            max-width: 800px;
+            width: 90%;
+            margin-top: 60px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            display: none; /* Controlled by button */
+            animation: fadeIn 0.5s ease;
+        }
+
+        .term-trigger {
+            margin-top: 40px;
+            background: var(--text-color);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+
+        .term-trigger:hover {
+            background: #000;
+            transform: scale(1.05);
+        }
+
+        .term-container h2 {
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        .formula-box {
+            background: #f1f1f1;
+            padding: 15px;
+            border-left: 5px solid var(--primary-dark);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 10px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="title-3d">Surrender Value Calculator</h1>
+    </header>
+
+    <div class="dashboard">
+        <a href="714.html" class="plan-btn"><i class="fa-solid fa-shield-halved"></i> 714 - Plan <span>GO</span></a>
+        <a href="715.html" class="plan-btn"><i class="fa-solid fa-vault"></i> 715 - Plan <span>GO</span></a>
+        <a href="720.html" class="plan-btn"><i class="fa-solid fa-coins"></i> 720 - Plan <span>GO</span></a>
+        <a href="721.html" class="plan-btn"><i class="fa-solid fa-money-bill-trend-up"></i> 721 - Plan <span>GO</span></a>
+        <a href="732.html" class="plan-btn"><i class="fa-solid fa-child"></i> 732 - Plan <span>GO</span></a>
+        <a href="733.html" class="plan-btn"><i class="fa-solid fa-user-graduate"></i> 733 - Plan <span>GO</span></a>
+<a href="734.html" class="plan-btn"><i class="fa-solid fa-child-reaching"></i> 734 - Plan <span>GO</span></a>
+        <a href="735.html" class="plan-btn"><i class="fa-solid fa-piggy-bank"></i> 735 - Plan <span>GO</span></a>
+        <a href="736.html" class="plan-btn"><i class="fa-solid fa-gem"></i> 736 - Plan <span>GO</span></a>
+        <a href="745.html" class="plan-btn"><i class="fa-solid fa-umbrella"></i> 745 - Plan <span>GO</span></a>
+        <a href="748.html" class="plan-btn"><i class="fa-solid fa-crown"></i> 748 - Plan <span>GO</span></a>
+        <a href="749.html" class="plan-btn"><i class="fa-solid fa-landmark"></i> 749 - Plan <span>GO</span></a>
+        <a href="752.html" class="plan-btn"><i class="fa-solid fa-hand-holding-dollar"></i> 752 - Plan <span>GO</span></a>
+        <a href="760.html" class="plan-btn"><i class="fa-solid fa-star"></i> 760 - Plan <span>GO</span></a>
+        <a href="764.html" class="plan-btn"><i class="fa-solid fa-medal"></i> 764 - Plan <span>GO</span></a>
+        <a href="771.html" class="plan-btn"><i class="fa-solid fa-infinity"></i> 771 - Plan <span>GO</span></a>
+        <a href="774.html" class="plan-btn"><i class="fa-solid fa-baby"></i> 774 - Plan <span>GO</span></a>
+        <a href="867.html" class="plan-btn"><i class="fa-solid fa-briefcase"></i> 867 - Plan <span>GO</span></a>
+        <a href="873.html" class="plan-btn"><i class="fa-solid fa-chart-line"></i> 873 - Plan <span>GO</span></a>      
+        <a href="880.html" class="plan-btn"><i class="fa-solid fa-building-columns"></i> 880 - Plan <span>GO</span></a>
+        <a href="881.html" class="plan-btn"><i class="fa-solid fa-heart-pulse"></i> 881 - Plan <span>GO</span></a>
+  <a href="886.html" class="plan-btn"><i class="fa-solid fa-house-chimney-medical"></i> 886 - Plan <span>GO</span></a>
+    </div>
+
+    <button class="term-trigger" onclick="toggleTerms()">IMPORTANT TERMINOLOGIES</button>
+
+    <div class="term-container" id="terms">
+        <h2>Insurance Surrender Terms</h2>
+        <p><strong>Surrender Value:</strong> The Surrender Value is the cash amount offered by an insurance company to the policyholder upon voluntarily terminating the policy before its maturity or the insured event occurs. This value is typically acquired only after premiums have been paid for a minimum period (usually 2 or 3 full years). Once a policy is surrendered, the life cover ceases and the contract ends. It represents the "savings" portion of your insurance premium after deducting administrative expenses and protection costs.</p>
+
+        <h3>1. Paid-Up Capital (Paid-Up Value)</h3>
+        <p>If a policyholder stops paying premiums after the policy has acquired a surrender value but does not officially surrender it, the policy becomes "Paid-Up." The original Sum Assured is reduced in proportion to the number of premiums paid.</p>
+        <div class="formula-box">
+            Paid-Up Value = (Sum Assured) × (No. of Premiums Paid / No. of Premiums Payable)
+        </div>
+
+        <h3>2. Guaranteed Surrender Value (GSV)</h3>
+        <p>This is the minimum amount guaranteed by the insurer to the policyholder. It is calculated by taking a specific percentage of the total premiums paid (excluding the first year premium and any rider/extra premiums) plus the surrender value of any vested bonuses.</p>
+        <div class="formula-box">
+            GSV = (Total Premiums Paid × GSV Factor) + (Vested Bonuses × Bonus Factor)
+        </div>
+
+        <h3>3. Special Surrender Value (SSV)</h3>
+        <p>The SSV is usually higher than the GSV. It depends on the duration for which the premiums are paid and the total "Paid-Up Value" accrued. It is calculated using the company's current financial performance and actuarial expectations. LIC usually pays the higher of the GSV or SSV to the policyholder.</p>
+        <div class="formula-box">
+            SSV = (Paid-Up Value + Vested Bonus) × SSV Factor
+        </div>
+        <p>Note: Factors for GSV and SSV vary based on the plan type, the entry age of the policyholder, and the duration of the policy at the time of surrender.</p>
+    </div>
+
+    <script>
+        function toggleTerms() {
+            var terms = document.getElementById("terms");
+            if (terms.style.display === "block") {
+                terms.style.display = "none";
+            } else {
+                terms.style.display = "block";
+                terms.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
