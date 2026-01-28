@@ -6,28 +6,27 @@
     <title>LIC Maturity Calculators Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+   <style>
         :root {
             --parrot-green: #32CD32;
-            --deep-green: #228B22;
-            --black: #000000;
             --white: #ffffff;
-            --glass: rgba(255, 255, 255, 0.1);
+            --shadow-green: rgba(50, 205, 50, 0.2);
+            --shadow-hover: rgba(50, 205, 50, 0.6);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
         body {
-            background-color: var(--black);
+            background-color: var(--white);
+            /* Subtle radial gradient using only white and faint parrot green */
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(50, 205, 50, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(50, 205, 50, 0.15) 0%, transparent 40%);
+                radial-gradient(circle at 50% 50%, rgba(50, 205, 50, 0.05) 0%, transparent 70%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 50px 20px;
-            color: var(--white);
+            color: var(--parrot-green);
         }
 
         .header {
@@ -41,16 +40,18 @@
             text-transform: uppercase;
             letter-spacing: 4px;
             color: var(--parrot-green);
-            text-shadow: 0 0 20px rgba(50, 205, 50, 0.5);
+            /* Green glow instead of dark shadow */
+            text-shadow: 0 0 15px rgba(50, 205, 50, 0.3);
             margin-bottom: 10px;
         }
 
         .header p {
             font-size: 14px;
-            color: var(--white);
-            opacity: 0.7;
+            color: var(--parrot-green);
+            opacity: 0.8;
             letter-spacing: 2px;
             text-transform: uppercase;
+            font-weight: 600;
         }
 
         /* 2 Column Grid Structure */
@@ -67,29 +68,37 @@
             text-decoration: none;
             display: flex;
             align-items: center;
-justify-content: center; text-align: center;
+            justify-content: center; 
+            text-align: center;
             padding: 20px 25px;
-            background: linear-gradient(145deg, #1a1a1a, #000000);
-            border: 2px solid rgba(50, 205, 50, 0.3);
+            
+            /* White Card with Green Border */
+            background: var(--white);
+            border: 2px solid var(--parrot-green);
             border-radius: 15px;
-            color: var(--white);
+            
+            /* Text Color */
+            color: var(--parrot-green);
+            
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            
+            /* Soft Green Shadow */
+            box-shadow: 0 10px 25px var(--shadow-green);
         }
 
-        /* 3D and Hover Effects */
+        /* Hover Effects: Invert Colors */
         .plan-card:hover {
             transform: translateY(-5px) scale(1.03);
-            border-color: var(--parrot-green);
-            box-shadow: 0 0 30px rgba(50, 205, 50, 0.4);
             background: var(--parrot-green);
-            color: var(--black);
+            border-color: var(--parrot-green);
+            color: var(--white);
+            box-shadow: 0 15px 30px var(--shadow-hover);
         }
 
         .plan-card:hover i {
-            color: var(--black);
+            color: var(--white);
             transform: rotateY(360deg);
         }
 
@@ -115,9 +124,9 @@ justify-content: center; text-align: center;
 
         .plan-name {
             font-size: 13px;
-            font-weight: 400;
+            font-weight: 600;
             text-transform: uppercase;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         /* Mirror Effect on Container */
@@ -125,7 +134,8 @@ justify-content: center; text-align: center;
             width: 100%;
             display: flex;
             justify-content: center;
-            -webkit-box-reflect: below 0px linear-gradient(transparent, transparent, rgba(255,255,255,0.05));
+            /* Adjusted reflection gradient for white background */
+            -webkit-box-reflect: below 0px linear-gradient(transparent, transparent, rgba(50, 205, 50, 0.1));
         }
 
         /* Decorative "Wow" elements */
@@ -136,7 +146,8 @@ justify-content: center; text-align: center;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            /* White shine effect */
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
             opacity: 0;
             transition: 0.5s;
         }
@@ -167,7 +178,7 @@ justify-content: center; text-align: center;
         <div class="dashboard-grid">
             
             <!-- Column 1 -->
-            <a href="714.html" class="plan-card">
+            <a href="m714.html" class="plan-card">
                 <i class="fas fa-vault"></i>
                 <div class="plan-info">
                     <span class="plan-number">714</span>
@@ -175,7 +186,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="715.html" class="plan-card">
+            <a href="m715.html" class="plan-card">
                 <i class="fas fa-heart"></i>
                 <div class="plan-info">
                     <span class="plan-number">715</span>
@@ -183,7 +194,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="717.html" class="plan-card">
+            <a href="m717.html" class="plan-card">
                 <i class="fas fa-coins"></i>
                 <div class="plan-info">
                     <span class="plan-number">717</span>
@@ -191,7 +202,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="720.html" class="plan-card">
+            <a href="m720.html" class="plan-card">
                 <i class="fas fa-hand-holding-dollar"></i>
                 <div class="plan-info">
                     <span class="plan-number">720</span>
@@ -199,7 +210,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="721.html" class="plan-card">
+            <a href="m721.html" class="plan-card">
                 <i class="fas fa-wallet"></i>
                 <div class="plan-info">
                     <span class="plan-number">721</span>
@@ -207,7 +218,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="732.html" class="plan-card">
+            <a href="m732.html" class="plan-card">
                 <i class="fas fa-child"></i>
                 <div class="plan-info">
                     <span class="plan-number">732</span>
@@ -215,7 +226,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="733.html" class="plan-card">
+            <a href="m733.html" class="plan-card">
                 <i class="fas fa-bullseye"></i>
                 <div class="plan-info">
                     <span class="plan-number">733</span>
@@ -223,7 +234,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="734.html" class="plan-card">
+            <a href="m734.html" class="plan-card">
                 <i class="fas fa-graduation-cap"></i>
                 <div class="plan-info">
                     <span class="plan-number">734</span>
@@ -231,7 +242,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="736.html" class="plan-card">
+            <a href="m736.html" class="plan-card">
                 <i class="fas fa-chart-line"></i>
                 <div class="plan-info">
                     <span class="plan-number">736</span>
@@ -239,7 +250,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="745.html" class="plan-card">
+            <a href="m745.html" class="plan-card">
                 <i class="fas fa-umbrella"></i>
                 <div class="plan-info">
                     <span class="plan-number">745</span>
@@ -247,7 +258,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="748.html" class="plan-card">
+            <a href="m748.html" class="plan-card">
                 <i class="fas fa-gem"></i>
                 <div class="plan-info">
                     <span class="plan-number">748</span>
@@ -256,7 +267,7 @@ justify-content: center; text-align: center;
             </a>
 
             <!-- Column 2 -->
-            <a href="751.html" class="plan-card">
+            <a href="m751.html" class="plan-card">
                 <i class="fas fa-leaf"></i>
                 <div class="plan-info">
                     <span class="plan-number">751</span>
@@ -264,7 +275,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="760.html" class="plan-card">
+            <a href="m760.html" class="plan-card">
                 <i class="fas fa-star"></i>
                 <div class="plan-info">
                     <span class="plan-number">760</span>
@@ -272,7 +283,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="764.html" class="plan-card">
+            <a href="m764.html" class="plan-card">
                 <i class="fas fa-diamond"></i>
                 <div class="plan-info">
                     <span class="plan-number">764</span>
@@ -280,7 +291,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="768.html" class="plan-card">
+            <a href="m768.html" class="plan-card">
                 <i class="fas fa-dove"></i>
                 <div class="plan-info">
                     <span class="plan-number">768</span>
@@ -288,7 +299,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="771.html" class="plan-card">
+            <a href="m771.html" class="plan-card">
                 <i class="fas fa-gift"></i>
                 <div class="plan-info">
                     <span class="plan-number">771</span>
@@ -296,7 +307,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="774.html" class="plan-card">
+            <a href="m774.html" class="plan-card">
                 <i class="fas fa-baby-carriage"></i>
                 <div class="plan-info">
                     <span class="plan-number">774</span>
@@ -304,7 +315,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="880.html" class="plan-card">
+            <a href="m880.html" class="plan-card">
                 <i class="fas fa-shield-halved"></i>
                 <div class="plan-info">
                     <span class="plan-number">880</span>
@@ -312,7 +323,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="881.html" class="plan-card">
+            <a href="m881.html" class="plan-card">
                 <i class="fas fa-venus"></i>
                 <div class="plan-info">
                     <span class="plan-number">881</span>
@@ -320,7 +331,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="883.html" class="plan-card">
+            <a href="m883.html" class="plan-card">
                 <i class="fas fa-bolt"></i>
                 <div class="plan-info">
                     <span class="plan-number">883</span>
@@ -328,7 +339,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="911.html" class="plan-card">
+            <a href="m911.html" class="plan-card">
                 <i class="fas fa-crown"></i>
                 <div class="plan-info">
                     <span class="plan-number">911</span>
@@ -336,7 +347,7 @@ justify-content: center; text-align: center;
                 </div>
             </a>
 
-            <a href="912.html" class="plan-card">
+            <a href="m912.html" class="plan-card">
                 <i class="fas fa-landmark"></i>
                 <div class="plan-info">
                     <span class="plan-number">912</span>

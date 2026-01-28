@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Plan 883 Jeevan Utsav Single Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --crimson: #DC143C;
+            --dark-red: #8B0000;
+            --black: #1a1a1a;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: radial-gradient(circle at center, #4a0000 0%, #000 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            perspective: 2000px;
+        }
+
+        /* 3D Box & Mirror Effect */
+        .calculator-3d-box {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            background: var(--white);
+            border-radius: 20px;
+            transform-style: preserve-3d;
+            transform: rotateX(8deg);
+            box-shadow: 0 40px 100px rgba(220, 20, 60, 0.4);
+            padding: 40px;
+            border: 2px solid var(--crimson);
+            /* Mirror Reflection Effect */
+            -webkit-box-reflect: below 2px linear-gradient(transparent, transparent, rgba(255, 255, 255, 0.15));
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 5px solid var(--crimson);
+            padding-bottom: 10px;
+        }
+
+        .header h1 { 
+            font-family: 'Orbitron', sans-serif;
+            color: var(--black); 
+            font-size: 24px; 
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .input-group { position: relative; display: flex; flex-direction: column; }
+        .input-group label { font-size: 11px; font-weight: 800; color: var(--crimson); margin-bottom: 5px; text-transform: uppercase; }
+        .input-group i { position: absolute; right: 15px; top: 38px; color: #888; }
+
+        input, select {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: 0.3s;
+            background: #fdfdfd;
+        }
+
+        input:focus, select:focus { border-color: var(--crimson); background: white; }
+
+        /* Benefit Toggle Switch */
+        .toggle-section {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .toggle-container {
+            display: flex;
+            width: 360px;
+            height: 50px;
+            background: var(--black);
+            border-radius: 25px;
+            position: relative;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #fff;
+            transition: 0.3s;
+            font-size: 12px;
+        }
+
+        .toggle-btn.active { color: var(--black); }
+
+        .slider {
+            position: absolute;
+            left: 5px;
+            width: 175px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 25px;
+            transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1;
+        }
+
+        .calc-btn {
+            grid-column: 1 / -1;
+            background: var(--crimson);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            margin-top: 10px;
+        }
+
+        .calc-btn:hover { background: var(--black); transform: translateY(-3px); }
+
+        /* Results Display */
+        #results {
+            margin-top: 30px;
+            display: none;
+            padding: 25px;
+            background: #f9f9f9;
+            border-radius: 15px;
+            border-left: 8px solid var(--crimson);
+            animation: slideIn 0.5s ease;
+        }
+
+        .res-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .res-row.total { background: var(--black); color: white; padding: 15px; border-radius: 10px; margin-top: 10px; }
+        .res-val { font-weight: 800; color: var(--crimson); }
+        .total .res-val { color: var(--white); font-size: 1.1rem; }
+
+        .formula { font-size: 11px; color: #777; text-align: center; margin-top: 15px; font-style: italic; background: #eee; padding: 10px; border-radius: 5px;}
+
+        .error-msg { color: #ff0000; font-size: 11px; font-weight: 700; margin-top: 5px; display: none; }
+
+        .footer-btns { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-s { flex: 1; padding: 12px; border-radius: 8px; border: 2px solid var(--crimson); background: transparent; cursor: pointer; font-weight: 700; color: var(--crimson); display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
+        .btn-s:hover { background: var(--crimson); color: white; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="calculator-3d-box">
+    <div class="header">
+        <h1>LIC-PLAN 883 JEEVAN UTSAV</h1>
+        <p style="color:var(--crimson); font-weight: 700; font-size: 12px; margin-top: 5px;">Single Premium Whole Life Calculator</p>
+    </div>
+
+    <div class="input-grid">
+        <div class="input-group">
+            <label>Policy Holder Name</label>
+            <input type="text" id="name" placeholder="Enter Name">
+            <i class="fas fa-user-circle"></i>
+        </div>
+
+        <div class="input-group">
+            <label>GA Addition Period (7-17 Yrs)</label>
+            <select id="gap" onchange="updateMinAge()">
+                <option value="7">7 Years (Min Entry Age: 10)</option>
+                <option value="8">8 Years (Min Entry Age: 9)</option>
+                <option value="9">9 Years (Min Entry Age: 8)</option>
+                <option value="10">10 Years (Min Entry Age: 7)</option>
+                <option value="11">11 Years (Min Entry Age: 6)</option>
+                <option value="12" selected>12 Years (Min Entry Age: 5)</option>
+                <option value="13">13 Years (Min Entry Age: 4)</option>
+                <option value="14">14 Years (Min Entry Age: 3)</option>
+                <option value="15">15 Years (Min Entry Age: 2)</option>
+                <option value="16">16 Years (Min Entry Age: 1)</option>
+                <option value="17">17 Years (Min Entry Age: 0)</option>
+            </select>
+            <i class="fas fa-calendar-check"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Age at Entry (Completed)</label>
+            <input type="number" id="age" value="30">
+            <i class="fas fa-id-card"></i>
+            <span id="age-err" class="error-msg">Min age mismatch for selected GAP.</span>
+        </div>
+
+        <div class="input-group">
+            <label>Sum Assured (Min 5,00,000)</label>
+            <input type="number" id="sa" value="1000000" step="25000">
+            <i class="fas fa-shield-alt"></i>
+            <span id="sa-err" class="error-msg">Min Sum Assured is 5 Lakhs</span>
+        </div>
+
+        <div class="input-group">
+            <label>Premium Paying Term (PPT)</label>
+            <input type="number" id="ppt" value="1" readonly style="background: #eee;">
+            <i class="fas fa-hourglass-half"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Mode of Premium</label>
+            <input type="text" value="SINGLE" readonly style="background: #eee;">
+            <i class="fas fa-wallet"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Tabular Single Premium (Input)</label>
+            <input type="number" id="premium" value="808650">
+            <i class="fas fa-indian-rupee-sign"></i>
+        </div>
+
+        <div class="input-group">
+            <label>GA Rate (Rs. 40 Per 1000 SA)</label>
+            <input type="number" id="ga_rate" value="40">
+            <i class="fas fa-percent"></i>
+        </div>
+
+        <div class="toggle-section">
+            <div class="toggle-container" onclick="toggleBenefit()">
+                <div id="slider" class="slider"></div>
+                <div id="btn-surv" class="toggle-btn active">SURVIVAL (MATURITY)</div>
+                <div id="btn-death" class="toggle-btn">DEATH BENEFIT</div>
+            </div>
+        </div>
+
+        <div id="death_ui" class="input-group" style="display:none; grid-column: 1 / -1;">
+            <label>Policy Year of Death</label>
+            <input type="number" id="death_yr" value="10" min="1">
+            <i class="fas fa-calendar-times"></i>
+        </div>
+
+        <button class="calc-btn" onclick="calculate()">
+            <i class="fas fa-calculator"></i> Calculate Benefits
+        </button>
+    </div>
+
+    <div id="results">
+        <div id="res-data"></div>
+        <div class="footer-btns">
+            <button class="btn-s" onclick="window.print()"><i class="fas fa-print"></i> Print PDF</button>
+            <button class="btn-s" onclick="alert('Shared successfully')"><i class="fas fa-share-nodes"></i> Share PDF</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // PAGE 3 TECHNICAL LOGIC: GAP vs Min Entry Age
+    const ageMatrix = { 7: 10, 8: 9, 9: 8, 10: 7, 11: 6, 12: 5, 13: 4, 14: 3, 15: 2, 16: 1, 17: 0 };
+
+    function updateMinAge() {
+        const gap = parseInt(document.getElementById('gap').value);
+        document.getElementById('age').placeholder = `Min: ${ageMatrix[gap]}`;
+    }
+
+    let isDeath = false;
+    function toggleBenefit() {
+        isDeath = !isDeath;
+        const slider = document.getElementById('slider');
+        const deathUI = document.getElementById('death_ui');
+        const bSurv = document.getElementById('btn-surv');
+        const bDeath = document.getElementById('btn-death');
+
+        if(isDeath) {
+            slider.style.left = '180px';
+            deathUI.style.display = 'block';
+            bDeath.classList.add('active');
+            bSurv.classList.remove('active');
+        } else {
+            slider.style.left = '5px';
+            deathUI.style.display = 'none';
+            bSurv.classList.add('active');
+            bDeath.classList.remove('active');
+        }
+    }
+
+    function calculate() {
+        const name = document.getElementById('name').value || "Valued Client";
+        const age = parseInt(document.getElementById('age').value);
+        const sa = parseFloat(document.getElementById('sa').value);
+        const gap = parseInt(document.getElementById('gap').value);
+        const premium = parseFloat(document.getElementById('premium').value);
+        const gaRate = parseFloat(document.getElementById('ga_rate').value);
+        const deathYr = parseInt(document.getElementById('death_yr').value);
+
+        // RESET ERRORS
+        document.getElementById('age-err').style.display = 'none';
+        document.getElementById('sa-err').style.display = 'none';
+
+        let isValid = true;
+
+        // PAGE 3 VALIDATION
+        if (age < ageMatrix[gap]) {
+            const err = document.getElementById('age-err');
+            err.innerText = `For GAP ${gap}: Age at entry cannot be less than ${ageMatrix[gap]} years.`;
+            err.style.display = 'block';
+            isValid = false;
+        } else if (age > 65) {
+            document.getElementById('age-err').innerText = "Max entry age is 65.";
+            document.getElementById('age-err').style.display = 'block';
+            isValid = false;
+        }
+
+        if (sa < 500000) { document.getElementById('sa-err').style.display = 'block'; isValid = false; }
+        if (!isValid) return;
+
+        // CALCULATIONS
+        const totalGA = (sa / 1000) * gaRate * gap;
+        let html = `<h3 style="color:var(--crimson); text-align:center; margin-bottom:20px;">Report for ${name}</h3>`;
+
+        if (!isDeath) {
+            const finalMaturity = sa + totalGA;
+            html += `
+                <div class="res-row"><span>Basic Sum Assured:</span><span class="res-val">₹ ${sa.toLocaleString()}</span></div>
+                <div class="res-row"><span>Total Accrued GA (${gap} Yrs):</span><span class="res-val">₹ ${totalGA.toLocaleString()}</span></div>
+                <div class="res-row"><span>Single Premium Paid:</span><span class="res-val">₹ ${premium.toLocaleString()}</span></div>
+                <div class="res-row"><span>Annual Income Benefit (10% BSA):</span><span class="res-val">₹ ${(sa * 0.1).toLocaleString()}</span></div>
+                <div class="res-row total"><span>FINAL MATURITY BENEFIT:</span><span class="res-val">₹ ${finalMaturity.toLocaleString()}</span></div>
+                <div class="formula">Formula: Basic Sum Assured + Total Accrued GA (Rs. 40/1000 SA × GA Period)</div>
+            `;
+        } else {
+            const gaTillDeath = (sa / 1000) * gaRate * Math.min(deathYr, gap);
+            // Higher of Basic SA or 1.25 times Tabular Single Premium
+            const saOnDeath = Math.max(sa, 1.25 * premium);
+            const finalDeathBenefit = saOnDeath + gaTillDeath;
+
+            html += `
+                <div class="res-row"><span>Sum Assured on Death (125% of SP):</span><span class="res-val">₹ ${saOnDeath.toLocaleString()}</span></div>
+                <div class="res-row"><span>GA Accrued till Year ${Math.min(deathYr, gap)}:</span><span class="res-val">₹ ${gaTillDeath.toLocaleString()}</span></div>
+                <div class="res-row total"><span>FINAL DEATH BENEFIT:</span><span class="res-val">₹ ${finalDeathBenefit.toLocaleString()}</span></div>
+                <div class="formula">Formula: Higher of (1.25x Single Premium OR BSA) + GA accrued till death or GAP end</div>
+            `;
+        }
+
+        document.getElementById('res-data').innerHTML = html;
+        document.getElementById('results').style.display = 'block';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIC Jeevan Azad 768 Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --violet-primary: #6a1b9a;
+            --violet-dark: #4a148c;
+            --violet-light: #9c4dcc;
+            --black: #121212;
+            --white: #ffffff;
+            --grey: #f5f6fa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: radial-gradient(circle at center, #2e004d 0%, #121212 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            perspective: 2000px;
+            overflow-x: hidden;
+        }
+
+        /* 3D Box Container */
+        .calculator-3d-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            transform-style: preserve-3d;
+            transform: rotateX(5deg);
+            /* Mirror Reflection Effect */
+            -webkit-box-reflect: below 2px linear-gradient(transparent, transparent, rgba(255,255,255,0.1));
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: var(--black);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 4px solid var(--violet-primary);
+            padding-bottom: 15px;
+        }
+
+        .header h1 {
+            color: var(--violet-dark);
+            font-size: 26px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--violet-primary);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .input-group i {
+            position: absolute;
+            right: 15px;
+            top: 35px;
+            color: var(--violet-light);
+        }
+
+        input, select {
+            padding: 12px 15px;
+            border: 2px solid #edeff2;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: 0.3s;
+            background: var(--white);
+        }
+
+        input:focus, select:focus {
+            border-color: var(--violet-primary);
+            background: var(--white);
+            box-shadow: 0 0 10px rgba(106, 27, 154, 0.1);
+        }
+
+        /* Toggle Switch Styling */
+        .benefit-toggle {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            background: #f0f0f0;
+            padding: 8px;
+            border-radius: 50px;
+        }
+
+        .toggle-container {
+            display: flex;
+            width: 380px;
+            height: 45px;
+            background: var(--black);
+            border-radius: 25px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+            transition: 0.3s;
+            font-size: 12px;
+        }
+
+        .toggle-btn.active { color: var(--black); }
+
+        .slider {
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 185px;
+            height: 35px;
+            background: var(--white);
+            border-radius: 20px;
+            transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1;
+        }
+
+        .calc-btn {
+            grid-column: 1 / -1;
+            background: linear-gradient(45deg, var(--violet-dark), var(--violet-primary));
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(74, 20, 140, 0.3);
+            margin-top: 10px;
+        }
+
+        .calc-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(74, 20, 140, 0.4);
+        }
+
+        /* Results Area */
+        #results {
+            margin-top: 30px;
+            display: none;
+            padding: 25px;
+            background: var(--grey);
+            border-radius: 20px;
+            border-left: 8px solid var(--violet-primary);
+            animation: slideUp 0.5s ease;
+        }
+
+        .res-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #ddd; }
+        .res-row.final { background: var(--violet-dark); color: white; border-radius: 10px; padding: 15px; margin-top: 15px; }
+        .res-label { font-weight: 600; }
+        .res-val { font-weight: 800; color: var(--violet-primary); }
+        .final .res-val { color: var(--white); font-size: 20px; }
+
+        .formula-box {
+            font-size: 10px;
+            color: #666;
+            background: #e8eaf6;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .error-text { color: #e74c3c; font-size: 11px; font-weight: 700; margin-top: 5px; display: none; }
+
+        .action-btns {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid var(--violet-primary);
+            background: transparent;
+            color: var(--violet-primary);
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-action:hover {
+            background: var(--violet-primary);
+            color: white;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .calculator-3d-wrapper { transform: none; -webkit-box-reflect: none; }
+            .toggle-container { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator-3d-wrapper">
+    <div class="main-container">
+        <div class="header">
+            <h1>LIC PLAN NO 768 - JEEVAN AZAD</h1>
+            <p style="font-size: 12px; color: #666; font-weight: 600;">MATURITY & DEATH BENEFIT CALCULATOR</p>
+        </div>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Name of Policy Holder</label>
+                <input type="text" id="name" placeholder="Enter Name">
+                <i class="fas fa-user-circle"></i>
+            </div>
+
+            <div class="input-group">
+                <label>Age at Entry (90 days - 50 yrs)</label>
+                <input type="number" id="age" value="30">
+                <i class="fas fa-birthday-cake"></i>
+                <span id="age-err" class="error-text">Max entry age is 50 years.</span>
+            </div>
+
+            <div class="input-group">
+                <label>Sum Assured (2L - 5L)</label>
+                <input type="number" id="sa" value="200000" step="25000">
+                <i class="fas fa-shield-alt"></i>
+                <span id="sa-err" class="error-text">SA must be between 2,00,000 and 5,00,000.</span>
+            </div>
+
+            <div class="input-group">
+                <label>Policy Term (15 - 20 Yrs)</label>
+                <select id="term" onchange="syncPPT()">
+                    <option value="15">15 Years</option>
+                    <option value="16">16 Years</option>
+                    <option value="17">17 Years</option>
+                    <option value="18">18 Years</option>
+                    <option value="19">19 Years</option>
+                    <option value="20">20 Years</option>
+                </select>
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+
+            <div class="input-group">
+                <label>Premium Paying Term (PPT)</label>
+                <input type="number" id="ppt" readonly style="background: #f0f0f0;">
+                <i class="fas fa-hourglass-half"></i>
+            </div>
+
+            <div class="input-group">
+                <label>Premium Mode</label>
+                <select id="mode">
+                    <option value="1">Yearly</option>
+                    <option value="0.51">Half-Yearly</option>
+                    <option value="0.26">Quarterly</option>
+                    <option value="0.089">Monthly (NACH)</option>
+                </select>
+                <i class="fas fa-wallet"></i>
+            </div>
+
+            <div class="input-group">
+                <label>Approx Annual Premium</label>
+                <input type="number" id="premium" value="12152">
+                <i class="fas fa-rupee-sign"></i>
+            </div>
+
+            <div class="benefit-toggle">
+                <div class="toggle-container" onclick="toggleBenefit()">
+                    <div id="slider" class="slider"></div>
+                    <div id="btn-survival" class="toggle-btn active">SURVIVAL BENEFIT</div>
+                    <div id="btn-death" class="toggle-btn">DEATH BENEFIT</div>
+                </div>
+            </div>
+
+            <div id="death-date-group" class="input-group" style="display:none; grid-column: 1 / -1;">
+                <label>Estimated Date of Death</label>
+                <input type="date" id="dod">
+                <i class="fas fa-calendar-times"></i>
+            </div>
+
+            <button class="calc-btn" onclick="calculate()">
+                <i class="fas fa-calculator"></i> Calculate Final Benefit
+            </button>
+        </div>
+
+        <div id="results">
+            <div id="res-content"></div>
+            <div class="action-btns">
+                <button class="btn-action" onclick="window.print()"><i class="fas fa-print"></i> Print PDF</button>
+                <button class="btn-action" onclick="alert('Shared Successfully!')"><i class="fas fa-share-alt"></i> Share PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function syncPPT() {
+        const term = parseInt(document.getElementById('term').value);
+        // Rule: PPT = Policy Term minus 8 years
+        document.getElementById('ppt').value = term - 8;
+    }
+
+    let isDeath = false;
+    function toggleBenefit() {
+        isDeath = !isDeath;
+        const slider = document.getElementById('slider');
+        const deathUI = document.getElementById('death-date-group');
+        const btnS = document.getElementById('btn-survival');
+        const btnD = document.getElementById('btn-death');
+
+        if(isDeath) {
+            slider.style.left = '190px';
+            deathUI.style.display = 'block';
+            btnD.classList.add('active');
+            btnS.classList.remove('active');
+        } else {
+            slider.style.left = '5px';
+            deathUI.style.display = 'none';
+            btnS.classList.add('active');
+            btnD.classList.remove('active');
+        }
+    }
+
+    function calculate() {
+        const name = document.getElementById('name').value || "Valued Client";
+        const age = parseInt(document.getElementById('age').value);
+        const sa = parseFloat(document.getElementById('sa').value);
+        const term = parseInt(document.getElementById('term').value);
+        const ppt = term - 8;
+        const premium = parseFloat(document.getElementById('premium').value);
+
+        // Validations
+        let hasError = false;
+        document.getElementById('age-err').style.display = 'none';
+        document.getElementById('sa-err').style.display = 'none';
+
+        if (age > 50) { document.getElementById('age-err').style.display = 'block'; hasError = true; }
+        if (sa < 200000 || sa > 500000) { document.getElementById('sa-err').style.display = 'block'; hasError = true; }
+        if (age + term > 70) { alert("Maximum Maturity Age is 70. Current: " + (age+term)); hasError = true; }
+        
+        if(hasError) return;
+
+        let html = `<h3>Plan Report: ${name}</h3><br>`;
+
+        if(!isDeath) {
+            const finalPayable = sa; // Maturity Benefit is Basic SA
+            const totalPaid = premium * ppt;
+
+            html += `
+                <div class="res-row"><span>Basic Sum Assured:</span><span class="res-val">₹ ${sa.toLocaleString()}</span></div>
+                <div class="res-row"><span>Total Premium Paid:</span><span class="res-val">₹ ${totalPaid.toLocaleString()}</span></div>
+                <div class="res-row final"><span>FINAL BENEFIT PAYABLE:</span><span class="res-val">₹ ${finalPayable.toLocaleString()}</span></div>
+                <div class="formula-box">Formula: Sum Assured on Maturity = Basic Sum Assured (Guaranteed)</div>
+            `;
+        } else {
+            // Death Benefit Logic: Higher of Basic SA or 7x Annualized Premium
+            const saOnDeath = Math.max(sa, 7 * premium);
+            // Minimum 105% of premiums paid (approx check)
+            const minDeath = 1.05 * premium; 
+            const finalDeath = Math.max(saOnDeath, minDeath);
+
+            html += `
+                <div class="res-row"><span>Basic Sum Assured:</span><span class="res-val">₹ ${sa.toLocaleString()}</span></div>
+                <div class="res-row final"><span>FINAL BENEFIT PAYABLE:</span><span class="res-val">₹ ${finalDeath.toLocaleString()}</span></div>
+                <div class="formula-box">Formula: Higher of (Basic Sum Assured) OR (7 × Annualized Premium)</div>
+            `;
+        }
+
+        document.getElementById('res-content').innerHTML = html;
+        document.getElementById('results').style.display = 'block';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    // Init
+    syncPPT();
+</script>
+
+</body>
+</html>
