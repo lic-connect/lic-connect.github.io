@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Health Advice Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --parrot-green: #32CD32;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.95);
+            --shadow: rgba(50, 205, 50, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--white); }
+        ::-webkit-scrollbar-thumb { background: var(--parrot-green); border-radius: 5px; }
+
+        body {
+            background-color: var(--white);
+            /* Subtle texture */
+            background-image: radial-gradient(circle at 50% 50%, rgba(50, 205, 50, 0.05) 0%, transparent 60%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* The 3D Box Container */
+        .mirror-wrapper {
+            perspective: 1000px;
+            margin-bottom: 50px;
+            -webkit-box-reflect: below 10px linear-gradient(transparent 70%, rgba(255,255,255,0.4));
+        }
+
+        .dashboard-box {
+            background: var(--white);
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+            border-radius: 20px;
+            border: 3px solid var(--parrot-green);
+            box-shadow: 
+                0 20px 50px var(--shadow),
+                inset 0 0 30px rgba(50, 205, 50, 0.1);
+            transform-style: preserve-3d;
+            transform: rotateX(5deg);
+            transition: transform 0.5s;
+            position: relative;
+        }
+
+        .dashboard-box:hover {
+            transform: rotateX(0deg) scale(1.02);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            transform: translateZ(30px);
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            color: var(--parrot-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 12px;
+            font-weight: 700;
+            color: #555;
+            letter-spacing: 3px;
+        }
+
+        /* Buttons Stack */
+        .button-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transform: translateZ(20px);
+        }
+
+        .topic-btn {
+            background: var(--white);
+            color: var(--parrot-green);
+            border: 2px solid var(--parrot-green);
+            padding: 18px 25px;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-btn i {
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        .topic-btn:hover {
+            background: var(--parrot-green);
+            color: var(--white);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 25px var(--shadow);
+        }
+
+        .topic-btn:hover i {
+            transform: rotate(360deg);
+        }
+
+        /* Modal / Content Viewer */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--white);
+            width: 100%;
+            max-width: 900px;
+            height: 85vh;
+            border-radius: 15px;
+            border: 4px solid var(--parrot-green);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 50px var(--parrot-green);
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            background: var(--parrot-green);
+            color: var(--white);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+        }
+
+        .close-btn {
+            background: var(--white);
+            color: var(--parrot-green);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+            background: #f0f0f0;
+        }
+
+        .modal-body {
+            padding: 30px;
+            overflow-y: auto;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        /* Content Styling */
+        .modal-body h3 {
+            color: var(--parrot-green);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-bottom: 2px solid rgba(50, 205, 50, 0.2);
+            padding-bottom: 5px;
+        }
+        
+        .modal-body h2 {
+             color: #222;
+             font-family: 'Orbitron', sans-serif;
+             margin-top: 0;
+             margin-bottom: 20px;
+        }
+
+        .modal-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .modal-body th {
+            background: var(--parrot-green);
+            color: var(--white);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .modal-body td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .modal-body tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .modal-body blockquote {
+            border-left: 5px solid var(--parrot-green);
+            background: rgba(50, 205, 50, 0.05);
+            margin: 20px 0;
+            padding: 15px;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .modal-body ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .modal-body li {
+            margin-bottom: 8px;
+        }
+
+        .one-line-summary {
+            background: var(--parrot-green);
+            color: var(--white);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+        
+        .math-box {
+            background: #f4fff4;
+            border: 1px dashed var(--parrot-green);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-box { transform: none; }
+            .modal-content { height: 100%; max-height: 100%; border-radius: 0; border: none;}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mirror-wrapper">
+        <div class="dashboard-box">
+            <div class="header">
+                <h1>Policy Health Advice</h1>
+                <p>Expert Advisory Dashboard</p>
+            </div>
+
+            <div class="button-stack">
+                <button class="topic-btn" onclick="openContent('c1')">
+                    1. Lapsed Policy <i class="fas fa-file-excel"></i>
+                </button>
+                <button class="topic-btn" onclick="openContent('c2')">
+                    2. Paid-Up Policy <i class="fas fa-pause-circle"></i>
+                </button>
+                <button class="topic-btn" onclick="openContent('c3')">
+                    3. Foreclosure <i class="fas fa-ban"></i>
+                </button>
+                <button class="topic-btn" onclick="openContent('c4')">
+                    4. Policy Loan <i class="fas fa-hand-holding-usd"></i>
+                </button>
+                <button class="topic-btn" onclick="openContent('c5')">
+                    5. Surrender Value <i class="fas fa-file-invoice-dollar"></i>
+                </button>
+                <button class="topic-btn" onclick="openContent('c6')">
+                    6. Paid-Up vs Loan vs Surrender <i class="fas fa-balance-scale"></i>
+                </button>
+                <button class="topic-btn" onclick="openContent('c7')">
+                    7. Riders Explained <i class="fas fa-plus-circle"></i>
+                </button>
+                <button class="topic-btn" onclick="openContent('c8')">
+                    8. Settlement Options <i class="fas fa-clock"></i>
+                </button>
+                <button class="topic-btn" onclick="openContent('c9')">
+                    9. Choice of Term/PPT/SA <i class="fas fa-cogs"></i>
+                </button>
+                <button class="topic-btn" onclick="openContent('c10')">
+                    10. Customer Scenarios <i class="fas fa-users"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Container -->
+    <div class="modal-overlay" id="contentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Topic Title</h2>
+                <button class="close-btn" onclick="closeContent()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Content Store -->
+    <div style="display:none;" id="contentStore">
+        
+       <!-- 1. LAPSED POLICY -->
+        <div id="c1">
+            <h2>1. Lapsed Policy: The Danger Zone</h2>
+
+            <h3>What is a Lapsed Policy?</h3>
+            <p>A <strong>lapsed policy</strong> is a life insurance policy in which the <strong>due premium has not been paid within the grace period</strong>, specifically <strong>before completion of the minimum qualifying premiums</strong> (usually 2 full years).</p>
+            <ul>
+                <li>The policy becomes <strong>Inactive</strong>.</li>
+                <li>Life cover <strong>stops immediately</strong>.</li>
+                <li>Benefits are <strong>suspended</strong> and not payable.</li>
+            </ul>
+
+            <h3>When exactly does a policy lapse?</h3>
+            <p>A policy lapses immediately after the grace period expires if the premium remains unpaid. The lapse date is the day after the grace period ends.</p>
+            
+            <table>
+                <tr>
+                    <th>Mode of Premium</th>
+                    <th>Grace Period</th>
+                </tr>
+                <tr>
+                    <td>Yearly / Half-yearly / Quarterly</td>
+                    <td><strong>30 Days</strong></td>
+                </tr>
+                <tr>
+                    <td>Monthly</td>
+                    <td><strong>15 Days</strong></td>
+                </tr>
+            </table>
+
+            <h3>Is a lapsed policy active?</h3>
+            <p>❌ <strong>NO.</strong> A lapsed policy is NOT active. It exists only as a "revivable contract".</p>
+            <ul>
+                <li>❌ <strong>Death Benefit:</strong> Not Payable (Claim = ₹0).</li>
+                <li>❌ <strong>Maturity Benefit:</strong> Not Payable.</li>
+                <li>❌ <strong>Bonus:</strong> Stops accruing.</li>
+                <li>❌ <strong>Loan Facility:</strong> Not available.</li>
+            </ul>
+
+            <!-- DETAILED MATHEMATICAL EXAMPLE -->
+            <h3>Detailed Mathematical Example</h3>
+            <div class="math-box">
+                <strong>Policy Details (Assumed):</strong><br>
+                DOC: 01-01-2022 | Term: 20 Yrs | SA: ₹5,00,000<br>
+                Annual Premium: ₹25,000 | Min premiums required: 2 Years<br>
+                <hr style="border:0; border-top:1px dashed var(--parrot-green); margin:10px 0;">
+                
+                <strong>Payment History:</strong><br>
+                Year 1 (01-01-2022): ✅ Paid<br>
+                Year 2 (Due 01-01-2023): ❌ Not Paid<br>
+                <br>
+                <strong>Timeline of Lapse:</strong><br>
+                Grace Period Ends: 31-01-2023 (30 days from due date)<br>
+                <strong>Policy Status on 01-02-2023: LAPSED</strong><br>
+                <br>
+                <strong>Consequence:</strong><br>
+                If death occurs on 10-03-2023:<br>
+                <span style="color:red; font-weight:bold;">Claim Payable = ₹0</span> (Total Loss of Cover)
+            </div>
+
+            <h3>Revival: The Way Back</h3>
+            <p>A lapsed policy can be revived within <strong>5 years</strong> from the First Unpaid Premium (FUP).</p>
+            <p><strong>Requirements:</strong> Pay all unpaid premiums + Interest on arrears + Satisfy health requirements (if asked).</p>
+            
+            <div class="math-box">
+                <strong>Revival Cost (Illustrative):</strong><br>
+                Unpaid Premiums: ₹50,000<br>
+                Interest (approx 9.5%): ₹4,750<br>
+                <strong>Total to Pay: ₹54,750</strong> -> Policy becomes In-Force.
+            </div>
+
+            <h3>What if NOT revived?</h3>
+            <p>If not revived within 5 years, the policy becomes <strong>Foreclosed / Terminated</strong>. Revival is permanently closed, and only Surrender Value (if any) may be paid.</p>
+
+            <div class="one-line-summary">
+                <strong>LIC-Ready Summary:</strong> A lapsed policy is an inactive policy where premiums are unpaid beyond grace period (before 2 years), resulting in loss of ALL benefits. It can be revived within 5 years.
+            </div>
+        </div>
+
+
+     <!-- 2. PAID UP POLICY -->
+        <div id="c2">
+            <h2>2. Paid-Up Policy: The Safety Exit</h2>
+
+            <h3>What is a Paid-Up Policy?</h3>
+            <p>A <strong>Paid-Up policy</strong> is a status where the policyholder stops paying premiums after paying for a minimum qualifying period. Unlike a lapsed policy, the policy <strong>does NOT lapse</strong>. Instead, it continues as an <strong>active policy with reduced benefits</strong>.</p>
+
+            <h3>The Minimum Premium Rule</h3>
+            <p>For most LIC traditional plans, the Golden Rule is:</p>
+            <div class="math-box" style="text-align:center; font-weight:bold;">
+                Minimum Premiums Paid must be ≥ 2 Full Years
+            </div>
+            <p>If you stop paying <em>before</em> 2 years, the policy Lapses (Total Loss).<br>
+            If you stop paying <em>after</em> 2 years, the policy becomes Paid-Up (Partial Value Saved).</p>
+
+            <h3>Is a Paid-Up Policy Active?</h3>
+            <p>✅ <strong>YES.</strong> It remains active till maturity. However:</p>
+            <ul>
+                <li><strong>Sum Assured:</strong> Reduces proportionately.</li>
+                <li><strong>Bonus:</strong> Stops accruing (future bonuses are lost).</li>
+                <li><strong>Risk Cover:</strong> Continues but at a reduced value.</li>
+            </ul>
+
+            <!-- MATHEMATICAL EXAMPLE -->
+            <h3>Detailed Mathematical Example</h3>
+            <div class="math-box">
+                <strong>Policy Details:</strong><br>
+                Plan: Endowment | Term: 20 Yrs | SA: ₹5,00,000<br>
+                Annual Premium: ₹25,000<br>
+                <strong>Premiums Paid: 2 Years</strong> (2020, 2021)<br>
+                Unpaid Premium: 3rd Year (2022)<br>
+                <hr style="border:0; border-top:1px dashed var(--parrot-green); margin:10px 0;">
+                
+                <strong>1. Formula for Paid-Up Sum Assured (PU-SA):</strong><br>
+                <em>PU-SA = (No. of Premiums Paid ÷ Total Payable) × Original SA</em><br>
+                = (2 ÷ 20) × 5,00,000<br>
+                = 0.10 × 5,00,000<br>
+                = <strong>₹50,000</strong> (New Reduced SA)<br>
+                <br>
+                <strong>2. Benefits Payable:</strong><br>
+                <strong>On Death or Maturity:</strong> ₹50,000 (PU-SA) + Bonus accrued during first 2 years only.<br>
+                <br>
+                <span style="color:red;"><strong>Loss:</strong> Full SA of ₹5L is lost. Future bonuses for 18 years are lost.</span>
+            </div>
+
+            <h3>Can a Paid-Up Policy be Revived?</h3>
+            <p>❌ <strong>NO.</strong> (In the context of typical policy health advice). Once a policy acquires Paid-Up status and the revival period expires, the contract is modified permanently. You cannot simply start paying again to restore the original 5 Lakhs cover later.</p>
+
+            <h3>Paid-Up vs. Lapsed (The Verdict)</h3>
+            <table>
+                <tr>
+                    <th>Factor</th>
+                    <th>Paid-Up</th>
+                    <th>Lapsed</th>
+                </tr>
+                <tr>
+                    <td><strong>Status</strong></td>
+                    <td>✅ Active</td>
+                    <td>❌ Inactive</td>
+                </tr>
+                <tr>
+                    <td><strong>Death Benefit</strong></td>
+                    <td>Reduced</td>
+                    <td>Nil (Zero)</td>
+                </tr>
+                <tr>
+                    <td><strong>Maturity</strong></td>
+                    <td>Reduced</td>
+                    <td>Nil (Zero)</td>
+                </tr>
+                <tr>
+                    <td><strong>Verdict</strong></td>
+                    <td><strong>Safe Harbor</strong></td>
+                    <td><strong>Danger Zone</strong></td>
+                </tr>
+            </table>
+
+            <h3>Is Paid-Up a good strategy?</h3>
+            <p><strong>Sometimes Yes.</strong> It is a legitimate option if you are in financial stress, or if you feel the premium is too high but don't want to lose the money already paid. It is a "Safety Exit".</p>
+
+            <div class="one-line-summary">
+                <strong>LIC Advisory:</strong> Paid-Up is a safety exit, not a growth strategy. It preserves your money but freezes your growth. Always better than a Lapse, but worse than Continuing.
+            </div>
+        </div>
+
+
+      <!-- 3. FORECLOSURE -->
+        <div id="c3">
+            <h2>3. Foreclosure: The Point of No Return</h2>
+
+            <h3>What is Foreclosure?</h3>
+            <p>Foreclosure is the <strong>permanent termination</strong> of a life insurance policy by LIC. Unlike a lapse (which can be fixed), foreclosure is final. It happens when the contract ends permanently, no revival is allowed, and no insurance benefit remains.</p>
+
+            <h3>When does Foreclosure happen?</h3>
+            <p>It occurs in two specific situations:</p>
+            <ol>
+                <li><strong>Non-Revival:</strong> A lapsed policy is not revived within the allowed revival period (5 years).</li>
+                <li><strong>Loan Exhaustion:</strong> When the outstanding Loan + Interest exceeds the Surrender Value.</li>
+            </ol>
+
+            <h3>Mathematical Example 1: Non-Revival (Time Expiry)</h3>
+            <div class="math-box">
+                <strong>Policy Details:</strong><br>
+                DOC: 01-01-2015 | Term: 20 Yrs<br>
+                Paid Premium: Only 1 Year (2015)<br>
+                <strong>Lapsed Date:</strong> 01-02-2016 (After grace period)<br>
+                <br>
+                <strong>The Clock Ticks:</strong><br>
+                Revival Window (5 Yrs): Ends on 31-12-2020.<br>
+                Policyholder Action: None.<br>
+                <br>
+                <strong>Result on 01-01-2021:</strong><br>
+                Status: <span style="color:red; font-weight:bold;">FORECLOSED</span><br>
+                Death Claim: ₹0<br>
+                Maturity: ₹0<br>
+                Revival: ❌ Permanently Closed.
+            </div>
+
+            <h3>Mathematical Example 2: Loan Default (The Debt Trap)</h3>
+            <p>This is dangerous because it happens silently. If you take a loan and don't pay interest, the debt grows while your policy value (Surrender Value) grows slowly.</p>
+            
+            <div class="math-box">
+                <strong>Scenario:</strong><br>
+                Policy Status: Paid-Up<br>
+                Surrender Value (SV): <strong>₹1,20,000</strong><br>
+                <br>
+                <strong>Loan Details:</strong><br>
+                Loan Taken: ₹90,000<br>
+                Interest Rate: 9% p.a.<br>
+                Time Passed: 5 Years (No interest paid)<br>
+                <br>
+                <strong>Calculation:</strong><br>
+                Outstanding Loan with Interest ≈ <strong>₹1,32,000</strong><br>
+                <br>
+                <strong>The Trigger Point:</strong><br>
+                Debt (₹1.32L) > Asset Value (₹1.20L)<br>
+                <br>
+                <strong>Result:</strong><br>
+                LIC adjusts the SV against the loan.<br>
+                Balance Payable to You: <strong>₹0</strong><br>
+                Policy Status: <span style="color:red; font-weight:bold;">FORECLOSED immediately.</span>
+            </div>
+
+            <h3>Comparison: Lapsed vs. Foreclosed</h3>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Lapsed</th>
+                    <th>Foreclosed</th>
+                </tr>
+                <tr>
+                    <td><strong>Status</strong></td>
+                    <td>Inactive</td>
+                    <td>Terminated</td>
+                </tr>
+                <tr>
+                    <td><strong>Revival</strong></td>
+                    <td>✅ Allowed (within 5 yrs)</td>
+                    <td>❌ Not Allowed</td>
+                </tr>
+                <tr>
+                    <td><strong>Hope</strong></td>
+                    <td>Can be restored</td>
+                    <td>End of the road</td>
+                </tr>
+            </table>
+
+            <h3>Important LIC Insight</h3>
+            <blockquote style="border-left: 5px solid red; background: #fff0f0; padding: 10px;">
+                "Foreclosure is not a choice — it is a penalty."
+            </blockquote>
+
+            <div class="one-line-summary">
+                <strong>Summary:</strong> Foreclosure is the permanent termination of a policy due to non-revival or loan exhaustion, resulting in total loss of benefits and no scope for revival.
+            </div>
+        </div>
+
+  <!-- 4. POLICY LOAN -->
+        <div id="c4">
+            <h2>4. Policy Loan: Liquidity with Responsibility</h2>
+
+            <h3>What is a Policy Loan?</h3>
+            <p>A policy loan is an advance given by LIC <strong>against the Surrender Value (SV)</strong> of your own policy. It is not an external loan; it is your own money unlocked early without closing the policy.</p>
+
+            <h3>Eligibility & Limits</h3>
+            <ul>
+                <li><strong>Condition:</strong> Policy must have acquired Surrender Value (usually after 2 full years).</li>
+                <li><strong>Status:</strong> Available for <strong>In-Force</strong> and <strong>Paid-Up</strong> policies. (NOT for Lapsed policies).</li>
+            </ul>
+
+            <div class="math-box">
+                <strong>Maximum Loan Amount:</strong><br>
+                <ul>
+                    <li><strong>In-Force Policy:</strong> Up to <strong>90%</strong> of Surrender Value.</li>
+                    <li><strong>Paid-Up Policy:</strong> Up to <strong>85-90%</strong> of Surrender Value.</li>
+                </ul>
+                <hr style="border:0; border-top:1px dashed var(--parrot-green); margin:10px 0;">
+                <strong>Example:</strong><br>
+                Surrender Value (SV): ₹1,50,000<br>
+                Max Loan = 90% of 1,50,000 = <strong>₹1,35,000</strong>
+            </div>
+
+            <h3>Loan Interest Mechanics</h3>
+            <p>Interest is charged <strong>Half-Yearly</strong> based on a rate declared by LIC (approx 9% - 10% p.a.). It is <strong>Simple Interest</strong>, not compound, provided you pay it regularly.</p>
+
+            <div class="math-box">
+                <strong>Interest Calculation Example:</strong><br>
+                Loan Amount: ₹1,00,000<br>
+                Interest Rate: 9% p.a.<br>
+                Duration: 3 Years (No repayment made)<br>
+                <br>
+                Interest = 1,00,000 × 9% × 3 = <strong>₹27,000</strong><br>
+                Total Outstanding = <strong>₹1,27,000</strong>
+            </div>
+
+            <h3>Policy Loan vs. Bank Loan</h3>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Policy Loan</th>
+                    <th>Bank Loan</th>
+                </tr>
+                <tr>
+                    <td><strong>Credit Score</strong></td>
+                    <td>❌ Not Required</td>
+                    <td>✅ CIBIL Mandatory</td>
+                </tr>
+                <tr>
+                    <td><strong>Processing</strong></td>
+                    <td>Fast (Same day/24 hrs)</td>
+                    <td>Slow (Documentation)</td>
+                </tr>
+                <tr>
+                    <td><strong>EMI</strong></td>
+                    <td>❌ Not Mandatory</td>
+                    <td>✅ Mandatory</td>
+                </tr>
+                <tr>
+                    <td><strong>Default Risk</strong></td>
+                    <td>Policy Foreclosure</td>
+                    <td>Legal Action / Agents</td>
+                </tr>
+            </table>
+
+            <h3>The Hidden Trap: Effect on Maturity</h3>
+            <p>While a loan does not stop your Bonus from accruing, it reduces your final payout <strong>rupee-for-rupee</strong>.</p>
+            <div class="math-box">
+                <strong>Maturity Calculation with Loan:</strong><br>
+                Gross Maturity (SA + Bonus): ₹8,00,000<br>
+                Less: Outstanding Loan Principal: (-) ₹1,00,000<br>
+                Less: Unpaid Interest: (-) ₹50,000<br>
+                <hr style="border:0; border-top:1px dashed #ccc; margin:5px 0;">
+                <strong>Net Maturity Paid: ₹6,50,000</strong>
+            </div>
+
+            <h3>Crucial Warning: The Foreclosure Trigger</h3>
+            <p>If you do not pay interest, it is added to the principal. If <strong>(Loan + Interest) > Surrender Value</strong>, the policy is immediately <strong>FORECLOSED</strong> (Terminated) and you get nothing.</p>
+
+            <div class="one-line-summary">
+                <strong>Verdict:</strong> A policy loan is a secured advance carrying moderate interest. While safer than bank loans, failure to manage interest can lead to foreclosure and loss of benefits.
+            </div>
+        </div>
+
+
+       <!-- 5. SURRENDER VALUE -->
+        <div id="c5">
+            <h2>5. Surrender Value: The Scrap Value</h2>
+
+            <h3>What is Surrender Value?</h3>
+            <p><strong>Surrender Value (SV)</strong> is the amount payable by LIC when a policyholder <strong>voluntarily terminates</strong> the policy before maturity. It is the cash value of your exit.</p>
+            <ul>
+                <li>❌ Policy ends permanently.</li>
+                <li>❌ No revival possible.</li>
+                <li>❌ No future insurance cover.</li>
+            </ul>
+
+            <h3>When can you Surrender?</h3>
+            <p>For most traditional plans, the policy acquires a surrender value only after payment of at least <strong>2 Full Years' Premiums</strong>. Before this, the value is usually <strong>₹0</strong>.</p>
+
+            <h3>The Two Types of SV (GSV vs SSV)</h3>
+            <p>LIC calculates two values and pays you the <strong>HIGHER</strong> of the two:</p>
+            <ol>
+                <li><strong>GSV (Guaranteed Surrender Value):</strong> A fixed percentage defined in the policy bond (e.g., 30% of premiums paid excluding 1st year).</li>
+                <li><strong>SSV (Special Surrender Value):</strong> A non-guaranteed value based on the LIC's current financial performance and market factors. <em>(Usually, SSV is higher).</em></li>
+            </ol>
+
+            <!-- DETAILED MATH -->
+            <h3>Detailed Mathematical Example</h3>
+            <div class="math-box">
+                <strong>Policy Scenario:</strong><br>
+                Sum Assured: ₹5,00,000 | Annual Premium: ₹25,000<br>
+                Paid: 6 Years (Total ₹1,50,000)<br>
+                Bonus Accrued: ₹1,12,500<br>
+                <hr style="border:0; border-top:1px dashed var(--parrot-green); margin:10px 0;">
+                
+                <strong>Step 1: Calculate Paid-Up SA</strong><br>
+                (6 / 20) × 5,00,000 = <strong>₹1,50,000</strong><br><br>
+
+                <strong>Step 2: Calculate SSV Base</strong><br>
+                Base = Paid-Up SA + Accrued Bonus<br>
+                Base = 1,50,000 + 1,12,500 = <strong>₹2,62,500</strong><br><br>
+
+                <strong>Step 3: Apply SSV Factor</strong><br>
+                Assume Factor based on duration is 0.55 (55%)<br>
+                SV = 2,62,500 × 0.55 = <strong>₹1,44,375</strong>
+                <br><br>
+                <span style="color:red; font-weight:bold;">Result: You paid ₹1.50 Lakhs, you get back ₹1.44 Lakhs. (Loss of Principal + Interest + Cover).</span>
+            </div>
+
+            <h3>Rule of Thumb: What % do you get back?</h3>
+            <table>
+                <tr>
+                    <th>Policy Duration</th>
+                    <th>Approx SV (% of Premiums Paid)</th>
+                    <th>Verdict</th>
+                </tr>
+                <tr>
+                    <td>1 - 3 Years</td>
+                    <td>0% - 30%</td>
+                    <td>❌ Huge Loss</td>
+                </tr>
+                <tr>
+                    <td>4 - 7 Years</td>
+                    <td>35% - 50%</td>
+                    <td>⚠ Significant Loss</td>
+                </tr>
+                <tr>
+                    <td>8 - 12 Years</td>
+                    <td>55% - 70%</td>
+                    <td>⚠ Moderate Loss</td>
+                </tr>
+                <tr>
+                    <td>Near Maturity</td>
+                    <td>80% - 95%</td>
+                    <td>✔ Acceptable (Rarely)</td>
+                </tr>
+            </table>
+
+            <h3>Surrender vs. Paid-Up Decision</h3>
+            <table>
+                <tr>
+                    <th>Situation</th>
+                    <th>Better Option</th>
+                </tr>
+                <tr>
+                    <td>Financial Emergency</td>
+                    <td><strong>Loan</strong> (Keep policy active)</td>
+                </tr>
+                <tr>
+                    <td>Cannot Pay Premium</td>
+                    <td><strong>Paid-Up</strong> (Keep reduced cover)</td>
+                </tr>
+                <tr>
+                    <td>Policy totally useless</td>
+                    <td><strong>Surrender</strong> (Exit & reinvest)</td>
+                </tr>
+            </table>
+
+            <h3>Advisory</h3>
+            <blockquote style="border-left: 5px solid red; background: #fff0f0;">
+                "Surrender Value is the 'Scrap Value' of your policy. Early surrender destroys your capital."
+            </blockquote>
+
+            <div class="one-line-summary">
+                <strong>Summary:</strong> Surrender Value is the amount payable on voluntary termination. It is calculated based on premiums paid and bonuses, but usually results in a financial loss if done in early years.
+            </div>
+        </div>
+
+
+  <!-- 6. DECISION MATRIX: PAID-UP vs LOAN vs SURRENDER -->
+        <div id="c6">
+            <h2>6. Paid-Up vs Loan vs Surrender: The Decision Matrix</h2>
+            <p>This is the most critical decision a policyholder faces when they cannot pay premiums. Which option minimizes loss and maximizes value?</p>
+
+            <!-- The Golden Rule -->
+            <h3>1. The Golden Rule (Memorize This)</h3>
+            <div class="one-line-summary" style="background:var(--white); color:var(--parrot-green); border:2px solid var(--parrot-green); font-size: 18px; text-transform: uppercase;">
+                🥇 LOAN is Best &nbsp;&nbsp;>&nbsp;&nbsp; 🥈 PAID-UP is Next &nbsp;&nbsp;>&nbsp;&nbsp; 🥉 SURRENDER is Last
+            </div>
+
+            <!-- Baseline Scenario -->
+            <h3>2. The Scenario (For Fair Comparison)</h3>
+            <p>Let's compare all 3 options on the <strong>same policy</strong> at the <strong>same time</strong>.</p>
+            <div class="math-box">
+                <strong>Policy Details:</strong><br>
+                Plan: Endowment (20 Years)<br>
+                Sum Assured (SA): ₹5,00,000<br>
+                Annual Premium: ₹25,000<br>
+                <strong>Premiums Paid: 6 Years</strong> (Total Paid: ₹1,50,000)<br>
+                Bonus Accrued (6 yrs): ₹1,12,500<br>
+                Surrender Value (Approx): ₹1,44,375
+            </div>
+
+            <hr style="border:1px solid #eee; margin: 25px 0;">
+
+            <!-- Option 1: Loan -->
+            <h3>Option 1: Take a LOAN (The Winner)</h3>
+            <p>You take a loan against the policy to solve your immediate cash crunch. You continue the policy.</p>
+            <div class="math-box">
+                <strong>Math:</strong><br>
+                Loan Taken: ₹1,00,000 (Available limit)<br>
+                Interest (Calculated for 10 remaining yrs @ 9%): ₹90,000<br>
+                Total Debt at Maturity: ₹1,90,000<br>
+                <br>
+                Original Maturity Value (SA+Bonus): ₹8,00,000<br>
+                <strong>Net Payout to You:</strong> ₹8,00,000 - ₹1,90,000 = <strong>₹6,10,000</strong>
+            </div>
+            <ul>
+                <li>✅ <strong>Pros:</strong> Immediate cash (₹1L), Policy stays FULLY active, Death cover remains Full (₹5L+).</li>
+                <li>✅ <strong>Verdict:</strong> Highest total value delivered.</li>
+            </ul>
+
+            <!-- Option 2: Paid-Up -->
+            <h3>Option 2: Make it PAID-UP (The Safe Harbor)</h3>
+            <p>You stop paying premiums. You take NO money out now. The policy shrinks but stays alive.</p>
+            <div class="math-box">
+                <strong>Math:</strong><br>
+                <strong>Paid-Up SA Formula:</strong> (No. of Premiums Paid ÷ Total Term) × SA<br>
+                = (6 ÷ 20) × 5,00,000 = <strong>₹1,50,000</strong><br>
+                <br>
+                <strong>Maturity Value:</strong> Paid-Up SA + Accrued Bonus<br>
+                = 1,50,000 + 1,12,500 = <strong>₹2,62,500</strong>
+            </div>
+            <ul>
+                <li>✅ <strong>Pros:</strong> Zero risk of foreclosure, Policy continues till end.</li>
+                <li>❌ <strong>Cons:</strong> No immediate cash, future bonuses stop accumulating.</li>
+            </ul>
+
+            <!-- Option 3: Surrender -->
+            <h3>Option 3: SURRENDER (The Last Resort)</h3>
+            <p>You close the policy immediately and take whatever LIC gives you.</p>
+            <div class="math-box">
+                <strong>Math:</strong><br>
+                Surrender Value (SV) ≈ <strong>₹1,44,375</strong><br>
+                Future Value: <strong>₹0</strong>
+            </div>
+            <ul>
+                <li>❌ <strong>Cons:</strong> Immediate termination. No death benefit. Massive financial loss compared to premiums paid (₹1.5L) and future potential.</li>
+            </ul>
+
+            <!-- Side by Side Table -->
+            <h3>3. Side-by-Side Comparison</h3>
+            <table>
+                <tr>
+                    <th>Option</th>
+                    <th>Immediate Cash</th>
+                    <th>Future Value</th>
+                    <th>Policy Status</th>
+                </tr>
+                <tr>
+                    <td><strong>LOAN</strong></td>
+                    <td>₹1,00,000</td>
+                    <td><strong>₹6,10,000</strong></td>
+                    <td>✅ ALIVE (Full)</td>
+                </tr>
+                <tr>
+                    <td><strong>PAID-UP</strong></td>
+                    <td>₹0</td>
+                    <td>₹2,62,500</td>
+                    <td>✅ ALIVE (Reduced)</td>
+                </tr>
+                <tr>
+                    <td><strong>SURRENDER</strong></td>
+                    <td>₹1,44,375</td>
+                    <td>₹0</td>
+                    <td>❌ DEAD</td>
+                </tr>
+            </table>
+
+            <!-- Decision Matrix -->
+            <h3>4. When to choose what? (Time-Frame Logic)</h3>
+            <ul>
+                <li><strong>Early Years (1-3 yrs):</strong> ❌ Never Surrender (You get nearly nothing). ✔ Take Loan if available.</li>
+                <li><strong>Mid Years (4-10 yrs):</strong> ✔ Loan is Best. ✔ Paid-Up is safe if income has stopped permanently. ❌ Surrender only for dire emergencies.</li>
+                <li><strong>Near Maturity (Last 3-4 yrs):</strong> ✔ Loan preferred. ⚠ Surrender is acceptable only if the SV is very close to Maturity value (rare).</li>
+            </ul>
+
+            <div class="one-line-summary">
+                <strong>Final Verdict:</strong> Loan is temporary pain; Surrender is permanent damage. Always calculate the "Paid-Up Maturity" before deciding to surrender.
+            </div>
+        </div>
+
+
+   <!-- 7. RIDERS -->
+        <div id="c7">
+            <h2>Riders Explained: Enhance Your Policy</h2>
+            <p>Riders are optional add-ons to enhance a basic life insurance policy. Below is a detailed breakdown of the 5 key riders, their importance, and mathematical impact.</p>
+
+            <!-- 1. ADDb -->
+            <h3>1. ADDb – Accidental Death and Disability Benefit</h3>
+            <p><strong>What is it?</strong> Provides an extra sum assured if death occurs due to an accident. It also pays benefits in case of permanent disability due to an accident.</p>
+            <p><strong>Importance:</strong> <span style="color:var(--parrot-green); font-weight:bold;">High</span> for people with risky jobs (drivers, construction) or high commute.</p>
+            <div class="math-box">
+                <strong>Mathematical Example:</strong><br>
+                Basic Sum Assured (SA): ₹10,00,000<br>
+                ADDb Rider SA: ₹5,00,000<br>
+                <strong>If Death in Accident:</strong><br>
+                Total Payout = ₹10L (Base) + ₹5L (Rider) = <strong>₹15,00,000</strong>
+            </div>
+
+            <!-- 2. Accident Benefit Rider -->
+            <h3>2. Accident Benefit Rider</h3>
+            <p><strong>What is it?</strong> Covers death or permanent total disability due to accident. Unlike ADDb which focuses heavily on the lump sum death part, this often focuses on disability income protection.</p>
+            <div class="math-box">
+                <strong>Example:</strong><br>
+                If permanent disability occurs:<br>
+                A monthly income (e.g., ₹25,000) may be paid for a set term (e.g., 10 years) to replace lost income.
+            </div>
+
+            <!-- 3. Term Assurance Rider -->
+            <h3>3. Term Assurance Rider</h3>
+            <p><strong>What is it?</strong> Provides <strong>extra life cover</strong> on top of your basic plan for a limited term.</p>
+            <p><strong>Importance:</strong> High for breadwinners who need higher protection but can't afford a huge basic Endowment SA.</p>
+            <div class="math-box">
+                <strong>Mathematical Example:</strong><br>
+                Basic SA: ₹10,00,000<br>
+                Term Rider SA: ₹15,00,000<br>
+                <strong>If Death occurs:</strong><br>
+                Total Payout = ₹10L + ₹15L = <strong>₹25,00,000</strong>
+            </div>
+
+            <!-- 4. PWB -->
+            <h3>4. Premium Waiver Benefit (PWB)</h3>
+            <p><strong>What is it?</strong> Waives future premiums if the proposer suffers disability or death (crucial for minor lives).</p>
+            <p><strong>Example:</strong> Annual Premium is ₹50,000. After 5 years, proposer dies. LIC <strong>waives</strong> the remaining 15 years of premium. The policy continues, and the child gets the full Maturity Benefit later.</p>
+
+            <!-- 5. Critical Illness -->
+            <h3>5. Critical Illness (CI) Rider – Deep Dive</h3>
+            <p><strong>What is it?</strong> Pays a <strong>lump sum</strong> if diagnosed with a critical illness (Cancer, Heart Attack, Kidney Failure, etc.). The payout is <strong>additional</strong> to life cover.</p>
+
+            <h4>Comparison: LIC CI Rider vs. Standalone Private Policy</h4>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>LIC CI Rider</th>
+                    <th>Standalone Health/CI Policy</th>
+                </tr>
+                <tr>
+                    <td><strong>Premium</strong></td>
+                    <td>Low (Budget Friendly)</td>
+                    <td>Higher</td>
+                </tr>
+                <tr>
+                    <td><strong>Coverage</strong></td>
+                    <td>Moderate (₹10L–₹50L)</td>
+                    <td>Very High (₹50L–₹5Cr)</td>
+                </tr>
+                <tr>
+                    <td><strong>Illnesses</strong></td>
+                    <td>Limited (10–15)</td>
+                    <td>Broader (20–50+)</td>
+                </tr>
+                <tr>
+                    <td><strong>Payout</strong></td>
+                    <td>Lump Sum Only</td>
+                    <td>Lump Sum OR Hospital Bill Reimbursement</td>
+                </tr>
+                <tr>
+                    <td><strong>Verdict</strong></td>
+                    <td><strong>Good for budget/basic cover</strong></td>
+                    <td><strong>Best for high medical protection</strong></td>
+                </tr>
+            </table>
+
+            <div class="math-box">
+                <strong>Mathematical Scenario (35 Years Old):</strong><br>
+                <strong>Case A: LIC CI Rider</strong><br>
+                - Diagnosed with Stage 1 Cancer.<br>
+                - <strong>Payout:</strong> ₹5,00,000 Lump Sum.<br>
+                - Base policy continues for death/maturity.<br><br>
+                <strong>Case B: Standalone Policy</strong><br>
+                - <strong>Payout:</strong> ₹20,00,000 (or actual hospital bill).<br>
+                - Covers actual high-cost treatment.
+            </div>
+
+            <!-- Strategy Section -->
+            <h3>How to Choose? (Priority Order)</h3>
+            <ol>
+                <li><strong>Critical Illness Rider:</strong> (Most Important) Medical costs are the biggest threat to savings.</li>
+                <li><strong>Term Assurance Rider:</strong> If your family is financially dependent on you.</li>
+                <li><strong>ADDb Rider:</strong> If you commute daily or have a risky job.</li>
+                <li><strong>Premium Waiver:</strong> Mandatory for Child Plans.</li>
+            </ol>
+
+            <h3>Final Impact Analysis</h3>
+            <table>
+                <tr>
+                    <th>Scenario</th>
+                    <th>Total Death Benefit</th>
+                    <th>Extra Benefit</th>
+                </tr>
+                <tr>
+                    <td>Base Policy Only</td>
+                    <td>₹10,00,000</td>
+                    <td>None</td>
+                </tr>
+                <tr>
+                    <td>+ Term Rider (₹15L)</td>
+                    <td>₹25,00,000</td>
+                    <td>High Cover</td>
+                </tr>
+                <tr>
+                    <td>+ ADDb (₹5L)</td>
+                    <td>₹15,00,000 (if Accidental)</td>
+                    <td>Disability Cover</td>
+                </tr>
+                <tr>
+                    <td>+ CI Rider (₹5L)</td>
+                    <td>₹10,00,000</td>
+                    <td><strong>₹5L Immediate Payout on Illness</strong></td>
+                </tr>
+            </table>
+
+            <div class="one-line-summary">
+                <strong>Conclusion:</strong> If budget is tight, at least take the <strong>Critical Illness Rider</strong>. If you want full family protection, take <strong>Term Rider + CI + ADDb</strong>.
+            </div>
+        </div>
+
+     <!-- 8. SETTLEMENT OPTIONS -->
+        <div id="c8">
+            <h2>Settlement Option for Maturity</h2>
+
+            <h3>1. What is Settlement Option?</h3>
+            <p>The <strong>Settlement Option</strong> (also called Surrender Value Option or Maturity Payout Option) is a facility where, instead of receiving the maturity proceeds in a single lump sum, the policyholder chooses to receive it in <strong>installments</strong> over a period of time.</p>
+            <ul>
+                <li><strong>Options:</strong> 5, 10, or 15 years.</li>
+                <li><strong>Frequency:</strong> Monthly, Quarterly, Half-yearly, or Yearly.</li>
+                <li><strong>Benefit:</strong> Interest is paid on the remaining amount held by LIC, making the total payout higher than the lump sum.</li>
+            </ul>
+
+            <h3>2. Why is it Needed?</h3>
+            <ul>
+                <li><strong>Avoid Misuse:</strong> Prevents the risk of spending the entire lump sum immediately on impulsive purchases.</li>
+                <li><strong>Regular Income Stream:</strong> Acts as a pension for retired people or those with fixed income needs.</li>
+                <li><strong>Financial Discipline:</strong> Spreads the payout over time while keeping the principal safe with the insurer.</li>
+            </ul>
+
+            <h3>3. How it Works – Mathematical Example</h3>
+            <div class="math-box">
+                <strong>Assumptions:</strong><br>
+                Maturity Value: ₹10,00,000<br>
+                Settlement Period: 5 Years<br>
+                Interest Rate: 6% p.a. (Illustrative)<br>
+                Mode: Annual Installment<br>
+                <hr style="border:0; border-top:1px dashed var(--parrot-green); margin:10px 0;">
+                
+                <strong>Step 1: Calculate Installment</strong><br>
+                Formula: <em>Installment = [Maturity × (1 + rate × time)] / time</em><br><br>
+                = [10,00,000 × (1 + 0.06 × 5)] / 5<br>
+                = [10,00,000 × 1.30] / 5<br>
+                = 13,00,000 / 5<br>
+                = <strong>₹2,60,000 per year</strong><br>
+                <br>
+                <strong>Step 2: Total Payout Comparison</strong><br>
+                Total Received via Settlement: <strong>₹13,00,000</strong><br>
+                Original Lump Sum: <strong>₹10,00,000</strong><br>
+                <span style="color:#228B22; font-weight:bold;">Gain: ₹3,00,000 extra via interest.</span>
+            </div>
+
+            <h3>4. Comparison: Lump Sum vs Settlement</h3>
+            <table>
+                <tr>
+                    <th>Option</th>
+                    <th>Payout Structure</th>
+                    <th>Pros</th>
+                    <th>Cons</th>
+                </tr>
+                <tr>
+                    <td><strong>Lump Sum</strong></td>
+                    <td>₹10,00,000 (Immediate)</td>
+                    <td>Full access immediately; freedom to invest elsewhere.</td>
+                    <td>Risk of spending it all; no interest earned from LIC.</td>
+                </tr>
+                <tr>
+                    <td><strong>Settlement</strong></td>
+                    <td>₹2.6L/year for 5 years (Total ₹13L)</td>
+                    <td>Regular income; reduced misuse risk; guaranteed interest.</td>
+                    <td>Less liquidity; cannot withdraw full amount in emergency.</td>
+                </tr>
+            </table>
+
+            <h3>5. Is it Better than Lump Sum?</h3>
+            <p><strong>✅ Better If:</strong> You need regular income (post-retirement), want financial discipline, or fear wasting the money.</p>
+            <p><strong>❌ Not Better If:</strong> You need large immediate funds (e.g., buying a house, business capital) or can invest better than LIC's rate yourself.</p>
+
+            <div class="one-line-summary">
+                <strong>Summary:</strong> Settlement Option provides an income stream, prevents misuse, and adds interest to your payout. It is ideal for retirees but limits immediate liquidity.
+            </div>
+        </div>
+
+  <!-- 9. CHOICE OF TERM / PPT / SA -->
+        <div id="c9">
+            <h2>Choice of Term / PPT / SA</h2>
+            <p>To maximize <strong>Savings on Premium</strong> and ensure <strong>High Maturity Returns</strong>, we must analyze the interaction between Payment Mode, Premium Paying Term (PPT), Policy Term (PT), and Sum Assured (SA).</p>
+
+            <h3>1. Theoretical Analysis: The 4 Variables</h3>
+
+            <h4>A. Payment Mode</h4>
+            <p><strong>Single Premium:</strong> You pay once. Full money is invested immediately. No administrative cost for collection. <br><em>Result: Highest Maturity Returns.</em></p>
+            <p><strong>Yearly (Yly):</strong> Lowest premium loading among regular modes.<br><em>Result: Better returns than Monthly/Quarterly.</em></p>
+            <p><strong>Monthly (Mly) / Quarterly (Qly):</strong> Higher frequency = Mode Loading charges apply. Slightly reduces effective maturity.</p>
+            <div class="math-box" style="padding: 10px; border-left: 4px solid var(--parrot-green);">
+                ✅ <strong>Rule:</strong> Single > Annual > Half-Yearly > Quarterly > Monthly
+            </div>
+
+            <h4>B. Premium Paying Term (PPT)</h4>
+            <p><strong>Limited PPT (e.g., 5-10 yrs):</strong> Higher annual premium, but paid for fewer years. Total premium paid is usually <em>lower</em> than full term.<br><em>Result: Higher effective return.</em></p>
+            <p><strong>Full PPT (Equal to Term):</strong> Lower annual premium, but paid for many years.<br><em>Result: Slightly lower effective return.</em></p>
+            <div class="math-box" style="padding: 10px; border-left: 4px solid var(--parrot-green);">
+                ✅ <strong>Rule:</strong> Low/Limited PPT > Full PPT for returns.
+            </div>
+
+            <h4>C. Policy Term (PT)</h4>
+            <p><strong>High PT (e.g., 20+ yrs):</strong> Longer time for bonus to accumulate and compound.<br><em>Result: Higher Maturity Value.</em></p>
+            <p><strong>Low PT (e.g., 10 yrs):</strong> Quick maturity, but less time for growth.</p>
+            <div class="math-box" style="padding: 10px; border-left: 4px solid var(--parrot-green);">
+                ✅ <strong>Rule:</strong> High PT > Low PT.
+            </div>
+
+            <h4>D. Sum Assured (SA)</h4>
+            <p>Higher SA leads to higher absolute maturity. Choose the highest SA that is affordable to maximize wealth creation.</p>
+
+            <hr style="border:1px solid #eee; margin: 20px 0;">
+
+            <h3>2. Mathematical Examples (Proof of Concept)</h3>
+            <p><strong>Assumptions:</strong> SA ₹10 Lakhs (or ₹15L), Bonus 6% Simple Interest (Illustrative).</p>
+
+            <div class="math-box">
+                <strong>Scenario 1: Full Term (Standard)</strong><br>
+                SA: ₹10L | PT: 15 Yrs | PPT: 15 Yrs | Mode: Annual<br>
+                Annual Premium: ₹50,000<br>
+                <strong>Total Paid:</strong> ₹50,000 × 15 = <strong>₹7,50,000</strong><br>
+                Bonus: ₹9,00,000<br>
+                Maturity: ₹19,00,000<br>
+                Gain: ₹11.5 Lakhs<br>
+                <em>IRR: ~7.2%</em>
+            </div>
+
+            <div class="math-box">
+                <strong>Scenario 2: Limited PPT (Better)</strong><br>
+                SA: ₹10L | PT: 15 Yrs | <strong>PPT: 10 Yrs</strong> | Mode: Annual<br>
+                Annual Premium: ₹65,000<br>
+                <strong>Total Paid:</strong> ₹65,000 × 10 = <strong>₹6,50,000</strong><br>
+                Bonus: ₹9,00,000 (Same as Scen 1)<br>
+                Maturity: ₹19,00,000<br>
+                Gain: ₹12.5 Lakhs<br>
+                <em>IRR: ~9.1% ✅ (Better Return, Less Payment)</em>
+            </div>
+
+            <div class="math-box">
+                <strong>Scenario 3: The Jackpot Strategy (High PT + Limited PPT)</strong><br>
+                SA: ₹15L | <strong>PT: 20 Yrs</strong> | <strong>PPT: 10 Yrs</strong> | Mode: Annual<br>
+                Annual Premium: ₹97,500<br>
+                <strong>Total Paid:</strong> ₹97,500 × 10 = <strong>₹9,75,000</strong><br>
+                Bonus: ₹18,00,000 (Accrued over 20 years)<br>
+                <strong>Maturity:</strong> 15L + 18L = <strong>₹33,00,000</strong><br>
+                Gain: ₹23.25 Lakhs<br>
+                <em>IRR: ~11.4% 🏆 (Best Choice)</em>
+            </div>
+
+            <div class="math-box" style="background:#ffecec; border-color:#ff6b6b;">
+                <strong>Scenario 4: The Monthly Trap</strong><br>
+                Same as Scenario 2, but <strong>Monthly Mode</strong>.<br>
+                Due to mode loading, you pay extra annually (~₹51,600 total).<br>
+                Total Paid increases → IRR drops to ~8.9%.
+            </div>
+
+            <h3>3. Practical Recommendation</h3>
+            <table>
+                <tr>
+                    <th>Factor</th>
+                    <th>Recommended Choice</th>
+                    <th>Why?</th>
+                </tr>
+                <tr>
+                    <td><strong>Payment Mode</strong></td>
+                    <td>Single > Annual</td>
+                    <td>Avoids mode loading; money grows longer.</td>
+                </tr>
+                <tr>
+                    <td><strong>PPT</strong></td>
+                    <td>Limited (Low)</td>
+                    <td>Pay for fewer years; lower total cost; higher yield.</td>
+                </tr>
+                <tr>
+                    <td><strong>Policy Term</strong></td>
+                    <td>High (Long)</td>
+                    <td>Maximize bonus accumulation/compounding.</td>
+                </tr>
+                <tr>
+                    <td><strong>Sum Assured</strong></td>
+                    <td>High (Affordable)</td>
+                    <td>Maximizes the final absolute payout.</td>
+                </tr>
+            </table>
+
+            <div class="one-line-summary">
+                <strong>Winning Formula:</strong> Limited PPT + High Policy Term + High Sum Assured + Annual Mode = Maximum Savings & Highest Maturity.
+            </div>
+        </div>
+
+     <!-- 10. CUSTOMER SCENARIOS -->
+        <div id="c10">
+            <h2>Customer Scenarios: Finding Your Perfect Fit</h2>
+            <p>Different customers have different financial capabilities and goals. Below is a detailed breakdown of how to choose Policy Term (PT), Premium Paying Term (PPT), Sum Assured (SA), and Payment Mode for 6 specific types of customers.</p>
+
+            <!-- 1. POOR / AFFORDABLE -->
+            <h3>1. The "Budget Conscious" (Affordability First)</h3>
+            <p><strong>Goal:</strong> Affordable annual cash outflow, moderate coverage, disciplined savings.</p>
+            <ul>
+                <li><strong>Strategy:</strong> Medium Term (10-15 yrs) + Full PPT + Low SA + Annual/Half-Yearly Mode.</li>
+                <li><strong>Reason:</strong> Spreads premiums to reduce annual burden; avoids monthly loading.</li>
+            </ul>
+            <div class="math-box">
+                <strong>Example:</strong><br>
+                SA: ₹5L | Term: 12 Yrs | PPT: 12 Yrs | Premium: ₹25,000/yr<br>
+                Total Paid: ₹3,00,000<br>
+                Maturity: ₹8,60,000<br>
+                <em>Verdict: Affordable, disciplined, safe.</em>
+            </div>
+
+            <!-- 2. RICH / HIGH PREMIUM -->
+            <h3>2. The "Wealthy Investor" (Max Returns)</h3>
+            <p><strong>Goal:</strong> Maximize maturity; cash outflow is not an issue.</p>
+            <ul>
+                <li><strong>Strategy:</strong> High Term (20 yrs) + Limited PPT (10 yrs) + High SA + Annual/Single Mode.</li>
+                <li><strong>Reason:</strong> Pay for fewer years to reduce cost; let money grow longer for max bonus.</li>
+            </ul>
+            <div class="math-box">
+                <strong>Example:</strong><br>
+                SA: ₹15L | Term: 20 Yrs | PPT: 10 Yrs | Premium: ₹1.2L/yr<br>
+                Total Paid: ₹12,00,000<br>
+                Maturity: ₹33,00,000<br>
+                <em>Verdict: High Premium → Massive Maturity (~11-12% IRR).</em>
+            </div>
+
+            <!-- 3. QUICK MATURITY -->
+            <h3>3. The "Quick Return" Seeker</h3>
+            <p><strong>Goal:</strong> Get money back in the shortest possible time.</p>
+            <ul>
+                <li><strong>Strategy:</strong> Low Term (10 yrs) + Low PPT (10 yrs) + Medium SA.</li>
+                <li><strong>Reason:</strong> Minimize waiting period.</li>
+            </ul>
+            <div class="math-box">
+                <strong>Example:</strong><br>
+                SA: ₹10L | Term: 10 Yrs | PPT: 10 Yrs | Premium: ₹80,000/yr<br>
+                Total Paid: ₹8,00,000<br>
+                Maturity: ₹16,00,000<br>
+                <em>Verdict: Fast returns, though bonus accumulation is lower.</em>
+            </div>
+
+            <!-- 4. LONG TERM INVESTOR -->
+            <h3>4. The "Long-Term Believer"</h3>
+            <p><strong>Goal:</strong> Maximize wealth over a long horizon using compounding.</p>
+            <ul>
+                <li><strong>Strategy:</strong> High Term (20 yrs) + Limited PPT (10 yrs) + Medium SA.</li>
+                <li><strong>Reason:</strong> Pay for a few years, then sit back and watch the bonus compound.</li>
+            </ul>
+            <div class="math-box">
+                <strong>Example:</strong><br>
+                SA: ₹10L | Term: 20 Yrs | PPT: 10 Yrs | Premium: ₹65,000/yr<br>
+                Total Paid: ₹6,50,000<br>
+                Maturity: ₹22,00,000<br>
+                <em>Verdict: Best "Value for Money" strategy.</em>
+            </div>
+
+            <!-- 5. MEDIOCRE / BALANCED -->
+            <h3>5. The "Middle Path" (Balanced)</h3>
+            <p><strong>Goal:</strong> Balance between affordability and moderate maturity.</p>
+            <ul>
+                <li><strong>Strategy:</strong> Medium Term (15 yrs) + Full PPT + Medium SA.</li>
+                <li><strong>Reason:</strong> Comfortable premium, decent accumulation.</li>
+            </ul>
+            <div class="math-box">
+                <strong>Example:</strong><br>
+                SA: ₹10L | Term: 15 Yrs | PPT: 15 Yrs | Premium: ₹50,000/yr<br>
+                Total Paid: ₹7,50,000<br>
+                Maturity: ₹19,00,000<br>
+                <em>Verdict: Disciplined savings, moderate growth.</em>
+            </div>
+
+            <!-- 6. GRAND MATURITY -->
+            <h3>6. The "Grand Maturity" Seeker</h3>
+            <p><strong>Goal:</strong> Highest possible maturity number.</p>
+            <ul>
+                <li><strong>Strategy:</strong> High Term (20 yrs) + Limited PPT + High SA + Single/Annual Mode.</li>
+                <li><strong>Reason:</strong> Aggressive accumulation strategy.</li>
+            </ul>
+            <div class="math-box">
+                <strong>Example:</strong><br>
+                SA: ₹15L | Term: 20 Yrs | PPT: 10 Yrs | Premium: ₹1.2L/yr<br>
+                Total Paid: ₹12,00,000<br>
+                Maturity: ₹33,00,000<br>
+                <em>Verdict: Grand payout achieved via high SA and time.</em>
+            </div>
+
+            <h3>✅ Quick Summary Matrix</h3>
+            <table>
+                <tr>
+                    <th>Customer Type</th>
+                    <th>Term / PPT</th>
+                    <th>SA</th>
+                    <th>Mode</th>
+                    <th>Outcome</th>
+                </tr>
+                <tr>
+                    <td><strong>Budget</strong></td>
+                    <td>Med / Full</td>
+                    <td>Low</td>
+                    <td>Annual</td>
+                    <td>Affordable</td>
+                </tr>
+                <tr>
+                    <td><strong>Rich</strong></td>
+                    <td>High / Limited</td>
+                    <td>High</td>
+                    <td>Single/Ann</td>
+                    <td>Max Yield</td>
+                </tr>
+                <tr>
+                    <td><strong>Quick</strong></td>
+                    <td>Low / Low</td>
+                    <td>Med</td>
+                    <td>Annual</td>
+                    <td>Fast Cash</td>
+                </tr>
+                <tr>
+                    <td><strong>Long Term</strong></td>
+                    <td>High / Limited</td>
+                    <td>Med</td>
+                    <td>Annual</td>
+                    <td>High Growth</td>
+                </tr>
+                <tr>
+                    <td><strong>Grand</strong></td>
+                    <td>High / Limited</td>
+                    <td>High</td>
+                    <td>Single/Ann</td>
+                    <td>Huge Maturity</td>
+                </tr>
+            </table>
+
+            <div class="one-line-summary">
+                <strong>Expert Tip:</strong> Always prefer <strong>Limited PPT</strong> and <strong>Annual Mode</strong> if your cash flow allows. It saves premium and increases final returns for every customer type.
+            </div>
+        </div>
+    <script>
+        function openContent(id) {
+            const modal = document.getElementById('contentModal');
+            const modalBody = document.getElementById('modalBody');
+            const modalTitle = document.getElementById('modalTitle');
+            const content = document.getElementById(id);
+            
+            // Get content from hidden store
+            if(content) {
+                // Extract Title from h2
+                const title = content.querySelector('h2').innerText;
+                modalTitle.innerText = title;
+                
+                // Clone content to body (excluding the first h2 which we used for title)
+                modalBody.innerHTML = content.innerHTML;
+                const firstH2 = modalBody.querySelector('h2');
+                if(firstH2) firstH2.remove();
+
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        }
+
+        function closeContent() {
+            const modal = document.getElementById('contentModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('contentModal');
+            if (event.target == modal) {
+                closeContent();
+            }
+        }
+    </script>
+</body>
+</html>
