@@ -684,49 +684,120 @@
             </ul>
         </div>
 
-        <!-- MEDICAL TERMINOLOGY DEEP DIVE -->
-        <div class="report-card" style="border-left-color: #d32f2f;">
-            <h3>III. Part B: Technical Terminologies & Triggers</h3>
-            <p>Underwriters use specific codes and report types to assess the "Price of Risk." Understanding these is vital for any insurance professional or policyholder.</p>
-            
-            <table class="tech-table">
-                <tr>
-                    <th>Term</th>
-                    <th>Full Form & Description</th>
-                    <th>Key Observations</th>
-                </tr>
-                <tr>
-                    <td><strong>MER</strong></td>
-                    <td><strong>Medical Examiner's Report:</strong> Basic physical check (Height, Weight, BP, Pulse, Heart sounds).</td>
-                    <td>Triggers for most standard medical cases.</td>
-                </tr>
-                <tr>
-                    <td><strong>FMR</strong></td>
-                    <td><strong>Full Medical Report:</strong> A deeper systemic review including Central Nervous System (CNS) and Abdominal palpation.</td>
-                    <td>Triggers for very high SUC or when MER shows abnormalities.</td>
-                </tr>
-                <tr>
-                    <td><strong>DGH</strong></td>
-                    <td><strong>Declaration of Good Health:</strong> A self-signed form by the policyholder stating no health changes.</td>
-                    <td>Used for <strong>Revivals</strong> within specific time frames. Not a doctor's report.</td>
-                </tr>
-                <tr>
-                    <td><strong>SBT-13</strong></td>
-                    <td><strong>Serum Biochemistry Test (13 Parameters):</strong> Comprehensive blood profile (Liver, Kidney, Glucose).</td>
-                    <td>Standard for high SA cases to check internal organ health.</td>
-                </tr>
-                <tr>
-                    <td><strong>CTMT</strong></td>
-                    <td><strong>Computerized Treadmill Test:</strong> Heart stress test while walking/running on a treadmill.</td>
-                    <td>Triggers for older ages or high SUC to detect silent heart issues.</td>
-                </tr>
-                <tr>
-                    <td><strong>HbA1c</strong></td>
-                    <td><strong>Glycated Hemoglobin:</strong> Measures average blood sugar over the last 3 months.</td>
-                    <td>Mandatory if the proposer is diabetic or has borderline fasting sugar.</td>
-                </tr>
-            </table>
-        </div>
+      <!-- MEDICAL TERMINOLOGY DEEP DIVE -->
+<div class="report-card" style="border-left-color: #d32f2f;">
+    <h3>III. Part B: Comprehensive Medical Test Directory</h3>
+    <p>Underwriters use the following specific tests to assess risk. The requirements are triggered based on the <strong>SUC (Sum Under Consideration)</strong> and the age of the proposer.</p>
+    
+    <table class="tech-table">
+        <thead>
+            <tr>
+                <th style="background-color: #444;">Category</th>
+                <th style="background-color: #444;">Term</th>
+                <th style="background-color: #444;">Full Name & Description</th>
+                <th style="background-color: #444;">Purpose / Trigger</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- PHYSICAL REPORTS -->
+            <tr>
+                <td rowspan="3"><strong>Physical Exams</strong></td>
+                <td><strong>MER</strong></td>
+                <td><strong>Medical Examiner's Report:</strong> Basic physical (Ht, Wt, BP, Pulse).</td>
+                <td>Entry-level medical requirement.</td>
+            </tr>
+            <tr>
+                <td><strong>FMR</strong></td>
+                <td><strong>Full Medical Report:</strong> In-depth systemic checkup by an MD/Physician.</td>
+                <td>High Sum Assured or adverse history.</td>
+            </tr>
+            <tr>
+                <td><strong>DGH</strong></td>
+                <td><strong>Declaration of Good Health:</strong> Personal health statement.</td>
+                <td>Used for Revivals (Not a doctor's test).</td>
+            </tr>
+
+            <!-- BLOOD TESTS (BIOCHEMISTRY) -->
+            <tr>
+                <td rowspan="7"><strong>Blood Analysis</strong></td>
+                <td><strong>Haemogram / CBC</strong></td>
+                <td><strong>Complete Blood Count (Hb%, TLC, DLC, ESR):</strong> Checks blood health.</td>
+                <td>Detects Anemia, Infections, or Blood Cancers.</td>
+            </tr>
+            <tr>
+                <td><strong>FBS</strong></td>
+                <td><strong>Fasting Blood Sugar:</strong> Glucose level after 10-12 hours of fasting.</td>
+                <td>Primary screen for Diabetes.</td>
+            </tr>
+            <tr>
+                <td><strong>HbA1c</strong></td>
+                <td><strong>Glycated Hemoglobin:</strong> Average sugar levels over the last 3 months.</td>
+                <td>Triggered if FBS is high or history of Diabetes.</td>
+            </tr>
+            <tr>
+                <td><strong>SBT-13 / 18</strong></td>
+                <td><strong>Serum Biochemistry Test:</strong> Panel of 13 or 18 chemical parameters.</td>
+                <td>Checks Liver, Kidneys, and Metabolic health.</td>
+            </tr>
+            <tr>
+                <td><strong>Lipidogram</strong></td>
+                <td><strong>Lipid Profile:</strong> Total Cholesterol, HDL, LDL, Triglycerides.</td>
+                <td>Assessment of Cardiac/Artery risk.</td>
+            </tr>
+            <tr>
+                <td><strong>ELISA for HIV</strong></td>
+                <td><strong>HIV 1 & 2 Screening:</strong> Test for Human Immunodeficiency Virus.</td>
+                <td>Mandatory for most high SUC cases (as per grid).</td>
+            </tr>
+            <tr>
+                <td><strong>LFT / KFT</strong></td>
+                <td><strong>Liver/Kidney Function Tests:</strong> Specific organ enzyme levels.</td>
+                <td>Triggered if history of alcohol or kidney stones.</td>
+            </tr>
+
+            <!-- CARDIAC & IMAGING -->
+            <tr>
+                <td rowspan="4"><strong>Cardiac & Advanced</strong></td>
+                <td><strong>Rest ECG</strong></td>
+                <td><strong>Electrocardiogram (Resting):</strong> Records heart's electrical activity.</td>
+                <td>Detects Arrhythmia or previous Heart Attacks.</td>
+            </tr>
+            <tr>
+                <td><strong>CTMT</strong></td>
+                <td><strong>Computerized Treadmill Test:</strong> Heart monitoring while under stress.</td>
+                <td>Detects "Silent" Heart Disease (CAD).</td>
+            </tr>
+            <tr>
+                <td><strong>2D-ECHO</strong></td>
+                <td><strong>2D Echocardiogram:</strong> Ultrasound of the heart.</td>
+                <td>Checks heart valves and pumping capacity (EF%).</td>
+            </tr>
+            <tr>
+                <td><strong>Chest X-Ray</strong></td>
+                <td><strong>Radiograph of the Chest:</strong> Imaging of lungs and heart size.</td>
+                <td>Detects TB, lung issues, or enlarged heart.</td>
+            </tr>
+
+            <!-- URINE & OTHERS -->
+            <tr>
+                <td rowspan="3"><strong>Specialized</strong></td>
+                <td><strong>RUA</strong></td>
+                <td><strong>Routine Urine Analysis:</strong> Checks for Albumin, Sugar, & Casts.</td>
+                <td>Essential for detecting early Kidney damage.</td>
+            </tr>
+            <tr>
+                <td><strong>PSA</strong></td>
+                <td><strong>Prostate Specific Antigen:</strong> Blood test for males.</td>
+                <td>Screens for Prostate Cancer in older ages.</td>
+            </tr>
+            <tr>
+                <td><strong>PFT</strong></td>
+                <td><strong>Pulmonary Function Test:</strong> Checks lung breathing capacity.</td>
+                <td>Triggered for heavy smokers or asthma history.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
         <!-- THE NEW BUSINESS PROCESS -->
         <div class="report-card">
