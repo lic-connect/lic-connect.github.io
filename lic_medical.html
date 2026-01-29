@@ -592,139 +592,199 @@
         <div class="report-card" style="border-left-color: #004d00;">
             <h3>I. Visual Workflow (New Business & Revival)</h3>
             <div class="mermaid">
-           graph TD
-    %% Entry Points
-    StartNode((START)) --> NB["<b>NEW BUSINESS PROPOSAL</b>"]
-    StartNode --> REV["<b>REVIVAL OF LAPSED POLICY</b>"]
+          graph TD
+    %% Entry
+    StartNode((START)) --> Prop["Proposal Submitted <br/>(New Business / Revival)"]
+    Prop --> Scrutiny["Underwriting Scrutiny <br/>(Age/SUC/History Analysis)"]
+    
+    Scrutiny --> RiskPath{Risk Assessment}
+    
+    %% Path 1: Tele-MER
+    RiskPath -- "Low Risk" --> T_MER["<b>Tele-MER</b> <br/>(Phone Call)"]
+    T_MER --> T_Doc["LIC Doctor Calls Proposer <br/>(Verbal Answers Only)"]
+    T_Doc --> T_Pay["Cost: Paid by LIC"]
+    
+    %% Path 2: Video-MER
+    RiskPath -- "Medium Risk" --> V_MER["<b>Video-MER</b> <br/>(Video Call)"]
+    V_MER --> V_Doc["Visual ID Verification <br/>& Physical Observation"]
+    V_Doc --> V_Pay["Cost: Paid by LIC"]
+    
+    %% Path 3: Physical Medicals
+    RiskPath -- "High Risk / Revival" --> Phys["<b>Physical Medicals</b>"]
+    Phys --> Choice{Service Provider}
+    
+    Choice -- "MSP" --> MSP["<b>Third-Party MSP</b> <br/>(Labs + Clinic Exam)"]
+    Choice -- "Traditional" --> Panel["<b>LIC Panel Doctor</b> <br/>(Clinic Visit)"]
+    
+    MSP --> P_Pay["Cost: LIC (New Business) <br/>Proposer (Revival)"]
+    Panel --> P_Pay
+    
+    %% Consolidation
+    T_Pay --> Upload["Digital Report Upload <br/>(Direct System Sync)"]
+    V_Pay --> Upload
+    P_Pay --> Upload
+    
+    Upload --> Review["Final Underwriting Review"]
+    
+    Review --> Decision{Final Decision}
+    Decision -- "Accept" --> Issue["Policy Issued / Revived"]
+    Decision -- "Extra" --> Rate["Accept with Extra Premium"]
+    Decision -- "Reject" --> Decl["Postponed / Declined"]
 
-    subgraph New_Business_Path ["New Business Path"]
-        NB --> NB_1["Proposal Form Filled"]
-        NB_1 --> NB_2["Health/Habit/Family History Declaration"]
-        NB_2 --> NB_3["SUC & Age Proof Calculation"]
-        NB_3 --> NB_Q{"Non-Medical Eligible?"}
-        NB_Q -- "Yes" --> Issuance["Policy Issuance"]
-        NB_Q -- "No" --> MR["<b>Trigger Medical Requirements</b>"]
-    end
-
-    subgraph Revival_Path ["Revival Path"]
-        REV --> R_1["Revival Application + Premium Payment"]
-        R_1 --> R_2{"Check Lapse Duration & Age"}
-        R_2 -- "Minimal Lapse" --> DGH["Sign DGH: Declaration of Good Health"]
-        R_2 -- "Critical Lapse" --> MR
-    end
-
-    MR --> GEN["System Generates: MER / FMR / Special Tests"]
-    GEN --> AGENT["<b>Agent Role:</b> Coordination & Guidance"]
-    AGENT --> CLINIC["Visit to LIC Panel Doctor / Approved Lab"]
-    
-    CLINIC --> DOC_EXAM{"Examination Type"}
-    DOC_EXAM -- "Basic" --> MER_P["<b>MER:</b> Height, Weight, BP, Heart, Lungs"]
-    DOC_EXAM -- "Advanced" --> FMR_P["<b>FMR:</b> Detailed Systemic Evaluation"]
-    
-    MER_P --> LABS["<b>Special Tests:</b> Blood, Urine, ECG, X-Ray, TMT"]
-    FMR_P --> LABS
-    
-    LABS --> SEALED["Reports Submitted in Sealed Cover"]
-    DGH --> SEALED
-    
-    SEALED --> UW["<b>Underwriting Review</b>"]
-    UW --> DECISION{"Final Decision"}
-    
-    DECISION -- "Accept" --> Issuance
-    DECISION -- "Extra" --> EXTR["Accept with Extra Premium"]
-    DECISION -- "Reject" --> RJ["Postponed / Declined"]
+    %% Rules
+    Agent_Rule["<b>Rule:</b> Agent Prohibited <br/>Inside Exam Chamber"]
+    Upload -.-> Agent_Rule
 
     %% Styling
     style StartNode fill:#f9f,stroke:#333
-    style MR fill:#ffcccc,stroke:#f00
-    style UW fill:#e1f5fe,stroke:#01579b
-    style DECISION fill:#fff,stroke:#333,stroke-width:4px
-    style NB fill:#d4edda,stroke:#155724
-    style REV fill:#fff3cd,stroke:#856404
+    style T_MER fill:#e3f2fd,stroke:#1565c0
+    style V_MER fill:#fff9c4,stroke:#fbc02d
+    style Phys fill:#ffebee,stroke:#c62828
+    style Decision fill:#fff,stroke:#333,stroke-width:4px
             </div>
         </div>
 
-        <!-- 2. DETAILED REPORT (1000+ WORDS CONTENT) -->
-        <div class="report-section">
+   <!-- 2. COMPREHENSIVE DETAILED REPORT (1000+ WORDS) -->
+    <div class="report-section">
+        
+        <!-- TERMINOLOGY & TOOLS -->
+        <div class="report-card" style="border-left-color: #004d00;">
+            <h3>II. Part A: The Modern LIC Medical Toolbox</h3>
+            <p>In the digital age, LIC has evolved its medical underwriting from simple physical checkups to a multi-tiered diagnostic ecosystem. This system is designed to balance proposer convenience with risk accuracy. Below are the core components used today:</p>
             
-            <!-- PART A -->
-            <div class="report-card">
-                <h3>II. Part A: The New Business Medical Journey</h3>
-                <p>The medical journey for a new proposal is initiated the moment the system identifies that a proposer falls outside the "Non-Medical" grid based on Age, SUC (Sum Under Consideration), or adverse health disclosures in the proposal form. This process is governed by strict IRDAI and LIC internal guidelines to ensure the life is insurable at the time of entry.</p>
-                
-                <strong>Step-by-Step Breakdown:</strong>
-                <ul>
-                    <li><strong>Proposal Initiation:</strong> The journey begins with the completion of the Proposal Form (Form 300 or 340). Here, the life assured must practice <i>Uberrima Fides</i> (Utmost Good Faith), disclosing every known health condition, smoking habits, and family longevity.</li>
-                    <li><strong>Requirement Generation:</strong> If the SUC exceeds the threshold for the age, the LIC system automatically generates a "Medical Requirement." This usually consists of a <strong>Medical Examiner’s Report (MER)</strong> and sometimes <strong>Special Reports</strong> like a Lipid Profile, HbA1c, or Chest X-Ray.</li>
-                    <li><strong>The Medical Examination:</strong> The proposer must visit a <strong>Panel Doctor</strong>. LIC maintains a panel of authorized MBBS/MD doctors. A medical report from a non-panel doctor is strictly invalid. The doctor’s primary role is identity verification—checking the photo ID against the person being examined to prevent "proxy" medicals.</li>
-                    <li><strong>Underwriting Review:</strong> Once submitted, an Underwriter (at the Branch, Division, or Central level) reviews the MER. If the MER shows borderline BP or minor abnormalities, the Underwriter may call for an <strong>FMR (Full Medical Report)</strong> or further specialist opinions.</li>
-                </ul>
-            </div>
+            <strong>1. Tele-MER (Tele-Medical Examination Report)</strong>
+            <ul>
+                <li><strong>What it is:</strong> A structured medical interview conducted over a recorded phone call by an LIC-authorized doctor.</li>
+                <li><strong>When used:</strong> Primarily for "Low Risk" proposals—younger age groups and moderate Sum Under Consideration (SUC).</li>
+                <li><strong>Why:</strong> It eliminates the need for physical travel while ensuring a medical professional verifies the health declarations.</li>
+                <li><strong>Cost:</strong> Borne entirely by <strong>LIC</strong>.</li>
+            </ul>
 
-            <!-- PART B -->
-            <div class="report-card">
-                <h3>III. Part B: The Revival Medical Journey</h3>
-                <p>Revival is the process of putting a lapsed policy back into force. Unlike a new proposal, the contract already exists, but the risk has paused. The focus of a medical journey in revival is not "Initial Insurability" but "Continued Insurability."</p>
-                
-                <strong>The Logic of Revival Medicals:</strong>
-                <ul>
-                    <li><strong>Decision Matrix:</strong> If a policy has been lapsed for more than 6 months, LIC typically asks for a <strong>DGH (Declaration of Good Health)</strong>. However, if the lapse period is long (2+ years) or the policyholder has reached a higher age bracket, a full MER is triggered.</li>
-                    <li><strong>Is the Life still Insurable?</strong> The Underwriter looks at the medical reports to see if any new habits (smoking/alcohol) or diseases (Diabetes/Hypertension) have developed during the lapse period.</li>
-                    <li><strong>Section 45 Clause:</strong> Note that for revivals, the "Indisputability Clause" does not usually restart from scratch, though fraudulent non-disclosure in the revival medical can still lead to claim repudiation.</li>
-                </ul>
-            </div>
+            <strong>2. Video-MER (Video-Medical Examination Report)</strong>
+            <ul>
+                <li><strong>What it is:</strong> A live video call between the doctor and the proposer using a secure platform.</li>
+                <li><strong>When used:</strong> "Medium Risk" cases, high-value policies where the proposer is in a remote location, or for NRI (Non-Resident Indian) cases.</li>
+                <li><strong>Why:</strong> It allows the doctor to verify the proposer's identity visually (preventing dummy medicals) and observe physical gait, skin condition, and breathlessness.</li>
+                <li><strong>Cost:</strong> Borne entirely by <strong>LIC</strong>.</li>
+            </ul>
 
-            <!-- ROLES -->
-            <div class="report-card">
-                <h3>IV. Critical Roles & Responsibilities</h3>
-                
-                <strong>1. Role of the LIC Agent (The Facilitator)</strong>
-                <p>The agent is the bridge but must never interfere with the medical process. They are responsible for coordinating the appointment and explaining fasting requirements (usually 10-12 hours for blood tests). **Strict Prohibition:** An agent is prohibited by LIC rules from being present inside the doctor's chamber during the physical examination. They must not fill the MER or suggest answers to the doctor.</p>
-                
-                <strong>2. Role of the LIC Panel Doctor</strong>
-                <p>The doctor acts as the "Eyes and Ears" of the Underwriter. They must record clinical findings objectively—BMI, Pulse rate, Heart sounds, and Abdominal tenderness. They are required to verify the proposer’s signature on the MER to ensure document integrity.</p>
-                
-                <strong>3. Role of the Diagnostic Lab</strong>
-                <p>For special tests (TMT, Echo, Blood work), LIC-approved labs must be used. These labs directly upload reports to the LIC portal or provide them in a sealed envelope to maintain a "Chain of Custody," preventing the tampering of results by the proposer or agent.</p>
-            </div>
+            <strong>3. Third-Party MSPs (Medical Service Providers)</strong>
+            <ul>
+                <li><strong>What it is:</strong> Corporate diagnostic chains (like Apollo, Healthians, or SRL) empanelled by LIC.</li>
+                <li><strong>When used:</strong> For high-value policies requiring multiple diagnostic tests (Blood, ECG, X-Ray).</li>
+                <li><strong>Why:</strong> To ensure "Chain of Custody." MSPs upload results directly to LIC's portal, preventing agents or proposers from tampering with the reports.</li>
+                <li><strong>Cost:</strong> <strong>LIC</strong> pays for New Business; <strong>Proposer</strong> pays for Revivals.</li>
+            </ul>
 
-            <!-- FMR vs MER -->
-            <div class="report-card">
-                <h3>V. Technical Deep Dive: MER vs. FMR</h3>
-                <table class="tech-table">
-                    <tr>
-                        <th>Feature</th>
-                        <th>MER (Medical Examiner's Report)</th>
-                        <th>FMR (Full Medical Report)</th>
-                    </tr>
-                    <tr>
-                        <td><strong>Nature</strong></td>
-                        <td>Basic Physical Screening</td>
-                        <td>Deep Systemic Evaluation</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Trigger</strong></td>
-                        <td>Standard Age/SUC Grid</td>
-                        <td>High SA or Adverse History</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Details</strong></td>
-                        <td>Height, Weight, BP, Heart/Lungs</td>
-                        <td>CNS, Abdominal Systems, Cardio-Vascular detailed review</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Opinion</strong></td>
-                        <td>Standard Fitness Opinion</td>
-                        <td>Reasoned Underwriting Recommendation</td>
-                    </tr>
-                </table>
-            </div>
+            <strong>4. LIC Panel Doctor (Traditional)</strong>
+            <ul>
+                <li><strong>What it is:</strong> Individual MBBS/MD doctors authorized to conduct physical exams at their private clinics.</li>
+                <li><strong>When used:</strong> Where MSP coverage is unavailable or for specific physical examinations like MER/FMR.</li>
+                <li><strong>Cost:</strong> <strong>LIC</strong> pays for New Business; <strong>Proposer</strong> pays for Revivals.</li>
+            </ul>
+        </div>
 
-            <!-- DGH -->
-            <div class="report-card">
-                <h3>VI. DGH: The Declaration of Good Health</h3>
-                <p>The DGH is a unique document. It is <strong>NOT</strong> a medical report by a doctor; it is a <strong>self-certification</strong> by the policyholder. By signing a DGH, the proposer legally states: "Since my last statement, I have not suffered from any illness, have not been hospitalized, and have not consulted any doctor." If a DGH is signed while the proposer is aware of a hidden illness, it is considered a material misstatement and can lead to the death claim being rejected later.</p>
-            </div>
+        <!-- MEDICAL TERMINOLOGY DEEP DIVE -->
+        <div class="report-card" style="border-left-color: #d32f2f;">
+            <h3>III. Part B: Technical Terminologies & Triggers</h3>
+            <p>Underwriters use specific codes and report types to assess the "Price of Risk." Understanding these is vital for any insurance professional or policyholder.</p>
+            
+            <table class="tech-table">
+                <tr>
+                    <th>Term</th>
+                    <th>Full Form & Description</th>
+                    <th>Key Observations</th>
+                </tr>
+                <tr>
+                    <td><strong>MER</strong></td>
+                    <td><strong>Medical Examiner's Report:</strong> Basic physical check (Height, Weight, BP, Pulse, Heart sounds).</td>
+                    <td>Triggers for most standard medical cases.</td>
+                </tr>
+                <tr>
+                    <td><strong>FMR</strong></td>
+                    <td><strong>Full Medical Report:</strong> A deeper systemic review including Central Nervous System (CNS) and Abdominal palpation.</td>
+                    <td>Triggers for very high SUC or when MER shows abnormalities.</td>
+                </tr>
+                <tr>
+                    <td><strong>DGH</strong></td>
+                    <td><strong>Declaration of Good Health:</strong> A self-signed form by the policyholder stating no health changes.</td>
+                    <td>Used for <strong>Revivals</strong> within specific time frames. Not a doctor's report.</td>
+                </tr>
+                <tr>
+                    <td><strong>SBT-13</strong></td>
+                    <td><strong>Serum Biochemistry Test (13 Parameters):</strong> Comprehensive blood profile (Liver, Kidney, Glucose).</td>
+                    <td>Standard for high SA cases to check internal organ health.</td>
+                </tr>
+                <tr>
+                    <td><strong>CTMT</strong></td>
+                    <td><strong>Computerized Treadmill Test:</strong> Heart stress test while walking/running on a treadmill.</td>
+                    <td>Triggers for older ages or high SUC to detect silent heart issues.</td>
+                </tr>
+                <tr>
+                    <td><strong>HbA1c</strong></td>
+                    <td><strong>Glycated Hemoglobin:</strong> Measures average blood sugar over the last 3 months.</td>
+                    <td>Mandatory if the proposer is diabetic or has borderline fasting sugar.</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- THE NEW BUSINESS PROCESS -->
+        <div class="report-card">
+            <h3>IV. Part C: The New Business Medical Journey</h3>
+            <p>The journey of a new proposal is governed by the principle of <i>Uberrima Fides</i> (Utmost Good Faith). Here is the granular step-by-step process:</p>
+            
+            <ol>
+                <li><strong>Financial & Age Scrubbing:</strong> Once the proposal form (Form 300) is submitted, the LIC system calculates the <strong>SUC</strong>. If the SUC exceeds the Non-Medical limit for that age/profession, "Medical Requirements" are auto-generated.</li>
+                <li><strong>Appointment Coordination:</strong> If assigned to an MSP, the proposer receives an SMS link to choose a slot. If assigned to a Panel Doctor, the agent coordinates the visit.
+                    <ul><li><strong>Role of Agent:</strong> To guide the proposer on "Pre-Examination Readiness" (e.g., 12-hour fasting for SBT-13).</li></ul>
+                </li>
+                <li><strong>Identity Verification:</strong> The Doctor/Technician <strong>MUST</strong> verify the original Aadhar/Passport. <i>Note: This is where most fraud is caught.</i></li>
+                <li><strong>The Examination:</strong> The doctor conducts the MER/FMR. <strong>Strict Rule:</strong> No third party (Agent/Family) should be in the room to ensure privacy and honest answers.</li>
+                <li><strong>Direct Submission:</strong> In the modern system, the doctor/lab uploads the digital report. The proposer no longer carries a physical envelope to the LIC branch (to prevent tampering).</li>
+                <li><strong>The Decision:</strong>
+                    <ul>
+                        <li><strong>Standard:</strong> Accepted at normal rates.</li>
+                        <li><strong>Sub-Standard:</strong> Accepted with "Loading" (Extra premium due to health risks like BMI or BP).</li>
+                        <li><strong>Postponed:</strong> E.g., if the proposer just had surgery, LIC may wait 6 months.</li>
+                        <li><strong>Declined:</strong> If the risk is too high (e.g., critical heart blockage).</li>
+                    </ul>
+                </li>
+            </ol>
+            <p><strong>Cost Ownership:</strong> In New Business, LIC views medicals as its own "cost of doing business." LIC bears the expense of all primary tests it demands. However, if a proposer wants a <i>re-test</i> because they claim the first was wrong, the proposer must pay for the second test.</p>
+        </div>
+
+        <!-- THE REVIVAL PROCESS -->
+        <div class="report-card" style="background: #fffdf0; border-left-color: #fbc02d;">
+            <h3>V. Part D: The Revival Medical Journey</h3>
+            <p>Revival is the "re-birth" of a lapsed policy. The medical requirements here are stricter because the "Continuity of Risk" has been broken.</p>
+            
+            <strong>1. The "DGH" Window (0-6 Months Lapse)</strong>
+            <p>Usually, a simple <strong>Form 680 (DGH)</strong> is enough. The proposer signs a legal declaration. If they hide a hospitalization that occurred during the lapse, the claim will be rejected later under Section 45 of the Insurance Act.</p>
+
+            <strong>2. The Medical Window (6+ Months or High Age)</strong>
+            <p>If the policy has been lapsed for a long time, the system ignores Non-Medical privileges. Even a small SA may require a full MER. This is to ensure the person hasn't developed a chronic illness while the policy was "dead."</p>
+
+            <strong>3. Professional Ethics in Revival</strong>
+            <p>Agents often try to push for "Special Revivals" to avoid medicals. However, the system-driven logic now makes this difficult. Any "Adverse Feature" noted in the DGH (e.g., "I had a minor chest pain") will immediately convert the case from DGH to a full Medical requirement.</p>
+            
+            <p><strong>Cost Ownership:</strong> Unlike New Business, <strong>the Proposer bears the full cost of medicals for Revival.</strong> LIC's logic is that the policyholder failed to pay premiums on time, so the corporation should not be penalized for the cost of re-assessing the risk.</p>
+        </div>
+
+        <!-- SUMMARY & GOLDEN RULES -->
+        <div class="report-card" style="background: #e8f5e9;">
+            <h3>VI. The Final Word: Ethics & Protection</h3>
+            <p>The role of the LIC Medical Examiner (Panel Doctor or MSP) is to act as a "Gatekeeper." When an agent and doctor collude to sign a "Ghost Medical" (without seeing the patient), they aren't just breaking rules—they are invalidating the policyholder's protection.</p>
+            
+            <strong>Three Golden Rules for a Safe Policy:</strong>
+            <ol>
+                <li><strong>Never Bypass Medicals:</strong> If the system asks for a test, take it. A policy issued after a full medical is nearly "bulletproof" against claim rejection after 3 years.</li>
+                <li><strong>Demand Digital Upload:</strong> Ensure your reports are uploaded directly to the LIC system. Avoid physical handling of reports.</li>
+                <li><strong>Disclosure is Cheaper than Rejection:</strong> Paying a 10% "Extra Premium" for High BP is better than having your family's 100% claim rejected for non-disclosure.</li>
+            </ol>
+            <p>The medical underwriting process is the foundation of the Life Fund. It ensures that honest policyholders do not pay for the risks of those who hide terminal illnesses.</p>
+        </div>
+
+    </div>
 
             <!-- SUMMARY -->
             <div class="report-card" style="background: #e8f5e9;">
