@@ -555,6 +555,45 @@
         let eligible = false;
         let failReason = "";
 
+
+
+
+
+
+
+// --- 6 CATEGORY VALIDATION MATRIX ---
+    const isSAP = (ageProof === 'SAP');
+    const isNSAP1 = (ageProof === 'NSAP-1');
+    const isNSAP2 = (ageProof === 'NSAP-2');
+    const isNSAP3 = (ageProof === 'NSAP-3');
+
+    // Groups II, III, and VI: SAP ONLY
+    if (['NMS', 'NM_PROF', 'NM_NRI'].includes(category) && !isSAP) {
+        maxNM = 0;
+        failReason = "Hard Stop: Standard Age Proof (SAP) is mandatory for this category.";
+    } 
+    // Group IV: SAP or NSAP-I ONLY
+    else if (category === 'NM_STUDENT' && !(isSAP || isNSAP1)) {
+        maxNM = 0;
+        failReason = "Hard Stop: Major Students require SAP or NSAP-I.";
+    } 
+    // Group V: Minor Children Rules
+    else if (category === 'NM_MINOR') {
+        if (isNSAP3) {
+            maxNM = 0;
+            failReason = "Hard Stop: NSAP-III is not allowed for Minors.";
+        } else if (isNSAP2 && suc > 500000) {
+            maxNM = 0;
+            failReason = "Hard Stop: NSAP-II for Minors is capped at ₹5,00,000 SUC.";
+        }
+    }
+    // Group I (NMG): No hard stop here, proceeds to limit calculation
+
+
+
+
+
+
         // ------------------------------------------
         // NON-MEDICAL LOGIC
         // ------------------------------------------
