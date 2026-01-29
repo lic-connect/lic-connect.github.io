@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIC Underwriting Wizard</title>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.min.js"></script>
+<script>
+    mermaid.initialize({ 
+        startOnLoad: false, // Set to false because we trigger it via button
+        theme: 'forest',
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }
+    });
+</script>
+
+
+
+
     <style>
         :root {
             --parrot-green: #32CD32;
@@ -235,6 +252,108 @@
             border-radius: 5px;
             font-weight: bold;
         }
+
+
+
+
+
+/* Medical Journey Styles */
+#medicalJourneyContainer {
+    display: none;
+    margin-top: 30px;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    border-top: 8px solid var(--dark-green);
+}
+
+.journey-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.journey-header h2 {
+    font-size: 2.2rem;
+    color: var(--dark-green);
+    text-transform: uppercase;
+}
+
+.report-section {
+    margin-bottom: 40px;
+    line-height: 1.8;
+}
+
+.report-card {
+    background: #fdfdfd;
+    border-left: 6px solid var(--parrot-green);
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.report-card h3 {
+    color: var(--dark-green);
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.journey-btn-container {
+    text-align: center;
+    margin: 50px 0;
+}
+
+.btn-journey {
+    background: linear-gradient(45deg, #004d00, #008000);
+    color: white;
+    padding: 20px 50px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transition: all 0.4s;
+    text-transform: uppercase;
+}
+
+.btn-journey:hover {
+    transform: translateY(-5px) scale(1.05);
+    background: linear-gradient(45deg, #008000, #32CD32);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+.tech-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.tech-table th, .tech-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.tech-table th {
+    background-color: var(--dark-green);
+    color: white;
+}
+
+.mermaid {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+
+#definitionsContainer {
+    display: none; /* Hidden by default */
+    margin-top: 20px;
+}
+.btn-check, .btn-journey { width: 300px !important; height: 55px !important; padding: 0 !important; font-size: 14px !important; margin: 20px auto !important; display: block !important; }
     </style>
 </head>
 <body>
@@ -345,6 +464,20 @@
 
     </div>
 
+
+
+
+
+<!-- Add this button -->
+<div style="text-align: center; margin-top: 30px;">
+    <button class="btn-journey" style="background: linear-gradient(45deg, #444, #222);" onclick="toggleDefinitions()">📖 VIEW IMPORTANT DEFINITIONS</button>
+</div>
+
+<!-- Add id="definitionsContainer" to your existing definitions div -->
+<div class="definitions" id="definitionsContainer" style="display: none;">
+    <h2 style="color: var(--white); ...">Important Definitions & Rules</h2>
+    
+
 <!-- DEFINITIONS -->
     <div class="definitions">
         <h2 style="color: var(--white); border-bottom: 2px solid var(--neon-green); padding-bottom: 15px; margin-top: 0; text-transform: uppercase; letter-spacing: 1px;">Important Definitions & Rules</h2>
@@ -443,6 +576,166 @@
         </div>
     </div>
     </div>
+
+<!-- MEDICAL JOURNEY SECTION -->
+    <div class="journey-btn-container">
+        <button class="btn-journey" onclick="toggleFlowchart()">🧭 Explore Full Medical Journey</button>
+    </div>
+
+    <div id="medicalJourneyContainer">
+        <div class="journey-header">
+            <h2>🧭 Comprehensive Medical Underwriting Journey</h2>
+            <p>Detailed Analysis for New Business Proposals vs. Policy Revivals</p>
+        </div>
+
+        <!-- 1. MERMAID FLOWCHART -->
+        <div class="report-card" style="border-left-color: #004d00;">
+            <h3>I. Visual Workflow (New Business & Revival)</h3>
+            <div class="mermaid">
+           graph TD
+    %% Entry Points
+    StartNode((START)) --> NB["<b>NEW BUSINESS PROPOSAL</b>"]
+    StartNode --> REV["<b>REVIVAL OF LAPSED POLICY</b>"]
+
+    subgraph New_Business_Path ["New Business Path"]
+        NB --> NB_1["Proposal Form Filled"]
+        NB_1 --> NB_2["Health/Habit/Family History Declaration"]
+        NB_2 --> NB_3["SUC & Age Proof Calculation"]
+        NB_3 --> NB_Q{"Non-Medical Eligible?"}
+        NB_Q -- "Yes" --> Issuance["Policy Issuance"]
+        NB_Q -- "No" --> MR["<b>Trigger Medical Requirements</b>"]
+    end
+
+    subgraph Revival_Path ["Revival Path"]
+        REV --> R_1["Revival Application + Premium Payment"]
+        R_1 --> R_2{"Check Lapse Duration & Age"}
+        R_2 -- "Minimal Lapse" --> DGH["Sign DGH: Declaration of Good Health"]
+        R_2 -- "Critical Lapse" --> MR
+    end
+
+    MR --> GEN["System Generates: MER / FMR / Special Tests"]
+    GEN --> AGENT["<b>Agent Role:</b> Coordination & Guidance"]
+    AGENT --> CLINIC["Visit to LIC Panel Doctor / Approved Lab"]
+    
+    CLINIC --> DOC_EXAM{"Examination Type"}
+    DOC_EXAM -- "Basic" --> MER_P["<b>MER:</b> Height, Weight, BP, Heart, Lungs"]
+    DOC_EXAM -- "Advanced" --> FMR_P["<b>FMR:</b> Detailed Systemic Evaluation"]
+    
+    MER_P --> LABS["<b>Special Tests:</b> Blood, Urine, ECG, X-Ray, TMT"]
+    FMR_P --> LABS
+    
+    LABS --> SEALED["Reports Submitted in Sealed Cover"]
+    DGH --> SEALED
+    
+    SEALED --> UW["<b>Underwriting Review</b>"]
+    UW --> DECISION{"Final Decision"}
+    
+    DECISION -- "Accept" --> Issuance
+    DECISION -- "Extra" --> EXTR["Accept with Extra Premium"]
+    DECISION -- "Reject" --> RJ["Postponed / Declined"]
+
+    %% Styling
+    style StartNode fill:#f9f,stroke:#333
+    style MR fill:#ffcccc,stroke:#f00
+    style UW fill:#e1f5fe,stroke:#01579b
+    style DECISION fill:#fff,stroke:#333,stroke-width:4px
+    style NB fill:#d4edda,stroke:#155724
+    style REV fill:#fff3cd,stroke:#856404
+            </div>
+        </div>
+
+        <!-- 2. DETAILED REPORT (1000+ WORDS CONTENT) -->
+        <div class="report-section">
+            
+            <!-- PART A -->
+            <div class="report-card">
+                <h3>II. Part A: The New Business Medical Journey</h3>
+                <p>The medical journey for a new proposal is initiated the moment the system identifies that a proposer falls outside the "Non-Medical" grid based on Age, SUC (Sum Under Consideration), or adverse health disclosures in the proposal form. This process is governed by strict IRDAI and LIC internal guidelines to ensure the life is insurable at the time of entry.</p>
+                
+                <strong>Step-by-Step Breakdown:</strong>
+                <ul>
+                    <li><strong>Proposal Initiation:</strong> The journey begins with the completion of the Proposal Form (Form 300 or 340). Here, the life assured must practice <i>Uberrima Fides</i> (Utmost Good Faith), disclosing every known health condition, smoking habits, and family longevity.</li>
+                    <li><strong>Requirement Generation:</strong> If the SUC exceeds the threshold for the age, the LIC system automatically generates a "Medical Requirement." This usually consists of a <strong>Medical Examiner’s Report (MER)</strong> and sometimes <strong>Special Reports</strong> like a Lipid Profile, HbA1c, or Chest X-Ray.</li>
+                    <li><strong>The Medical Examination:</strong> The proposer must visit a <strong>Panel Doctor</strong>. LIC maintains a panel of authorized MBBS/MD doctors. A medical report from a non-panel doctor is strictly invalid. The doctor’s primary role is identity verification—checking the photo ID against the person being examined to prevent "proxy" medicals.</li>
+                    <li><strong>Underwriting Review:</strong> Once submitted, an Underwriter (at the Branch, Division, or Central level) reviews the MER. If the MER shows borderline BP or minor abnormalities, the Underwriter may call for an <strong>FMR (Full Medical Report)</strong> or further specialist opinions.</li>
+                </ul>
+            </div>
+
+            <!-- PART B -->
+            <div class="report-card">
+                <h3>III. Part B: The Revival Medical Journey</h3>
+                <p>Revival is the process of putting a lapsed policy back into force. Unlike a new proposal, the contract already exists, but the risk has paused. The focus of a medical journey in revival is not "Initial Insurability" but "Continued Insurability."</p>
+                
+                <strong>The Logic of Revival Medicals:</strong>
+                <ul>
+                    <li><strong>Decision Matrix:</strong> If a policy has been lapsed for more than 6 months, LIC typically asks for a <strong>DGH (Declaration of Good Health)</strong>. However, if the lapse period is long (2+ years) or the policyholder has reached a higher age bracket, a full MER is triggered.</li>
+                    <li><strong>Is the Life still Insurable?</strong> The Underwriter looks at the medical reports to see if any new habits (smoking/alcohol) or diseases (Diabetes/Hypertension) have developed during the lapse period.</li>
+                    <li><strong>Section 45 Clause:</strong> Note that for revivals, the "Indisputability Clause" does not usually restart from scratch, though fraudulent non-disclosure in the revival medical can still lead to claim repudiation.</li>
+                </ul>
+            </div>
+
+            <!-- ROLES -->
+            <div class="report-card">
+                <h3>IV. Critical Roles & Responsibilities</h3>
+                
+                <strong>1. Role of the LIC Agent (The Facilitator)</strong>
+                <p>The agent is the bridge but must never interfere with the medical process. They are responsible for coordinating the appointment and explaining fasting requirements (usually 10-12 hours for blood tests). **Strict Prohibition:** An agent is prohibited by LIC rules from being present inside the doctor's chamber during the physical examination. They must not fill the MER or suggest answers to the doctor.</p>
+                
+                <strong>2. Role of the LIC Panel Doctor</strong>
+                <p>The doctor acts as the "Eyes and Ears" of the Underwriter. They must record clinical findings objectively—BMI, Pulse rate, Heart sounds, and Abdominal tenderness. They are required to verify the proposer’s signature on the MER to ensure document integrity.</p>
+                
+                <strong>3. Role of the Diagnostic Lab</strong>
+                <p>For special tests (TMT, Echo, Blood work), LIC-approved labs must be used. These labs directly upload reports to the LIC portal or provide them in a sealed envelope to maintain a "Chain of Custody," preventing the tampering of results by the proposer or agent.</p>
+            </div>
+
+            <!-- FMR vs MER -->
+            <div class="report-card">
+                <h3>V. Technical Deep Dive: MER vs. FMR</h3>
+                <table class="tech-table">
+                    <tr>
+                        <th>Feature</th>
+                        <th>MER (Medical Examiner's Report)</th>
+                        <th>FMR (Full Medical Report)</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Nature</strong></td>
+                        <td>Basic Physical Screening</td>
+                        <td>Deep Systemic Evaluation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Trigger</strong></td>
+                        <td>Standard Age/SUC Grid</td>
+                        <td>High SA or Adverse History</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Details</strong></td>
+                        <td>Height, Weight, BP, Heart/Lungs</td>
+                        <td>CNS, Abdominal Systems, Cardio-Vascular detailed review</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Opinion</strong></td>
+                        <td>Standard Fitness Opinion</td>
+                        <td>Reasoned Underwriting Recommendation</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- DGH -->
+            <div class="report-card">
+                <h3>VI. DGH: The Declaration of Good Health</h3>
+                <p>The DGH is a unique document. It is <strong>NOT</strong> a medical report by a doctor; it is a <strong>self-certification</strong> by the policyholder. By signing a DGH, the proposer legally states: "Since my last statement, I have not suffered from any illness, have not been hospitalized, and have not consulted any doctor." If a DGH is signed while the proposer is aware of a hidden illness, it is considered a material misstatement and can lead to the death claim being rejected later.</p>
+            </div>
+
+            <!-- SUMMARY -->
+            <div class="report-card" style="background: #e8f5e9;">
+                <h3>VII. The Golden Underwriting Rule</h3>
+                <p><strong>"The medical journey is designed to protect the Life Fund."</strong> LIC does not conduct medicals to find reasons to reject a policy, but to find the correct <strong>Price of Risk</strong>. If a medical report shows a health issue, the journey ends with a "rating"—an extra premium that allows the person to still have life insurance while covering the increased risk for the corporation.</p>
+                <p>Whether it is a new proposal or a revival case, the journey ensures that the person being insured is the same person who signed the form, and their health matches the premium being paid.</p>
+            </div>
+
+        </div>
+    </div>
+
 
 <script>
     // Data Sources for Professions
@@ -768,6 +1061,37 @@ if (failReason !== "") {
         // Scroll to results
         document.getElementById('resultsSection').scrollIntoView({behavior: 'smooth'});
     }
+
+
+async function toggleFlowchart() {
+    const container = document.getElementById('medicalJourneyContainer');
+    if (container.style.display === 'none' || container.style.display === '') {
+        container.style.display = 'block';
+        
+        // Correct re-initialization for Mermaid v11
+        if (window.mermaid) {
+            await mermaid.run({
+                nodes: document.querySelectorAll('.mermaid'),
+            });
+        }
+        
+        container.scrollIntoView({behavior: 'smooth'});
+    } else {
+        container.style.display = 'none';
+    }
+}
+
+
+
+function toggleDefinitions() {
+    const defContainer = document.getElementById('definitionsContainer');
+    if (defContainer.style.display === 'none' || defContainer.style.display === '') {
+        defContainer.style.display = 'block';
+        defContainer.scrollIntoView({behavior: 'smooth'});
+    } else {
+        defContainer.style.display = 'none';
+    }
+}
 </script>
 
 </body>
