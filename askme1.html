@@ -30,10 +30,10 @@ body {
 
 /* LAYOUT: 1 CARD PER ROW */
 .flowchart-section { 
-    max-width: 800px; 
+    max-width: 1200px; 
     margin: 0 auto; 
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 40px;
 }
 
@@ -141,7 +141,7 @@ body {
     .title-text { font-size: 35px; letter-spacing: 5px; }
     .q-header { font-size: 1.2rem; }
 }
-body, .box-3d { background: #fff !important; transform: none !important; box-shadow: none !important; } .title-text { color: #15803d !important; text-shadow: none !important; } .mirror-reflect { display: none; }
+.flowchart-section { display: grid; grid-template-columns: repeat(2, 1fr); max-width: 1200px; gap: 40px; } @media(max-width:900px){ .flowchart-section { grid-template-columns: 1fr; } } .box-3d { background: #fff !important; transform: perspective(1000px) rotateX(15deg) rotateY(-10deg) !important; box-shadow: 12px 12px 0px #15803d !important; border: 5px solid #15803d !important; } .title-text { color: #15803d !important; text-shadow: 2px 2px 0px #4ade80 !important; } .mirror-reflect { display: none !important; }
 </style>
 
 <script>
