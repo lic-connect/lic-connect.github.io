@@ -14,7 +14,7 @@
 
 body { 
     font-family: 'Segoe UI', Tahoma, sans-serif; 
-    background-color: #f0fdf4; 
+    background-color: #ffffff !important; 
     margin: 0; 
     padding: 20px; 
 }
@@ -22,7 +22,7 @@ body {
 /* 3D TITLE BOX */
 .title-box-container { perspective: 1200px; text-align: center; margin: 40px 0 60px 0; }
 .box-3d {
-    display: inline-block; background: var(--parrot-green); padding: 25px 60px;
+    display: inline-block; background: var(--white); padding: 25px 60px;
     border: 5px solid var(--dark-green); position: relative; transform-style: preserve-3d;
     transform: rotateX(15deg); box-shadow: 10px 10px 0px var(--dark-green);
 }
@@ -43,7 +43,7 @@ body {
     width: 100% !important;
     position: relative;
     cursor: pointer;
-    background: transparent !important;
+    background: #ffffff;
     border: none !important;
     /* Simplified perspective and transform */
     perspective: 1000px; 
@@ -69,14 +69,16 @@ body {
     backface-visibility: hidden !important;
     border-radius: 20px !important;
     box-sizing: border-box !important;
-    border: 6px solid var(--parrot-green) !important;
+    /* Green Stylish Border */
+    border: 6px solid #4ade80 !important;
+    /* Pure White Background */
+    background: #ffffff !important; 
     margin: 0 !important;
 }
 
 /* FRONT SIDE (Green) */
 .q-header {
-    background: var(--dark-green) !important;
-    color: var(--white) !important;
+    color: #000000 !important;
     z-index: 2;
     display: flex !important;
     align-items: center;
@@ -85,8 +87,10 @@ body {
     padding: 40px !important;
     font-size: 1.5rem;
     font-weight: 800;
-    transform: rotateY(0deg); /* Explicit starting position */
+    transform: rotateY(0deg); 
 }
+
+
 
 /* HOVER BUTTON (Now White) */
 .q-header::after {
@@ -94,8 +98,8 @@ body {
     position: absolute;
     bottom: 25px;
     font-size: 0.85rem;
-    background: #ffffff; /* Forced White */
-    color: var(--dark-green);
+    background: aquamarine !important; 
+    color: #000000 !important;
     padding: 8px 20px;
     border-radius: 5px;
     font-weight: 900;
@@ -105,9 +109,8 @@ body {
 /* BACK SIDE (White) */
 .card > :nth-child(2),
 .card-body {
-    background: var(--white) !important;
-    color: #333 !important;
-    transform: rotateY(180deg); /* Flipped position */
+    color: #000000 !important;
+    transform: rotateY(180deg); 
     padding: 30px !important;
     overflow-y: auto !important; 
     display: block !important;
@@ -138,6 +141,7 @@ body {
     .title-text { font-size: 35px; letter-spacing: 5px; }
     .q-header { font-size: 1.2rem; }
 }
+body, .box-3d { background: #fff !important; transform: none !important; box-shadow: none !important; } .title-text { color: #15803d !important; text-shadow: none !important; } .mirror-reflect { display: none; }
 </style>
 
 <script>
