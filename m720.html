@@ -326,18 +326,24 @@
         
         let html = `<h3>Report for ${name}</h3><br>`;
 
-        if(!isDeathMode) {
+     if(!isDeathMode) {
             const totalPaid = prem * ppt;
-            const matTotal = sa + totalBonus + fab;
+            
+            // CORRECTION: Maturity Benefit is 40% of SA + Vested Bonus + FAB
+            // (Because 20% was paid at years 5, 10, and 15 as Survival Benefit)
+            const maturitySAComponent = sa * 0.40; 
+            const matTotal = maturitySAComponent + totalBonus + fab;
+
             html += `
                 <div class="res-line"><span class="res-label">Basic Sum Assured:</span><span class="res-val">₹ ${sa.toLocaleString()}</span></div>
+                <div class="res-line"><span class="res-label">Maturity SA Amount (40%):</span><span class="res-val">₹ ${maturitySAComponent.toLocaleString()}</span></div>
                 <div class="res-line"><span class="res-label">Accrued Bonus (${term} Yrs):</span><span class="res-val">₹ ${totalBonus.toLocaleString()}</span></div>
                 <div class="res-line"><span class="res-label">Final Additional Bonus (FAB):</span><span class="res-val">₹ ${fab.toLocaleString()}</span></div>
                 <div class="res-line"><span class="res-label">Total Premium Paid:</span><span class="res-val">₹ ${totalPaid.toLocaleString()}</span></div>
                 <div class="res-line"><span class="res-label">FINAL MATURITY PAYABLE:</span><span class="res-val">₹ ${matTotal.toLocaleString()}</span></div>
-                <div class="formula-card">Formula: [Basic Sum Assured] + [Accrued Bonus] + [FAB]</div>
+                <div class="formula-card">Formula: [40% of Sum Assured] + [Accrued Bonus] + [FAB]<br>Note: Remaining 60% paid as Survival Benefits earlier.</div>
             `;
-        } else {
+        }else {
             // Death Logic: 720 has immediate risk cover
             const totalPaidDeath = prem * Math.min(dYear, ppt);
             // Death SA is usually higher of 125% SA or 7x Premium, but prompt asks for SA + Bonus + FAB
