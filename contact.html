@@ -160,10 +160,26 @@ button:active {
         height: auto;
     }
 }
+
+/* === Form Footer Disclosure === */
+.form-footer {
+    margin-top: 25px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    max-width: 500px;
+    line-height: 1.5;
+    padding: 0 10px;
+}
+
+.form-footer b {
+    color: var(--accent-color);
+    font-weight: 600;
+}
   </style>
 </head>
 <body>
-  <h1>Get In Touch</h1>
+<h1>Contact PolicyAdvisor</h1>
   <form id="contactForm">
 
     <div class="input-wrapper">
@@ -192,6 +208,13 @@ button:active {
 
     <button type="submit">Send Message</button>
   </form>
+<div class="form-footer">
+    <p>
+        <b>PolicyAdvisor</b> is an independent platform created by an authorized LIC Agent (Active since 2010). 
+        This is not the official website of Life Insurance Corporation of India (LIC). 
+        Your data is handled securely for insurance assistance purposes only.
+    </p>
+</div>
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
