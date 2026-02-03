@@ -468,22 +468,6 @@ const allPlanData = {
 //PENSION PLANS
 '867': { name: 'New Pension Plus (867)', summary: 'A unit-linked pension plan to build a retirement corpus.', premiumMode: 'Single or Regular Premium', term: '10 to 42 Years', minAge: '25', maxAge: '75', minSA: 'Not Applicable', maxSA: 'Not Applicable', ppt: 'Single or Same as Term', deathBenefit: 'Higher of Unit Fund Value or 105% of total premiums paid.', maturityBenefit: 'Vesting Benefit: Unit Fund Value used for Annuity.', survivalBenefit: 'Not Applicable', usp: 'Builds a retirement fund with NIL mortality charges.', advantage: 'Allows up to 60% tax-free commutation of the final corpus.' },
 
-'883': { 
-        name: 'Jeevan Utsav SP (883)', 
-        summary: 'A Non-Par, Whole Life Savings Plan requiring only a one-time premium payment.', 
-        premiumMode: 'Single Premium', 
-        term: '100 - age at entry', 
-        minAge: '30 days', 
-        maxAge: '65', 
-        minSA: '5,00,000', 
-        maxSA: 'No Limit', 
-        ppt: 'Single Premium', 
-        deathBenefit: 'Higher of BSA or 1.25 times Tabular Single Premium + Accrued Guaranteed Additions.', 
-        maturityBenefit: 'Basic Sum Assured + Accrued Guaranteed Additions (at age 100).', 
-        survivalBenefit: '10% of BSA annually for life. Option for Regular Payout or Flexi-Income (5.5% interest).', 
-        usp: 'Fixed Guaranteed Additions of ₹40 per 1000 SA during the GA period.', 
-        advantage: 'Pay once and secure a lifetime of 10% annual guaranteed income with growing life cover.' 
-    },
 
     // Single Premium
     '717': { name: 'Single Premium Endowment (717)', summary: 'A single premium, non-linked, with-profits Endowment Plan.', premiumMode: 'Single Premium', term: '10 to 25 Years', minAge: '90 days', maxAge: '65', minSA: '1,00,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Sum Assured + Vested Bonus + FAB.', maturityBenefit: 'Sum Assured + Vested Bonus + FAB.', survivalBenefit: 'Not Applicable', usp: 'One-time investment for long-term savings.', advantage: 'Eliminates the hassle of regular premium payments while providing a lump sum for future goals.' },
@@ -582,7 +566,7 @@ const planGroups = {
 // Add these keys to the planGroups object
 ulip: ['735', '749', '752', '873', '886'],
 pension: ['867'],
-    wholeLife: ['745', '771', '883'],
+    wholeLife: ['745', '771'],
     childrens: ['732', '734', '774'],
   term: ['859', '955', '875', '877', '887', '876', '878', '954'],
     annuity: ['758', '857', '862', '879'],
