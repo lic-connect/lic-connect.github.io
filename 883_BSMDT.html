@@ -3,114 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIC Jeevan Utsav Single Premium (Plan 883) Calculator</title>
+    <title>LIC Plan 883 Calculator - Jeevan Utsav SP</title>
     <style>
+        :root {
+            --aqua: #7FFFD4;
+            --white: #ffffff;
+            --black: #2c3e50;
+            --border: #bdc3c7;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-            background-color: #f5f7fa;
-            display: flex;
-            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: var(--black);
+            margin: 0;
             padding: 20px;
         }
+
         .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 850px;
+            max-width: 800px;
+            margin: auto;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 2px solid var(--aqua);
         }
+
         .header {
-            text-align: center;
-            color: #003366;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #ffd700;
-            padding-bottom: 15px;
-        }
-        h2 { margin: 0; font-size: 24px; }
-        h2 small { font-size: 14px; font-weight: normal; color: #555; display: block; margin-top: 5px;}
-        
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        .full-width { grid-column: 1 / -1; }
-        .input-group { display: flex; flex-direction: column; }
-        label { font-weight: 600; color: #333; margin-bottom: 8px; font-size: 14px;}
-        input, select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #dcdcdc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 15px;
-        }
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #eef2f7;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        button {
-            grid-column: 1 / -1;
-            padding: 16px;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            background: linear-gradient(135deg, #0055a4, #003366);
-            margin-top: 10px;
-        }
-        button:hover { opacity: 0.9; }
-
-        .output-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 30px;
-            display: none;
-        }
-        .results-box, .benefits-box {
-            background-color: #f9fafb;
+            background-color: var(--aqua);
+            color: var(--black);
             padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #e7e7e7;
-        }
-        .results-box h3, .benefits-box h3 {
-            margin-top: 0;
-            color: #003366;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
-            font-size: 17px;
-        }
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-        .result-row span:last-child { font-weight: bold; color: #003366; }
-        .highlight-amt { font-size: 20px !important; color: #d9534f !important; }
-
-        .error-message {
-            color: #d9534f;
             text-align: center;
             font-weight: bold;
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #f2dede;
-            border: 1px solid #d9534f;
-            border-radius: 5px;
-            display: none;
+            font-size: 1.4rem;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+        }
+
+        .content {
+            padding: 25px;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .rider-container {
+            background: #f0fdfa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px dashed var(--aqua);
         }
 
         @media (max-width: 600px) {
-            .grid, .output-section { grid-template-columns: 1fr; }
+            .input-group { grid-template-columns: 1fr; }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .btn-calc {
+            background-color: var(--black);
+            color: var(--aqua);
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-calc:hover {
+            background-color: #000;
+            letter-spacing: 1px;
+        }
+
+        .results {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .res-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .res-label { font-weight: 600; color: #555; }
+        .res-value { font-weight: bold; color: var(--black); font-size: 1.1rem; }
+
+        .warning-box {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: none;
         }
     </style>
 </head>
@@ -118,188 +127,273 @@
 
 <div class="container">
     <div class="header">
-        <h2>LIC's Jeevan Utsav Single Premium <small>Plan No. 883 | UIN: 512N392V01</small></h2>
+        LIC PREMIUM CALCULATOR<br>
+        <span style="font-size: 0.9rem;">PLAN NO 883 - JEEVAN UTSAV SINGLE PREMIUM</span>
     </div>
 
-    <div class="grid">
+    <div class="content">
+        <!-- Basic Inputs -->
         <div class="input-group">
-            <label>Age (Completed Years):</label>
-            <input type="number" id="age" placeholder="0 to 65" min="0" max="65">
-        </div>
-        <div class="input-group">
-            <label>Basic Sum Assured (₹):</label>
-            <input type="number" id="bsa" placeholder="Min 5,00,000" step="25000">
-        </div>
-        <div class="input-group">
-            <label>Guaranteed Addition Period (Years):</label>
-            <select id="gap">
-                <option value="">-- Select Period --</option>
-                <option value="7">7 Years (Income from 8th yr)</option>
-                <option value="8">8 Years (Income from 9th yr)</option>
-                <option value="9">9 Years (Income from 10th yr)</option>
-                <option value="10">10 Years (Income from 11th yr)</option>
-                <option value="11">11 Years (Income from 12th yr)</option>
-                <option value="12">12 Years (Income from 13th yr)</option>
-                <option value="13">13 Years (Income from 14th yr)</option>
-                <option value="14">14 Years (Income from 15th yr)</option>
-                <option value="15">15 Years (Income from 16th yr)</option>
-                <option value="16">16 Years (Income from 17th yr)</option>
-                <option value="17">17 Years (Income from 18th yr)</option>
-            </select>
-        </div>
-        <div class="input-group">
-            <label>Survival Benefit Option:</label>
-            <select id="option">
-                <option value="1">Option I: Regular Income</option>
-                <option value="2">Option II: Flexi Income</option>
-            </select>
-        </div>
-        <div class="input-group full-width">
-            <div class="checkbox-group">
-                <input type="checkbox" id="isOnline" checked>
-                <label for="isOnline" style="margin:0">Purchase Online (Directly from LIC Website)</label>
+            <div>
+                <label>Age (0-65)</label>
+                <input type="number" id="age" min="0" max="65" onchange="updateGAPeriod()">
+            </div>
+            <div>
+                <label>Basic Sum Assured (Min 5,00,000)</label>
+                <input type="number" id="sumAssured" step="25000" placeholder="Min 500000">
             </div>
         </div>
 
-        <button onclick="calculate()">Calculate Premium & Benefits</button>
-    </div>
-
-    <div id="errorBox" class="error-message"></div>
-
-    <div class="output-section" id="output">
-        <div class="results-box">
-            <h3>Premium Summary</h3>
-            <div class="result-row"><span>Tabular Premium:</span><span id="tabPrem">-</span></div>
-            <div class="result-row"><span>High BSA Rebate:</span><span id="bsaRebate">-</span></div>
-            <div class="result-row" id="onlineRow"><span>Online Rebate (2%):</span><span id="onlineRebate">-</span></div>
-            <div class="result-row" style="border-top:1px solid #ddd; padding-top:10px; margin-top:10px;">
-                <span>Total Single Premium:</span>
-                <span id="totalPrem" class="highlight-amt">-</span>
+        <div class="input-group">
+            <div>
+                <label>Guaranteed Addition (GA) Period</label>
+                <select id="gaPeriod"></select>
             </div>
-            <p style="font-size: 11px; color: #777; margin-top: 10px;">* No GST is applicable on Single Premium as per current rules for this plan.</p>
+            <div>
+                <label>Income Benefit Option</label>
+                <select id="benefitOption">
+                    <option value="Regular">Regular Income Benefit</option>
+                    <option value="Flexi">Flexi Income Benefit</option>
+                </select>
+            </div>
         </div>
 
-        <div class="benefits-box">
-            <h3>Guaranteed Benefits</h3>
-            <div class="result-row"><span>Sum Assured on Death:</span><span id="saDeath">-</span></div>
-            <div class="result-row"><span>Annual Income Benefit:</span><span id="incomeAmt">-</span></div>
-            <div class="result-row"><span>Income Start Year:</span><span id="startYear">-</span></div>
-            <div class="result-row"><span>Guaranteed Additions (p.a):</span><span id="gaPerYear">-</span></div>
-            <div class="result-row"><span>Total GA (at end of GA Period):</span><span id="totalGA">-</span></div>
+        <!-- Rider Inputs -->
+        <div class="rider-container">
+            <div class="input-group">
+                <div>
+                    <label>ADDB Sum Assured (Max 50L)</label>
+                    <input type="number" id="addbSA" value="0" placeholder="Enter ADDB SA">
+                </div>
+                <div>
+                    <label>Term Rider Sum Assured</label>
+                    <input type="number" id="trSA" value="0" placeholder="Enter Term Rider SA">
+                </div>
+            </div>
+            <p style="font-size: 0.75rem; color: #666; margin: 0;">* Riders are capped at 30% of Base Premium and cannot exceed Basic Sum Assured.</p>
+        </div>
+
+        <button class="btn-calc" onclick="calculate()">Calculate Premium</button>
+        <div id="riderWarning" class="warning-box">Note: Rider premiums were capped to 30% of Base Premium as per LIC rules.</div>
+
+        <!-- Output Section -->
+        <div class="results" id="resultArea">
+            <div class="res-row" style="background: var(--aqua); padding: 15px; border-radius: 6px;">
+                <span class="res-label">1. TOTAL SINGLE PREMIUM:</span>
+                <span class="res-value" id="outTotal">₹ 0</span>
+            </div>
+            <div class="res-row">
+                <span class="res-label">2. TOTAL GA (over GA Period):</span>
+                <span class="res-value" id="outTotalGA">₹ 0</span>
+            </div>
+            <div class="res-row">
+                <span class="res-label">3. SURVIVAL BENEFIT:</span>
+                <span class="res-value" id="outSB">₹ 0</span>
+            </div>
+            <div class="res-row">
+                <span class="res-label">4. DEATH BENEFIT (DURING GA):</span>
+                <span class="res-value" id="outDB_GA">₹ 0</span>
+            </div>
+            <div class="res-row" style="border-bottom: none;">
+                <span class="res-label">5. DEATH BENEFIT (POST GA):</span>
+                <span class="res-value" id="outDB_Post">₹ 0</span>
+            </div>
+            
+            <div style="margin-top: 20px; font-size: 0.8rem; color: #7f8c8d; border-top: 1px solid #eee; padding-top: 10px;">
+                * ADDB Premium included: <span id="valADDB">₹ 0</span> | Term Rider Premium included: <span id="valTR">₹ 0</span>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    const premiumRates = {
-        0: 4100, 5: 4150, 10: 4200, 15: 4300, 20: 4450, 25: 4650, 30: 4900, 35: 5200, 
-        40: 5600, 45: 6150, 50: 6850, 55: 7750, 60: 8950, 65: 10500
-    };
+    // Full Data Integration
+    const premiumData = [
+  { "Age": 0, "T7": 0, "T8": 0, "T9": 0, "T10": 0, "T11": 0, "T12": 0, "T13": 0, "T14": 0, "T15": 0, "T16": 0, "T17": 540.0 },
+  { "Age": 1, "T7": 0, "T8": 0, "T9": 0, "T10": 0, "T11": 0, "T12": 0, "T13": 0, "T14": 0, "T15": 0, "T16": 570.55, "T17": 540.0 },
+  { "Age": 2, "T7": 0, "T8": 0, "T9": 0, "T10": 0, "T11": 0, "T12": 0, "T13": 0, "T14": 0, "T15": 605.0, "T16": 570.55, "T17": 540.0 },
+  { "Age": 3, "T7": 0, "T8": 0, "T9": 0, "T10": 0, "T11": 0, "T12": 0, "T13": 0, "T14": 641.9, "T15": 605.0, "T16": 570.55, "T17": 540.0 },
+  { "Age": 4, "T7": 0, "T8": 0, "T9": 0, "T10": 0, "T11": 0, "T12": 0, "T13": 681.45, "T14": 641.9, "T15": 605.0, "T16": 570.55, "T17": 540.0 },
+  { "Age": 5, "T7": 0, "T8": 0, "T9": 0, "T10": 0, "T11": 0, "T12": 723.75, "T13": 681.45, "T14": 641.9, "T15": 605.0, "T16": 570.55, "T17": 540.0 },
+  { "Age": 6, "T7": 0, "T8": 0, "T9": 0, "T10": 0, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 641.9, "T15": 605.0, "T16": 570.55, "T17": 540.0 },
+  { "Age": 7, "T7": 0, "T8": 0, "T9": 0, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 641.9, "T15": 605.1, "T16": 570.7, "T17": 540.0 },
+  { "Age": 8, "T7": 0, "T8": 0, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.0, "T15": 605.3, "T16": 571.0, "T17": 540.0 },
+  { "Age": 9, "T7": 0, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.1, "T15": 605.45, "T16": 571.2, "T17": 540.0 },
+  { "Age": 10, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.2, "T15": 605.65, "T16": 571.45, "T17": 540.0 },
+  { "Age": 11, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.25, "T15": 605.8, "T16": 571.7, "T17": 540.0 },
+  { "Age": 12, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.3, "T15": 605.9, "T16": 571.9, "T17": 540.1 },
+  { "Age": 13, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.0, "T16": 572.05, "T17": 540.35 },
+  { "Age": 14, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.2, "T17": 540.55 },
+  { "Age": 15, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.3, "T17": 540.7 },
+  { "Age": 16, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.35, "T17": 540.85 },
+  { "Age": 17, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.4, "T17": 540.95 },
+  { "Age": 18, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.4, "T17": 541.05 },
+  { "Age": 19, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.4, "T17": 541.15 },
+  { "Age": 20, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.4, "T17": 541.2 },
+  { "Age": 21, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.4, "T17": 541.3 },
+  { "Age": 22, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.4, "T17": 541.4 },
+  { "Age": 23, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.4, "T17": 541.55 },
+  { "Age": 24, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.45, "T17": 541.7 },
+  { "Age": 25, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.5, "T17": 541.9 },
+  { "Age": 26, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.6, "T17": 542.15 },
+  { "Age": 27, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.75, "T17": 542.45 },
+  { "Age": 28, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 572.95, "T17": 542.8 },
+  { "Age": 29, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 573.15, "T17": 543.2 },
+  { "Age": 30, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 573.45, "T17": 543.65 },
+  { "Age": 31, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 573.75, "T17": 544.2 },
+  { "Age": 32, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 574.15, "T17": 544.8 },
+  { "Age": 33, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.1, "T16": 574.6, "T17": 545.5 },
+  { "Age": 34, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.25, "T16": 575.15, "T17": 546.3 },
+  { "Age": 35, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 606.6, "T16": 575.75, "T17": 547.2 },
+  { "Age": 36, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 607.0, "T16": 576.5, "T17": 548.2 },
+  { "Age": 37, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 607.5, "T16": 577.3, "T17": 549.35 },
+  { "Age": 38, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 608.1, "T16": 578.25, "T17": 550.6 },
+  { "Age": 39, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 608.85, "T16": 579.3, "T17": 552.05 },
+  { "Age": 40, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 609.65, "T16": 580.5, "T17": 553.65 },
+  { "Age": 41, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.35, "T15": 610.6, "T16": 581.85, "T17": 555.4 },
+  { "Age": 42, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 642.45, "T15": 611.7, "T16": 583.4, "T17": 557.3 },
+  { "Age": 43, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 643.25, "T15": 612.95, "T16": 585.05, "T17": 559.45 },
+  { "Age": 44, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 644.2, "T15": 614.35, "T16": 586.9, "T17": 561.75 },
+  { "Age": 45, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 645.25, "T15": 615.9, "T16": 588.95, "T17": 564.25 },
+  { "Age": 46, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 646.45, "T15": 617.6, "T16": 591.15, "T17": 566.95 },
+  { "Age": 47, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 647.8, "T15": 619.5, "T16": 593.55, "T17": 569.8 },
+  { "Age": 48, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 649.3, "T15": 621.5, "T16": 596.05, "T17": 572.85 },
+  { "Age": 49, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.45, "T14": 650.85, "T15": 623.65, "T16": 598.75, "T17": 576.1 },
+  { "Age": 50, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 681.85, "T14": 652.6, "T15": 625.9, "T16": 601.6, "T17": 579.5 },
+  { "Age": 51, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 683.05, "T14": 654.4, "T15": 628.3, "T16": 604.6, "T17": 583.05 },
+  { "Age": 52, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 684.35, "T14": 656.3, "T15": 630.8, "T16": 607.7, "T17": 586.8 },
+  { "Age": 53, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 685.7, "T14": 658.3, "T15": 633.45, "T16": 610.95, "T17": 590.65 },
+  { "Age": 54, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 687.15, "T14": 660.35, "T15": 636.2, "T16": 614.35, "T17": 594.7 },
+  { "Age": 55, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 688.65, "T14": 662.55, "T15": 639.1, "T16": 617.9, "T17": 598.95 },
+  { "Age": 56, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 690.25, "T14": 664.9, "T15": 642.1, "T16": 621.65, "T17": 603.4 },
+  { "Age": 57, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 692.0, "T14": 667.4, "T15": 645.35, "T16": 625.65, "T17": 608.1 },
+  { "Age": 58, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 693.9, "T14": 670.05, "T15": 648.8, "T16": 629.85, "T17": 613.05 },
+  { "Age": 59, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 696.0, "T14": 673.0, "T15": 652.55, "T16": 634.4, "T17": 618.4 },
+  { "Age": 60, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 723.75, "T13": 698.35, "T14": 676.2, "T15": 656.55, "T16": 639.25, "T17": 624.1 },
+  { "Age": 61, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 725.0, "T13": 700.95, "T14": 679.7, "T15": 661.0, "T16": 644.55, "T17": 630.25 },
+  { "Age": 62, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 727.0, "T13": 703.9, "T14": 683.6, "T15": 665.8, "T16": 650.3, "T17": 636.85 },
+  { "Age": 63, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 729.3, "T13": 707.2, "T14": 687.9, "T15": 671.05, "T16": 656.5, "T17": 643.95 },
+  { "Age": 64, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 732.0, "T13": 710.95, "T14": 692.65, "T15": 676.8, "T16": 663.2, "T17": 651.6 },
+  { "Age": 65, "T7": 989.7, "T8": 928.3, "T9": 871.05, "T10": 817.65, "T11": 768.9, "T12": 735.05, "T13": 715.1, "T14": 697.85, "T15": 683.1, "T16": 670.5, "T17": 659.85 }
+];
+    
+    const addbRates = {5: 4.55, 6: 5.3, 7: 6, 8: 6.7, 9: 7.35, 10: 7.95, 11: 8.55, 12: 9.1, 13: 9.65, 14: 10.15, 15: 10.6, 16: 11.05, 17: 11.5, 18: 11.9, 19: 12.25, 20: 12.65, 21: 12.95, 22: 13.3, 23: 13.6, 24: 13.9, 25: 14.15, 26: 14.45, 27: 14.7, 28: 14.9, 29: 15.15, 30: 15.35, 31: 15.55, 32: 15.75, 33: 15.9, 34: 16.1, 35: 16.25, 36: 16.4, 37: 16.55, 38: 16.7, 39: 16.8, 40: 16.95, 41: 17.05, 42: 17.2, 43: 17.3, 44: 17.4, 45: 17.5, 46: 17.55, 47: 17.65, 48: 17.75, 49: 17.8, 50: 17.9, 51: 17.95, 52: 18};
+    const trRates = {18: 29.92, 19: 31.32, 20: 32.86, 21: 34.58, 22: 36.48, 23: 38.6, 24: 40.95, 25: 43.54, 26: 46.38, 27: 49.49, 28: 52.89, 29: 56.59, 30: 60.61, 31: 64.98, 32: 69.7, 33: 74.81, 34: 80.34, 35: 86.31, 36: 92.74, 37: 99.67, 38: 107.12, 39: 115.12, 40: 123.7, 41: 128.69, 42: 133.69, 43: 138.83, 44: 144.12, 45: 149.51, 46: 155.01, 47: 160.54, 48: 166.09, 49: 171.58, 50: 176.97, 51: 182.19, 52: 187.18, 53: 191.89, 54: 196.24, 55: 200.2, 56: 203.71, 57: 206.71, 58: 209.15, 59: 210.99, 60: 212.16};
 
-    function getRate(age) {
-        const keys = Object.keys(premiumRates).map(Number).sort((a,b) => a-b);
-        if (age in premiumRates) return premiumRates[age];
-        for(let i=0; i<keys.length-1; i++) {
-            if (age > keys[i] && age < keys[i+1]) {
-                let r1 = premiumRates[keys[i]], r2 = premiumRates[keys[i+1]];
-                return r1 + (r2 - r1) * (age - keys[i]) / (keys[i+1] - keys[i]);
-            }
+    function updateGAPeriod() {
+        const age = parseInt(document.getElementById('age').value) || 0;
+        const gaSelect = document.getElementById('gaPeriod');
+        gaSelect.innerHTML = "";
+        let start = (age >= 10) ? 7 : (17 - age);
+        for (let i = Math.max(7, start); i <= 17; i++) {
+            let opt = document.createElement('option');
+            opt.value = i; opt.innerHTML = i + " Years";
+            gaSelect.appendChild(opt);
         }
-        return age > 65 ? 10500 : 4100;
     }
 
-    function getHighBSARebate(age, bsa) {
-        if (bsa < 1000000) return 0;
-        let rebate = 0;
-        if (age <= 20) {
-            if (bsa < 2500000) rebate = 11;
-            else if (bsa < 5000000) rebate = 19;
-            else rebate = 21;
-        } else if (age <= 40) {
-            if (bsa < 2500000) rebate = 9;
-            else if (bsa < 5000000) rebate = 15;
-            else rebate = 18;
-        } else if (age <= 55) {
-            if (bsa < 2500000) rebate = 6.5;
-            else if (bsa < 5000000) rebate = 12;
-            else rebate = 13;
-        } else {
-            if (bsa < 2500000) rebate = 5;
-            else if (bsa < 5000000) rebate = 9;
-            else rebate = 10;
-        }
-        return rebate;
+function calculate() {
+    // 1. Get User Inputs
+    const age = parseInt(document.getElementById('age').value);
+    const sa = parseInt(document.getElementById('sumAssured').value);
+    const term = parseInt(document.getElementById('gaPeriod').value); // GA Period (7-17)
+    const addb_sa_in = parseInt(document.getElementById('addbSA').value) || 0;
+    const tr_sa_in = parseInt(document.getElementById('trSA').value) || 0;
+
+    // 2. Basic Validations
+    if (isNaN(age) || isNaN(sa) || sa < 500000) {
+        alert("Please enter a valid Age and Sum Assured (Minimum 5,00,000)");
+        return;
     }
 
-    function format(val) {
-        return "₹" + Math.round(val).toLocaleString('en-IN');
+if (addb_sa_in > sa || addb_sa_in > 5000000 || tr_sa_in > sa) { alert("Error: Rider Sum Assured cannot exceed Basic Sum Assured, and ADDB is strictly capped at 50 Lakhs."); return; }
+
+    // 3. BASE PREMIUM CALCULATION
+    // Find closest age entry in premiumData to get tabular rate
+    let closest = premiumData.reduce((prev, curr) => Math.abs(curr.Age - age) < Math.abs(prev.Age - age) ? curr : prev);
+    let tabularRate = closest["T" + term];
+    
+    // High SA Rebate Logic (based on Page 11 of PDF)
+    let rebate = 0;
+    if (sa >= 1000000 && sa <= 2450000) {
+        rebate = (age <= 20) ? 11 : (age <= 40) ? 9 : (age <= 55) ? 6.5 : 5;
+    } else if (sa >= 2500000 && sa <= 4950000) {
+        rebate = (age <= 20) ? 19 : (age <= 40) ? 15 : (age <= 55) ? 12 : 9;
+    } else if (sa >= 5000000) {
+        rebate = (age <= 20) ? 21 : (age <= 40) ? 18 : (age <= 55) ? 13 : 10;
     }
 
-    function calculate() {
-        const errorBox = document.getElementById('errorBox');
-        const output = document.getElementById('output');
-        errorBox.style.display = 'none';
-        output.style.display = 'none';
+    let basePrem = (sa / 1000) * (tabularRate - rebate);
 
-        const age = parseInt(document.getElementById('age').value);
-        const bsa = parseInt(document.getElementById('bsa').value);
-        const gap = parseInt(document.getElementById('gap').value);
-        const isOnline = document.getElementById('isOnline').checked;
+    // 4. ADDB RIDER CALCULATION (Corrected)
+    // Rule: ADDB SA cannot exceed Basic SA, and maximum absolute limit is 50 Lacs
+    let addb_sa_limit = Math.min(sa, 5000000);
+    let addb_sa = Math.min(addb_sa_in, addb_sa_limit);
+    
+    // Rule: ADDB term is coverage up to Age 70
+    let addbDuration = 70 - age;
+    // Cap duration based on available JSON data (5 to 52 years)
+    if (addbDuration < 5) addbDuration = 5;
+    if (addbDuration > 52) addbDuration = 52;
+    
+    let addbRate = addbRates[addbDuration] || 0;
+    let rawAddbPrem = (addb_sa / 1000) * addbRate;
 
-        // Validations
-        if (isNaN(age) || age < 0 || age > 65) {
-            showError("Please enter valid age (0-65 years)."); return;
-        }
-        if (isNaN(bsa) || bsa < 500000) {
-            showError("Minimum Basic Sum Assured is ₹5,00,000."); return;
-        }
-        if (bsa < 2450000 && bsa % 25000 !== 0) {
-            showError("BSA must be in multiples of ₹25,000."); return;
-        }
-        if (bsa >= 2450000 && bsa % 50000 !== 0) {
-            showError("BSA must be in multiples of ₹50,000 for amounts above 24.5 Lakhs."); return;
-        }
-        if (isNaN(gap)) {
-            showError("Please select the Guaranteed Addition Period."); return;
-        }
+    // 5. TERM RIDER CALCULATION
+    // Rule: Term Rider SA cannot exceed Basic SA
+    let tr_sa = Math.min(tr_sa_in, sa);
+    let rawTrPrem = (age >= 18) ? (tr_sa / 1000) * (trRates[age] || 0) : 0;
 
-        const tabRate = getRate(age);
-        const tabularPremium = (bsa / 1000) * tabRate;
-        const bsaRebateRate = getHighBSARebate(age, bsa);
-        const bsaRebateAmt = (bsa / 1000) * bsaRebateRate;
-        
-        let netPremium = tabularPremium - bsaRebateAmt;
-        let onlineRebateAmt = 0;
-        
-        if (isOnline) {
-            onlineRebateAmt = netPremium * 0.02;
-            netPremium -= onlineRebateAmt;
-            document.getElementById('onlineRow').style.display = 'flex';
-        } else {
-            document.getElementById('onlineRow').style.display = 'none';
-        }
+    // 6. APPLY 30% RIDER PREMIUM CAP (LIC Rule)
+    // Combined Rider Premium cannot exceed 30% of the Base Plan Premium
+    let riderCap = basePrem * 0.30;
+    let actualAddb = rawAddbPrem;
+    let actualTr = rawTrPrem;
 
-        // Output logic
-        document.getElementById('tabPrem').innerText = format(tabularPremium);
-        document.getElementById('bsaRebate').innerText = format(bsaRebateAmt);
-        document.getElementById('onlineRebate').innerText = format(onlineRebateAmt);
-        document.getElementById('totalPrem').innerText = format(netPremium);
-
-        // Benefits
-        document.getElementById('saDeath').innerText = format(Math.max(bsa, 1.25 * tabularPremium));
-        document.getElementById('incomeAmt').innerText = format(bsa * 0.10) + " (p.a.)";
-        document.getElementById('startYear').innerText = "Policy Year " + (gap + 1);
-        document.getElementById('gaPerYear').innerText = format((bsa / 1000) * 40);
-        document.getElementById('totalGA').innerText = format(((bsa / 1000) * 40) * gap);
-
-        output.style.display = 'grid';
+    if ((rawAddbPrem + rawTrPrem) > riderCap) {
+        document.getElementById('riderWarning').style.display = "block";
+        let totalRawRider = rawAddbPrem + rawTrPrem;
+        actualAddb = rawAddbPrem * (riderCap / totalRawRider);
+        actualTr = rawTrPrem * (riderCap / totalRawRider);
+    } else {
+        document.getElementById('riderWarning').style.display = "none";
     }
 
-    function showError(msg) {
-        const errorBox = document.getElementById('errorBox');
-        errorBox.innerText = msg;
-        errorBox.style.display = 'block';
-    }
+    // 7. TOTAL PREMIUM AND BENEFIT CALCULATIONS
+    let finalSinglePrem = basePrem + actualAddb + actualTr;
+    
+    // Survival Benefit: 10% of Basic SA
+    let survivalBenefit = sa * 0.10;
+    
+    // Guaranteed Addition (GA): Rs. 40 per 1000 SA per year
+    let yearlyGA = (sa / 1000) * 40;
+    let totalGAOverPeriod = yearlyGA * term;
+    
+    // Sum Assured on Death: Higher of Basic SA or 1.25 * Tabular Single Premium
+    let tabularSinglePremium = (sa / 1000) * tabularRate;
+    let saOnDeath = Math.max(sa, 1.25 * tabularSinglePremium);
+
+    // 8. UPDATE OUTPUTS
+    document.getElementById('resultArea').style.display = "block";
+    document.getElementById('outTotal').innerText = "₹ " + Math.round(finalSinglePrem).toLocaleString();
+    document.getElementById('outTotalGA').innerText = "₹ " + Math.round(totalGAOverPeriod).toLocaleString();
+    document.getElementById('outSB').innerText = "₹ " + Math.round(survivalBenefit).toLocaleString() + " / Year";
+    
+    // Death Benefit (During GA): SA on Death + GA generated every year (Current year)
+    document.getElementById('outDB_GA').innerText = "₹ " + Math.round(saOnDeath + yearlyGA).toLocaleString();
+    
+    // Death Benefit (After GA): SA on Death + Total Accrued GA
+    document.getElementById('outDB_Post').innerText = "₹ " + Math.round(saOnDeath + totalGAOverPeriod).toLocaleString();
+    
+    // Detailed Breakdown (Hidden values for verification)
+    document.getElementById('valADDB').innerText = "₹ " + Math.round(actualAddb).toLocaleString();
+    document.getElementById('valTR').innerText = "₹ " + Math.round(actualTr).toLocaleString();
+
+    // Auto-scroll to results
+    document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
+}
+
+    updateGAPeriod();
 </script>
 
 </body>
