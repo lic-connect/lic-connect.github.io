@@ -220,6 +220,110 @@ th { color: var(--accent-color); font-weight: 600; white-space: nowrap; }
 
 /* Smooth Tap Feedback */
 button:active { transform: scale(0.96); filter: brightness(0.9); }
+
+
+
+
+
+/* ============================================================
+   UNIVERSAL MOBILE COMPLIANCE BLOCK
+   (Paste this at the end of the style tag on every page)
+   ============================================================ */
+
+@media (max-width: 992px) {
+    /* 1. Reset Layout: Remove the sidebar offset */
+    .page-container {
+        flex-direction: column !important;
+        display: block !important;
+    }
+
+    .sidebar {
+        position: relative !important; /* Undo 'fixed' */
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 20px 15px !important;
+        border-right: none !important;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .main-content {
+        margin-left: 0 !important; /* FIX: Removes the 300px gap */
+        padding: 20px 15px !important;
+        width: 100% !important;
+    }
+
+    /* 2. Standardize Headers */
+    h1 { font-size: 1.8rem !important; }
+    h2 { font-size: 1.4rem !important; }
+
+    /* 3. Force Grids to Single Column */
+    .button-grid, .plan-grid, .form-grid, .result-grid, .input-group {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+
+    /* 4. Optimize Inputs for Android/iOS (Prevents Auto-Zoom) */
+    input, select, textarea, button {
+        font-size: 16px !important; 
+        padding: 12px !important;
+        height: auto !important;
+    }
+
+    /* 5. Fix Full-Width Elements */
+    .dashboard-button, .plan-card, .res-card, .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 6. Fix the News Ticker for Small Screens */
+    #newsTicker {
+        height: auto !important;
+        line-height: 1.5 !important;
+        padding: 10px !important;
+    }
+    
+    #newsText {
+        position: relative !important;
+        white-space: normal !important; /* Wrap text instead of scrolling off-screen */
+        padding-left: 0 !important;
+        animation: none !important; 
+        display: block !important;
+    }
+    
+    #newsText a {
+        display: block;
+        margin-bottom: 8px;
+        margin-right: 0 !important;
+        border-bottom: 1px solid #eee;
+    }
+
+    /* 7. Tap Feedback for Touchscreens */
+    .dashboard-button:active, .btn-calc:active, .plan-card:active {
+        transform: scale(0.96) !important;
+        background-color: #f0f0f0 !important;
+    }
+
+    /* 8. PWA/Install Button Positioning */
+    .pwa-button {
+        bottom: 10px !important;
+        right: 10px !important;
+        padding: 10px 20px !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* Extra small screens fix */
+@media (max-width: 480px) {
+    .sidebar-header img {
+        width: 60px !important;
+        height: 60px !important;
+    }
+    .header { font-size: 1.1rem !important; }
+}
 </style>
     <body>
   <div class="container">
