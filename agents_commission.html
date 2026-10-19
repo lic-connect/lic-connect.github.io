@@ -268,7 +268,13 @@ const db = {
     '887': { name: "Bima Kavach (887)", type: 'TERM', rule: 'MANUAL', min: 10, max: 82 },
     '911': { name: "Nav Jeevan Shree Single (911)", type: 'SP', rule: 'SP', min: 5, max: 20 },
     '912': { name: "Nav Jeevan Shree Regular (912)", type: 'END', rule: 'MAP', map: {10:6, 12:8, 15:10, 20:12} },
-    '955': { name: "New Jeevan Amar (955)", type: 'TERM', rule: 'T=P', min: 10, max: 40 }
+    '955': { name: "New Jeevan Amar (955)", type: 'TERM', rule: 'T=P', min: 10, max: 40 },
+    '770': { name: "Bima Platinum (770)", type: 'END', rule: 'MANUAL', min: 17, max: 40 },
+    '881': { name: "Bima Lakshmi (881)", type: 'MB', rule: 'MANUAL', min: 25, max: 25 },
+    '888': { name: "Jeevan Sathi Single Premium (888)", type: 'SP', rule: 'SP', min: 10, max: 25 },
+    '889': { name: "Jeevan Sathi Limited Premium (889)", type: 'END', rule: 'MANUAL', min: 10, max: 25 },
+    '890': { name: "New Bima Jyoti (890)", type: 'END', rule: 'MAP', map: {15:10, 16:11, 17:12, 18:13, 19:14, 20:15} },
+    '894': { name: "Jeevan Raksha (894)", type: 'TERM', rule: 'MANUAL', min: 15, max: 42 }
 };
 
 const planSelect = document.getElementById('plan-select');
@@ -388,6 +394,34 @@ const plan = db[id];
         // Protection Plus Logic
         if (annualized < 100000) rates = { y1: 5.5, y2: 3, y3: 3, y4: 2 };
         else rates = { y1: 8, y2: 3, y3: 3, y4: 2.5 };
+    }
+
+
+        } else if (id === '770') {
+        // Bima Platinum: Limited Premium
+        if (ppt === 7) rates = { y1: 10, y2: 5, y3: 5, y4: 5 };
+        else if (ppt >= 10 && ppt <= 14) rates = { y1: 20, y2: 7.5, y3: 7.5, y4: 5 };
+        else if (ppt >= 15 && ppt <= 18) rates = { y1: 25, y2: 7.5, y3: 7.5, y4: 5 };
+    } else if (id === '881') {
+        // Bima Lakshmi: Limited Premium
+        if (ppt >= 7 && ppt <= 9) rates = { y1: 10, y2: 5, y3: 5, y4: 5 };
+        else if (ppt >= 10 && ppt <= 14) rates = { y1: 20, y2: 7.5, y3: 7.5, y4: 5 };
+        else if (ppt === 15) rates = { y1: 25, y2: 7.5, y3: 7.5, y4: 5 };
+    } else if (id === '888') {
+        // Jeevan Sathi Single Premium
+        rates = { y1: 2, y2: 0, y3: 0, y4: 0 };
+    } else if (id === '889') {
+        // Jeevan Sathi Limited Premium
+        if (ppt === 5) rates = { y1: 10, y2: 7.5, y3: 7.5, y4: 0 };
+        else if (ppt === 10 || ppt === 15) rates = { y1: 15, y2: 7.5, y3: 7.5, y4: 5.5 };
+        if (ppt === 15) rates.y1 = 20;
+    } else if (id === '890') {
+        // New Bima Jyoti: Limited Premium
+        rates = { y1: 20, y2: 7.5, y3: 7.5, y4: 5 };
+    } else if (id === '894') {
+        // Jeevan Raksha: Pure Term
+        // Regular / Limited Premium rates
+        rates = { y1: 25, y2: 7.5, y3: 7.5, y4: 5 };
     }
     const format = (v) => "₹ " + Math.round(v).toLocaleString('en-IN');
     document.getElementById('y1').innerText = format(annualized * rates.y1 / 100);
