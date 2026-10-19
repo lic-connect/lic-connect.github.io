@@ -443,6 +443,58 @@ const allPlanData = {
 '880': { name: 'Jan Suraksha (880)', summary: 'A life micro-insurance plan designed for low-income groups offering protection and savings.', premiumMode: 'Yearly, Halfly, Monthly(NACH/SSS)', term: '12 to 20 Years', minAge: '18', maxAge: '55', minSA: '1,00,000', maxSA: '2,00,000', ppt: 'Term - 5 Years', deathBenefit: 'Sum Assured on Death + Accrued Guaranteed Additions (7x Annual Premium min).', maturityBenefit: 'Basic Sum Assured + Accrued Guaranteed Additions.', survivalBenefit: 'Not Applicable', usp: 'Includes an Auto-cover feature for up to 2 years.', advantage: 'Extremely affordable premiums for essential financial security.' },
     '912': { name: 'Nav Jeevan Shree (Regular)', summary: 'A Non-Par, Non-Linked, Limited Payment Savings Endowment Plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '10 to 20 Years', minAge: '90 days', maxAge: '60', minSA: '5,00,000', maxSA: 'No Limit', ppt: '6, 8, 10, 12 Years', deathBenefit: 'Option-1: Higher of 7xAP or BSA. Option-2: Higher of 10xAP or BSA. + Guaranteed Additions.', maturityBenefit: 'Basic Sum Assured + Guaranteed Additions.', survivalBenefit: 'Not Applicable', usp: 'Guaranteed Additions for secure, predictable growth.', advantage: 'A high sum assured plan offering guaranteed returns, suitable for individuals seeking secure wealth creation.' },
     '760': { name: 'Bima Jyoti (760)', summary: 'A Non-participating, Limited Premium, Life Insurance Savings Plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '15 to 20 Years', minAge: '90 days', maxAge: '60', minSA: '1,25,000', maxSA: 'No Limit', ppt: 'Term - 5 Years', deathBenefit: '125% of BSA or 7 times AP + Guaranteed Additions.', maturityBenefit: 'Basic Sum Assured + Guaranteed Additions.', survivalBenefit: 'Not Applicable', usp: 'Guaranteed Additions of Rs. 50 per 1000 SA each year.', advantage: 'Offers a completely guaranteed return and maturity amount, making financial planning precise.' },
+    '770': {
+    name: 'Bima Platinum (770)',
+    summary: 'Non-Linked, Non-Participating Individual Savings Limited Premium Endowment Plan with Guaranteed Additions, Regular Income Benefit and Booster Income Benefit.',
+    premiumMode: 'Yearly, Half-Yearly, Quarterly, Monthly',
+    term: 'PPT 7: 17–40 years; PPT 10: 20–40 years; PPT 12: 22–40 years; PPT 15: 25–40 years; PPT 18: 28–40 years',
+    minAge: '30 days completed (PPT 18); 3 years (PPT 15); 6 years (PPT 12); 8 years (PPT 10); 11 years (PPT 7)',
+    maxAge: '55 years (PPT 7 and 10); 53 years (PPT 12); 50 years (PPT 15); 47 years (PPT 18)',
+    minSA: '3,00,000',
+    maxSA: 'No Limit, subject to LIC underwriting',
+    ppt: '7, 10, 12, 15 or 18 years',
+    deathBenefit: 'Higher of 11 times Annualized Premium or Basic Sum Assured, plus accrued Guaranteed Additions. Death Benefit shall not be less than 105% of total premiums paid, subject to policy conditions.',
+    maturityBenefit: 'Basic Sum Assured plus accrued Guaranteed Additions.',
+    survivalBenefit: 'Regular Income Benefit: 10% of Basic Sum Assured annually from the end of PPT until the policy anniversary immediately preceding maturity. Booster Income Benefit: 70% of Basic Sum Assured at the 12th, 15th, 17th, 20th or 23rd policy anniversary for PPT 7, 10, 12, 15 or 18 respectively.',
+    usp: 'Guaranteed Additions, annual income and a substantial Booster Income Benefit.',
+    advantage: 'Offers long-term life protection and savings, with Guaranteed Additions of ₹70 per ₹1,000 of Annualized Premium plus eligible high-sum-assured and existing-policyholder incentives.'
+},
+'889': {
+    name: 'Jeevan Sathi Limited Premium (889)',
+    summary: 'Non-Participating, Non-Linked Joint-Life Limited Payment Savings Endowment Plan with Guaranteed Additions for a married individual and their spouse.',
+    premiumMode: 'Yearly, Half-Yearly, Quarterly, Monthly (NACH)',
+    term: '5-year PPT: 10, 15, 20 or 25 years; 10-year PPT: 15, 20 or 25 years; 15-year PPT: 20 or 25 years',
+    minAge: '18 years completed for both lives',
+    maxAge: 'Option 1: 50 years (Nearest Birthday); Option 2: 40 years (Nearest Birthday)',
+    minSA: '3,00,000',
+    maxSA: 'No Limit',
+    ppt: '5, 10 or 15 years, subject to the selected policy term',
+    deathBenefit: 'First death: Sum Assured on Death plus waiver of future base-plan premiums; rider premiums continue to be paid on the surviving life. Second death: Sum Assured on Death plus Guaranteed Additions. Simultaneous death: Twice the Sum Assured on Death plus Guaranteed Additions.',
+    maturityBenefit: 'On survival of either or both lives, Basic Sum Assured plus Guaranteed Additions.',
+    survivalBenefit: 'Basic Sum Assured plus Guaranteed Additions on survival of either or both lives, according to the policy provisions.',
+    usp: 'Joint-life protection with limited premium payments and a first-death premium waiver.',
+    advantage: 'Provides joint-life cover and Guaranteed Additions at 7% of total Tabular Annual Premium paid, with surrender and loan facilities available after one year.'
+},
+
+'890': {
+    name: 'New Bima Jyoti (890)',
+    summary: 'Non-Participating, Non-Linked Individual Limited Premium Endowment Savings Plan with Guaranteed Additions and life cover.',
+    premiumMode: 'Yearly, Half-Yearly, Quarterly, Monthly (e-NACH/NACH only), Salary Savings Scheme',
+    term: '15/10, 16/11, 17/12, 18/13, 19/14 or 20/15 years (Policy Term/PPT)',
+    minAge: '30 days completed',
+    maxAge: '60 years (Nearest Birthday)',
+    minSA: '1,25,000',
+    maxSA: 'No Limit',
+    ppt: '10, 11, 12, 13, 14 or 15 years, corresponding to policy terms of 15, 16, 17, 18, 19 or 20 years',
+    deathBenefit: 'Higher of 125% of Basic Sum Assured or 7 times Annualized Premium, plus accrued Guaranteed Additions. Death Benefit shall not be less than 105% of total premiums paid, subject to policy conditions.',
+    maturityBenefit: 'Basic Sum Assured plus accrued Guaranteed Additions.',
+    survivalBenefit: 'Not Applicable',
+    usp: 'Guaranteed savings and life cover with six Policy Term/PPT combinations.',
+    advantage: 'Guaranteed Additions accrue at 6% of total Annualized Premiums in respect of premiums paid. Surrender and loan facilities are available after completion of the first policy year, subject to conditions.'
+},
+
+
+
     
     // Money Back
     '720': { name: '20-Year Money Back (720)', summary: 'A limited premium payment, with-profits Money Back Plan.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: '20 Years', minAge: '13', maxAge: '50', minSA: '2,00,000', maxSA: 'No Limit', ppt: '15 Years', deathBenefit: 'Higher of 125% of BSA or 7 times AP + Bonuses.', maturityBenefit: '40% of Basic Sum Assured + Vested Bonus + FAB.', survivalBenefit: '20% of Basic SA at the end of 5th, 10th, and 15th year.', usp: 'Regular liquidity to meet intermittent financial needs.', advantage: 'Provides periodic payouts during the policy term, which can be used for planned expenses like child\'s education fees.' },
@@ -488,7 +540,28 @@ const allPlanData = {
     advantage: 'Provides a massive 10% yield on Sum Assured for life while protecting the principal through whole life cover.' 
 },
     '911': { name: 'Nav Jeevan Shree (Single)', summary: 'A Non-Par, Single Premium Savings Endowment Plan.', premiumMode: 'Single Premium', term: '5 to 20 Years', minAge: '90 days', maxAge: '60', minSA: '1,00,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Option-1: 1.25x Single Premium or BSA. Option-2: 10x Single Premium. + Guaranteed Additions.', maturityBenefit: 'Basic Sum Assured + Guaranteed Additions.', survivalBenefit: 'Not Applicable', usp: 'Guaranteed additions on a single premium.', advantage: 'A simple, secure one-time investment with guaranteed returns, ideal for lump-sum investors.' },
+    '888': {
+    name: 'Jeevan Sathi Single Premium (888)',
+    summary: 'Non-Participating, Non-Linked Joint-Life Single Premium Savings Endowment Plan with Guaranteed Additions for a married individual and their spouse.',
+    premiumMode: 'Single Premium',
+    term: 'Option 1: 10, 15, 20 or 25 years; Option 2: 10 or 15 years',
+    minAge: '18 years completed for both lives',
+    maxAge: 'Option 1: 60 years (Nearest Birthday); Option 2: 35 years (Nearest Birthday)',
+    minSA: '3,00,000',
+    maxSA: 'No Limit',
+    ppt: 'Single Premium',
+    deathBenefit: 'First death: Sum Assured on Death. Second death: Sum Assured on Death plus Guaranteed Additions. Simultaneous death of both lives: Twice the Sum Assured on Death plus Guaranteed Additions.',
+    maturityBenefit: 'On survival of either or both lives, Basic Sum Assured plus Guaranteed Additions.',
+    survivalBenefit: 'Basic Sum Assured plus Guaranteed Additions on survival of either or both lives, according to the policy provisions.',
+    usp: 'Joint-life savings and protection with a single premium.',
+    advantage: 'Provides cover for both spouses, Guaranteed Additions of ₹70 per ₹1,000 of Basic Sum Assured per annum, surrender facility during the policy term and loan facility after 3 months from policy issue.'
+},
 
+
+
+
+
+    
     // Annuity
     '758': { name: 'Jeevan Shanti (758)', summary: 'A non-linked, non-participating, single premium deferred annuity plan.', premiumMode: 'Single Premium', term: 'Whole Life', minAge: '30', maxAge: '79', minSA: '1,50,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Higher of (Purchase Price + Accrued Additions - Annuity Payouts) or 105% of Purchase Price.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Annuity starts after deferment period (1-12 yrs).', usp: 'Flexible deferred annuity with multiple options.', advantage: 'Allows you to plan for retirement by paying a lump sum now and starting to receive a pension at a later date of your choice.' },
     '857': { name: 'Jeevan Akshay VII (857)', summary: 'An immediate annuity plan with various payout options.', premiumMode: 'Single Premium', term: 'Whole Life', minAge: '25', maxAge: '100', minSA: '1,00,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Varies by option; can include return of purchase price.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Immediate annuity for life.', usp: 'Wide range of immediate annuity options.', advantage: 'Offers immense flexibility with 10 different options to choose from, allowing you to customize your immediate pension as per your needs.' },
@@ -500,7 +573,22 @@ const allPlanData = {
     '955': { name: 'New Jeevan Amar (955)', summary: 'A Non-Linked, pure protection plan with two death benefit options.', premiumMode: 'Single, Regular, Limited Pay', term: '10 to 40 Years', minAge: '18', maxAge: '65', minSA: '25,00,000', maxSA: 'No Limit', ppt: 'Same as term or limited', deathBenefit: 'Option 1: Level Sum Assured. Option 2: Increasing Sum Assured.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'Option for Increasing Sum Assured.', advantage: 'Allows your life cover to grow over time, helping to combat inflation and increased responsibilities.' },
     '875': { name: 'Yuva Term (875)', summary: 'A pure risk plan targeted at younger individuals.', premiumMode: 'Single, Regular, Limited Pay', term: '15 to 40 Years', minAge: '18', maxAge: '45', minSA: '50,00,000', maxSA: '5 Crore+', ppt: 'Same as term or limited', deathBenefit: 'Offers Level or Increasing Sum Assured options.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'High sum assured for young professionals.', advantage: 'Specifically designed to offer very high life cover at competitive rates for the younger demographic.' },
     '877': { name: 'Yuva Credit Life (877)', summary: 'A pure risk plan to cover loan liabilities.', premiumMode: 'Single, Limited Pay', term: '5 to 30 Years', minAge: '18', maxAge: '45', minSA: '50,00,000', maxSA: '5 Crore+', ppt: '5, 10, 15 years or Single', deathBenefit: 'Risk cover reduces as per a pre-defined schedule, mimicking a loan balance.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'Decreasing term cover for loan protection.', advantage: 'A perfect tool to cover a large housing or business loan, where the insurance amount decreases as the loan is repaid.' },
-
+    '894': {
+    name: 'Jeevan Raksha (894)',
+    summary: 'Non-Participating, Non-Linked Individual Pure Risk Life Insurance Plan providing level Death Benefit cover. UIN: 512N368V01.',
+    premiumMode: 'Regular Premium: Yearly or Half-Yearly; Limited Premium: Yearly or Half-Yearly; Single Premium',
+    term: 'Single Premium: 15–42 years; Limited PPT 10: 15–42 years; Limited PPT 15: 20–42 years; Regular Premium: 15–42 years, subject to maximum maturity age',
+    minAge: '18 years (Last Birthday)',
+    maxAge: '45 years (Last Birthday)',
+    minSA: '5,00,000',
+    maxSA: '24,00,000 per life',
+    ppt: 'Regular Premium: same as Policy Term; Limited Premium: 10 or 15 years; Single Premium: one-time payment',
+    deathBenefit: 'Regular/Limited Premium: Higher of 7 times Annualized Premium or Basic Sum Assured, subject to a minimum of 105% of total premiums paid. Single Premium: Higher of 125% of Single Premium or Basic Sum Assured. Death benefit is payable subject to policy conditions.',
+    maturityBenefit: 'No Maturity Benefit.',
+    survivalBenefit: 'Not Applicable',
+    usp: 'Pure risk life insurance with level death cover and optional death-benefit instalments.',
+    advantage: 'Provides protection for a Policy Term of 15–42 years, with Basic Sum Assured from ₹5 lakh to ₹24 lakh. Optional Accident Benefit Rider is available under Regular and Limited Premium options. Death Benefit may be received in instalments over 5, 10 or 15 years.'
+},
 
 '876': { 
         name: 'Digi Term (876)', 
@@ -577,16 +665,16 @@ const allPlanData = {
 };
 
 const planGroups = {
-    endowment: ['714', '715', '733', '736', '768', '751', '912', '760', '880'], // Added 880 here
+    endowment: ['714', '715', '733', '736', '768', '751', '912', '760', '880', '770', '889', '890'], // Added 880 here
     moneyBack: ['720', '721', '748', '764', '881'], // Added 881 here
 // Add these keys to the planGroups object
 ulip: ['735', '749', '752', '873', '886'],
 pension: ['867'],
     wholeLife: ['745', '771'],
     childrens: ['732', '734', '774'],
-  term: ['859', '955', '875', '877', '887', '876', '878', '954'],
+  term: ['859', '955', '875', '877', '887', '876', '878', '954', '894'],
     annuity: ['758', '857', '862', '879'],
-    single: ['717', '883', '911']
+    single: ['717', '883', '911', '888']
 };
 
 
