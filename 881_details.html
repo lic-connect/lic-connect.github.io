@@ -1,101 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIC's Bima Lakshmi (881)</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        :root { --primary-color: #6a1b9a; --accent-color: #00bfa5; --bg-gradient: linear-gradient(135deg, #f3e5f5 0%, #e0f2f1 100%); --text-color: #37474f; }
-        body { font-family: 'Montserrat', sans-serif; background: var(--bg-gradient); color: var(--text-color); line-height: 1.7; margin: 0; min-height: 100vh; }
-        .container { max-width: 1000px; margin: 50px auto; padding: 0 20px; }
-        .plan-card { background: #ffffff; border-radius: 25px; box-shadow: 0 20px 60px rgba(106,27,154,0.15); display: flex; overflow: hidden; border: 1px solid rgba(255,255,255,0.5); }
-        .card-sidebar { flex-basis: 340px; background: var(--primary-color); color: white; padding: 60px 40px; text-align: center; position: relative; }
-        .card-sidebar::after { content: ''; position: absolute; top: 0; right: 0; width: 8px; height: 100%; background: var(--accent-color); }
-        .card-sidebar .icon { font-size: 5.5rem; margin-bottom: 25px; color: #fff; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.2)); }
-        .card-sidebar h1 { font-family: 'Oswald', sans-serif; font-size: 2.6rem; text-transform: uppercase; margin: 0; letter-spacing: 2px; }
-        .card-sidebar .tagline { font-size: 0.9rem; color: var(--accent-color); font-weight: bold; text-transform: uppercase; display: block; margin-top: 10px; }
-        .card-content { flex: 1; padding: 50px; }
-        .card-content h2 { font-family: 'Oswald', sans-serif; font-size: 2.2rem; color: var(--primary-color); margin-bottom: 15px; }
-        .card-content h3 { font-family: 'Oswald', sans-serif; color: var(--primary-color); margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #f3e5f5; display: inline-block; }
-        .exclusive { display: inline-block; background: var(--accent-color); color: white; padding: 4px 15px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; margin-bottom: 20px; }
-        .key-info { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 25px 0; }
-        .info-item { background: #fdfbff; padding: 18px; border-radius: 15px; box-shadow: inset 0 0 10px rgba(0,0,0,0.02); border: 1px solid #eee; }
-        .info-item strong { display: block; color: var(--primary-color); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 4px; }
-        .info-item span { font-size: 1.1rem; font-weight: 700; }
-        .survival-options { margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-        .opt-card { text-align: center; padding: 15px; border-radius: 12px; background: #e0f2f1; border: 1px solid #b2dfdb; }
-        .opt-card h5 { margin: 0 0 5px 0; color: #00796b; font-size: 1rem; }
-        .opt-card p { margin: 0; font-size: 0.85rem; font-weight: 600; line-height: 1.3; }
-        .detail-list { padding-left: 20px; margin-bottom: 20px; }
-        .detail-list li { margin-bottom: 8px; font-size: 0.9rem; }
-        .footer { text-align: center; margin-top: 40px; color: #78909c; font-size: 0.9rem; padding-bottom: 40px; }
-        @media (max-width: 768px) { .plan-card { flex-direction: column; } .survival-options { grid-template-columns: 1fr; } .key-info { grid-template-columns: 1fr; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIC Bima Lakshmi | Plan 881</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #042f2e;
+    --emerald-deep: #064e3b;
+    --emerald-mid: #059669;
+    --aqua: #7fffd4;
+    --aqua-soft: #a7f3d0;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.05);
+    --border: rgba(127, 255, 212, 0.2);
+  }
+  * { margin:0; padding:0; box-sizing: border-box; font-family: 'Outfit', sans-serif; }
+  body { background: linear-gradient(135deg, #021e1a 0%, #064e3b 50%, #0f172a 100%); color: var(--white); min-height: 100vh; padding: 40px 20px; }
+  .wrapper { max-width: 1200px; margin: 0 auto; }
+  
+  /* Split Header Banner */
+  .hero-glass { background: rgba(6, 78, 59, 0.35); border: 1px solid var(--border); border-radius: 28px; padding: 50px 40px; backdrop-filter: blur(20px); display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 40px; align-items: center; box-shadow: 0 30px 60px rgba(0,0,0,0.4); margin-bottom: 40px; }
+  .empower-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(127, 255, 212, 0.12); color: var(--aqua); border: 1px solid var(--aqua); padding: 6px 18px; border-radius: 40px; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+  h1 { font-size: 3.4rem; font-weight: 800; line-height: 1.05; margin-bottom: 15px; }
+  h1 span { color: var(--aqua); text-shadow: 0 0 25px rgba(127,255,212,0.4); }
+  p.subtitle { font-size: 1.1rem; color: var(--aqua-soft); line-height: 1.6; }
+  
+  .highlight-badge-card { background: linear-gradient(180deg, rgba(127,255,212,0.15) 0%, rgba(4,47,46,0.6) 100%); border: 1px solid var(--aqua); border-radius: 24px; padding: 30px; text-align: center; }
+  .highlight-badge-card .rate { font-size: 4rem; font-weight: 800; color: var(--white); line-height: 1; margin: 10px 0; }
+  .highlight-badge-card .rate-sub { font-size: 0.9rem; color: var(--aqua); text-transform: uppercase; letter-spacing: 1.5px; }
+
+  /* 3 Split Survival Options Card */
+  .section-heading { text-align: center; margin: 50px 0 30px; font-size: 2.2rem; font-weight: 700; color: #fff; }
+  .survival-deck { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; margin-bottom: 40px; }
+  .deck-card { background: rgba(2, 30, 26, 0.7); border: 1px solid var(--border); border-radius: 22px; padding: 30px 25px; position: relative; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  .deck-card:hover { transform: translateY(-8px); border-color: var(--aqua); box-shadow: 0 15px 35px rgba(5,150,105,0.25); }
+  .deck-tag { position: absolute; top: -12px; left: 25px; background: var(--emerald-mid); color: #fff; font-size: 0.75rem; font-weight: 800; padding: 4px 14px; border-radius: 20px; text-transform: uppercase; }
+  .deck-card h3 { font-size: 1.8rem; color: var(--aqua); margin: 15px 0 10px; }
+  .deck-card p { font-size: 0.95rem; color: #cbd5e1; }
+
+  /* Specs Grid */
+  .specs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .spec-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(127, 255, 212, 0.1); border-radius: 16px; padding: 22px; }
+  .spec-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--aqua); margin-bottom: 8px; }
+  .spec-value { font-size: 1.25rem; font-weight: 700; color: #ffffff; }
+  .spec-desc { font-size: 0.85rem; color: #94a3b8; margin-top: 5px; }
+
+  .tax-box { margin-top: 35px; background: rgba(127, 255, 212, 0.08); border-left: 5px solid var(--aqua); border-radius: 12px; padding: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+  @media(max-width: 900px) { .hero-glass, .survival-deck { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="plan-card">
-            <div class="card-sidebar">
-                <div class="icon"><i class="fas fa-venus"></i></div>
-                <h1>Bima Lakshmi</h1>
-                <span class="tagline">Exclusively for Females</span>
-                <div style="margin-top: 40px; font-size: 1.2rem; font-weight: bold;">Plan No. 881</div>
-                <p style="margin-top: 15px; font-size: 0.8rem; opacity: 0.9;">UIN: 512N389V01</p>
-            </div>
-            <div class="card-content">
-                <div class="exclusive">WOMEN SPECIAL</div>
-                <h2>Chhoti bachat ko badi banaye</h2>
-                <p>LIC’s Bima Lakshmi is a Non-Par, Non-Linked, Individual, Savings Plan designed exclusively for females. This limited premium payment plan provides life cover, savings, and survival benefits with Guaranteed Additions.</p>
-                
-                <div class="key-info">
-                    <div class="info-item"><strong>Policy Term</strong><span>Fixed 25 Years</span></div>
-                    <div class="info-item"><strong>Premium Term</strong><span>7 to 15 Years</span></div>
-                    <div class="info-item"><strong>Entry Age</strong><span>18 (Min) to 50 (Max)</span></div>
-                    <div class="info-item"><strong>Min Sum Assured</strong><span>₹2,00,000 (No Max Limit)</span></div>
-                    <div class="info-item"><strong>Guaranteed Add.</strong><span>7% of Tabular Premium</span></div>
-                    <div class="info-item"><strong>Auto Cover</strong><span>After 3 Yrs Premiums</span></div>
-                </div>
-
-                <h3>Survival Benefit Choices</h3>
-                <p style="font-size: 0.9rem; margin-top: -10px;">Choose one option at the proposal stage (cannot be changed later):</p>
-                <div class="survival-options">
-                    <div class="opt-card"><h5>Option A</h5><p>Lump sum: 50% of Basic SA at the end of PPT</p></div>
-                    <div class="opt-card"><h5>Option B</h5><p>7.5% of Basic SA payable every 2nd year (Yr 2 to 24)</p></div>
-                    <div class="opt-card"><h5>Option C</h5><p>15% of Basic SA payable every 4th year (Yr 4 to 24)</p></div>
-                </div>
-
-                <h3>Core Policy Benefits</h3>
-                <ul class="detail-list">
-                    <li><strong>Maturity Benefit:</strong> Sum Assured on Maturity (Equal to Basic Sum Assured) + Accrued Guaranteed Additions.</li>
-                    <li><strong>Death Benefit:</strong> Sum Assured on Death + Accrued Guaranteed Additions. Sum Assured on Death is higher of Basic SA or 10x Tabular Annual Premium. (Min 105% of premiums).</li>
-                    <li><strong>Deferment Option:</strong> You can defer Survival Benefits for 5 years to accumulate interest (Accumulation rate for 2025-26: 6.09% p.a.).</li>
-                    <li><strong>Settlement Option:</strong> Option to receive Maturity/Death benefit in installments over 5, 10, or 15 years.</li>
-                </ul>
-
-                <h3>Incentives & Liquidity</h3>
-                <ul class="detail-list">
-                    <li><strong>High Sum Assured:</strong> Rebates up to 0.50% on Guaranteed Addition rate for high SA (₹25L+).</li>
-                    <li><strong>Online Sale:</strong> Incentive up to 1.50% on Guaranteed Addition rate for direct purchases.</li>
-                    <li><strong>Existing Customer:</strong> Loyalty incentive for existing policyholders or nominees.</li>
-                    <li><strong>Loan Facility:</strong> Available after 1st year completion (provided 1 full year premium paid).</li>
-                </ul>
-
-                <h3>Optional Riders</h3>
-                <ul class="detail-list">
-                    <li>Accidental Death & Disability Benefit Rider / Accident Benefit Rider</li>
-                    <li>New Term Assurance Rider</li>
-                    <li><strong>Female Critical Illness Benefit Rider:</strong> Covers Modules for Cancer, Surgeries, and Pregnancy complications.</li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer">
-            <p>Guaranteed Additions accrue annually at 7% of Total Tabular Annual Premium throughout the policy term.</p>
-            <p>For more information visit <strong>www.licindia.in</strong></p>
-        </div>
+<div class="wrapper">
+  
+  <div class="hero-glass">
+    <div>
+      <div class="empower-badge">Exclusively for Women • Plan 881</div>
+      <h1>LIC Bima <span>Lakshmi</span></h1>
+      <p class="subtitle">A premier Non-Par, Non-Linked, Limited Premium Savings Money-Back plan curated specifically to celebrate and secure female financial independence.</p>
     </div>
+    <div class="highlight-badge-card">
+      <div class="rate-sub">Guaranteed Additions</div>
+      <div class="rate">7%</div>
+      <div style="font-size: 0.9rem; color: #cbd5e1;">Of Total Tabular Annual Premium paid for the entire 25-year tenure</div>
+    </div>
+  </div>
+
+  <h2 class="section-heading">Flexible Survival Benefit Milestones</h2>
+  <div class="survival-deck">
+    <div class="deck-card">
+      <span class="deck-tag">Option A</span>
+      <h3>50% BSA</h3>
+      <p>Lump sum 50% of Basic Sum Assured immediately credited at the end of the Premium Paying Term (PPT).</p>
+    </div>
+    <div class="deck-card">
+      <span class="deck-tag">Option B</span>
+      <h3>7.5% BSA</h3>
+      <p>Regular liquidity: 7.5% of Basic Sum Assured payable at the end of every 2 years following PPT.</p>
+    </div>
+    <div class="deck-card">
+      <span class="deck-tag">Option C</span>
+      <h3>15% BSA</h3>
+      <p>Accelerated growth: 15% of Basic Sum Assured payable at the end of every 4 years following PPT.</p>
+    </div>
+  </div>
+
+  <div class="specs-grid">
+    <div class="spec-item">
+      <div class="spec-title">Policy Term & PPT</div>
+      <div class="spec-value">25 Years Term</div>
+      <div class="spec-desc">Premium Paying Term: 7 to 15 Years</div>
+    </div>
+    <div class="spec-item">
+      <div class="spec-title">Entry Age Range</div>
+      <div class="spec-value">18 to 50 Years</div>
+      <div class="spec-desc">Nearest birthday calculation</div>
+    </div>
+    <div class="spec-item">
+      <div class="spec-title">Basic Sum Assured</div>
+      <div class="spec-value">₹2,00,000 Min</div>
+      <div class="spec-desc">No Upper Limit (subject to underwriting)</div>
+    </div>
+    <div class="spec-item">
+      <div class="spec-title">Payment Frequencies</div>
+      <div class="spec-value">Yearly / HY / Qtr / Mth</div>
+      <div class="spec-desc">Monthly via ECS facility</div>
+    </div>
+    <div class="spec-item">
+      <div class="spec-title">Death Benefit Cushion</div>
+      <div class="spec-value">Highest of 3 Metric Floors</div>
+      <div class="spec-desc">Basic SA or 10× Tabular AP or 105% of Total Premiums paid + Accrued GA</div>
+    </div>
+    <div class="spec-item">
+      <div class="spec-title">Liquidity & Loans</div>
+      <div class="spec-value">1 Year Threshold</div>
+      <div class="spec-desc">Surrender & Loan facilities accessible after 1 full year of premiums paid</div>
+    </div>
+  </div>
+
+  <div class="tax-box">
+    <div>
+      <strong style="color: var(--aqua); font-size: 1.1rem;">Dual Tax Advantages Available</strong>
+      <p style="font-size: 0.9rem; color: #cbd5e1; margin-top: 4px;">Tax rebate eligible under Section 80C on premiums. Maturity completely tax-exempt under Section 10(10D).</p>
+    </div>
+    <span style="font-weight: 800; background: var(--aqua); color: var(--primary); padding: 8px 24px; border-radius: 30px;">Plan No. 881</span>
+  </div>
+
+</div>
 </body>
 </html>
