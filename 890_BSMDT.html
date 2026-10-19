@@ -1,0 +1,1869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLAN NO 890 - NEW BIMA JYOTI PREMIUM CALCULATOR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-white: #ffffff;
+            --blue-primary: #1565c0;
+            --blue-dark: #0d47a1;
+            --blue-light: #e3f2fd;
+            --aquamarine: #00b4d8;
+            --aquamarine-light: #e0f7fa;
+            --green: #2e7d32;
+            --green-light: #e8f5e9;
+            --text-dark: #212121;
+            --text-muted: #616161;
+            --border: #cfd8dc;
+            --radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            padding: 24px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--aquamarine-light);
+        }
+
+        header h1 {
+            color: var(--blue-dark);
+            font-size: 26px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .badge-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .badge {
+            background: var(--blue-light);
+            color: var(--blue-dark);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--aquamarine);
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        @media(min-width: 840px) {
+            .layout-grid {
+                grid-template-columns: 1.15fr 0.85fr;
+            }
+        }
+
+        .card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-header.blue { color: var(--blue-primary); }
+        .card-header.green { color: var(--green); }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+            background: #fff;
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--aquamarine);
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+        }
+
+        .help-text {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        .btn-calculate {
+            width: 100%;
+            background: linear-gradient(135deg, var(--blue-primary), var(--aquamarine));
+            color: #fff;
+            border: none;
+            padding: 13px 20px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .btn-calculate:hover { opacity: 0.95; }
+        .btn-calculate:active { transform: scale(0.99); }
+
+        .alert-error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 14px;
+            display: none;
+            border: 1px solid #ffcdd2;
+        }
+
+        .premium-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .premium-box {
+            background: var(--blue-light);
+            border: 1px solid var(--aquamarine);
+            padding: 14px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .premium-box .period {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--blue-dark);
+            text-transform: uppercase;
+        }
+
+        .premium-box .amount {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--blue-dark);
+            margin-top: 4px;
+        }
+
+        .breakdown-card {
+            background: var(--green-light);
+            border: 1px solid var(--green);
+            border-radius: 6px;
+            padding: 14px;
+            margin-top: 12px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(46, 125, 50, 0.3);
+            font-size: 13px;
+        }
+
+        .breakdown-row:last-child {
+            border-bottom: none;
+        }
+
+        .breakdown-label {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .breakdown-val {
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .json-debug-tag {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>PLAN NO 890 - NEW BIMA JYOTI PREMIUM CALCULATOR</h1>
+        <p>Individual, Non-Linked, Non-Participating Limited Premium Savings Plan with Guaranteed Additions</p>
+        <div class="badge-bar">
+            <span class="badge">No GST Applicable</span>
+            <span class="badge">Guaranteed Additions @ 6%</span>
+            <span class="badge">Fixed Term/PPT Pairs</span>
+        </div>
+    </header>
+
+    <div class="layout-grid">
+        <!-- Input Form -->
+        <div class="card">
+            <div class="card-header blue">
+                <i>⚙️</i> Policy Inputs
+            </div>
+
+            <div id="errorAlert" class="alert-error"></div>
+
+            <form id="calcForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Age (0 to 60 Years)</label>
+                        <input type="number" id="age" min="0" max="60" value="30" required>
+                        <div class="help-text">Min: 30 days completed | Max: 60 Years</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="termPpt">Term / PPT</label>
+                        <select id="termPpt" required>
+                            <option value="20_15" selected>Term 20 / PPT 15</option>
+                            <option value="19_14">Term 19 / PPT 14</option>
+                            <option value="18_13">Term 18 / PPT 13</option>
+                            <option value="17_12">Term 17 / PPT 12</option>
+                            <option value="16_11">Term 16 / PPT 11</option>
+                            <option value="15_10">Term 15 / PPT 10</option>
+                        </select>
+                        <div class="help-text">Maturity Age: 18 to 75 Years</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="sumAssured">Basic Sum Assured (₹)</label>
+                    <input type="number" id="sumAssured" step="25000" min="125000" value="500000" required>
+                    <div class="help-text">Min: ₹1,25,000 | Multiples of ₹25,000</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pwb">PWB Rider (Minor Lives Only)</label>
+                        <select id="pwb">
+                            <option value="no" selected>No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="pwbAgeGroup" style="display: none;">
+                        <label for="proposerAge">Proposer Age (Years)</label>
+                        <input type="number" id="proposerAge" min="18" max="55" value="35">
+                        <div class="help-text">Proposer entry: 18 to 55 years</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="accidentChoice">Accident Cover (Age 18+)</label>
+                        <select id="accidentChoice">
+                            <option value="none" selected>None</option>
+                            <option value="addb">AD&DB Rider</option>
+                            <option value="ab">Accident Benefit Rider</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="addbSaGroup" style="display: none;">
+                        <label for="addbAmount">Accident Benefit SA (₹)</label>
+                        <input type="number" id="addbAmount" step="5000" min="20000" value="500000">
+                        <div class="help-text">Max: Basic SA (Up to ₹1 Crore)</div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tr">Term Assurance Rider (Age 18+)</label>
+                        <select id="tr">
+                            <option value="no" selected>No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="trSaGroup" style="display: none;">
+                        <label for="trAmount">Term Rider SA (₹)</label>
+                        <input type="number" id="trAmount" step="5000" min="100000" max="2500000" value="500000">
+                        <div class="help-text">Min: ₹1,00,000 | Max: ₹25,00,000</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-calculate">CALCULATE PREMIUM</button>
+            </form>
+        </div>
+
+        <!-- Output Card -->
+        <div class="card">
+            <div class="card-header green">
+                <i>📊</i> Premium Outputs (Zero GST)
+            </div>
+
+            <div style="font-size: 13px; font-weight: 600; color: var(--blue-dark); margin-bottom: 8px;">
+                Mode-wise Instalment Premium
+            </div>
+
+            <div class="premium-grid">
+                <div class="premium-box">
+                    <div class="period">Yearly (YLY)</div>
+                    <div class="amount" id="outYearly">₹0</div>
+                </div>
+                <div class="premium-box">
+                    <div class="period">Half-Yearly (HLY)</div>
+                    <div class="amount" id="outHalfYearly">₹0</div>
+                </div>
+                <div class="premium-box">
+                    <div class="period">Quarterly (QLY)</div>
+                    <div class="amount" id="outQuarterly">₹0</div>
+                </div>
+                <div class="premium-box">
+                    <div class="period">Monthly (MLY)</div>
+                    <div class="amount" id="outMonthly">₹0</div>
+                </div>
+            </div>
+
+            <div class="breakdown-card">
+                <div style="font-weight: 700; color: var(--green); margin-bottom: 6px;">Guaranteed Benefits Summary</div>
+
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Sum Assured on Death</span>
+                    <span class="breakdown-val" id="outDeathBenefit">₹0</span>
+                </div>
+
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Guaranteed Addition Rate</span>
+                    <span class="breakdown-val">6% of Annualized Premium</span>
+                </div>
+
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Annual Guaranteed Addition (GA)</span>
+                    <span class="breakdown-val" id="outAnnualGA">₹0 / year</span>
+                </div>
+
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Total Accrued GA at Maturity</span>
+                    <span class="breakdown-val" id="outTotalGA">₹0</span>
+                </div>
+
+                <div class="breakdown-row">
+                    <span class="breakdown-label">Sum Assured on Maturity</span>
+                    <span class="breakdown-val" id="outMaturity">₹0</span>
+                </div>
+            </div>
+
+            <div class="json-debug-tag" id="jsonTracker">Active File: 890.json</div>
+        </div>
+    </div>
+</div>
+
+<script>
+/* =========================================================================
+   PROVISION TO ENTER THE JSON DATA
+   Paste your respective array data inside the brackets [] for each file.
+   ========================================================================= */
+const RAW_JSON_DATABASE = {
+    "890.json": [
+    {
+        "Age": 0,
+        "T15": 0,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 91.9,
+        "T19": 85.05,
+        "T20": 81.2
+    },
+    {
+        "Age": 1,
+        "T15": 0,
+        "T16": 0.0,
+        "T17": 99.75,
+        "T18": 91.9,
+        "T19": 85.05,
+        "T20": 81.2
+    },
+    {
+        "Age": 2,
+        "T15": 0,
+        "T16": 109.2,
+        "T17": 99.75,
+        "T18": 91.9,
+        "T19": 85.05,
+        "T20": 81.2
+    },
+    {
+        "Age": 3,
+        "T15": 120.75,
+        "T16": 109.2,
+        "T17": 99.75,
+        "T18": 91.9,
+        "T19": 85.05,
+        "T20": 81.2
+    },
+    {
+        "Age": 4,
+        "T15": 120.75,
+        "T16": 109.25,
+        "T17": 99.75,
+        "T18": 91.9,
+        "T19": 85.05,
+        "T20": 81.2
+    },
+    {
+        "Age": 5,
+        "T15": 120.85,
+        "T16": 109.3,
+        "T17": 99.75,
+        "T18": 91.9,
+        "T19": 85.05,
+        "T20": 81.2
+    },
+    {
+        "Age": 6,
+        "T15": 120.9,
+        "T16": 109.4,
+        "T17": 99.85,
+        "T18": 91.9,
+        "T19": 85.05,
+        "T20": 81.2
+    },
+    {
+        "Age": 7,
+        "T15": 121.05,
+        "T16": 109.5,
+        "T17": 100.0,
+        "T18": 92.0,
+        "T19": 85.2,
+        "T20": 81.35
+    },
+    {
+        "Age": 8,
+        "T15": 121.2,
+        "T16": 109.7,
+        "T17": 100.15,
+        "T18": 92.15,
+        "T19": 85.35,
+        "T20": 81.5
+    },
+    {
+        "Age": 9,
+        "T15": 121.35,
+        "T16": 109.8,
+        "T17": 100.3,
+        "T18": 92.3,
+        "T19": 85.45,
+        "T20": 81.6
+    },
+    {
+        "Age": 10,
+        "T15": 121.5,
+        "T16": 109.95,
+        "T17": 100.45,
+        "T18": 92.4,
+        "T19": 85.6,
+        "T20": 81.75
+    },
+    {
+        "Age": 11,
+        "T15": 121.65,
+        "T16": 110.1,
+        "T17": 100.55,
+        "T18": 92.55,
+        "T19": 85.75,
+        "T20": 81.9
+    },
+    {
+        "Age": 12,
+        "T15": 121.75,
+        "T16": 110.25,
+        "T17": 100.7,
+        "T18": 92.7,
+        "T19": 85.85,
+        "T20": 82
+    },
+    {
+        "Age": 13,
+        "T15": 121.9,
+        "T16": 110.35,
+        "T17": 100.8,
+        "T18": 92.8,
+        "T19": 85.95,
+        "T20": 82.15
+    },
+    {
+        "Age": 14,
+        "T15": 122,
+        "T16": 110.45,
+        "T17": 100.9,
+        "T18": 92.9,
+        "T19": 86.05,
+        "T20": 82.25
+    },
+    {
+        "Age": 15,
+        "T15": 122.1,
+        "T16": 110.55,
+        "T17": 101.0,
+        "T18": 93.0,
+        "T19": 86.15,
+        "T20": 82.3
+    },
+    {
+        "Age": 16,
+        "T15": 122.15,
+        "T16": 110.6,
+        "T17": 101.05,
+        "T18": 93.05,
+        "T19": 86.2,
+        "T20": 82.35
+    },
+    {
+        "Age": 17,
+        "T15": 122.2,
+        "T16": 110.65,
+        "T17": 101.1,
+        "T18": 93.1,
+        "T19": 86.25,
+        "T20": 82.4
+    },
+    {
+        "Age": 18,
+        "T15": 122.25,
+        "T16": 110.7,
+        "T17": 101.15,
+        "T18": 93.15,
+        "T19": 86.3,
+        "T20": 82.45
+    },
+    {
+        "Age": 19,
+        "T15": 122.3,
+        "T16": 110.75,
+        "T17": 101.2,
+        "T18": 93.15,
+        "T19": 86.35,
+        "T20": 82.5
+    },
+    {
+        "Age": 20,
+        "T15": 122.3,
+        "T16": 110.75,
+        "T17": 101.2,
+        "T18": 93.2,
+        "T19": 86.35,
+        "T20": 82.55
+    },
+    {
+        "Age": 21,
+        "T15": 122.3,
+        "T16": 110.75,
+        "T17": 101.2,
+        "T18": 93.2,
+        "T19": 86.4,
+        "T20": 82.55
+    },
+    {
+        "Age": 22,
+        "T15": 122.35,
+        "T16": 110.8,
+        "T17": 101.25,
+        "T18": 93.25,
+        "T19": 86.4,
+        "T20": 82.6
+    },
+    {
+        "Age": 23,
+        "T15": 122.35,
+        "T16": 110.8,
+        "T17": 101.25,
+        "T18": 93.25,
+        "T19": 86.45,
+        "T20": 82.65
+    },
+    {
+        "Age": 24,
+        "T15": 122.4,
+        "T16": 110.85,
+        "T17": 101.3,
+        "T18": 93.3,
+        "T19": 86.5,
+        "T20": 82.7
+    },
+    {
+        "Age": 25,
+        "T15": 122.4,
+        "T16": 110.9,
+        "T17": 101.35,
+        "T18": 93.35,
+        "T19": 86.55,
+        "T20": 82.75
+    },
+    {
+        "Age": 26,
+        "T15": 122.45,
+        "T16": 110.95,
+        "T17": 101.4,
+        "T18": 93.45,
+        "T19": 86.65,
+        "T20": 82.85
+    },
+    {
+        "Age": 27,
+        "T15": 122.55,
+        "T16": 111.0,
+        "T17": 101.5,
+        "T18": 93.5,
+        "T19": 86.7,
+        "T20": 82.95
+    },
+    {
+        "Age": 28,
+        "T15": 122.6,
+        "T16": 111.1,
+        "T17": 101.6,
+        "T18": 93.6,
+        "T19": 86.85,
+        "T20": 83.05
+    },
+    {
+        "Age": 29,
+        "T15": 122.7,
+        "T16": 111.2,
+        "T17": 101.7,
+        "T18": 93.75,
+        "T19": 86.95,
+        "T20": 83.2
+    },
+    {
+        "Age": 30,
+        "T15": 122.85,
+        "T16": 111.35,
+        "T17": 101.85,
+        "T18": 93.9,
+        "T19": 87.1,
+        "T20": 83.4
+    },
+    {
+        "Age": 31,
+        "T15": 122.95,
+        "T16": 111.45,
+        "T17": 102.0,
+        "T18": 94.05,
+        "T19": 87.3,
+        "T20": 83.6
+    },
+    {
+        "Age": 32,
+        "T15": 123.15,
+        "T16": 111.65,
+        "T17": 102.2,
+        "T18": 94.25,
+        "T19": 87.5,
+        "T20": 83.8
+    },
+    {
+        "Age": 33,
+        "T15": 123.3,
+        "T16": 111.85,
+        "T17": 102.4,
+        "T18": 94.45,
+        "T19": 87.75,
+        "T20": 84.1
+    },
+    {
+        "Age": 34,
+        "T15": 123.55,
+        "T16": 112.05,
+        "T17": 102.65,
+        "T18": 94.75,
+        "T19": 88.05,
+        "T20": 84.4
+    },
+    {
+        "Age": 35,
+        "T15": 123.8,
+        "T16": 112.35,
+        "T17": 102.9,
+        "T18": 95.05,
+        "T19": 88.35,
+        "T20": 84.7
+    },
+    {
+        "Age": 36,
+        "T15": 124.05,
+        "T16": 112.65,
+        "T17": 103.25,
+        "T18": 95.35,
+        "T19": 88.7,
+        "T20": 85.1
+    },
+    {
+        "Age": 37,
+        "T15": 124.4,
+        "T16": 112.95,
+        "T17": 103.6,
+        "T18": 95.75,
+        "T19": 89.1,
+        "T20": 85.55
+    },
+    {
+        "Age": 38,
+        "T15": 124.75,
+        "T16": 113.35,
+        "T17": 104.0,
+        "T18": 96.15,
+        "T19": 89.55,
+        "T20": 86
+    },
+    {
+        "Age": 39,
+        "T15": 125.15,
+        "T16": 113.8,
+        "T17": 104.45,
+        "T18": 96.65,
+        "T19": 90.05,
+        "T20": 86.55
+    },
+    {
+        "Age": 40,
+        "T15": 125.6,
+        "T16": 114.3,
+        "T17": 104.95,
+        "T18": 97.2,
+        "T19": 90.6,
+        "T20": 87.15
+    },
+    {
+        "Age": 41,
+        "T15": 126.15,
+        "T16": 114.8,
+        "T17": 105.55,
+        "T18": 97.8,
+        "T19": 91.2,
+        "T20": 87.8
+    },
+    {
+        "Age": 42,
+        "T15": 126.7,
+        "T16": 115.45,
+        "T17": 106.15,
+        "T18": 98.45,
+        "T19": 91.9,
+        "T20": 88.55
+    },
+    {
+        "Age": 43,
+        "T15": 127.4,
+        "T16": 116.1,
+        "T17": 106.9,
+        "T18": 99.2,
+        "T19": 92.7,
+        "T20": 89.35
+    },
+    {
+        "Age": 44,
+        "T15": 128.1,
+        "T16": 116.9,
+        "T17": 107.65,
+        "T18": 100.0,
+        "T19": 93.5,
+        "T20": 90.25
+    },
+    {
+        "Age": 45,
+        "T15": 128.95,
+        "T16": 117.75,
+        "T17": 108.55,
+        "T18": 100.9,
+        "T19": 94.45,
+        "T20": 91.25
+    },
+    {
+        "Age": 46,
+        "T15": 129.85,
+        "T16": 118.65,
+        "T17": 109.5,
+        "T18": 101.9,
+        "T19": 95.45,
+        "T20": 92.3
+    },
+    {
+        "Age": 47,
+        "T15": 130.85,
+        "T16": 119.65,
+        "T17": 110.55,
+        "T18": 102.95,
+        "T19": 96.55,
+        "T20": 93.5
+    },
+    {
+        "Age": 48,
+        "T15": 131.9,
+        "T16": 120.8,
+        "T17": 111.65,
+        "T18": 104.1,
+        "T19": 97.75,
+        "T20": 94.75
+    },
+    {
+        "Age": 49,
+        "T15": 133.05,
+        "T16": 121.95,
+        "T17": 112.9,
+        "T18": 105.35,
+        "T19": 99.0,
+        "T20": 96.05
+    },
+    {
+        "Age": 50,
+        "T15": 134.3,
+        "T16": 123.25,
+        "T17": 114.2,
+        "T18": 106.65,
+        "T19": 100.35,
+        "T20": 97.5
+    },
+    {
+        "Age": 51,
+        "T15": 135.6,
+        "T16": 124.55,
+        "T17": 115.55,
+        "T18": 108.05,
+        "T19": 101.8,
+        "T20": 99
+    },
+    {
+        "Age": 52,
+        "T15": 137,
+        "T16": 126.0,
+        "T17": 117.0,
+        "T18": 109.55,
+        "T19": 103.3,
+        "T20": 100.6
+    },
+    {
+        "Age": 53,
+        "T15": 138.45,
+        "T16": 127.45,
+        "T17": 118.5,
+        "T18": 111.1,
+        "T19": 104.9,
+        "T20": 102.3
+    },
+    {
+        "Age": 54,
+        "T15": 139.95,
+        "T16": 129.0,
+        "T17": 120.1,
+        "T18": 112.7,
+        "T19": 106.55,
+        "T20": 104.05
+    },
+    {
+        "Age": 55,
+        "T15": 141.5,
+        "T16": 130.6,
+        "T17": 121.75,
+        "T18": 114.4,
+        "T19": 108.3,
+        "T20": 105.95
+    },
+    {
+        "Age": 56,
+        "T15": 143.15,
+        "T16": 132.3,
+        "T17": 123.45,
+        "T18": 116.2,
+        "T19": 110.15,
+        "T20": 0
+    },
+    {
+        "Age": 57,
+        "T15": 144.9,
+        "T16": 134.05,
+        "T17": 125.3,
+        "T18": 118.1,
+        "T19": 0.0,
+        "T20": 0
+    },
+    {
+        "Age": 58,
+        "T15": 146.7,
+        "T16": 135.95,
+        "T17": 127.25,
+        "T18": 0.0,
+        "T19": 0.0,
+        "T20": 0
+    },
+    {
+        "Age": 59,
+        "T15": 148.65,
+        "T16": 137.95,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.0,
+        "T20": 0
+    },
+    {
+        "Age": 60,
+        "T15": 150.75,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0.0,
+        "T19": 0.0,
+        "T20": 0
+    }
+],
+
+    "890_addb.json": [
+    {
+        "T10": null,
+        "T11": null,
+        "T12": null,
+        "T13": null,
+        "T14": null,
+        "T15": null,
+        "T5": 1,
+        "T6": null,
+        "T7": null,
+        "T8": null,
+        "T9": null,
+        "Term": 5
+    },
+    {
+        "T10": null,
+        "T11": null,
+        "T12": null,
+        "T13": null,
+        "T14": null,
+        "T15": null,
+        "T5": 1.2,
+        "T6": "1",
+        "T7": null,
+        "T8": null,
+        "T9": null,
+        "Term": 6
+    },
+    {
+        "T10": null,
+        "T11": null,
+        "T12": null,
+        "T13": null,
+        "T14": null,
+        "T15": null,
+        "T5": 1.35,
+        "T6": "1.15",
+        "T7": "1",
+        "T8": null,
+        "T9": null,
+        "Term": 7
+    },
+    {
+        "T10": null,
+        "T11": null,
+        "T12": null,
+        "T13": null,
+        "T14": null,
+        "T15": null,
+        "T5": 1.5,
+        "T6": "1.3",
+        "T7": "1.15",
+        "T8": "1",
+        "T9": null,
+        "Term": 8
+    },
+    {
+        "T10": null,
+        "T11": null,
+        "T12": null,
+        "T13": null,
+        "T14": null,
+        "T15": null,
+        "T5": 1.65,
+        "T6": "1.4",
+        "T7": "1.25",
+        "T8": "1.1",
+        "T9": "1",
+        "Term": 9
+    },
+    {
+        "T10": "1",
+        "T11": null,
+        "T12": null,
+        "T13": null,
+        "T14": null,
+        "T15": null,
+        "T5": 1.8,
+        "T6": "1.55",
+        "T7": "1.35",
+        "T8": "1.2",
+        "T9": "1.1",
+        "Term": 10
+    },
+    {
+        "T10": "1.1",
+        "T11": "1",
+        "T12": null,
+        "T13": null,
+        "T14": null,
+        "T15": null,
+        "T5": 1.9,
+        "T6": "1.65",
+        "T7": "1.45",
+        "T8": "1.3",
+        "T9": "1.2",
+        "Term": 11
+    },
+    {
+        "T10": "1.15",
+        "T11": "1.1",
+        "T12": "1",
+        "T13": null,
+        "T14": null,
+        "T15": null,
+        "T5": 2.05,
+        "T6": "1.75",
+        "T7": "1.55",
+        "T8": "1.4",
+        "T9": "1.25",
+        "Term": 12
+    },
+    {
+        "T10": "1.25",
+        "T11": "1.15",
+        "T12": "1.1",
+        "T13": "1",
+        "T14": null,
+        "T15": null,
+        "T5": 2.15,
+        "T6": "1.85",
+        "T7": "1.6",
+        "T8": "1.45",
+        "T9": "1.35",
+        "Term": 13
+    },
+    {
+        "T10": "1.3",
+        "T11": "1.2",
+        "T12": "1.15",
+        "T13": "1.05",
+        "T14": "1",
+        "T15": null,
+        "T5": 2.25,
+        "T6": "1.95",
+        "T7": "1.7",
+        "T8": "1.55",
+        "T9": "1.4",
+        "Term": 14
+    },
+    {
+        "T10": "1.35",
+        "T11": "1.25",
+        "T12": "1.2",
+        "T13": "1.1",
+        "T14": "1.05",
+        "T15": "1",
+        "T5": 2.35,
+        "T6": "2.05",
+        "T7": "1.8",
+        "T8": "1.6",
+        "T9": "1.45",
+        "Term": 15
+    },
+    {
+        "T10": "1.4",
+        "T11": "1.3",
+        "T12": "1.25",
+        "T13": "1.15",
+        "T14": "1.1",
+        "T15": "1.05",
+        "T5": 2.45,
+        "T6": "2.1",
+        "T7": "1.85",
+        "T8": "1.65",
+        "T9": "1.5",
+        "Term": 16
+    },
+    {
+        "T10": "1.45",
+        "T11": "1.35",
+        "T12": "1.3",
+        "T13": "1.2",
+        "T14": "1.15",
+        "T15": "1.1",
+        "T5": 2.55,
+        "T6": "2.2",
+        "T7": "1.95",
+        "T8": "1.75",
+        "T9": "1.6",
+        "Term": 17
+    },
+    {
+        "T10": "1.5",
+        "T11": "1.4",
+        "T12": "1.3",
+        "T13": "1.25",
+        "T14": "1.2",
+        "T15": "1.15",
+        "T5": 2.65,
+        "T6": "2.25",
+        "T7": "2",
+        "T8": "1.8",
+        "T9": "1.65",
+        "Term": 18
+    },
+    {
+        "T10": "1.55",
+        "T11": "1.45",
+        "T12": "1.35",
+        "T13": "1.3",
+        "T14": "1.25",
+        "T15": "1.2",
+        "T5": 2.75,
+        "T6": "2.35",
+        "T7": "2.05",
+        "T8": "1.85",
+        "T9": "1.7",
+        "Term": 19
+    },
+    {
+        "T10": "1.6",
+        "T11": "1.5",
+        "T12": "1.4",
+        "T13": "1.35",
+        "T14": "1.25",
+        "T15": "1.2",
+        "T5": 2.8,
+        "T6": "2.4",
+        "T7": "2.1",
+        "T8": "1.9",
+        "T9": "1.75",
+        "Term": 20
+    }
+],
+
+    "890_TR.json": [
+    {
+        "Age": 18,
+        "T15": 2.19,
+        "T16": 2.12,
+        "T17": 2.07,
+        "T18": 2.03,
+        "T19": 2,
+        "T20": 2
+    },
+    {
+        "Age": 19,
+        "T15": 2.21,
+        "T16": 2.15,
+        "T17": 2.09,
+        "T18": 2.06,
+        "T19": 2.03,
+        "T20": 2.04
+    },
+    {
+        "Age": 20,
+        "T15": 2.23,
+        "T16": 2.17,
+        "T17": 2.12,
+        "T18": 2.09,
+        "T19": 2.06,
+        "T20": 2.07
+    },
+    {
+        "Age": 21,
+        "T15": 2.26,
+        "T16": 2.2,
+        "T17": 2.15,
+        "T18": 2.12,
+        "T19": 2.1,
+        "T20": 2.11
+    },
+    {
+        "Age": 22,
+        "T15": 2.29,
+        "T16": 2.23,
+        "T17": 2.19,
+        "T18": 2.16,
+        "T19": 2.14,
+        "T20": 2.17
+    },
+    {
+        "Age": 23,
+        "T15": 2.32,
+        "T16": 2.27,
+        "T17": 2.23,
+        "T18": 2.21,
+        "T19": 2.2,
+        "T20": 2.23
+    },
+    {
+        "Age": 24,
+        "T15": 2.37,
+        "T16": 2.32,
+        "T17": 2.28,
+        "T18": 2.27,
+        "T19": 2.27,
+        "T20": 2.31
+    },
+    {
+        "Age": 25,
+        "T15": 2.43,
+        "T16": 2.38,
+        "T17": 2.36,
+        "T18": 2.35,
+        "T19": 2.35,
+        "T20": 2.39
+    },
+    {
+        "Age": 26,
+        "T15": 2.5,
+        "T16": 2.46,
+        "T17": 2.44,
+        "T18": 2.44,
+        "T19": 2.44,
+        "T20": 2.5
+    },
+    {
+        "Age": 27,
+        "T15": 2.59,
+        "T16": 2.56,
+        "T17": 2.55,
+        "T18": 2.55,
+        "T19": 2.56,
+        "T20": 2.62
+    },
+    {
+        "Age": 28,
+        "T15": 2.7,
+        "T16": 2.68,
+        "T17": 2.67,
+        "T18": 2.67,
+        "T19": 2.69,
+        "T20": 2.76
+    },
+    {
+        "Age": 29,
+        "T15": 2.83,
+        "T16": 2.81,
+        "T17": 2.81,
+        "T18": 2.82,
+        "T19": 2.85,
+        "T20": 2.93
+    },
+    {
+        "Age": 30,
+        "T15": 2.99,
+        "T16": 2.97,
+        "T17": 2.98,
+        "T18": 3,
+        "T19": 3.03,
+        "T20": 3.13
+    },
+    {
+        "Age": 31,
+        "T15": 3.16,
+        "T16": 3.15,
+        "T17": 3.17,
+        "T18": 3.19,
+        "T19": 3.24,
+        "T20": 3.35
+    },
+    {
+        "Age": 32,
+        "T15": 3.37,
+        "T16": 3.37,
+        "T17": 3.39,
+        "T18": 3.42,
+        "T19": 3.48,
+        "T20": 3.61
+    },
+    {
+        "Age": 33,
+        "T15": 3.6,
+        "T16": 3.61,
+        "T17": 3.64,
+        "T18": 3.69,
+        "T19": 3.76,
+        "T20": 3.9
+    },
+    {
+        "Age": 34,
+        "T15": 3.87,
+        "T16": 3.89,
+        "T17": 3.93,
+        "T18": 3.99,
+        "T19": 4.07,
+        "T20": 4.23
+    },
+    {
+        "Age": 35,
+        "T15": 4.18,
+        "T16": 4.21,
+        "T17": 4.26,
+        "T18": 4.33,
+        "T19": 4.43,
+        "T20": 4.6
+    },
+    {
+        "Age": 36,
+        "T15": 4.53,
+        "T16": 4.57,
+        "T17": 4.63,
+        "T18": 4.72,
+        "T19": 4.82,
+        "T20": 5.02
+    },
+    {
+        "Age": 37,
+        "T15": 4.94,
+        "T16": 4.98,
+        "T17": 5.06,
+        "T18": 5.15,
+        "T19": 5.27,
+        "T20": 5.47
+    },
+    {
+        "Age": 38,
+        "T15": 5.39,
+        "T16": 5.45,
+        "T17": 5.53,
+        "T18": 5.64,
+        "T19": 5.76,
+        "T20": 5.98
+    },
+    {
+        "Age": 39,
+        "T15": 5.91,
+        "T16": 5.97,
+        "T17": 6.06,
+        "T18": 6.17,
+        "T19": 6.3,
+        "T20": 6.53
+    },
+    {
+        "Age": 40,
+        "T15": 6.49,
+        "T16": 6.55,
+        "T17": 6.65,
+        "T18": 6.76,
+        "T19": 6.89,
+        "T20": 7.14
+    },
+    {
+        "Age": 41,
+        "T15": 7.13,
+        "T16": 7.2,
+        "T17": 7.29,
+        "T18": 7.4,
+        "T19": 7.53,
+        "T20": 7.79
+    },
+    {
+        "Age": 42,
+        "T15": 7.82,
+        "T16": 7.88,
+        "T17": 7.97,
+        "T18": 8.08,
+        "T19": 8.21,
+        "T20": 8.48
+    },
+    {
+        "Age": 43,
+        "T15": 8.56,
+        "T16": 8.62,
+        "T17": 8.71,
+        "T18": 8.81,
+        "T19": 8.94,
+        "T20": 9.22
+    },
+    {
+        "Age": 44,
+        "T15": 9.38,
+        "T16": 9.43,
+        "T17": 9.5,
+        "T18": 9.61,
+        "T19": 9.73,
+        "T20": 10.02
+    },
+    {
+        "Age": 45,
+        "T15": 10.26,
+        "T16": 10.29,
+        "T17": 10.36,
+        "T18": 10.46,
+        "T19": 10.58,
+        "T20": 10.89
+    },
+    {
+        "Age": 46,
+        "T15": 11.21,
+        "T16": 11.22,
+        "T17": 11.28,
+        "T18": 11.37,
+        "T19": 11.49,
+        "T20": 11.81
+    },
+    {
+        "Age": 47,
+        "T15": 12.22,
+        "T16": 12.22,
+        "T17": 12.27,
+        "T18": 12.35,
+        "T19": 12.46,
+        "T20": 12.81
+    },
+    {
+        "Age": 48,
+        "T15": 13.3,
+        "T16": 13.28,
+        "T17": 13.32,
+        "T18": 13.4,
+        "T19": 13.51,
+        "T20": 13.88
+    },
+    {
+        "Age": 49,
+        "T15": 14.45,
+        "T16": 14.41,
+        "T17": 14.43,
+        "T18": 14.51,
+        "T19": 14.63,
+        "T20": 15.02
+    },
+    {
+        "Age": 50,
+        "T15": 15.66,
+        "T16": 15.61,
+        "T17": 15.62,
+        "T18": 15.7,
+        "T19": 15.82,
+        "T20": 16.24
+    },
+    {
+        "Age": 51,
+        "T15": 16.94,
+        "T16": 16.87,
+        "T17": 16.88,
+        "T18": 16.96,
+        "T19": 17.09,
+        "T20": 17.55
+    },
+    {
+        "Age": 52,
+        "T15": 18.29,
+        "T16": 18.21,
+        "T17": 18.22,
+        "T18": 18.3,
+        "T19": 18.44,
+        "T20": 18.93
+    },
+    {
+        "Age": 53,
+        "T15": 19.71,
+        "T16": 19.62,
+        "T17": 19.63,
+        "T18": 19.72,
+        "T19": 19.88,
+        "T20": 20.41
+    },
+    {
+        "Age": 54,
+        "T15": 21.21,
+        "T16": 21.12,
+        "T17": 21.14,
+        "T18": 21.24,
+        "T19": 21.41,
+        "T20": 21.99
+    },
+    {
+        "Age": 55,
+        "T15": 22.81,
+        "T16": 22.72,
+        "T17": 22.74,
+        "T18": 22.86,
+        "T19": 23.04,
+        "T20": 23.67
+    },
+    {
+        "Age": 56,
+        "T15": 24.51,
+        "T16": 24.42,
+        "T17": 24.46,
+        "T18": 24.59,
+        "T19": 24.79,
+        "T20": 0
+    },
+    {
+        "Age": 57,
+        "T15": 26.33,
+        "T16": 26.25,
+        "T17": 26.3,
+        "T18": 26.44,
+        "T19": 0,
+        "T20": 0
+    },
+    {
+        "Age": 58,
+        "T15": 28.29,
+        "T16": 28.22,
+        "T17": 28.28,
+        "T18": 0,
+        "T19": 0,
+        "T20": 0
+    },
+    {
+        "Age": 59,
+        "T15": 30.42,
+        "T16": 30.35,
+        "T17": 0.0,
+        "T18": 0,
+        "T19": 0,
+        "T20": 0
+    },
+    {
+        "Age": 60,
+        "T15": 32.73,
+        "T16": 0.0,
+        "T17": 0.0,
+        "T18": 0,
+        "T19": 0,
+        "T20": 0
+    }
+],
+    "890_pwb.json": [
+        // PASTE CONTENT OF 890_pwb.json (PWB Rider) HERE
+        { "Term": 10, "A": 2.2, "B": 2.25, "C": 2.55, "D": 3.1, "E": 4.05, "F": 5.75, "G": 8.15 },
+        { "Term": 11, "A": 2.25, "B": 2.4, "C": 2.65, "D": 3.3, "E": 4.4, "F": 6.35, "G": 9.0 },
+        { "Term": 12, "A": 2.3, "B": 2.45, "C": 2.8, "D": 3.5, "E": 4.8, "F": 6.9, "G": 9.85 },
+        { "Term": 13, "A": 2.45, "B": 2.55, "C": 2.95, "D": 3.75, "E": 5.15, "F": 7.5, "G": 10.7 },
+        { "Term": 14, "A": 2.5, "B": 2.7, "C": 3.1, "D": 4.0, "E": 5.55, "F": 8.15, "G": 11.6 },
+        { "Term": 15, "A": 2.6, "B": 2.8, "C": 3.3, "D": 4.35, "E": 6.1, "F": 8.9, "G": 12.75 }
+    ]
+};
+
+// UI Elements
+const ageEl = document.getElementById('age');
+const termPptEl = document.getElementById('termPpt');
+const saEl = document.getElementById('sumAssured');
+const pwbEl = document.getElementById('pwb');
+const pwbAgeGroup = document.getElementById('pwbAgeGroup');
+const proposerAgeEl = document.getElementById('proposerAge');
+const accidentChoiceEl = document.getElementById('accidentChoice');
+const addbSaGroup = document.getElementById('addbSaGroup');
+const addbAmountEl = document.getElementById('addbAmount');
+const trEl = document.getElementById('tr');
+const trSaGroup = document.getElementById('trSaGroup');
+const trAmountEl = document.getElementById('trAmount');
+const errAlert = document.getElementById('errorAlert');
+const form = document.getElementById('calcForm');
+
+// Modal Conversion Factors for Plan 890
+const MODAL_FACTORS = {
+    yearly: 1.0000,
+    halfYearly: 0.5090,
+    quarterly: 0.2568,
+    monthly: 0.0861
+};
+
+// PWB visibility
+pwbEl.addEventListener('change', function() {
+    pwbAgeGroup.style.display = (this.value === 'yes') ? 'block' : 'none';
+});
+
+// Accident Choice visibility
+accidentChoiceEl.addEventListener('change', function() {
+    if (this.value === 'addb' || this.value === 'ab') {
+        addbSaGroup.style.display = 'block';
+        addbAmountEl.value = saEl.value;
+    } else {
+        addbSaGroup.style.display = 'none';
+    }
+});
+
+// Term Rider visibility
+trEl.addEventListener('change', function() {
+    if (this.value === 'yes') {
+        trSaGroup.style.display = 'block';
+        trAmountEl.value = Math.min(parseFloat(saEl.value), 2500000);
+    } else {
+        trSaGroup.style.display = 'none';
+    }
+});
+
+function showError(msg) {
+    errAlert.textContent = msg;
+    errAlert.style.display = 'block';
+}
+
+function hideError() {
+    errAlert.style.display = 'none';
+}
+
+function formatINR(val) {
+    return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
+    }).format(Math.round(val));
+}
+
+// Main Calculation
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    hideError();
+
+    const age = parseInt(ageEl.value);
+    const [termStr, pptStr] = termPptEl.value.split('_');
+    const term = parseInt(termStr);
+    const ppt = parseInt(pptStr);
+    const sa = parseFloat(saEl.value);
+    const isPwb = pwbEl.value === 'yes';
+    const accidentChoice = accidentChoiceEl.value;
+    const isTr = trEl.value === 'yes';
+
+    // 1. Validations
+    if (age < 0 || age > 60) {
+        showError("Entry age must be between 0 (30 days completed) and 60 years.");
+        return;
+    }
+
+    const maturityAge = age + term;
+    if (maturityAge < 18 || maturityAge > 75) {
+        showError(`Maturity Age must be between 18 and 75 years. Currently: ${maturityAge} years.`);
+        return;
+    }
+
+    if (sa < 125000 || sa % 25000 !== 0) {
+        showError("Minimum Sum Assured is ₹1,25,000 and must be in multiples of ₹25,000.");
+        return;
+    }
+
+    // 2. Fetch Tabular Rate from 890.json
+    const baseTable = RAW_JSON_DATABASE["890.json"];
+    if (!baseTable || baseTable.length === 0) {
+        showError("Base rate table 890.json is empty. Please paste your JSON data.");
+        return;
+    }
+
+    const ageRow = baseTable.find(r => Number(r.Age) === age);
+    if (!ageRow) {
+        showError(`Age ${age} not found in 890.json.`);
+        return;
+    }
+
+    const termKey = `T${term}`;
+    if (ageRow[termKey] === undefined || ageRow[termKey] === null || parseFloat(ageRow[termKey]) === 0) {
+        showError(`Rate not available for Age ${age} and Policy Term ${term} in 890.json.`);
+        return;
+    }
+
+    const tabularRate = parseFloat(ageRow[termKey]);
+
+    // 3. Tabular Premium Calculation & High SA Rebate
+    let rawBasePremium = (sa / 1000) * tabularRate;
+
+    // High Sum Assured Rebate (per ₹1,000 SA for Plan 890)
+    let highSaRebate = 0;
+    if (sa >= 5000000) {
+        highSaRebate = 0.50;
+    } else if (sa >= 2500000) {
+        highSaRebate = 0.40;
+    } else if (sa >= 1000000) {
+        highSaRebate = 0.30;
+    } else if (sa >= 500000) {
+        highSaRebate = 0.00;
+    } else if (sa >= 300000) {
+        highSaRebate = 0.10;
+    }
+
+    let baseAnnual = rawBasePremium - ((sa / 1000) * highSaRebate);
+
+    // 4. Riders Calculation
+    let riderAnnual = 0;
+
+    // (a) AD&DB or AB Rider (Only for Age >= 18)
+    if (accidentChoice === 'addb') {
+        if (age < 18) {
+            showError("AD&DB Rider is available only for Life Assured age 18 and above.");
+            return;
+        }
+        const addbSa = parseFloat(addbAmountEl.value);
+        if (addbSa < 20000 || addbSa > sa || addbSa > 10000000) {
+            showError("AD&DB Sum Assured must be between ₹20,000 and Basic Sum Assured (max ₹1 Crore).");
+            return;
+        }
+
+        const addbTable = RAW_JSON_DATABASE["890_addb.json"];
+        let addbRate = 1.0;
+        if (addbTable && addbTable.length > 0) {
+            // Row is indexed by Term (matching policy term), Column is T<PPT>
+            const addbRow = addbTable.find(r => Number(r.Term) === term);
+            const pptCol = `T${ppt}`;
+            if (addbRow && addbRow[pptCol] !== undefined && addbRow[pptCol] !== null) {
+                addbRate = parseFloat(addbRow[pptCol]);
+            }
+        }
+        riderAnnual += (addbSa / 1000) * addbRate;
+
+    } else if (accidentChoice === 'ab') {
+        if (age < 18) {
+            showError("Accident Benefit Rider is available only for Life Assured age 18 and above.");
+            return;
+        }
+        const abSa = parseFloat(addbAmountEl.value);
+        if (abSa < 20000 || abSa > sa || abSa > 10000000) {
+            showError("Accident Benefit Sum Assured must be between ₹20,000 and Basic Sum Assured (max ₹1 Crore).");
+            return;
+        }
+        // Flat standard AB rate = ₹0.50 per ₹1,000 SA
+        riderAnnual += (abSa / 1000) * 0.50;
+    }
+
+    // (b) Term Assurance Rider (Only for Age >= 18)
+    if (isTr) {
+        if (age < 18) {
+            showError("Term Assurance Rider is available only for Life Assured age 18 and above.");
+            return;
+        }
+        const trSa = parseFloat(trAmountEl.value);
+        if (trSa < 100000 || trSa > sa || trSa > 2500000) {
+            showError("Term Rider Sum Assured must be between ₹1,00,000 and Basic Sum Assured (max ₹25 Lakh).");
+            return;
+        }
+
+        const trTable = RAW_JSON_DATABASE["890_TR.json"];
+        let trRate = 0;
+        if (trTable && trTable.length > 0) {
+            const trRow = trTable.find(r => Number(r.Age) === age);
+            if (trRow && trRow[termKey] !== undefined) {
+                trRate = parseFloat(trRow[termKey]);
+            }
+        }
+        riderAnnual += (trSa / 1000) * trRate;
+    }
+
+    // (c) PWB Rider (Minor lives only: age < 18)
+    if (isPwb) {
+        if (age >= 18) {
+            showError("PWB Rider is applicable only for minor Life Assured (Age < 18 years).");
+            return;
+        }
+
+        const proposerAge = parseInt(proposerAgeEl.value);
+        if (isNaN(proposerAge) || proposerAge < 18 || proposerAge > 55) {
+            showError("Proposer Age for PWB must be between 18 and 55 years.");
+            return;
+        }
+
+        const pwbTerm = ppt; // Rider term matches PPT
+        const pwbTable = RAW_JSON_DATABASE["890_pwb.json"];
+        let pwbRate = 0;
+
+        // Proposer Age Tier: A-G
+        let tierCol = 'A';
+        if (proposerAge <= 25) tierCol = 'A';
+        else if (proposerAge <= 30) tierCol = 'B';
+        else if (proposerAge <= 35) tierCol = 'C';
+        else if (proposerAge <= 40) tierCol = 'D';
+        else if (proposerAge <= 45) tierCol = 'E';
+        else if (proposerAge <= 50) tierCol = 'F';
+        else tierCol = 'G';
+
+        if (pwbTable && pwbTable.length > 0) {
+            const pwbRow = pwbTable.find(r => Number(r.Term) === pwbTerm);
+            if (pwbRow && pwbRow[tierCol] !== undefined) {
+                pwbRate = parseFloat(pwbRow[tierCol]);
+            }
+        }
+
+        // PWB Premium = (Base Annual Premium * Rate) / 100
+        riderAnnual += (baseAnnual * pwbRate) / 100;
+    }
+
+    // 5. Modal Conversions (No GST)
+    const totalYearly = baseAnnual + riderAnnual;
+
+    const yearly = Math.round(totalYearly * MODAL_FACTORS.yearly);
+    const halfYearly = Math.round(totalYearly * MODAL_FACTORS.halfYearly);
+    const quarterly = Math.round(totalYearly * MODAL_FACTORS.quarterly);
+    const monthly = Math.round(totalYearly * MODAL_FACTORS.monthly);
+
+    document.getElementById('outYearly').textContent = formatINR(yearly);
+    document.getElementById('outHalfYearly').textContent = formatINR(halfYearly);
+    document.getElementById('outQuarterly').textContent = formatINR(quarterly);
+    document.getElementById('outMonthly').textContent = formatINR(monthly);
+
+    // 6. Guaranteed Benefits Output
+    // Sum Assured on Death: Higher of 125% of BSA or 7x Annualized Premium
+    const deathBenefit = Math.max(1.25 * sa, 7 * baseAnnual);
+    document.getElementById('outDeathBenefit').textContent = `${formatINR(deathBenefit)} + Accrued GA`;
+
+    // Guaranteed Additions: 6% of Annualized Premium paid, accruing each policy year
+    const annualGA = baseAnnual * 0.06;
+    const totalGA = annualGA * term; // Accrues for full policy term
+
+    document.getElementById('outAnnualGA').textContent = `${formatINR(annualGA)} / year`;
+    document.getElementById('outTotalGA').textContent = formatINR(totalGA);
+    document.getElementById('outMaturity').textContent = `${formatINR(sa)} (BSA) + ${formatINR(totalGA)} (GA)`;
+});
+</script>
+
+</body>
+</html>
