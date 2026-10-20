@@ -275,9 +275,9 @@ const db = {
     '889': { name: "Jeevan Sathi Limited Premium (889)", type: 'END', rule: 'MANUAL', min: 10, max: 25 },
     '890': { name: "New Bima Jyoti (890)", type: 'END', rule: 'MAP', map: {15:10, 16:11, 17:12, 18:13, 19:14, 20:15} },
     '894': { name: "Jeevan Raksha (894)", type: 'TERM', rule: 'MANUAL', min: 15, max: 42 },
-    '892': { name: "New Jeevan Dhara-II (892)", type: 'ANN', rule: 'MANUAL', min: 1, max: 15 },
-'907': { name: "Health Shield (907)", type: 'HEALTH', rule: 'MANUAL', min: 15, max: 15 },
-'908': { name: "New Cancer Cover (908)", type: 'HEALTH', rule: 'MANUAL', min: 10, max: 15 }
+   
+'907': { name: "Health Shield (907)", type: 'HEALTH', rule: 'MANUAL', min: 15, max: 15 }
+
 };
 
 const planSelect = document.getElementById('plan-select');
@@ -428,15 +428,7 @@ const plan = db[id];
     } else if (id === '907') {
     // Health Shield
     rates = { y1: 25, y2: 7.5, y3: 7.5, y4: 5 };
-} else if (id === '908') {
-    // New Cancer Cover
-    rates = { y1: 20, y2: 7.5, y3: 7.5, y4: 5 };
-} else if (id === '892') {
-    // New Jeevan Dhara-II
-    if (plan.type === 'SP') rates = { y1: 2, y2: 0, y3: 0, y4: 0 };
-    else if (ppt < 10) rates = { y1: 10, y2: 7.5, y3: 7.5, y4: 5 };
-    else if (ppt <= 15) rates = { y1: 25, y2: 7.5, y3: 7.5, y4: 5 };
-}
+} 
     const format = (v) => "₹ " + Math.round(v).toLocaleString('en-IN');
     document.getElementById('y1').innerText = format(annualized * rates.y1 / 100);
     document.getElementById('y2').innerText = (ppt >= 2) ? format(annualized * rates.y2 / 100) : "₹ 0";
