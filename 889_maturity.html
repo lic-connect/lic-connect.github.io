@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIC Plan 889 - New Jeevan Sathi Limited Premium Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-white: #ffffff;
+      --card-bg: #ffffff;
+      --blue-deep: #061e5c;
+      --blue-primary: #0a369d;
+      --blue-vibrant: #0284c7;
+      --aqua-main: #00e5ff;
+      --aqua-glow: #00f5d4;
+      --aqua-soft: #e0fbfb;
+      --green-emerald: #059669;
+      --green-light: #10b981;
+      --green-glow: #34d399;
+      --green-soft: #ecfdf5;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --shadow-dazzle: 0 20px 45px -10px rgba(10, 54, 157, 0.15), 0 0 25px rgba(0, 229, 255, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-white);
+      color: var(--text-dark);
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(0, 229, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 50% 95%, rgba(10, 54, 157, 0.05) 0%, transparent 50%);
+      background-attachment: fixed;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 1220px;
+      margin: 0 auto;
+    }
+
+    /* Flamboyant Hero Header */
+    .header-card {
+      background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-primary) 50%, var(--blue-vibrant) 100%);
+      border-radius: 28px;
+      padding: 38px 30px;
+      color: #ffffff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 36px -5px rgba(10, 54, 157, 0.35);
+      margin-bottom: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .header-card::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: -60px;
+      width: 200px;
+      height: 200px;
+      background: var(--aqua-glow);
+      filter: blur(80px);
+      opacity: 0.45;
+      border-radius: 50%;
+    }
+
+    .header-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      background: var(--green-glow);
+      filter: blur(80px);
+      opacity: 0.35;
+      border-radius: 50%;
+    }
+
+    .plan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+      padding: 6px 20px;
+      border-radius: 9999px;
+      border: 1px solid var(--aqua-glow);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--aqua-main);
+      margin-bottom: 12px;
+    }
+
+    .header-card h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .header-card p {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.92);
+      max-width: 780px;
+      margin: 0 auto 12px;
+    }
+
+    .tax-badge {
+      display: inline-block;
+      background: rgba(5, 150, 105, 0.35);
+      border: 1px solid var(--green-glow);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 4px 16px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* 2-Column Split: Inputs Left, Outputs Right */
+    .calculator-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 992px) {
+      .calculator-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .dazzle-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 30px;
+      border: 1.5px solid rgba(0, 229, 255, 0.35);
+      box-shadow: var(--shadow-dazzle);
+      position: relative;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--blue-deep);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--aqua-soft);
+    }
+
+    .section-title .bullet {
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(135deg, var(--aqua-main), var(--green-light));
+      border-radius: 4px;
+      box-shadow: 0 0 10px var(--aqua-glow);
+    }
+
+    /* Form Fields */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--blue-deep);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-group label span.helper {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper input,
+    .input-wrapper select {
+      width: 100%;
+      height: 46px;
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0 14px;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+      transition: all 0.25s ease;
+      outline: none;
+    }
+
+    .input-wrapper select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230a369d' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+    }
+
+    .input-wrapper input:focus,
+    .input-wrapper select:focus {
+      border-color: var(--aqua-main);
+      box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.2);
+    }
+
+    .input-wrapper .prefix {
+      position: absolute;
+      right: 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* Scenario Box */
+    .claim-selector-box {
+      background: var(--aqua-soft);
+      border: 2px dashed rgba(0, 229, 255, 0.85);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 6px;
+    }
+
+    .claim-selector-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--blue-primary);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .radio-toggle-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .toggle-option {
+      position: relative;
+    }
+
+    .toggle-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 12px;
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: center;
+    }
+
+    .toggle-option input[type="radio"]:checked + .toggle-label {
+      background: linear-gradient(135deg, var(--blue-primary), var(--blue-vibrant));
+      color: #ffffff;
+      border-color: var(--blue-primary);
+      box-shadow: 0 4px 15px rgba(10, 54, 157, 0.25);
+    }
+
+    /* Death sub-scenarios container */
+    #deathOptionsContainer {
+      display: none;
+      margin-top: 14px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Validation container */
+    .error-container {
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: #fef2f2;
+      border: 1px solid #f87171;
+      border-radius: 12px;
+      color: #b91c1c;
+      font-size: 12.5px;
+      font-weight: 600;
+      line-height: 1.5;
+      display: none;
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-proceed {
+      background: linear-gradient(135deg, var(--green-emerald) 0%, var(--green-light) 50%, var(--aqua-main) 100%);
+      color: #ffffff;
+      border: none;
+      padding: 16px 28px;
+      border-radius: 14px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-proceed:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 14px 30px rgba(0, 229, 255, 0.45);
+    }
+
+    .utility-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-action {
+      background: #ffffff;
+      color: var(--blue-deep);
+      border: 2px solid var(--border-color);
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      border-color: var(--blue-primary);
+      background: var(--aqua-soft);
+      color: var(--blue-primary);
+    }
+
+    /* Result Panel (Right side) */
+    .result-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 30px;
+      border: 2px solid var(--aqua-main);
+      box-shadow: var(--shadow-dazzle);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 24px;
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .result-tag {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .tag-maturity {
+      background: var(--green-soft);
+      color: var(--green-emerald);
+      border: 1px solid var(--green-light);
+    }
+
+    .tag-death {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #f87171;
+    }
+
+    .grand-total-box {
+      background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-primary) 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 18px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 25px rgba(10, 54, 157, 0.25);
+    }
+
+    .grand-total-box::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: var(--aqua-glow);
+      filter: blur(50px);
+      opacity: 0.4;
+      border-radius: 50%;
+    }
+
+    .grand-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--aqua-main);
+      margin-bottom: 8px;
+    }
+
+    .grand-amount {
+      font-family: 'Outfit', sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .breakdown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border-left: 4px solid var(--blue-vibrant);
+      transition: all 0.2s ease;
+    }
+
+    .breakdown-item:hover {
+      background: var(--aqua-soft);
+      border-left-color: var(--aqua-main);
+    }
+
+    .breakdown-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .breakdown-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--blue-deep);
+    }
+
+    .plan-notes-box {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%);
+      border: 1px dashed var(--green-light);
+    }
+
+    .plan-notes-box h4 {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--green-emerald);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .plan-notes-box ul {
+      list-style-type: none;
+      font-size: 12px;
+      color: #334155;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .plan-notes-box li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .plan-notes-box li::before {
+      content: '✓';
+      color: var(--green-emerald);
+      font-weight: 900;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+      .header-card {
+        background: #0a369d !important;
+        color: #ffffff !important;
+        box-shadow: none !important;
+        padding: 20px !important;
+      }
+      .btn-proceed, .utility-buttons, .claim-selector-box, .tax-badge {
+        display: none !important;
+      }
+      .calculator-layout {
+        display: block !important;
+      }
+      .result-card, .dazzle-card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Flamboyant Header -->
+  <header class="header-card">
+    <div class="plan-badge">Plan No. 889 • Joint Life Limited Premium</div>
+    <h1>LIC NEW JEEVAN SATHI CALCULATOR</h1>
+    <p>Non-Par, Non-Linked, Joint Life Savings Endowment Plan with Inbuilt Premium Waiver Benefit on 1st Death</p>
+    <div class="tax-badge">Zero GST Tax Applicable • Guaranteed Additions 7% of Annual Premium</div>
+  </header>
+
+  <!-- Split Grid: Inputs on the Left, Outputs on the Right -->
+  <div class="calculator-layout">
+    
+    <!-- LEFT SIDE: INPUTS -->
+    <div class="dazzle-card">
+      <div class="section-title">
+        <span class="bullet"></span>
+        <span>Policy Parameters &amp; Details</span>
+      </div>
+
+      <div class="form-grid">
+        <!-- Option Selection -->
+        <div class="form-group full-width">
+          <label for="optionChoice">
+            Death Benefit Option
+            <span class="helper" id="optionHelper">Option 1: Max(7×AP, SA)</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="optionChoice">
+              <option value="1" selected>Option 1 : Higher of 7 times annual premium or basic SA</option>
+              <option value="2">Option 2 : Higher of 10.5 times annual premium or basic SA</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Age of Primary Holder -->
+        <div class="form-group">
+          <label for="agePrimary">
+            Age of Primary Holder
+            <span class="helper" id="primaryAgeHelper">Min 18 to Max 50 Yrs</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="agePrimary" min="18" max="50" value="35">
+            <span class="prefix">Yrs</span>
+          </div>
+        </div>
+
+        <!-- Age of Secondary Holder -->
+        <div class="form-group">
+          <label for="ageSecondary">
+            Age of Secondary Holder
+            <span class="helper" id="secondaryAgeHelper">Min 18 to Max 50 Yrs</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="ageSecondary" min="18" max="50" value="32">
+            <span class="prefix">Yrs</span>
+          </div>
+        </div>
+
+        <!-- PPT -->
+        <div class="form-group">
+          <label for="ppt">
+            PPT (Premium Paying Term)
+            <span class="helper">Available: 5, 10, 15 Yrs</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="ppt">
+              <option value="5">5 Years</option>
+              <option value="10" selected>10 Years</option>
+              <option value="15">15 Years</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Term -->
+        <div class="form-group">
+          <label for="term">
+            Policy Term
+            <span class="helper" id="termHelper">Allowed: 15, 20, 25 Yrs</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="term">
+              <option value="15">15 Years</option>
+              <option value="20" selected>20 Years</option>
+              <option value="25">25 Years</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Sum Assured -->
+        <div class="form-group">
+          <label for="sumAssured">
+            Basic Sum Assured (₹)
+            <span class="helper">Min ₹3,00,000 (Step 10k)</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="sumAssured" step="10000" min="300000" value="500000">
+            <span class="prefix">INR</span>
+          </div>
+        </div>
+
+        <!-- Mode of Premium -->
+        <div class="form-group">
+          <label for="mode">
+            Mode of Premium
+            <span class="helper">Payment Frequency</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="mode">
+              <option value="yly" selected>Yearly (1.0000)</option>
+              <option value="hly">Half-Yearly (0.5090)</option>
+              <option value="qly">Quarterly (0.2568)</option>
+              <option value="mly">Monthly NACH (0.0861)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Premium Amount -->
+        <div class="form-group">
+          <label for="premiumAmount">
+            Installment Premium Amount (₹)
+            <span class="helper" id="premiumHelper">Per Mode (No GST)</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="premiumAmount" min="5000" value="48000">
+            <span class="prefix">INR</span>
+          </div>
+        </div>
+
+        <!-- GA/1000 Sum Assured -->
+        <div class="form-group">
+          <label for="gaPer1000">
+            GA / 1000 Sum Assured
+            <span class="helper">Auto-derived or Custom</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" step="0.5" id="gaPer1000" value="67.2">
+            <span class="prefix">₹ / 1k</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SELECT MATURITY OR DEATH -->
+      <div class="claim-selector-box">
+        <span class="claim-selector-title">Select Benefit Scenario</span>
+        <div class="radio-toggle-group">
+          <div class="toggle-option">
+            <input type="radio" id="claimMaturity" name="claimType" value="maturity" checked>
+            <label for="claimMaturity" class="toggle-label">
+              <span>🎯</span> MATURITY
+            </label>
+          </div>
+          <div class="toggle-option">
+            <input type="radio" id="claimDeath" name="claimType" value="death">
+            <label for="claimDeath" class="toggle-label">
+              <span>🛡️</span> DEATH
+            </label>
+          </div>
+        </div>
+
+        <!-- Death Sub-Choices -->
+        <div id="deathOptionsContainer">
+          <div class="form-group" style="margin-top: 14px;">
+            <label for="deathScenarioChoice">Death Condition Scenario</label>
+            <div class="input-wrapper">
+              <select id="deathScenarioChoice">
+                <option value="primary">If Primary LA dies (1st Death - PWB Triggered)</option>
+                <option value="secondary">If Secondary LA dies (1st Death - PWB Triggered)</option>
+                <option value="both">If Both die simultaneously</option>
+                <option value="second">If 2nd Death occurs during term</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 12px;">
+            <label for="deathPolicyYear">
+              Policy Year of Death
+              <span class="helper" id="deathYearHelper">Yr 1 to Term</span>
+            </label>
+            <div class="input-wrapper">
+              <input type="number" id="deathPolicyYear" min="1" max="25" value="4">
+              <span class="prefix">Yr</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Validation Error Box -->
+      <div id="validationError" class="error-container"></div>
+
+      <!-- PROCEED, PRINT, SHARE BUTTONS -->
+      <div class="button-group">
+        <button type="button" class="btn-proceed" id="btnProceed">
+          <span>⚡ PROCEED &amp; CALCULATE</span>
+        </button>
+        <div class="utility-buttons">
+          <button type="button" class="btn-action" id="btnPrint">
+            <span>🖨️</span> PRINT BUTTON
+          </button>
+          <button type="button" class="btn-action" id="btnShare">
+            <span>🔗</span> SHARE BUTTON
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE: OUTPUTS -->
+    <div class="result-card" id="resultCard">
+      <div class="result-header">
+        <div class="section-title" style="margin: 0; padding: 0; border: none;">
+          <span class="bullet" style="background: var(--blue-primary);"></span>
+          <span id="resultHeading">Maturity Illustration</span>
+        </div>
+        <span class="result-tag tag-maturity" id="statusBadge">Maturity Benefit</span>
+      </div>
+
+      <!-- Grand Total Showcase -->
+      <div class="grand-total-box">
+        <div class="grand-title" id="grandLabel">Final Maturity Benefit</div>
+        <div class="grand-amount" id="finalBenefitDisplay">₹ 0</div>
+      </div>
+
+      <!-- Breakdown Details Container -->
+      <div class="breakdown-list" id="breakdownContainer">
+        <!-- Dynamically generated outputs -->
+      </div>
+
+      <!-- Key Plan Feature Highlights -->
+      <div class="plan-notes-box" id="planNotesBox">
+        <h4>Key Plan Highlights (Plan 889)</h4>
+        <ul>
+          <li id="pwbNote">PWB Benefit: Future base premiums are waived upon 1st death!</li>
+          <li id="gaNote">Guaranteed Addition: 7% of Total Tabular Annual Premium paid.</li>
+          <li>Tax Shield: Tax exemption u/s 80C &amp; Maturity 100% tax-free u/s 10(10D).</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Conversion factors
+  const MODE_FACTORS = {
+    'yly': 1.0000,
+    'hly': 0.5090,
+    'qly': 0.2568,
+    'mly': 0.0861
+  };
+
+  // Matrix of Terms allowed per PPT
+  const PPT_TERM_MAP = {
+    5: [10, 15, 20, 25],
+    10: [15, 20, 25],
+    15: [20, 25]
+  };
+
+  // Max Entry Age Matrix [PPT][Term][Option]
+  const MAX_ENTRY_AGE_MATRIX = {
+    5:  { 10: { 1: 45, 2: 40 }, 15: { 1: 45, 2: 40 }, 20: { 1: 45, 2: 40 }, 25: { 1: 45, 2: 35 } },
+    10: { 15: { 1: 50, 2: 40 }, 20: { 1: 50, 2: 40 }, 25: { 1: 50, 2: 35 } },
+    15: { 20: { 1: 50, 2: 40 }, 25: { 1: 50, 2: 35 } }
+  };
+
+  // DOM Elements
+  const optionSelect = document.getElementById('optionChoice');
+  const optionHelper = document.getElementById('optionHelper');
+  const agePrimary = document.getElementById('agePrimary');
+  const ageSecondary = document.getElementById('ageSecondary');
+  const primaryAgeHelper = document.getElementById('primaryAgeHelper');
+  const secondaryAgeHelper = document.getElementById('secondaryAgeHelper');
+  const pptSelect = document.getElementById('ppt');
+  const termSelect = document.getElementById('term');
+  const termHelper = document.getElementById('termHelper');
+  const sumAssuredInput = document.getElementById('sumAssured');
+  const modeSelect = document.getElementById('mode');
+  const premiumAmountInput = document.getElementById('premiumAmount');
+  const gaPer1000Input = document.getElementById('gaPer1000');
+  const deathOptionsContainer = document.getElementById('deathOptionsContainer');
+  const deathScenarioChoice = document.getElementById('deathScenarioChoice');
+  const deathPolicyYear = document.getElementById('deathPolicyYear');
+  const deathYearHelper = document.getElementById('deathYearHelper');
+  const validationError = document.getElementById('validationError');
+
+  // Outputs
+  const resultHeading = document.getElementById('resultHeading');
+  const statusBadge = document.getElementById('statusBadge');
+  const grandLabel = document.getElementById('grandLabel');
+  const finalBenefitDisplay = document.getElementById('finalBenefitDisplay');
+  const breakdownContainer = document.getElementById('breakdownContainer');
+
+  function formatINR(val) {
+    return '₹ ' + Math.round(val).toLocaleString('en-IN');
+  }
+
+  // Update allowed Terms whenever PPT changes
+  function syncPptAndTerms() {
+    const ppt = Number(pptSelect.value);
+    const allowedTerms = PPT_TERM_MAP[ppt];
+    const prevTerm = Number(termSelect.value);
+
+    termSelect.innerHTML = allowedTerms.map(t => `<option value="${t}">${t} Years</option>`).join('');
+    if (allowedTerms.includes(prevTerm)) {
+      termSelect.value = prevTerm;
+    } else {
+      termSelect.value = allowedTerms[0];
+    }
+    termHelper.innerText = `Allowed: ${allowedTerms.join(', ')} Yrs`;
+    updateAgeLimits();
+    autoSyncGA();
+  }
+
+  // Update Max Entry Age cues based on Option, PPT, and Term
+  function updateAgeLimits() {
+    const opt = Number(optionSelect.value);
+    const ppt = Number(pptSelect.value);
+    const term = Number(termSelect.value);
+
+    let maxAge = 50;
+    if (MAX_ENTRY_AGE_MATRIX[ppt] && MAX_ENTRY_AGE_MATRIX[ppt][term]) {
+      maxAge = MAX_ENTRY_AGE_MATRIX[ppt][term][opt];
+    }
+
+    agePrimary.max = maxAge;
+    ageSecondary.max = maxAge;
+    primaryAgeHelper.innerText = `Min 18 to Max ${maxAge} Yrs`;
+    secondaryAgeHelper.innerText = `Min 18 to Max ${maxAge} Yrs`;
+
+    if (opt === 1) {
+      optionHelper.innerText = 'Option 1: Max(7×AP, SA)';
+    } else {
+      optionHelper.innerText = 'Option 2: Max(10.5×AP, SA)';
+    }
+
+    deathPolicyYear.max = term;
+    deathYearHelper.innerText = `Yr 1 to ${term}`;
+  }
+
+  // Auto-calculate equivalent GA/1000 SA from 7% of Annual Premium rule
+  function autoSyncGA() {
+    const modalPremium = Number(premiumAmountInput.value) || 0;
+    const mode = modeSelect.value;
+    const factor = MODE_FACTORS[mode] || 1;
+    const annualPremium = modalPremium / factor;
+    const ppt = Number(pptSelect.value) || 10;
+    const sa = Number(sumAssuredInput.value) || 500000;
+
+    if (sa > 0 && annualPremium > 0) {
+      // Under fully paid-up policy, total premium paid = AP * PPT
+      // Annual GA = 7% of (AP * PPT)
+      const annualGA = 0.07 * (annualPremium * ppt);
+      const derivedGaPer1000 = Math.round(((annualGA / sa) * 1000) * 10) / 10;
+      if (derivedGaPer1000 > 0) {
+        gaPer1000Input.value = derivedGaPer1000;
+      }
+    }
+  }
+
+  // Claim Toggle Listener
+  document.querySelectorAll('input[name="claimType"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      if (e.target.value === 'death') {
+        deathOptionsContainer.style.display = 'block';
+      } else {
+        deathOptionsContainer.style.display = 'none';
+      }
+    });
+  });
+
+  pptSelect.addEventListener('change', syncPptAndTerms);
+  termSelect.addEventListener('change', () => {
+    updateAgeLimits();
+    autoSyncGA();
+  });
+  optionSelect.addEventListener('change', () => {
+    updateAgeLimits();
+    autoSyncGA();
+  });
+  premiumAmountInput.addEventListener('input', autoSyncGA);
+  modeSelect.addEventListener('change', autoSyncGA);
+  sumAssuredInput.addEventListener('input', autoSyncGA);
+
+  // Form Validation
+  function validateInputs() {
+    const opt = Number(optionSelect.value);
+    const ppt = Number(pptSelect.value);
+    const term = Number(termSelect.value);
+    const pAge = Number(agePrimary.value);
+    const sAge = Number(ageSecondary.value);
+    const sa = Number(sumAssuredInput.value);
+    const premium = Number(premiumAmountInput.value);
+    const isDeath = document.getElementById('claimDeath').checked;
+    const dYear = Number(deathPolicyYear.value);
+
+    const errors = [];
+    const maxEntryAge = MAX_ENTRY_AGE_MATRIX[ppt][term][opt];
+
+    // Minimum entry age: 18 years completed
+    if (isNaN(pAge) || pAge < 18) errors.push('Primary Life Assured minimum entry age is 18 years completed.');
+    if (isNaN(sAge) || sAge < 18) errors.push('Secondary Life Assured minimum entry age is 18 years completed.');
+
+    // Max entry age
+    if (pAge > maxEntryAge) errors.push(`For PPT ${ppt}, Term ${term}, Option ${opt}: Primary LA max entry age is ${maxEntryAge} years.`);
+    if (sAge > maxEntryAge) errors.push(`For PPT ${ppt}, Term ${term}, Option ${opt}: Secondary LA max entry age is ${maxEntryAge} years.`);
+
+    // Maturity age checks
+    // Min maturity age: 28 years
+    if (pAge + term < 28) errors.push(`Primary LA maturity age (${pAge + term}) must be at least 28 years.`);
+    if (sAge + term < 28) errors.push(`Secondary LA maturity age (${sAge + term}) must be at least 28 years.`);
+
+    // Max maturity age: Option 1 = 75 years, Option 2 = 60 years
+    const maxMaturity = (opt === 1) ? 75 : 60;
+    if (pAge + term > maxMaturity) errors.push(`Option ${opt}: Primary LA maturity age (${pAge + term}) exceeds max limit of ${maxMaturity} years.`);
+    if (sAge + term > maxMaturity) errors.push(`Option ${opt}: Secondary LA maturity age (${sAge + term}) exceeds max limit of ${maxMaturity} years.`);
+
+    // Basic Sum Assured: Min ₹3,00,000, Multiples of ₹10,000
+    if (isNaN(sa) || sa < 300000) {
+      errors.push('Minimum Basic Sum Assured is ₹3,00,000.');
+    } else if (sa % 10000 !== 0) {
+      errors.push('Basic Sum Assured must be in multiples of ₹10,000.');
+    }
+
+    // Premium
+    if (isNaN(premium) || premium <= 0) {
+      errors.push('Please enter a valid installment premium amount.');
+    }
+
+    // Death Year
+    if (isDeath) {
+      if (isNaN(dYear) || dYear < 1 || dYear > term) {
+        errors.push(`Policy year of death must be between 1 and ${term}.`);
+      }
+    }
+
+    if (errors.length > 0) {
+      validationError.innerHTML = errors.map(e => `• ${e}`).join('<br>');
+      validationError.style.display = 'block';
+      return false;
+    } else {
+      validationError.style.display = 'none';
+      return true;
+    }
+  }
+
+  // Execution calculation
+  function calculatePlan() {
+    if (!validateInputs()) return;
+
+    const opt = Number(optionSelect.value);
+    const ppt = Number(pptSelect.value);
+    const term = Number(termSelect.value);
+    const sa = Number(sumAssuredInput.value);
+    const mode = modeSelect.value;
+    const modalPremium = Number(premiumAmountInput.value);
+    const factor = MODE_FACTORS[mode] || 1;
+    const annualPremium = modalPremium / factor;
+    const gaRate = Number(gaPer1000Input.value) || 70;
+    const isDeath = document.getElementById('claimDeath').checked;
+    const deathScenario = deathScenarioChoice.value;
+    const dYear = Number(deathPolicyYear.value);
+
+    // Annual GA accrued per year based on GA/1000 SA input
+    const gaPerYear = (gaRate * sa) / 1000;
+
+    // Sum Assured on Death:
+    // Option 1: Higher of 7 times Annual Premium or Basic SA
+    // Option 2: Higher of 10.5 times Annual Premium or Basic SA
+    let saOnDeath = 0;
+    if (opt === 1) {
+      saOnDeath = Math.max(7 * annualPremium, sa);
+    } else {
+      saOnDeath = Math.max(10.5 * annualPremium, sa);
+    }
+
+    if (!isDeath) {
+      // ----------------- OUTPUTS FOR MATURITY -----------------
+      statusBadge.className = 'result-tag tag-maturity';
+      statusBadge.innerText = 'Maturity Settlement';
+      resultHeading.innerText = 'Maturity Illustration';
+      grandLabel.innerText = 'Final Maturity Benefit';
+
+      // Accrues annually for the entire Policy Term
+      const gaAccrued = gaPerYear * term;
+      const totalPremiumPaid = annualPremium * ppt;
+      const finalMaturityBenefit = sa + gaAccrued;
+
+      finalBenefitDisplay.innerText = formatINR(finalMaturityBenefit);
+
+      breakdownContainer.innerHTML = `
+        <div class="breakdown-item">
+          <span class="breakdown-label">Basic Sum Assured</span>
+          <span class="breakdown-val">${formatINR(sa)}</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">GA Accrued (${term} Yrs @ ₹${gaRate}/1000 SA)</span>
+          <span class="breakdown-val">${formatINR(gaAccrued)}</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">Total Premium Paid (${ppt} Years)</span>
+          <span class="breakdown-val">${formatINR(totalPremiumPaid)}</span>
+        </div>
+        <div class="breakdown-item" style="border-left-color: var(--green-light); background: var(--green-soft);">
+          <span class="breakdown-label" style="font-weight: 700; color: var(--green-emerald);">Final Maturity Benefit</span>
+          <span class="breakdown-val" style="color: var(--green-emerald); font-size: 18px;">${formatINR(finalMaturityBenefit)}</span>
+        </div>
+      `;
+
+    } else {
+      // ----------------- OUTPUTS FOR DEATH -----------------
+      statusBadge.className = 'result-tag tag-death';
+      resultHeading.innerText = 'Death Benefit Claim';
+
+      // Premium paid till death (up to PPT limit)
+      const premiumYearsPaid = Math.min(dYear, ppt);
+      const totalPremiumPaidTillDeath = annualPremium * premiumYearsPaid;
+
+      // GA till death (accrued for full year of death)
+      const gaTillDeath = gaPerYear * dYear;
+
+      let finalDeathBenefit = 0;
+      let scenarioDesc = '';
+
+      if (deathScenario === 'primary') {
+        // If Primary LA dies: 1st death -> Sum Assured on Death paid, future base premiums waived! Policy continues.
+        statusBadge.innerText = '1st Death (Primary LA)';
+        grandLabel.innerText = 'Final Death Benefit (1st Death)';
+        finalDeathBenefit = Math.max(saOnDeath, 1.05 * totalPremiumPaidTillDeath);
+        const waivedYears = Math.max(0, ppt - dYear);
+        const waivedAmount = waivedYears * annualPremium;
+
+        scenarioDesc = `Sum Assured on Death (${formatINR(finalDeathBenefit)}) paid immediately. All remaining ${waivedYears} future premiums (worth ${formatINR(waivedAmount)}) are fully WAIVED! Policy continues for surviving Secondary Life.`;
+
+      } else if (deathScenario === 'secondary') {
+        // If Secondary LA dies: 1st death -> Sum Assured on Death paid, future base premiums waived! Policy continues.
+        statusBadge.innerText = '1st Death (Secondary LA)';
+        grandLabel.innerText = 'Final Death Benefit (1st Death)';
+        finalDeathBenefit = Math.max(saOnDeath, 1.05 * totalPremiumPaidTillDeath);
+        const waivedYears = Math.max(0, ppt - dYear);
+        const waivedAmount = waivedYears * annualPremium;
+
+        scenarioDesc = `Sum Assured on Death (${formatINR(finalDeathBenefit)}) paid immediately. All remaining ${waivedYears} future premiums (worth ${formatINR(waivedAmount)}) are fully WAIVED! Policy continues for surviving Primary Life.`;
+
+      } else if (deathScenario === 'second') {
+        // If 2nd death occurs during term: Sum Assured on Death + GA till death
+        statusBadge.innerText = '2nd Death Claim';
+        grandLabel.innerText = 'Final Death Benefit (2nd Death)';
+        const calculatedDeath = saOnDeath + gaTillDeath;
+        finalDeathBenefit = Math.max(calculatedDeath, 1.05 * totalPremiumPaidTillDeath);
+        scenarioDesc = 'Payable on 2nd death during policy term: Sum Assured on Death + Accrued GA (min 105% of premiums paid). Policy terminates.';
+
+      } else {
+        // If both die simultaneously: Twice the Sum Assured on Death + GA till death
+        statusBadge.innerText = 'Simultaneous Death Claim';
+        grandLabel.innerText = 'Final Death Benefit (Both Lives)';
+        const calculatedDeath = (2 * saOnDeath) + gaTillDeath;
+        finalDeathBenefit = Math.max(calculatedDeath, 1.05 * totalPremiumPaidTillDeath);
+        scenarioDesc = 'Payable on simultaneous death: 2× Sum Assured on Death + Accrued GA. Policy terminates.';
+      }
+
+      finalBenefitDisplay.innerText = formatINR(finalDeathBenefit);
+
+      breakdownContainer.innerHTML = `
+        <div class="breakdown-item">
+          <span class="breakdown-label">SA Till Death (Option ${opt} Factor)</span>
+          <span class="breakdown-val">${formatINR(saOnDeath)}</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">GA Till Death (Yr ${dYear} Accrued)</span>
+          <span class="breakdown-val">${formatINR(gaTillDeath)}</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="breakdown-label">Total Premium Paid Till Death</span>
+          <span class="breakdown-val">${formatINR(totalPremiumPaidTillDeath)}</span>
+        </div>
+        <div class="breakdown-item" style="border-left-color: #ef4444; background: #fef2f2;">
+          <span class="breakdown-label" style="font-weight: 700; color: #b91c1c;">Final Death Benefit</span>
+          <span class="breakdown-val" style="color: #b91c1c; font-size: 18px;">${formatINR(finalDeathBenefit)}</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted); padding: 8px 12px; background: #f8fafc; border-radius: 8px; border: 1px dashed var(--border-color); line-height: 1.4;">
+          ℹ️ <strong>Feature Note:</strong> ${scenarioDesc}
+        </div>
+      `;
+    }
+
+    if (window.innerWidth < 992) {
+      document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Action Buttons
+  document.getElementById('btnProceed').addEventListener('click', calculatePlan);
+
+  document.getElementById('btnPrint').addEventListener('click', () => {
+    window.print();
+  });
+
+  document.getElementById('btnShare').addEventListener('click', async () => {
+    const isDeath = document.getElementById('claimDeath').checked;
+    const finalAmt = document.getElementById('finalBenefitDisplay').innerText;
+    const sa = formatINR(Number(sumAssuredInput.value));
+    const term = termSelect.value;
+    const ppt = pptSelect.value;
+    const opt = optionSelect.value;
+
+    const shareData = {
+      title: 'LIC New Jeevan Sathi Limited Premium (Plan 889) Quote',
+      text: `LIC New Jeevan Sathi (Plan 889) - Option ${opt}\nBasic SA: ${sa}\nPPT: ${ppt} Yrs | Term: ${term} Yrs\n${isDeath ? 'DEATH CLAIM BENEFIT' : 'FINAL MATURITY BENEFIT'}: ${finalAmt}\n(Zero GST applicable)`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(`${shareData.title}\n${shareData.text}`);
+        alert('Plan quotation copied to clipboard!');
+      }
+    } catch (e) {
+      console.log('Share canceled or not available');
+    }
+  });
+
+  // Init on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    syncPptAndTerms();
+    calculatePlan();
+  });
+</script>
+
+</body>
+</html>
