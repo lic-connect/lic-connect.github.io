@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LIC Jeevan Sathi - Limited Premium (Plan 889) | IRR & Benefit Ledger</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle at 10% 10%, #e6fffa 0%, #f0fdfa 45%, #eff6ff 100%);
+      --surface: #ffffff;
+      --surface-glass: rgba(255, 255, 255, 0.94);
+      --aquamarine: #00f5d4;
+      --aquamarine-dark: #0d9488;
+      --aquamarine-soft: #ccfbf1;
+      --green-primary: #059669;
+      --green-accent: #10b981;
+      --green-soft: #d1fae5;
+      --blue-royal: #1e3a8a;
+      --blue-electric: #2563eb;
+      --blue-dark: #0f172a;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --danger: #ef4444;
+      --shadow-card: 0 18px 40px -10px rgba(15, 23, 42, 0.08), 0 8px 20px -6px rgba(13, 148, 136, 0.12);
+      --shadow-neon: 0 0 25px rgba(0, 245, 212, 0.45);
+      --radius-xl: 18px;
+      --radius-md: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Top Navigation Header */
+    header {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-royal) 50%, #0f766e 100%);
+      color: #ffffff;
+      padding: 1.25rem 2.25rem;
+      box-shadow: 0 4px 25px rgba(15, 23, 42, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      max-width: 1750px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .plan-badge {
+      background: var(--aquamarine);
+      color: var(--blue-dark);
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 9px;
+      font-size: 0.85rem;
+      letter-spacing: 0.6px;
+      box-shadow: var(--shadow-neon);
+    }
+
+    .header-titles h1 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+    }
+
+    .header-titles p {
+      font-size: 0.82rem;
+      color: #a7f3d0;
+      font-weight: 500;
+    }
+
+    .header-tag {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(0, 245, 212, 0.45);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #ccfbf1;
+    }
+
+    /* Split Screen Layout */
+    .split-layout {
+      max-width: 1750px;
+      margin: 1.6rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 1.75rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1240px) {
+      .split-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left Control Sidebar */
+    .controls-panel {
+      background: var(--surface-glass);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      position: sticky;
+      top: 5.5rem;
+      max-height: calc(100vh - 7rem);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--aquamarine-dark) transparent;
+    }
+
+    .controls-panel::-webkit-scrollbar {
+      width: 6px;
+    }
+    .controls-panel::-webkit-scrollbar-thumb {
+      background: var(--aquamarine-dark);
+      border-radius: 6px;
+    }
+
+    .card-heading {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--blue-royal);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin: 1.3rem 0 0.8rem 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--aquamarine-soft);
+    }
+    .card-heading:first-of-type {
+      margin-top: 0;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .form-group.span-2 {
+      grid-column: span 2;
+    }
+
+    label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    input, select {
+      background: #ffffff;
+      border: 1.6px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 8px 11px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--green-accent);
+      box-shadow: 0 0 0 3px rgba(0, 245, 212, 0.25);
+    }
+
+    .validation-badge {
+      background: #fef2f2;
+      border-left: 4px solid var(--danger);
+      color: #991b1b;
+      padding: 0.7rem;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      line-height: 1.4;
+      display: none;
+      margin: 0.5rem 0;
+    }
+
+    /* Riders Accordion */
+    .rider-tile {
+      background: #f8fafc;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.75rem;
+      margin-bottom: 0.65rem;
+      transition: all 0.2s ease;
+    }
+    .rider-tile.active {
+      background: #f0fdf4;
+      border-color: var(--green-accent);
+    }
+
+    .rider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .rider-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--blue-royal);
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 42px;
+      height: 22px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #cbd5e1;
+      transition: .3s;
+      border-radius: 30px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: var(--green-accent);
+    }
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .rider-details {
+      display: none;
+      margin-top: 0.6rem;
+      padding-top: 0.6rem;
+      border-top: 1px dashed #cbd5e1;
+    }
+    .rider-tile.active .rider-details {
+      display: block;
+    }
+
+    .btn-action {
+      width: 100%;
+      background: linear-gradient(135deg, var(--green-accent) 0%, var(--aquamarine-dark) 100%);
+      color: #ffffff;
+      border: none;
+      padding: 12px;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      margin-top: 0.8rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-action:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+    }
+
+    /* Right Output Section */
+    .output-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Hero Card for IRR */
+    .hero-irr-card {
+      background: linear-gradient(135deg, #065f46 0%, #0d9488 45%, var(--blue-royal) 100%);
+      color: #ffffff;
+      border-radius: var(--radius-xl);
+      padding: 1.6rem 2.2rem;
+      box-shadow: 0 18px 40px -12px rgba(6, 95, 70, 0.45);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-irr-card::after {
+      content: "";
+      position: absolute;
+      right: -35px;
+      bottom: -35px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(0, 245, 212, 0.28) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .irr-description h2 {
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--aquamarine);
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+    }
+
+    .irr-formula-box {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      background: rgba(15, 23, 42, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 8px;
+      color: #ccfbf1;
+      margin-top: 8px;
+    }
+
+    .irr-badge-stat {
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid var(--aquamarine);
+      backdrop-filter: blur(12px);
+      padding: 1.1rem 2rem;
+      border-radius: var(--radius-xl);
+      text-align: center;
+      box-shadow: var(--shadow-neon);
+      min-width: 180px;
+    }
+
+    .irr-badge-stat .tag {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: #dbeafe;
+      letter-spacing: 0.5px;
+    }
+
+    .irr-badge-stat .val {
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.1;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 4px;
+    }
+
+    /* KPI Summary Cards */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 1.25rem;
+      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px; height: 100%;
+    }
+    .stat-card.blue::before { background: var(--blue-royal); }
+    .stat-card.green::before { background: var(--green-primary); }
+    .stat-card.aqua::before { background: var(--aquamarine-dark); }
+    .stat-card.teal::before { background: #0284c7; }
+
+    .stat-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .stat-number {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--blue-royal);
+      margin-top: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .stat-caption {
+      font-size: 0.74rem;
+      color: var(--green-primary);
+      font-weight: 600;
+      margin-top: 3px;
+    }
+
+    /* Data Table Card */
+    .table-wrapper {
+      background: var(--surface);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+
+    .table-top-bar {
+      padding: 1.1rem 1.5rem;
+      background: linear-gradient(90deg, #f8fafc, #f1f5f9);
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .table-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--blue-royal);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-print {
+      background: var(--blue-royal);
+      color: #ffffff;
+      border: none;
+      padding: 7px 15px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .btn-print:hover {
+      background: var(--blue-electric);
+    }
+
+    .table-scrollable {
+      max-height: 590px;
+      overflow-y: auto;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      text-align: right;
+    }
+
+    th {
+      background: var(--blue-dark);
+      color: #f8fafc;
+      font-weight: 700;
+      padding: 12px 8px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      white-space: nowrap;
+      text-align: right;
+    }
+    th:first-child, th:nth-child(2) {
+      text-align: center;
+    }
+
+    td {
+      padding: 9px 8px;
+      border-bottom: 1px solid #f1f5f9;
+      white-space: nowrap;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    td:first-child, td:nth-child(2) {
+      text-align: center;
+      font-family: inherit;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafbfc;
+    }
+    tr:hover {
+      background-color: #f0fdfa !important;
+    }
+
+    /* Table Badges */
+    .pill-mat {
+      background: #dbeafe;
+      color: #1e3a8a;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-weight: 800;
+      border: 1px solid #bfdbfe;
+    }
+
+    .prem-outflow {
+      color: #dc2626;
+      font-weight: 800;
+    }
+
+    .net-positive {
+      color: var(--green-primary);
+      font-weight: 800;
+    }
+    .net-negative {
+      color: #dc2626;
+      font-weight: 800;
+    }
+
+    .db-badge-1st {
+      color: #1e3a8a;
+      font-weight: 700;
+    }
+    .db-badge-2nd {
+      color: #0d9488;
+      font-weight: 700;
+    }
+    .db-badge-both {
+      color: #b45309;
+      font-weight: 800;
+    }
+
+    .table-notes {
+      padding: 1rem 1.5rem;
+      background: #fafaf9;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="header-inner">
+      <div class="brand-group">
+        <span class="plan-badge">PLAN 889</span>
+        <div class="header-titles">
+          <h1>LIC Jeevan Sathi - Limited Premium</h1>
+          <p>Joint Life Limited Payment Savings Endowment Plan &bull; In-Built Premium Waiver</p>
+        </div>
+      </div>
+      <div class="header-tag">
+        💍 Joint Life Cover &bull; 7% GA on Total Annual Premium Paid &bull; Premium Waiver on 1st Death
+      </div>
+    </div>
+  </header>
+
+  <!-- Split Screen Layout -->
+  <div class="split-layout">
+
+    <!-- LEFT SIDE: CONTROLS & INPUTS -->
+    <aside class="controls-panel">
+
+      <div class="card-heading">
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+        Joint Policy Parameters
+      </div>
+
+      <div class="form-row">
+        <div class="form-group span-2">
+          <label for="bsa">Basic Sum Assured (₹)</label>
+          <input type="number" id="bsa" value="1000000" min="300000" step="10000" />
+          <small style="font-size: 0.68rem; color: var(--text-muted);">Min: ₹3,00,000 &bull; Multiples of ₹10,000</small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="agePrimary">Primary LA Age</label>
+          <input type="number" id="agePrimary" value="30" min="18" max="50" />
+          <small style="font-size: 0.68rem; color: var(--text-muted);">Married Individual</small>
+        </div>
+
+        <div class="form-group">
+          <label for="ageSecondary">Secondary LA Age</label>
+          <input type="number" id="ageSecondary" value="28" min="18" max="50" />
+          <small style="font-size: 0.68rem; color: var(--text-muted);">Spouse</small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="planOption">Death Option</label>
+          <select id="planOption">
+            <option value="1" selected>Option 1 (Higher of 7x / BSA)</option>
+            <option value="2">Option 2 (Higher of 10.5x / BSA)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ppt">PPT (Years)</label>
+          <select id="ppt">
+            <option value="5">5 Years</option>
+            <option value="10" selected>10 Years</option>
+            <option value="15">15 Years</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="pt">Policy Term (PT)</label>
+          <select id="pt">
+            <!-- Dynamically populated based on PPT -->
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="mode">Premium Mode</label>
+          <select id="mode">
+            <option value="1.0000" selected>Yearly (1.00)</option>
+            <option value="0.5090">Half-Yearly (0.509)</option>
+            <option value="0.2568">Quarterly (0.2568)</option>
+            <option value="0.0861">Monthly NACH (0.0861)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group span-2">
+          <label for="basePremium">Tabular Annual Base Premium (₹)</label>
+          <input type="number" id="basePremium" value="72000" step="100" />
+          <small id="premiumCaption" style="font-size: 0.68rem; color: var(--green-primary);">Actuarial tabular rate estimate (Editable)</small>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group span-2">
+          <label for="gaRate">Guaranteed Addition Rate</label>
+          <input type="text" id="gaRate" value="7% of Total Tabular Annual Premium Paid" readonly style="background:#f1f5f9; cursor:not-allowed; font-weight:700;" />
+          <small style="font-size: 0.68rem; color: var(--text-muted);">Accrues annually for the entire Policy Term</small>
+        </div>
+      </div>
+
+      <div id="validationBox" class="validation-badge"></div>
+
+      <!-- RIDERS SECTION -->
+      <div class="card-heading">
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+        Optional Riders (Both Lives)
+      </div>
+
+      <!-- Accident Benefit Rider -->
+      <div class="rider-tile" id="tileAb">
+        <div class="rider-header">
+          <span class="rider-title">Accident Benefit Rider</span>
+          <label class="switch">
+            <input type="checkbox" id="riderAb">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="rider-details">
+          <div class="form-group">
+            <label for="abAmount">AB Rider Sum Assured (₹)</label>
+            <input type="number" id="abAmount" value="500000" step="25000" />
+            <small style="font-size: 0.68rem; color: var(--text-muted);">Max: 3x BSA (Available during PPT)</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Term Assurance Rider -->
+      <div class="rider-tile" id="tileTerm">
+        <div class="rider-header">
+          <span class="rider-title">New Term Assurance Rider</span>
+          <label class="switch">
+            <input type="checkbox" id="riderTerm">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="rider-details">
+          <div class="form-group">
+            <label for="termAmount">Term Rider Sum Assured (₹)</label>
+            <input type="number" id="termAmount" value="1000000" step="25000" />
+            <small style="font-size: 0.68rem; color: var(--text-muted);">Max: Basic Sum Assured</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Critical Illness Health Rider -->
+      <div class="rider-tile" id="tileCir">
+        <div class="rider-header">
+          <span class="rider-title">Critical Illness Health Rider</span>
+          <label class="switch">
+            <input type="checkbox" id="riderCir">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="rider-details">
+          <div class="form-group">
+            <label for="cirAmount">Critical Illness Sum Assured (₹)</label>
+            <input type="number" id="cirAmount" value="500000" step="25000" />
+            <small style="font-size: 0.68rem; color: var(--text-muted);">Max: Basic Sum Assured &bull; Prem &le; 100% Base</small>
+          </div>
+        </div>
+      </div>
+
+      <button id="btnRecalculate" class="btn-action">
+        ⚡ Recompute Cash Flows & IRR
+      </button>
+
+    </aside>
+
+
+    <!-- RIGHT SIDE: OUTPUT DASHBOARD & ILLUSTRATION -->
+    <main class="output-panel">
+
+      <!-- TOP HERO BANNER: IRR & FORMULA -->
+      <div class="hero-irr-card">
+        <div class="irr-description">
+          <h2>Yield & XIRR Metrics</h2>
+          <p style="font-size: 0.92rem; opacity: 0.95;">
+            Calculated across annual/modal premium outflows vs full maturity payout stream
+          </p>
+          <div class="irr-formula-box">
+            NPV = &Sigma; [ Cash Flow<sub>t</sub> / (1 + IRR)<sup>t</sup> ] = 0
+          </div>
+          <p style="font-size: 0.74rem; color: #ccfbf1; margin-top: 8px;">
+            Maturity Benefit: Basic Sum Assured + 7% Guaranteed Additions on Total Tabular Premium Paid throughout PT
+          </p>
+        </div>
+
+        <div class="irr-badge-stat">
+          <div class="tag">Annualized Yield</div>
+          <div class="val" id="irrDisplay">-- %</div>
+          <span style="font-size: 0.72rem; color: #a7f3d0; font-weight: 700;">IRR / Compounded</span>
+        </div>
+      </div>
+
+      <!-- KPI METRIC ROW -->
+      <div class="kpi-row">
+        <div class="stat-card blue">
+          <div class="stat-title">Total Premium Outflow</div>
+          <div class="stat-number" id="kpiTotalOutflow">₹0</div>
+          <div class="stat-caption" id="kpiPptSummary">Over 10 Years PPT</div>
+        </div>
+
+        <div class="stat-card green">
+          <div class="stat-title">Maturity Benefit (Yr PT)</div>
+          <div class="stat-number" id="kpiMaturityTotal">₹0</div>
+          <div class="stat-caption">BSA + Accrued GA</div>
+        </div>
+
+        <div class="stat-card aqua">
+          <div class="stat-title">Total Accrued GA</div>
+          <div class="stat-number" id="kpiGaTotal">₹0</div>
+          <div class="stat-caption" id="kpiGaRateCaption">7% Annual Accrual</div>
+        </div>
+
+        <div class="stat-card teal">
+          <div class="stat-title">Simultaneous Death Cover</div>
+          <div class="stat-number" id="kpiBothDeathCover">₹0</div>
+          <div class="stat-caption">2x SA on Death + Accrued GA</div>
+        </div>
+      </div>
+
+      <!-- BENEFIT ILLUSTRATION TABLE -->
+      <div class="table-wrapper">
+        <div class="table-top-bar">
+          <div class="table-title">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            Year-by-Year Joint Life Benefit & Cashflow Ledger
+          </div>
+          <button class="btn-print" onclick="window.print()">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            Print Sheet
+          </button>
+        </div>
+
+        <div class="table-scrollable">
+          <table id="illustrationTable">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Age (P / S)</th>
+                <th>Outflow (₹)</th>
+                <th>Accrued GA (₹)</th>
+                <th>Death: 1st Death (₹)</th>
+                <th>Death: 2nd Death (₹)</th>
+                <th>Death: Both Lives (₹)</th>
+                <th>Maturity Benefit (₹)</th>
+                <th>Net Cashflow (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-notes">
+          <strong>Key Joint Life Rules (Plan 889 - Jeevan Sathi Limited Premium):</strong><br/>
+          &bull; <strong>1st Death:</strong> Sum Assured on Death is paid to the surviving spouse, and <em>all future base premiums are completely waived</em>. The policy continues on the life of the surviving spouse without any further base premium payment.<br/>
+          &bull; <strong>2nd Death:</strong> Sum Assured on Death plus full accrued Guaranteed Additions up to the year of death is paid, and the policy terminates.<br/>
+          &bull; <strong>Simultaneous Death of Both:</strong> Sum of 1st and 2nd death benefits (Twice Sum Assured on Death + accrued GA) is paid to nominees.<br/>
+          &bull; <strong>Guaranteed Additions:</strong> Accrues annually at 7% of Total Tabular Annual Premium in respect of premiums paid throughout the <strong>entire policy term</strong> (even after PPT has ended).<br/>
+          &bull; <strong>Net Cashflow:</strong> Calculated as Total Outflow minus Total Inflow (Positive indicates net outflow / payment made; negative indicates net inflow / maturity receipt).
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // --- FORMATTER ---
+    const formatINR = (val) => {
+      return new Intl.NumberFormat('en-IN', {
+        maximumFractionDigits: 0,
+        style: 'currency',
+        currency: 'INR'
+      }).format(val).replace('₹', '₹ ');
+    };
+
+    // --- DOM REFERENCES ---
+    const bsaInput = document.getElementById('bsa');
+    const agePrimaryInput = document.getElementById('agePrimary');
+    const ageSecondaryInput = document.getElementById('ageSecondary');
+    const planOptionSelect = document.getElementById('planOption');
+    const pptSelect = document.getElementById('ppt');
+    const ptSelect = document.getElementById('pt');
+    const modeSelect = document.getElementById('mode');
+    const basePremiumInput = document.getElementById('basePremium');
+    const premiumCaption = document.getElementById('premiumCaption');
+    const validationBox = document.getElementById('validationBox');
+
+    // Riders
+    const riderAb = document.getElementById('riderAb');
+    const tileAb = document.getElementById('tileAb');
+    const abAmount = document.getElementById('abAmount');
+
+    const riderTerm = document.getElementById('riderTerm');
+    const tileTerm = document.getElementById('tileTerm');
+    const termAmount = document.getElementById('termAmount');
+
+    const riderCir = document.getElementById('riderCir');
+    const tileCir = document.getElementById('tileCir');
+    const cirAmount = document.getElementById('cirAmount');
+
+    // Display elements
+    const irrDisplay = document.getElementById('irrDisplay');
+    const kpiTotalOutflow = document.getElementById('kpiTotalOutflow');
+    const kpiMaturityTotal = document.getElementById('kpiMaturityTotal');
+    const kpiGaTotal = document.getElementById('kpiGaTotal');
+    const kpiBothDeathCover = document.getElementById('kpiBothDeathCover');
+    const kpiPptSummary = document.getElementById('kpiPptSummary');
+    const kpiGaRateCaption = document.getElementById('kpiGaRateCaption');
+    const tableBody = document.getElementById('tableBody');
+
+    // Rider accordion toggle
+    [
+      { check: riderAb, tile: tileAb },
+      { check: riderTerm, tile: tileTerm },
+      { check: riderCir, tile: tileCir }
+    ].forEach(({ check, tile }) => {
+      check.addEventListener('change', () => {
+        if (check.checked) tile.classList.add('active');
+        else tile.classList.remove('active');
+        calculatePlan();
+      });
+    });
+
+    // Valid PPT/Term Combinations:
+    // PPT 5: 10, 15, 20, 25
+    // PPT 10: 15, 20, 25
+    // PPT 15: 20, 25
+    const VALID_TERMS = {
+      5: [10, 15, 20, 25],
+      10: [15, 20, 25],
+      15: [20, 25]
+    };
+
+    function syncPolicyTerms() {
+      const ppt = parseInt(pptSelect.value, 10);
+      const terms = VALID_TERMS[ppt];
+      const prevTerm = parseInt(ptSelect.value, 10);
+
+      ptSelect.innerHTML = terms.map(t => `<option value="${t}">${t} Years</option>`).join('');
+      if (terms.includes(prevTerm)) {
+        ptSelect.value = prevTerm;
+      } else {
+        ptSelect.value = terms[0];
+      }
+    }
+
+    // Auto estimate Tabular Annual Base Premium
+    function autoEstimatePremium() {
+      const bsa = parseFloat(bsaInput.value) || 300000;
+      const ppt = parseInt(pptSelect.value, 10);
+      const pt = parseInt(ptSelect.value, 10);
+      const opt = planOptionSelect.value;
+      const age1 = parseInt(agePrimaryInput.value, 10) || 30;
+      const age2 = parseInt(ageSecondaryInput.value, 10) || 28;
+      const avgAge = (age1 + age2) / 2;
+
+      // Base premium rates per 1000 BSA
+      let baseRatePer1000 = 70;
+      if (ppt === 5) {
+        if (pt === 10) baseRatePer1000 = 185;
+        else if (pt === 15) baseRatePer1000 = 142;
+        else if (pt === 20) baseRatePer1000 = 112;
+        else if (pt === 25) baseRatePer1000 = 92;
+      } else if (ppt === 10) {
+        if (pt === 15) baseRatePer1000 = 84;
+        else if (pt === 20) baseRatePer1000 = 68;
+        else if (pt === 25) baseRatePer1000 = 56;
+      } else if (ppt === 15) {
+        if (pt === 20) baseRatePer1000 = 52;
+        else if (pt === 25) baseRatePer1000 = 44;
+      }
+
+      // Option 2 has 10.5x cover vs 7x in Option 1
+      if (opt === '2') {
+        baseRatePer1000 *= 1.08;
+      }
+
+      // Age adjustment
+      const ageAdjustment = (avgAge - 30) * 0.45;
+      baseRatePer1000 += ageAdjustment;
+
+      const estimatedAnnual = Math.round((bsa / 1000) * baseRatePer1000);
+      basePremiumInput.value = estimatedAnnual;
+      premiumCaption.innerText = `Estimated Base: ₹${formatINR(estimatedAnnual).replace('₹ ','')} / yr (Editable)`;
+    }
+
+    // Validation
+    function validateParameters() {
+      const bsa = parseFloat(bsaInput.value) || 0;
+      const age1 = parseInt(agePrimaryInput.value, 10);
+      const age2 = parseInt(ageSecondaryInput.value, 10);
+      const ppt = parseInt(pptSelect.value, 10);
+      const pt = parseInt(ptSelect.value, 10);
+      const opt = planOptionSelect.value;
+      const errors = [];
+
+      if (bsa < 300000) {
+        errors.push("Minimum Basic Sum Assured is ₹3,00,000.");
+      }
+      if (bsa % 10000 !== 0) {
+        errors.push("Basic Sum Assured must be in multiples of ₹10,000.");
+      }
+      if (age1 < 18 || age2 < 18) {
+        errors.push("Minimum entry age for both lives is 18 years completed.");
+      }
+
+      // Maximum Entry Age matrix as per writeup:
+      let maxAge1 = 50;
+      let maxAge2 = 40;
+
+      if (ppt === 5) {
+        maxAge1 = 45;
+        maxAge2 = (pt === 25) ? 35 : 40;
+      } else if (ppt === 10) {
+        maxAge1 = 50;
+        maxAge2 = (pt === 25) ? 35 : 40;
+      } else if (ppt === 15) {
+        maxAge1 = 50;
+        maxAge2 = (pt === 25) ? 35 : 40;
+      }
+
+      const applicableMaxAge = (opt === '1') ? maxAge1 : maxAge2;
+      if (age1 > applicableMaxAge || age2 > applicableMaxAge) {
+        errors.push(`For PPT ${ppt} & PT ${pt} under Option ${opt}, maximum entry age is ${applicableMaxAge} years.`);
+      }
+
+      // Minimum Age at Maturity: 28 years
+      if ((age1 + pt) < 28 || (age2 + pt) < 28) {
+        errors.push("Minimum age at maturity is 28 years completed for both lives.");
+      }
+
+      // Maximum Maturity Age: Option 1: 75 years, Option 2: 60 years
+      const maxMatAge = (opt === '1') ? 75 : 60;
+      if ((age1 + pt) > maxMatAge || (age2 + pt) > maxMatAge) {
+        errors.push(`Maximum age at maturity for Option ${opt} is ${maxMatAge} years.`);
+      }
+
+      // Rider checks
+      if (riderAb.checked && parseFloat(abAmount.value) > 3 * bsa) {
+        errors.push("Accident Benefit Rider Sum Assured cannot exceed 3 times Basic Sum Assured.");
+      }
+      if (riderTerm.checked && parseFloat(termAmount.value) > bsa) {
+        errors.push("Term Assurance Rider cannot exceed Basic Sum Assured.");
+      }
+      if (riderCir.checked && parseFloat(cirAmount.value) > bsa) {
+        errors.push("Critical Illness Rider cannot exceed Basic Sum Assured.");
+      }
+
+      if (errors.length > 0) {
+        validationBox.innerHTML = errors.map(e => `&bull; ${e}`).join('<br>');
+        validationBox.style.display = 'block';
+        return false;
+      } else {
+        validationBox.style.display = 'none';
+        return true;
+      }
+    }
+
+    // --- IRR SOLVER (Newton-Raphson + Bisection) ---
+    function computeIRR(flows) {
+      let hasNeg = false, hasPos = false;
+      for (let cf of flows) {
+        if (cf < 0) hasNeg = true;
+        if (cf > 0) hasPos = true;
+      }
+      if (!hasNeg || !hasPos) return 0.0;
+
+      const npv = (r) => {
+        let sum = 0;
+        for (let t = 0; t < flows.length; t++) {
+          sum += flows[t] / Math.pow(1 + r, t);
+        }
+        return sum;
+      };
+
+      const dNpv = (r) => {
+        let sum = 0;
+        for (let t = 1; t < flows.length; t++) {
+          sum += -t * flows[t] / Math.pow(1 + r, t + 1);
+        }
+        return sum;
+      };
+
+      let r = 0.06;
+      for (let i = 0; i < 100; i++) {
+        const val = npv(r);
+        const dVal = dNpv(r);
+        if (Math.abs(val) < 1e-6) return r;
+        if (Math.abs(dVal) < 1e-9) break;
+        const nextR = r - val / dVal;
+        if (nextR <= -0.9) break;
+        r = nextR;
+      }
+
+      // Bisection fallback
+      let low = -0.5, high = 1.0;
+      for (let i = 0; i < 100; i++) {
+        let mid = (low + high) / 2;
+        let v = npv(mid);
+        if (Math.abs(v) < 1e-6) return mid;
+        if (npv(low) * v < 0) high = mid;
+        else low = mid;
+      }
+      return (low + high) / 2;
+    }
+
+    // --- MAIN ENGINE & TABLE RENDER ---
+    function calculatePlan() {
+      const isValid = validateParameters();
+
+      const bsa = parseFloat(bsaInput.value) || 0;
+      const age1 = parseInt(agePrimaryInput.value, 10);
+      const age2 = parseInt(ageSecondaryInput.value, 10);
+      const opt = planOptionSelect.value;
+      const ppt = parseInt(pptSelect.value, 10);
+      const pt = parseInt(ptSelect.value, 10);
+      const modalFactor = parseFloat(modeSelect.value);
+      const baseAnnualPrem = parseFloat(basePremiumInput.value) || 0;
+
+      // Rider Premiums
+      let riderAnnualPrem = 0;
+      if (riderAb.checked) {
+        riderAnnualPrem += (parseFloat(abAmount.value) / 1000) * 0.50;
+      }
+      if (riderTerm.checked) {
+        riderAnnualPrem += (parseFloat(termAmount.value) / 1000) * 2.20;
+      }
+      if (riderCir.checked) {
+        riderAnnualPrem += (parseFloat(cirAmount.value) / 1000) * 4.50;
+      }
+
+      // Annualized instalment outflow based on mode
+      const totalAnnualizedPrem = Math.round((baseAnnualPrem + riderAnnualPrem) * (modalFactor === 1.0 ? 1.0 : (modalFactor * (1 / modalFactor))));
+
+      // Guaranteed Addition:
+      // "7% of Total Tabular Annual Premium in respect of premium paid throughout the Policy Term"
+      // During PPT (yr <= ppt): Premiums paid to date = yr * baseAnnualPrem.
+      // After PPT (yr > ppt): Premiums paid to date = ppt * baseAnnualPrem.
+      // GA accrues at the end of each policy year for all PT years.
+      let cumulativeGA = 0;
+      let totalOutflowSum = 0;
+      let maturityBenefit = 0;
+      let rowsHTML = "";
+
+      // Timeline flows for IRR:
+      // t = 0 to PPT-1: Outflow paid at start of policy year
+      // t = PT: Maturity Benefit paid at end of policy term
+      const timelineFlows = new Array(pt + 1).fill(0);
+
+      // Sum Assured on Death definition:
+      // Option 1: Higher of 7 times Tabular Annual Premium or Basic Sum Assured
+      // Option 2: Higher of 10.5 times Tabular Annual Premium or Basic Sum Assured
+      let saOnDeath = 0;
+      if (opt === '1') {
+        saOnDeath = Math.max(7 * baseAnnualPrem, bsa);
+      } else {
+        saOnDeath = Math.max(10.5 * baseAnnualPrem, bsa);
+      }
+
+      for (let yr = 1; yr <= pt; yr++) {
+        const attAge1 = age1 + yr;
+        const attAge2 = age2 + yr;
+        const isPptYear = yr <= ppt;
+
+        // Premium Outflow
+        const currentYearOutflow = isPptYear ? totalAnnualizedPrem : 0;
+        totalOutflowSum += currentYearOutflow;
+
+        // Cumulative base premiums paid
+        const basePremiumsPaidToDate = isPptYear ? (yr * baseAnnualPrem) : (ppt * baseAnnualPrem);
+        // Annual GA addition in policy year yr: 7% of basePremiumsPaidToDate
+        const yearlyGA = 0.07 * basePremiumsPaidToDate;
+        cumulativeGA += yearlyGA;
+
+        // Death Benefits:
+        // 1st Death: Sum Assured on Death (+ Waiver of future premiums)
+        const death1st = saOnDeath;
+        // 2nd Death: Sum Assured on Death + Accrued GA
+        const death2nd = saOnDeath + cumulativeGA;
+        // Simultaneous Death of Both Lives: Twice SA on Death + Accrued GA
+        const deathBoth = (2 * saOnDeath) + cumulativeGA;
+
+        // Maturity Benefit at Year PT: BSA + Total Accrued GA
+        let matThisYr = 0;
+        if (yr === pt) {
+          matThisYr = bsa + cumulativeGA;
+          maturityBenefit = matThisYr;
+        }
+
+        // Net Cashflow = Total Outflow - Total Inflow
+        // Premium is outflow (+), Maturity is inflow (-)
+        const netCashflow = currentYearOutflow - matThisYr;
+
+        // Map into zero-indexed timeline for IRR:
+        // Outflow at start of year (yr - 1)
+        if (isPptYear) {
+          timelineFlows[yr - 1] -= currentYearOutflow;
+        }
+        // Inflow at end of policy term (yr = pt)
+        if (matThisYr > 0) {
+          timelineFlows[yr] += matThisYr;
+        }
+
+        rowsHTML += `
+          <tr>
+            <td><strong>${yr}</strong></td>
+            <td>${attAge1} / ${attAge2}</td>
+            <td class="${currentYearOutflow > 0 ? 'prem-outflow' : ''}">${currentYearOutflow > 0 ? formatINR(currentYearOutflow) : '-'}</td>
+            <td style="color: #0d9488; font-weight: 700;">${formatINR(cumulativeGA)}</td>
+            <td class="db-badge-1st">${formatINR(death1st)}</td>
+            <td class="db-badge-2nd">${formatINR(death2nd)}</td>
+            <td class="db-badge-both">${formatINR(deathBoth)}</td>
+            <td>${matThisYr > 0 ? `<span class="pill-mat">${formatINR(matThisYr)}</span>` : '-'}</td>
+            <td class="${netCashflow > 0 ? 'net-negative' : (netCashflow < 0 ? 'net-positive' : '')}">
+              ${netCashflow > 0 ? '+' : (netCashflow < 0 ? '-' : '')}${formatINR(Math.abs(netCashflow))}
+            </td>
+          </tr>
+        `;
+      }
+
+      tableBody.innerHTML = rowsHTML;
+
+      // Update KPIs & Hero Card
+      kpiTotalOutflow.innerText = formatINR(totalOutflowSum);
+      kpiMaturityTotal.innerText = formatINR(maturityBenefit);
+      kpiGaTotal.innerText = formatINR(cumulativeGA);
+      kpiBothDeathCover.innerText = formatINR((2 * saOnDeath) + cumulativeGA);
+
+      kpiPptSummary.innerText = `₹${formatINR(totalAnnualizedPrem).replace('₹ ','')} / yr × ${ppt} Yrs`;
+      kpiGaRateCaption.innerText = `7% on Total Tabular Premium Paid`;
+
+      // Solve & Display IRR
+      if (isValid) {
+        const calculatedIrr = computeIRR(timelineFlows);
+        irrDisplay.innerText = `${(calculatedIrr * 100).toFixed(2)}%`;
+      } else {
+        irrDisplay.innerText = "-- %";
+      }
+    }
+
+    // --- EVENT LISTENERS ---
+    pptSelect.addEventListener('change', () => {
+      syncPolicyTerms();
+      autoEstimatePremium();
+      calculatePlan();
+    });
+
+    ptSelect.addEventListener('change', () => {
+      autoEstimatePremium();
+      calculatePlan();
+    });
+
+    planOptionSelect.addEventListener('change', () => {
+      autoEstimatePremium();
+      calculatePlan();
+    });
+
+    bsaInput.addEventListener('input', () => {
+      autoEstimatePremium();
+      calculatePlan();
+    });
+
+    agePrimaryInput.addEventListener('input', () => {
+      autoEstimatePremium();
+      calculatePlan();
+    });
+
+    ageSecondaryInput.addEventListener('input', () => {
+      autoEstimatePremium();
+      calculatePlan();
+    });
+
+    modeSelect.addEventListener('change', calculatePlan);
+    basePremiumInput.addEventListener('input', calculatePlan);
+
+    [abAmount, termAmount, cirAmount].forEach(el => {
+      el.addEventListener('input', calculatePlan);
+    });
+
+    document.getElementById('btnRecalculate').addEventListener('click', calculatePlan);
+
+    // Initial Execution
+    syncPolicyTerms();
+    autoEstimatePremium();
+    calculatePlan();
+  </script>
+</body>
+</html>
