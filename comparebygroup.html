@@ -342,6 +342,7 @@ button:active, .plan-card:active {
 <!-- Inside both #plan1-group and #plan2-group -->
 <option value="ulip">Unit Linked Plans (ULIP)</option>
 <option value="pension">Pension Plans</option>
+<option value="healthcare">Health care Plans</option>
                         </select>
                     </div>
                     <div class="custom-select">
@@ -366,6 +367,7 @@ button:active, .plan-card:active {
 <!-- Inside both #plan1-group and #plan2-group -->
 <option value="ulip">Unit Linked Plans (ULIP)</option>
 <option value="pension">Pension Plans</option>
+<option value="healthcare">Health care Plans</option>
                         </select>
                     </div>
                     <div class="custom-select">
@@ -567,7 +569,22 @@ const allPlanData = {
     '857': { name: 'Jeevan Akshay VII (857)', summary: 'An immediate annuity plan with various payout options.', premiumMode: 'Single Premium', term: 'Whole Life', minAge: '25', maxAge: '100', minSA: '1,00,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Varies by option; can include return of purchase price.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Immediate annuity for life.', usp: 'Wide range of immediate annuity options.', advantage: 'Offers immense flexibility with 10 different options to choose from, allowing you to customize your immediate pension as per your needs.' },
     '862': { name: 'Saral Pension (862)', summary: 'A standard, single premium individual immediate annuity plan.', premiumMode: 'Single Premium', term: 'Whole Life', minAge: '40', maxAge: '80', minSA: 'Based on min. annuity', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Option 1: None. Option 2: 100% of Purchase Price returned.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Level annuity for life.', usp: 'Simple, standard immediate pension plan.', advantage: 'Extremely easy to understand with only two standard options, making the decision process simple for retirees.' },
     '879': { name: 'Smart Pension (879)', summary: 'A Non-Participating, Individual/group Immediate annuity Single Premium Plan.', premiumMode: 'Single Premium', term: 'Whole Life', minAge: '18', maxAge: '100', minSA: '1,00,000', maxSA: 'No Limit', ppt: 'Single', deathBenefit: 'Varies by many options; can include return of balance purchase price.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Immediate annuity with many options like increasing rate and partial withdrawal.', usp: 'Extensive and complex annuity options, including liquidity.', advantage: 'Offers unique liquidity options allowing partial withdrawal of the purchase price, which is rare in annuity plans.' },
-
+    '892': { 
+    name: 'New Jeevan Dhara-II (892)', 
+    summary: 'A Non-Participating, Non-Linked, Individual Savings Deferred Annuity Plan.',
+    premiumMode: 'Regular Premium / Single Premium',
+    term: 'No fixed policy term; Deferment Period of 2–15 years for Regular Premium and 1–15 years for Single Premium',
+    minAge: '18',
+    maxAge: '65 or 70 at entry, depending on annuity option and deferment period',
+    minSA: 'Not Applicable (Annuity/Purchase Price Based)',
+    maxSA: 'No Limit, subject to underwriting',
+    ppt: 'Same as Deferment Period for Regular Premium / Single Pay',
+    deathBenefit: 'Depends on the selected annuity option. During deferment, generally 105% of total premiums paid, subject to surrender value conditions. After deferment, benefits may include return of premium or may cease, depending on the option.',
+    maturityBenefit: 'Not Applicable',
+    survivalBenefit: 'Guaranteed lifetime annuity payments begin after the selected deferment period. Options include single-life and joint-life annuities, return of premium, and early return of premium at specified ages.',
+    usp: 'Guaranteed annuity rates at inception, multiple annuity options, flexible premium payment, joint-life coverage and top-up annuity facility.',
+    advantage: 'Provides a planned retirement income with guaranteed annuity rates and flexible options for lifetime income and return of premium.'
+},
     // Term Insurance
     '859': { name: 'Saral Jeevan Bima (859)', summary: 'A Non-Linked, Without Profits, Pure Risk Cover Plan.', premiumMode: 'Single, Regular, Limited Pay', term: '5 to 40 Years', minAge: '18', maxAge: '65', minSA: '5,00,000', maxSA: '25,00,000', ppt: 'Same as term or limited', deathBenefit: 'Sum Assured on Death is paid.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'Standardized, simple term insurance.', advantage: 'A no-frills, easy-to-understand term plan with standard features as mandated by IRDAI, making it accessible for everyone.' },
     '955': { name: 'New Jeevan Amar (955)', summary: 'A Non-Linked, pure protection plan with two death benefit options.', premiumMode: 'Single, Regular, Limited Pay', term: '10 to 40 Years', minAge: '18', maxAge: '65', minSA: '25,00,000', maxSA: 'No Limit', ppt: 'Same as term or limited', deathBenefit: 'Option 1: Level Sum Assured. Option 2: Increasing Sum Assured.', maturityBenefit: 'Not Applicable', survivalBenefit: 'Not Applicable', usp: 'Option for Increasing Sum Assured.', advantage: 'Allows your life cover to grow over time, helping to combat inflation and increased responsibilities.' },
@@ -658,12 +675,47 @@ const allPlanData = {
         advantage: 'High-value protection starting from 2 Crore with specialized lower rates for non-smokers and women.' 
     },
 
-    // Childrens Plans
+    
+
+    // healthcare
+    '907': {
+    name: 'Health Shield (907)',
+    summary: 'A Non-Participating, Non-Linked, Individual Pure Risk Health Insurance Plan providing fixed benefits for hospitalisation, surgery and specified medical conditions.',
+    premiumMode: 'Regular Premium (Yearly / Half-Yearly)',
+    term: '15 Years',
+    minAge: '18 years (Principal Insured)',
+    maxAge: '65 years (Principal Insured)',
+    minSA: 'Initial Daily Benefit: ₹2,500',
+    maxSA: 'Initial Daily Benefit: ₹10,000 per life',
+    ppt: '15 Years',
+    deathBenefit: 'No direct death benefit. On death of the Original Principal Insured, future base-policy premiums for surviving insured members are waived, subject to policy conditions.',
+    maturityBenefit: 'Not Applicable',
+    survivalBenefit: 'Hospital Cash Benefit, Major Surgical Benefit, Day Care Procedure Benefit, Other Surgical Benefit, Medical Management Benefit, Extended Hospitalisation Benefit and Health Check-up Benefit.',
+    usp: 'Family health cover with fixed cash benefits, increasing daily benefits through No Claim Benefit and premium waiver provisions.',
+    advantage: 'Provides predetermined financial benefits for eligible medical events regardless of actual expenses, subject to policy limits and conditions.'
+},
+'908': {
+    name: 'New Cancer Cover (908)',
+    summary: 'A Non-Participating, Non-Linked, Individual Pure Risk Health Insurance Plan providing fixed financial benefits on diagnosis of specified early-stage and major-stage cancers.',
+    premiumMode: 'Regular Premium (Yearly / Half-Yearly)',
+    term: '10 to 15 Years',
+    minAge: '18 years',
+    maxAge: '65 years',
+    minSA: '₹35,00,000 (ages 18–34); ₹30,00,000 (ages 35–40); ₹20,00,000 (ages 41–50); ₹15,00,000 (ages 51–65)',
+    maxSA: '₹50,00,000',
+    ppt: 'Same as Policy Term (10 to 15 Years)',
+    deathBenefit: 'No Death Benefit payable under the plan.',
+    maturityBenefit: 'Not Applicable',
+    survivalBenefit: 'Early-stage cancer: 25% of Applicable Sum Assured as a lump sum, plus premium waiver for up to 3 years. Major-stage cancer: 100% of Applicable Sum Assured as a lump sum, plus monthly income of 1% of Applicable Sum Assured for 10 years. Benefits are subject to policy conditions.',
+    usp: 'Two options: Level Sum Assured or Increasing Sum Assured, with the latter increasing by 10% of Basic Sum Assured on each of the first five policy anniversaries, subject to policy conditions.',
+    advantage: 'Provides financial support at different stages of specified cancer, including a lump-sum payout, potential premium waiver and monthly income benefit for major-stage cancer.'
+},
+
+// Childrens Plans
     '732': { name: 'Children\'s Money Back (732)', summary: 'A non-linked, with-profits, regular premium money back plan for children.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: 'Matures at age 25', minAge: '0', maxAge: '12', minSA: '2,00,000', maxSA: 'No Limit', ppt: '25 - Age at entry', deathBenefit: 'Higher of 7 times AP or Basic SA + Bonuses.', maturityBenefit: '40% of MSA + Vested Bonus + FAB.', survivalBenefit: '20% of MSA at ages 18, 20, and 22.', usp: 'Money-back payouts timed for educational milestones.', advantage: 'Provides money at crucial ages (18, 20, 22) for college admissions and other related expenses.' },
     '734': { name: 'Jeevan Tarun (734)', summary: 'A limited premium plan designed to meet the educational needs of children.', premiumMode: 'Yearly, Halfly, Quarterly, Monthly(ECS)', term: 'Matures at age 25', minAge: '0', maxAge: '12', minSA: '2,00,000', maxSA: 'No Limit', ppt: '20 - Age at entry', deathBenefit: 'Higher of 7 times AP or 125% of SA + Bonuses.', maturityBenefit: 'Depends on option chosen (25% to 100% of SA) + Bonuses.', survivalBenefit: '4 flexible options to receive a percentage of SA annually from age 20 to 24.', usp: 'Flexible survival benefit options.', advantage: 'Gives the parent the power to choose how they want to receive the money for their child\'s education, offering great flexibility.' },
     '774': { name: 'Amritbaal (774)', summary: 'A Non-Participating, Savings, Life Insurance Plan for children.', premiumMode: 'Single or Limited Pay', term: 'Min 5 yrs (Single), Min 10 yrs (Ltd)', minAge: '0', maxAge: '13', minSA: '2,00,000', maxSA: 'No Limit', ppt: 'Single, 5, 6, 7 Years', deathBenefit: 'Sum Assured on Death + Guaranteed Additions.', maturityBenefit: 'Basic Sum Assured + Guaranteed Additions.', survivalBenefit: 'Not Applicable', usp: 'Guaranteed additions for a secure child-centric corpus.', advantage: 'Offers completely guaranteed returns, making it a safe and predictable tool for planning a child\'s future financial needs.' }
 };
-
 const planGroups = {
     endowment: ['714', '715', '733', '736', '768', '751', '912', '760', '880', '770', '889', '890'], // Added 880 here
     moneyBack: ['720', '721', '748', '764', '881'], // Added 881 here
@@ -673,7 +725,8 @@ pension: ['867'],
     wholeLife: ['745', '771'],
     childrens: ['732', '734', '774'],
   term: ['859', '955', '875', '877', '887', '876', '878', '954', '894'],
-    annuity: ['758', '857', '862', '879'],
+    annuity: ['758', '857', '862', '879' , '892'],
+    healthcare: ['907', '908'],
     single: ['717', '883', '911', '888']
 };
 
