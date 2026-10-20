@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIC Plan 907 - Health Shield Premium Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-white: #ffffff;
+      --card-bg: #ffffff;
+      --blue-deep: #061e5c;
+      --blue-primary: #0a369d;
+      --blue-vibrant: #0284c7;
+      --aqua-main: #00e5ff;
+      --aqua-glow: #00f5d4;
+      --aqua-soft: #e0fbfb;
+      --green-emerald: #059669;
+      --green-light: #10b981;
+      --green-glow: #34d399;
+      --green-soft: #ecfdf5;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --shadow-dazzle: 0 18px 45px -10px rgba(10, 54, 157, 0.15), 0 0 25px rgba(0, 229, 255, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-white);
+      color: var(--text-dark);
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(0, 229, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 50% 95%, rgba(10, 54, 157, 0.05) 0%, transparent 50%);
+      background-attachment: fixed;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* Flamboyant Hero Header */
+    .header-card {
+      background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-primary) 50%, var(--blue-vibrant) 100%);
+      border-radius: 28px;
+      padding: 38px 30px;
+      color: #ffffff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 36px -5px rgba(10, 54, 157, 0.35);
+      margin-bottom: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .header-card::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: -60px;
+      width: 200px;
+      height: 200px;
+      background: var(--aqua-glow);
+      filter: blur(80px);
+      opacity: 0.45;
+      border-radius: 50%;
+    }
+
+    .header-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      background: var(--green-glow);
+      filter: blur(80px);
+      opacity: 0.35;
+      border-radius: 50%;
+    }
+
+    .plan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+      padding: 6px 20px;
+      border-radius: 9999px;
+      border: 1px solid var(--aqua-glow);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--aqua-main);
+      margin-bottom: 12px;
+    }
+
+    .header-card h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .header-card p {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.92);
+      max-width: 820px;
+      margin: 0 auto 12px;
+    }
+
+    .tax-badge {
+      display: inline-block;
+      background: rgba(5, 150, 105, 0.35);
+      border: 1px solid var(--green-glow);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 4px 16px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* 2-Column Split Layout */
+    .calculator-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 992px) {
+      .calculator-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .dazzle-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 30px;
+      border: 1.5px solid rgba(0, 229, 255, 0.35);
+      box-shadow: var(--shadow-dazzle);
+      position: relative;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--blue-deep);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--aqua-soft);
+    }
+
+    .section-title .bullet {
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(135deg, var(--aqua-main), var(--green-light));
+      border-radius: 4px;
+      box-shadow: 0 0 10px var(--aqua-glow);
+    }
+
+    /* Form Fields */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--blue-deep);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-group label span.helper {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper input,
+    .input-wrapper select {
+      width: 100%;
+      height: 44px;
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0 14px;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+      transition: all 0.25s ease;
+      outline: none;
+    }
+
+    .input-wrapper select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230a369d' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+    }
+
+    .input-wrapper input:focus,
+    .input-wrapper select:focus {
+      border-color: var(--aqua-main);
+      box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.2);
+    }
+
+    .input-wrapper .prefix {
+      position: absolute;
+      right: 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* Sub-section / Family Member Card */
+    .sub-section-card {
+      background: var(--aqua-soft);
+      border: 2px dashed rgba(0, 229, 255, 0.85);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 10px;
+    }
+
+    .sub-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--blue-primary);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .member-row {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 1fr;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+    }
+
+    .member-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .checkbox-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue-deep);
+      cursor: pointer;
+    }
+
+    .checkbox-pill input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--blue-primary);
+      cursor: pointer;
+    }
+
+    /* Validation container */
+    .error-container {
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: #fef2f2;
+      border: 1px solid #f87171;
+      border-radius: 12px;
+      color: #b91c1c;
+      font-size: 12.5px;
+      font-weight: 600;
+      line-height: 1.5;
+      display: none;
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-proceed {
+      background: linear-gradient(135deg, var(--green-emerald) 0%, var(--green-light) 50%, var(--aqua-main) 100%);
+      color: #ffffff;
+      border: none;
+      padding: 16px 28px;
+      border-radius: 14px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-proceed:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 14px 30px rgba(0, 229, 255, 0.45);
+    }
+
+    .utility-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-action {
+      background: #ffffff;
+      color: var(--blue-deep);
+      border: 2px solid var(--border-color);
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      border-color: var(--blue-primary);
+      background: var(--aqua-soft);
+      color: var(--blue-primary);
+    }
+
+    /* Result Panel (Right side) */
+    .result-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 30px;
+      border: 2px solid var(--aqua-main);
+      box-shadow: var(--shadow-dazzle);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 24px;
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .result-tag {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: var(--aqua-soft);
+      color: var(--blue-primary);
+      border: 1px solid var(--aqua-main);
+    }
+
+    .grand-total-box {
+      background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-primary) 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 18px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 25px rgba(10, 54, 157, 0.25);
+    }
+
+    .grand-total-box::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: var(--aqua-glow);
+      filter: blur(50px);
+      opacity: 0.4;
+      border-radius: 50%;
+    }
+
+    .grand-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--aqua-main);
+      margin-bottom: 8px;
+    }
+
+    .grand-amount {
+      font-family: 'Outfit', sans-serif;
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .grand-subtext {
+      font-size: 12px;
+      color: var(--aqua-glow);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .breakdown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 15px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border-left: 4px solid var(--blue-vibrant);
+      transition: all 0.2s ease;
+    }
+
+    .breakdown-item:hover {
+      background: var(--aqua-soft);
+      border-left-color: var(--aqua-main);
+    }
+
+    .breakdown-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .breakdown-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--blue-deep);
+    }
+
+    /* Benefits Table Box */
+    .benefit-showcase-box {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%);
+      border: 1px dashed var(--green-light);
+    }
+
+    .benefit-showcase-box h4 {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--green-emerald);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .benefit-showcase-box ul {
+      list-style-type: none;
+      font-size: 12px;
+      color: #334155;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .benefit-showcase-box li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .benefit-showcase-box li::before {
+      content: '✓';
+      color: var(--green-emerald);
+      font-weight: 900;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+      .header-card {
+        background: #0a369d !important;
+        color: #ffffff !important;
+        box-shadow: none !important;
+        padding: 20px !important;
+      }
+      .btn-proceed, .utility-buttons, .sub-section-card, .tax-badge {
+        display: none !important;
+      }
+      .calculator-layout {
+        display: block !important;
+      }
+      .result-card, .dazzle-card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Flamboyant Header -->
+  <header class="header-card">
+    <div class="plan-badge">Plan No. 907 • Comprehensive Health Protection</div>
+    <h1>LIC HEALTH SHIELD PREMIUM CALCULATOR</h1>
+    <p>Non-Par, Non-Linked, Health, Individual, Pure Risk Family Floater / Multi-Life Fixed Benefit Health Insurance</p>
+    <div class="tax-badge">Guaranteed Premium • Inbuilt Auto Health Cover • Tax Benefit U/S 80D</div>
+  </header>
+
+  <!-- Split Grid: Inputs Left, Outputs Right -->
+  <div class="calculator-layout">
+    
+    <!-- LEFT SIDE: INPUTS -->
+    <div class="dazzle-card">
+      <div class="section-title">
+        <span class="bullet"></span>
+        <span>Principal Insured (Self) Parameters</span>
+      </div>
+
+      <div class="form-grid">
+        <!-- PI Age -->
+        <div class="form-group">
+          <label for="piAge">
+            Age of Principal Insured (PI)
+            <span class="helper">18 to 65 Years</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="piAge" min="18" max="65" value="30">
+            <span class="prefix">Yrs</span>
+          </div>
+        </div>
+
+        <!-- PI Gender -->
+        <div class="form-group">
+          <label for="piGender">
+            Gender of PI
+            <span class="helper">Select Gender</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="piGender">
+              <option value="M" selected>Male</option>
+              <option value="F">Female</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PI Initial Daily Benefit -->
+        <div class="form-group">
+          <label for="piIdb">
+            Initial Daily Benefit (IDB)
+            <span class="helper">₹2,500 - ₹10,000 (Step ₹500)</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="piIdb" step="500" min="2500" max="10000" value="5000">
+            <span class="prefix">₹/Day</span>
+          </div>
+        </div>
+
+        <!-- Policy Term & PPT -->
+        <div class="form-group">
+          <label for="term">
+            Policy Term &amp; PPT
+            <span class="helper">Fixed Term</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="text" id="term" value="15 Years" readonly style="background: #f8fafc;">
+          </div>
+        </div>
+
+        <!-- Mode of Premium -->
+        <div class="form-group">
+          <label for="mode">
+            Mode of Premium
+            <span class="helper">Installment Frequency</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="mode">
+              <option value="yly" selected>Yearly (1.0000)</option>
+              <option value="hly">Half-Yearly (0.5090)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Purchase Channel -->
+        <div class="form-group">
+          <label for="channel">
+            Purchase Channel
+            <span class="helper">Online Discount: 10%</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="channel">
+              <option value="offline" selected>Offline / Agents / Direct</option>
+              <option value="online">Online Sale (10% Rebate)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAMILY MEMBERS COVERAGE ACCORDION/SECTION -->
+      <div class="sub-section-card">
+        <div class="sub-title">
+          <span>👨‍👩‍👧‍👦 Family Members Coverage (Optional)</span>
+          <span style="font-size: 11px; text-transform: none; color: var(--text-muted);">Cover Spouse, Children &amp; Parents</span>
+        </div>
+
+        <!-- Spouse Option -->
+        <div class="member-row">
+          <label class="checkbox-pill">
+            <input type="checkbox" id="hasSpouse">
+            <span>Include Spouse</span>
+          </label>
+          <div class="input-wrapper" id="spouseAgeWrap" style="opacity: 0.5;">
+            <input type="number" id="spouseAge" min="18" max="65" value="28" placeholder="Age" disabled>
+          </div>
+          <div class="input-wrapper" id="spouseIdbWrap" style="opacity: 0.5;">
+            <input type="number" id="spouseIdb" step="500" min="2500" max="10000" value="5000" placeholder="IDB ₹" disabled>
+          </div>
+        </div>
+
+        <!-- Children Option -->
+        <div class="member-row">
+          <div class="form-group" style="width: 100%;">
+            <label style="font-size: 12px; font-weight: 700; color: var(--blue-deep);">Number of Children</label>
+            <div class="input-wrapper">
+              <select id="childCount">
+                <option value="0" selected>No Children</option>
+                <option value="1">1 Child</option>
+                <option value="2">2 Children</option>
+                <option value="3">3 Children</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="width: 100%; grid-column: span 2;">
+            <label style="font-size: 12px; font-weight: 700; color: var(--blue-deep);">Child 1 Age &amp; IDB (≤ PI IDB)</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="number" id="child1Age" min="0" max="20" value="5" placeholder="Age" style="width: 45%; height: 40px; border-radius: 8px; border: 1.5px solid var(--border-color); padding: 0 8px; font-weight: 700;" disabled>
+              <input type="number" id="childIdb" step="500" min="2500" max="10000" value="5000" placeholder="IDB ₹" style="width: 55%; height: 40px; border-radius: 8px; border: 1.5px solid var(--border-color); padding: 0 8px; font-weight: 700;" disabled>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parents Option -->
+        <div class="member-row">
+          <label class="checkbox-pill">
+            <input type="checkbox" id="hasParent">
+            <span>Include Parent</span>
+          </label>
+          <div class="input-wrapper" id="parentAgeWrap" style="opacity: 0.5;">
+            <input type="number" id="parentAge" min="18" max="65" value="58" placeholder="Parent Age" disabled>
+          </div>
+          <div class="input-wrapper" id="parentIdbWrap" style="opacity: 0.5;">
+            <input type="number" id="parentIdb" step="500" min="2500" max="10000" value="5000" placeholder="IDB ₹" disabled>
+          </div>
+        </div>
+      </div>
+
+      <!-- OPTIONAL RIDERS (PI & Spouse) -->
+      <div class="sub-section-card" style="margin-top: 14px;">
+        <div class="sub-title">
+          <span>🛡️ Optional Rider Benefits (PI)</span>
+          <span style="font-size: 11px; text-transform: none; color: var(--text-muted);">Max Cover = MSB Sum Assured</span>
+        </div>
+        
+        <div class="member-row" style="grid-template-columns: 1.5fr 1fr;">
+          <label class="checkbox-pill">
+            <input type="checkbox" id="hasTermRider">
+            <span>LIC's New Term Assurance Rider</span>
+          </label>
+          <div class="input-wrapper" id="termRiderWrap" style="opacity: 0.5;">
+            <input type="number" id="termRiderSA" step="50000" min="100000" max="1000000" value="500000" placeholder="Rider SA" disabled>
+            <span class="prefix">INR</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Validation Errors Box -->
+      <div id="validationError" class="error-container"></div>
+
+      <!-- Action Buttons -->
+      <div class="button-group">
+        <button type="button" class="btn-proceed" id="btnProceed">
+          <span>⚡ CALCULATE PREMIUM &amp; BENEFITS</span>
+        </button>
+        <div class="utility-buttons">
+          <button type="button" class="btn-action" id="btnPrint">
+            <span>🖨️</span> PRINT BUTTON
+          </button>
+          <button type="button" class="btn-action" id="btnShare">
+            <span>🔗</span> SHARE BUTTON
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE: OUTPUTS -->
+    <div class="result-card" id="resultCard">
+      <div class="result-header">
+        <div class="section-title" style="margin: 0; padding: 0; border: none;">
+          <span class="bullet" style="background: var(--blue-primary);"></span>
+          <span id="resultHeading">Total Policy Premium</span>
+        </div>
+        <span class="result-tag" id="statusBadge">Comprehensive Health</span>
+      </div>
+
+      <!-- Grand Total Display -->
+      <div class="grand-total-box">
+        <div class="grand-title" id="grandLabel">Installment Premium (Exclusive of GST)</div>
+        <div class="grand-amount" id="finalPremiumDisplay">₹ 0</div>
+        <div class="grand-subtext" id="dailyCostDisplay">≈ ₹0 / day</div>
+      </div>
+
+      <!-- Breakdown Details Container -->
+      <div class="breakdown-list" id="breakdownContainer">
+        <!-- Dynamically populated -->
+      </div>
+
+      <!-- Key Health Coverage Perks Box -->
+      <div class="benefit-showcase-box" id="benefitShowcaseBox">
+        <h4>Comprehensive Fixed Benefit Highlights</h4>
+        <ul>
+          <li id="hcbInfo">Hospital Cash: ₹5,000/day (General Ward) | ₹10,000/day (ICU)</li>
+          <li id="msbInfo">Major Surgical Benefit: Up to ₹5,00,000 (100× IDB) + Ambulance ₹1,000</li>
+          <li id="pwbInfo">Premium Waiver: 1 Year Base Premium waived on Category 1/2 Surgery</li>
+          <li id="ahcInfo">Auto Health Cover (AHC): Full Premium Waived for family upon PI death!</li>
+          <li id="checkupInfo">Free Health Checkup: ₹2,500 (0.5× IDB) once every 3 years</li>
+          <li>No Claim Benefit: 10% IDB increase every 3 consecutive claim-free years</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // =========================================================================
+  // MASTER ACTUARIAL RATE TABLES (LIC PLAN NO. 907 - HEALTH SHIELD)
+  // e: Principal Insured (PI) Base Rate per ₹1,000 IDB
+  // t: Other Insured MALE Rates t[piAge][otherAge] per ₹1,000 IDB
+  // n: Other Insured FEMALE Rates n[piAge][otherAge] per ₹1,000 IDB
+  // r: LIC's New Term Assurance Rider Rates r[piAge][term] per ₹1,000 SA
+  // =========================================================================
+
+  const e={18:{M:1381.75,F:1215.1},19:{M:1414.9,F:1232.15},20:{M:1451,F:1251.25},21:{M:1469.65,F:1270.6},22:{M:1482.45,F:1288.65},23:{M:1493.8,F:1308.75},24:{M:1503.5,F:1331},25:{M:1511.3,F:1355.65},26:{M:1516.95,F:1382.85},27:{M:1526.3,F:1412.35},28:{M:1539.6,F:1444.3},29:{M:1557.1,F:1479},30:{M:1579.1,F:1516.7},31:{M:1605.9,F:1557.7},32:{M:1634.45,F:1600.05},33:{M:1665.1,F:1643.8},34:{M:1698,F:1689.05},35:{M:1734.9,F:1740.9},36:{M:1779.2,F:1797.3},37:{M:1829.95,F:1855.55},38:{M:1887.95,F:1915.75},39:{M:1954.05,F:1977.8},40:{M:2029.2,F:2041.75},41:{M:2114.5,F:2107.55},42:{M:2204,F:2174.4},43:{M:2298,F:2241.15},44:{M:2396.6,F:2311.05},45:{M:2499.9,F:2380.9},46:{M:2608.1,F:2446.8},47:{M:2724.1,F:2522.8},48:{M:2848.2,F:2606.65},49:{M:2981.05,F:2697.05},50:{M:3119.05,F:2781.85},51:{M:3251.75,F:2862.25},52:{M:3394.4,F:2945.45},53:{M:3540.95,F:3030.5},54:{M:3691.1,F:3117.3},55:{M:3844.55,F:3205.65},56:{M:4000.9,F:3295.5},57:{M:4156.25,F:3380.4},58:{M:4310,F:3462.25},59:{M:4461.45,F:3531.35},60:{M:4609.95,F:3608.15},61:{M:4765.3,F:3698.9},62:{M:4930.45,F:3775.75},63:{M:5107.2,F:3846.75},64:{M:5297.65,F:3933.6},65:{M:5504.05,F:4043.1}};
+
+  const t={18:{0:701.7,1:701.65,2:701.55,3:701.5,4:701.5,5:701.5,6:709.75,7:721.5,8:735,9:750.5,10:768.1,11:788.1,12:808.9,13:830.7,14:853.55,15:877.65,16:903.15,17:931.05,18:961.55,19:994.9,20:1031.2,21:1049.9,22:1062.8,23:1074.2,24:1083.9,25:1091.75,26:1097.35,27:1106.75,28:1120.05,29:1137.6,30:1159.65,31:1186.55,32:1215.25,33:1245.95,34:1278.95,35:1316,36:1360.4,37:1411.3,38:1469.5,39:1535.85,40:1611.2,41:1696.75,42:1786.5,43:1880.75,44:1979.5,45:2083,46:2191.4,47:2307.5,48:2431.8,49:2564.75,50:2702.9,51:2835.6,52:2978.35,53:3124.9,54:3275.05,55:3428.5,56:3584.8,57:3740,58:3893.5,59:4044.65,60:4192.65,61:4347.45,62:4511.95,63:4687.95,64:4877.45,65:5082.8},19:{0:701.8,1:701.7,2:701.6,3:701.6,4:701.6,5:701.6,6:709.85,7:721.55,8:735.1,9:750.55,10:768.2,11:788.15,12:809,13:830.75,14:853.65,15:877.75,16:903.25,17:931.15,18:961.65,19:995,20:1031.35,21:1050.05,22:1062.9,23:1074.3,24:1084,25:1091.85,26:1097.5,27:1106.85,28:1120.2,29:1137.7,30:1159.8,31:1186.65,32:1215.35,33:1246.05,34:1279.1,35:1316.15,36:1360.55,37:1411.45,38:1469.65,39:1535.95,40:1611.35,41:1696.9,42:1786.7,43:1880.9,44:1979.7,45:2083.2,46:2191.6,47:2307.7,48:2432,49:2564.95,50:2703.1,51:2835.85,52:2978.6,53:3125.15,54:3275.35,55:3428.8,56:3585.05,57:3740.25,58:3893.8,59:4044.95,60:4193,61:4347.8,62:4512.3,63:4688.3,64:4877.85,65:5083.2},20:{0:701.85,1:701.8,2:701.7,3:701.65,4:701.65,5:701.65,6:709.9,7:721.65,8:735.15,9:750.65,10:768.25,11:788.25,12:809.05,13:830.85,14:853.7,15:877.85,16:903.3,17:931.2,18:961.75,19:995.05,20:1031.4,21:1050.1,22:1062.95,23:1074.35,24:1084.1,25:1091.9,26:1097.55,27:1106.95,28:1120.25,29:1137.8,30:1159.85,31:1186.75,32:1215.45,33:1246.15,34:1279.15,35:1316.2,36:1360.65,37:1411.55,38:1469.75,39:1536.05,40:1611.45,41:1697,42:1786.8,43:1881,44:1979.8,45:2083.3,46:2191.7,47:2307.85,48:2432.15,49:2565.1,50:2703.25,51:2836,52:2978.75,53:3125.35,54:3275.5,55:3428.95,56:3585.25,57:3740.5,58:3894,59:4045.15,60:4193.2,61:4348.05,62:4512.55,63:4688.55,64:4878.1,65:5083.45},21:{0:701.9,1:701.8,2:701.75,3:701.7,4:701.7,5:701.7,6:709.95,7:721.7,8:735.2,9:750.7,10:768.3,11:788.3,12:809.1,13:830.9,14:853.8,15:877.9,16:903.35,17:931.25,18:961.8,19:995.15,20:1031.45,21:1050.15,22:1063.05,23:1074.45,24:1084.15,25:1092,26:1097.65,27:1107,28:1120.3,29:1137.85,30:1159.95,31:1186.8,32:1215.5,33:1246.25,34:1279.25,35:1316.3,36:1360.7,37:1411.65,38:1469.85,39:1536.15,40:1611.55,41:1697.1,42:1786.9,43:1881.1,44:1979.9,45:2083.45,46:2191.85,47:2307.95,48:2432.25,49:2565.25,50:2703.4,51:2836.15,52:2978.9,53:3125.5,54:3275.65,55:3429.15,56:3585.45,57:3740.65,58:3894.2,59:4045.35,60:4193.4,61:4348.2,62:4512.75,63:4688.75,64:4878.3,65:5083.65},22:{0:701.95,1:701.9,2:701.8,3:701.75,4:701.75,5:701.75,6:710,7:721.75,8:735.25,9:750.75,10:768.35,11:788.35,12:809.15,13:830.95,14:853.85,15:877.95,16:903.4,17:931.35,18:961.85,19:995.2,20:1031.55,21:1050.25,22:1063.1,23:1074.5,24:1084.25,25:1092.05,26:1097.7,27:1107.05,28:1120.4,29:1137.95,30:1160,31:1186.9,32:1215.6,33:1246.3,34:1279.3,35:1316.4,36:1360.8,37:1411.7,38:1469.9,39:1536.25,40:1611.65,41:1697.2,42:1787,43:1881.2,44:1980,45:2083.55,46:2191.95,47:2308.1,48:2432.4,49:2565.35,50:2703.55,51:2836.3,52:2979.05,53:3125.65,54:3275.85,55:3429.3,56:3585.6,57:3740.85,58:3894.35,59:4045.55,60:4193.6,61:4348.4,62:4512.95,63:4688.95,64:4878.5,65:5083.85},23:{0:702,1:701.95,2:701.85,3:701.85,4:701.85,5:701.8,6:710.1,7:721.8,8:735.35,9:750.8,10:768.45,11:788.4,12:809.25,13:831.05,14:853.9,15:878.05,16:903.5,17:931.4,18:961.95,19:995.3,20:1031.65,21:1050.35,22:1063.2,23:1074.6,24:1084.35,25:1092.15,26:1097.8,27:1107.15,28:1120.5,29:1138.05,30:1160.1,31:1187,32:1215.7,33:1246.4,34:1279.45,35:1316.5,36:1360.9,37:1411.85,38:1470.05,39:1536.35,40:1611.8,41:1697.3,42:1787.15,43:1881.35,44:1980.15,45:2083.7,46:2192.1,47:2308.25,48:2432.55,49:2565.55,50:2703.7,51:2836.5,52:2979.25,53:3125.85,54:3276.05,55:3429.55,56:3585.85,57:3741.05,58:3894.6,59:4045.8,60:4193.85,61:4348.7,62:4513.2,63:4689.25,64:4878.75,65:5084.15},24:{0:702.15,1:702.05,2:701.95,3:701.95,4:701.95,5:701.9,6:710.2,7:721.9,8:735.45,9:750.9,10:768.55,11:788.55,12:809.35,13:831.15,14:854.05,15:878.15,16:903.65,17:931.55,18:962.1,19:995.4,20:1031.75,21:1050.45,22:1063.35,23:1074.75,24:1084.45,25:1092.3,26:1097.95,27:1107.3,28:1120.65,29:1138.2,30:1160.25,31:1187.15,32:1215.85,33:1246.55,34:1279.6,35:1316.65,36:1361.05,37:1412,38:1470.2,39:1536.55,40:1611.95,41:1697.5,42:1787.35,43:1881.55,44:1980.4,45:2083.95,46:2192.35,47:2308.5,48:2432.8,49:2565.8,50:2704,51:2836.8,52:2979.55,53:3126.15,54:3276.35,55:3429.85,56:3586.2,57:3741.4,58:3894.95,59:4046.15,60:4194.2,61:4349.05,62:4513.6,63:4689.6,64:4879.15,65:5084.55},25:{0:702.25,1:702.2,2:702.1,3:702.1,4:702.05,5:702.05,6:710.3,7:722.05,8:735.6,9:751.05,10:768.7,11:788.7,12:809.5,13:831.3,14:854.2,15:878.3,16:903.8,17:931.7,18:962.25,19:995.6,20:1031.95,21:1050.65,22:1063.5,23:1074.95,24:1084.65,25:1092.5,26:1098.15,27:1107.5,28:1120.85,29:1138.4,30:1160.45,31:1187.35,32:1216.05,33:1246.8,34:1279.8,35:1316.85,36:1361.3,37:1412.25,38:1470.45,39:1536.8,40:1622.2,41:1697.75,42:1787.6,43:1881.85,44:1980.7,45:2084.25,46:2192.65,47:2308.8,48:2433.15,49:2566.2,50:2704.35,51:2837.15,52:2979.95,53:3126.6,54:3276.8,55:3430.3,56:3586.65,57:3741.9,58:3895.45,59:4046.65,60:4194.75,61:4349.6,62:4514.15,63:4690.2,64:4879.75,65:5085.15},26:{0:702.45,1:702.4,2:702.3,3:702.25,4:702.25,5:702.25,6:710.5,7:722.25,8:735.8,9:751.25,10:768.9,11:788.9,12:809.7,13:831.5,14:854.4,15:878.55,16:904,17:931.95,18:962.5,19:995.85,20:1032.2,21:1050.9,22:1063.75,23:1075.2,24:1084.9,25:1092.75,26:1098.4,27:1107.75,28:1121.1,29:1138.65,30:1160.7,31:1187.6,32:1216.3,33:1247.05,34:1280.1,35:1317.15,36:1361.6,37:1412.55,38:1470.75,39:1537.1,40:1612.55,41:1698.1,42:1787.95,43:1882.25,44:1981.05,45:2084.65,46:2193.1,47:2309.25,48:2433.6,49:2566.65,50:2704.85,51:2837.7,52:2980.5,53:3127.15,54:3277.4,55:3430.9,56:3587.25,57:3742.55,58:3896.15,59:4047.35,60:4195.45,61:4350.3,62:4514.85,63:4690.9,64:4880.5,65:5085.9},27:{0:702.7,1:702.65,2:702.55,3:702.5,4:702.5,5:702.5,6:710.75,7:722.5,8:736.05,9:751.5,10:769.15,11:789.15,12:810,13:831.8,14:854.7,15:878.8,16:904.3,17:932.25,18:962.8,19:996.15,20:1032.5,21:1051.2,22:1064.1,23:1075.5,24:1085.25,25:1093.05,26:1098.7,27:1108.1,28:1121.4,29:1139,30:1161.05,31:1187.95,32:1216.7,33:1247.4,34:1280.45,35:1317.5,36:1361.95,37:1412.95,38:1471.15,39:1537.55,40:1613,41:1698.55,42:1788.45,43:1882.7,44:1981.6,45:2085.15,46:2193.65,47:2309.85,48:2434.2,49:2567.3,50:2705.5,51:2838.35,52:2981.2,53:3127.85,54:3278.15,55:3431.7,56:3588.1,57:3743.35,58:3897,59:4048.25,60:4196.35,61:4351.25,62:4515.8,63:4691.9,64:4881.5,65:5086.95},28:{0:703,1:702.95,2:702.85,3:702.8,4:702.8,5:702.8,6:711.05,7:722.8,8:736.35,9:751.85,10:769.5,11:789.45,12:810.3,13:832.1,14:855.05,15:879.15,16:904.65,17:932.6,18:963.15,19:996.5,20:1032.9,21:1051.6,22:1064.5,23:1075.9,24:1085.65,25:1093.45,26:1099.1,27:1108.5,28:1121.85,29:1139.4,30:1161.5,31:1188.4,32:1217.1,33:1247.85,34:1280.9,35:1318,36:1362.45,37:1413.4,38:1471.65,39:1538.05,40:1613.55,41:1699.15,42:1789,43:1883.35,44:1982.2,45:2085.85,46:2194.3,47:2310.55,48:2434.95,49:2568.05,50:2706.3,51:2839.2,52:2982.05,53:3128.75,54:3279.1,55:3432.65,56:3589.1,57:3744.4,58:3898.05,59:4049.35,60:4197.45,61:4352.4,62:4517,63:4693.1,64:4882.75,65:5088.2},29:{0:703.35,1:703.3,2:703.2,3:703.2,4:703.2,5:703.15,6:711.45,7:723.2,8:736.7,9:752.2,10:769.85,11:789.85,12:810.7,13:832.55,14:855.45,15:879.6,16:905.1,17:933.05,18:963.6,19:997,20:1033.35,21:1052.1,22:1064.95,23:1076.4,24:1086.15,25:1093.95,26:1099.6,27:1109,28:1122.35,29:1139.9,30:1162,31:1188.9,32:1217.65,33:1248.4,34:1281.45,35:1318.55,36:1363.05,37:1414,38:1472.3,39:1538.7,40:1614.2,41:1699.8,42:1789.75,43:1884.05,44:1983,45:2086.65,46:2195.15,47:2311.4,48:2435.85,49:2569,50:2707.3,51:2840.25,52:2983.15,53:3129.9,54:3280.25,55:3433.85,56:3590.35,57:3745.7,58:3899.4,59:4050.7,60:4198.85,61:4353.85,62:4518.5,63:4694.6,64:4884.3,65:5089.8},30:{0:703.8,1:703.75,2:703.65,3:703.65,4:703.6,5:703.6,6:711.9,7:723.65,8:737.15,9:752.7,10:770.35,11:790.35,12:811.2,13:833,14:855.95,15:880.1,16:905.6,17:933.55,18:964.15,19:997.55,20:1033.95,21:1052.65,22:1065.55,23:1077,24:1086.75,25:1094.55,26:1100.2,27:1109.6,28:1122.95,29:1140.5,30:1162.6,31:1189.55,32:1218.3,33:1249.05,34:1282.1,35:1319.25,36:1363.7,37:1414.75,38:1473,39:1539.45,40:1614.95,41:1700.65,42:1790.6,43:1884.95,44:1983.9,45:2087.6,46:2196.15,47:2312.45,48:2436.95,49:2570.15,50:2708.5,51:2841.45,52:2984.4,53:3131.2,54:3281.6,55:3435.3,56:3591.8,57:3747.25,58:3900.95,59:4052.3,60:4200.5,61:4355.55,62:4520.25,63:4696.4,64:4886.15,65:5091.7}};
+
+  const n={18:{0:701.7,1:701.65,2:701.55,3:701.5,4:701.5,5:701.5,6:702.25,7:704.75,8:707.75,9:711.35,10:715.6,11:720.55,12:726.65,13:734.05,14:742.85,15:753.15,16:765.15,17:778.7,18:794,19:811.15,20:830.3,21:849.8,22:867.9,23:888.1,24:910.45,25:935.25,26:962.6,27:992.2,28:1024.3,29:1059.15,30:1097,31:1138.2,32:1180.7,33:1224.6,34:1270.05,35:1322.1,36:1378.65,37:1437.15,38:1497.45,39:1559.7,40:1623.8,41:1689.75,42:1756.7,43:1823.55,44:1893.55,45:1963.35,46:2029.2,47:2105.15,48:2188.95,49:2279.35,50:2364.05,51:2444.25,52:2527.25,53:2612.05,54:2698.5,55:2786.55,56:2876,57:2960.4,58:3041.7,59:3110.05,60:3186.05,61:3276,62:3351.75,63:3421.5,64:3507,65:3615.05},19:{0:701.8,1:701.7,2:701.6,3:701.6,4:701.6,5:701.6,6:702.3,7:704.8,8:707.8,9:711.4,10:715.65,11:720.65,12:726.75,13:734.15,14:742.95,15:753.25,16:765.25,17:778.8,18:794.1,19:811.25,20:830.4,21:849.9,22:868,23:888.2,24:910.55,25:935.35,26:962.7,27:992.3,28:1024.4,29:1059.25,30:1097.1,31:1138.3,32:1180.8,33:1224.75,34:1270.2,35:1322.2,36:1378.8,37:1437.25,38:1497.6,39:1559.85,40:1623.95,41:1689.95,42:1756.85,43:1823.7,44:1893.7,45:1963.55,46:2029.4,47:2105.35,48:2189.15,49:2279.55,50:2364.25,51:2444.45,52:2527.45,53:2612.25,54:2698.75,55:2786.8,56:2876.25,57:2960.65,58:3041.9,59:3110.3,60:3186.3,61:3276.25,62:3352.05,63:3421.8,64:3507.25,65:3615.3},20:{0:701.85,1:701.8,2:701.7,3:701.65,4:701.65,5:701.65,6:702.4,7:704.85,8:707.9,9:711.5,10:715.75,11:720.7,12:726.8,13:734.2,14:743,15:753.3,16:765.3,17:778.85,18:794.15,19:811.3,20:830.45,21:849.95,22:868.1,23:888.25,24:910.65,25:935.4,26:962.75,27:992.4,28:1024.5,29:1059.35,30:1097.2,31:1138.4,32:1180.9,33:1224.8,34:1270.3,35:1322.3,36:1378.9,37:1437.35,38:1497.7,39:1559.95,40:1624.05,41:1690.05,42:1757,43:1823.8,44:1893.8,45:1963.65,46:2029.5,47:2105.45,48:2189.25,49:2279.7,50:2364.35,51:2444.6,52:2527.6,53:2612.4,54:2698.9,55:2786.95,56:2876.4,57:2960.8,58:3042.1,59:3110.45,60:3186.5,61:3276.4,62:3352.2,63:3421.95,64:3507.45,65:3615.5},21:{0:701.9,1:701.8,2:701.75,3:701.7,4:701.7,5:701.7,6:702.45,7:704.9,8:707.95,9:711.55,10:715.8,11:720.75,12:726.85,13:734.25,14:743.05,15:753.35,16:765.35,17:778.9,18:794.2,19:811.35,20:830.5,21:850,22:868.15,23:888.3,24:910.7,25:935.45,26:962.8,27:992.45,28:1024.55,29:1059.4,30:1097.25,31:1138.45,32:1180.95,33:1224.9,34:1270.35,35:1322.4,36:1378.95,37:1437.45,38:1497.8,39:1560,40:1624.15,41:1690.15,42:1757.05,43:1823.9,44:1893.9,45:1963.75,46:2029.65,47:2105.55,48:2189.35,49:2279.8,50:2364.5,51:2444.7,52:2527.7,53:2612.5,54:2699,55:2787.1,56:2876.55,57:2960.95,58:3042.25,59:3110.6,60:3186.6,61:3276.55,62:3352.35,63:3422.1,64:3507.6,65:3615.65},22:{0:701.95,1:701.9,2:701.8,3:701.75,4:701.75,5:701.75,6:702.5,7:704.95,8:708,9:711.6,10:715.85,11:720.8,12:726.9,13:734.3,14:743.1,15:753.4,16:765.4,17:778.95,18:794.25,19:811.4,20:830.6,21:850.05,22:868.2,23:888.4,24:910.75,25:935.5,26:962.9,27:992.5,28:1024.6,29:1059.45,30:1097.35,31:1138.55,32:1181.05,33:1224.95,34:1270.45,35:1322.45,36:1379.05,37:1437.55,38:1497.9,39:1560.1,40:1624.25,41:1690.25,42:1757.2,43:1824,44:1894,45:1963.9,46:2029.75,47:2105.7,48:2189.5,49:2279.9,50:2364.6,51:2444.85,52:2527.85,53:2612.65,54:2699.15,55:2787.2,56:2876.7,57:2961.1,58:3042.4,59:3110.75,60:3186.8,61:3276.7,62:3352.5,63:3422.25,64:3507.75,65:3615.8},23:{0:702,1:701.95,2:701.85,3:701.85,4:701.85,5:701.8,6:702.55,7:705.05,8:708.05,9:711.65,10:715.9,11:720.85,12:727,13:734.4,14:743.15,15:753.5,16:765.5,17:779.05,18:794.35,19:811.5,20:830.65,21:850.15,22:868.3,23:888.45,24:910.85,25:935.6,26:962.95,27:992.6,28:1024.7,29:1059.55,30:1097.45,31:1138.65,32:1181.15,33:1225.1,34:1270.55,35:1322.6,36:1379.2,37:1437.65,38:1498,39:1560.25,40:1624.35,41:1690.35,42:1757.3,43:1824.15,44:1894.15,45:1964.05,46:2029.9,47:2105.85,48:2189.65,49:2280.1,50:2364.8,51:2445.05,52:2528.05,53:2612.85,54:2699.35,55:2787.4,56:2876.9,57:2961.3,58:3042.6,59:3110.95,60:3187,61:3276.9,62:3352.75,63:3422.45,64:3507.95,65:3616},24:{0:702.15,1:702.05,2:701.95,3:701.95,4:701.95,5:701.9,6:702.65,7:705.15,8:708.15,9:711.75,10:716,11:720.95,12:727.1,13:734.5,14:743.3,15:753.6,16:765.6,17:779.15,18:794.45,19:811.6,20:830.8,21:850.25,22:868.4,23:888.6,24:910.95,25:935.75,26:963.1,27:992.75,28:1024.85,29:1059.7,30:1097.6,31:1138.75,32:1181.3,33:1225.25,34:1270.7,35:1322.75,36:1379.35,37:1437.8,38:1498.2,39:1560.4,40:1624.55,41:1690.55,42:1757.5,43:1824.35,44:1894.35,45:1964.25,46:2030.1,47:2106.05,48:2189.9,49:2280.3,50:2365,51:2445.3,52:2528.3,53:2613.1,54:2699.6,55:2787.7,56:2877.15,57:2961.55,58:3042.85,59:3111.25,60:3187.25,61:3277.2,62:3353,63:3422.75,64:3508.25,65:3616.3},25:{0:702.25,1:702.2,2:702.1,3:702.1,4:702.05,5:702.05,6:702.8,7:705.3,8:708.3,9:711.9,10:716.15,11:721.1,12:727.25,13:734.65,14:743.45,15:753.75,16:765.75,17:779.3,18:794.6,19:811.75,20:830.95,21:850.4,22:868.55,23:888.75,24:911.15,25:935.9,26:963.25,27:992.9,28:1025.05,29:1059.9,30:1097.75,31:1138.95,32:1181.5,33:1225.45,34:1270.9,35:1322.95,36:1379.55,37:1438.05,38:1498.4,39:1560.65,40:1624.8,41:1690.8,42:1757.8,43:1824.65,44:1894.65,45:1964.55,46:2030.4,47:2106.4,48:2190.2,49:2280.65,50:2365.35,51:2445.6,52:2528.65,53:2613.45,54:2699.95,55:2788.05,56:2877.55,57:2961.95,58:3043.25,59:3111.65,60:3187.7,61:3277.65,62:3353.45,63:3423.2,64:3508.7,65:3616.75},26:{0:702.45,1:702.4,2:702.3,3:702.25,4:702.25,5:702.25,6:703,7:705.5,8:708.5,9:712.1,10:716.35,11:721.3,12:727.45,13:734.85,14:743.6,15:753.95,16:765.95,17:779.5,18:794.8,19:811.95,20:831.15,21:850.65,22:868.8,23:888.95,24:911.35,25:936.15,26:963.5,27:993.15,28:1025.25,29:1060.15,30:1098,31:1139.25,32:1181.75,33:1225.7,34:1271.2,35:1323.25,36:1379.85,37:1438.35,38:1498.75,39:1561,40:1625.15,41:1691.15,42:1758.15,43:1825,44:1895.05,45:1964.9,46:2030.8,47:2106.8,48:2190.6,49:2281.1,50:2365.8,51:2446.05,52:2529.1,53:2613.95,54:2700.45,55:2788.55,56:2878.05,57:2962.45,58:3043.8,59:3112.15,60:3188.2,61:3278.2,62:3354,63:3423.75,64:3509.25,65:3617.3},27:{0:702.7,1:702.65,2:702.55,3:702.5,4:702.5,5:702.5,6:703.25,7:705.7,8:708.75,9:712.35,10:716.6,11:721.55,12:727.7,13:735.1,14:743.85,15:754.2,16:766.2,17:779.75,18:795.05,19:812.25,20:831.4,21:850.9,22:869.05,23:889.25,24:911.65,25:936.4,26:963.8,27:993.45,28:1025.6,29:1060.45,30:1098.35,31:1139.55,32:1182.1,33:1226.05,34:1271.55,35:1323.6,36:1380.25,37:1438.75,38:1499.15,39:1561.4,40:1625.6,41:1691.6,42:1758.6,43:1825.5,44:1895.55,45:1965.4,46:2031.3,47:2107.3,48:2191.15,49:2281.65,50:2366.4,51:2446.65,52:2529.7,53:2614.55,54:2701.1,55:2789.2,56:2878.7,57:2963.15,58:3044.5,59:3112.85,60:3188.95,61:3278.9,62:3354.7,63:3424.45,64:3510,65:3618.05},28:{0:703,1:702.95,2:702.85,3:702.8,4:702.8,5:702.8,6:703.55,7:706.05,8:709.05,9:712.65,10:716.9,11:721.85,12:728,13:735.4,14:744.2,15:754.5,16:766.5,17:780.1,18:795.4,19:812.55,20:831.75,21:851.25,22:869.4,23:889.6,24:912,25:936.8,26:964.15,27:993.8,28:1025.95,29:1060.85,30:1098.75,31:1140,32:1182.55,33:1226.5,34:1272,35:1324.1,36:1380.75,37:1439.25,38:1499.65,39:1561.95,40:1626.1,41:1692.15,42:1759.2,43:1826.05,44:1896.15,45:1966.05,46:2031.95,47:2107.95,48:2191.85,49:2282.35,50:2367.1,51:2447.4,52:2530.45,53:2615.35,54:2701.9,55:2790,56:2879.55,57:2964,58:3045.35,59:3113.75,60:3189.8,61:3279.8,62:3355.65,63:3425.4,64:3510.9,65:3619},29:{0:703.35,1:703.3,2:703.2,3:703.2,4:703.2,5:703.15,6:703.9,7:706.4,8:709.4,9:713,10:717.25,11:722.25,12:728.35,13:735.75,14:744.55,15:754.9,16:766.9,17:780.5,18:795.8,19:812.95,20:832.15,21:851.65,22:869.85,23:890.05,24:912.45,25:937.25,26:964.65,27:994.3,28:1026.45,29:1061.35,30:1099.25,31:1140.5,32:1183.05,33:1227.05,34:1272.55,35:1324.65,36:1381.3,37:1439.85,38:1500.3,39:1562.6,40:1626.8,41:1692.85,42:1759.9,43:1826.8,44:1896.9,45:1966.8,46:2032.75,47:2108.8,48:2192.65,49:2283.2,50:2368,51:2448.3,52:2531.4,53:2616.3,54:2702.85,55:2791,56:2880.55,57:2965.05,58:3046.4,59:3114.8,60:3190.9,61:3280.9,62:3356.75,63:3426.5,64:3512.05,65:3620.15},30:{0:703.8,1:703.75,2:703.65,3:703.65,4:703.6,5:703.6,6:704.35,7:706.85,8:709.85,9:713.45,10:717.7,11:722.7,12:728.8,13:736.2,14:745.05,15:755.35,16:767.35,17:780.95,18:796.25,19:813.45,20:832.65,21:852.15,22:870.35,23:890.55,24:912.95,25:937.75,26:965.15,27:994.85,28:1027,29:1061.9,30:1099.85,31:1141.1,32:1183.7,33:1227.7,34:1273.2,35:1325.35,36:1382,37:1440.6,38:1501,39:1563.35,40:1627.6,41:1693.65,42:1760.7,43:1827.65,44:1897.75,45:1967.75,46:2033.7,47:2109.75,48:2193.65,49:2284.2,50:2369.05,51:2449.4,52:2532.5,53:2617.4,54:2704.05,55:2792.2,56:2881.8,57:2966.3,58:3047.65,59:3116.1,60:3192.2,61:3282.2,62:3358.1,63:3427.85,64:3513.4,65:3621.55}};
+
+  const r={18:{5:1.83,6:1.83,7:1.83,8:1.83,9:1.83,10:1.83,11:1.83,12:1.83,13:1.83,14:1.83,15:1.83},19:{5:1.84,6:1.84,7:1.84,8:1.84,9:1.84,10:1.84,11:1.84,12:1.84,13:1.84,14:1.84,15:1.84},20:{5:1.85,6:1.85,7:1.85,8:1.85,9:1.85,10:1.85,11:1.85,12:1.85,13:1.85,14:1.85,15:1.85},21:{5:1.85,6:1.85,7:1.85,8:1.85,9:1.85,10:1.85,11:1.85,12:1.85,13:1.85,14:1.85,15:1.85},22:{5:1.85,6:1.85,7:1.85,8:1.85,9:1.85,10:1.85,11:1.85,12:1.85,13:1.85,14:1.85,15:1.85},23:{5:1.85,6:1.85,7:1.85,8:1.85,9:1.85,10:1.85,11:1.85,12:1.85,13:1.85,14:1.85,15:1.85},24:{5:1.85,6:1.85,7:1.85,8:1.85,9:1.85,10:1.85,11:1.85,12:1.85,13:1.85,14:1.85,15:1.85},25:{5:1.86,6:1.86,7:1.86,8:1.86,9:1.86,10:1.86,11:1.86,12:1.86,13:1.86,14:1.86,15:1.86},26:{5:1.87,6:1.87,7:1.87,8:1.87,9:1.87,10:1.87,11:1.87,12:1.87,13:1.87,14:1.87,15:1.9},27:{5:1.89,6:1.89,7:1.89,8:1.89,9:1.89,10:1.89,11:1.89,12:1.89,13:1.89,14:1.9,15:1.97},28:{5:1.91,6:1.91,7:1.91,8:1.91,9:1.91,10:1.91,11:1.91,12:1.92,13:1.95,14:1.98,15:2.06},29:{5:1.95,6:1.95,7:1.95,8:1.95,9:1.95,10:1.96,11:1.97,12:1.99,13:2.03,14:2.08,15:2.16},30:{5:2,6:2,7:2,8:2,9:2,10:2.03,11:2.05,12:2.09,13:2.13,14:2.18,15:2.27},31:{5:2.05,6:2.05,7:2.05,8:2.05,9:2.05,10:2.12,11:2.15,12:2.2,13:2.25,14:2.31,15:2.41},32:{5:2.12,6:2.12,7:2.12,8:2.12,9:2.12,10:2.23,11:2.28,12:2.33,13:2.39,14:2.45,15:2.56},33:{5:2.2,6:2.2,7:2.2,8:2.2,9:2.22,10:2.36,11:2.41,12:2.47,13:2.54,14:2.62,15:2.74},34:{5:2.29,6:2.29,7:2.29,8:2.31,9:2.36,10:2.51,11:2.57,12:2.64,13:2.72,14:2.81,15:2.95},35:{5:2.4,6:2.4,7:2.41,8:2.46,9:2.51,10:2.68,11:2.75,12:2.83,13:2.92,14:3.03,15:3.19},36:{5:2.52,6:2.54,7:2.57,8:2.63,9:2.69,10:2.88,11:2.96,12:3.05,13:3.16,14:3.28,15:3.46},37:{5:2.69,6:2.71,7:2.76,8:2.82,9:2.89,10:3.1,11:3.2,12:3.3,13:3.43,14:3.56,15:3.77},38:{5:2.88,6:2.91,7:2.97,8:3.04,9:3.13,10:3.35,11:3.47,12:3.59,13:3.74,14:3.89,15:4.12},39:{5:3.1,6:3.14,7:3.2,8:3.29,9:3.39,10:3.65,11:3.78,12:3.93,13:4.09,14:4.26,15:4.52},40:{5:3.35,6:3.4,7:3.47,8:3.58,9:3.7,10:3.99,11:4.14,12:4.31,13:4.49,14:4.68,15:4.96},41:{5:3.64,6:3.7,7:3.79,8:3.91,9:4.05,10:4.37,11:4.55,12:4.74,13:4.94,14:5.15,15:5.46},42:{5:3.92,6:4,7:4.11,8:4.26,9:4.42,10:4.79,11:4.99,12:5.2,13:5.43,14:5.66,15:5.99},43:{5:4.25,6:4.35,7:4.49,8:4.66,9:4.85,10:5.26,11:5.49,12:5.72,13:5.97,14:6.22,15:6.57},44:{5:4.63,6:4.76,7:4.92,8:5.12,9:5.34,10:5.8,11:6.04,12:6.3,13:6.56,14:6.83,15:7.21},45:{5:5.07,6:5.23,7:5.42,8:5.65,9:5.89,10:6.4,11:6.66,12:6.94,13:7.21,14:7.49,15:7.9},46:{5:5.58,6:5.76,7:5.99,8:6.24,9:6.51,10:7.06,11:7.34,12:7.63,13:7.92,14:8.21,15:8.64},47:{5:6.16,6:6.37,7:6.62,8:6.9,9:7.19,10:7.79,11:8.08,12:8.38,13:8.68,14:8.99,15:9.44},48:{5:6.81,6:7.05,7:7.32,8:7.62,9:7.93,10:8.57,11:8.88,12:9.19,13:9.5,14:9.81,15:10.29},49:{5:7.53,6:7.8,7:8.09,8:8.4,9:8.72,10:9.41,11:9.73,12:10.05,13:10.37,14:10.69,15:11.19},50:{5:8.32,6:8.6,7:8.91,8:9.24,9:9.57,10:10.3,11:10.62,12:10.95,13:11.28,14:11.62,15:12.15},51:{5:9.17,6:9.46,7:9.78,8:10.12,9:10.46,10:11.23,11:11.56,12:11.9,13:12.25,14:12.6,15:13.17},52:{5:10.07,6:10.37,7:10.69,8:11.03,9:11.38,10:12.2,11:12.55,12:12.9,13:13.26,14:13.63,15:14.25},53:{5:11,6:11.3,7:11.64,8:11.98,9:12.34,10:13.22,11:13.57,12:13.94,13:14.33,14:14.72,15:15.38},54:{5:11.96,6:12.27,7:12.61,8:12.96,9:13.34,10:14.27,11:14.64,12:15.04,13:15.45,14:15.88,15:16.59},55:{5:12.95,6:13.26,7:13.61,8:13.98,9:14.37,10:15.37,11:15.77,12:16.19,13:16.64,14:17.1,15:17.88},56:{5:13.96,6:14.28,7:14.64,8:15.03,9:15.45,10:16.52,11:16.96,12:17.42,13:17.9,14:18.41,15:19.26},57:{5:15,6:15.34,7:15.72,8:16.14,9:16.58,10:17.75,11:18.22,12:18.73,13:19.26,14:19.82,15:20.75},58:{5:16.08,6:16.44,7:16.85,8:17.31,9:17.79,10:19.06,11:19.58,12:20.14,13:20.73,14:21.35,15:22.37},59:{5:17.22,6:17.61,7:18.06,8:18.56,9:19.1,10:20.48,11:21.06,12:21.68,13:22.33,14:23.01,15:24.13},60:{5:18.43,6:18.86,7:19.36,8:19.92,9:20.52,10:22.03,11:22.67,12:23.36,13:24.08,14:24.83,15:26.05}};
+
+  // High IDB Rebate Matrix (Para 11.a)
+  function getHighIdbRebate(idb, isPI) {
+    if (idb < 4000) return 0;
+    if (idb >= 4000 && idb < 5000) return isPI ? 400 : 200;
+    if (idb >= 5000 && idb < 6000) return isPI ? 700 : 350;
+    if (idb >= 6000 && idb < 7000) return isPI ? 1000 : 500;
+    if (idb >= 7000 && idb < 8000) return isPI ? 1400 : 700;
+    if (idb >= 8000 && idb < 9000) return isPI ? 1800 : 900;
+    if (idb >= 9000 && idb < 10000) return isPI ? 2300 : 1150;
+    if (idb >= 10000) return isPI ? 2800 : 1400;
+    return 0;
+  }
+
+  // DOM Elements
+  const piAgeInput = document.getElementById('piAge');
+  const piGenderSelect = document.getElementById('piGender');
+  const piIdbInput = document.getElementById('piIdb');
+  const modeSelect = document.getElementById('mode');
+  const channelSelect = document.getElementById('channel');
+
+  // Spouse Elements
+  const hasSpouseCheck = document.getElementById('hasSpouse');
+  const spouseAgeInput = document.getElementById('spouseAge');
+  const spouseIdbInput = document.getElementById('spouseIdb');
+  const spouseAgeWrap = document.getElementById('spouseAgeWrap');
+  const spouseIdbWrap = document.getElementById('spouseIdbWrap');
+
+  // Children Elements
+  const childCountSelect = document.getElementById('childCount');
+  const child1AgeInput = document.getElementById('child1Age');
+  const childIdbInput = document.getElementById('childIdb');
+
+  // Parents Elements
+  const hasParentCheck = document.getElementById('hasParent');
+  const parentAgeInput = document.getElementById('parentAge');
+  const parentIdbInput = document.getElementById('parentIdb');
+  const parentAgeWrap = document.getElementById('parentAgeWrap');
+  const parentIdbWrap = document.getElementById('parentIdbWrap');
+
+  // Rider Elements
+  const hasTermRiderCheck = document.getElementById('hasTermRider');
+  const termRiderSAInput = document.getElementById('termRiderSA');
+  const termRiderWrap = document.getElementById('termRiderWrap');
+
+  // Output Elements
+  const finalPremiumDisplay = document.getElementById('finalPremiumDisplay');
+  const dailyCostDisplay = document.getElementById('dailyCostDisplay');
+  const breakdownContainer = document.getElementById('breakdownContainer');
+  const validationError = document.getElementById('validationError');
+
+  // Benefits info elements
+  const hcbInfo = document.getElementById('hcbInfo');
+  const msbInfo = document.getElementById('msbInfo');
+  const checkupInfo = document.getElementById('checkupInfo');
+
+  function formatINR(val) {
+    return '₹ ' + Math.round(val).toLocaleString('en-IN');
+  }
+
+  // Toggle helpers
+  hasSpouseCheck.addEventListener('change', () => {
+    const active = hasSpouseCheck.checked;
+    spouseAgeInput.disabled = !active;
+    spouseIdbInput.disabled = !active;
+    spouseAgeWrap.style.opacity = active ? '1' : '0.5';
+    spouseIdbWrap.style.opacity = active ? '1' : '0.5';
+    if (active) spouseIdbInput.value = piIdbInput.value;
+  });
+
+  childCountSelect.addEventListener('change', () => {
+    const count = Number(childCountSelect.value);
+    const active = count > 0;
+    child1AgeInput.disabled = !active;
+    childIdbInput.disabled = !active;
+    if (active) childIdbInput.value = piIdbInput.value;
+  });
+
+  hasParentCheck.addEventListener('change', () => {
+    const active = hasParentCheck.checked;
+    parentAgeInput.disabled = !active;
+    parentIdbInput.disabled = !active;
+    parentAgeWrap.style.opacity = active ? '1' : '0.5';
+    parentIdbWrap.style.opacity = active ? '1' : '0.5';
+    if (active) parentIdbInput.value = piIdbInput.value;
+  });
+
+  hasTermRiderCheck.addEventListener('change', () => {
+    const active = hasTermRiderCheck.checked;
+    termRiderSAInput.disabled = !active;
+    termRiderWrap.style.opacity = active ? '1' : '0.5';
+    if (active) {
+      termRiderSAInput.value = Math.min(1000000, Number(piIdbInput.value) * 100);
+    }
+  });
+
+  piIdbInput.addEventListener('input', () => {
+    const val = piIdbInput.value;
+    if (hasSpouseCheck.checked) spouseIdbInput.value = val;
+    if (Number(childCountSelect.value) > 0) childIdbInput.value = val;
+    if (hasParentCheck.checked) parentIdbInput.value = val;
+    if (hasTermRiderCheck.checked) termRiderSAInput.value = Math.min(1000000, Number(val) * 100);
+  });
+
+  // Form Validation
+  function validateInputs() {
+    const piAge = Number(piAgeInput.value);
+    const piIdb = Number(piIdbInput.value);
+    const errors = [];
+
+    // PI Age: 18 - 65
+    if (isNaN(piAge) || piAge < 18 || piAge > 65) {
+      errors.push('Principal Insured (PI) entry age must be between 18 and 65 years.');
+    }
+
+    // PI IDB: 2500 - 10000 in multiples of 500
+    if (isNaN(piIdb) || piIdb < 2500 || piIdb > 10000 || piIdb % 500 !== 0) {
+      errors.push('Initial Daily Benefit (IDB) for PI must be between ₹2,500 and ₹10,000 in multiples of ₹500.');
+    }
+
+    // Spouse checks
+    if (hasSpouseCheck.checked) {
+      const spAge = Number(spouseAgeInput.value);
+      const spIdb = Number(spouseIdbInput.value);
+      if (isNaN(spAge) || spAge < 18 || spAge > 65) {
+        errors.push('Spouse entry age must be between 18 and 65 years.');
+      }
+      if (isNaN(spIdb) || spIdb < 2500 || spIdb > piIdb || spIdb % 500 !== 0) {
+        errors.push(`Spouse IDB must be between ₹2,500 and ₹${piIdb} (cannot exceed PI IDB).`);
+      }
+    }
+
+    // Children checks
+    const childCount = Number(childCountSelect.value);
+    if (childCount > 0) {
+      const cAge = Number(child1AgeInput.value);
+      const cIdb = Number(childIdbInput.value);
+      if (isNaN(cAge) || cAge < 0 || cAge > 20) {
+        errors.push('Child entry age must be between 90 days (0) and 20 years.');
+      }
+      if (isNaN(cIdb) || cIdb < 2500 || cIdb > piIdb || cIdb % 500 !== 0) {
+        errors.push(`Child IDB must be between ₹2,500 and ₹${piIdb} (cannot exceed PI IDB).`);
+      }
+    }
+
+    // Parents checks
+    if (hasParentCheck.checked) {
+      const pAge = Number(parentAgeInput.value);
+      const pIdb = Number(parentIdbInput.value);
+      if (isNaN(pAge) || pAge < 18 || pAge > 65) {
+        errors.push('Parent entry age must be between 18 and 65 years.');
+      }
+      if (isNaN(pIdb) || pIdb < 2500 || pIdb > piIdb || pIdb % 500 !== 0) {
+        errors.push(`Parent IDB must be between ₹2,500 and ₹${piIdb} (cannot exceed PI IDB).`);
+      }
+    }
+
+    // Rider check
+    if (hasTermRiderCheck.checked) {
+      const rSA = Number(termRiderSAInput.value);
+      const maxSA = piIdb * 100;
+      if (isNaN(rSA) || rSA <= 0 || rSA > maxSA) {
+        errors.push(`Term Rider Sum Assured cannot exceed Major Surgical Benefit SA (₹${maxSA.toLocaleString('en-IN')}).`);
+      }
+    }
+
+    if (errors.length > 0) {
+      validationError.innerHTML = errors.map(e => `• ${e}`).join('<br>');
+      validationError.style.display = 'block';
+      return false;
+    } else {
+      validationError.style.display = 'none';
+      return true;
+    }
+  }
+
+  // Execution
+  function calculatePremium() {
+    if (!validateInputs()) return;
+
+    const piAge = Number(piAgeInput.value);
+    const piGender = piGenderSelect.value;
+    const piIdb = Number(piIdbInput.value);
+    const mode = modeSelect.value;
+    const channel = channelSelect.value;
+    const onlineDiscount = (channel === 'online') ? 0.10 : 0.0;
+
+    // 1. Principal Insured Base Premium
+    const piRate = (e[piAge] && e[piAge][piGender]) ? e[piAge][piGender] : 1579.1;
+    let piBaseAnnual = (piRate / 1000) * piIdb;
+    const piRebate = getHighIdbRebate(piIdb, true);
+    piBaseAnnual = Math.max(0, piBaseAnnual - piRebate);
+
+    let totalBaseAnnual = piBaseAnnual;
+    const breakdownRows = [];
+
+    breakdownRows.push({
+      member: `Principal Insured (${piGender === 'M' ? 'Male' : 'Female'}, Age ${piAge})`,
+      idb: piIdb,
+      annual: piBaseAnnual
+    });
+
+    // 2. Spouse Premium
+    let spouseAnnual = 0;
+    if (hasSpouseCheck.checked) {
+      const spAge = Number(spouseAgeInput.value);
+      const spGender = (piGender === 'M') ? 'F' : 'M';
+      const spIdb = Number(spouseIdbInput.value);
+
+      // Other insured rate table
+      const matrix = (spGender === 'M') ? t : n;
+      let spRate = (matrix[piAge] && matrix[piAge][spAge]) ? matrix[piAge][spAge] : (spGender === 'M' ? 1200 : 1100);
+
+      spouseAnnual = (spRate / 1000) * spIdb;
+      const spRebate = getHighIdbRebate(spIdb, false);
+      spouseAnnual = Math.max(0, spouseAnnual - spRebate);
+
+      totalBaseAnnual += spouseAnnual;
+      breakdownRows.push({
+        member: `Insured Spouse (${spGender === 'M' ? 'Male' : 'Female'}, Age ${spAge})`,
+        idb: spIdb,
+        annual: spouseAnnual
+      });
+    }
+
+    // 3. Children Premium
+    const childCount = Number(childCountSelect.value);
+    let childrenAnnual = 0;
+    if (childCount > 0) {
+      const cAge = Number(child1AgeInput.value);
+      const cIdb = Number(childIdbInput.value);
+      const cMatrix = t; // standard child male/female approx
+      let cRate = (cMatrix[piAge] && cMatrix[piAge][cAge]) ? cMatrix[piAge][cAge] : 700;
+      let singleChildPrem = (cRate / 1000) * cIdb;
+      const cRebate = getHighIdbRebate(cIdb, false);
+      singleChildPrem = Math.max(0, singleChildPrem - cRebate);
+
+      childrenAnnual = singleChildPrem * childCount;
+      totalBaseAnnual += childrenAnnual;
+      breakdownRows.push({
+        member: `Insured Children (${childCount} Child/Children)`,
+        idb: cIdb,
+        annual: childrenAnnual
+      });
+    }
+
+    // 4. Parents Premium
+    let parentAnnual = 0;
+    if (hasParentCheck.checked) {
+      const pAge = Number(parentAgeInput.value);
+      const pIdb = Number(parentIdbInput.value);
+      const pMatrix = n; // Mother / Father
+      let pRate = (pMatrix[piAge] && pMatrix[piAge][pAge]) ? pMatrix[piAge][pAge] : 1400;
+      parentAnnual = (pRate / 1000) * pIdb;
+      const pRebate = getHighIdbRebate(pIdb, false);
+      parentAnnual = Math.max(0, parentAnnual - pRebate);
+
+      totalBaseAnnual += parentAnnual;
+      breakdownRows.push({
+        member: `Insured Parent (Age ${pAge})`,
+        idb: pIdb,
+        annual: parentAnnual
+      });
+    }
+
+    // 5. Rider Premium
+    let riderAnnual = 0;
+    if (hasTermRiderCheck.checked) {
+      const rSA = Number(termRiderSAInput.value);
+      const termTable = r[piAge] || { 15: 2.2 };
+      const termRate = termTable[15] || 2.5;
+      riderAnnual = (termRate / 1000) * rSA;
+      // Cap at 30% of base
+      if (riderAnnual > totalBaseAnnual * 0.3) {
+        riderAnnual = totalBaseAnnual * 0.3;
+      }
+    }
+
+    // Apply Online Rebate (10%)
+    const discountAmount = (totalBaseAnnual + riderAnnual) * onlineDiscount;
+    const finalNetAnnual = (totalBaseAnnual + riderAnnual) - discountAmount;
+
+    // Modal conversion (Yearly = 1.0, Half-Yearly = 0.5090)
+    const modalFactor = (mode === 'hly') ? 0.5090 : 1.0000;
+    const installmentPremium = Math.round(finalNetAnnual * modalFactor);
+    const dailyCost = Math.round(finalNetAnnual / 365);
+
+    // Update Result UI
+    finalPremiumDisplay.innerText = formatINR(installmentPremium);
+    dailyCostDisplay.innerText = `≈ ₹${dailyCost} / day (${mode === 'yly' ? 'Annual' : 'Half-Yearly'} Mode)`;
+
+    let breakdownHTML = breakdownRows.map(row => `
+      <div class="breakdown-item">
+        <span class="breakdown-label">${row.member}</span>
+        <span class="breakdown-val">${formatINR(row.annual)}/yr</span>
+      </div>
+    `).join('');
+
+    if (riderAnnual > 0) {
+      breakdownHTML += `
+        <div class="breakdown-item">
+          <span class="breakdown-label">Term Assurance Rider SA (${formatINR(Number(termRiderSAInput.value))})</span>
+          <span class="breakdown-val">${formatINR(riderAnnual)}/yr</span>
+        </div>
+      `;
+    }
+
+    if (onlineDiscount > 0) {
+      breakdownHTML += `
+        <div class="breakdown-item" style="border-left-color: var(--green-light); background: var(--green-soft);">
+          <span class="breakdown-label" style="color: var(--green-emerald); font-weight: 700;">Online Direct Rebate (10%)</span>
+          <span class="breakdown-val" style="color: var(--green-emerald);">- ${formatINR(discountAmount)}/yr</span>
+        </div>
+      `;
+    }
+
+    breakdownHTML += `
+      <div class="breakdown-item" style="border-left-color: var(--blue-deep); background: #f1f5f9;">
+        <span class="breakdown-label" style="color: var(--blue-deep); font-weight: 800;">Total Net Annual Premium</span>
+        <span class="breakdown-val" style="color: var(--blue-deep);">${formatINR(finalNetAnnual)}/yr</span>
+      </div>
+    `;
+
+    breakdownContainer.innerHTML = breakdownHTML;
+
+    // Dynamic Benefit Cues
+    const msbSA = piIdb * 100;
+    const icuADB = piIdb * 2;
+    const checkupAllowance = piIdb * 0.5;
+
+    hcbInfo.innerText = `Hospital Cash: ${formatINR(piIdb)}/day (General Ward) | ${formatINR(icuADB)}/day (ICU)`;
+    msbInfo.innerText = `Major Surgical Benefit: Up to ${formatINR(msbSA)} (100× IDB) + Ambulance ₹1,000`;
+    checkupInfo.innerText = `Free Health Checkup: ${formatINR(checkupAllowance)} (0.5× IDB) once every 3 years`;
+
+    if (window.innerWidth < 992) {
+      document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Action Handlers
+  document.getElementById('btnProceed').addEventListener('click', calculatePremium);
+
+  document.getElementById('btnPrint').addEventListener('click', () => {
+    window.print();
+  });
+
+  document.getElementById('btnShare').addEventListener('click', async () => {
+    const prem = finalPremiumDisplay.innerText;
+    const piIdb = formatINR(Number(piIdbInput.value));
+    const age = piAgeInput.value;
+    const gender = piGenderSelect.value === 'M' ? 'Male' : 'Female';
+
+    const shareData = {
+      title: 'LIC Health Shield (Plan 907) Premium Quote',
+      text: `LIC Health Shield (Plan 907) Quote:\nPI Age: ${age} Yrs (${gender}) | Initial Daily Benefit: ${piIdb}/day\nInstallment Premium: ${prem} (Exclusive of GST)\nIncludes Hospital Cash, Major Surgery up to 100× IDB, Free Health Checkup, and Auto Health Cover.`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(`${shareData.title}\n${shareData.text}`);
+        alert('Plan quotation copied to clipboard!');
+      }
+    } catch (e) {
+      console.log('Share canceled or not available');
+    }
+  });
+
+  // Initialization
+  window.addEventListener('DOMContentLoaded', () => {
+    calculatePremium();
+  });
+</script>
+
+</body>
+</html>

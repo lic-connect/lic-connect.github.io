@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIC Plan 908 - New Cancer Cover Premium Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-white: #ffffff;
+      --card-bg: #ffffff;
+      --blue-deep: #061e5c;
+      --blue-primary: #0a369d;
+      --blue-vibrant: #0284c7;
+      --aqua-main: #00e5ff;
+      --aqua-glow: #00f5d4;
+      --aqua-soft: #e0fbfb;
+      --green-emerald: #059669;
+      --green-light: #10b981;
+      --green-glow: #34d399;
+      --green-soft: #ecfdf5;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+      --shadow-dazzle: 0 18px 45px -10px rgba(10, 54, 157, 0.15), 0 0 25px rgba(0, 229, 255, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-white);
+      color: var(--text-dark);
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(0, 229, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 50% 95%, rgba(10, 54, 157, 0.05) 0%, transparent 50%);
+      background-attachment: fixed;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    /* Flamboyant Header */
+    .header-card {
+      background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-primary) 50%, var(--blue-vibrant) 100%);
+      border-radius: 28px;
+      padding: 38px 30px;
+      color: #ffffff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 16px 36px -5px rgba(10, 54, 157, 0.35);
+      margin-bottom: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .header-card::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: -60px;
+      width: 200px;
+      height: 200px;
+      background: var(--aqua-glow);
+      filter: blur(80px);
+      opacity: 0.45;
+      border-radius: 50%;
+    }
+
+    .header-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      background: var(--green-glow);
+      filter: blur(80px);
+      opacity: 0.35;
+      border-radius: 50%;
+    }
+
+    .plan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+      padding: 6px 20px;
+      border-radius: 9999px;
+      border: 1px solid var(--aqua-glow);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--aqua-main);
+      margin-bottom: 12px;
+    }
+
+    .header-card h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .header-card p {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.92);
+      max-width: 820px;
+      margin: 0 auto 12px;
+    }
+
+    .tax-badge {
+      display: inline-block;
+      background: rgba(5, 150, 105, 0.35);
+      border: 1px solid var(--green-glow);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 4px 16px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* 2-Column Split Layout */
+    .calculator-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 992px) {
+      .calculator-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .dazzle-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 30px;
+      border: 1.5px solid rgba(0, 229, 255, 0.35);
+      box-shadow: var(--shadow-dazzle);
+      position: relative;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--blue-deep);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--aqua-soft);
+    }
+
+    .section-title .bullet {
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(135deg, var(--aqua-main), var(--green-light));
+      border-radius: 4px;
+      box-shadow: 0 0 10px var(--aqua-glow);
+    }
+
+    /* Form Fields */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-group label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--blue-deep);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .form-group label span.helper {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper input,
+    .input-wrapper select {
+      width: 100%;
+      height: 46px;
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0 14px;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-dark);
+      transition: all 0.25s ease;
+      outline: none;
+    }
+
+    .input-wrapper select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230a369d' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+    }
+
+    .input-wrapper input:focus,
+    .input-wrapper select:focus {
+      border-color: var(--aqua-main);
+      box-shadow: 0 0 0 4px rgba(0, 229, 255, 0.2);
+    }
+
+    .input-wrapper .prefix {
+      position: absolute;
+      right: 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* Option Pill Style */
+    .radio-pill-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .toggle-option {
+      position: relative;
+    }
+
+    .toggle-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 12px;
+      background: #ffffff;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13.5px;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: center;
+    }
+
+    .toggle-option input[type="radio"]:checked + .toggle-label {
+      background: linear-gradient(135deg, var(--blue-primary), var(--blue-vibrant));
+      color: #ffffff;
+      border-color: var(--blue-primary);
+      box-shadow: 0 4px 15px rgba(10, 54, 157, 0.25);
+    }
+
+    /* Claim Simulator Box */
+    .claim-selector-box {
+      background: var(--aqua-soft);
+      border: 2px dashed rgba(0, 229, 255, 0.85);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 6px;
+    }
+
+    .claim-selector-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--blue-primary);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    /* Validation container */
+    .error-container {
+      margin-top: 14px;
+      padding: 12px 16px;
+      background: #fef2f2;
+      border: 1px solid #f87171;
+      border-radius: 12px;
+      color: #b91c1c;
+      font-size: 12.5px;
+      font-weight: 600;
+      line-height: 1.5;
+      display: none;
+    }
+
+    /* Buttons */
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-proceed {
+      background: linear-gradient(135deg, var(--green-emerald) 0%, var(--green-light) 50%, var(--aqua-main) 100%);
+      color: #ffffff;
+      border: none;
+      padding: 16px 28px;
+      border-radius: 14px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-proceed:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 14px 30px rgba(0, 229, 255, 0.45);
+    }
+
+    .utility-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-action {
+      background: #ffffff;
+      color: var(--blue-deep);
+      border: 2px solid var(--border-color);
+      padding: 11px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+      border-color: var(--blue-primary);
+      background: var(--aqua-soft);
+      color: var(--blue-primary);
+    }
+
+    /* Result Panel (Right side) */
+    .result-card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 30px;
+      border: 2px solid var(--aqua-main);
+      box-shadow: var(--shadow-dazzle);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 24px;
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .result-tag {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .tag-premium {
+      background: var(--aqua-soft);
+      color: var(--blue-primary);
+      border: 1px solid var(--aqua-main);
+    }
+
+    .grand-total-box {
+      background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-primary) 100%);
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 18px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 25px rgba(10, 54, 157, 0.25);
+    }
+
+    .grand-total-box::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -30px;
+      width: 100px;
+      height: 100px;
+      background: var(--aqua-glow);
+      filter: blur(50px);
+      opacity: 0.4;
+      border-radius: 50%;
+    }
+
+    .grand-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--aqua-main);
+      margin-bottom: 8px;
+    }
+
+    .grand-amount {
+      font-family: 'Outfit', sans-serif;
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .grand-subtext {
+      font-size: 12px;
+      color: var(--aqua-glow);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .breakdown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border-left: 4px solid var(--blue-vibrant);
+      transition: all 0.2s ease;
+    }
+
+    .breakdown-item:hover {
+      background: var(--aqua-soft);
+      border-left-color: var(--aqua-main);
+    }
+
+    .breakdown-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .breakdown-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--blue-deep);
+    }
+
+    /* Fixed Benefit Highlights Box */
+    .benefit-showcase-box {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfeff 100%);
+      border: 1px dashed var(--green-light);
+    }
+
+    .benefit-showcase-box h4 {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--green-emerald);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .benefit-showcase-box ul {
+      list-style-type: none;
+      font-size: 12px;
+      color: #334155;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .benefit-showcase-box li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .benefit-showcase-box li::before {
+      content: '✓';
+      color: var(--green-emerald);
+      font-weight: 900;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+      .header-card {
+        background: #0a369d !important;
+        color: #ffffff !important;
+        box-shadow: none !important;
+        padding: 20px !important;
+      }
+      .btn-proceed, .utility-buttons, .claim-selector-box, .tax-badge {
+        display: none !important;
+      }
+      .calculator-layout {
+        display: block !important;
+      }
+      .result-card, .dazzle-card {
+        border: 1px solid #000 !important;
+        box-shadow: none !important;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Flamboyant Header -->
+  <header class="header-card">
+    <div class="plan-badge">Plan No. 908 • Individual Pure Risk Health Plan</div>
+    <h1>LIC NEW CANCER COVER PREMIUM CALCULATOR</h1>
+    <p>Non-Par, Non-Linked, Regular Premium Health Insurance Providing Fixed Benefits on Diagnosis of Early and Major Stage Cancer</p>
+    <div class="tax-badge">Guaranteed Premium Rates • Tax Benefit U/S 80D</div>
+  </header>
+
+  <!-- Split Grid: Inputs Left, Outputs Right -->
+  <div class="calculator-layout">
+    
+    <!-- LEFT SIDE: INPUTS -->
+    <div class="dazzle-card">
+      <div class="section-title">
+        <span class="bullet"></span>
+        <span>Policyholder &amp; Plan Parameters</span>
+      </div>
+
+      <div class="form-grid">
+        <!-- Gender -->
+        <div class="form-group">
+          <label for="gender">
+            Gender of Life Assured
+            <span class="helper">Required for Tabular Rate</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="gender">
+              <option value="M" selected>Male</option>
+              <option value="F">Female</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Age -->
+        <div class="form-group">
+          <label for="age">
+            Age (Last Birthday)
+            <span class="helper">18 to 65 Years</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="age" min="18" max="65" value="35">
+            <span class="prefix">Yrs</span>
+          </div>
+        </div>
+
+        <!-- Benefit Option -->
+        <div class="form-group full-width">
+          <label for="option">
+            Benefit Option
+            <span class="helper" id="optionHelper">Option I: Level | Option II: Increasing</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="option">
+              <option value="LEVEL" selected>Option I: Level Sum Assured (Fixed)</option>
+              <option value="INCREASING">Option II: Increasing Sum Assured (10% per year for 5 yrs)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Policy Term -->
+        <div class="form-group">
+          <label for="term">
+            Policy Term
+            <span class="helper" id="termHelper">10 to 15 Years</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="term">
+              <option value="10">10 Years</option>
+              <option value="11">11 Years</option>
+              <option value="12">12 Years</option>
+              <option value="13">13 Years</option>
+              <option value="14">14 Years</option>
+              <option value="15" selected>15 Years</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Premium Paying Term -->
+        <div class="form-group">
+          <label for="ppt">
+            PPT (Premium Paying Term)
+            <span class="helper">Equal to Policy Term</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="text" id="ppt" value="15 Years" readonly style="background: #f8fafc;">
+          </div>
+        </div>
+
+        <!-- Basic Sum Assured -->
+        <div class="form-group full-width">
+          <label for="sumAssured">
+            Basic Sum Assured (₹)
+            <span class="helper" id="saHelper">Min ₹30 Lakhs (Ages 35-40) | Max ₹50 Lakhs</span>
+          </label>
+          <div class="input-wrapper">
+            <input type="number" id="sumAssured" step="100000" min="1500000" max="5000000" value="5000000">
+            <span class="prefix">INR</span>
+          </div>
+        </div>
+
+        <!-- Mode of Premium -->
+        <div class="form-group">
+          <label for="mode">
+            Mode of Premium
+            <span class="helper">Payment Mode</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="mode">
+              <option value="yly" selected>Yearly (1.0000)</option>
+              <option value="hly">Half-Yearly (0.5090)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Purchase Channel -->
+        <div class="form-group">
+          <label for="channel">
+            Purchase Channel
+            <span class="helper" id="channelHelper">Online Rebate: 7.5% - 10%</span>
+          </label>
+          <div class="input-wrapper">
+            <select id="channel">
+              <option value="offline" selected>Offline / Agents / Corporate</option>
+              <option value="online">Online Direct (With Rebate)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Riders Information Box -->
+      <div class="claim-selector-box">
+        <span class="claim-selector-title">Optional Riders Availability</span>
+        <div style="font-size: 13px; color: var(--blue-deep); font-weight: 600; line-height: 1.4;">
+          🛡️ <strong>Note on Riders:</strong> As per official LIC Plan 908 circular terms, <strong>No optional riders</strong> (such as Accidental Benefit, Critical Illness, or Term Rider) are available under this standalone specialized health protection plan.
+        </div>
+      </div>
+
+      <!-- Validation Error Box -->
+      <div id="validationError" class="error-container"></div>
+
+      <!-- Action Buttons -->
+      <div class="button-group">
+        <button type="button" class="btn-proceed" id="btnProceed">
+          <span>⚡ CALCULATE PREMIUM &amp; BENEFITS</span>
+        </button>
+        <div class="utility-buttons">
+          <button type="button" class="btn-action" id="btnPrint">
+            <span>🖨️</span> PRINT BUTTON
+          </button>
+          <button type="button" class="btn-action" id="btnShare">
+            <span>🔗</span> SHARE BUTTON
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE: OUTPUTS -->
+    <div class="result-card" id="resultCard">
+      <div class="result-header">
+        <div class="section-title" style="margin: 0; padding: 0; border: none;">
+          <span class="bullet" style="background: var(--blue-primary);"></span>
+          <span id="resultHeading">Premium &amp; Benefit Summary</span>
+        </div>
+        <span class="result-tag tag-premium" id="statusBadge">Active Quote</span>
+      </div>
+
+      <!-- Grand Total Showcase -->
+      <div class="grand-total-box">
+        <div class="grand-title" id="grandLabel">Installment Premium (Exclusive of GST)</div>
+        <div class="grand-amount" id="finalPremiumDisplay">₹ 0</div>
+        <div class="grand-subtext" id="dailyCostDisplay">≈ ₹0 / day</div>
+      </div>
+
+      <!-- Breakdown Details Container -->
+      <div class="breakdown-list" id="breakdownContainer">
+        <!-- Dynamically populated -->
+      </div>
+
+      <!-- Cancer Illness Benefit Highlights Box -->
+      <div class="benefit-showcase-box" id="benefitShowcaseBox">
+        <h4>Guaranteed Cancer Illness Benefits</h4>
+        <ul>
+          <li id="earlyStageLump">Early Stage Cancer: 25% Applicable SA in Lump Sum</li>
+          <li id="earlyStageWaiver">Premium Waiver: 3 Policy Years waived on Early Stage diagnosis</li>
+          <li id="majorStageLump">Major Stage Cancer: 100% Applicable SA in Lump Sum</li>
+          <li id="majorStageIncome">Monthly Income: 1% Applicable SA/month for 10 Years (120 months)</li>
+          <li id="totalPotentialCover">Total Potential Benefits: Up to 245% of Applicable Sum Assured</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ==========================================
+  // LIC PLAN 908 MASTER RATE TABLES
+  // Rate per ₹1,000 Basic Sum Assured
+  // e: Male Level (Opt I)
+  // t: Female Level (Opt I)
+  // n: Male Increasing (Opt II)
+  // r: Female Increasing (Opt II)
+  // ==========================================
+  const e = {18:{10:.92,11:.92,12:.92,13:.93,14:.93,15:.95},19:{10:.93,11:.93,12:.94,13:.94,14:.95,15:.97},20:{10:.94,11:.95,12:.95,13:.96,14:.97,15:.99},21:{10:.96,11:.96,12:.97,13:.97,14:.99,15:1.01},22:{10:.97,11:.98,12:.98,13:.99,14:1.01,15:1.03},23:{10:.99,11:1,12:1,13:1.01,14:1.03,15:1.05},24:{10:1.01,11:1.02,12:1.03,13:1.04,14:1.05,15:1.08},25:{10:1.03,11:1.04,12:1.05,13:1.07,14:1.08,15:1.11},26:{10:1.06,11:1.07,12:1.08,13:1.1,14:1.11,15:1.15},27:{10:1.09,11:1.1,12:1.12,13:1.13,14:1.15,15:1.19},28:{10:1.12,11:1.14,12:1.15,13:1.17,14:1.19,15:1.24},29:{10:1.16,11:1.18,12:1.2,13:1.22,14:1.24,15:1.28},30:{10:1.21,11:1.23,12:1.25,13:1.27,14:1.29,15:1.34},31:{10:1.26,11:1.28,12:1.3,13:1.32,14:1.35,15:1.4},32:{10:1.31,11:1.33,12:1.36,13:1.39,14:1.42,15:1.47},33:{10:1.37,11:1.4,12:1.42,13:1.45,14:1.49,15:1.55},34:{10:1.44,11:1.47,12:1.5,13:1.53,14:1.57,15:1.63},35:{10:1.61,11:1.63,12:1.67,13:1.71,14:1.75,15:1.82},36:{10:1.69,11:1.72,12:1.76,13:1.8,14:1.84,15:1.92},37:{10:1.78,11:1.81,12:1.85,13:1.9,14:1.95,15:2.04},38:{10:1.87,11:1.91,12:1.96,13:2.02,14:2.07,15:2.17},39:{10:1.98,11:2.03,12:2.08,13:2.14,14:2.21,15:2.32},40:{10:2.1,11:2.15,12:2.22,13:2.29,14:2.36,15:2.48},41:{10:2.55,11:2.61,12:2.68,13:2.76,14:2.84,15:2.99},42:{10:2.7,11:2.77,12:2.85,13:2.94,14:3.04,15:3.2},43:{10:2.87,11:2.96,12:3.05,13:3.15,14:3.27,15:3.46},44:{10:3.07,11:3.16,12:3.27,13:3.4,14:3.54,15:3.75},45:{10:3.29,11:3.4,12:3.53,13:3.68,14:3.84,15:4.08},46:{10:3.54,11:3.68,12:3.84,13:4.01,14:4.2,15:4.47},47:{10:3.84,11:4.01,12:4.19,13:4.39,14:4.6,15:4.9},48:{10:4.2,11:4.39,12:4.6,13:4.82,14:5.06,15:5.39},49:{10:4.61,11:4.83,12:5.06,13:5.31,14:5.57,15:5.94},50:{10:5.08,11:5.33,12:5.59,13:5.87,14:6.16,15:6.56},51:{10:5.93,11:6.2,12:6.49,13:6.8,14:7.12,15:7.57},52:{10:6.54,11:6.84,12:7.16,13:7.5,14:7.85,15:8.34},53:{10:7.23,11:7.57,12:7.92,13:8.29,14:8.66,15:9.2},54:{10:8.01,11:8.38,12:8.76,13:9.16,14:9.57,15:10.15},55:{10:8.89,11:9.29,12:9.71,13:10.13,14:10.57,15:11.2},56:{10:9.86,11:10.29,12:10.73,13:11.19,14:11.66,15:12.34},57:{10:10.91,11:11.37,12:11.85,13:12.34,14:12.84,15:13.57},58:{10:12.05,11:12.54,12:13.06,13:13.58,14:14.12,15:14.9},59:{10:13.28,11:13.81,12:14.36,13:14.92,14:15.48,15:16.32},60:{10:14.61,11:15.17,12:15.76,13:16.35,14:16.94,15:17.83},61:{10:16.04,11:16.64,12:17.26,13:17.88,14:18.5},62:{10:17.58,11:18.22,12:18.86,13:19.51},63:{10:19.23,11:19.9,12:20.56},64:{10:20.98,11:21.67},65:{10:22.83}};
+
+  const t = {18:{10:.95,11:.97,12:.99,13:1.02,14:1.04,15:1.09},19:{10:1,11:1.02,12:1.04,13:1.07,14:1.1,15:1.15},20:{10:1.05,11:1.08,12:1.1,13:1.13,14:1.17,15:1.22},21:{10:1.11,11:1.14,12:1.17,13:1.2,14:1.24,15:1.29},22:{10:1.18,11:1.21,12:1.24,13:1.28,14:1.32,15:1.38},23:{10:1.25,11:1.29,12:1.32,13:1.36,14:1.4,15:1.47},24:{10:1.34,11:1.37,12:1.41,13:1.46,14:1.5,15:1.57},25:{10:1.43,11:1.47,12:1.51,13:1.56,14:1.61,15:1.69},26:{10:1.53,11:1.58,12:1.62,13:1.68,14:1.73,15:1.81},27:{10:1.64,11:1.69,12:1.75,13:1.8,14:1.86,15:1.95},28:{10:1.77,11:1.82,12:1.88,13:1.94,14:2,15:2.1},29:{10:1.9,11:1.96,12:2.02,13:2.09,14:2.15,15:2.25},30:{10:2.05,11:2.11,12:2.18,13:2.24,14:2.31,15:2.42},31:{10:2.2,11:2.27,12:2.34,13:2.41,14:2.48,15:2.6},32:{10:2.37,11:2.44,12:2.52,13:2.59,14:2.66,15:2.78},33:{10:2.55,11:2.63,12:2.7,13:2.78,14:2.86,15:2.99},34:{10:2.74,11:2.82,12:2.9,13:2.98,14:3.06,15:3.2},35:{10:3.04,11:3.12,12:3.2,13:3.29,14:3.37,15:3.52},36:{10:3.26,11:3.34,12:3.43,13:3.51,14:3.6,15:3.75},37:{10:3.49,11:3.57,12:3.66,13:3.75,14:3.84,15:3.99},38:{10:3.72,11:3.81,12:3.9,13:4,14:4.09,15:4.25},39:{10:3.97,11:4.06,12:4.16,13:4.25,14:4.34,15:4.5},40:{10:4.23,11:4.32,12:4.41,13:4.51,14:4.6,15:4.77},41:{10:4.81,11:4.9,12:5,13:5.09,14:5.19,15:5.37},42:{10:5.08,11:5.18,12:5.27,13:5.36,14:5.47,15:5.66},43:{10:5.36,11:5.45,12:5.55,13:5.65,14:5.75,15:5.95},44:{10:5.65,11:5.74,12:5.84,13:5.94,14:6.05,15:6.26},45:{10:5.94,11:6.04,12:6.14,13:6.25,14:6.36,15:6.58},46:{10:6.24,11:6.34,12:6.45,13:6.57,14:6.69,15:6.91},47:{10:6.55,11:6.66,12:6.78,13:6.89,14:7.01,15:7.25},48:{10:6.87,11:6.99,12:7.11,13:7.23,14:7.35,15:7.59},49:{10:7.21,11:7.32,12:7.45,13:7.57,14:7.7,15:7.95},50:{10:7.55,11:7.67,12:7.8,13:7.93,14:8.06,15:8.32},51:{10:8.21,11:8.34,12:8.47,13:8.6,14:8.73,15:9.01},52:{10:8.59,11:8.71,12:8.84,13:8.98,14:9.11,15:9.4},53:{10:8.97,11:9.1,12:9.24,13:9.37,14:9.51,15:9.81},54:{10:9.38,11:9.51,12:9.64,13:9.79,14:9.94,15:10.25},55:{10:9.8,11:9.94,12:10.08,13:10.22,14:10.38,15:10.71},56:{10:10.23,11:10.37,12:10.52,13:10.67,14:10.84,15:11.18},57:{10:10.67,11:10.82,12:10.97,13:11.14,14:11.31,15:11.68},58:{10:11.13,11:11.28,12:11.45,13:11.63,14:11.82,15:12.21},59:{10:11.6,11:11.76,12:11.95,13:12.14,14:12.35,15:12.77},60:{10:12.1,11:12.28,12:12.48,13:12.69,14:12.91,15:13.35},61:{10:12.63,11:12.82,12:13.04,13:13.27,14:13.51},62:{10:13.19,11:13.41,12:13.64,13:13.89},63:{10:13.8,11:14.04,12:14.29},64:{10:14.45,11:14.71},65:{10:15.16}};
+
+  const n = {18:{10:1.03,11:1.03,12:1.04,13:1.05,14:1.06,15:1.09},19:{10:1.04,11:1.05,12:1.06,13:1.07,14:1.09,15:1.11},20:{10:1.06,11:1.07,12:1.08,13:1.09,14:1.11,15:1.14},21:{10:1.08,11:1.09,12:1.1,13:1.12,14:1.14,15:1.17},22:{10:1.1,11:1.11,12:1.13,13:1.14,14:1.17,15:1.2},23:{10:1.12,11:1.14,12:1.15,13:1.17,14:1.2,15:1.23},24:{10:1.15,11:1.17,12:1.19,13:1.21,14:1.23,15:1.27},25:{10:1.18,11:1.2,12:1.22,13:1.25,14:1.27,15:1.32},26:{10:1.22,11:1.24,12:1.27,13:1.29,14:1.32,15:1.37},27:{10:1.26,11:1.29,12:1.31,13:1.34,14:1.37,15:1.43},28:{10:1.31,11:1.34,12:1.37,13:1.4,14:1.43,15:1.49},29:{10:1.36,11:1.39,12:1.43,13:1.46,14:1.5,15:1.56},30:{10:1.42,11:1.46,12:1.5,13:1.53,14:1.58,15:1.64},31:{10:1.49,11:1.53,12:1.57,13:1.61,14:1.66,15:1.73},32:{10:1.57,11:1.61,12:1.65,13:1.7,14:1.75,15:1.83},33:{10:1.65,11:1.7,12:1.75,13:1.79,14:1.85,15:1.93},34:{10:1.74,11:1.79,12:1.84,13:1.9,14:1.96,15:2.05},35:{10:1.94,11:1.99,12:2.05,13:2.11,14:2.18,15:2.28},36:{10:2.04,11:2.11,12:2.17,13:2.24,14:2.31,15:2.43},37:{10:2.17,11:2.23,12:2.31,13:2.38,14:2.47,15:2.6},38:{10:2.3,11:2.38,12:2.46,13:2.54,14:2.64,15:2.78},39:{10:2.45,11:2.53,12:2.62,13:2.72,14:2.83,15:2.99},40:{10:2.61,11:2.71,12:2.81,13:2.92,14:3.04,15:3.22},41:{10:3.11,11:3.22,12:3.34,13:3.47,14:3.6,15:3.81},42:{10:3.32,11:3.45,12:3.58,13:3.72,14:3.88,15:4.12},43:{10:3.56,11:3.7,12:3.85,13:4.02,14:4.21,15:4.48},44:{10:3.82,11:3.98,12:4.16,13:4.37,14:4.59,15:4.9},45:{10:4.12,11:4.32,12:4.53,13:4.77,14:5.03,15:5.38},46:{10:4.48,11:4.71,12:4.96,13:5.24,14:5.53,15:5.93},47:{10:4.9,11:5.17,12:5.46,13:5.78,14:6.11,15:6.56},48:{10:5.39,11:5.7,12:6.04,13:6.39,14:6.76,15:7.26},49:{10:5.96,11:6.32,12:6.7,13:7.09,14:7.5,15:8.06},50:{10:6.62,11:7.02,12:7.45,13:7.88,14:8.34,15:8.95},51:{10:7.67,11:8.13,12:8.6,13:9.08,14:9.58,15:10.25},52:{10:8.52,11:9.02,12:9.54,13:10.07,14:10.62,15:11.36},53:{10:9.48,11:10.03,12:10.6,13:11.18,14:11.78,15:12.58},54:{10:10.55,11:11.16,12:11.78,13:12.41,14:13.06,15:13.93},55:{10:11.75,11:12.41,12:13.09,13:13.77,14:14.46,15:15.41},56:{10:13.06,11:13.78,12:14.51,13:15.24,14:15.99,15:17.01},57:{10:14.48,11:15.26,12:16.04,13:16.84,14:17.64,15:18.74},58:{10:16.03,11:16.86,12:17.71,13:18.56,14:19.41,15:20.6},59:{10:17.69,11:18.6,12:19.5,13:20.41,14:21.32,15:22.59},60:{10:19.49,11:20.46,12:21.42,13:22.39,14:23.35,15:24.69},61:{10:21.42,11:22.46,12:23.49,13:24.51,14:25.51},62:{10:23.5,11:24.6,12:25.68,13:26.75},63:{10:25.71,11:26.87,12:28.01},64:{10:28.06,11:29.27},65:{10:30.54}};
+
+  const r = {18:{10:1.08,11:1.12,12:1.15,13:1.19,14:1.23,15:1.3},19:{10:1.15,11:1.19,12:1.23,13:1.27,14:1.32,15:1.39},20:{10:1.22,11:1.26,12:1.31,13:1.36,14:1.41,15:1.48},21:{10:1.3,11:1.35,12:1.4,13:1.46,14:1.51,15:1.59},22:{10:1.4,11:1.45,12:1.51,13:1.56,14:1.62,15:1.71},23:{10:1.5,11:1.56,12:1.62,13:1.68,14:1.75,15:1.84},24:{10:1.61,11:1.68,12:1.74,13:1.81,14:1.89,15:1.99},25:{10:1.74,11:1.81,12:1.88,13:1.96,14:2.04,15:2.15},26:{10:1.88,11:1.96,12:2.04,13:2.12,14:2.21,15:2.33},27:{10:2.04,11:2.12,12:2.21,13:2.3,14:2.39,15:2.52},28:{10:2.2,11:2.3,12:2.39,13:2.49,14:2.59,15:2.73},29:{10:2.39,11:2.49,12:2.59,13:2.69,14:2.8,15:2.95},30:{10:2.58,11:2.69,12:2.8,13:2.91,14:3.02,15:3.18},31:{10:2.8,11:2.91,12:3.03,13:3.15,14:3.26,15:3.43},32:{10:3.03,11:3.15,12:3.27,13:3.39,14:3.52,15:3.7},33:{10:3.27,11:3.4,12:3.53,13:3.66,14:3.79,15:3.98},34:{10:3.53,11:3.66,12:3.8,13:3.94,14:4.07,15:4.27},35:{10:3.9,11:4.04,12:4.18,13:4.32,14:4.47,15:4.68},36:{10:4.19,11:4.34,12:4.49,13:4.64,14:4.78,15:5.01},37:{10:4.49,11:4.65,12:4.81,13:4.96,14:5.11,15:5.34},38:{10:4.81,11:4.98,12:5.14,13:5.3,14:5.45,15:5.69},39:{10:5.14,11:5.31,12:5.48,13:5.64,14:5.8,15:6.05},40:{10:5.49,11:5.66,12:5.83,13:6,14:6.16,15:6.41},41:{10:6.16,11:6.34,12:6.51,13:6.68,14:6.84,15:7.12},42:{10:6.52,11:6.7,12:6.88,13:7.05,14:7.22,15:7.52},43:{10:6.89,11:7.08,12:7.25,13:7.44,14:7.62,15:7.93},44:{10:7.27,11:7.46,12:7.65,13:7.84,14:8.03,15:8.35},45:{10:7.65,11:7.85,12:8.06,13:8.26,14:8.46,15:8.79},46:{10:8.06,11:8.27,12:8.48,13:8.69,14:8.89,15:9.24},47:{10:8.47,11:8.69,12:8.92,13:9.13,14:9.35,15:9.71},48:{10:8.9,11:9.13,12:9.36,13:9.59,14:9.81,15:10.18},49:{10:9.35,11:9.59,12:9.83,13:10.06,14:10.29,15:10.68},50:{10:9.81,11:10.06,12:10.31,13:10.55,14:10.78,15:11.19},51:{10:10.59,11:10.85,12:11.11,13:11.35,14:11.6,15:12.02},52:{10:11.09,11:11.36,12:11.62,13:11.88,14:12.12,15:12.57},53:{10:11.61,11:11.89,12:12.16,13:12.42,14:12.68,15:13.14},54:{10:12.15,11:12.43,12:12.71,13:12.98,14:13.25,15:13.74},55:{10:12.71,11:13,12:13.29,13:13.57,14:13.86,15:14.37},56:{10:13.28,11:13.58,12:13.88,13:14.18,14:14.48,15:15.02},57:{10:13.87,11:14.18,12:14.5,13:14.82,14:15.14,15:15.71},58:{10:14.47,11:14.81,12:15.14,13:15.48,14:15.83,15:16.44},59:{10:15.1,11:15.46,12:15.82,13:16.19,14:16.56,15:17.21},60:{10:15.76,11:16.15,12:16.55,13:16.94,14:17.34,15:18.03},61:{10:16.47,11:16.9,12:17.32,13:17.75,14:18.17},62:{10:17.24,11:17.69,12:18.15,13:18.61},63:{10:18.06,11:18.55,12:19.04},64:{10:18.95,11:19.47},65:{10:19.91}};
+
+  // Helper to get tabular rate
+  function getTabularRate(age, term, gender, option) {
+    if (age < 18 || age > 65 || term < 10 || term > 15 || age + term > 75) return null;
+    let table = (option === "LEVEL") ? ((gender === "M") ? e : t) : ((gender === "M") ? n : r);
+    if (!table[age]) return null;
+    return table[age][term] || null;
+  }
+
+  // Statutory minimum SA by age
+  function getMinAllowedSA(age) {
+    if (age >= 18 && age <= 34) return 3500000;
+    if (age >= 35 && age <= 40) return 3000000;
+    if (age >= 41 && age <= 50) return 2000000;
+    if (age >= 51 && age <= 65) return 1500000;
+    return 3500000;
+  }
+
+  // DOM Elements
+  const genderSelect = document.getElementById('gender');
+  const ageInput = document.getElementById('age');
+  const optionSelect = document.getElementById('option');
+  const termSelect = document.getElementById('term');
+  const pptInput = document.getElementById('ppt');
+  const sumAssuredInput = document.getElementById('sumAssured');
+  const saHelper = document.getElementById('saHelper');
+  const modeSelect = document.getElementById('mode');
+  const channelSelect = document.getElementById('channel');
+  const validationError = document.getElementById('validationError');
+
+  // Outputs
+  const finalPremiumDisplay = document.getElementById('finalPremiumDisplay');
+  const dailyCostDisplay = document.getElementById('dailyCostDisplay');
+  const breakdownContainer = document.getElementById('breakdownContainer');
+  const earlyStageLump = document.getElementById('earlyStageLump');
+  const majorStageLump = document.getElementById('majorStageLump');
+  const majorStageIncome = document.getElementById('majorStageIncome');
+  const totalPotentialCover = document.getElementById('totalPotentialCover');
+
+  function formatINR(val) {
+    return '₹ ' + Math.round(val).toLocaleString('en-IN');
+  }
+
+  // Real-time dynamic helper updates
+  function updatePlanRules() {
+    const age = Number(ageInput.value) || 35;
+    const term = Number(termSelect.value) || 15;
+    pptInput.value = `${term} Years`;
+
+    const minSA = getMinAllowedSA(age);
+    saHelper.innerText = `Min ₹${(minSA / 100000).toFixed(0)} Lakhs (Age ${age}) | Max ₹50 Lakhs (Step 1 Lakh)`;
+
+    // Check if current SA is less than minSA
+    if (Number(sumAssuredInput.value) < minSA) {
+      sumAssuredInput.value = minSA;
+    }
+  }
+
+  ageInput.addEventListener('input', updatePlanRules);
+  termSelect.addEventListener('change', updatePlanRules);
+
+  // Validate form
+  function validateInputs() {
+    const age = Number(ageInput.value);
+    const term = Number(termSelect.value);
+    const sa = Number(sumAssuredInput.value);
+    const minSA = getMinAllowedSA(age);
+    const errors = [];
+
+    // Age
+    if (isNaN(age) || age < 18 || age > 65) {
+      errors.push('Entry age must be between 18 and 65 years (last birthday).');
+    }
+
+    // Term
+    if (isNaN(term) || term < 10 || term > 15) {
+      errors.push('Policy Term must be between 10 and 15 years.');
+    }
+
+    // Maturity Cover Ceasing Age
+    if (age + term > 75) {
+      errors.push(`Maximum cover ceasing age is 75 years. For entry age ${age}, maximum allowable policy term is ${75 - age} years.`);
+    }
+
+    // Basic Sum Assured
+    if (isNaN(sa) || sa < minSA) {
+      errors.push(`For entry age ${age}, statutory minimum Basic Sum Assured is ₹${(minSA / 100000).toFixed(0)} Lakhs.`);
+    } else if (sa > 5000000) {
+      errors.push('Maximum Basic Sum Assured cannot exceed ₹50,00,000 (₹50 Lakhs).');
+    } else if (sa % 100000 !== 0) {
+      errors.push('Basic Sum Assured must be strictly in multiples of ₹1,00,000.');
+    }
+
+    if (errors.length > 0) {
+      validationError.innerHTML = errors.map(e => `• ${e}`).join('<br>');
+      validationError.style.display = 'block';
+      return false;
+    } else {
+      validationError.style.display = 'none';
+      return true;
+    }
+  }
+
+  // Calculate Premium & Benefits
+  function calculateQuote() {
+    if (!validateInputs()) return;
+
+    const gender = genderSelect.value;
+    const age = Number(ageInput.value);
+    const option = optionSelect.value;
+    const term = Number(termSelect.value);
+    const bsa = Number(sumAssuredInput.value);
+    const mode = modeSelect.value;
+    const channel = channelSelect.value;
+
+    const tabularRate = getTabularRate(age, term, gender, option);
+
+    if (!tabularRate) {
+      validationError.innerText = `Tabular premium rate not found for Age ${age} and Term ${term}. Please check age and term combination.`;
+      validationError.style.display = 'block';
+      return;
+    }
+
+    // Base Annual Premium = (BSA / 1000) * Tabular Rate
+    const baseAnnualPremium = (bsa / 1000) * tabularRate;
+
+    // Online Rebate
+    let rebatePct = 0;
+    if (channel === 'online') {
+      rebatePct = (term === 15) ? 0.10 : 0.075;
+    }
+    const rebateAmount = baseAnnualPremium * rebatePct;
+    const netAnnualPremium = baseAnnualPremium - rebateAmount;
+
+    // Modal Premium
+    let modalFactor = (mode === 'hly') ? 0.5090 : 1.0000;
+    const installmentPremium = Math.round(netAnnualPremium * modalFactor);
+    const dailyCost = Math.round(netAnnualPremium / 365);
+    const totalTermPremium = Math.round(netAnnualPremium * term);
+
+    // Benefit Schedule under Option I vs Option II
+    // Option I: Level SA = BSA
+    // Option II: Increases 10% per year from Year 2 to 6, up to 150% of BSA
+    const maxApplicableSA = (option === 'INCREASING') ? bsa * 1.5 : bsa;
+
+    // Benefits computed on Applicable SA:
+    const earlyLump = Math.round(0.25 * maxApplicableSA);
+    const majorLump = Math.round(1.00 * maxApplicableSA);
+    const majorIncomeMonthly = Math.round(0.01 * maxApplicableSA);
+    const majorIncomeTotal10Yrs = majorIncomeMonthly * 120;
+    const totalPotentialPayout = earlyLump + majorLump + majorIncomeTotal10Yrs;
+
+    // Update UI Displays
+    finalPremiumDisplay.innerText = formatINR(installmentPremium);
+    dailyCostDisplay.innerText = `≈ ₹${dailyCost} / day (${mode === 'yly' ? 'Annual' : 'Half-Yearly'} Mode)`;
+
+    breakdownContainer.innerHTML = `
+      <div class="breakdown-item">
+        <span class="breakdown-label">Basic Sum Assured</span>
+        <span class="breakdown-val">${formatINR(bsa)}</span>
+      </div>
+      <div class="breakdown-item">
+        <span class="breakdown-label">Benefit Option</span>
+        <span class="breakdown-val" style="font-size: 14px;">${option === 'LEVEL' ? 'Option I (Level)' : 'Option II (Increasing up to 150%)'}</span>
+      </div>
+      <div class="breakdown-item">
+        <span class="breakdown-label">Max Applicable SA (Cover Pool)</span>
+        <span class="breakdown-val" style="color: var(--blue-primary);">${formatINR(maxApplicableSA)}</span>
+      </div>
+      <div class="breakdown-item">
+        <span class="breakdown-label">Tabular Rate (Per ₹1,000 SA)</span>
+        <span class="breakdown-val">₹ ${tabularRate.toFixed(2)}</span>
+      </div>
+      ${channel === 'online' ? `
+      <div class="breakdown-item" style="border-left-color: var(--green-light); background: var(--green-soft);">
+        <span class="breakdown-label" style="color: var(--green-emerald); font-weight: 700;">Online Direct Rebate (${(rebatePct * 100).toFixed(1)}%)</span>
+        <span class="breakdown-val" style="color: var(--green-emerald);">- ${formatINR(rebateAmount)}/yr</span>
+      </div>` : ''}
+      <div class="breakdown-item">
+        <span class="breakdown-label">Total Premiums Payable (${term} Yrs)</span>
+        <span class="breakdown-val">${formatINR(totalTermPremium)}</span>
+      </div>
+      <div class="breakdown-item" style="border-left-color: #06b6d4; background: #ecfeff;">
+        <span class="breakdown-label" style="color: var(--blue-deep); font-weight: 700;">Max Potential Payout (245%)</span>
+        <span class="breakdown-val" style="color: var(--blue-deep);">${formatINR(totalPotentialPayout)}</span>
+      </div>
+    `;
+
+    // Dynamic Benefit Box Cues
+    earlyStageLump.innerText = `Early Stage Lump Sum: 25% SA = ${formatINR(earlyLump)}`;
+    majorStageLump.innerText = `Major Stage Lump Sum: 100% SA = ${formatINR(majorLump)}`;
+    majorStageIncome.innerText = `Monthly Income (10 Yrs): 1% SA/mo = ${formatINR(majorIncomeMonthly)}/mo (${formatINR(majorIncomeTotal10Yrs)} total)`;
+    totalPotentialCover.innerText = `Maximum Total Claim Benefit (245%): ${formatINR(totalPotentialPayout)}`;
+
+    if (window.innerWidth < 992) {
+      document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Action Handlers
+  document.getElementById('btnProceed').addEventListener('click', calculateQuote);
+
+  document.getElementById('btnPrint').addEventListener('click', () => {
+    window.print();
+  });
+
+  document.getElementById('btnShare').addEventListener('click', async () => {
+    const prem = finalPremiumDisplay.innerText;
+    const bsa = formatINR(Number(sumAssuredInput.value));
+    const term = termSelect.value;
+    const opt = optionSelect.value === 'LEVEL' ? 'Option I (Level)' : 'Option II (Increasing)';
+    const gender = genderSelect.value === 'M' ? 'Male' : 'Female';
+    const age = ageInput.value;
+
+    const shareData = {
+      title: 'LIC New Cancer Cover (Plan 908) Premium Quote',
+      text: `LIC New Cancer Cover (Plan 908) Quote:\nAge: ${age} Yrs (${gender}) | Term: ${term} Yrs\nBasic SA: ${bsa} | Option: ${opt}\nInstallment Premium: ${prem} (Exclusive of GST)\nFixed benefits up to 245% of Sum Assured + 10-Yr Income Stream.`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(`${shareData.title}\n${shareData.text}`);
+        alert('Plan quotation copied to clipboard!');
+      }
+    } catch (e) {
+      console.log('Share canceled or not available');
+    }
+  });
+
+  // Initialization
+  window.addEventListener('DOMContentLoaded', () => {
+    updatePlanRules();
+    calculateQuote();
+  });
+</script>
+
+</body>
+</html>
