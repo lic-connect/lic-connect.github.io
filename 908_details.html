@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SALIENT FEATURES OF PLAN NO 908 - NEW CANCER COVER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Orange Spectrum */
+            --orange-flame: #ff5500;
+            --orange-vivid: #ff7700;
+            --orange-amber: #ffa600;
+            --orange-glow: rgba(255, 106, 0, 0.45);
+            --orange-soft: rgba(255, 119, 0, 0.12);
+
+            /* Green Spectrum */
+            --green-emerald: #00d26a;
+            --green-neon: #10f17b;
+            --green-mint: #4efbb2;
+            --green-glow: rgba(0, 210, 106, 0.42);
+            --green-soft: rgba(0, 210, 106, 0.12);
+
+            /* Luxury Dark Obsidian Backdrop with Forest/Carbon Tint */
+            --bg-deep: #050e09;
+            --bg-card: rgba(8, 22, 14, 0.72);
+            --bg-card-hover: rgba(14, 34, 23, 0.88);
+            --border-glass: rgba(255, 255, 255, 0.12);
+
+            /* White Tones */
+            --white: #ffffff;
+            --white-muted: #e2e8f0;
+            --white-dim: rgba(255, 255, 255, 0.75);
+
+            --shadow-dazzle: 0 16px 45px -10px rgba(255, 106, 0, 0.25), 0 12px 35px -8px rgba(0, 210, 106, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--white);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 12% 15%, rgba(255, 85, 0, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 88% 20%, rgba(0, 210, 106, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 50% 85%, rgba(255, 166, 0, 0.12) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, h4, .brand-title, .metric-val {
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* Top Glowing Header Bar */
+        .top-navbar {
+            padding: 1.2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(22px);
+            background: rgba(5, 14, 9, 0.85);
+            border-bottom: 1px solid var(--border-glass);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .lic-icon {
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, var(--orange-vivid), var(--green-emerald));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 25px var(--orange-glow);
+            font-weight: 900;
+            color: #ffffff;
+            font-size: 1.4rem;
+        }
+
+        .brand-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #ffffff, var(--orange-amber) 50%, var(--green-neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .uin-pill {
+            background: linear-gradient(90deg, rgba(255, 106, 0, 0.18), rgba(0, 210, 106, 0.18));
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: var(--white);
+            padding: 7px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            box-shadow: 0 0 15px rgba(0, 210, 106, 0.2);
+        }
+
+        /* Split Page Hero Section */
+        .hero-split {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            min-height: 86vh;
+            padding: 3.5rem 6rem;
+            align-items: center;
+            gap: 3.5rem;
+            position: relative;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(90deg, var(--orange-soft), transparent);
+            border-left: 3px solid var(--orange-vivid);
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--orange-amber);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero-title {
+            font-size: 3.8rem;
+            line-height: 1.05;
+            font-weight: 900;
+            margin-bottom: 1.4rem;
+            background: linear-gradient(135deg, #ffffff 30%, var(--orange-amber) 70%, var(--green-neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 25px rgba(255, 85, 0, 0.3));
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: var(--white-muted);
+            margin-bottom: 2.2rem;
+            max-width: 92%;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .btn-fire {
+            background: linear-gradient(135deg, var(--orange-flame), var(--orange-amber));
+            color: #ffffff;
+            padding: 14px 34px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 0 30px var(--orange-glow);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+        }
+
+        .btn-fire:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 40px rgba(255, 85, 0, 0.7);
+        }
+
+        .btn-emerald {
+            background: rgba(0, 210, 106, 0.1);
+            border: 1px solid var(--green-emerald);
+            color: var(--green-mint);
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-emerald:hover {
+            background: var(--green-emerald);
+            color: #050e09;
+            box-shadow: 0 0 25px var(--green-glow);
+        }
+
+        /* Hero Right: 245% Dazzling Quantum Payout Card */
+        .quantum-card {
+            background: linear-gradient(150deg, rgba(20, 50, 30, 0.7), rgba(8, 22, 14, 0.95));
+            border: 2px solid rgba(255, 119, 0, 0.35);
+            border-radius: 28px;
+            padding: 2.5rem;
+            backdrop-filter: blur(30px);
+            box-shadow: var(--shadow-dazzle), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quantum-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 210, 106, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+            animation: spinAura 16s linear infinite;
+        }
+
+        @keyframes spinAura {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .payout-aggregate {
+            text-align: center;
+            padding-bottom: 1.8rem;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+            position: relative;
+            z-index: 2;
+        }
+
+        .aggregate-badge {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--orange-amber);
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .aggregate-number {
+            font-size: 3.8rem;
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(90deg, var(--orange-vivid), var(--green-neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .aggregate-sub {
+            font-size: 0.95rem;
+            color: var(--white-muted);
+            font-weight: 600;
+            margin-top: 6px;
+        }
+
+        .payout-triplet {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.8rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .triplet-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.1rem 0.8rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .triplet-box:hover {
+            transform: translateY(-4px);
+            border-color: var(--green-emerald);
+            background: rgba(0, 210, 106, 0.08);
+        }
+
+        .triplet-val {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .triplet-lbl {
+            font-size: 0.75rem;
+            color: var(--white-dim);
+            text-transform: uppercase;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        /* Vivid Ticker Strip */
+        .dazzle-ticker {
+            background: linear-gradient(90deg, #ff5500, #ffa600, #00d26a, #ff5500);
+            padding: 3px 0;
+            box-shadow: 0 0 30px rgba(255, 106, 0, 0.3);
+        }
+
+        .ticker-body {
+            background: #050e09;
+            padding: 1.1rem 2rem;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--white);
+        }
+
+        .ticker-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--green-neon);
+            box-shadow: 0 0 10px var(--green-neon);
+        }
+
+        /* Generic Section Base */
+        .section-wrap {
+            padding: 5.5rem 6rem;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .section-intro {
+            text-align: center;
+            max-width: 820px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .tag-pill {
+            display: inline-block;
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--green-mint);
+            margin-bottom: 0.8rem;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, var(--orange-amber) 60%, var(--green-neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtext {
+            color: var(--white-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        /* Dynamic Dual Stage Cards */
+        .stage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .stage-card {
+            background: var(--bg-card);
+            border-radius: 26px;
+            padding: 3rem;
+            position: relative;
+            backdrop-filter: blur(25px);
+            transition: all 0.35s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .stage-card.early {
+            border: 2px solid rgba(255, 119, 0, 0.4);
+            box-shadow: 0 15px 35px -10px rgba(255, 85, 0, 0.25);
+        }
+
+        .stage-card.early:hover {
+            transform: translateY(-8px);
+            border-color: var(--orange-vivid);
+            box-shadow: 0 20px 45px -5px var(--orange-glow);
+        }
+
+        .stage-card.major {
+            border: 2px solid rgba(0, 210, 106, 0.4);
+            box-shadow: 0 15px 35px -10px rgba(0, 210, 106, 0.25);
+        }
+
+        .stage-card.major:hover {
+            transform: translateY(-8px);
+            border-color: var(--green-emerald);
+            box-shadow: 0 20px 45px -5px var(--green-glow);
+        }
+
+        .card-crest {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .badge-stage {
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 6px 16px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .early .badge-stage {
+            background: var(--orange-soft);
+            color: var(--orange-amber);
+            border: 1px solid var(--orange-vivid);
+        }
+
+        .major .badge-stage {
+            background: var(--green-soft);
+            color: var(--green-mint);
+            border: 1px solid var(--green-emerald);
+        }
+
+        .card-stage-title {
+            font-size: 2.1rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            color: var(--white);
+        }
+
+        .highlight-calc {
+            padding: 1rem 1.4rem;
+            border-radius: 14px;
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .early .highlight-calc {
+            background: rgba(255, 119, 0, 0.12);
+            border-left: 4px solid var(--orange-vivid);
+            color: var(--orange-amber);
+        }
+
+        .major .highlight-calc {
+            background: rgba(0, 210, 106, 0.12);
+            border-left: 4px solid var(--green-emerald);
+            color: var(--green-mint);
+        }
+
+        .bullet-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .bullet-list li {
+            font-size: 0.95rem;
+            color: var(--white-muted);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            line-height: 1.55;
+        }
+
+        .early .bullet-list li::before {
+            content: "🔥";
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .major .bullet-list li::before {
+            content: "🛡️";
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .feature-footer-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 1.1rem 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.88rem;
+            color: var(--white);
+            line-height: 1.5;
+        }
+
+        /* Benefit Options: Split Cards Section */
+        .options-split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin-top: 3.5rem;
+        }
+
+        .option-card {
+            background: linear-gradient(160deg, rgba(8, 22, 14, 0.9), rgba(5, 14, 9, 0.98));
+            border: 1px solid var(--border-glass);
+            border-radius: 26px;
+            padding: 2.8rem;
+            backdrop-filter: blur(20px);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .option-card:hover {
+            border-color: var(--green-mint);
+            box-shadow: 0 12px 35px -5px rgba(0, 210, 106, 0.2);
+        }
+
+        .option-tag {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            letter-spacing: 0.08em;
+        }
+
+        .option-name {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 0.8rem;
+        }
+
+        .option-desc {
+            font-size: 0.95rem;
+            color: var(--white-muted);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-highlight-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--orange-amber);
+            padding: 1rem 1.2rem;
+            border-radius: 0 12px 12px 0;
+            font-size: 0.92rem;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        /* Eligibility & Sum Assured Matrix */
+        .matrix-split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .matrix-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 26px;
+            padding: 2.8rem;
+            backdrop-filter: blur(20px);
+        }
+
+        .matrix-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sa-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        .sa-table th {
+            text-align: left;
+            padding: 10px 14px;
+            color: var(--orange-amber);
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 800;
+        }
+
+        .sa-table td {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 14px 16px;
+            font-size: 0.92rem;
+            color: var(--white);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sa-table tr td:first-child {
+            border-left: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px 0 0 12px;
+            font-weight: 700;
+            color: var(--green-mint);
+        }
+
+        .sa-table tr td:last-child {
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 0 12px 12px 0;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .rules-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1.1rem;
+        }
+
+        .rule-pod {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.1rem 1.4rem;
+        }
+
+        .rule-pod-tag {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--orange-amber);
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .rule-pod-val {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .rule-pod-sub {
+            font-size: 0.85rem;
+            color: var(--white-muted);
+            margin-top: 4px;
+        }
+
+        /* 4-Pillar Critical Safeguards Grid */
+        .safeguard-quad {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+        }
+
+        .guard-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .guard-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--orange-vivid);
+            background: rgba(255, 119, 0, 0.06);
+        }
+
+        .guard-num {
+            font-size: 2.8rem;
+            font-family: 'Outfit';
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--orange-flame), var(--green-neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .guard-lbl {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+
+        .guard-desc {
+            font-size: 0.85rem;
+            color: var(--white-dim);
+            line-height: 1.5;
+        }
+
+        /* Medical Criteria & Exclusions Split */
+        .clinical-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin-top: 3.5rem;
+        }
+
+        .clinical-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 2.5rem;
+        }
+
+        .clinical-box h4 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .list-medical {
+            list-style: none;
+        }
+
+        .list-medical li {
+            font-size: 0.88rem;
+            color: var(--white-muted);
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .list-medical li::before {
+            content: "•";
+            color: var(--orange-vivid);
+            font-size: 1.4rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-glass);
+            background: #030805;
+            padding: 3.5rem 6rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 0.6rem;
+        }
+
+        .footer-logo span {
+            color: var(--orange-vivid);
+        }
+
+        .footer-desc {
+            font-size: 0.85rem;
+            color: var(--white-dim);
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .footer-note {
+            font-size: 0.8rem;
+            color: var(--green-mint);
+            letter-spacing: 0.05em;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1100px) {
+            .hero-split {
+                grid-template-columns: 1fr;
+                padding: 3rem 2rem;
+            }
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            .stage-grid, .options-split-grid, .matrix-split-grid, .clinical-split {
+                grid-template-columns: 1fr;
+            }
+            .safeguard-quad {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .section-wrap {
+                padding: 4rem 2rem;
+            }
+            footer {
+                padding: 3rem 2rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .safeguard-quad {
+                grid-template-columns: 1fr;
+            }
+            .payout-triplet {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="top-navbar">
+        <div class="brand-badge">
+            <div class="lic-icon">🎗️</div>
+            <div>
+                <div class="brand-title">LIFE INSURANCE CORPORATION OF INDIA</div>
+                <div style="font-size: 0.72rem; color: var(--green-mint); letter-spacing: 0.05em; font-weight: 700;">PURE CANCER PROTECTION DIVISION</div>
+            </div>
+        </div>
+        <div class="uin-pill">UIN: 512N370V01 | PLAN NO. 908</div>
+    </header>
+
+    <!-- Split Hero Section -->
+    <section class="hero-split">
+        <div class="hero-left">
+            <span class="hero-tag">Non-Par • Non-Linked • Individual Pure Risk</span>
+            <h1 class="hero-title">LIC's NEW CANCER COVER</h1>
+            <p style="font-size: 1.35rem; color: var(--green-mint); font-weight: 700; margin-bottom: 1rem;">
+                PLAN NO. 908 — UNCOMPROMISING FINANCIAL RESILIENCE
+            </p>
+            <p class="hero-desc">
+                A purpose-built oncology health shield providing guaranteed level premiums and predetermined fixed cash payouts upon diagnosis of specified Early Stage and Major Stage Cancers, completely independent of hospital bills.
+            </p>
+
+            <div class="hero-cta-group">
+                <a href="#stages" class="btn-fire">
+                    Explore Dual Stage Payouts
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#options" class="btn-emerald">Benefit Options & SA</a>
+            </div>
+        </div>
+
+        <!-- Hero Right: 245% Dazzling Payout Breakdown -->
+        <div class="hero-right">
+            <div class="quantum-card">
+                <div class="payout-aggregate">
+                    <div class="aggregate-badge">Maximum Cumulative Payout Potential</div>
+                    <div class="aggregate-number">245%</div>
+                    <div class="aggregate-sub">Of Applicable Sum Assured (Excl. Premium Waiver)</div>
+                </div>
+
+                <div class="payout-triplet">
+                    <div class="triplet-box">
+                        <div class="triplet-val" style="color: var(--orange-amber);">25%</div>
+                        <div class="triplet-lbl">Early Stage Lump Sum</div>
+                    </div>
+                    <div class="triplet-box">
+                        <div class="triplet-val" style="color: #ffffff;">100%</div>
+                        <div class="triplet-lbl">Major Stage Lump Sum</div>
+                    </div>
+                    <div class="triplet-box">
+                        <div class="triplet-val" style="color: var(--green-neon);">120%</div>
+                        <div class="triplet-lbl">10-Yr Monthly Income (1% × 120m)</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.8rem; padding: 12px 16px; background: rgba(0, 210, 106, 0.08); border-radius: 14px; border: 1px dashed var(--green-emerald); font-size: 0.85rem; display: flex; align-items: center; gap: 10px; position: relative; z-index: 2;">
+                    <span style="font-size: 1.3rem;">⚡</span>
+                    <span><strong>Income Guarantee:</strong> 1% monthly income payable for full 10 years even if the period goes beyond policy term or life assured passes away (transfers to nominee).</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Highlights Ribbon -->
+    <div class="dazzle-ticker">
+        <div class="ticker-body">
+            <div class="ticker-item"><div class="ticker-dot"></div> Fixed Payout Irrespective of Actual Costs</div>
+            <div class="ticker-item"><div class="ticker-dot"></div> Guaranteed Fixed Level Premiums Throughout Term</div>
+            <div class="ticker-item"><div class="ticker-dot"></div> Premium Waiver Benefit on Early & Major Diagnosis</div>
+            <div class="ticker-item"><div class="ticker-dot"></div> Up to 10% Tabular Rebate for Online Purchase</div>
+            <div class="ticker-item"><div class="ticker-dot"></div> Level or 10% Increasing Sum Assured Options</div>
+        </div>
+    </div>
+
+    <!-- Section 1: The Two Stage Cancer Battleplan (Cards) -->
+    <section class="section-wrap" id="stages">
+        <div class="section-intro">
+            <span class="tag-pill">Decisive Staged Coverage</span>
+            <h2 class="section-headline">Two-Stage Financial Fortress</h2>
+            <p class="section-subtext">
+                Designed to fund treatment aggressively at inception and deliver continuous income replacement during advanced stages.
+            </p>
+        </div>
+
+        <div class="stage-grid">
+            
+            <!-- Early Stage Card -->
+            <div class="stage-card early">
+                <div>
+                    <div class="card-crest">
+                        <span class="badge-stage">Phase 01</span>
+                        <span style="font-size: 1.8rem;">🔬</span>
+                    </div>
+                    <h3 class="card-stage-title">Early Stage Cancer</h3>
+                    <div class="highlight-calc">
+                        <span>Lump Sum Payout</span>
+                        <span>25% of Applicable SA</span>
+                    </div>
+                    <ul class="bullet-list">
+                        <li><strong>Instant Liquidity:</strong> 25% of Applicable Sum Assured paid upon confirmed histological diagnosis.</li>
+                        <li><strong>3-Year Premium Waiver:</strong> Premiums waived for the next 3 policy years (or balance term, whichever is lower) from next policy anniversary.</li>
+                        <li><strong>Major Stage Remains Active:</strong> Payout does not reduce subsequent Major Stage cover (100% remains fully payable).</li>
+                        <li><strong>Single Payout Limit:</strong> Payable once ever during policy duration for the first occurring event.</li>
+                    </ul>
+                </div>
+                <div class="feature-footer-box">
+                    <strong>Covered Manifestations:</strong> Carcinoma-in-situ (CIS), Early Prostate (T1N0M0, Gleason 2-6), Thyroid (&lt; 2.0cm, T1N0M0), Bladder (TaN0M0), Chronic Lymphocytic Leukaemia (Stage 0-2), Cervical Intraepithelial Neoplasia (CIN3).
+                </div>
+            </div>
+
+            <!-- Major Stage Card -->
+            <div class="stage-card major">
+                <div>
+                    <div class="card-crest">
+                        <span class="badge-stage">Phase 02</span>
+                        <span style="font-size: 1.8rem;">🛡️</span>
+                    </div>
+                    <h3 class="card-stage-title">Major Stage Cancer</h3>
+                    <div class="highlight-calc">
+                        <span>Lump Sum + Income</span>
+                        <span>100% + 1% Monthly for 10 Yrs</span>
+                    </div>
+                    <ul class="bullet-list">
+                        <li><strong>100% Lump Sum Benefit:</strong> Paid immediately irrespective of any earlier Early Stage claim already settled under the policy.</li>
+                        <li><strong>10-Year Income Replacement:</strong> 1% of Applicable Sum Assured paid every month for 120 continuous months (totaling an extra 120% of SA).</li>
+                        <li><strong>Nominee Protection:</strong> Monthly income continues for the full 10-year term even if Life Assured dies or if the 10 years extend beyond maturity date.</li>
+                        <li><strong>Total Premium Cessation:</strong> All future policy premiums cease entirely from policy anniversary following diagnosis.</li>
+                    </ul>
+                </div>
+                <div class="feature-footer-box">
+                    <strong>Definition:</strong> Malignant tumor characterized by uncontrolled growth and spread with invasion & destruction of normal tissues. Includes leukemia, lymphoma, and sarcoma confirmed by histology.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Section 2: Dual Choice Engines (Split Cards) -->
+    <section class="section-wrap" id="options" style="padding-top: 0;">
+        <div class="section-intro">
+            <span class="tag-pill">Flexible Protection Models</span>
+            <h2 class="section-headline">Select Your Benefit Engine</h2>
+            <p class="section-subtext">
+                Tailor your cancer protection to be steady and predictable, or inflation-proof with an increasing shield.
+            </p>
+        </div>
+
+        <div class="options-split-grid">
+            
+            <!-- Option 1 -->
+            <div class="option-card">
+                <span class="option-tag" style="border: 1px solid var(--orange-vivid); color: var(--orange-amber);">Option I</span>
+                <h3 class="option-name">Level Sum Assured</h3>
+                <p class="option-desc">
+                    The Basic Sum Assured remains constant throughout the entire policy term. Premium rates are optimized, predictable, and economical for disciplined family budgeting.
+                </p>
+                <div class="option-highlight-box">
+                    Applicable Sum Assured (ASA) = <strong>Basic Sum Assured</strong> throughout all 10 to 15 policy years.
+                </div>
+            </div>
+
+            <!-- Option 2 -->
+            <div class="option-card" style="border-color: rgba(0, 210, 106, 0.35);">
+                <span class="option-tag" style="border: 1px solid var(--green-emerald); color: var(--green-mint);">Option II</span>
+                <h3 class="option-name">Increasing Sum Assured</h3>
+                <p class="option-desc">
+                    The Sum Assured increases by <strong>10% of Basic Sum Assured</strong> on each of the first five policy anniversaries, automatically combating medical inflation.
+                </p>
+                <div class="option-highlight-box" style="border-left-color: var(--green-emerald);">
+                    Can grow up to <strong>150% of Basic Sum Assured</strong> by Year 6. Freezes permanently if cancer is diagnosed.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Section 3: Eligibility Matrix & Sum Assured Ladders -->
+    <section class="section-wrap" style="padding-top: 0;">
+        <div class="matrix-split-grid">
+            
+            <!-- Age-Tapered Minimum Sum Assured Matrix -->
+            <div class="matrix-card">
+                <h3 class="matrix-title">
+                    <span style="color: var(--orange-vivid);">📊</span> Sum Assured Banding
+                </h3>
+                <p style="font-size: 0.9rem; color: var(--white-muted); margin-bottom: 1.2rem;">
+                    Minimum Basic Sum Assured is calibrated according to entry age to ensure realistic coverage when it matters most:
+                </p>
+
+                <table class="sa-table">
+                    <thead>
+                        <tr>
+                            <th>Age at Entry Band</th>
+                            <th>Minimum Basic SA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>18 Years to 34 Years</td>
+                            <td>₹35,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>35 Years to 40 Years</td>
+                            <td>₹30,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>41 Years to 50 Years</td>
+                            <td>₹20,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>51 Years to 65 Years</td>
+                            <td>₹15,00,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top: 1.4rem; padding: 12px; background: rgba(255, 119, 0, 0.08); border-radius: 12px; font-size: 0.85rem; border: 1px solid rgba(255, 119, 0, 0.2);">
+                    <strong>Maximum Basic Sum Assured:</strong> ₹50,00,000 per life (in multiples of ₹1,00,000) across all existing policies under this plan.
+                </div>
+            </div>
+
+            <!-- Plan Parameters & Rules -->
+            <div class="matrix-card">
+                <h3 class="matrix-title">
+                    <span style="color: var(--green-mint);">⚙️</span> Plan Eligibility Parameters
+                </h3>
+
+                <div class="rules-stack">
+                    <div class="rule-pod">
+                        <div class="rule-pod-tag">Entry Age</div>
+                        <div class="rule-pod-val">18 to 65 Years (Last Birthday)</div>
+                        <div class="rule-pod-sub">Covers working adults through senior citizens.</div>
+                    </div>
+
+                    <div class="rule-pod">
+                        <div class="rule-pod-tag">Policy Term & PPT</div>
+                        <div class="rule-pod-val">10 to 15 Years (PPT = Policy Term)</div>
+                        <div class="rule-pod-sub">Premiums guaranteed throughout the entire term.</div>
+                    </div>
+
+                    <div class="rule-pod">
+                        <div class="rule-pod-tag">Maturity Age Limits</div>
+                        <div class="rule-pod-val">Min: 28 Years | Max: 75 Years</div>
+                        <div class="rule-pod-sub">Long-term coverage running well into golden retirement years.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 4 Critical Safeguards & Operational Pillars -->
+        <div class="safeguard-quad">
+            <div class="guard-card">
+                <div class="guard-num">180 D</div>
+                <div class="guard-lbl">Waiting Period</div>
+                <div class="guard-desc">Applies from date of issuance or revival to first diagnosis of any stage cancer. If cancer occurs during this period, policy terminates.</div>
+            </div>
+
+            <div class="guard-card">
+                <div class="guard-num">7 Days</div>
+                <div class="guard-lbl">Survival Period</div>
+                <div class="guard-desc">Life Assured must survive at least 7 days from the confirmed date of diagnosis of Early or Major Stage Cancer.</div>
+            </div>
+
+            <div class="guard-card">
+                <div class="guard-num">10%</div>
+                <div class="guard-lbl">Online Rebate</div>
+                <div class="guard-desc">Enjoy 7.5% tabular rebate for terms 10-14 yrs, and 10% rebate for 15-year policies bought direct via www.licindia.in.</div>
+            </div>
+
+            <div class="guard-card">
+                <div class="guard-num">30 D</div>
+                <div class="guard-lbl">Free Look & Grace</div>
+                <div class="guard-desc">30-day grace period for yearly/half-yearly premiums. Full 30-day Free Look cancellation guarantee from receipt of policy.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Clinical Distinctions, Revival & Exclusions Split -->
+    <section class="section-wrap" style="padding-top: 0;">
+        <div class="clinical-split">
+            
+            <!-- Excluded Medical Conditions -->
+            <div class="clinical-box">
+                <h4 style="color: var(--orange-amber);">
+                    <span>⚠️</span> Excluded Cancer Conditions
+                </h4>
+                <ul class="list-medical">
+                    <li>Tumors described as benign, pre-malignant, borderline malignant, or of low malignant potential.</li>
+                    <li>Dysplasia, intra-epithelial neoplasia, or squamous intra-epithelial lesions (except specified CIN3).</li>
+                    <li>Carcinoma in-situ of skin and melanoma in-situ.</li>
+                    <li>Any non-melanoma skin carcinoma without evidence of metastases to lymph nodes.</li>
+                    <li>Prostate cancers with Gleason score ≤ 6 (for Major Stage) or T1N0M0.</li>
+                    <li>Thyroid cancers classified histologically as T1N0M0 or below (for Major Stage).</li>
+                    <li>Gastro-Intestinal Stromal Tumors (GIST) classified as T1N0M0 with mitotic count ≤ 5/50 HPFs.</li>
+                </ul>
+            </div>
+
+            <!-- General Exclusions & Revival Rules -->
+            <div class="clinical-box">
+                <h4 style="color: var(--green-mint);">
+                    <span>📑</span> General Exclusions & Revivals
+                </h4>
+                <ul class="list-medical">
+                    <li><strong>Pre-Existing Conditions:</strong> Diagnosed or treated within 36 months prior to policy issuance or revival (Early stage claimed policies excused on revival).</li>
+                    <li><strong>Substance Abuse:</strong> Medical conditions caused directly or indirectly by alcohol or narcotics not prescribed by an RMP.</li>
+                    <li><strong>Nuclear Radiation:</strong> Nuclear fuel, explosive radioactivity, or contamination hazards.</li>
+                    <li><strong>5-Year Revival Window:</strong> Lapsed policy can be revived within 5 consecutive years from first unpaid premium (Revival interest rate: 9.5% p.a. for 2026-27).</li>
+                    <li><strong>Pure Risk Nature:</strong> No Death Benefit, No Maturity Benefit, No Surrender Value, and No Loan Facility available under this plan.</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">LIC's <span>NEW CANCER COVER</span></div>
+        <p class="footer-desc">
+            Plan No: 908 | UIN: 512N370V01 | A Non-Par, Non-Linked, Health, Individual, Pure Risk Plan.<br>
+            This salient features document highlights essential terms for consumer awareness. For complete medical definitions, underwriting exclusions, and schedule of benefits, please refer to the official policy document or visit <strong>www.licindia.in</strong>.
+        </p>
+        <div class="footer-note">
+            LIFE INSURANCE CORPORATION OF INDIA — HAR PAL AAPKE SAATH | IRDAI REGN NO.: 512
+        </div>
+    </footer>
+
+</body>
+</html>
